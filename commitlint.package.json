@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "conventional-changelog-atom": "^5.0.0"
+  },
+  "devDependencies": {
+    "conventional-changelog-atom": "^5.0.0"
+  }
+}
