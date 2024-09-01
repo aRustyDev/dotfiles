@@ -22,6 +22,15 @@
         neovim
           # https://www.youtube.com/watch?v=x__SZUuLOxw
           # https://www.youtube.com/watch?v=E2mKJ73M9pg
+          # https://alpha2phi.medium.com/learn-neovim-the-practical-way-8818fcf4830f#cbd3
+          # https://github.com/wolandark/Vimwiki-Graphviz
+          # https://github.com/nadrad/h-m-m
+          # https://github.com/org-roam/org-roam-ui
+          # https://github.com/nvim-neorg/neorg
+          # https://www.youtube.com/watch?v=K4PoBfz3WLA
+          # https://www.youtube.com/watch?v=02lE-yGJWvc
+          # https://www.youtube.com/watch?v=2KLFjhGjmbI
+          # https://www.youtube.com/watch?v=oLpGahrsSGQ
         wget
         git
         gnupg
@@ -98,27 +107,86 @@
         gitui
         csv-tui
         cicero
+        dive
+        lazydocker
+        ctop
 
         atac
         termshark
         tshark
         # portal # Still not sure about this one
+        # magic-wormhole # Still not sure about this one
         glow
+        mdp
         ripgrep
+        # lnav
+        # angle-grinder
+        # xxd
+        # hexyl
+        # drill
+        # difftastic
+        # plocate
+        # zenith
+        # btm
+        # awk
+        # ack
+        # pgcli
         # orbstack
         # localstack
         # nerdfonts
         # bat
+        # bottom
+        # broot
+        # btop
+        # fzf
+        # cheat
+        # fd
+        # diffutils
+        # delta
+        # choose
+        # duf
+        # coreutils
+        # diffutils
+        # doggo
+        # dog
+        # dust
+        # eza
         # zoxide
+        # findutils
+        # glances
+        # gping
+        # hyperfine
+        # tmate
+        # lsd
+        # mcfly
+        # mtr
+        # fuck
+        # pls
+        # procs
+        # ag
+        # ripgrep-all
+        # rustscan
+        # asdf
+        # sd
+        # tldr
+        # trashy
+        # gtop
         starship
         # alacritty # https://www.youtube.com/watch?v=uOnL4fEnldA
         # kitty
         # wezterm
+        # entr
         tmux # https://www.youtube.com/watch?v=DzNmUNvnB04
         yazi
-        bruno
         obsidian
+
+        bruno
+        # httpie
+        # xh
+        # curlie
+
         pre-commit
+        # git-delta
         lazygit
 
         # Terraform :
@@ -195,6 +263,7 @@
 
         jq
         yq
+        # htmlq
 
         # kubectl
         # kubelogin-oidc
