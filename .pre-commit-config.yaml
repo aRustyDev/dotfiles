@@ -17,7 +17,7 @@ repos:
     - id: destroyed-symlinks
     - id: forbid-new-submodules
     - id: forbid-submodules
-    # - id: no-commit-to-branch
+    - id: no-commit-to-branch
     # Secret Detection
     - id: detect-private-key
     # Linting Hooks
