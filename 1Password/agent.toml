@@ -1,0 +1,42 @@
+# ~/.config/1Password/ssh/agent.toml
+# Add my Git signing key for Bespin Project
+[[ssh-keys]]
+item = "bespin-auth"
+vault = "rtx-bespin"
+account = "Avengers"
+
+# Add my Git authentication key for Bespin Project
+[[ssh-keys]]
+item = "bespin-sign"
+vault = "rtx-bespin"
+account = "Avengers"
+
+# Add my key for Gitlab
+[[ssh-keys]]
+item = "GitLab"
+vault = "USAF"
+account = "Avengers"
+
+# Add my Git authentication key RTX Gitlab
+[[ssh-keys]]
+item = "gitlab-auth"
+vault = "Raytheon"
+account = "Avengers"
+
+[[ssh-keys]]
+name = "github"
+item = "SEC488"
+vault = "SANS"
+account = "Avengers"
+
+[[ssh-keys]]
+item = "SEC488"
+vault = "SANS"
+account = "Avengers"
+
+# github
+# homelab
+# kit(xyz)
+# acloudguru
+# elastic
+# offsec
