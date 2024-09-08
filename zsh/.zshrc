@@ -30,8 +30,33 @@ autoload -U compinit && compinit
 
 eval "$(starship init zsh)"
 
+plugins=(git gh gcloud aws docker docker-compose man golang helm kubectl minikube command-not-found colored-man-pages sigstore azure terraform macos)
+# https://github.com/unixorn/awesome-zsh-plugins
+# antidote-use-omz anyframe arduino asciidoctor nohup plugin-vscode presenter-mode ssh-* vagrant-box-wrapper web-search yazi-zoxide
+# asdf-* auto-notify evalcache gpg gpg-crypt hooks learn packer zman zredis ztouch
+# [osx] : osx-autoproxy osx-dev osx tumult
+# [terraform] : tfenv terraform-* tfswitch
+# [tmux] : tmux-*
+# [history] : histdb historikeeper history-filter passwordless-history
+# [lookuplater] : dirstack exa-* eza-* fzf-* git-* lsd-* oath ollama
+# [docs] : cheatsheet colored-man-pages command-note
+# [kube] : k3d kctl kubecolor kubectl kubectlenv kubectx
+# [QoL] : autocomplete autosuggestions case colorize-functions colorize deepx abbr alt-and-select emojji-cli emoji-fzf emojis jq
+# [.env] : autodotenv (Can it unload too?) autoenv direnv zenv
+# [node] : auto-nvm auto-venv
+# [python] : auto-venv poetry pip-*
+# [aws] : aws-mfa aws-upload aws-vault-profiles aws-vault aws2
+# [azure] : azcli azure-keyvault azure-subscription
+# [docker] : appup docker-compose
+# [commands] : bat atuin
+# [glitter] : ansimotd ansiweather battery_state
+# [nvim] : bob compe evil-registers nvim-*
+# [completions] : 1password-op aircrack aws-completions brew-completions cargo complete-mac completions ctop docker etcdctl fzf-* gcloud git-* github-cli helmfile inshellisense ipfs kitty keybase kubeadm kubectl-* mcfly mac msfvenom nix ollama packer pandoc-completion poetry rustup xcode yabai zoxide
 
-
+# Bundle & Load ZSH Plugins
+antidote bundle <.plugins.txt >.plugins.zsh
+source ~/.zsh_plugins.zsh
+antidote load
 
 
 # History options should be set in .zshrc and after oh-my-zsh sourcing.
@@ -134,7 +159,7 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gh gcloud aws 1password docker docker-compose man golang helm kubectl minikube command-not-found colored-man-pages sigstore azure terraform macos)
+
 
 # source $ZSH/oh-my-zsh.sh
 
