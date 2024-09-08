@@ -30,8 +30,12 @@ in
     # };
 
     # sessionVariables = {
-    #   ZDOTDIR = (builtins.toPath "${home_dir}/.config/zsh");
-    #   STARSHIP_CONFIG = (builtins.toPath "${home_dir}/.config/starship/config.toml");
+    #   TF_LOG = "debug";
+    #   TF_CLI_ARGS = "-no-color";
+    #   TF_LOG_PATH = (builtins.toPath "${home_dir}/.cache/terraform.log");
+    #   TF_DATA_DIR = (builtins.toPath "${home_dir}/.config/terraform"); # https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_data_dir
+    #   TF_CLI_CONFIG_FILE = (builtins.toPath "${home_dir}/.config/terraform/.tfrc"); # https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_cli_config_file
+    #   TF_PLUGIN_CACHE_DIR = (builtins.toPath "${home_dir}/.config/terraform/plugins"); # https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_plugin_cache_dir
     # };
   };
   # programs = {
