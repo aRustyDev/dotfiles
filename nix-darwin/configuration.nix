@@ -1,10 +1,19 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages =
-    [ pkgs.vim
+  environment.systemPackages = with pkgs; [
+      vim
+      neovim
+      helix
+
+      # orbstack
+      # codeql
+
+      # _1password
+      # _1password-gui
+      # _1password-gui-beta
     ];
 
   # Use a custom configuration.nix location.
