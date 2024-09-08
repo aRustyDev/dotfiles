@@ -23,6 +23,7 @@ install:
 	@cp -r wezterm/ ~/dotfiles/wezterm/ || true
 	@cp -r skhd/ ~/dotfiles/skhd/ || true
 	@rm -rf ~/dotfiles/*/examples || true
+	@darwin-rebuild switch --flake ~/.config/nix-darwin --impure
 
 clean-old:
 	@nix-env --delete-generations old
