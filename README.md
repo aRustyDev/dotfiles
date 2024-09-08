@@ -1,3 +1,5 @@
 # aRustyDev's Nix Configuration
 
-> To get started needed to run `nix --extra-experimental-features nix-command --extra-experimental-features flakes`
+> To get started, run
+> `make install`
+> `darwin-rebuild switch --flake ~/.config/nix-darwin --impure`
