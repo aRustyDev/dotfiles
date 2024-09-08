@@ -246,8 +246,7 @@ in
       HISTSIZE = "32768";
       HISTFILESIZE = "32768"; # "${HISTSIZE}";
       HISTCONTROL = "ignoreboth";
-      # STARSHIP_CONFIG = (builtins.toPath "${home_dir}/.config/starship/config.toml");
-      HELLO = "world";
+      STARSHIP_CONFIG = (builtins.toPath "${home_dir}/.config/starship/config.toml");
     };
 
     sessionPath = [
