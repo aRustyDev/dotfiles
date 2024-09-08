@@ -54,9 +54,9 @@ plugins=(git gh gcloud aws docker docker-compose man golang helm kubectl minikub
 # [completions] : 1password-op aircrack aws-completions brew-completions cargo complete-mac completions ctop docker etcdctl fzf-* gcloud git-* github-cli helmfile inshellisense ipfs kitty keybase kubeadm kubectl-* mcfly mac msfvenom nix ollama packer pandoc-completion poetry rustup xcode yabai zoxide
 
 # Bundle & Load ZSH Plugins
-antidote bundle <.plugins.txt >.plugins.zsh
-source ~/.zsh_plugins.zsh
-antidote load
+# antidote bundle <.plugins.txt >.plugins.zsh
+# source ~/.zsh_plugins.zsh
+# antidote load
 
 
 # History options should be set in .zshrc and after oh-my-zsh sourcing.
