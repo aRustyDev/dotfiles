@@ -23,7 +23,9 @@ in
       # https://www.youtube.com/watch?v=E2mKJ73M9pg
     zellij
     starship
+    # antidote
     tmux
+
     # wget
     # git
     # gnupg
@@ -110,9 +112,16 @@ in
     # # orbstack
     # # localstack
     # # nerdfonts
+    # # font-awesome_5
+    # # typodermic-free-fonts
+    # # typodermic-public-domain
+    # # input-fonts
+    # # google-fonts
+    # # bront_fonts
+    # # profont
+    # # profont
     # # bat
     # # zoxide
-    # starship
     # # alacritty # https://www.youtube.com/watch?v=uOnL4fEnldA
     # # kitty
     # # wezterm
@@ -212,11 +221,11 @@ in
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
-    ".zshrc".source = (builtins.toPath "${home_dir}/dotfiles/zsh/.zshrc");
+    ".config/zsh/.zshrc".source = (builtins.toPath "${home_dir}/dotfiles/zsh/.zshrc");
     ".config/1Password/ssh/agent.toml".source = (builtins.toPath "${home_dir}/dotfiles/1password/agent.toml");
+    ".config/starship.toml".source = (builtins.toPath "${home_dir}/dotfiles/starship/starship.toml");
     # ".config/wezterm".source = (builtins.toPath "${home_dir}/dotfiles/wezterm");
     # ".config/skhd".source = (builtins.toPath "${home_dir}/dotfiles/skhd");
-    ".config/starship/config.toml".source = (builtins.toPath "${home_dir}/dotfiles/starship/starship.toml");
     # ".config/zellij".source = (builtins.toPath "${home_dir}/dotfiles/zellij");
     # ".config/nvim".source = (builtins.toPath "${home_dir}/dotfiles/nvim");
     # ".config/nix".source = (builtins.toPath "${home_dir}/dotfiles/nix");
@@ -236,7 +245,7 @@ in
     HISTSIZE = "32768";
     HISTFILESIZE = "32768"; # "${HISTSIZE}";
     HISTCONTROL = "ignoreboth";
-    STARSHIP_CONFIG = (builtins.toPath "${home_dir}/.config/starship/config.toml");
+    # STARSHIP_CONFIG = (builtins.toPath "${home_dir}/.config/starship/config.toml");
     HELLO = "world";
   };
 
@@ -246,76 +255,6 @@ in
   ];
   programs = {
     home-manager.enable = true;
-    starship = {
-      enable = true;
-      enableZshIntegration = true;
-      enableFishIntegration = false;
-      enableBashIntegration = true;
-      # Configuration written to ~/.config/starship.toml
-      settings = {
-        add_newline = false;
-        format = "$directory$character";
-        # shlvl = {
-        #   disabled = false;
-        #   symbol = "";
-        #   style = "bright-red bold";
-        # };
-        shell = {
-          disabled = false;
-          format = "$indicator";
-          fish_indicator = "";
-          bash_indicator = "[BASH](bright-white) ";
-          zsh_indicator = "[ZSH](bright-white) ";
-        };
-        username = {
-          style_user = "bright-white bold";
-          style_root = "bright-red bold";
-        };
-        hostname = {
-          style = "bright-green bold";
-          ssh_only = true;
-        };
-        nix_shell = {
-          symbol = "❄️ ";
-          style = "bright-blue bold";
-          format = "[$symbol$name]($style) ";
-        };
-        git_branch = {
-          only_attached = true;
-          format = "[$symbol$branch]($style) ";
-          symbol = "שׂ";
-          style = "bright-yellow bold";
-        };
-        git_commit = {
-          only_detached = true;
-          format = "[$hash]($style) ";
-          style = "bright-yellow bold";
-        };
-        git_state = {
-          style = "bright-purple bold";
-        };
-        git_status = {
-          style = "bright-green bold";
-        };
-        directory = {
-          symbol = "❄️ ";
-          style = "bright-blue bold";
-          format = "[$symbol$name]($style) ";
-          truncation_length = 0;
-        };
-        cmd_duration = {
-          format = "[$duration]($style) ";
-          style = "bright-blue";
-        };
-        jobs = {
-          style = "bright-green bold";
-        };
-        character = {
-          success_symbol = "[\\$](bright-green bold)";
-          error_symbol = "[\\$](bright-red bold)";
-        };
-      };
-    };
 
     zsh = {
       enable = true;
@@ -326,6 +265,13 @@ in
           . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
         fi
       '';
+    };
+
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+      enableFishIntegration = false;
+      enableBashIntegration = true;
     };
   };
 }

@@ -44,10 +44,15 @@
         # "nikitabobko/tap/aerospace" # https://www.youtube.com/watch?v=-FoWClVHG5g
         # "tetra" # https://tetragon.io/docs/installation/tetra-cli/
       ];
+      # zen-browser/browser https://github.com/zen-browser/desktop.git
       # homebrew.brews = [
 	    #   "imagemagick"
       # ];
 
+      users.users."$USER" = {
+          name = "$USER";
+          home = "/Users/$USER";
+      };
       users.users."greymatter".home = "/Users/greymatter";
       # nix.configureBuildUsers = true; # omerxx
       # nix.useDaemon = true; # omerxx
