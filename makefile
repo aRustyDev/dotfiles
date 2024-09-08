@@ -23,3 +23,7 @@ install:
 	@cp -r wezterm/ ~/dotfiles/wezterm/ || true
 	@cp -r skhd/ ~/dotfiles/skhd/ || true
 	@rm -rf ~/dotfiles/*/examples || true
+
+clean-old:
+	@nix-env --delete-generations old
+	@nix-store --gc
