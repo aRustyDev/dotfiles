@@ -59,6 +59,11 @@ plugins=(git gh gcloud aws docker docker-compose man golang helm kubectl minikub
 # antidote load
 
 
+alias ll="ls -l"
+alias la="ls -Al"
+alias pu="pushd"
+alias po="popd"
+
 # History options should be set in .zshrc and after oh-my-zsh sourcing.
 # See https://github.com/nix-community/home-manager/issues/177.
 HISTSIZE="10000"
