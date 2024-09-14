@@ -14,5 +14,163 @@
     "light": "One Light",
     "dark": "One Dark"
   },
-  "hard_tabs": true
+  // "lsp": {},
+  "languages": {
+    "Makefile": {
+      "hard_tabs": true
+    }
+    // "JSON": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Docker": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "YAML": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Scala": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "TOML": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Go": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Rust": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "C": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "C++": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Bash": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Markdown": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Lua": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "HTML": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "CSS": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Javascript": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Proto": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+    // "Python": {
+    //    "hard_tabs": false,
+    //    "enable_language_server": false,
+    //    "language_servers": [],
+    //    "formatter": "someTool",
+    //    "format_on_save": false,
+    //    "preferred_line_length": 64,
+    //    "soft_wrap": false
+    // }
+  }
 }
