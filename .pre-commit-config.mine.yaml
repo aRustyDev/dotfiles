@@ -1,0 +1,43 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0  # Use the ref you want to point at
+    hooks:
+    # Housekeeping/Compatibility Hooks
+    - id: check-executables-have-shebangs
+    - id: check-shebang-scripts-are-executable
+    - id: check-symlinks
+    - id: check-case-conflict
+    # - id: check-illegal-windows-names # this still isn't in the main release yet
+    - id: check-merge-conflict
+    # - id: check-vcs-permalinks
+    - id: destroyed-symlinks
+    - id: forbid-new-submodules
+    - id: forbid-submodules
+    - id: no-commit-to-branch
+    # Secret Detection
+    - id: detect-private-key
+    # Linting Hooks
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-yaml
+    - id: sort-simple-yaml
+    - id: check-json
+    - id: check-toml
+    # - id: pretty-format-json
+    - id: double-quote-string-fixer
+    - id: check-added-large-files
+    - id: file-contents-sorter
+    - id: fix-byte-order-marker
+    - id: mixed-line-ending
+    # Python Hooks
+    - id: requirements-txt-fixer
+    - id: check-builtin-literals
+    - id: name-tests-test
+    - id: check-docstring-first
+    - id: debug-statements
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.16.0
+    hooks:
+        - id: commitlint
+          stages: [commit-msg]
+          additional_dependencies: ['@commitlint/cli', '@commitlint/config-conventional']
