@@ -12,6 +12,13 @@ in
     homeDirectory = lib.mkDefault "/Users/greymatter";
     stateVersion = "24.05"; # Please read the comment before changing.
 
+    # NOTE: These get overwritten by any "shell"rc managed by home.file
+    shellAliases = {
+        ll = "ls -l";
+        la = "ls -Al";
+        pu = "pushd";
+        po = "popd";
+    };
 # Makes sense for user specific applications that shouldn't be available system-wide
     packages = with pkgs; [
       helix
