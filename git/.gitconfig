@@ -1,3 +1,7 @@
+; https://coolaj86.com/articles/vanilla-devops-git-credentials-ultimate-guide/
+; https://markentier.tech/posts/2021/02/github-with-multiple-profiles-gpg-ssh-keys/
+; https://github.blog/news-insights/product-news/introducing-artifact-attestations-now-in-public-beta/
+; https://devblogs.microsoft.com/devops/a-deep-dive-into-git-performance-using-trace2/
 [user]
         signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuYacrQTogQthysPK1Y347ReTcb0r69ccJKe2VF+EXe
         useConfigOnly = true
