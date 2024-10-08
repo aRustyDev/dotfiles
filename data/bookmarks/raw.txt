@@ -27,3 +27,16 @@ https://saferinternetproject.com.au/
 https://office.com
 https://dtsproweb.defensetravel.osd.mil/dts-app/pubsite/all/view/
 https://arowsr.afrc.af.mil/arows-r/
+
+# Kernels / Internals Stuff
+https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/keepout/keepout.html
+https://kernel.org/
+https://newosxbook.com/
+https://newosxbook.com/1stEdIsFree.html
+https://newosxbook.com/ent.jl
+https://developer.apple.com/macos/
+https://developer.apple.com/documentation/macos-release-notes/
+https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/OSX_Technology_Overview/SystemTechnology/SystemTechnology.html
+https://www.apple.com/media/us/osx/2012/docs/OSX_for_UNIX_Users_TB_July2011.pdf
+http://faisal.com/docs/osxforgeeks.html
+https://forums.macrumors.com/threads/learning-unix-on-the-mac.2326031/
