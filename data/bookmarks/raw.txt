@@ -15,14 +15,23 @@ https://github.com/aRustyDev/dotfiles
 https://www.oreilly.com/member/login
 https://ondemand.sans.org/
 https://academy.tcm-sec.com/sign_in
-https://www.hackthebox.com/
-https://academy.hackthebox.com/
-https://portal.offsec.com/
 https://training.trainsec.net/login
 https://www.networkdefense.co/
 https://academy.theosintion.com/courses
 https://madewithml.com/
 https://saferinternetproject.com.au/
+
+# Intelligence
+https://www.dataabyss.ai/platform-resources/china-digital-computer-innovations
+
+# eBPF
+https://labs-map.isovalent.com/
+
+# Offsec
+https://pwn.college/
+https://www.hackthebox.com/
+https://academy.hackthebox.com/
+https://portal.offsec.com/
 
 # Talk Development
 https://snappify.com/
