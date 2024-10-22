@@ -6,10 +6,9 @@ https://login.synack.com/
 https://chat.openai.com/
 https://claude.ai/login
 https://supermaven.com/login
-
 https://arrows.app/
-https://www.vulnmachines.com/
 
+# GitHub
 https://github.com/aRustyDev/dotfiles
 
 https://www.oreilly.com/member/login
@@ -17,9 +16,11 @@ https://ondemand.sans.org/
 https://academy.tcm-sec.com/sign_in
 https://training.trainsec.net/login
 https://www.networkdefense.co/
-https://academy.theosintion.com/courses
 https://madewithml.com/
 https://saferinternetproject.com.au/
+
+# OSINT
+https://academy.theosintion.com/courses
 
 # Intelligence
 https://www.dataabyss.ai/platform-resources/china-digital-computer-innovations
@@ -32,6 +33,7 @@ https://pwn.college/
 https://www.hackthebox.com/
 https://academy.hackthebox.com/
 https://portal.offsec.com/
+https://www.vulnmachines.com/
 
 # Talk Development
 https://snappify.com/
