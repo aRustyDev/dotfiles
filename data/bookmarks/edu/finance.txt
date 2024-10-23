@@ -1,0 +1,8 @@
+
+# mooc (?)
+- columbia univ : Economics of money & banking
+- ? : advanced valuation & strategy - M&A, private equity, & venture capital
+- johns hopkins : Business analytics w/ excel: elementary to advanced
+- edhec busi school : investment mgmt w/ python & ML specialization
+- duke : behavioral finance
+- hec paris : investment mgmt in an evolving & volatile world by HEC paris & AXA investment mgrs
