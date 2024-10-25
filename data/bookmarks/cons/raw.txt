@@ -1,0 +1,37 @@
+# Conferences
+
+- [Hexacon](https://www.hexacon.fr/)
+- [SO-CON]()
+- [HeapCon]()
+- [BlackHat]()
+- [HackSpaceCon]()
+- [DEFCON]()
+- [ShmooCon]()
+- [SwiftHeroes]()
+- [KubeCon]()
+- [ARCticConference]()
+- [PRAGMA Conference]()
+- [BSides Orlando]()
+- [BSides Cayman Islands]()
+- [OpenSauce]()
+- [AI_Dev]()
+- [KubeCon]()
+- [DroidCon]()
+- [Open Source Summit]()
+- [DevOps Days]()
+- [API World]()
+- [betterCode()]()
+- [GopherCon]()
+- [BDX I/O]()
+- [RustLab]()
+- [FOSSCOM]()
+- [SRE Day]()
+- [WASMCon]()
+- [GoLab]()
+- [International PHP Conference]()
+- [IEEE World Tech Summit]()
+- []()
+
+## Sources
+
+- https://confs.tech
