@@ -55,6 +55,8 @@
 - [ESCar]()
 - [Hack the Railroad]()
 - [Hack the Capitol]()
+- [eBPF Summit](https://ebpf.io/summit-2024/)
+- [Chaos Computer Congress]()
 
 ## Sources
 
