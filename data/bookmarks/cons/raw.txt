@@ -57,7 +57,12 @@
 - [Hack the Capitol]()
 - [eBPF Summit](https://ebpf.io/summit-2024/)
 - [Chaos Computer Congress]()
+- [DesignCon]()
+- [8 dot 8]()
+- [ThotCon]()
+- [Bug Con]()
 
 ## Sources
 
 - https://confs.tech
+- https://infosecmap.com
