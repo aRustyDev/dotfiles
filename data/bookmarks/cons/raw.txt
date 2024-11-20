@@ -65,6 +65,8 @@
 - [platformcon]()
 - [From the Source + Volexity]()
 - [From the Source Con]()
+- [labscon]()
+- [r2 con](https://rada.re/con)
 
 ## Sources
 
