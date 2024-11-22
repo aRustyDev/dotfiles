@@ -72,6 +72,8 @@
 - [ToorCon]()
 - [RSA]()
 - [NullCon]()
+- [RootedCon]()
+- [CyberWarCon]()
 
 ## Sources
 
