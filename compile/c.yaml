@@ -1,3 +1,4 @@
 tools:
   offsec:
     - https://github.com/DynamoRIO/dynamorio
+    - https://github.com/AFLplusplus/AFLplusplus
