@@ -1,0 +1,9 @@
+tools:
+  offsec:
+    - https://github.com/GhostPack/Rubeus
+    - https://github.com/GhostPack/Seatbelt
+    - https://github.com/GhostPack/ForgeCert
+    - https://github.com/GhostPack/Certify
+    - https://github.com/GhostPack/SharpDPAPI
+    - https://github.com/GhostPack/SharpUp
+    - https://github.com/GhostPack/Koh
