@@ -1,0 +1,3 @@
+tools:
+  offsec:
+    - https://github.com/GhostPack/DeepPass
