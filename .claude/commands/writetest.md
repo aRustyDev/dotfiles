@@ -60,3 +60,13 @@ Let's say you're testing a login feature:
  if a test is trying to use a function that is missing, not simply misnamed, then analyze the target code and the tests use case to determine if the test is       │
 │   trying to test something it doesn't need too. If the test is trying to test something unneccesary try removing whatever is calling the missing method from the    │
 │   test, or remove the test entirely.
+
+---
+
+1. Explore the test code, highlight any tests that are attempting to test internal implementation details rather than functionality
+2. Explore the tested code, identify any interfaces that should be tested, and would need to a test to be written for the implementation and not the functionality of the code
+3. Unless the target code meets one of the exceptions mentioned in number 2, write tests for the target code that take a black-box testing approach, focused only on testing the expected behavior.
+4. If the target code is a specific interface, add that interface as a testcase to the interface testing factory.
+5. If the target code is an internal validator, add a test to fuzz the validator and ensure the logic is working as expected and robust enough to catch edge cases. Be hesitant to test internal validators, if you find one, prompt me with an alternative utility function that can be abstracted for reuse in other methods. Only if I tell you to test the internal validator should you do it.
+
+---
