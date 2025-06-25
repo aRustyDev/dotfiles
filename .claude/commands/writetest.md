@@ -63,6 +63,16 @@ Let's say you're testing a login feature:
 
 ---
 
+# Updating CLAUDE.md
+
+After successfully creating a complete test. Update the `## Testing` section of CLAUDE.md with the following information
+- Total Tests
+- Passing Tests
+- Failing Tests
+- Test Execution Time
+
+---
+
 > All test functions should accept input from test_case_data objects/files
 
 # Prioritized Goals
