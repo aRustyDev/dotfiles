@@ -63,6 +63,8 @@ Let's say you're testing a login feature:
 
 ---
 
+> All test functions should accept input from test_case_data objects/files
+
 ## How to identify internal implementations that need validators (Fuzzing)
 
 ## How to identify internal implementations that need tests
