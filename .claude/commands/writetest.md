@@ -55,3 +55,8 @@ Let's say you're testing a login feature:
     Status: (To be filled after execution)
     Test Data: Username: "testuser", Password: "password"
     Environment: Chrome browser on Windows 10.
+
+
+ if a test is trying to use a function that is missing, not simply misnamed, then analyze the target code and the tests use case to determine if the test is       │
+│   trying to test something it doesn't need too. If the test is trying to test something unneccesary try removing whatever is calling the missing method from the    │
+│   test, or remove the test entirely.
