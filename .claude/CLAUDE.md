@@ -3,10 +3,14 @@
 - Use `orb` over `docker` on macos
 - use `rg` over `grep` when possible
 
+PLAN_MODEL
+
 # Test Driven Development
 
 1. When starting a new session, explore the code and update the CLAUDE.md file with your assessment.
-2. When starting your development cycle
+2. Prompt to see what model to use for Planning
+3. Prompt to see what model to use for Coding
+4. When starting your development cycle
   1. Clean your workspace, by checking for duplicate files, functions, methods, variables, or other items, then deconstructing the duplicate file by verifying that removing quantized units of code in the file will not break things.
   2. Conduct targeted tests as you go and continue trimming code until you no longer have duplicate code.
   3. If you find other errors while you are working on deduplication, then make a note in the CLAUDE.md file, patch out the problem and continue deduplicating.
