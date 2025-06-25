@@ -63,6 +63,14 @@ Let's say you're testing a login feature:
 
 ---
 
+## How to identify internal implementations that need validators (Fuzzing)
+
+## How to identify internal implementations that need tests
+
+## How to identify code that needs to be mocked
+
+- the function has complex objects, state management, or business logic to mock
+
 1. Explore the test code, highlight any tests that are attempting to test internal implementation details rather than functionality
 2. Explore the tested code, identify any interfaces that should be tested, and would need to a test to be written for the implementation and not the functionality of the code
 3. Unless the target code meets one of the exceptions mentioned in number 2, write tests for the target code that take a black-box testing approach, focused only on testing the expected behavior.
