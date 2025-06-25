@@ -65,6 +65,14 @@ Let's say you're testing a login feature:
 
 > All test functions should accept input from test_case_data objects/files
 
+# Prioritized Goals
+1. **Working Code**: The code being tested should NEVER be broken by the code testing it, if a test is difficult to implement for some target code, thoroughly analyze the target code and understand what needs to be tested. Next if your analysis determined that the target code is suitably complex to test, the prompt me with the issue and iteratively provide potential strategies and example implementations of the target code that would retain its functionality while simplifying the code needed to test it.
+2. **Maintainable Code**: 
+3. **Well Implemented Tests**: Just because a test works doesn't mean its good. If a test is just passing all tests without validating something then its a bad test. Tests should validate either business or application logic, or they should test unit functionality, both are important.
+4. **Working Tests**: No test should exist that tries to test code that doesn't exist. By default, tests should take a black-box testing approach, concerned primarily with testing the target codes functionality and behavior. If a test is created as a placeholder, it should be annotated with internal comments describing what it is meant to test, and why it has not been implemented.
+5. **Passing Tests**
+6. **Test Coverage**
+
 ## How to identify internal implementations that need validators (Fuzzing)
 
 ## How to identify internal implementations that need tests
