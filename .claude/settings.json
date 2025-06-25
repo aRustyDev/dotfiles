@@ -9,6 +9,7 @@
       "Bash(curl:*)"
     ]
   },
+  "apiKeyHelper": "~/.claude/scripts/get-litellm-key.sh",
   "env": {
     "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
     "OTEL_METRICS_EXPORTER": "otlp"
