@@ -108,5 +108,5 @@ After successfully creating a complete test. Update the `## Testing` section of 
 4. If the target code is a specific interface, add that interface as a testcase to the interface testing factory.
 5. If the target code is an internal validator, add a test to fuzz the validator and ensure the logic is working as expected and robust enough to catch edge cases. Be hesitant to test internal validators, if you find one, prompt me with an alternative utility function that can be abstracted for reuse in other methods. Only if I tell you to test the internal validator should you do it.
 
-review all of the remaining modules and analyze them for unnecessary tests, inaccurate return type or method attribute expectations, poor or unnecessary mocking approaches, tests that target non-existent functions, and tests that are trying to test implementation details instead of code behaviour/functionality or business logic.
+review the modules and analyze them for unnecessary tests, inaccurate return type or method attribute expectations, poor or unnecessary mocking approaches, tests that target non-existent functions, and tests that are trying to test implementation details instead of code behaviour/functionality or business logic.
 ---
