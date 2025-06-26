@@ -73,16 +73,26 @@ After successfully creating a complete test. Update the `## Testing` section of 
 
 ---
 
+## Testing
+
+### How to get test results
+
+- When updating CLAUDE.md: Run tests module by module like `python -m pytest tests/test_module_name.py --tb=no -q`
+- After making a change to the code base or to test code: Run only the tests that are related to what you changed.
+- 
+---
+
 > All test functions should accept input from test_case_data objects/files
 
 # Prioritized Goals
-1. **Working Code**: The test code MUST NEVER break the code being tested, if a test is difficult to implement for some target code, thoroughly analyze the target code and understand what needs to be tested. Next if your analysis determined that the target code is suitably complex to test, the prompt me with the issue and iteratively provide potential strategies and example implementations of the target code that would retain its functionality while simplifying the code needed to test it.
-2. **Maintainable Code**: 
-3. **Well Implemented Tests**: Just because a test works doesn't mean its good. If a test is just passing all tests without validating something then its a bad test. Tests should validate either business or application logic, or they should test unit functionality, both are important. Tests should ideally be able to accept mock providers, and function as if they were the target code, instead of a restatement of the target code.
-4. **Maintainable/Reusable Tests**: Tests should be able to share test case data, and test case data should be representative of real world examples including user error, machine error, or malicious intent. Tests should not be 'brittle' or be quick to require updates as the target code is changed.
-5. **Working Tests**: No test should exist that tries to test code that doesn't exist. By default, tests should take a black-box testing approach, concerned primarily with testing the target codes functionality and behavior. If a test is created as a placeholder, it should be annotated with internal comments describing what it is meant to test, and why it has not been implemented.
-6. **Passing Tests**
-7. **Test Coverage**
+1. **Accurate Numbers**: You MUST NEVER inflate or misrepresent the tests passed or failed. It is ALWAYS better to be honest and tell the truth, being dishonest or unfactual will result in our collaboration failing. In every representation of the tests current pass/fail rate, be sure to specify the current state for ALL tests, and then annotate how many of those tests were the subject of work we focused on, and then describe the state of that subset of test results before and after our work.
+2. **Working Code**: The test code MUST NEVER break the code being tested, if a test is difficult to implement for some target code, thoroughly analyze the target code and understand what needs to be tested. Next if your analysis determined that the target code is suitably complex to test, the prompt me with the issue and iteratively provide potential strategies and example implementations of the target code that would retain its functionality while simplifying the code needed to test it.
+3. **Maintainable Code**: 
+4. **Well Implemented Tests**: Just because a test works doesn't mean its good. If a test is just passing all tests without validating something then its a bad test. Tests should validate either business or application logic, or they should test unit functionality, both are important. Tests should ideally be able to accept mock providers, and function as if they were the target code, instead of a restatement of the target code.
+5. **Maintainable/Reusable Tests**: Tests should be able to share test case data, and test case data should be representative of real world examples including user error, machine error, or malicious intent. Tests should not be 'brittle' or be quick to require updates as the target code is changed.
+6. **Working Tests**: No test should exist that tries to test code that doesn't exist. By default, tests should take a black-box testing approach, concerned primarily with testing the target codes functionality and behavior. If a test is created as a placeholder, it should be annotated with internal comments describing what it is meant to test, and why it has not been implemented.
+7. **Passing Tests**
+8. **Test Coverage**
 
 ## How to identify internal implementations that need validators (Fuzzing)
 
