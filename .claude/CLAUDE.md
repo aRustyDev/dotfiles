@@ -21,6 +21,7 @@ PLAN_MODEL
 - TDD: This file contains the Test driven development pattern you should follow. This is a READ ONLY file
 - PATHS: this file contains paths that are either sensitive and should NEVER be editted with out explicit and confirmed approval, and require additional review before doing so. It also contains files that are "free-range" and can be editted freely so long as you follow the accompanying rules. This is a READ ONLY file
 - CHANGELOG: this file is used by you to hold the statement of work that was asked for and what was objectively completed. This is an append only file.
+- ANALYSIS: this file should contain all of your analyses 
 
 # Test Driven Development
 
