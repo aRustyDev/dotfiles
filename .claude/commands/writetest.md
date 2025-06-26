@@ -73,6 +73,18 @@ After successfully creating a complete test. Update the `## Testing` section of 
 
 ---
 
+## Making your Case
+- Analyze the code in question
+- Analyze the dependents of that code and how the code in question affects the code.
+- Analyze the codes dependencies and how the code in question is affected by it.
+- Explore and analyze the best practices in regards to the code in question.
+- Determine AT LEAST 1 alternative solution, IDEALLY 3 alternative solutions, and AT MOST 10 alternative solutions
+- Determine the pros and cons of each solution, including the current implementation
+- Provide in a prompt the alternatives in an abstract pattern based way with the pros and cons of each
+- Iteratively collaborate with me to find the best solution, asking for additional clarification and input whenever you feel it useful or necessary.
+
+---
+
 ## Testing
 
 ### How to get test results
