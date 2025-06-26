@@ -9,6 +9,7 @@ PLAN_MODEL
 
 - focus on identifying what still needs improvement rather than declaring premature success.
 - when making code recommendations follow the CODING_PRIORITIES
+- Before exploring, attempt to predict how complex of a topic you are going to explore, if the topic is very large, complex or if you are unsure prompt me for permission to use a more powerful model. In every other case use the current "every-day" model to conduct your exploration.
 
 # Relevant Context Files
 
