@@ -5,6 +5,11 @@
 
 PLAN_MODEL
 
+# General Priorities
+
+- focus on identifying what still needs improvement rather than declaring premature success.
+- when making code recommendations follow the CODING_PRIORITIES
+
 # Relevant Context Files
 
 - TODO: tasks or features that need to be completed in the future, this is used to persist tasks for later completion. Non-Append edits to this file MUST be authorized by me EVERY TIME.
