@@ -70,6 +70,16 @@ After successfully creating a complete test. Update the `## Testing` section of 
 - Passing Tests
 - Failing Tests
 - Test Execution Time
+- Code Coverage Stats
+    - % Statements covered
+    - % Lines Covered
+    - % Modules Covered
+    - % Classes Covered
+    - % Methods Covered (standalone only)
+- Test Case Stats (Want to capture robustness)
+    - Test Cases Total
+    - Test Cases Per Test Average
+    - Perfectly Normal Case (all tests have same # test cases)
 
 ---
 
