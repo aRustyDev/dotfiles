@@ -5,6 +5,16 @@
 
 PLAN_MODEL
 
+# Relevant Context Files
+
+- TODO: tasks or features that need to be completed in the future, this is used to persist tasks for later completion.
+- BUGS: this holds detailed descriptions of bugs that are identified in the code base, and is used to help generate changelogs and issues, and enables putting off fixing bugs that would cause large changes in the code until the current feature or fix is implemented.
+- HOW2: This file holds contextual hints on how I want you to complete certain tasks.
+- PHRASES: This file holds context for what I mean when I use short hand phrases. For example if I say "Make your case" this file details the process I want you to follow to "Make Your Case".
+- TOOLS: This files holds tool preferences and patterns for different use cases.
+- TDD: This file contains the Test driven development pattern you should follow.
+- PATHS: this file contains paths that are either sensitive and should NEVER be editted with out explicit and confirmed approval, and require additional review before doing so. It also contains files that are "free-range" and can be editted freely so long as you follow the accompanying rules.
+
 # Test Driven Development
 
 1. When starting a new session, explore the code and update the CLAUDE.md file with your assessment.
