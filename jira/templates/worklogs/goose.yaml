@@ -1,1 +1,21 @@
+# goose.yaml
+# logged work on JIRA issues
+# Used with: jira log-work PROJ-123 goose.yaml
 
+# Time spent in JIRA format (e.g., 2h, 30m, 1h 30m, 2d)
+timeSpent: 2h 30m
+
+# Optional: Date when work was performed (ISO 8601 format)
+# If omitted, defaults to current time
+# date: 2024-01-15T10:00:00.000+0000
+
+# Work description - this becomes the work log comment
+# You can use multiple lines for detailed descriptions
+comment: |
+  Implemented the user authentication module with the following components:
+  - Created JWT token generation service
+  - Integrated with existing LDAP system
+  - Added comprehensive unit tests
+  - Updated API documentation
+  
+  Next steps: Review with security team before deployment
