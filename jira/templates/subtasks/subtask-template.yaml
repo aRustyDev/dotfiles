@@ -1,0 +1,48 @@
+# subtask-template.yaml
+# Template for creating subtasks under a parent issue
+# Used with: jira create-subtask PROJ-123 subtask-template.yaml
+
+# Define multiple subtasks - each will be created as a separate issue
+# The dash (-) indicates a new subtask entry
+- summary: "Backend: Implement data validation layer"
+  description: |
+    Create comprehensive data validation for user inputs:
+    - Email format validation
+    - Phone number normalization
+    - Address verification against postal service API
+    
+    Acceptance Criteria:
+    - All validation rules documented
+    - Unit tests with >90% coverage
+    - Performance impact <50ms per validation
+  assignee: john.smith
+  
+- summary: "Frontend: Create form validation UI components"
+  description: |
+    Build reusable React components for form validation:
+    - Real-time validation feedback
+    - Accessible error messages (WCAG 2.1 compliant)
+    - Integration with backend validation API
+    
+    Technical Requirements:
+    - TypeScript definitions included
+    - Storybook documentation
+    - Jest tests for all components
+  assignee: jane.doe
+
+- summary: "QA: Develop validation test suite"
+  description: |
+    Comprehensive test coverage for validation system:
+    - Edge case identification
+    - International data format testing
+    - Performance benchmarking
+    - Security testing (injection attempts)
+  # If assignee is omitted, the subtask remains unassigned
+  
+- summary: "Documentation: Update API docs for validation endpoints"
+  description: |
+    Document all validation endpoints and rules:
+    - OpenAPI specification updates
+    - Example requests/responses
+    - Error code reference
+    - Integration guide for third-party systems
