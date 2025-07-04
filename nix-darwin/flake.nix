@@ -1,5 +1,5 @@
 {
-  description = "Example Darwin system flake";
+  description = "Darwin system flake for analyst";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -30,6 +30,10 @@
         url = "github:nikitabobko/homebrew-tap";
         flake = false;
     };
+    prompts = {
+      url = "github:aRustyDev/prompts";
+      flake = false;  # This tells Nix it's not a flake
+    };
     # tetra = {
     #     # https://tetragon.io/docs/installation/tetra-cli/
     #     url = "https://github.com/foo/bar.git";
@@ -37,11 +41,10 @@
     # };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, aerospace, homebrew-core, homebrew-cask }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, aerospace, homebrew-core, homebrew-cask, prompts}:
   let
     configuration = { pkgs, ... }: {
-      # Auto upgrade nix package and the daemon service.
-      services.nix-daemon.enable = true;
+      # Nix daemon is managed automatically when nix.enable is true
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
@@ -60,7 +63,7 @@
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "x86_64-darwin";
 
-      security.pam.enableSudoTouchIdAuth = true;
+      security.pam.services.sudo_local.touchIdAuth = true;
 
       # Homebrew needs to be installed on its own!
         # homebrew = {
@@ -72,11 +75,10 @@
         #     ];
         # };
 
-      users.users."$USER" = {
-          name = "$USER";
-          home = "/Users/$USER";
+      users.users."analyst" = {
+          name = "analyst";
+          home = "/Users/analyst";
       };
-      users.users."greymatter".home = "/Users/greymatter";
       # nix.configureBuildUsers = true; # omerxx
       # nix.useDaemon = true; # omerxx
 
@@ -86,7 +88,7 @@
       #   dock.mru-spaces = false;
       #   finder.AppleShowAllExtensions = true;
       #   finder.FXPreferredViewStyle = "clmv";
-      #   loginwindow.LoginwindowText = "aRustyDev";
+      #   loginwindow.LoginwindowText = "analyst";
       #   screencapture.location = "~/Pictures/screenshots";
       #   screensaver.askForPasswordDelay = 10;
       # };
@@ -94,8 +96,8 @@
   in
   {
     # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#gm-mbp
-    darwinConfigurations."gm-mbp" = nix-darwin.lib.darwinSystem {
+    # $ darwin-rebuild build --flake .#analyst-mac
+    darwinConfigurations."analyst-mac" = nix-darwin.lib.darwinSystem {
       system = "x86_64-darwin";
       modules = [
 	      configuration
@@ -106,7 +108,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/modularize-the-configuration
-          home-manager.users.greymatter = import ./hosts/personal.nix;
+          home-manager.users.analyst = import ./hosts/personal-analyst.nix;
         }
         nix-homebrew.darwinModules.nix-homebrew {
           nix-homebrew = {
@@ -116,7 +118,7 @@
             enable = true;
 
             # User owning the Homebrew prefix
-            user = "$USER";
+            user = "analyst";
 
             # Automatically migrate existing Homebrew installations
             autoMigrate = true;
@@ -134,6 +136,6 @@
     };
 
     # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."gm-mbp".pkgs;
+    darwinPackages = self.darwinConfigurations."analyst-mac".pkgs;
   };
 }

@@ -4,12 +4,12 @@
 { config, lib, pkgs, ... }:
 
 let
-  home_dir = "/Users/greymatter";
+  home_dir = "/Users/analyst";
 in
 {
   home = {
-    username = lib.mkDefault "greymatter";
-    homeDirectory = lib.mkDefault "/Users/greymatter";
+    username = lib.mkDefault "analyst";
+    homeDirectory = lib.mkDefault "/Users/analyst";
     stateVersion = "24.05"; # Please read the comment before changing.
 
     # NOTE: These get overwritten by any "shell"rc managed by home.file
@@ -229,20 +229,20 @@ in
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
     file = {
-      ".config/zsh/.zshrc".source = (builtins.toPath "${home_dir}/dotfiles/zsh/.zshrc");
-      ".config/1Password/ssh/agent.toml".source = (builtins.toPath "${home_dir}/dotfiles/1password/agent.toml");
-      ".config/starship.toml".source = (builtins.toPath "${home_dir}/dotfiles/starship/starship.toml");
-      ".claude" = {
-        source = "${inputs.prompts}/.claude";
-        recursive = true;
-      };
-      # ".config/wezterm".source = (builtins.toPath "${home_dir}/dotfiles/wezterm");
-      # ".config/skhd".source = (builtins.toPath "${home_dir}/dotfiles/skhd");
-      # ".config/zellij".source = (builtins.toPath "${home_dir}/dotfiles/zellij");
-      # ".config/nvim".source = (builtins.toPath "${home_dir}/dotfiles/nvim");
-      # ".config/nix".source = (builtins.toPath "${home_dir}/dotfiles/nix");
-      # ".config/nix-darwin".source = (builtins.toPath "${home_dir}/dotfiles/nix-darwin");
-      # ".config/tmux".source = (builtins.toPath "${home_dir}/dotfiles/tmux");
+      ".config/zsh/.zshrc".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/zsh/.zshrc");
+      ".config/1Password/ssh/agent.toml".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/1password/agent.toml");
+      ".config/starship.toml".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/starship/starship.toml");
+      # ".claude" = {
+      #   source = "${inputs.prompts}/.claude";
+      #   recursive = true;
+      # };
+      # ".config/wezterm".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/wezterm");
+      # ".config/skhd".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/skhd");
+      # ".config/zellij".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/zellij");
+      # ".config/nvim".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/nvim");
+      # ".config/nix".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/nix");
+      # ".config/nix-darwin".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/nix-darwin");
+      # ".config/tmux".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/tmux");
     };
 
     sessionVariables = {
