@@ -44,7 +44,8 @@
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, aerospace, homebrew-core, homebrew-cask, prompts}:
   let
     configuration = { pkgs, ... }: {
-      # Nix daemon is managed automatically when nix.enable is true
+      # Auto upgrade nix package and the daemon service.
+      services.nix-daemon.enable = true;
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
@@ -63,7 +64,7 @@
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "x86_64-darwin";
 
-      security.pam.services.sudo_local.touchIdAuth = true;
+      security.pam.enableSudoTouchIdAuth = true;
 
       # Homebrew needs to be installed on its own!
         # homebrew = {
@@ -110,28 +111,28 @@
           # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/modularize-the-configuration
           home-manager.users.analyst = import ./hosts/personal-analyst.nix;
         }
-        # nix-homebrew.darwinModules.nix-homebrew {
-        #   nix-homebrew = {
-        #     # inherit user;
+        nix-homebrew.darwinModules.nix-homebrew {
+          nix-homebrew = {
+            # inherit user;
 
-        #     # Install Homebrew under the default prefix
-        #     enable = true;
+            # Install Homebrew under the default prefix
+            enable = true;
 
-        #     # User owning the Homebrew prefix
-        #     user = "analyst";
+            # User owning the Homebrew prefix
+            user = "analyst";
 
-        #     # Automatically migrate existing Homebrew installations
-        #     autoMigrate = true;
+            # Automatically migrate existing Homebrew installations
+            autoMigrate = true;
 
-        #     taps = {
-        #         "homebrew/homebrew-core" = inputs.homebrew-core;
-        #         "homebrew/homebrew-cask" = inputs.homebrew-cask;
-        #         # "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
-        #         "nikitabobko/homebrew-tap" = inputs.aerospace;
-        #     };
-        #     # mutableTaps = false;
-        #   };
-        # }
+            taps = {
+                "homebrew/homebrew-core" = inputs.homebrew-core;
+                "homebrew/homebrew-cask" = inputs.homebrew-cask;
+                # "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+                "nikitabobko/homebrew-tap" = inputs.aerospace;
+            };
+            # mutableTaps = false;
+          };
+        }
       ];
     };
 

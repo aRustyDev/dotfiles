@@ -13,7 +13,7 @@
 - Changed user from "greymatter" to "analyst"
 - Updated home directory paths to `/Users/analyst`
 - Updated dotfiles paths to `/Users/analyst/repos/code/personal/dotfiles`
-- Changed darwin configuration name to "analyst-mac"
+- Changed darwin configuration name to "nw-mbp"
 
 ### Setup Steps
 
@@ -39,7 +39,7 @@
 3. **Initial nix-darwin Setup**:
    ```bash
    # First time setup - installs nix-darwin
-   nix run nix-darwin -- switch --flake .#analyst-mac --impure
+   nix run nix-darwin -- switch --flake .#nw-mbp --impure
    ```
 
 4. **Subsequent Updates**:
@@ -62,7 +62,7 @@ If you encounter issues:
 
 1. Check the backup directory created by backup-configs.sh
 2. Verify all required dotfiles exist in the expected locations
-3. Run `darwin-rebuild check --flake .#analyst-mac` to validate config
+3. Run `darwin-rebuild check --flake .#nw-mbp` to validate config
 4. Check `/etc/nix/nix.conf` for proper configuration
 
 ## Reverting Changes

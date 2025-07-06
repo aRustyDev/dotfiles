@@ -18,15 +18,15 @@ update:
 
 # Use the analyst-specific flake
 switch:
-	darwin-rebuild switch --flake .#analyst-mac
+	darwin-rebuild switch --flake .#nw-mbp
 
 # Build without switching
 build:
-	darwin-rebuild build --flake .#analyst-mac
+	darwin-rebuild build --flake .#nw-mbp
 
 # Check the configuration without building
 check:
-	darwin-rebuild check --flake .#analyst-mac
+	darwin-rebuild check --flake .#nw-mbp
 
 uninstall:
 	@sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
