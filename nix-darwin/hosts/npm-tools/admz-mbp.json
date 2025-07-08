@@ -13,12 +13,6 @@
       "description": "OpenAI Codex CLI"
     },
     {
-      "name": "create-react-app",
-      "version": "latest",
-      "enabled": true,
-      "description": "React app generator"
-    },
-    {
       "name": "vercel",
       "version": "latest",
       "enabled": true,

@@ -32,7 +32,7 @@ in {
       # gitoxide
       neovim
       zed-editor
-      claude-code
+      # claude-code - now managed via Volta/npm
       # https://www.youtube.com/watch?v=x__SZUuLOxw
       # https://www.youtube.com/watch?v=E2mKJ73M9pg
       zellij

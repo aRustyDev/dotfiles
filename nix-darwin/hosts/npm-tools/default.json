@@ -23,6 +23,12 @@
       "version": "latest",
       "enabled": true,
       "description": "TypeScript compiler"
+    },
+    {
+      "name": "@anthropic-ai/claude-code",
+      "version": "latest",
+      "enabled": true,
+      "description": "Claude CLI - Anthropic's AI assistant for the terminal"
     }
   ]
 }
