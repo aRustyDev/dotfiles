@@ -27,6 +27,7 @@ in {
       # vimPlugins.neogit
       # gitoxide
       neovim
+      claude-code
       # https://www.youtube.com/watch?v=x__SZUuLOxw
       # https://www.youtube.com/watch?v=E2mKJ73M9pg
       zellij
@@ -390,8 +391,6 @@ in {
         . "$HOME/.atuin/bin/env"
 
         eval "$(atuin init zsh)"
-
-        alias claude="/Users/analyst/.claude/local/claude"
       '';
     };
 
