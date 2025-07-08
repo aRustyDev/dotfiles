@@ -90,51 +90,74 @@
       #   screensaver.askForPasswordDelay = 10;
       # };
     };
+    # Function to create a darwin configuration for a specific machine
+    mkDarwinConfiguration = {
+      username,
+      userConfig,
+    }:
+      nix-darwin.lib.darwinSystem {
+        system = "x86_64-darwin";
+        modules = [
+          configuration
+          ./configuration.nix
+          home-manager.darwinModules.home-manager
+          {
+            # Set the specific user for this machine
+            users.users."${username}" = {
+              name = username;
+              home = "/Users/${username}";
+            };
+
+            home-manager = {
+              backupFileExtension = "nix.bak";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users."${username}" = import userConfig;
+            };
+          }
+        ];
+      };
   in {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#nw-mbp
-    darwinConfigurations."nw-mbp" = nix-darwin.lib.darwinSystem {
-      system = "x86_64-darwin";
-      modules = [
-        configuration
-        ./configuration.nix
-        # ./hosts/homebrew/cask.nix
-        home-manager.darwinModules.home-manager
-        {
-          home-manager = {
-            backupFileExtension = "nix.bak";
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/modularize-the-configuration
-            users.analyst = import ./hosts/personal-analyst.nix;
-          };
-        }
-        # nix-homebrew.darwinModules.nix-homebrew {
-        #   nix-homebrew = {
-        #     # inherit user;
+    # Machine configurations
+    darwinConfigurations = {
+      # CFS configuration (replacing nw-mbp)
+      "cfs" = mkDarwinConfiguration {
+        username = "analyst";
+        userConfig = ./hosts/users/analyst.nix;
+      };
 
-        #     # Install Homebrew under the default prefix
-        #     enable = true;
+      # Cisco configuration
+      "cisco-mbp" = mkDarwinConfiguration {
+        username = "asmith";
+        userConfig = ./hosts/users/asmith.nix;
+      };
 
-        #     # User owning the Homebrew prefix
-        #     user = "analyst";
+      # Personal configuration
+      "admz-mbp" = mkDarwinConfiguration {
+        username = "adam";
+        userConfig = ./hosts/users/adam.nix;
+      };
 
-        #     # Automatically migrate existing Homebrew installations
-        #     autoMigrate = true;
-
-        #     taps = {
-        #         "homebrew/homebrew-core" = inputs.homebrew-core;
-        #         "homebrew/homebrew-cask" = inputs.homebrew-cask;
-        #         # "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
-        #         "nikitabobko/homebrew-tap" = inputs.aerospace;
-        #     };
-        #     # mutableTaps = false;
-        #   };
-        # }
-      ];
+      # Legacy configuration for backward compatibility
+      "nw-mbp" = nix-darwin.lib.darwinSystem {
+        system = "x86_64-darwin";
+        modules = [
+          configuration
+          ./configuration.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager = {
+              backupFileExtension = "nix.bak";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.analyst = import ./hosts/personal-analyst.nix;
+            };
+          }
+        ];
+      };
     };
 
     # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."nw-mbp".pkgs;
+    darwinPackages = self.darwinConfigurations."cfs".pkgs;
   };
 }
