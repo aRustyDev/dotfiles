@@ -27,6 +27,7 @@ in {
       # vimPlugins.neogit
       # gitoxide
       neovim
+      zed-editor
       claude-code
       # https://www.youtube.com/watch?v=x__SZUuLOxw
       # https://www.youtube.com/watch?v=E2mKJ73M9pg
@@ -230,6 +231,7 @@ in {
       ".config/1Password/ssh/agent.toml".source = "${home_dir}/dotfiles/1Password/agent.toml";
       ".config/starship.toml".source = "${home_dir}/dotfiles/starship/starship.toml";
       ".config/ghostty/config".source = "${home_dir}/dotfiles/ghostty/config";
+      ".config/zed/settings.json".source = "${home_dir}/dotfiles/zed/settings.json";
       # ".claude" = {
       #   source = "${inputs.prompts}/.claude";
       #   recursive = true;
