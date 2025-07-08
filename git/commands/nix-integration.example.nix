@@ -1,8 +1,10 @@
 # Example: How to integrate git-setup into your Nix-Darwin configuration
-
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   # Option 1: Install via home.file (symlink approach)
   home.file = {
     ".local/bin/git-setup" = {

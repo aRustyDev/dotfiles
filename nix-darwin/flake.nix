@@ -6,8 +6,8 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager = {
-        url = "github:nix-community/home-manager";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
@@ -26,13 +26,13 @@
     #     flake = false;
     # };
     aerospace = {
-        # https://www.youtube.com/watch?v=-FoWClVHG5g
-        url = "github:nikitabobko/homebrew-tap";
-        flake = false;
+      # https://www.youtube.com/watch?v=-FoWClVHG5g
+      url = "github:nikitabobko/homebrew-tap";
+      flake = false;
     };
     prompts = {
       url = "github:aRustyDev/prompts";
-      flake = false;  # This tells Nix it's not a flake
+      flake = false; # This tells Nix it's not a flake
     };
     # tetra = {
     #     # https://tetragon.io/docs/installation/tetra-cli/
@@ -41,16 +41,25 @@
     # };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, aerospace, homebrew-core, homebrew-cask, prompts}:
-  let
-    configuration = { pkgs, ... }: {
+  outputs = inputs @ {
+    self,
+    nix-darwin,
+    nixpkgs,
+    home-manager,
+    nix-homebrew,
+    aerospace,
+    homebrew-core,
+    homebrew-cask,
+    prompts,
+  }: let
+    configuration = {pkgs, ...}: {
       # Nix daemon is managed automatically when nix.enable is true
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
 
       # Create /etc/zshrc that loads the nix-darwin environment.
-      programs.zsh.enable = true;  # default shell on catalina
+      programs.zsh.enable = true; # default shell on catalina
       # programs.fish.enable = true;
 
       # Set Git commit hash for darwin-version.
@@ -66,18 +75,18 @@
       security.pam.services.sudo_local.touchIdAuth = true;
 
       # Homebrew needs to be installed on its own!
-        # homebrew = {
-        #     enable = true;
-        #     casks = [
-        #     # always upgrade auto-updated or unversioned cask to latest version even if already installed
-        #         "zen-browser"
-        #         "orbstack"
-        #     ];
-        # };
+      # homebrew = {
+      #     enable = true;
+      #     casks = [
+      #     # always upgrade auto-updated or unversioned cask to latest version even if already installed
+      #         "zen-browser"
+      #         "orbstack"
+      #     ];
+      # };
 
       users.users."analyst" = {
-          name = "analyst";
-          home = "/Users/analyst";
+        name = "analyst";
+        home = "/Users/analyst";
       };
       # nix.configureBuildUsers = true; # omerxx
       # nix.useDaemon = true; # omerxx
@@ -93,22 +102,22 @@
       #   screensaver.askForPasswordDelay = 10;
       # };
     };
-  in
-  {
+  in {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#nw-mbp
     darwinConfigurations."nw-mbp" = nix-darwin.lib.darwinSystem {
       system = "x86_64-darwin";
       modules = [
-	      configuration
+        configuration
         ./configuration.nix
         # ./hosts/homebrew/cask.nix
-        home-manager.darwinModules.home-manager {
+        home-manager.darwinModules.home-manager
+        {
           home-manager.backupFileExtension = "nix.bak";
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/modularize-the-configuration
-          home-manager.users.analyst = import ./hosts/personal-analyst.nix { inherit inputs; };
+          home-manager.users.analyst = import ./hosts/personal-analyst.nix {inherit inputs;};
         }
         # nix-homebrew.darwinModules.nix-homebrew {
         #   nix-homebrew = {

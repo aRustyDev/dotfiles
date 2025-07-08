@@ -1,8 +1,17 @@
 repos:
   - repo: https://github.com/aRustyDev/pre-commit-hooks
-    rev: v0.2.1
+    rev: v0.3.0
     hooks:
       - id: dead-links
+      # Nix hooks
+      - id: nix-fmt
+        args: [--formatter=alejandra]
+      - id: nix-lint
+        args: [--with-deadnix]
+      - id: nix-flake-check
+      - id: nix-build-check
+      - id: nix-darwin-check
+      - id: nix-home-manager-check
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0 # Use the ref you want to point at
     hooks:
