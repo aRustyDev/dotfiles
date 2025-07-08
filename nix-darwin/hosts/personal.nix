@@ -34,6 +34,7 @@ in {
       starship
       # antidote
       tmux
+      # ghostty # Currently broken in nixpkgs 1.1.3
 
       # wget
       # git
@@ -233,10 +234,11 @@ in {
       ".config/zsh/.zshrc".source = builtins.toPath "${home_dir}/dotfiles/zsh/.zshrc";
       ".config/1Password/ssh/agent.toml".source = builtins.toPath "${home_dir}/dotfiles/1Password/agent.toml";
       ".config/starship.toml".source = builtins.toPath "${home_dir}/dotfiles/starship/starship.toml";
-      ".claude" = {
-        source = "${inputs.prompts}/.claude";
-        recursive = true;
-      };
+      # ".config/ghostty/config".source = builtins.toPath "${home_dir}/dotfiles/ghostty/config"; # Uncomment when ghostty is fixed in nixpkgs
+      # ".claude" = {
+      #   source = "${inputs.prompts}/.claude";
+      #   recursive = true;
+      # };
       # ".config/wezterm".source = (builtins.toPath "${home_dir}/dotfiles/wezterm");
       # ".config/skhd".source = (builtins.toPath "${home_dir}/dotfiles/skhd");
       # ".config/zellij".source = (builtins.toPath "${home_dir}/dotfiles/zellij");
