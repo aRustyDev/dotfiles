@@ -1,7 +1,6 @@
 # home.nix
 # home-manager switch
-{inputs}: {
-  config,
+{
   lib,
   pkgs,
   ...
@@ -253,14 +252,14 @@ in {
       VISUAL = "nvim";
       PAGER = "less";
       LESS = "-R";
-      ZDOTDIR = builtins.toPath "${home_dir}/.config/zsh";
+      ZDOTDIR = "${home_dir}/.config/zsh";
       GPG_TTY = "$(tty)";
       LANG = "en_US.UTF-8";
       LC_ALL = "en_US.UTF-8";
       HISTSIZE = "32768";
       HISTFILESIZE = "32768"; # "${HISTSIZE}";
       HISTCONTROL = "ignoreboth";
-      STARSHIP_CONFIG = builtins.toPath "${home_dir}/.config/starship/config.toml";
+      STARSHIP_CONFIG = "${home_dir}/.config/starship/config.toml";
     };
 
     sessionPath = [

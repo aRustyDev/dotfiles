@@ -1,7 +1,6 @@
 # home.nix
 # home-manager switch
 {
-  config,
   lib,
   pkgs,
   ...
@@ -231,10 +230,10 @@ in {
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
     # plain files is through 'home.file'.
     file = {
-      ".config/zsh/.zshrc".source = builtins.toPath "${home_dir}/dotfiles/zsh/.zshrc";
-      ".config/1Password/ssh/agent.toml".source = builtins.toPath "${home_dir}/dotfiles/1Password/agent.toml";
-      ".config/starship.toml".source = builtins.toPath "${home_dir}/dotfiles/starship/starship.toml";
-      ".config/ghostty/config".source = builtins.toPath "${home_dir}/dotfiles/ghostty/config";
+      ".config/zsh/.zshrc".source = "${home_dir}/dotfiles/zsh/.zshrc";
+      ".config/1Password/ssh/agent.toml".source = "${home_dir}/dotfiles/1Password/agent.toml";
+      ".config/starship.toml".source = "${home_dir}/dotfiles/starship/starship.toml";
+      ".config/ghostty/config".source = "${home_dir}/dotfiles/ghostty/config";
       # ".claude" = {
       #   source = "${inputs.prompts}/.claude";
       #   recursive = true;
@@ -253,14 +252,14 @@ in {
       VISUAL = "nvim";
       PAGER = "less";
       LESS = "-R";
-      ZDOTDIR = builtins.toPath "${home_dir}/.config/zsh";
+      ZDOTDIR = "${home_dir}/.config/zsh";
       GPG_TTY = "$(tty)";
       LANG = "en_US.UTF-8";
       LC_ALL = "en_US.UTF-8";
       HISTSIZE = "32768";
       HISTFILESIZE = "32768"; # "${HISTSIZE}";
       HISTCONTROL = "ignoreboth";
-      STARSHIP_CONFIG = builtins.toPath "${home_dir}/.config/starship/config.toml";
+      STARSHIP_CONFIG = "${home_dir}/.config/starship/config.toml";
     };
 
     sessionPath = [

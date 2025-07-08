@@ -10,7 +10,7 @@ repos:
         args: [--with-deadnix]
       - id: nix-flake-check
       - id: nix-build-check
-      - id: nix-darwin-check
+      # - id: nix-darwin-check # Disabled: requires root access
       - id: nix-home-manager-check
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0 # Use the ref you want to point at
