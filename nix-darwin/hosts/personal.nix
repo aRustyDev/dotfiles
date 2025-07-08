@@ -27,6 +27,7 @@ in {
       # vimPlugins.neogit
       # gitoxide
       neovim
+      claude-code
       # https://www.youtube.com/watch?v=x__SZUuLOxw
       # https://www.youtube.com/watch?v=E2mKJ73M9pg
       zellij
@@ -156,19 +157,14 @@ in {
       # # Workflow : https://temporal.io/how-it-works
       # # temporal-cli # Still not sure about this one
 
-      # # Rust : https://xeiaso.net/blog/how-i-start-nix-2020-03-08/
-      # rustup
-      # rustc
-      # cargo
-      # rustfmt
-      # rustPackages.clippy
+      # Rust : https://xeiaso.net/blog/how-i-start-nix-2020-03-08/
+      rustup
       # rustycli
       # rust-script
       # rust-petname
       # rust-code-analysis
       # jetbrains.rust-rover
       # rustup-toolchain-install-master
-      # # RUST_BACKTRACE = 1;
 
       # # Java :
       # jetbrains.idea-ultimate
@@ -260,12 +256,26 @@ in {
       HISTFILESIZE = "32768"; # "${HISTSIZE}";
       HISTCONTROL = "ignoreboth";
       STARSHIP_CONFIG = "${home_dir}/.config/starship/config.toml";
+      CARGO_HOME = "${home_dir}/.cargo";
+      RUSTUP_HOME = "${home_dir}/.rustup";
+      RUST_BACKTRACE = "1";
     };
 
     sessionPath = [
       "/run/current-system/sw/bin"
       "$HOME/.nix-profile/bin"
+      "$HOME/.cargo/bin"
     ];
+
+    # Automatically set up Rust toolchain on first run
+    activation.setupRust = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      if [[ ! -d "$HOME/.rustup/toolchains" ]] || [[ -z "$(ls -A $HOME/.rustup/toolchains 2>/dev/null)" ]]; then
+        echo "Setting up Rust toolchain for first time..."
+        $DRY_RUN_CMD ${pkgs.rustup}/bin/rustup install stable
+        $DRY_RUN_CMD ${pkgs.rustup}/bin/rustup default stable
+        $DRY_RUN_CMD ${pkgs.rustup}/bin/rustup component add rustfmt clippy rust-analyzer
+      fi
+    '';
   };
   programs = {
     home-manager.enable = true;

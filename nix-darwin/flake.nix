@@ -46,13 +46,8 @@
     nix-darwin,
     nixpkgs,
     home-manager,
-    nix-homebrew,
-    aerospace,
-    homebrew-core,
-    homebrew-cask,
-    prompts,
   }: let
-    configuration = {pkgs, ...}: {
+    configuration = _: {
       # Nix daemon is managed automatically when nix.enable is true
 
       # Necessary for using flakes on this system.
@@ -71,6 +66,9 @@
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "x86_64-darwin";
+
+      # Allow unfree packages
+      nixpkgs.config.allowUnfree = true;
 
       security.pam.services.sudo_local.touchIdAuth = true;
 
@@ -113,11 +111,13 @@
         # ./hosts/homebrew/cask.nix
         home-manager.darwinModules.home-manager
         {
-          home-manager.backupFileExtension = "nix.bak";
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/modularize-the-configuration
-          home-manager.users.analyst = import ./hosts/personal-analyst.nix {inherit inputs;};
+          home-manager = {
+            backupFileExtension = "nix.bak";
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/modularize-the-configuration
+            users.analyst = import ./hosts/personal-analyst.nix {inherit inputs;};
+          };
         }
         # nix-homebrew.darwinModules.nix-homebrew {
         #   nix-homebrew = {
