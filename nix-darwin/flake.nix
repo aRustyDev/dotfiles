@@ -10,38 +10,28 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-
-    # # Optional: Declarative tap management
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    # homebrew-bundle = {
-    #     url = "github:homebrew/homebrew-bundle";
-    #     flake = false;
+    # Uncomment these if you want to use homebrew integration
+    # nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    # homebrew-core = {
+    #   url = "github:homebrew/homebrew-core";
+    #   flake = false;
     # };
-    aerospace = {
-      # https://www.youtube.com/watch?v=-FoWClVHG5g
-      url = "github:nikitabobko/homebrew-tap";
-      flake = false;
-    };
-    prompts = {
-      url = "github:aRustyDev/prompts";
-      flake = false; # This tells Nix it's not a flake
-    };
-    # tetra = {
-    #     # https://tetragon.io/docs/installation/tetra-cli/
-    #     url = "https://github.com/foo/bar.git";
-    #     flake = false;
+    # homebrew-cask = {
+    #   url = "github:homebrew/homebrew-cask";
+    #   flake = false;
+    # };
+    # aerospace = {
+    #   url = "github:nikitabobko/homebrew-tap";
+    #   flake = false;
+    # };
+
+    # prompts = {
+    #   url = "github:aRustyDev/prompts";
+    #   flake = false;
     # };
   };
 
-  outputs = inputs @ {
+  outputs = {
     self,
     nix-darwin,
     nixpkgs,
@@ -116,7 +106,7 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/modularize-the-configuration
-            users.analyst = import ./hosts/personal-analyst.nix {inherit inputs;};
+            users.analyst = import ./hosts/personal-analyst.nix;
           };
         }
         # nix-homebrew.darwinModules.nix-homebrew {

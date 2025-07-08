@@ -50,10 +50,10 @@ in {
       # slack
       # slack-term
 
-      # _1password-cli
-      # _1password-cli-beta
+      _1password-cli
+      # _1password-cli-beta  # No beta version available in nixpkgs
       # _1password-gui
-      # _1password-gui-beta
+      _1password-gui-beta
       # go-passbolt-cli
 
       # direnv
