@@ -29,9 +29,9 @@ This repository contains nix-darwin configurations for multiple machines.
 The configuration uses a shared base configuration to avoid duplication:
 
 - `hosts/base-home.nix` - Shared home-manager configuration for all users
-- `hosts/users/analyst.nix` - User-specific config for analyst
-- `hosts/users/asmith.nix` - User-specific config for asmith
-- `hosts/users/adam.nix` - User-specific config for adam
+- `hosts/users/cfs.nix` - User-specific config for analyst (CFS)
+- `hosts/users/seneca.nix` - User-specific config for asmith (Cisco/Seneca)
+- `hosts/users/personal.nix` - User-specific config for adam (Personal)
 
 ## Adding a New Machine
 

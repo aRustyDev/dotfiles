@@ -72,10 +72,6 @@
       #     ];
       # };
 
-      users.users."analyst" = {
-        name = "analyst";
-        home = "/Users/analyst";
-      };
       # nix.configureBuildUsers = true; # omerxx
       # nix.useDaemon = true; # omerxx
 
@@ -123,19 +119,19 @@
       # CFS configuration (replacing nw-mbp)
       "cfs" = mkDarwinConfiguration {
         username = "analyst";
-        userConfig = ./hosts/users/analyst.nix;
+        userConfig = ./hosts/users/cfs.nix;
       };
 
       # Cisco configuration
       "cisco-mbp" = mkDarwinConfiguration {
         username = "asmith";
-        userConfig = ./hosts/users/asmith.nix;
+        userConfig = ./hosts/users/seneca.nix;
       };
 
       # Personal configuration
       "admz-mbp" = mkDarwinConfiguration {
         username = "adam";
-        userConfig = ./hosts/users/adam.nix;
+        userConfig = ./hosts/users/personal.nix;
       };
 
       # Legacy configuration for backward compatibility
@@ -146,6 +142,11 @@
           ./configuration.nix
           home-manager.darwinModules.home-manager
           {
+            users.users.analyst = {
+              name = "analyst";
+              home = "/Users/analyst";
+            };
+
             home-manager = {
               backupFileExtension = "nix.bak";
               useGlobalPkgs = true;
