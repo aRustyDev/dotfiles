@@ -1,12 +1,13 @@
 # home.nix
 # home-manager switch
-
-{ config, lib, pkgs, ... }:
-
-let
-  home_dir = "/Users/greymatter";
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  home_dir = "/Users/greymatter";
+in {
   home = {
     username = lib.mkDefault "greymatter";
     homeDirectory = lib.mkDefault "/Users/greymatter";
@@ -14,12 +15,12 @@ in
 
     # NOTE: These get overwritten by any "shell"rc managed by home.file
     shellAliases = {
-        ll = "ls -l";
-        la = "ls -Al";
-        pu = "pushd";
-        po = "popd";
+      ll = "ls -l";
+      la = "ls -Al";
+      pu = "pushd";
+      po = "popd";
     };
-# Makes sense for user specific applications that shouldn't be available system-wide
+    # Makes sense for user specific applications that shouldn't be available system-wide
     packages = with pkgs; [
       helix
       # lunarvim
@@ -27,8 +28,8 @@ in
       # vimPlugins.neogit
       # gitoxide
       neovim
-        # https://www.youtube.com/watch?v=x__SZUuLOxw
-        # https://www.youtube.com/watch?v=E2mKJ73M9pg
+      # https://www.youtube.com/watch?v=x__SZUuLOxw
+      # https://www.youtube.com/watch?v=E2mKJ73M9pg
       zellij
       starship
       # antidote
@@ -224,14 +225,14 @@ in
       # # aws-cli
       # # azure-cli
       # # google-cloud-sdk
-      ];
+    ];
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
+    # Home Manager is pretty good at managing dotfiles. The primary way to manage
+    # plain files is through 'home.file'.
     file = {
-      ".config/zsh/.zshrc".source = (builtins.toPath "${home_dir}/dotfiles/zsh/.zshrc");
-      ".config/1Password/ssh/agent.toml".source = (builtins.toPath "${home_dir}/dotfiles/1Password/agent.toml");
-      ".config/starship.toml".source = (builtins.toPath "${home_dir}/dotfiles/starship/starship.toml");
+      ".config/zsh/.zshrc".source = builtins.toPath "${home_dir}/dotfiles/zsh/.zshrc";
+      ".config/1Password/ssh/agent.toml".source = builtins.toPath "${home_dir}/dotfiles/1Password/agent.toml";
+      ".config/starship.toml".source = builtins.toPath "${home_dir}/dotfiles/starship/starship.toml";
       ".claude" = {
         source = "${inputs.prompts}/.claude";
         recursive = true;
@@ -250,14 +251,14 @@ in
       VISUAL = "nvim";
       PAGER = "less";
       LESS = "-R";
-      ZDOTDIR = (builtins.toPath "${home_dir}/.config/zsh");
+      ZDOTDIR = builtins.toPath "${home_dir}/.config/zsh";
       GPG_TTY = "$(tty)";
       LANG = "en_US.UTF-8";
       LC_ALL = "en_US.UTF-8";
       HISTSIZE = "32768";
       HISTFILESIZE = "32768"; # "${HISTSIZE}";
       HISTCONTROL = "ignoreboth";
-      STARSHIP_CONFIG = (builtins.toPath "${home_dir}/.config/starship/config.toml");
+      STARSHIP_CONFIG = builtins.toPath "${home_dir}/.config/starship/config.toml";
     };
 
     sessionPath = [
