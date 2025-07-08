@@ -14,10 +14,10 @@ install:
 	@cp -r git/ ~/dotfiles/git/ || true
 	@cp -r starship/ ~/dotfiles/starship/ || true
 	@cp -r zsh/ ~/dotfiles/zsh/ || true
-	@cp -r bash/ ~/dotfiles/bash/ || true
-	@cp -r nu/ ~/dotfiles/nu/ || true
-	@cp -r sh/ ~/dotfiles/sh/ || true
-	@cp -r fish/ ~/dotfiles/fish/ || true
+	@#cp -r bash/ ~/dotfiles/bash/ || true
+	@#cp -r nu/ ~/dotfiles/nu/ || true
+	@#cp -r sh/ ~/dotfiles/sh/ || true
+	@#cp -r fish/ ~/dotfiles/fish/ || true
 	@cp -r zellij/ ~/dotfiles/zellij/ || true
 	@cp -r macOS/ ~/dotfiles/macOS/ || true
 	@cp -r wezterm/ ~/dotfiles/wezterm/ || true

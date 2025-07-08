@@ -1,0 +1,525 @@
+#!/usr/bin/env bash
+#
+# Git Setup Advanced - Smart 1Password Integration with Caching
+#
+# Features:
+# - Direct 1Password integration without modifying agent.toml
+# - Smart caching to reduce 1Password API calls
+# - Auto-discovery of SSH keys in all vaults
+# - Fuzzy matching for profile names
+# - Batch operations support
+
+set -euo pipefail
+
+# Configuration
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/git-setup"
+PROFILES_FILE="$CONFIG_DIR/profiles.json"
+CACHE_FILE="$CONFIG_DIR/cache.json"
+CACHE_TTL=300  # 5 minutes
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
+NC='\033[0m'
+
+# Ensure config directory exists
+mkdir -p "$CONFIG_DIR"
+
+# Initialize files if they don't exist
+[[ ! -f "$PROFILES_FILE" ]] && echo '{}' > "$PROFILES_FILE"
+[[ ! -f "$CACHE_FILE" ]] && echo '{"keys": {}, "updated": 0}' > "$CACHE_FILE"
+
+# Secure the config files
+chmod 700 "$CONFIG_DIR"
+chmod 600 "$PROFILES_FILE" "$CACHE_FILE" 2>/dev/null || true
+
+# Helper functions
+print_color() {
+    local color=$1
+    shift
+    echo -e "${color}$*${NC}" >&2
+}
+
+debug() {
+    [[ "${DEBUG:-}" == "1" ]] && print_color "$CYAN" "[DEBUG] $*"
+}
+
+# Check if cache is valid
+is_cache_valid() {
+    local cache_updated=$(jq -r '.updated // 0' "$CACHE_FILE")
+    local current_time=$(date +%s)
+    local cache_age=$((current_time - cache_updated))
+
+    [[ $cache_age -lt $CACHE_TTL ]]
+}
+
+# Update cache with SSH keys from 1Password
+update_cache() {
+    print_color "$BLUE" "Updating SSH key cache from 1Password..."
+
+    local keys_json=$(op item list --categories "SSH Key" --format=json 2>/dev/null || echo '[]')
+    local current_time=$(date +%s)
+
+    # Process each key and extract additional metadata
+    local processed_keys="{}"
+
+    while IFS= read -r key; do
+        local id=$(echo "$key" | jq -r '.id')
+        local title=$(echo "$key" | jq -r '.title')
+        local vault=$(echo "$key" | jq -r '.vault.name')
+
+        # Try to get quick metadata without full item fetch
+        local tags=$(echo "$key" | jq -r '.tags // [] | join(",")')
+
+        processed_keys=$(echo "$processed_keys" | jq \
+            --arg id "$id" \
+            --arg title "$title" \
+            --arg vault "$vault" \
+            --arg tags "$tags" \
+            '.[$id] = {title: $title, vault: $vault, tags: $tags}')
+    done < <(echo "$keys_json" | jq -c '.[]')
+
+    # Save to cache
+    jq -n \
+        --argjson keys "$processed_keys" \
+        --arg updated "$current_time" \
+        '{keys: $keys, updated: ($updated | tonumber)}' > "$CACHE_FILE"
+
+    debug "Cache updated with $(echo "$processed_keys" | jq 'length') keys"
+}
+
+# Get SSH keys (from cache or 1Password)
+get_ssh_keys() {
+    if ! is_cache_valid; then
+        update_cache
+    fi
+
+    jq -r '.keys | to_entries | .[] | "\(.key)|\(.value.title)|\(.value.vault)|\(.value.tags)"' "$CACHE_FILE" | sort -t'|' -k2
+}
+
+# Fuzzy match profile name
+fuzzy_match_profile() {
+    local input=$1
+    local profiles=$(jq -r 'keys[]' "$PROFILES_FILE")
+
+    # Exact match first
+    if echo "$profiles" | grep -q "^${input}$"; then
+        echo "$input"
+        return 0
+    fi
+
+    # Case-insensitive match
+    local match=$(echo "$profiles" | grep -i "^${input}$" | head -1)
+    if [[ -n "$match" ]]; then
+        echo "$match"
+        return 0
+    fi
+
+    # Prefix match
+    match=$(echo "$profiles" | grep "^${input}" | head -1)
+    if [[ -n "$match" ]]; then
+        echo "$match"
+        return 0
+    fi
+
+    # Partial match
+    match=$(echo "$profiles" | grep -i "${input}" | head -1)
+    if [[ -n "$match" ]]; then
+        echo "$match"
+        return 0
+    fi
+
+    return 1
+}
+
+# Get detailed SSH key data from 1Password
+get_ssh_key_details() {
+    local item_id=$1
+    local cache_key="item_${item_id}"
+
+    # Check if we have cached item details
+    local cached_item=$(jq -r --arg key "$cache_key" '.[$key] // empty' "$CACHE_FILE")
+
+    if [[ -z "$cached_item" ]]; then
+        debug "Fetching details for item $item_id from 1Password"
+
+        local item_json=$(op item get "$item_id" --format=json 2>/dev/null || echo '{}')
+
+        # Extract relevant fields
+        local public_key=$(echo "$item_json" | jq -r '.fields[] | select(.label == "public key") | .value // empty')
+        local username=$(echo "$item_json" | jq -r '.fields[] | select(.label == "username" or .label == "name") | .value // empty' | head -1)
+        local email=$(echo "$item_json" | jq -r '.fields[] | select(.label == "email") | .value // empty' | head -1)
+
+        # Try to extract from other fields if not found
+        if [[ -z "$email" ]]; then
+            email=$(echo "$item_json" | jq -r '.overview.subtitle // empty' | grep -E '^[^@]+@[^@]+$' || true)
+        fi
+
+        # Cache the extracted data
+        local temp_cache=$(mktemp)
+        jq --arg key "$cache_key" \
+           --arg public_key "$public_key" \
+           --arg username "$username" \
+           --arg email "$email" \
+           '.[$key] = {public_key: $public_key, username: $username, email: $email}' \
+           "$CACHE_FILE" > "$temp_cache"
+        mv "$temp_cache" "$CACHE_FILE"
+
+        echo "${username}|${email}|${public_key}"
+    else
+        local username=$(echo "$cached_item" | jq -r '.username // empty')
+        local email=$(echo "$cached_item" | jq -r '.email // empty')
+        local public_key=$(echo "$cached_item" | jq -r '.public_key // empty')
+
+        echo "${username}|${email}|${public_key}"
+    fi
+}
+
+# Interactive SSH key selection with search
+select_ssh_key_interactive() {
+    local search_term="${1:-}"
+    local keys=$(get_ssh_keys)
+
+    if [[ -z "$keys" ]]; then
+        print_color "$RED" "No SSH keys found in 1Password"
+        return 1
+    fi
+
+    # Filter by search term if provided
+    if [[ -n "$search_term" ]]; then
+        keys=$(echo "$keys" | grep -i "$search_term" || true)
+        if [[ -z "$keys" ]]; then
+            print_color "$YELLOW" "No keys matching '$search_term'"
+            keys=$(get_ssh_keys)
+        else
+            print_color "$GREEN" "Filtered by: $search_term"
+        fi
+    fi
+
+    print_color "$BLUE" "\nAvailable SSH keys:"
+    echo
+
+    # Build array and display
+    local i=1
+    local keys_array=()
+    while IFS='|' read -r id title vault tags; do
+        local tags_display=""
+        [[ -n "$tags" ]] && tags_display=" [${tags}]"
+
+        printf "  ${CYAN}%2d)${NC} %-35s ${MAGENTA}%-20s${NC}%s\n" "$i" "$title" "($vault)" "$tags_display"
+        keys_array+=("$id|$title|$vault")
+        ((i++))
+    done <<< "$keys"
+
+    echo
+    read -p "Select key (1-$((i-1)), or 's' to search): " selection
+
+    if [[ "$selection" == "s" || "$selection" == "S" ]]; then
+        read -p "Search term: " search_term
+        select_ssh_key_interactive "$search_term"
+        return $?
+    fi
+
+    if [[ ! "$selection" =~ ^[0-9]+$ ]] || (( selection < 1 || selection >= i )); then
+        print_color "$RED" "Invalid selection"
+        return 1
+    fi
+
+    echo "${keys_array[$((selection-1))]}"
+}
+
+# Add profile with auto-complete suggestions
+add_profile() {
+    print_color "$BLUE" "=== Add New Git Profile ==="
+
+    # Suggest profile names based on existing patterns
+    local suggestions=""
+    if [[ -f "$PROFILES_FILE" ]] && [[ $(jq 'length' "$PROFILES_FILE") -gt 0 ]]; then
+        suggestions=$(jq -r 'keys | @csv' "$PROFILES_FILE" | tr ',' ' ')
+        print_color "$CYAN" "Existing profiles: $suggestions"
+    fi
+
+    echo
+    read -p "Profile name (e.g., github, work, home): " target
+
+    if [[ -z "$target" ]]; then
+        print_color "$RED" "Profile name cannot be empty"
+        return 1
+    fi
+
+    # Normalize profile name
+    target=$(echo "$target" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+
+    # Check if exists
+    if jq -e --arg target "$target" '.[$target]' "$PROFILES_FILE" >/dev/null; then
+        print_color "$YELLOW" "Profile '$target' already exists"
+        read -p "Overwrite? (y/N): " confirm
+        [[ ! "$confirm" =~ ^[Yy]$ ]] && return 1
+    fi
+
+    # Select SSH key
+    local selected_key=$(select_ssh_key_interactive)
+    [[ -z "$selected_key" ]] && return 1
+
+    IFS='|' read -r item_id title vault <<< "$selected_key"
+
+    # Get key details for preview
+    print_color "$BLUE" "\nFetching key details..."
+    local details=$(get_ssh_key_details "$item_id")
+    IFS='|' read -r username email public_key <<< "$details"
+
+    # Show preview
+    print_color "$GREEN" "\nProfile Preview:"
+    echo "  Profile Name: $target"
+    echo "  1Password Item: $title"
+    echo "  Vault: $vault"
+    [[ -n "$username" ]] && echo "  Git Name: $username"
+    [[ -n "$email" ]] && echo "  Git Email: $email"
+
+    # Allow custom name/email
+    echo
+    if [[ -z "$username" ]] || [[ -z "$email" ]]; then
+        print_color "$YELLOW" "Some git config fields are missing in 1Password"
+    fi
+
+    read -p "Use custom name/email? (y/N): " custom_config
+    if [[ "$custom_config" =~ ^[Yy]$ ]]; then
+        read -p "Git name [$username]: " custom_name
+        read -p "Git email [$email]: " custom_email
+        [[ -n "$custom_name" ]] && username="$custom_name"
+        [[ -n "$custom_email" ]] && email="$custom_email"
+    fi
+
+    # Save profile
+    local temp_file=$(mktemp)
+    jq --arg target "$target" \
+       --arg item_id "$item_id" \
+       --arg vault "$vault" \
+       --arg title "$title" \
+       --arg username "$username" \
+       --arg email "$email" \
+       '.[$target] = {
+           item_id: $item_id,
+           vault: $vault,
+           title: $title,
+           username: $username,
+           email: $email,
+           updated: now | strftime("%Y-%m-%d %H:%M:%S")
+       }' "$PROFILES_FILE" > "$temp_file"
+
+    mv "$temp_file" "$PROFILES_FILE"
+    chmod 600 "$PROFILES_FILE"
+
+    print_color "$GREEN" "\n✓ Profile '$target' saved successfully"
+    print_color "$BLUE" "Use it with: ${YELLOW}git setup $target"
+}
+
+# Configure repository
+configure_repo() {
+    local target=$1
+
+    # Try fuzzy matching
+    local matched_profile=$(fuzzy_match_profile "$target")
+
+    if [[ -z "$matched_profile" ]]; then
+        print_color "$RED" "No profile matching '$target'"
+        echo
+        list_profiles
+        echo
+        print_color "$YELLOW" "Add a new profile with: ${NC}git setup -add"
+        return 1
+    fi
+
+    if [[ "$matched_profile" != "$target" ]]; then
+        print_color "$CYAN" "Using profile: $matched_profile"
+    fi
+
+    # Get profile config
+    local profile=$(jq -r --arg p "$matched_profile" '.[$p]' "$PROFILES_FILE")
+    local item_id=$(echo "$profile" | jq -r '.item_id')
+    local title=$(echo "$profile" | jq -r '.title')
+    local vault=$(echo "$profile" | jq -r '.vault')
+    local saved_username=$(echo "$profile" | jq -r '.username // empty')
+    local saved_email=$(echo "$profile" | jq -r '.email // empty')
+
+    print_color "$BLUE" "Configuring repository with profile: ${GREEN}$matched_profile"
+    print_color "$BLUE" "  1Password: $title ($vault)"
+
+    # Get fresh data from 1Password
+    local details=$(get_ssh_key_details "$item_id")
+    IFS='|' read -r username email public_key <<< "$details"
+
+    # Use saved values if available
+    [[ -n "$saved_username" ]] && username="$saved_username"
+    [[ -n "$saved_email" ]] && email="$saved_email"
+
+    if [[ -z "$public_key" ]]; then
+        print_color "$RED" "Failed to get SSH public key from 1Password"
+        return 1
+    fi
+
+    print_color "$BLUE" "  Name: $username"
+    print_color "$BLUE" "  Email: $email"
+
+    # Detect SSH program
+    local ssh_program="/usr/bin/ssh-keygen"
+    [[ "$(uname -s)" =~ ^(CYGWIN|MINGW|MSYS) ]] && ssh_program="C:/Windows/System32/OpenSSH/ssh-keygen.exe"
+
+    # Configure git
+    git config --local user.name "$username"
+    git config --local user.email "$email"
+    git config --local user.signingkey "$public_key"
+    git config --local commit.gpgsign true
+    git config --local tag.gpgsign true
+    git config --local gpg.format ssh
+    git config --local gpg.ssh.program "$ssh_program"
+
+    # Update allowed signers
+    local allowed_signers="${XDG_CONFIG_HOME:-$HOME/.config}/git/allowed_signers"
+    mkdir -p "$(dirname "$allowed_signers")"
+
+    # Update allowed signers file
+    if [[ -f "$allowed_signers" ]]; then
+        grep -v "^$email " "$allowed_signers" > "$allowed_signers.tmp" 2>/dev/null || true
+        mv "$allowed_signers.tmp" "$allowed_signers"
+    fi
+    echo "$email $public_key" >> "$allowed_signers"
+    git config --local gpg.ssh.allowedSignersFile "$allowed_signers"
+
+    print_color "$GREEN" "\n✓ Repository configured successfully"
+
+    # Setup pre-commit if available
+    if [[ -f ".pre-commit-config.yaml" ]] && command -v pre-commit &>/dev/null; then
+        pre-commit install &>/dev/null && \
+        pre-commit install --hook-type commit-msg &>/dev/null && \
+        print_color "$GREEN" "✓ Pre-commit hooks installed"
+    fi
+}
+
+# List profiles with details
+list_profiles() {
+    local profiles=$(jq -r 'to_entries | length' "$PROFILES_FILE")
+
+    if [[ "$profiles" -eq 0 ]]; then
+        print_color "$YELLOW" "No profiles configured"
+        return
+    fi
+
+    print_color "$BLUE" "\nConfigured Git Profiles:"
+    printf "\n%-15s %-35s %-20s %s\n" "PROFILE" "1PASSWORD ITEM" "VAULT" "GIT CONFIG"
+    printf "%-15s %-35s %-20s %s\n" "-------" "--------------" "-----" "----------"
+
+    jq -r 'to_entries | .[] | "\(.key)|\(.value.title)|\(.value.vault)|\(.value.username // "")|\(.value.email // "")"' "$PROFILES_FILE" | \
+    while IFS='|' read -r profile title vault username email; do
+        local git_config=""
+        [[ -n "$username" ]] && git_config="$username"
+        [[ -n "$email" ]] && git_config="$git_config <$email>"
+
+        printf "${GREEN}%-15s${NC} %-35s ${MAGENTA}%-20s${NC} %s\n" "$profile" "$title" "$vault" "$git_config"
+    done
+}
+
+# Show current repository configuration
+show_current() {
+    if ! git rev-parse --git-dir &>/dev/null; then
+        print_color "$RED" "Not in a git repository"
+        return 1
+    fi
+
+    print_color "$BLUE" "\nCurrent Git Configuration:"
+    echo
+
+    local user_name=$(git config --local user.name || echo "not set")
+    local user_email=$(git config --local user.email || echo "not set")
+    local signing_key=$(git config --local user.signingkey || echo "not set")
+    local gpg_format=$(git config --local gpg.format || echo "not set")
+
+    echo "  User Name: $user_name"
+    echo "  User Email: $user_email"
+    echo "  GPG Format: $gpg_format"
+
+    if [[ "$gpg_format" == "ssh" ]] && [[ "$signing_key" != "not set" ]]; then
+        echo "  SSH Signing: enabled"
+        echo "  Public Key: ${signing_key:0:50}..."
+    fi
+}
+
+# Main
+main() {
+    # Check for required tools
+    for tool in jq op git; do
+        if ! command -v "$tool" &>/dev/null; then
+            print_color "$RED" "Error: Required tool '$tool' not installed"
+            case "$tool" in
+                jq) echo "Install: brew install jq" ;;
+                op) echo "Install: https://developer.1password.com/docs/cli" ;;
+            esac
+            exit 1
+        fi
+    done
+
+    case "${1:-}" in
+        -add|--add|add)
+            add_profile
+            ;;
+        -list|--list|-l|list)
+            list_profiles
+            ;;
+        -current|--current|current)
+            show_current
+            ;;
+        -refresh|--refresh|refresh)
+            print_color "$BLUE" "Refreshing 1Password cache..."
+            rm -f "$CACHE_FILE"
+            echo '{"keys": {}, "updated": 0}' > "$CACHE_FILE"
+            update_cache
+            print_color "$GREEN" "✓ Cache refreshed"
+            ;;
+        -help|--help|-h|help)
+            cat << EOF
+${BLUE}Git Setup Advanced${NC} - Smart 1Password Integration
+
+${GREEN}Usage:${NC}
+  git setup <profile>     Configure repo with profile (supports fuzzy matching)
+  git setup -add          Add new profile interactively
+  git setup -list         List all profiles with details
+  git setup -current      Show current repo configuration
+  git setup -refresh      Refresh 1Password cache
+  git setup -help         Show this help
+
+${GREEN}Examples:${NC}
+  git setup -add          # Set up a new profile
+  git setup gh            # Fuzzy matches 'github' profile
+  git setup work          # Use work profile
+
+${GREEN}Features:${NC}
+  • Direct 1Password integration (no agent.toml modification)
+  • Smart caching for better performance
+  • Fuzzy profile name matching
+  • Interactive SSH key selection with search
+  • Custom git name/email override
+
+${GREEN}Files:${NC}
+  Profiles: $PROFILES_FILE
+  Cache:    $CACHE_FILE
+
+${CYAN}Debug mode: Set DEBUG=1 for verbose output${NC}
+EOF
+            ;;
+        "")
+            show_current
+            echo
+            print_color "$YELLOW" "Usage: git setup <profile>"
+            print_color "$YELLOW" "       git setup -help"
+            ;;
+        *)
+            configure_repo "$1"
+            ;;
+    esac
+}
+
+main "$@"
