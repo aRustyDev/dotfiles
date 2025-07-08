@@ -108,7 +108,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/modularize-the-configuration
-          home-manager.users.analyst = import ./hosts/personal-analyst.nix;
+          home-manager.users.analyst = import ./hosts/personal-analyst.nix { inherit inputs; };
         }
         # nix-homebrew.darwinModules.nix-homebrew {
         #   nix-homebrew = {

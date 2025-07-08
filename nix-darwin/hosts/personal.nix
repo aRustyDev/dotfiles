@@ -230,7 +230,7 @@ in
   # plain files is through 'home.file'.
     file = {
       ".config/zsh/.zshrc".source = (builtins.toPath "${home_dir}/dotfiles/zsh/.zshrc");
-      ".config/1Password/ssh/agent.toml".source = (builtins.toPath "${home_dir}/dotfiles/1password/agent.toml");
+      ".config/1Password/ssh/agent.toml".source = (builtins.toPath "${home_dir}/dotfiles/1Password/agent.toml");
       ".config/starship.toml".source = (builtins.toPath "${home_dir}/dotfiles/starship/starship.toml");
       ".claude" = {
         source = "${inputs.prompts}/.claude";

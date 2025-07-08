@@ -40,11 +40,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751589297,
-        "narHash": "sha256-3q35cq6BPuwIRL3IoVKYPc72r3OleeuRyf4YAPjEqzA=",
+        "lastModified": 1751824240,
+        "narHash": "sha256-aDDC0CHTlL7QDKWWhdbEgVPK6KwWt+ca0QkmHYZxMzI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "83f978812c37511ef2ffaf75ffa72160483f738a",
+        "rev": "fd9e55f5fac45a26f6169310afca64d56b681935",
         "type": "github"
       },
       "original": {
@@ -56,11 +56,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1751596941,
-        "narHash": "sha256-id/IO5+t7qFQwm1UtjOoMbilQpf+F9EUpWl/X7yStLI=",
+        "lastModified": 1751938641,
+        "narHash": "sha256-vVYUFqSXCrLy2hLskLnMJAxIuiMb8nLgBEKGX+B5x8Y=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "896cca088b48000e1565d86f5ea840f145ce73e0",
+        "rev": "d20dbd02a79d488b621cd8ab67c1d2253f3ebd99",
         "type": "github"
       },
       "original": {
@@ -72,11 +72,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1751589388,
-        "narHash": "sha256-oSx6zieA4o1Z/U6MFNcphtC5WU2aeDvxzUYiNmocev8=",
+        "lastModified": 1751936511,
+        "narHash": "sha256-FeEz1PzyfHyH87OHvB8VCysBcC6Khi1VfqliI7GYVPk=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "b4f0410a1e5fc7248f78af949a84b68ad08b2d23",
+        "rev": "4be9380cd72bd5330f30a8dea658df31849fd9a1",
         "type": "github"
       },
       "original": {
@@ -125,11 +125,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1751498133,
-        "narHash": "sha256-QWJ+NQbMU+NcU2xiyo7SNox1fAuwksGlQhpzBl76g1I=",
+        "lastModified": 1751852175,
+        "narHash": "sha256-+MLlfTCCOvz4K6AcSPbaPiFM9MYi7fA2Wr1ibmRwIlM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d55716bb59b91ae9d1ced4b1ccdea7a442ecbfdb",
+        "rev": "2defa37146df235ef62f566cde69930a86f14df1",
         "type": "github"
       },
       "original": {
@@ -142,11 +142,11 @@
     "prompts": {
       "flake": false,
       "locked": {
-        "lastModified": 1751597235,
-        "narHash": "sha256-37HV1RT5aJRKJfQv5p0Y/5DajoaPJ6NZ+pFRDP8L5lg=",
+        "lastModified": 1751598657,
+        "narHash": "sha256-efi5fa25yiMDRZ/lgWaX9cbo5N3SRSXsKpfehP1p/Vk=",
         "owner": "aRustyDev",
         "repo": "prompts",
-        "rev": "93542e03bd0445bca2f1ee0f25fe206fe8eac303",
+        "rev": "24c551f1640f818c71df348cdc1f6d0f62a07eaa",
         "type": "github"
       },
       "original": {

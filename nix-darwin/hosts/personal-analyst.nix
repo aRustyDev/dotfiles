@@ -1,6 +1,7 @@
 # home.nix
 # home-manager switch
 
+{ inputs }:
 { config, lib, pkgs, ... }:
 
 let
@@ -229,20 +230,20 @@ in
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
     file = {
-      ".config/zsh/.zshrc".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/zsh/.zshrc");
-      ".config/1Password/ssh/agent.toml".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/1password/agent.toml");
-      ".config/starship.toml".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/starship/starship.toml");
+      ".config/zsh/.zshrc".source = ../../zsh/.zshrc;
+      ".config/1Password/ssh/agent.toml".source = ../../1Password/agent.toml;
+      ".config/starship.toml".source = ../../starship/starship.toml;
       # ".claude" = {
       #   source = "${inputs.prompts}/.claude";
       #   recursive = true;
       # };
-      # ".config/wezterm".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/wezterm");
-      # ".config/skhd".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/skhd");
-      # ".config/zellij".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/zellij");
-      # ".config/nvim".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/nvim");
-      # ".config/nix".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/nix");
-      # ".config/nix-darwin".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/nix-darwin");
-      # ".config/tmux".source = (builtins.toPath "${home_dir}/repos/code/personal/dotfiles/tmux");
+      # ".config/wezterm".source = ../../wezterm;
+      # ".config/skhd".source = ../../skhd;
+      # ".config/zellij".source = ../../zellij;
+      # ".config/nvim".source = ../../nvim;
+      # ".config/nix".source = ../../nix;
+      # ".config/nix-darwin".source = ../../nix-darwin;
+      # ".config/tmux".source = ../../tmux;
     };
 
     sessionVariables = {

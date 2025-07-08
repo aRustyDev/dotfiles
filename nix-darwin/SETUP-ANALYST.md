@@ -12,7 +12,7 @@
 ### User Configuration
 - Changed user from "greymatter" to "analyst"
 - Updated home directory paths to `/Users/analyst`
-- Updated dotfiles paths to `/Users/analyst/repos/code/personal/dotfiles`
+- Updated dotfiles paths to `/Users/analyst/dotfiles`
 - Changed darwin configuration name to "nw-mbp"
 
 ### Setup Steps
