@@ -6,6 +6,7 @@
 
 ## 📊 Project Management
 
+**[View Project Board](https://github.com/users/aRustyDev/projects/16)** | **[View Issues](https://github.com/aRustyDev/dotfiles/issues)** | **[Project Dashboard](PROJECT_DASHBOARD.md)**
 
 This repository is undergoing a comprehensive evolution to become a world-class dotfiles management system using Nix-Darwin and Home-Manager. Track our progress on the project board above.
 
