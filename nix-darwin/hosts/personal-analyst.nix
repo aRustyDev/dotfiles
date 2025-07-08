@@ -34,7 +34,7 @@ in {
       starship
       # antidote
       tmux
-      # ghostty # Currently broken in nixpkgs 1.1.3
+      ghostty-bin # Binary distribution for macOS
 
       # wget
       # git
@@ -234,7 +234,7 @@ in {
       ".config/zsh/.zshrc".source = ../../zsh/.zshrc;
       ".config/1Password/ssh/agent.toml".source = ../../1Password/agent.toml;
       ".config/starship.toml".source = ../../starship/starship.toml;
-      # ".config/ghostty/config".source = ../../ghostty/config; # Uncomment when ghostty is fixed in nixpkgs
+      ".config/ghostty/config".source = ../../ghostty/config;
       # ".claude" = {
       #   source = "${inputs.prompts}/.claude";
       #   recursive = true;

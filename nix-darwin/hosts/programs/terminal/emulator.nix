@@ -18,7 +18,7 @@ in {
       # alacritty # https://www.youtube.com/watch?v=uOnL4fEnldA
       # kitty
       # wezterm
-      # ghostty # Currently broken in nixpkgs 1.1.3
+      ghostty-bin # Binary distribution for macOS
     ];
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
