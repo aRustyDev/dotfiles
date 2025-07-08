@@ -3,6 +3,7 @@
 {
   username,
   homeDirectory,
+  machineType ? "default",
 }: {
   lib,
   pkgs,
@@ -163,6 +164,9 @@ in {
 
       # Rust : https://xeiaso.net/blog/how-i-start-nix-2020-03-08/
       rustup
+
+      # Node.js version management
+      volta
       # rustycli
       # rust-script
       # rust-petname
@@ -264,12 +268,14 @@ in {
       CARGO_HOME = "${home_dir}/.cargo";
       RUSTUP_HOME = "${home_dir}/.rustup";
       RUST_BACKTRACE = "1";
+      VOLTA_HOME = "${home_dir}/.volta";
     };
 
     sessionPath = [
       "/run/current-system/sw/bin"
       "$HOME/.nix-profile/bin"
       "$HOME/.cargo/bin"
+      "$HOME/.volta/bin"
     ];
 
     # Automatically set up Rust toolchain on first run
@@ -281,6 +287,71 @@ in {
         $DRY_RUN_CMD ${pkgs.rustup}/bin/rustup component add rustfmt clippy rust-analyzer
       fi
     '';
+
+    # Automatically set up Volta and npm tools
+    activation.setupVolta = lib.hm.dag.entryAfter ["writeBoundary"] (
+      let
+        # Read tool configurations
+        defaultTools = builtins.fromJSON (builtins.readFile ./npm-tools/default.json);
+
+        # Read machine-specific tools if the file exists
+        machineToolsFile = ./npm-tools + "/${machineType}.json";
+        machineTools =
+          if builtins.pathExists machineToolsFile
+          then builtins.fromJSON (builtins.readFile machineToolsFile)
+          else {tools = [];};
+
+        # Combine and deduplicate tools
+        allTools = defaultTools.tools ++ machineTools.tools;
+
+        # Filter enabled tools only
+        enabledTools = builtins.filter (tool: tool.enabled or true) allTools;
+
+        # Generate install commands for each tool
+        installCommands =
+          map (
+            tool: let
+              packageSpec =
+                if tool.version == "latest"
+                then tool.name
+                else "${tool.name}@${tool.version}";
+            in ''
+              echo "Installing ${tool.name} (${tool.description or "npm package"})..."
+              # Escape special characters in package name for grep
+              escapedName=$(echo "${tool.name}" | sed 's/[[\.*^$()+?{|]/\\&/g')
+              if ! ${pkgs.volta}/bin/volta list --format plain 2>/dev/null | grep -q "^$escapedName@"; then
+                $DRY_RUN_CMD ${pkgs.volta}/bin/volta install ${packageSpec} || echo "Warning: Failed to install ${tool.name}"
+              else
+                echo "${tool.name} is already installed"
+              fi
+            ''
+          )
+          enabledTools;
+
+        # Join all install commands
+        installScript = lib.concatStringsSep "\n" installCommands;
+      in ''
+        echo "Setting up Volta for Node.js management..."
+
+        # Ensure Volta is set up with Node
+        if [[ ! -d "$HOME/.volta/bin/node" ]]; then
+          echo "Installing Node.js via Volta..."
+          $DRY_RUN_CMD ${pkgs.volta}/bin/volta install node@lts
+        fi
+
+        # Create volta symlink if it doesn't exist
+        if [[ ! -L "$HOME/.volta/bin/volta" ]]; then
+          echo "Creating volta symlink..."
+          $DRY_RUN_CMD ln -sf ${pkgs.volta}/bin/volta "$HOME/.volta/bin/volta"
+        fi
+
+        # Install npm tools from configuration
+        echo "Checking npm tools for ${machineType}..."
+        ${installScript}
+
+        echo "Volta setup complete!"
+      ''
+    );
   };
   programs = {
     home-manager.enable = true;

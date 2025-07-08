@@ -1,0 +1,28 @@
+{
+  "tools": [
+    {
+      "name": "npm",
+      "version": "latest",
+      "enabled": true,
+      "description": "Node package manager"
+    },
+    {
+      "name": "prettier",
+      "version": "latest",
+      "enabled": true,
+      "description": "Code formatter"
+    },
+    {
+      "name": "eslint",
+      "version": "latest",
+      "enabled": true,
+      "description": "JavaScript linter"
+    },
+    {
+      "name": "typescript",
+      "version": "latest",
+      "enabled": true,
+      "description": "TypeScript compiler"
+    }
+  ]
+}

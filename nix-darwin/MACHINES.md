@@ -10,7 +10,7 @@ This repository contains nix-darwin configurations for multiple machines.
 - **Purpose**: CFS work machine
 
 ### 2. Cisco (cisco-mbp)
-- **User**: asmith  
+- **User**: asmith
 - **Build**: `sudo darwin-rebuild switch --flake .#cisco-mbp`
 - **Purpose**: Cisco work machine
 
@@ -32,6 +32,11 @@ The configuration uses a shared base configuration to avoid duplication:
 - `hosts/users/cfs.nix` - User-specific config for analyst (CFS)
 - `hosts/users/seneca.nix` - User-specific config for asmith (Cisco/Seneca)
 - `hosts/users/personal.nix` - User-specific config for adam (Personal)
+- `hosts/npm-tools/` - NPM package configurations per machine type
+  - `default.json` - Common npm tools for all machines
+  - `cfs.json` - CFS-specific npm tools
+  - `cisco-mbp.json` - Cisco-specific npm tools
+  - `admz-mbp.json` - Personal machine npm tools
 
 ## Adding a New Machine
 
@@ -57,5 +62,7 @@ darwinConfigurations."machine-name" = mkDarwinConfiguration {
 ## Notes
 
 - All machines share the same packages and dotfiles configurations
-- The only differences are the username and home directory paths
+- The only differences are the username, home directory paths, and npm tools
 - The base configuration is in `hosts/base-home.nix`
+- NPM/Node.js packages are managed via Volta
+- See `hosts/npm-tools/README.md` for npm package management details

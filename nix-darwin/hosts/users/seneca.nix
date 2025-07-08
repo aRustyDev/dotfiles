@@ -7,4 +7,5 @@
 (import ../base-home.nix {
   username = "asmith";
   homeDirectory = "/Users/asmith";
+  machineType = "cisco-mbp";
 }) {inherit lib pkgs;}

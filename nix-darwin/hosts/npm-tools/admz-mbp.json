@@ -1,0 +1,40 @@
+{
+  "tools": [
+    {
+      "name": "@google/gemini-cli",
+      "version": "latest",
+      "enabled": true,
+      "description": "Google Gemini CLI tool"
+    },
+    {
+      "name": "codex",
+      "version": "latest",
+      "enabled": true,
+      "description": "OpenAI Codex CLI"
+    },
+    {
+      "name": "create-react-app",
+      "version": "latest",
+      "enabled": true,
+      "description": "React app generator"
+    },
+    {
+      "name": "vercel",
+      "version": "latest",
+      "enabled": true,
+      "description": "Vercel deployment CLI"
+    },
+    {
+      "name": "gatsby-cli",
+      "version": "latest",
+      "enabled": true,
+      "description": "Gatsby static site generator"
+    },
+    {
+      "name": "serve",
+      "version": "latest",
+      "enabled": true,
+      "description": "Static file server"
+    }
+  ]
+}
