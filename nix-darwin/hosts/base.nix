@@ -6,8 +6,9 @@
 }: {
   imports = [
     ../modules/git-commands.nix
+    ../modules/mcp-servers.nix
   ];
-  
+
   home = {
     # Base packages available to all users
     packages = with pkgs; [
@@ -15,31 +16,31 @@
       helix
       neovim
       zed-editor
-      
+
       # Terminal multiplexers and emulators
       zellij
       starship
       tmux
       ghostty-bin
-      
+
       # Security tools
       _1password-cli
       _1password-gui-beta
-      
+
       # Text processing
       ripgrep
       jq
       yq
-      
+
       # Development tools
       pre-commit
       lazygit
-      volta      # Node.js version manager
-      rustup     # Rust toolchain installer
-      
+      volta # Node.js version manager
+      rustup # Rust toolchain installer
+
       # File managers
       yazi
-      
+
       # Other utilities
       glow
       bruno
@@ -95,7 +96,7 @@
   # Common program configurations
   programs = {
     home-manager.enable = true;
-    
+
     git = {
       enable = true;
       extraConfig = {
@@ -103,7 +104,7 @@
         pull.rebase = true;
       };
     };
-    
+
     zsh = {
       enable = true;
       enableCompletion = true;
