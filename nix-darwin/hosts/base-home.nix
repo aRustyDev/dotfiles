@@ -269,14 +269,21 @@ in {
       RUSTUP_HOME = "${home_dir}/.rustup";
       RUST_BACKTRACE = "1";
       VOLTA_HOME = "${home_dir}/.volta";
+      # Explicitly set PATH to avoid inheriting system paths with wrong user directories
+      PATH = lib.mkForce (lib.concatStringsSep ":" [
+        "/run/current-system/sw/bin"
+        "${home_dir}/.nix-profile/bin"
+        "${home_dir}/.cargo/bin"
+        "${home_dir}/.volta/bin"
+        "/usr/local/bin"
+        "/usr/bin"
+        "/bin"
+        "/usr/sbin"
+        "/sbin"
+      ]);
     };
 
-    sessionPath = [
-      "/run/current-system/sw/bin"
-      "$HOME/.nix-profile/bin"
-      "$HOME/.cargo/bin"
-      "$HOME/.volta/bin"
-    ];
+    # Path is now set explicitly in sessionVariables to avoid contamination
 
     # Automatically set up Rust toolchain on first run
     activation.setupRust = lib.hm.dag.entryAfter ["writeBoundary"] ''
