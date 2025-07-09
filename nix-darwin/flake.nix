@@ -44,6 +44,9 @@
     }:
       nix-darwin.lib.darwinSystem {
         system = "x86_64-darwin";
+        specialArgs = {
+          dotfilesPath = /Users/analyst/dotfiles;
+        };
         modules = [
           darwinConfiguration
           ./configuration.nix
@@ -59,6 +62,9 @@
               backupFileExtension = "nix.bak";
               useGlobalPkgs = true;
               useUserPackages = true;
+              extraSpecialArgs = {
+                dotfilesPath = /Users/analyst/dotfiles;
+              };
               users."${username}" = import userConfig;
             };
           }

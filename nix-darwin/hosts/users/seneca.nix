@@ -1,8 +1,12 @@
 # User configuration for asmith (Cisco/Seneca)
-{ lib, pkgs, config, ... }:
-
 {
-  imports = [ ../base.nix ];
+  lib,
+  pkgs,
+  config,
+  dotfilesPath,
+  ...
+}: {
+  imports = [../base.nix];
 
   home = {
     username = "asmith";
@@ -16,19 +20,9 @@
       CARGO_HOME = "${config.home.homeDirectory}/.cargo";
       RUSTUP_HOME = "${config.home.homeDirectory}/.rustup";
       VOLTA_HOME = "${config.home.homeDirectory}/.volta";
-      
-      # Explicitly set PATH for this user
-      PATH = lib.mkForce (lib.concatStringsSep ":" [
-        "/run/current-system/sw/bin"
-        "${config.home.homeDirectory}/.nix-profile/bin"
-        "${config.home.homeDirectory}/.cargo/bin"
-        "${config.home.homeDirectory}/.volta/bin"
-        "/usr/local/bin"
-        "/usr/bin"
-        "/bin"
-        "/usr/sbin"
-        "/sbin"
-      ]);
+
+      # Note: PATH is managed by .zshrc to ensure proper ordering
+      # Any special PATH requirements should be added to .zshrc
     };
 
     # Additional Cisco/work-specific packages
@@ -39,8 +33,8 @@
 
     # Cisco-specific dotfiles
     file = {
-      ".config/zsh/.zshrc".source = ../../zsh/.zshrc;
-      ".config/1Password/ssh/agent.toml".source = ../../1Password/agent.toml;
+      ".config/zsh/.zshrc".source = "${dotfilesPath}/zsh/.zshrc";
+      ".config/1Password/ssh/agent.toml".source = "${dotfilesPath}/1Password/agent.toml";
     };
 
     # Rust setup activation
@@ -61,17 +55,22 @@
         enabledTools = builtins.filter (tool: tool.enabled or true) defaultTools.tools;
 
         # Generate install commands
-        installCommands = map (tool: let
-          packageSpec = if tool.version == "latest" then tool.name else "${tool.name}@${tool.version}";
-        in ''
-          echo "Installing ${tool.name} (${tool.description or "npm package"})..."
-          escapedName=$(echo "${tool.name}" | sed 's/[[\.*^$()+?{|]/\\&/g')
-          if ! ${pkgs.volta}/bin/volta list --format plain 2>/dev/null | grep -q "^$escapedName@"; then
-            $DRY_RUN_CMD ${pkgs.volta}/bin/volta install ${packageSpec} || echo "Warning: Failed to install ${tool.name}"
-          else
-            echo "${tool.name} is already installed"
-          fi
-        '') enabledTools;
+        installCommands =
+          map (tool: let
+            packageSpec =
+              if tool.version == "latest"
+              then tool.name
+              else "${tool.name}@${tool.version}";
+          in ''
+            echo "Installing ${tool.name} (${tool.description or "npm package"})..."
+            escapedName=$(echo "${tool.name}" | sed 's/[[\.*^$()+?{|]/\\&/g')
+            if ! ${pkgs.volta}/bin/volta list --format plain 2>/dev/null | grep -q "^$escapedName@"; then
+              $DRY_RUN_CMD ${pkgs.volta}/bin/volta install ${packageSpec} || echo "Warning: Failed to install ${tool.name}"
+            else
+              echo "${tool.name} is already installed"
+            fi
+          '')
+          enabledTools;
       in ''
         echo "Setting up Volta for Node.js management..."
         if [[ ! -d "$HOME/.volta/bin/node" ]]; then
