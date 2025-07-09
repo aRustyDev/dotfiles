@@ -9,26 +9,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Uncomment these if you want to use homebrew integration
-    # nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    # homebrew-core = {
-    #   url = "github:homebrew/homebrew-core";
-    #   flake = false;
-    # };
-    # homebrew-cask = {
-    #   url = "github:homebrew/homebrew-cask";
-    #   flake = false;
-    # };
-    # aerospace = {
-    #   url = "github:nikitabobko/homebrew-tap";
-    #   flake = false;
-    # };
-
-    # prompts = {
-    #   url = "github:aRustyDev/prompts";
-    #   flake = false;
-    # };
   };
 
   outputs = {
@@ -37,55 +17,26 @@
     nixpkgs,
     home-manager,
   }: let
-    configuration = _: {
-      # Nix daemon is managed automatically when nix.enable is true
-
-      # Necessary for using flakes on this system.
+    # Base darwin configuration
+    darwinConfiguration = {
+      # Nix daemon settings
       nix.settings.experimental-features = "nix-command flakes";
 
-      # Create /etc/zshrc that loads the nix-darwin environment.
-      programs.zsh.enable = true; # default shell on catalina
-      # programs.fish.enable = true;
+      # Enable zsh
+      programs.zsh.enable = true;
 
-      # Set Git commit hash for darwin-version.
+      # System configuration revision
       system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
       system.stateVersion = 4;
 
-      # The platform the configuration will be used on.
+      # Platform
       nixpkgs.hostPlatform = "x86_64-darwin";
-
-      # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
 
+      # Touch ID for sudo
       security.pam.services.sudo_local.touchIdAuth = true;
-
-      # Homebrew needs to be installed on its own!
-      # homebrew = {
-      #     enable = true;
-      #     casks = [
-      #     # always upgrade auto-updated or unversioned cask to latest version even if already installed
-      #         "zen-browser"
-      #         "orbstack"
-      #     ];
-      # };
-
-      # nix.configureBuildUsers = true; # omerxx
-      # nix.useDaemon = true; # omerxx
-
-      # # https://daiderd.com/nix-darwin/manual/index.html      #
-      # system.defaults = {
-      #   dock.autohide = true;
-      #   dock.mru-spaces = false;
-      #   finder.AppleShowAllExtensions = true;
-      #   finder.FXPreferredViewStyle = "clmv";
-      #   loginwindow.LoginwindowText = "analyst";
-      #   screencapture.location = "~/Pictures/screenshots";
-      #   screensaver.askForPasswordDelay = 10;
-      # };
     };
+
     # Function to create a darwin configuration for a specific machine
     mkDarwinConfiguration = {
       username,
@@ -94,7 +45,7 @@
       nix-darwin.lib.darwinSystem {
         system = "x86_64-darwin";
         modules = [
-          configuration
+          darwinConfiguration
           ./configuration.nix
           home-manager.darwinModules.home-manager
           {
@@ -116,7 +67,7 @@
   in {
     # Machine configurations
     darwinConfigurations = {
-      # CFS configuration (replacing nw-mbp)
+      # CFS configuration
       "cfs" = mkDarwinConfiguration {
         username = "analyst";
         userConfig = ./hosts/users/cfs.nix;
@@ -134,7 +85,7 @@
         userConfig = ./hosts/users/personal.nix;
       };
 
-      # Legacy hostname using modern configuration
+      # Legacy hostname using cfs configuration
       "nw-mbp" = mkDarwinConfiguration {
         username = "analyst";
         userConfig = ./hosts/users/cfs.nix;

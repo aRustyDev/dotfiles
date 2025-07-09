@@ -1,11 +1,99 @@
 # User configuration for adam (Personal)
+{ lib, pkgs, config, ... }:
+
 {
-  lib,
-  pkgs,
-  ...
-}:
-(import ../base-home.nix {
-  username = "adam";
-  homeDirectory = "/Users/adam";
-  machineType = "admz-mbp";
-}) {inherit lib pkgs;}
+  imports = [ ../base.nix ];
+
+  home = {
+    username = "adam";
+    homeDirectory = "/Users/adam";
+
+    # User-specific PATH configuration
+    sessionVariables = {
+      # Set user-specific paths
+      ZDOTDIR = "${config.home.homeDirectory}/.config/zsh";
+      STARSHIP_CONFIG = "${config.home.homeDirectory}/.config/starship/config.toml";
+      CARGO_HOME = "${config.home.homeDirectory}/.cargo";
+      RUSTUP_HOME = "${config.home.homeDirectory}/.rustup";
+      VOLTA_HOME = "${config.home.homeDirectory}/.volta";
+      
+      # Explicitly set PATH for this user
+      PATH = lib.mkForce (lib.concatStringsSep ":" [
+        "/run/current-system/sw/bin"
+        "${config.home.homeDirectory}/.nix-profile/bin"
+        "${config.home.homeDirectory}/.cargo/bin"
+        "${config.home.homeDirectory}/.volta/bin"
+        "/usr/local/bin"
+        "/usr/bin"
+        "/bin"
+        "/usr/sbin"
+        "/sbin"
+      ]);
+    };
+
+    # Additional personal-specific packages
+    packages = with pkgs; [
+      # Add any personal tools here
+      # For example: games, personal project tools, creative software, etc.
+    ];
+
+    # Personal-specific dotfiles
+    file = {
+      ".config/zsh/.zshrc".source = ../../zsh/.zshrc;
+      ".config/1Password/ssh/agent.toml".source = ../../1Password/agent.toml;
+    };
+
+    # Rust setup activation
+    activation.setupRust = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      if [[ ! -d "$HOME/.rustup/toolchains" ]] || [[ -z "$(ls -A $HOME/.rustup/toolchains 2>/dev/null)" ]]; then
+        echo "Setting up Rust toolchain for first time..."
+        $DRY_RUN_CMD ${pkgs.rustup}/bin/rustup install stable
+        $DRY_RUN_CMD ${pkgs.rustup}/bin/rustup default stable
+        $DRY_RUN_CMD ${pkgs.rustup}/bin/rustup component add rustfmt clippy rust-analyzer
+      fi
+    '';
+
+    # Volta setup activation
+    activation.setupVolta = lib.hm.dag.entryAfter ["writeBoundary"] (
+      let
+        # Read tool configurations
+        defaultTools = builtins.fromJSON (builtins.readFile ../npm-tools/default.json);
+        machineToolsFile = ../npm-tools/personal.json;
+        machineTools =
+          if builtins.pathExists machineToolsFile
+          then builtins.fromJSON (builtins.readFile machineToolsFile)
+          else {tools = [];};
+
+        # Combine tools
+        allTools = defaultTools.tools ++ machineTools.tools;
+        enabledTools = builtins.filter (tool: tool.enabled or true) allTools;
+
+        # Generate install commands
+        installCommands = map (tool: let
+          packageSpec = if tool.version == "latest" then tool.name else "${tool.name}@${tool.version}";
+        in ''
+          echo "Installing ${tool.name} (${tool.description or "npm package"})..."
+          escapedName=$(echo "${tool.name}" | sed 's/[[\.*^$()+?{|]/\\&/g')
+          if ! ${pkgs.volta}/bin/volta list --format plain 2>/dev/null | grep -q "^$escapedName@"; then
+            $DRY_RUN_CMD ${pkgs.volta}/bin/volta install ${packageSpec} || echo "Warning: Failed to install ${tool.name}"
+          else
+            echo "${tool.name} is already installed"
+          fi
+        '') enabledTools;
+      in ''
+        echo "Setting up Volta for Node.js management..."
+        if [[ ! -d "$HOME/.volta/bin/node" ]]; then
+          echo "Installing Node.js via Volta..."
+          $DRY_RUN_CMD ${pkgs.volta}/bin/volta install node@lts
+        fi
+        if [[ ! -L "$HOME/.volta/bin/volta" ]]; then
+          echo "Creating volta symlink..."
+          $DRY_RUN_CMD ln -sf ${pkgs.volta}/bin/volta "$HOME/.volta/bin/volta"
+        fi
+        echo "Checking npm tools for personal use..."
+        ${lib.concatStringsSep "\n" installCommands}
+        echo "Volta setup complete!"
+      ''
+    );
+  };
+}
