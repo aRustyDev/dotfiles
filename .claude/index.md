@@ -2,10 +2,31 @@
 
 Welcome to the dotfiles repository documentation. This index provides a comprehensive overview of all documentation available in this repository.
 
-## 🏠 Main Documentation
+## 🏠 Core Documentation
 
+### Project Overview
 - **[README.md](../README.md)** - Main repository documentation explaining the Nix-Darwin dotfiles system
+- **[CLAUDE.local.md](CLAUDE.local.md) ⭐** - Local Claude configuration and repository context
 - **[PROJECT.md](PROJECT.md)** - Project management context and development workflow
+
+### System Architecture
+- **[Dotfiles Architecture Overview](context/dotfiles-architecture.md) ⭐** - Repository structure and configuration hierarchy
+- **[Nix-Darwin Patterns](context/nix-darwin-patterns.md) ⭐** - Common patterns and best practices
+- **[Repository Workflows](context/repository-workflows.md) ⭐** - Development procedures and maintenance
+- **[Dotfiles Evolution Roadmap](context/dotfiles-evolution-roadmap.md)** - Strategic plan for repository evolution
+
+### Module Documentation
+- **[MCP Server Configuration](context/mcp-servers.md) ⭐** - MCP server management system
+- **[Git Commands Module](context/git-commands.md)** - Git setup command system
+
+## 📚 Development Guides
+
+### Nix Development on macOS
+- **[Nix Development Guide](guides/nix-development-macos.md) ⭐** - Essential concepts and workflow
+- **[Nix Troubleshooting Guide](guides/nix-troubleshooting.md) ⭐** - Common issues and solutions
+- **[Nix Module Development](guides/nix-module-development.md) ⭐** - Creating custom Nix modules
+- **[Lessons Learned](guides/lessons-learned-nix.md) ⭐** - Real-world experiences and solutions
+- **[Nix Quick Reference](guides/nix-quick-reference.md) ⭐** - Command reference and common patterns
 
 ## 🛠️ Nix-Darwin Configuration
 
@@ -50,13 +71,37 @@ Welcome to the dotfiles repository documentation. This index provides a comprehe
   - [data/bookmarks/meetups/raw.md](../data/bookmarks/meetups/raw.md) - Meetup information
   - [data/bookmarks/projects/ecad.md](../data/bookmarks/projects/ecad.md) - ECAD project resources
 
+## 🎯 Quick Reference by Task
+
+### Setting Up a New Machine
+1. [Nix-Darwin Machines Guide](../nix-darwin/MACHINES.md)
+2. [Repository Workflows](context/repository-workflows.md)
+3. [Nix Troubleshooting Guide](guides/nix-troubleshooting.md)
+
+### Developing Nix Modules
+1. [Nix Module Development](guides/nix-module-development.md)
+2. [Nix-Darwin Patterns](context/nix-darwin-patterns.md)
+3. [Nix Development Guide](guides/nix-development-macos.md)
+
+### Working with MCP Servers
+1. [MCP Server Configuration](context/mcp-servers.md)
+2. [MCP README](../mcp/README.md)
+3. [MCP Examples](../mcp/examples/)
+
+### Troubleshooting Issues
+1. [Nix Troubleshooting Guide](guides/nix-troubleshooting.md)
+2. [Repository Workflows](context/repository-workflows.md) - See Troubleshooting Workflow
+3. [Git Architecture](../git/docs/ARCHITECTURE.md) - For git-setup issues
+
 ## 📋 Documentation Standards
 
 ### File Organization
-- Main documentation files are kept at the repository root
-- Module-specific documentation resides within the module directory
-- Technical deep-dives are in `docs/` subdirectories
-- Personal references are in `data/`
+- **`.claude/`** - Claude AI context and guides
+  - `context/` - System state and configuration documentation
+  - `guides/` - How-to guides and learning resources
+- **Module directories** - Module-specific documentation
+- **`docs/` subdirectories** - Technical deep-dives
+- **`data/`** - Personal references and bookmarks
 
 ### Documentation Types
 1. **README.md** - Overview and getting started guides
@@ -64,6 +109,7 @@ Welcome to the dotfiles repository documentation. This index provides a comprehe
 3. **ARCHITECTURE.md** - Technical implementation details
 4. **TODO.md** - Task tracking (consider converting to GitHub issues)
 5. **SETUP-*.md** - Installation and configuration instructions
+6. **Context files** - System state for AI assistance
 
 ### Best Practices
 - Keep documentation close to the code it describes
@@ -71,6 +117,7 @@ Welcome to the dotfiles repository documentation. This index provides a comprehe
 - Include examples where appropriate
 - Cross-reference related documentation
 - Update documentation when making code changes
+- Mark essential docs with ⭐ in the index
 
 ## 🔍 Quick Links
 
