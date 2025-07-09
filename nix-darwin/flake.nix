@@ -134,31 +134,11 @@
         userConfig = ./hosts/users/personal.nix;
       };
 
-      # Legacy configuration for backward compatibility
-      "nw-mbp" = nix-darwin.lib.darwinSystem {
-        system = "x86_64-darwin";
-        modules = [
-          configuration
-          ./configuration.nix
-          home-manager.darwinModules.home-manager
-          {
-            users.users.analyst = {
-              name = "analyst";
-              home = "/Users/analyst";
-            };
-
-            home-manager = {
-              backupFileExtension = "nix.bak";
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.analyst = import ./hosts/personal-analyst.nix;
-            };
-          }
-        ];
+      # Legacy hostname using modern configuration
+      "nw-mbp" = mkDarwinConfiguration {
+        username = "analyst";
+        userConfig = ./hosts/users/cfs.nix;
       };
     };
-
-    # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."cfs".pkgs;
   };
 }
