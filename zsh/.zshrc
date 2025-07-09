@@ -1,22 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-# If you come from bash you might have to change your $PATH.
-PATH="/System/Cryptexes/App/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin"
 
-# prepend to default path
-path=('/Users/greymatter/.nix-profile/bin' $PATH)
-path=('/nix/var/nix/profiles/default/bin' $PATH)
-
-# append to default path
-path+=('/Applications/VMware Fusion.app/Contents/Public')
-path+=('/usr/local/share/dotnet')
-path+=('~/.dotnet/tools')
-path+=('/usr/local/go/bin')
-path+=('/Users/greymatter/.pyenv/shims')
-path+=('/Users/greymatter/.cargo/bin')
-export PATH=$PATH
-
-typeset -U path cdpath fpath manpath
+# PATH will be configured after nix-daemon.sh is sourced
 
 for profile in ${(z)NIX_PROFILES}; do
   fpath+=($profile/share/zsh/site-functions $profile/share/zsh/$ZSH_VERSION/functions $profile/share/zsh/vendor-completions)
@@ -83,9 +68,40 @@ unsetopt EXTENDED_HISTORY
 
 
 # Add any additional configurations here
-export PATH=/run/current-system/sw/bin:$HOME/.nix-profile/bin:$PATH
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+
+# Configure PATH after nix-daemon.sh to ensure our paths take precedence
+# Initialize path array from current PATH
+path=(${(s/:/)PATH})
+
+# Ensure darwin-rebuild is accessible by adding nix-darwin path first
+if [[ -d /run/current-system/sw/bin ]]; then
+    path=('/run/current-system/sw/bin' $path)
+fi
+
+# Add other important paths
+path=("$HOME/.volta/bin" $path)
+path=("$HOME/.cargo/bin" $path)
+
+# Append additional paths
+path+=('/Applications/VMware Fusion.app/Contents/Public')
+path+=('/usr/local/share/dotnet')
+path+=('~/.dotnet/tools')
+path+=('/usr/local/go/bin')
+path+=("$HOME/.pyenv/shims")
+path+=("$HOME/.local/bin")
+
+# Ensure unique paths
+typeset -U path cdpath fpath manpath
+
+# Export the constructed PATH
+export PATH="${(j.:.)path}"
+
+# Ensure /run/current-system/sw/bin is in PATH for darwin-rebuild
+if [[ -d /run/current-system/sw/bin ]] && [[ ":$PATH:" != *":/run/current-system/sw/bin:"* ]]; then
+    export PATH="/run/current-system/sw/bin:$PATH"
 fi
 
 
