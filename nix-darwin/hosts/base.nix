@@ -110,7 +110,7 @@
       ZDOTDIR = "${config.home.homeDirectory}/.config/zsh";
       STARSHIP_CONFIG = "${config.home.homeDirectory}/.config/starship/config.toml";
       STARSHIP_CACHE = "${config.home.homeDirectory}/.local/cache/starship";
-      STARSHIP_SHELL = "zsh
+      STARSHIP_SHELL = "zsh";
       # NIX_STORE_DIR = "";
       # NIX_DATA_DIR = "";
       # NIX_LOG_DIR = "";
@@ -138,15 +138,16 @@
     stateVersion = "24.05";
   };
 
-  # Enable custom git commands for all users
-  programs.customGitCommands = {
-    enable = true;
-    commands = [
-      "git-setup-wrapper"
-      "git-setup-v2"
-      "git-setup-advanced"
-    ];
-  };
+  # TODO: This will be turned into a nix package eventually.
+  # # Enable custom git commands for all users
+  # programs.customGitCommands = {
+  #   enable = true;
+  #   commands = [
+  #     "git-setup-wrapper"
+  #     "git-setup-v2"
+  #     "git-setup-advanced"
+  #   ];
+  # };
 
   # Common program configurations
   programs = {

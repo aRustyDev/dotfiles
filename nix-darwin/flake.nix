@@ -28,6 +28,7 @@
         zsh.enable = true; # default shell on catalina
 
         # fish.enable = true;
+        # nushell.enable = true;
       }
 
       system = {
@@ -172,7 +173,7 @@
               extraSpecialArgs = {
                 dotfilesPath = "/Users/${username}/.configs/nix";
               };
-              users."${username}" = import userConfig;
+              users."${username}" = import "./hosts/users/${userConfig}";
             };
           }
         ];
@@ -183,22 +184,19 @@
       # CFS configuration
       "cfs" = mkDarwinConfiguration {
         username = "asmith";
-        userConfig = ./hosts/users/cfs.nix;
-        userCasks = ./hosts/homebrew/cfs.nix;
+        userConfig = cfs.nix;
       };
 
       # Cisco configuration
       "cisco" = mkDarwinConfiguration {
         username = "adamsm";
-        userConfig = ./hosts/users/cisco.nix;
-        userCasks = ./hosts/homebrew/cisco.nix;
+        userConfig = cisco.nix;
       };
 
       # Personal configuration
       "personal" = mkDarwinConfiguration {
         username = "adam";
-        userConfig = ./hosts/users/personal.nix;
-        userCasks = ./hosts/homebrew/personal.nix;
+        userConfig = personal.nix;
       };
     };
   };
