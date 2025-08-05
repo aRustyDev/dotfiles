@@ -6,7 +6,7 @@ This repository contains nix-darwin configurations for multiple machines.
 
 - asmith : `sudo darwin-rebuild switch --flake .#cfs`
 - adamsm : `sudo darwin-rebuild switch --flake .#cisco`
-- adam : `sudo darwin-rebuild switch --flake .#admz`
+- adam : `sudo darwin-rebuild switch --flake .#personal`
 <!-- - adam : `sudo darwin-rebuild switch --flake .#gmmbp` -->
 
 ## Architecture
@@ -21,7 +21,7 @@ The configuration uses a shared base configuration to avoid duplication:
   - `default.json` - Common npm tools for all machines
   - `cfs.json` - CFS-specific npm tools
   - `cisco-mbp.json` - Cisco-specific npm tools
-  - `admz-mbp.json` - Personal machine npm tools
+  - `personal.json` - Personal machine npm tools
 
 ## Adding a New Machine
 

@@ -24,7 +24,7 @@ Contains npm packages that should be installed on ALL machines:
 Each machine type has its own configuration file:
 - `cfs.json` - Tools for CFS work machine
 - `cisco-mbp.json` - Tools for Cisco work machine
-- `admz-mbp.json` - Tools for personal machine
+- `personal.json` - Tools for personal machine
 
 ## Configuration Format
 

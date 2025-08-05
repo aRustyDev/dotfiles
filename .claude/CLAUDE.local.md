@@ -43,7 +43,7 @@ dotfiles/
 ## Important Context
 
 ### Multi-Machine Setup
-- The repository supports multiple machines: cfs, cisco-mbp, admz-mbp, nw-mbp
+- The repository supports multiple machines: cfs, cisco, personal
 - Configuration is modular with base settings and user/machine-specific overrides
 - The current machine is identified by hostname
 
