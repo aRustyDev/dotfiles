@@ -43,7 +43,7 @@ install target: install-prereqs
     echo "Downloading the pre-reqs"
     just hydrate
     echo "Configuring via Nix-Darwin for {{target}}"
-    sudo nix run nix-darwin -- switch --flake "nix-darwin/.#{{target}}"
+    sudo -H nix run nix-darwin -- switch --flake "nix-darwin/.#{{target}}"
     # nix run nix-darwin -- switch --flake github:my-user/my-repo#my-config             # Potentially faster, but would need to somehow inject before building.
     clean
 

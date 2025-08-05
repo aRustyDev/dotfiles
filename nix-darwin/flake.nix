@@ -29,38 +29,38 @@
 
         # fish.enable = true;
         # nushell.enable = true;
-      }
+      };
 
       system = {
         # System configuration revision
         # Set Git commit hash for darwin-version.
-        configurationRevision = self.rev or self.dirtyRev or null; 
+        configurationRevision = self.rev or self.dirtyRev or null;
 
         # Used for backwards compatibility, please read the changelog before changing.
         # $ darwin-rebuild changelog
         stateVersion = 4;
-      }
-      
+      };
+
 
       # Platform (The platform the configuration will be used on.)
       nixpkgs = {
         hostPlatform = "aarch64-darwin";
         config.allowUnfree = true;
-      }
+      };
 
-      services = { 
+      services = {
         # Auto upgrade nix package and the daemon service.
         nix-daemon.enable = true;
-      }
+      };
 
       # Touch ID for sudo
       security.pam.services.sudo_local.touchIdAuth = true;
-      
+
       # Homebrew needs to be installed on its own!
       homebrew = {
           enable = true;
           global.autoUpdate = true; # "false" for declarative || "true" for 'homebrew' manageable.
-          casks = import userConfig; 
+          casks = import userConfig;
       };
 
       # https://medium.com/@zmre/nix-darwin-quick-tip-activate-your-preferences-f69942a93236
@@ -129,7 +129,7 @@
           "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles" = false;
           "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically" = false;
         };
-      }
+      };
 
 
       # https://daiderd.com/nix-darwin/manual/index.html      #
