@@ -5,7 +5,8 @@
   ...
 }: {
   imports = [
-    ../modules/git-commands.nix
+    ../modules/git-commands.nix,
+    ../pkg-mgr/homebrew/cask.nix,
   ];
   
   home = {
@@ -21,10 +22,21 @@
       starship
       tmux
       ghostty-bin
-      
-      # Security tools
-      _1password-cli
-      _1password-gui-beta
+
+      # Nu Shell
+      nushell
+      nushellPlugins.net
+      nushellPlugins.dbus
+      nushellPlugins.units
+      nushellPlugins.semver
+
+      # CLI QoL tools
+      atuin
+      zsh-autosuggestions
+      zoxide
+      dust
+      tealdeer
+      hyperfine
       
       # Text processing
       ripgrep
@@ -32,13 +44,35 @@
       yq
       
       # Development tools
+      just
       pre-commit
       lazygit
       volta      # Node.js version manager
       rustup     # Rust toolchain installer
+      tenv       # OpenTofu, Terraform, Terragrunt and Atmos version manager
+      go         # Golang Programming language
+      kubectl
+      kubernetes-helm
+      k9s
+      codeql
       
       # File managers
       yazi
+      yaziPlugins.glow
+      yaziPlugins.git
+      yaziPlugins.sudo
+      yaziPlugins.diff
+      yaziPlugins.mount
+      yaziPlugins.chmod
+      yaziPlugins.miller # Awk+Sed+cut+join+sort
+      yaziPlugins.restore
+      yaziPlugins.lazygit
+      yaziPlugins.duckdb
+      yaziPlugins.mactag
+      yaziPlugins.starship
+      yaziPlugins.relative-motions
+      yaziPlugins.time-travel
+      
       
       # Other utilities
       glow
@@ -52,8 +86,9 @@
       la = "ls -Al";
       pu = "pushd";
       po = "popd";
-      nxu = "nix flake update --flake ~/.config/nix-darwin";
+      nxu = "nix flake update --flake $HOME/.config/nix/";
       "git-setup" = "git-setup-advanced";
+      upd = "homebrew update && homebrew upgrade && volta update";
     };
 
     # Common environment variables (user-specific paths will be set in user configs)
@@ -68,14 +103,22 @@
       HISTSIZE = "32768";
       HISTFILESIZE = "32768";
       HISTCONTROL = "ignoreboth";
-      RUST_BACKTRACE = "1";
+      ZDOTDIR = "${config.home.homeDirectory}/.config/zsh";
+      STARSHIP_CONFIG = "${config.home.homeDirectory}/.config/starship/config.toml";
+      STARSHIP_CACHE = "${config.home.homeDirectory}/.local/cache/starship";
+      STARSHIP_SHELL = "zsh
     };
 
     # Common dotfile links
     file = {
-      ".config/starship.toml".source = "${dotfilesPath}/starship/starship.toml";
+      ".config/starship/config.toml".source = "${dotfilesPath}/starship/starship.toml";
       ".config/ghostty/config".source = "${dotfilesPath}/ghostty/config";
       ".config/zed/settings.json".source = "${dotfilesPath}/zed/settings.json";
+      ".local/git/bin/git-setup".source = "${dotfilesPath}/zsh/.zshenv";                    # 
+      ".config/1Password/ssh/agent.toml".source = "${dotfilesPath}/1Password/agent.toml";   # 
+
+      "/etc/zshenv".source = "${dotfilesPath}/zsh/.zshenv";                                 # Set this so the 'sessionVariables' for Zsh Take effect
+      ".config/zsh/.zshrc".source = "${dotfilesPath}/zsh/.zshrc";
     };
 
     # State version

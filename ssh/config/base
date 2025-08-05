@@ -1,13 +1,3 @@
-# Added by OrbStack: 'orb' SSH host for Linux machines
-# This only works if it's at the top of ssh_config (before any Host blocks).
-# Comment this line if you don't want it to be added again.
-Include ~/.orbstack/ssh/config
-
-## START GITPOD INTEGRATION
-## This section is managed by Gitpod. Any manual changes will be lost.
-Include "gitpod/config"
-## END GITPOD INTEGRATION
-
 # http://man.openbsd.org/OpenBSD-current/man5/ssh_config.5
 # https://www.ssh.com/academy/ssh/config
 FingerprintHash sha256
@@ -36,11 +26,11 @@ UpdateHostKeys
 # LogVerbose
 # LogLevel
 
-Host elastic-eng
+Host *.admz.blvd
     Hostname bfc94374231c.mylabserver.com
     User cloud_user
 
-Host *.rogue.labs
+Host *.rogue.lab
     ProxyCommand sh -c "tsh login --proxy=ctvi.rogue.labs; /usr/bin/nc %h %p"
     User aRustyDev
     Port 22

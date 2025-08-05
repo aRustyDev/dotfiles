@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+alias ll="ls -l"
+alias la="ls -Al"
+alias pu="pushd"
+alias po="popd"

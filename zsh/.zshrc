@@ -12,9 +12,6 @@ done
 # as all $fpath entries will be traversed again.
 autoload -U compinit && compinit
 
-
-eval "$(starship init zsh)"
-
 plugins=(git gh gcloud aws docker docker-compose man golang helm kubectl minikube command-not-found colored-man-pages sigstore azure terraform macos)
 # https://github.com/unixorn/awesome-zsh-plugins
 # antidote-use-omz anyframe arduino asciidoctor nohup plugin-vscode presenter-mode ssh-* vagrant-box-wrapper web-search yazi-zoxide
@@ -54,8 +51,28 @@ alias po="popd"
 HISTSIZE="10000"
 SAVEHIST="10000"
 
-HISTFILE="$HOME/.zsh_history"
+HISTFILE="$HOME_CACHE/zsh/history"
 mkdir -p "$(dirname "$HISTFILE")"
+mkdir -p "$(dirname "$HOME_CONFIG")"
+mkdir -p "$(dirname "$HOME_CACHE")"
+mkdir -p "$(dirname "$HOME_DATA")"
+mkdir -p "$(dirname "$HOME_PKG")"
+mkdir -p "$(dirname "$HOME_LIB")"
+
+HISTFILE=$HOME_CACHE/zsh/history
+SHELL_SESSION_DIR=$HOME_CACHE/sessions
+
+# Symlink SSH Config Dir
+mkdir -p "$(dirname "$HOME/.ssh")"
+rm -r $HOME/.ssh/*
+ln -s $HOME_CONFIG/ssh $HOME/.ssh
+chmod 0600 $HOME/.ssh
+
+# Symlink Orbstack Volume Mount Dir
+mkdir -p "$(dirname "$HOME/Orbstack")"
+rm -r $HOME/Orbstack/*
+ln -s $HOME_DATA/orbstack $HOME/Orbstack
+chmod 0600 $HOME/Orbstack
 
 setopt HIST_FCNTL_LOCK
 unsetopt APPEND_HISTORY
@@ -82,16 +99,17 @@ if [[ -d /run/current-system/sw/bin ]]; then
 fi
 
 # Add other important paths
-path=("$HOME/.volta/bin" $path)
-path=("$HOME/.cargo/bin" $path)
+path=("$VOLTA_HOME/bin" $path)
+path=("$CARGO_HOME/bin" $path)
 
 # Append additional paths
 path+=('/Applications/VMware Fusion.app/Contents/Public')
 path+=('/usr/local/share/dotnet')
-path+=('~/.dotnet/tools')
+path+=("$HOME/.local/pkg/dotnet/tools")
 path+=('/usr/local/go/bin')
 path+=("$HOME/.pyenv/shims")
 path+=("$HOME/.local/bin")
+path+=("$HOME/.local/volta/bin")
 
 # Ensure unique paths
 typeset -U path cdpath fpath manpath

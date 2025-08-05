@@ -59,7 +59,7 @@ dotfiles/
 
 ### NPM Package Management
 - Volta is used for Node.js version management
-- NPM packages are declared in JSON files under `nix-darwin/hosts/npm-tools/`
+- NPM packages are declared in JSON files under `nix-darwin/hosts/npm/`
 - Packages are installed during Home Manager activation
 
 ## Working Guidelines

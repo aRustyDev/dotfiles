@@ -4,25 +4,10 @@ This repository contains nix-darwin configurations for multiple machines.
 
 ## Available Configurations
 
-### 1. CFS (cfs)
-- **User**: analyst
-- **Build**: `sudo darwin-rebuild switch --flake .#cfs`
-- **Purpose**: CFS work machine
-
-### 2. Cisco (cisco-mbp)
-- **User**: asmith
-- **Build**: `sudo darwin-rebuild switch --flake .#cisco-mbp`
-- **Purpose**: Cisco work machine
-
-### 3. Personal (admz-mbp)
-- **User**: adam
-- **Build**: `sudo darwin-rebuild switch --flake .#admz-mbp`
-- **Purpose**: Personal machine
-
-### 4. Legacy (nw-mbp)
-- **User**: analyst
-- **Build**: `sudo darwin-rebuild switch --flake .#nw-mbp`
-- **Purpose**: Legacy configuration for backward compatibility
+- asmith : `sudo darwin-rebuild switch --flake .#cfs`
+- adamsm : `sudo darwin-rebuild switch --flake .#cisco`
+- adam : `sudo darwin-rebuild switch --flake .#admz`
+<!-- - adam : `sudo darwin-rebuild switch --flake .#gmmbp` -->
 
 ## Architecture
 
@@ -30,9 +15,9 @@ The configuration uses a shared base configuration to avoid duplication:
 
 - `hosts/base-home.nix` - Shared home-manager configuration for all users
 - `hosts/users/cfs.nix` - User-specific config for analyst (CFS)
-- `hosts/users/seneca.nix` - User-specific config for asmith (Cisco/Seneca)
+- `hosts/users/cisco.nix` - User-specific config for asmith (Cisco)
 - `hosts/users/personal.nix` - User-specific config for adam (Personal)
-- `hosts/npm-tools/` - NPM package configurations per machine type
+- `hosts/npm/` - NPM package configurations per machine type
   - `default.json` - Common npm tools for all machines
   - `cfs.json` - CFS-specific npm tools
   - `cisco-mbp.json` - Cisco-specific npm tools
@@ -65,4 +50,4 @@ darwinConfigurations."machine-name" = mkDarwinConfiguration {
 - The only differences are the username, home directory paths, and npm tools
 - The base configuration is in `hosts/base-home.nix`
 - NPM/Node.js packages are managed via Volta
-- See `hosts/npm-tools/README.md` for npm package management details
+- See `hosts/npm/README.md` for npm package management details

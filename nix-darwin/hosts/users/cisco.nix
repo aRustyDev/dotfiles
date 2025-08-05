@@ -1,4 +1,4 @@
-# User configuration for analyst (CFS)
+# User configuration for asmith (Cisco)
 {
   lib,
   pkgs,
@@ -9,8 +9,8 @@
   imports = [../base.nix, ../../pkg-mgr/npm/volta.nix, ../../pkg-mgr/homebrew/casks.nix];
 
   home = {
-    username = "asmith";
-    homeDirectory = "/Users/asmith";
+    username = "adamsm";
+    homeDirectory = "/Users/adamsm";
 
     # User-specific PATH configuration
     sessionVariables = {
@@ -18,6 +18,18 @@
 
       # Note: PATH is managed by .zshrc to ensure proper ordering
       # Any special PATH requirements should be added to .zshrc
+    };
+
+    # Additional Cisco/work-specific packages
+    packages = with pkgs; [
+      # Add any work-specific tools here
+      # For example: corporate VPN clients, work-specific CLI tools, etc.
+    ];
+
+    # Cisco-specific dotfiles
+    file = {
+      ".config/ssh/config".source = "${dotfilesPath}/ssh/config/cisco";
+      ".config/ssh/gitlab.pub".source = "${dotfilesPath}/ssh/pubs/cisco.gitlab";
     };
 
     # Additional CFS-specific packages
@@ -28,8 +40,5 @@
     homebrew = {
         casks = [];
     };
-
-    # CFS-specific dotfiles
-    file = {};
   };
 }

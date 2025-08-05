@@ -12,7 +12,7 @@ Welcome to the dotfiles repository documentation. This index provides a comprehe
 ### Core Documentation
 - **[nix-darwin/MACHINES.md](../nix-darwin/MACHINES.md)** - Multi-machine configuration guide
 - **[nix-darwin/SETUP-ANALYST.md](../nix-darwin/SETUP-ANALYST.md)** - Analyst user profile setup instructions
-- **[nix-darwin/hosts/npm-tools/README.md](../nix-darwin/hosts/npm-tools/README.md)** - Volta-based npm package management
+- **[nix-darwin/hosts/npm/README.md](../nix-darwin/hosts/npm/README.md)** - Volta-based npm package management
 
 ### Task Tracking
 - **[nix-darwin/TODO.md](../nix-darwin/TODO.md)** - Nix-Darwin configuration tasks
