@@ -6,8 +6,6 @@
   dotfilesPath,
   ...
 }: {
-  imports = [../base.nix];
-
   home = {
 
     # User-specific PATH configuration

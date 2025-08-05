@@ -6,7 +6,7 @@
 }: {
   imports = [
     ../modules/git-commands.nix,
-    ../pkg-mgr/homebrew/cask.nix,
+    ../pkg-mgr/homebrew/casks.nix,
   ];
   
   home = {
