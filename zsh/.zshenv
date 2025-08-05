@@ -10,6 +10,8 @@ HOME_DATA=$HOME/.local/data      # Persistent Data
 HOME_CACHE=$HOME/.local/cache    # Ephemeral Data
 HOME_CONFIG=$HOME/.config        # Persistent Configs
 
+XDG_CONFIG_HOME=$HOME/.config
+
 ZDOTDIR=$HOME_CONFIG/zsh/
 
 CARGO_HOME=$HOME_LIB/cargo

@@ -23,6 +23,10 @@
     # Additional AWS-specific packages
     packages = with pkgs; [
       # Add any AWS-specific tools here
+      awscli2
+      aws-rotate-key
+      aws-sso-creds
+      aws-assume-role
     ];
 
     homebrew = {

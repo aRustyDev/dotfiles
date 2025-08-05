@@ -55,6 +55,10 @@
       kubernetes-helm
       k9s
       codeql
+      gitsign
+      rekor-cli
+      cosign
+      
       
       # File managers
       yazi
@@ -107,6 +111,15 @@
       STARSHIP_CONFIG = "${config.home.homeDirectory}/.config/starship/config.toml";
       STARSHIP_CACHE = "${config.home.homeDirectory}/.local/cache/starship";
       STARSHIP_SHELL = "zsh
+      # NIX_STORE_DIR = "";
+      # NIX_DATA_DIR = "";
+      # NIX_LOG_DIR = "";
+      # NIX_STATE_DIR = "";
+      # NIX_PATH = "";
+      # NIX_USER_CONF_FILES = "";
+      # NIX_CONFIG = "";
+      # NIX_CONF_DIR = "";
+      # NIX_USER_CONF_FILES = "";
     };
 
     # Common dotfile links
