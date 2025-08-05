@@ -195,7 +195,7 @@
       };
 
       # Personal configuration
-      "admz-mbp" = mkDarwinConfiguration {
+      "personal" = mkDarwinConfiguration {
         username = "adam";
         userConfig = ./hosts/users/personal.nix;
         userCasks = ./hosts/homebrew/personal.nix;
