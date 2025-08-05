@@ -1,12 +1,13 @@
 inject-ssh:
+    op account add --address my.1password.com
     op inject --file ssh/config/*
     op inject --file ssh/pubs/*
 
 merge-ssh-config:
-    cat ssh/config/{include,cisco.*,default} > ssh/config/cisco.merged
-    cat ssh/config/{include,blvd.*,default} > ssh/config/blvd.merged
-    cat ssh/config/{include,cfs.*,default} > ssh/config/cfs.merged
-    cat ssh/config/{include,usaf.*,default} > ssh/config/usaf.merged
+    @test -f ssh/config/{include,cisco.*,default} && cat ssh/config/{include,cisco.*,default} > ssh/config/cisco.merged || echo "Cisco SSH Configs not found"
+    @test -f ssh/config/{include,blvd.*,default} && cat ssh/config/{include,blvd.*,default} > ssh/config/blvd.merged || echo "Blvd SSH Configs not found"
+    @test -f ssh/config/{include,cfs.*,default} && cat ssh/config/{include,cfs.*,default} > ssh/config/cfs.merged || echo "CFS SSH Configs not found"
+    @test -f ssh/config/{include,usaf.*,default} && cat ssh/config/{include,usaf.*,default} > ssh/config/usaf.merged || echo "USAF SSH Configs not found"
 
 install-prereqs:
     echo "Installing Homebrew"
@@ -25,8 +26,6 @@ install: install-prereqs
     echo "Downloading the pre-reqs"
     inject-ssh
     merge-ssh-config
-    echo "Uninstalling Homebrew"
-    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
 
 install-cisco: install
     echo "Configuring via Nix-Darwin"
@@ -47,8 +46,8 @@ install-personal: install
     clean
 
 clean:
-    ssh/config/*.merged
-    ssh/pubs/*.merged
+    rm -f ssh/config/*.merged
+    rm -f ssh/pubs/*.merged
 
 clean-full:
     nix-installer uninstall /nix/receipt.json
