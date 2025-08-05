@@ -32,11 +32,6 @@
       ".config/ssh/gitlab.pub".source = "${dotfilesPath}/ssh/pubs/cisco.gitlab";
     };
 
-    # Additional CFS-specific packages
-    packages = with pkgs; [
-      # Add any CFS-specific tools here
-    ];
-
     homebrew = {
         casks = [];
     };

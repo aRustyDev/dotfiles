@@ -29,11 +29,6 @@
     # Personal-specific dotfiles
     file = {};
 
-    # Additional CFS-specific packages
-    packages = with pkgs; [
-      # Add any CFS-specific tools here
-    ];
-
     homebrew = {
         casks = [];
     };
