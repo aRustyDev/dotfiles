@@ -1,0 +1,86 @@
+db_path = "~/.local/store/atuin/history.db"
+key_path = "~/.local/store/atuin/key"
+session_path = "~/.local/cache/atuin/session"
+dialect = "us"
+auto_sync = true
+update_check = true
+sync_address = "https://api.atuin.sh"
+sync_frequency = "1h"
+search_mode = "fuzzy"
+filter_mode = "global"
+search_mode_shell_up_key_binding = "fuzzy"
+filter_mode_shell_up_key_binding = "global"
+workspaces = false
+style = "compact"
+invert = false
+inline_height = 40
+show_preview = true
+max_preview_height = 4
+show_help = true
+show_tabs = true
+exit_mode = "return-original"
+history_format = "history list"
+history_filter = ["^secret-cmd", "^innocuous-cmd .*--secret=.+"]
+## Note that these regular expressions are unanchored, i.e. if they don't start
+## with ^ or end with $, they'll match anywhere in the command.
+# cwd_filter = [
+#   "^/very/secret/directory",
+# ]
+store_failed = true
+secrets_filter = true
+ctrl_n_shortcuts = true
+network_timeout = 30
+network_connect_timeout = 5
+local_timeout = 5
+command_chaining = false
+enter_accept = false
+keymap_mode = "emacs"
+keymap_cursor = {}
+prefers_reduced_montion = false
+
+[Stats]
+common_subcommands = [
+    "apt",
+    "cargo",
+    "composer",
+    "dnf",
+    "docker",
+    "git",
+    "go",
+    "ip",
+    "kubectl",
+    "nix",
+    "nmcli",
+    "npm",
+    "pecl",
+    "pnpm",
+    "podman",
+    "port",
+    "systemctl",
+    "tmux",
+    "yarn",
+]
+common_prefix = ["sudo"]
+
+[sync]
+records = true
+
+[dotfiles]
+enabled = false
+
+[keys]
+scroll_exits = true
+prefix = 'a'
+
+[daemon]
+enabled = true
+sync_frequency = 300
+socket_path = "~/.local/share/atuin/atuin.sock"
+systemd_socket = false
+tcp_port = 8889
+
+# ATUIN_THEME_DIR=$HOME/.config/atuin/themes/
+[theme]
+name = ""
+debug = false
+max_depth = 10

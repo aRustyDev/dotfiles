@@ -1,47 +1,49 @@
-inject-ssh:
-    op account add --address my.1password.com
-    op inject --file ssh/config/*
-    op inject --file ssh/pubs/*
+default: (install "cisco")
+sshTmplCfg := "ssh/.tmpl/config"
 
-merge-ssh-config:
-    @test -f ssh/config/{include,cisco.*,default} && cat ssh/config/{include,cisco.*,default} > ssh/config/cisco.merged || echo "Cisco SSH Configs not found"
-    @test -f ssh/config/{include,blvd.*,default} && cat ssh/config/{include,blvd.*,default} > ssh/config/blvd.merged || echo "Blvd SSH Configs not found"
-    @test -f ssh/config/{include,cfs.*,default} && cat ssh/config/{include,cfs.*,default} > ssh/config/cfs.merged || echo "CFS SSH Configs not found"
-    @test -f ssh/config/{include,usaf.*,default} && cat ssh/config/{include,usaf.*,default} > ssh/config/usaf.merged || echo "USAF SSH Configs not found"
+op-inject:
+    op account add --address my.1password.com
+    for file in `ls ssh/.tmpl/config/`; do \
+      op inject -f -i ssh/.tmpl/config/$file -o ssh/config/$file; \
+    done
+    for file in `ls ssh/.tmpl/pubs/`; do \
+      op inject -f -i ssh/.tmpl/pubs/$file -o ssh/pubs/$file; \
+    done
+
+hydrate: op-inject
+    for file in `ls '{{sshTmplCfg}}' | grep -Eo "(cisco)|(blvd)"`; do \
+        cat "{{sshTmplCfg}}/includes" "{{sshTmplCfg}}/$file"* "{{sshTmplCfg}}/default" > ssh/config/$file.merged; \
+        echo "merged $file"; \
+    done
 
 install-prereqs:
-    echo "Installing Homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    echo "Installing 1password"
-    brew install 1password
-    echo "Installing op CLI"
-    brew install 1password-cli@beta
-    eval $(op signin --account my.1password.com)
-    echo "Installing Nix via Determinate Systems"
-    curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate
+    if ! command -v brew > /dev/null 2>&1; then \
+        echo "Installing Homebrew"; \
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
+    fi
+    if ! brew list --cask | grep -q "1password@nightly" 2>&1; then \
+        echo "Installing 1password"; \
+        brew install 1password@nightly; \
+    fi
+    if ! brew list --cask | grep -q "1password-cli@beta" 2>&1; then \
+        echo "Installing 1password CLI"; \
+        brew install 1password-cli@beta; \
+    fi
+    cat .data/assets/asciiart/1password-setup.txt
+    if ! command -v nix > /dev/null 2>&1; then \
+        echo "Installing Nix via Determinate Systems"; \
+        curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate; \
+    fi
     echo "Installing Rosetta for Silicon Macs"
     softwareupdate --install-rosetta --agree-to-license
 
-install: install-prereqs
+
+
+install target: install-prereqs
     echo "Downloading the pre-reqs"
-    inject-ssh
-    merge-ssh-config
-
-install-cisco: install
-    echo "Configuring via Nix-Darwin"
-    nix run nix-darwin -- switch --flake nix-darwin/.#cisco
-    # nix run nix-darwin -- switch --flake github:my-user/my-repo#my-config             # Potentially faster, but would need to somehow inject before building.
-    clean
-
-install-cfs: install
-    echo "Configuring via Nix-Darwin"
-    nix run nix-darwin -- switch --flake nix-darwin/.#cfs
-    # nix run nix-darwin -- switch --flake github:my-user/my-repo#my-config             # Potentially faster, but would need to somehow inject before building.
-    clean
-
-install-personal: install
-    echo "Configuring via Nix-Darwin"
-    nix run nix-darwin -- switch --flake nix-darwin/.#personal
+    just hydrate
+    echo "Configuring via Nix-Darwin for {{target}}"
+    sudo nix run nix-darwin -- switch --flake "nix-darwin/.#{{target}}"
     # nix run nix-darwin -- switch --flake github:my-user/my-repo#my-config             # Potentially faster, but would need to somehow inject before building.
     clean
 
@@ -50,4 +52,4 @@ clean:
     rm -f ssh/pubs/*.merged
 
 clean-full:
-    nix-installer uninstall /nix/receipt.json
+    /nix/nix-installer uninstall /nix/receipt.json
