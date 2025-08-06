@@ -43,7 +43,9 @@ install target: install-prereqs
     echo "Downloading the pre-reqs"
     just hydrate
     echo "Configuring via Nix-Darwin for {{target}}"
-    sudo -H nix run nix-darwin -- switch --flake "nix-darwin/.#{{target}}"
+    # pkill -x Safari # Kill Safari
+    # pkill -f "Safari" # Kill Safari helpers
+    sudo -H nix run nix-darwin -- switch --flake ".#{{target}}" --impure
     # nix run nix-darwin -- switch --flake github:my-user/my-repo#my-config             # Potentially faster, but would need to somehow inject before building.
     clean
 

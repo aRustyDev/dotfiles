@@ -7,6 +7,12 @@
       "description": "Google Gemini CLI tool"
     },
     {
+      "name": "@anthropic-ai/claude-code",
+      "version": "latest",
+      "enabled": true,
+      "description": "Claude CLI - Anthropic's AI assistant for the terminal"
+    },
+    {
       "name": "codex",
       "version": "latest",
       "enabled": true,

@@ -1,18 +1,6 @@
 {
   "tools": [
     {
-      "name": "@google/gemini-cli",
-      "version": "latest",
-      "enabled": true,
-      "description": "Google Gemini CLI tool"
-    },
-    {
-      "name": "codex",
-      "version": "latest",
-      "enabled": true,
-      "description": "OpenAI Codex CLI"
-    },
-    {
       "name": "@vue/cli",
       "version": "latest",
       "enabled": true,

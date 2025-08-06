@@ -13,6 +13,12 @@
       "description": "OpenAI Codex CLI"
     },
     {
+      "name": "@anthropic-ai/claude-code",
+      "version": "latest",
+      "enabled": true,
+      "description": "Claude CLI - Anthropic's AI assistant for the terminal"
+    },
+    {
       "name": "@angular/cli",
       "version": "latest",
       "enabled": true,

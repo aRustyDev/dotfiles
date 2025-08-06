@@ -31,12 +31,6 @@
       "description": "TypeScript compiler"
     },
     {
-      "name": "@anthropic-ai/claude-code",
-      "version": "latest",
-      "enabled": true,
-      "description": "Claude CLI - Anthropic's AI assistant for the terminal"
-    },
-    {
       "name": "@biomejs/biome",
       "version": "latest",
       "enabled": true,
