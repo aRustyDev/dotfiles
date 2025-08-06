@@ -32,12 +32,5 @@
 
     # Personal-specific dotfiles
     file = {};
-
-    homebrew = {
-        casks = [
-          "brilliant" # Design tool
-          "bender" # Dep Mgmt tool for HW projects
-        ];
-    };
   };
 }

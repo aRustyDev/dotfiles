@@ -29,12 +29,6 @@
       # Add any CFS-specific tools here
     ];
 
-    homebrew = {
-        casks = [
-          "adobe-acrobat-pro"
-        ];
-    };
-
     # CFS-specific dotfiles
     file = {};
   };

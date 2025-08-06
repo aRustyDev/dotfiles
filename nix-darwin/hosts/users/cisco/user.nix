@@ -35,9 +35,5 @@
       ".config/ssh/config".source = "${dotfilesPath}/ssh/config/cisco";
       ".config/ssh/gitlab.pub".source = "${dotfilesPath}/ssh/pubs/cisco.gitlab";
     };
-
-    homebrew = {
-        casks = [];
-    };
   };
 }

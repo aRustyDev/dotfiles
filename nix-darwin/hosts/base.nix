@@ -1,5 +1,6 @@
 # base.nix - Shared base configuration for all users
 {
+  config,
   pkgs,
   dotfilesPath,
   ...
