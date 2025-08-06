@@ -150,9 +150,14 @@
         system = "aarch64-darwin";
         specialArgs = {
           dotfilesPath = "/Users/${username}/.config/nix";
+          inherit userConfig;                                 # Pass userConfig to system modules
         };
 
         modules = [
+          # Add the nix.enable setting here as a module
+          {
+            nix.enable = false; # For Determinate Systems Nix
+          }
           darwinConfiguration
           (./nix/hosts/users + "/${userConfig}" + /casks.nix)
           {
@@ -161,9 +166,12 @@
           home-manager.darwinModules.home-manager
           {
             # Set the specific user for this machine
-            users.users."${username}" = {
-              name = username;
-              home = "/Users/${username}";
+            users = {
+              "${username}" = import (./nix/hosts/users + "/${userConfig}" + /user.nix);
+              users."${username}" = {
+                name = username;
+                home = "/Users/${username}";
+              };
             };
 
             # TODO: How to define the common 'Files' here, and then import/with the userConfig values into scope.
@@ -172,9 +180,49 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
+                # Pass all configuration to home-manager modules
                 dotfilesPath = "/Users/${username}/.config/nix";
+                inherit userConfig;                                 # Now volta.nix can access this directly
+
+                # Structured paths configuration
+                dot = {
+                  paths = {
+                    volta = {
+                      home = "$HOME/.volta";
+                      bin = "$HOME/.volta/bin";
+                      config = "${dotfilesPath}/pkg-mgr/npm";
+                    };
+                    git = {
+                      config = "$HOME/.config/git";
+                      commands = "${dotfilesPath}/git/commands";
+                    };
+                    zsh = {
+                      config = "$HOME/.config/zsh";
+                      dotfiles = "${dotfilesPath}/zsh";
+                    };
+                    scripts = {
+                      root = "${dotfilesPath}/scripts";
+                      active = "${dotfilesPath}/scripts/active";
+                      activation = "${dotfilesPath}/scripts/activation";
+                    };
+                    nvim = {
+                      config = "$HOME/.config/nvim";
+                      dotfiles = "${dotfilesPath}/nvim";
+                    };
+                  };
+
+                  features = {
+                    enableVolta = true;
+                    enableRust = true;
+                  };
+                  
+                  # Machine configuration metadata
+                  machine = {
+                    name = userConfig;
+                    username = username;
+                    homeDir = "/Users/${username}";
+                  };
               };
-              users."${username}" = import (./nix/hosts/users + "/${userConfig}" + /user.nix);
             };
           }
         ];
