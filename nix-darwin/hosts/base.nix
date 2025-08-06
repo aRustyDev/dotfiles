@@ -5,10 +5,10 @@
   ...
 }: {
   imports = [
-    ../modules/git-commands.nix,
-    ../pkg-mgr/homebrew/casks.nix,
+    ../modules/git-commands.nix
+    ../pkg-mgr/homebrew/casks.nix
   ];
-  
+
   home = {
     # Base packages available to all users
     packages = with pkgs; [
@@ -16,7 +16,7 @@
       helix
       neovim
       zed-editor
-      
+
       # Terminal multiplexers and emulators
       zellij
       starship
@@ -37,12 +37,12 @@
       dust
       tealdeer
       hyperfine
-      
+
       # Text processing
       ripgrep
       jq
       yq
-      
+
       # Development tools
       just
       pre-commit
@@ -58,8 +58,8 @@
       gitsign
       rekor-cli
       cosign
-      
-      
+
+
       # File managers
       yazi
       yaziPlugins.glow
@@ -76,8 +76,8 @@
       yaziPlugins.starship
       yaziPlugins.relative-motions
       yaziPlugins.time-travel
-      
-      
+
+
       # Other utilities
       glow
       bruno
@@ -127,8 +127,8 @@
       ".config/starship/config.toml".source = "${dotfilesPath}/starship/starship.toml";
       ".config/ghostty/config".source = "${dotfilesPath}/ghostty/config";
       ".config/zed/settings.json".source = "${dotfilesPath}/zed/settings.json";
-      ".local/git/bin/git-setup".source = "${dotfilesPath}/zsh/.zshenv";                    # 
-      ".config/1Password/ssh/agent.toml".source = "${dotfilesPath}/1Password/agent.toml";   # 
+      ".local/git/bin/git-setup".source = "${dotfilesPath}/zsh/.zshenv";                    #
+      ".config/1Password/ssh/agent.toml".source = "${dotfilesPath}/1Password/agent.toml";   #
 
       "/etc/zshenv".source = "${dotfilesPath}/zsh/.zshenv";                                 # Set this so the 'sessionVariables' for Zsh Take effect
       ".config/zsh/.zshrc".source = "${dotfilesPath}/zsh/.zshrc";
@@ -152,7 +152,7 @@
   # Common program configurations
   programs = {
     home-manager.enable = true;
-    
+
     git = {
       enable = true;
       extraConfig = {
@@ -160,7 +160,7 @@
         pull.rebase = true;
       };
     };
-    
+
     zsh = {
       enable = true;
       enableCompletion = true;

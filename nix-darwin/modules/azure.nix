@@ -6,7 +6,9 @@
   dotfilesPath,
   ...
 }: {
-  imports = [../../pkg-mgr/homebrew/casks.nix];
+  imports = [
+    ../../pkg-mgr/homebrew/casks.nix
+  ];
 
   home = {
 

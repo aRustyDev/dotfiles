@@ -60,7 +60,6 @@
       homebrew = {
           enable = true;
           global.autoUpdate = true; # "false" for declarative || "true" for 'homebrew' manageable.
-          casks = import userConfig;
       };
 
       # https://medium.com/@zmre/nix-darwin-quick-tip-activate-your-preferences-f69942a93236
@@ -156,7 +155,6 @@
         };
         modules = [
           darwinConfiguration
-          ./configuration.nix
           home-manager.darwinModules.home-manager
           {
             # Set the specific user for this machine
@@ -173,7 +171,7 @@
               extraSpecialArgs = {
                 dotfilesPath = "/Users/${username}/.configs/nix";
               };
-              users."${username}" = import "./hosts/users/${userConfig}";
+              users."${username}" = import (./hosts/users + "/${userConfig}");
             };
           }
         ];
@@ -184,19 +182,19 @@
       # CFS configuration
       "cfs" = mkDarwinConfiguration {
         username = "asmith";
-        userConfig = cfs.nix;
+        userConfig = "cfs.nix";
       };
 
       # Cisco configuration
       "cisco" = mkDarwinConfiguration {
         username = "adamsm";
-        userConfig = cisco.nix;
+        userConfig = "cisco.nix";
       };
 
       # Personal configuration
       "personal" = mkDarwinConfiguration {
         username = "adam";
-        userConfig = personal.nix;
+        userConfig = "personal.nix";
       };
     };
   };

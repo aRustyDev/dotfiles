@@ -6,7 +6,11 @@
   dotfilesPath,
   ...
 }: {
-  imports = [../base.nix, ../../pkg-mgr/npm/volta.nix, ../../pkg-mgr/homebrew/casks.nix];
+  imports = [
+    ../base.nix
+    ../../pkg-mgr/npm/volta.nix
+    ../../pkg-mgr/homebrew/casks.nix
+  ];
 
   home = {
     username = "adam";
@@ -30,7 +34,10 @@
     file = {};
 
     homebrew = {
-        casks = [];
+        casks = [
+          "brilliant" # Design tool
+          "bender" # Dep Mgmt tool for HW projects
+        ];
     };
   };
 }
