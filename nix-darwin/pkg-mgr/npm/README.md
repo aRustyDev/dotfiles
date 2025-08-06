@@ -84,3 +84,26 @@ volta uninstall <package-name>
 - Check if the tool was installed: `volta list`
 - Verify the tool's binary is in `~/.volta/bin/`
 - Restart your shell or source your configuration
+
+```
+@anthropic-ai/claude-code
+@biomejs/biome
+@commitlint/cli
+@commitlint/config-conventional
+@slidev/cli
+@slidev/theme-bricks
+@slidev/theme-default
+astro
+conventional-changelog-atom
+corepack
+crx
+generator-code
+grunt-cli
+pnpm
+stylelint
+stylelint-config-standard
+stylelint-config-standard-scss
+vsce
+web-ext
+yo
+```
