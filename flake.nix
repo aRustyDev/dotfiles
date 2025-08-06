@@ -69,7 +69,7 @@
           dock.mru-spaces = false;
           finder.AppleShowAllExtensions = true;
           finder.FXPreferredViewStyle = "clmv";
-          loginwindow.LoginwindowText = "analyst";
+          # loginwindow.LoginwindowText = username;
           screencapture.location = "~/Pictures/screenshots";
           screensaver.askForPasswordDelay = 180;
           # END: https://daiderd.com/nix-darwin/manual/index.html      #
@@ -145,11 +145,15 @@
       username,
       userConfig,
     }:
+      let
+        # Define paths at this level so they're available throughput
+        dotfilesPath = "/Users/${username}/.config/nix";
+        homeDirectory = "/Users/${username}";
+      in
       nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = {
-          dotfilesPath = "/Users/${username}/.config/nix";
-          inherit userConfig;                                 # Pass userConfig to system modules
+          inherit userConfig dotfilesPath;                                 # Pass userConfig to system modules
         };
 
         modules = [
@@ -164,24 +168,21 @@
           }
           home-manager.darwinModules.home-manager
           {
-            # Set the specific user for this machine
-            users = {
-              "${username}" = import (./nix/hosts/users + "/${userConfig}" + /user.nix);
-              users."${username}" = {
-                name = username;
-                home = "/Users/${username}";
-              };
+            users.users."${username}" = {
+              name = username;
+              home = homeDirectory;
             };
 
             # TODO: How to define the common 'Files' here, and then import/with the userConfig values into scope.
             home-manager = {
+              # Set the specific user for this machine
+              users."${username}" = import (./nix/hosts/users + "/${userConfig}" + /user.nix);
               backupFileExtension = "nix.bak";
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
                 # Pass all configuration to home-manager modules
-                dotfilesPath = "/Users/${username}/.config/nix";
-                inherit userConfig;                                 # Now volta.nix can access this directly
+                inherit userConfig dotfilesPath;                                 # Now volta.nix can access this directly
 
                 # Structured paths configuration
                 dot = {
@@ -219,7 +220,7 @@
                   machine = {
                     name = userConfig;
                     username = username;
-                    homeDir = "/Users/${username}";
+                    homeDir = homeDirectory;
                   };
                 };
               };
