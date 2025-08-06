@@ -8,7 +8,7 @@
   imports = [
     ../modules/git-commands.nix
     ../pkg-mgr/npm/volta.nix
-    ../pkg-mgr/homebrew/casks.nix
+    # ../pkg-mgr/homebrew/casks.nix
   ];
 
   home = {
@@ -27,10 +27,10 @@
 
       # Nu Shell
       nushell
-      nushellPlugins.net
-      nushellPlugins.dbus
-      nushellPlugins.units
-      nushellPlugins.semver
+      # nushellPlugins.net
+      # nushellPlugins.dbus
+      # nushellPlugins.units
+      # nushellPlugins.semver
 
       # CLI QoL tools
       atuin
@@ -64,20 +64,20 @@
 
       # File managers
       yazi
-      yaziPlugins.glow
-      yaziPlugins.git
-      yaziPlugins.sudo
-      yaziPlugins.diff
-      yaziPlugins.mount
-      yaziPlugins.chmod
-      yaziPlugins.miller # Awk+Sed+cut+join+sort
-      yaziPlugins.restore
-      yaziPlugins.lazygit
-      yaziPlugins.duckdb
-      yaziPlugins.mactag
-      yaziPlugins.starship
-      yaziPlugins.relative-motions
-      yaziPlugins.time-travel
+      # yaziPlugins.glow
+      # yaziPlugins.git
+      # yaziPlugins.sudo
+      # yaziPlugins.diff
+      # yaziPlugins.mount
+      # yaziPlugins.chmod
+      # yaziPlugins.miller # Awk+Sed+cut+join+sort
+      # yaziPlugins.restore
+      # yaziPlugins.lazygit
+      # yaziPlugins.duckdb
+      # yaziPlugins.mactag
+      # yaziPlugins.starship
+      # yaziPlugins.relative-motions
+      # yaziPlugins.time-travel
 
 
       # Other utilities

@@ -30,7 +30,7 @@
 
     # Cisco-specific dotfiles
     file = {
-      ".config/ssh/config".source = "${dotfilesPath}/ssh/config/cisco";
+      ".config/ssh/config".source = "${dotfilesPath}/ssh/config/cisco.merged";
       ".config/ssh/gitlab.pub".source = "${dotfilesPath}/ssh/pubs/cisco.gitlab";
     };
   };

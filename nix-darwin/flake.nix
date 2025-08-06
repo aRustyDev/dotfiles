@@ -31,27 +31,13 @@
         # nushell.enable = true;
       };
 
-      system = {
-        # System configuration revision
-        # Set Git commit hash for darwin-version.
-        configurationRevision = self.rev or self.dirtyRev or null;
-
-        # Used for backwards compatibility, please read the changelog before changing.
-        # $ darwin-rebuild changelog
-        stateVersion = 4;
-      };
-
-
       # Platform (The platform the configuration will be used on.)
       nixpkgs = {
         hostPlatform = "aarch64-darwin";
         config.allowUnfree = true;
       };
 
-      services = {
-        # Auto upgrade nix package and the daemon service.
-        nix-daemon.enable = true;
-      };
+      services = {};
 
       # Touch ID for sudo
       security.pam.services.sudo_local.touchIdAuth = true;
@@ -67,79 +53,90 @@
       #   # Following line should allow us to avoid a logout/login cycle
       #   /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
       # '';
-      system.defaults.CustomUserPreferences = {
-        "com.apple.finder" = {
-          ShowExternalHardDrivesOnDesktop = true;
-          ShowHardDrivesOnDesktop = true;
-          ShowMountedServersOnDesktop = true;
-          ShowRemovableMediaOnDesktop = true;
-          _FXSortFoldersFirst = true;
-          # When performing a search, search the current folder by default
-          FXDefaultSearchScope = "SCcf";
-        };
-        "com.apple.desktopservices" = {
-          # Avoid creating .DS_Store files on network or USB volumes
-          DSDontWriteNetworkStores = true;
-          DSDontWriteUSBStores = true;
-        };
-        "com.apple.screensaver" = {
-          # Require password immediately after sleep or screen saver begins
-          askForPassword = 3600;
-          askForPasswordDelay = 0;
-        };
-        "com.apple.screencapture" = {
-          location = "~/Desktop";
-          type = "png";
-        };
-        "com.apple.SoftwareUpdate" = {
-          AutomaticCheckEnabled = true;
-          # Check for software updates daily, not just once per week
-          ScheduleFrequency = 1;
-          # Download newly available updates in background
-          AutomaticDownload = 1;
-          # Install System data files & security updates
-          CriticalUpdateInstall = 1;
-        };
-        "com.apple.Safari" = {
-          # Privacy: don’t send search queries to Apple
-          UniversalSearchEnabled = false;
-          SuppressSearchSuggestions = true;
-          # Press Tab to highlight each item on a web page
-          WebKitTabToLinksPreferenceKey = true;
-          ShowFullURLInSmartSearchField = true;
-          # Prevent Safari from opening ‘safe’ files automatically after downloading
-          AutoOpenSafeDownloads = false;
-          ShowFavoritesBar = false;
-          IncludeInternalDebugMenu = true;
-          IncludeDevelopMenu = true;
-          WebKitDeveloperExtrasEnabledPreferenceKey = true;
-          WebContinuousSpellCheckingEnabled = true;
-          WebAutomaticSpellingCorrectionEnabled = false;
-          AutoFillFromAddressBook = false;
-          AutoFillCreditCardData = false;
-          AutoFillMiscellaneousForms = false;
-          WarnAboutFraudulentWebsites = true;
-          WebKitJavaEnabled = false;
-          WebKitJavaScriptCanOpenWindowsAutomatically = false;
-          "com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks" = true;
-          "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
-          "com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled" = false;
-          "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled" = false;
-          "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles" = false;
-          "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically" = false;
-        };
-      };
+      system = {
+        # System configuration revision
+        # Set Git commit hash for darwin-version.
+        configurationRevision = self.rev or self.dirtyRev or null;
 
+        # Used for backwards compatibility, please read the changelog before changing.
+        # $ darwin-rebuild changelog
+        stateVersion = 4;
 
-      # https://daiderd.com/nix-darwin/manual/index.html      #
-      system.defaults = {
-        dock.autohide = true;
-        dock.mru-spaces = false;
-        finder.AppleShowAllExtensions = true;
-        finder.FXPreferredViewStyle = "clmv";
-        loginwindow.LoginwindowText = "analyst";
-        screencapture.location = "~/Pictures/screenshots";
-        screensaver.askForPasswordDelay = 180;
+        defaults = {
+
+          # START: https://daiderd.com/nix-darwin/manual/index.html      #
+          dock.autohide = true;
+          dock.mru-spaces = false;
+          finder.AppleShowAllExtensions = true;
+          finder.FXPreferredViewStyle = "clmv";
+          loginwindow.LoginwindowText = "analyst";
+          screencapture.location = "~/Pictures/screenshots";
+          screensaver.askForPasswordDelay = 180;
+          # END: https://daiderd.com/nix-darwin/manual/index.html      #
+
+          CustomUserPreferences = {
+            "com.apple.finder" = {
+              ShowExternalHardDrivesOnDesktop = true;
+              ShowHardDrivesOnDesktop = true;
+              ShowMountedServersOnDesktop = true;
+              ShowRemovableMediaOnDesktop = true;
+              _FXSortFoldersFirst = true;
+              # When performing a search, search the current folder by default
+              FXDefaultSearchScope = "SCcf";
+            };
+            "com.apple.desktopservices" = {
+              # Avoid creating .DS_Store files on network or USB volumes
+              DSDontWriteNetworkStores = true;
+              DSDontWriteUSBStores = true;
+            };
+            "com.apple.screensaver" = {
+              # Require password immediately after sleep or screen saver begins
+              askForPassword = 3600;
+              askForPasswordDelay = 0;
+            };
+            "com.apple.screencapture" = {
+              location = "~/Desktop";
+              type = "png";
+            };
+            "com.apple.SoftwareUpdate" = {
+              AutomaticCheckEnabled = true;
+              # Check for software updates daily, not just once per week
+              ScheduleFrequency = 1;
+              # Download newly available updates in background
+              AutomaticDownload = 1;
+              # Install System data files & security updates
+              CriticalUpdateInstall = 1;
+            };
+            "com.apple.Safari" = {
+              # Privacy: don’t send search queries to Apple
+              UniversalSearchEnabled = false;
+              SuppressSearchSuggestions = true;
+              # Press Tab to highlight each item on a web page
+              WebKitTabToLinksPreferenceKey = true;
+              ShowFullURLInSmartSearchField = true;
+              # Prevent Safari from opening ‘safe’ files automatically after downloading
+              AutoOpenSafeDownloads = false;
+              ShowFavoritesBar = false;
+              IncludeInternalDebugMenu = true;
+              IncludeDevelopMenu = true;
+              WebKitDeveloperExtrasEnabledPreferenceKey = true;
+              WebContinuousSpellCheckingEnabled = true;
+              WebAutomaticSpellingCorrectionEnabled = false;
+              AutoFillFromAddressBook = false;
+              AutoFillCreditCardData = false;
+              AutoFillMiscellaneousForms = false;
+              WarnAboutFraudulentWebsites = true;
+              WebKitJavaEnabled = false;
+              WebKitJavaScriptCanOpenWindowsAutomatically = false;
+              "com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks" = true;
+              "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
+              "com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled" = false;
+              "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled" = false;
+              "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles" = false;
+              "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically" = false;
+            };
+          };
+        };
       };
     };
 
@@ -149,13 +146,18 @@
       userConfig,
     }:
       nix-darwin.lib.darwinSystem {
+        nix.enable = false; # Determinate uses its own daemon to manage the Nix installation that conflicts with nix-darwin’s native Nix management.
         system = "aarch64-darwin";
         specialArgs = {
-          dotfilesPath = "/Users/${username}/.configs/nix";
+          dotfilesPath = "/Users/${username}/.config/nix";
         };
+
         modules = [
           darwinConfiguration
           (./hosts/users + "/${userConfig}" + /casks.nix)
+          {
+            system.primaryUser = username;
+          }
           home-manager.darwinModules.home-manager
           {
             # Set the specific user for this machine
@@ -170,7 +172,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                dotfilesPath = "/Users/${username}/.configs/nix";
+                dotfilesPath = "/Users/${username}/.config/nix";
               };
               users."${username}" = import (./hosts/users + "/${userConfig}" + /user.nix);
             };

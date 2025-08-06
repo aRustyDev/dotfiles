@@ -8,8 +8,6 @@
 }: {
   imports = [
     ../../base.nix
-    ../../../pkg-mgr/npm/volta.nix
-    ../../../pkg-mgr/homebrew/casks.nix
   ];
 
   home = {
