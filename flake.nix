@@ -221,6 +221,7 @@
                     username = username;
                     homeDir = "/Users/${username}";
                   };
+                };
               };
             };
           }
