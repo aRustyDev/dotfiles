@@ -154,7 +154,7 @@
 
         modules = [
           darwinConfiguration
-          (./hosts/users + "/${userConfig}" + /casks.nix)
+          (./nix/hosts/users + "/${userConfig}" + /casks.nix)
           {
             system.primaryUser = username;
           }
@@ -174,7 +174,7 @@
               extraSpecialArgs = {
                 dotfilesPath = "/Users/${username}/.config/nix";
               };
-              users."${username}" = import (./hosts/users + "/${userConfig}" + /user.nix);
+              users."${username}" = import (./nix/hosts/users + "/${userConfig}" + /user.nix);
             };
           }
         ];
