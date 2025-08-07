@@ -143,7 +143,9 @@
     # Function to create a darwin configuration for a specific machine
     mkDarwinConfiguration = {
       username,
-      userConfig,
+      usercfg,
+      # dot,
+      ...
     }:
       let
         # Define paths at this level so they're available throughput
@@ -153,75 +155,50 @@
       nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = {
-          inherit userConfig dotfilesPath;                                 # Pass userConfig to system modules
+          inherit usercfg dotfilesPath;                                 # Pass usercfg to system modules
         };
 
         modules = [
+          # Imports
+          darwinConfiguration
+          home-manager.darwinModules.home-manager
+          (./nix/hosts/users + "/${usercfg}" + /casks.nix)
+
+          # Specific Definitions
           {
             # Determinate uses its own daemon to manage the Nix installation that conflicts with nix-darwin’s native Nix management.
             nix.enable = false; # For Determinate Systems Nix.
-          }
-          darwinConfiguration
-          (./nix/hosts/users + "/${userConfig}" + /casks.nix)
-          {
             system.primaryUser = username;
-          }
-          home-manager.darwinModules.home-manager
-          {
             users.users."${username}" = {
               name = username;
               home = homeDirectory;
             };
 
-            # TODO: How to define the common 'Files' here, and then import/with the userConfig values into scope.
+            # TODO: How to define the common 'Files' here, and then import/with the usercfg values into scope.
             home-manager = {
               # Set the specific user for this machine
-              users."${username}" = import (./nix/hosts/users + "/${userConfig}" + /user.nix);
-              backupFileExtension = "nix.bak";
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                # Pass all configuration to home-manager modules
-                inherit userConfig dotfilesPath;                                 # Now volta.nix can access this directly
+              users."${username}" = {
+                # This is the list of modules that will be evaluated for this user's Home Manager config
+                modules = [
+                  # 1. Import the 'dot' option definition
+                  ./nix/modules/options/dot.nix
 
-                # Structured paths configuration
-                dot = {
-                  paths = {
-                    volta = {
-                      home = "$HOME/.volta";
-                      bin = "$HOME/.volta/bin";
-                      config = "${dotfilesPath}/pkg-mgr/npm";
-                    };
-                    git = {
-                      config = "$HOME/.config/git";
-                      commands = "${dotfilesPath}/git/commands";
-                    };
-                    zsh = {
-                      config = "$HOME/.config/zsh";
-                      dotfiles = "${dotfilesPath}/zsh";
-                    };
-                    scripts = {
-                      root = "${dotfilesPath}/scripts";
-                      active = "${dotfilesPath}/scripts/active";
-                      activation = "${dotfilesPath}/scripts/activation";
-                    };
-                    nvim = {
-                      config = "$HOME/.config/nvim";
-                      dotfiles = "${dotfilesPath}/nvim";
-                    };
-                  };
+                  # 2. Import your main user configuration module
+                  (import (./nix/hosts/users + "/${usercfg}" + /user.nix))
 
-                  features = {
-                    enableVolta = true;
-                    enableRust = true;
-                  };
+                  # 3. Import the 'tree' module that contributes dotfile path fields
+                  ./nix/modules/dot/tree.nix
 
-                  # Machine configuration metadata
-                  machine = {
-                    name = userConfig;
-                    username = username;
-                    homeDir = homeDirectory;
-                  };
+                  # Add any other Home Manager modules here as needed
+                ];
+
+                backupFileExtension = "nix.bak";
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  # Only pass truly "extra" arguments here.
+                  # 'dot' is now handled by the module system's 'config' object.
+                  inherit usercfg dotfilesPath;
                 };
               };
             };
@@ -234,19 +211,19 @@
       # CFS configuration
       "cfs" = mkDarwinConfiguration {
         username = "asmith";
-        userConfig = "cfs";
+        usercfg =  "cfs";
       };
 
       # Cisco configuration
       "cisco" = mkDarwinConfiguration {
         username = "adamsm";
-        userConfig = "cisco";
+        usercfg =  "cisco";
       };
 
       # Personal configuration
       "personal" = mkDarwinConfiguration {
         username = "adam";
-        userConfig = "personal";
+        usercfg =  "personal";
       };
     };
   };

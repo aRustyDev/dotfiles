@@ -85,7 +85,7 @@ Think of your dotfiles repo as a **master blueprint** for setting up your Mac ex
     └─→ Dotfile Linking Phase
         ├─→ Creates symbolic links:
         │   ├── ~/.config/zsh/.zshrc     → ~/dotfiles/zsh/.zshrc
-        │   ├── ~/.config/starship.toml  → ~/dotfiles/starship/starship.toml
+        │   ├── ~/.config/starship.toml  → ~/dotfiles/starship/config.toml
         │   ├── ~/.config/1Password/...  → ~/dotfiles/1password/agent.toml
         │   └─→ All other config files
         │

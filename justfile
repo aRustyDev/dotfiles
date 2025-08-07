@@ -47,11 +47,12 @@ install target: install-prereqs
     # pkill -f "Safari" # Kill Safari helpers
     sudo -H nix run nix-darwin -- switch --flake ".#{{target}}" --impure
     # nix run nix-darwin -- switch --flake github:my-user/my-repo#my-config             # Potentially faster, but would need to somehow inject before building.
-    clean
+    just clean
 
 clean:
     rm -f ssh/config/*.merged
     rm -f ssh/pubs/*.merged
 
 clean-full:
+    sudo nix run github:LnL7/nix-darwin#darwin-uninstaller
     /nix/nix-installer uninstall /nix/receipt.json

@@ -4,14 +4,14 @@
   lib,
   pkgs,
   config,
-  userConfig,     # Passed from flake.nix
+  usercfg,     # Passed from flake.nix
   dot,           # Structured paths configuration
   ...
 }: {
   home = {
     # User-specific PATH configuration
     sessionVariables = {
-      VOLTA_HOME = dot.paths.volta.home;
+      VOLTA_HOME = dot.volta.home;
       # PATH is managed by .zshrc
     };
 

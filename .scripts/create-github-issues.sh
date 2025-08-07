@@ -365,7 +365,7 @@ Starship prompt configuration with Catppuccin Mocha theme.
 
 ### Related Files
 - nix-darwin/hosts/programs/starship.nix
-- starship/starship.toml
+- starship/config.toml
 
 ### Key Areas to Review
 - Theme management

@@ -7,12 +7,12 @@
   ...
 }: {
   imports = [
-    ../../base.nix
+    ("${config.dot.nix.mods}" + /hosts/base.nix)
   ];
 
   home = {
-    username = "adam";
-    homeDirectory = "/Users/adam";
+    username = config.dot.user.name;
+    homeDirectory = config.dot.user.home;
 
     # User-specific PATH configuration
     sessionVariables = {

@@ -40,7 +40,7 @@ The configuration uses a shared base configuration to avoid duplication:
 darwinConfigurations."machine-name" = mkDarwinConfiguration {
   hostname = "machine-name";
   username = "username";
-  userConfig = ./hosts/users/${username}.nix;
+  usercfg = ./hosts/users/${username}.nix;
 };
 ```
 

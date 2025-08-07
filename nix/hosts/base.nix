@@ -6,9 +6,9 @@
   ...
 }: {
   imports = [
-    ../modules/git-commands.nix
-    ../pkg-mgr/npm/volta.nix
-    # ../pkg-mgr/homebrew/casks.nix
+    ("${config.dot.nix.mods}" + /modules/git-commands.nix)
+    ("${config.dot.nix.mods}" + /pkg-mgr/node/volta.nix)
+    # ("${config.dot.nix.mods}" + /pkg-mgr/homebrew/casks.nix)
   ];
 
   home = {
@@ -24,6 +24,10 @@
       starship
       tmux
       ghostty-bin
+      antidote
+      zsh-completions
+      # zsh-autosuggestions # benchmark: time zsh -i -c exit
+      # zsh-autocomplete    # benchmark: time zsh -i -c exit
 
       # Nu Shell
       nushell
@@ -34,7 +38,6 @@
 
       # CLI QoL tools
       atuin
-      zsh-autosuggestions
       zoxide
       dust
       tealdeer
@@ -109,9 +112,9 @@
       HISTSIZE = "32768";
       HISTFILESIZE = "32768";
       HISTCONTROL = "ignoreboth";
-      ZDOTDIR = "${config.home.homeDirectory}/.config/zsh";
-      STARSHIP_CONFIG = "${config.home.homeDirectory}/.config/starship/config.toml";
-      STARSHIP_CACHE = "${config.home.homeDirectory}/.local/cache/starship";
+      # ZDOTDIR = "${config.dot.cfg.dir}/zsh";
+      STARSHIP_CONFIG = "${config.dot.cfg.dir}/starship/config.toml";
+      STARSHIP_CACHE = "${config.dot.cfg.local}/cache/starship";
       STARSHIP_SHELL = "zsh";
       # NIX_STORE_DIR = "";
       # NIX_DATA_DIR = "";
@@ -126,14 +129,11 @@
 
     # Common dotfile links
     file = {
-      ".config/starship/config.toml".source = "${dotfilesPath}/starship/starship.toml";
-      ".config/ghostty/config".source = "${dotfilesPath}/ghostty/config";
-      ".config/zed/settings.json".source = "${dotfilesPath}/zed/settings.json";
-      ".local/git/bin/git-setup".source = "${dotfilesPath}/zsh/.zshenv";                    #
-      ".config/1Password/ssh/agent.toml".source = "${dotfilesPath}/1Password/agent.toml";   #
-
-      "/etc/zshenv".source = "${dotfilesPath}/zsh/.zshenv";                                 # Set this so the 'sessionVariables' for Zsh Take effect
-      ".config/zsh/.zshrc".source = "${dotfilesPath}/zsh/.zshrc";
+      ".config/starship/config.toml".source = "${config.dot.nix.dots}/starship/starship.toml";
+      ".config/ghostty/config".source = "${config.dot.nix.dots}/ghostty/config";
+      ".config/zed/settings.json".source = "${config.dot.nix.dots}/zed/settings.json";
+      ".local/git/bin/git-setup".source = "${config.dot.nix.dots}/zsh/zshenv";                    #
+      ".config/1Password/ssh/agent.toml".source = "${config.dot.nix.dots}/1Password/agent.toml";   #
     };
 
     # State version

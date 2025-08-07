@@ -7,12 +7,13 @@
   ...
 }: {
   imports = [
-    ../../base.nix
+    ("${config.dot.nix.mods}" + /hosts/base.nix)
+    ("${config.dot.nix.dots}" + /zsh/config.nix)
   ];
 
   home = {
-    username = "adamsm";
-    homeDirectory = "/Users/adamsm";
+    username = config.dot.user.name;
+    homeDirectory = config.dot.user.home;
 
     # User-specific PATH configuration
     sessionVariables = {
@@ -30,8 +31,8 @@
 
     # Cisco-specific dotfiles
     file = {
-      ".config/ssh/config".source = "${dotfilesPath}/ssh/config/cisco.merged";
-      ".config/ssh/gitlab.pub".source = "${dotfilesPath}/ssh/pubs/cisco.gitlab";
+      ".config/ssh/config".source = "${config.dot.nix.dir}/ssh/config/cisco.merged";
+      ".config/ssh/gitlab.pub".source = "${config.dot.nix.dir}/ssh/pubs/cisco.gitlab";
     };
   };
 }

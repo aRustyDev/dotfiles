@@ -1,9 +1,0 @@
-#!/usr/bin/env zsh
-
-source <(tenv completion zsh)
-source <(starship init zsh)
-source <(kubectl completion zsh)
-source <(helm completion zsh)
-source <(helm completion zsh)
-source <(op completion bash)
-source <(atuin gen-completions --shell zsh)

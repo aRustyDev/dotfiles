@@ -5,10 +5,6 @@
 
 # PATH will be configured after nix-daemon.sh is sourced
 
-for profile in ${(z)NIX_PROFILES}; do
-  fpath+=($profile/share/zsh/site-functions $profile/share/zsh/$ZSH_VERSION/functions $profile/share/zsh/vendor-completions)
-done
-
 # Configure PATH after nix-daemon.sh to ensure our paths take precedence
 # Initialize path array from current PATH
 path=(${(s/:/)PATH})
