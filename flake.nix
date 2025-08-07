@@ -6,7 +6,7 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -163,7 +163,7 @@
         modules = [
           # Imports
           darwinConfiguration
-          home-manager.darwinModules.home-manager
+          # home-manager.darwinModules.home-manager
           # (./nix/hosts/users + "/${usercfg}" + /casks.nix)
 
           # Specific Definitions
@@ -178,21 +178,30 @@
               home = homeDirectory;
             };
 
+            # IMPORTANT: Import the home-manager module here, then set its options
+            imports = [
+              home-manager.darwinModules.home-manager # <--- MOVED THIS IMPORT HERE!
+            ];
+
             # TODO: How to define the common 'Files' here, and then import/with the usercfg values into scope.
             home-manager = {
               backupFileExtension = "nix.bak";
               useGlobalPkgs = true;
               useUserPackages = true;
-              # stateVersion = "24.05";
+              stateVersion = "24.05";
               extraSpecialArgs = {
                 # Only pass truly "extra" arguments here.
                 # 'dot' is now handled by the module system's 'config' object.
                 inherit usercfg dotfilesPath homeDirectory;
               };
-              # home.stateVersion = "24.05";
 
               # Set the specific user for this machine
               users."${username}" = {
+                stateVersion = "24.05";
+                # All configuration contributions must go under 'config'
+                home = {
+                  stateVersion = "24.05";
+                };
 
                 # This is the list of modules that will be evaluated for this user's Home Manager config
                 imports = [
