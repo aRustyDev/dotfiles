@@ -4,7 +4,7 @@
 {
   config.dot = rec {
     zellij = {
-      enable = true;
+      enable = pkgs.lib.elem "zellij" config.packages.inScope;
       # dir = "${config.dot.cfg.dir}/zsh";
       # completions = "${zsh.dir}/completions";
       # symlinks = "${zsh.dir}/symlinks";

@@ -1,14 +1,23 @@
-# User configuration for analyst (CFS)
+# nix/hosts/users/cfs/user.nix
 {
   lib,
   pkgs,
   config,
   dotfilesPath,
   ...
-}: {
+}:
+let
+  # Define the list of casks once
+  userPkgs = with pkgs; [
+    # Add any CFS-specific tools here
+  ];
+in
+{
   imports = [
     ("${config.dot.nix.mods}" + /hosts/base.nix)
   ];
+
+  config.packages.user = userPkgs;
 
   home = {
     username = config.dot.user.name;
@@ -23,11 +32,9 @@
     };
 
     # Additional CFS-specific packages
-    packages = with pkgs; [
-      # Add any CFS-specific tools here
-    ];
+    packages = userPkgs;
 
     # CFS-specific dotfiles
     file = {};
   };
-}
+};

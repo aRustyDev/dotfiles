@@ -11,6 +11,7 @@
     # ("${config.dot.nix.mods}" + /pkg-mgr/homebrew/casks.nix)
   ];
 
+  config.packages.user = home.packages;
   home = {
     # Base packages available to all users
     packages = with pkgs; [
@@ -21,9 +22,9 @@
 
       # Terminal multiplexers and emulators
       zellij
-      starship
       tmux
       ghostty-bin
+      starship
       antidote
       zsh-completions
       # zsh-autosuggestions # benchmark: time zsh -i -c exit
@@ -136,8 +137,8 @@
       ".config/1Password/ssh/agent.toml".source = "${config.dot.nix.dots}/1Password/agent.toml";   #
     };
 
-    # State version
-    stateVersion = "24.05";
+    # # State version
+    # stateVersion = "24.05";
   };
 
   # TODO: This will be turned into a nix package eventually.

@@ -6,15 +6,16 @@
   dotfilesPath,
   ...
 }: {
+  config.packages.user = home.packages;
   home = {
 
-    # User-specific PATH configuration
-    sessionVariables = {
-      GOPATH = "${config.home.homeDirectory}/.local/lib/go";
+    # # User-specific PATH configuration
+    # sessionVariables = {
+    #   GOPATH = "${config.home.homeDirectory}/.local/lib/go";
 
-      # Note: PATH is managed by .zshrc to ensure proper ordering
-      # Any special PATH requirements should be added to .zshrc
-    };
+    #   # Note: PATH is managed by .zshrc to ensure proper ordering
+    #   # Any special PATH requirements should be added to .zshrc
+    # };
 
     # # Rust setup activation
     # activation.setupRust = lib.hm.dag.entryAfter ["writeBoundary"] ''

@@ -8,15 +8,17 @@
   dot,           # Structured paths configuration
   ...
 }: {
+  config.packages.user = home.packages;
+
   home = {
     # User-specific PATH configuration
-    sessionVariables = {
-      VOLTA_HOME = dot.volta.home;
-      # PATH is managed by .zshrc
-    };
+    # sessionVariables = {
+    #   VOLTA_HOME = dot.volta.home;
+    #   # PATH is managed by .zshrc
+    # };
 
     # Ensure jq is available for the script
-    packages = [ pkgs.jq ];
+    # packages = [ pkgs.jq ];
 
     # Volta setup activation
     # activation.setupVolta = lib.hm.dag.entryAfter ["writeBoundary"] (

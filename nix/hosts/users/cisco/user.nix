@@ -1,15 +1,24 @@
 # User configuration for asmith (Cisco)
+# nix/hosts/users/cisco/user.nix
 {
   lib,
   pkgs,
   config,
   dotfilesPath,
   ...
-}: {
+}:
+let
+  # Define the list of casks once
+  userPkgs = with pkgs; [
+    # Add any Cisco-specific tools here
+  ];
+in
+{
   imports = [
     ("${config.dot.nix.mods}" + /hosts/base.nix)
-    ("${config.dot.nix.dots}" + /zsh/config.nix)
   ];
+
+  config.packages.user = userPkgs;
 
   home = {
     username = config.dot.user.name;
@@ -24,10 +33,7 @@
     };
 
     # Additional Cisco/work-specific packages
-    packages = with pkgs; [
-      # Add any work-specific tools here
-      # For example: corporate VPN clients, work-specific CLI tools, etc.
-    ];
+    packages = userPkgs;
 
     # Cisco-specific dotfiles
     file = {

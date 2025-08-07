@@ -11,7 +11,7 @@
     };
   };
 
-  outputs = {
+  outputs = inputs@{
     self,
     nix-darwin,
     nixpkgs,
@@ -144,9 +144,9 @@
     mkDarwinConfiguration = {
       username,
       usercfg,
-      # dot,
+      inputs,
       ...
-    }:
+    }@args:
       let
         # Define paths at this level so they're available throughput
         dotfilesPath = "/Users/${username}/.config/nix";
@@ -154,21 +154,25 @@
       in
       nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        specialArgs = {
-          inherit usercfg dotfilesPath;                                 # Pass usercfg to system modules
-        };
+
+        specialArgs = args // { inherit inputs dotfilesPath homeDirectory; };
+        # {
+        #   inherit usercfg dotfilesPath;                                 # Pass usercfg to system modules
+        # };
 
         modules = [
           # Imports
           darwinConfiguration
           home-manager.darwinModules.home-manager
-          (./nix/hosts/users + "/${usercfg}" + /casks.nix)
+          # (./nix/hosts/users + "/${usercfg}" + /casks.nix)
 
           # Specific Definitions
-          {
+          ({ config, pkgs, lib, ... }: {
             # Determinate uses its own daemon to manage the Nix installation that conflicts with nix-darwin’s native Nix management.
             nix.enable = false; # For Determinate Systems Nix.
+
             system.primaryUser = username;
+
             users.users."${username}" = {
               name = username;
               home = homeDirectory;
@@ -176,12 +180,27 @@
 
             # TODO: How to define the common 'Files' here, and then import/with the usercfg values into scope.
             home-manager = {
+              backupFileExtension = "nix.bak";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              # stateVersion = "24.05";
+              extraSpecialArgs = {
+                # Only pass truly "extra" arguments here.
+                # 'dot' is now handled by the module system's 'config' object.
+                inherit usercfg dotfilesPath homeDirectory;
+              };
+              # home.stateVersion = "24.05";
+
               # Set the specific user for this machine
               users."${username}" = {
+
                 # This is the list of modules that will be evaluated for this user's Home Manager config
-                modules = [
-                  # 1. Import the 'dot' option definition
+                imports = [
+
+                  # 1. Import the options definitions [ 'dot', 'programs' ]
                   ./nix/modules/options/dot.nix
+                  ./nix/modules/options/programs.nix
+                  ./nix/modules/options/casks.nix
 
                   # 2. Import your main user configuration module
                   (import (./nix/hosts/users + "/${usercfg}" + /user.nix))
@@ -189,20 +208,14 @@
                   # 3. Import the 'tree' module that contributes dotfile path fields
                   ./nix/modules/dot/tree.nix
 
+                  # 5. Import the user-specific casks
+                  (./nix/hosts/users + "/${usercfg}" + /casks.nix)
+
                   # Add any other Home Manager modules here as needed
                 ];
-
-                backupFileExtension = "nix.bak";
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = {
-                  # Only pass truly "extra" arguments here.
-                  # 'dot' is now handled by the module system's 'config' object.
-                  inherit usercfg dotfilesPath;
-                };
               };
             };
-          }
+          })
         ];
       };
   in {
@@ -212,18 +225,24 @@
       "cfs" = mkDarwinConfiguration {
         username = "asmith";
         usercfg =  "cfs";
+        inputs = inputs;
+        # arch = "aarch64-darwin"
       };
 
       # Cisco configuration
       "cisco" = mkDarwinConfiguration {
         username = "adamsm";
         usercfg =  "cisco";
+        inputs = inputs;
+        # arch = "aarch64-darwin"
       };
 
       # Personal configuration
       "personal" = mkDarwinConfiguration {
         username = "adam";
         usercfg =  "personal";
+        inputs = inputs;
+        # arch = "aarch64-darwin"
       };
     };
   };
