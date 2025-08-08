@@ -37,8 +37,6 @@ install-prereqs:
     echo "Installing Rosetta for Silicon Macs"
     softwareupdate --install-rosetta --agree-to-license
 
-
-
 install target: install-prereqs
     echo "Downloading the pre-reqs"
     just hydrate
@@ -48,6 +46,12 @@ install target: install-prereqs
     sudo -H nix run nix-darwin -- switch --flake ".#{{target}}" --impure
     # nix run nix-darwin -- switch --flake github:my-user/my-repo#my-config             # Potentially faster, but would need to somehow inject before building.
     just clean
+
+test target: install-prereqs
+    nix build .#darwinConfigurations."{{target}}".system
+
+shell: install-prereqs
+    nix develop
 
 clean:
     rm -f ssh/config/*.merged

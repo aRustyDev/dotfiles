@@ -188,7 +188,7 @@
               backupFileExtension = "nix.bak";
               useGlobalPkgs = true;
               useUserPackages = true;
-              stateVersion = "24.05";
+              # stateVersion = "24.05";
               extraSpecialArgs = {
                 # Only pass truly "extra" arguments here.
                 # 'dot' is now handled by the module system's 'config' object.
@@ -197,11 +197,11 @@
 
               # Set the specific user for this machine
               users."${username}" = {
-                stateVersion = "24.05";
+                # stateVersion = "24.05";
                 # All configuration contributions must go under 'config'
-                home = {
-                  stateVersion = "24.05";
-                };
+                # home = {
+                #   stateVersion = "24.05";
+                # };
 
                 # This is the list of modules that will be evaluated for this user's Home Manager config
                 imports = [

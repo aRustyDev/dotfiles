@@ -1,0 +1,172 @@
+{
+  "journal": {
+    "path": "~/.local/cache/zed",
+    "hour_format": "hour12"
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": true
+  },
+  "show_edit_predictions": true,
+  "edit_predictions": {
+    // A list of globs representing files that edit predictions should be disabled for.
+    // There's a sensible default list of globs already included.
+    // Any addition to this list will be merged with the default list.
+    "disabled_globs": [
+      "**/.env*",
+      "**/*.pem",
+      "**/*.key",
+      "**/*.cert",
+      "**/*.crt",
+      "**/secrets.yml"
+    ]
+  },
+  "show_completions_on_input": true,
+  "show_completion_documentation": true,
+  "completions": {
+    "words": "fallback",
+    "lsp": true,
+    "lsp_fetch_timeout_ms": 0,
+    "lsp_insert_mode": "replace_suffix"
+  },
+  "agent": {
+    "play_sound_when_agent_done": "true",
+    "single_file_review": "true",
+    "always_allow_tool_actions": "true",
+    "expand_terminal_card": "false",
+    "enable_feedback": "false",
+    "use_modifier_to_send": "true",
+    "expand_edit_card": "false",
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4"
+    },
+    "inline_assistant_model": {
+      "provider": "anthropic",
+      "model": "claude-3-5-sonnet"
+    },
+    "commit_message_model": {
+      "provider": "openai",
+      "model": "gpt-4o-mini"
+    },
+    "thread_summary_model": {
+      "provider": "google",
+      "model": "gemini-2.0-flash"
+    },
+    "inline_alternatives": [
+      {
+        "provider": "zed.dev",
+        "model": "gpt-4o"
+      }
+    ],
+    "model_parameters": [
+      // To set parameters for all requests to OpenAI models:
+      {
+        "provider": "openai",
+        "temperature": 0.5
+      },
+      // To set parameters for all requests in general:
+      {
+        "temperature": 0
+      },
+      // To set parameters for a specific provider and model:
+      {
+        "provider": "zed.dev",
+        "model": "claude-sonnet-4",
+        "temperature": 1.0
+      }
+    ]
+  },
+  "context_servers": {
+    "your-mcp-server": {
+      "source": "custom",
+      "command": "some-command",
+      "args": ["arg-1", "arg-2"],
+      "env": {}
+    }
+  },
+  "disable_ai": true,
+  "terminal": {
+    "alternate_scroll": "off",
+    "blinking": "terminal_controlled",
+    "copy_on_select": false,
+    "keep_selection_on_copy": false,
+    "dock": "bottom",
+    "default_width": 640,
+    "default_height": 320,
+    "detect_venv": {
+      "on": {
+        // Default directories to search for virtual environments, relative
+        // to the current working directory. We recommend overriding this
+        // in your project's settings, rather than globally.
+        "directories": [".env", "env", ".venv", "venv"],
+        // Can also be `csh`, `fish`, and `nushell`
+        "activate_script": "default"
+      }
+    },
+    "env": {},
+    "font_family": null,
+    "font_features": null,
+    "font_size": null,
+    "line_height": "comfortable",
+    "minimum_contrast": 45,
+    "option_as_meta": false,
+    "button": true,
+    "shell": {
+      "with_arguments": {
+        "program": "/bin/zsh",
+        "args": ["--login"]
+      }
+    },
+    "toolbar": {
+      "breadcrumbs": true
+    },
+    "working_directory": "current_project_directory",
+    "scrollbar": {
+      "show": null
+    }
+  },
+  "project_panel": {
+    "button": true,
+    "default_width": 240,
+    "dock": "left",
+    "entry_spacing": "comfortable",
+    "file_icons": true,
+    "folder_icons": true,
+    "git_status": true,
+    "indent_size": 20,
+    "auto_reveal_entries": true,
+    "auto_fold_dirs": true,
+    "scrollbar": {
+      "show": null
+    },
+    "show_diagnostics": "all",
+    "indent_guides": {
+      "show": "always"
+    },
+    "hide_root": false
+  },
+  "outline_panel": {
+    "button": true,
+    "default_width": 300,
+    "dock": "left",
+    "file_icons": true,
+    "folder_icons": true,
+    "git_status": true,
+    "indent_size": 20,
+    "auto_reveal_entries": true,
+    "auto_fold_dirs": true,
+    "indent_guides": {
+      "show": "always"
+    },
+    "scrollbar": {
+      "show": null
+    }
+  },
+  "calls": {
+    // Join calls with the microphone live by default
+    "mute_on_join": true,
+    // Share your project when you are the first to join a channel
+    "share_on_join": true
+  }
+}

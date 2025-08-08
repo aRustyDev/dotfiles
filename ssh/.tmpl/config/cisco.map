@@ -4,10 +4,24 @@
 Include ~/.orbstack/ssh/config
 
 Host eng-bastion
-  Hostname op://Cisco/gitlab/map-bastion-url
-  User op://Cisco/gitlab/map-user
-  DynamicForward op://Cisco/gitlab/map-bastion-port
-  IdentityFile $HOME/.config/ssh/gitlab.pub
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  Hostname op://Cisco/gitlab/host
+  User op://Cisco/gitlab/user
+  DynamicForward op://Cisco/gitlab/proxy
+  IdentitiesOnly yes
+
+Host il5*
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  Hostname op://Cisco/il5/host
+  User op://Cisco/il5/user
+  DynamicForward op://Cisco/il5/proxy
+  IdentitiesOnly yes
+
+Host il6*
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  Hostname op://Cisco/il6/host
+  User op://Cisco/il6/user
+  DynamicForward op://Cisco/il6/proxy
   IdentitiesOnly yes
 
 # Default to using 1Password for SSH

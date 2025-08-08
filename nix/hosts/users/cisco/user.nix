@@ -11,6 +11,13 @@ let
   # Define the list of casks once
   userPkgs = with pkgs; [
     # Add any Cisco-specific tools here
+    youtube-tui
+    sops
+    rops
+    ansible
+    toolbox
+    # webassemblyjs-cli
+    # pre-commit-hook-ensure-sops
   ];
 in
 {
@@ -37,8 +44,8 @@ in
 
     # Cisco-specific dotfiles
     file = {
-      ".config/ssh/config".source = "${config.dot.nix.dir}/ssh/config/cisco.merged";
-      ".config/ssh/gitlab.pub".source = "${config.dot.nix.dir}/ssh/pubs/cisco.gitlab";
+      "${config.dot.cfg.dir}/ssh/config".source = "${config.dot.nix.dir}/ssh/config/cisco.merged";
+      "${config.dot.cfg.dir}/ssh/gitlab.pub".source = "${config.dot.nix.dir}/ssh/pubs/cisco.gitlab";
     };
   };
 }

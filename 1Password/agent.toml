@@ -2,25 +2,34 @@
 # This file is managed by Nix (nix-darwin + home-manager)
 # Manual changes may be overwritten on system rebuild
 
-# Git signing key for Bespin Project
+# cfs - bespin (sign)
 [[ssh-keys]]
 item = "7wrp2wy6re2rtf262h7iyjezuy"
 
-# Git authentication key for Bespin Project
+# cfs - bespin (auth)
 [[ssh-keys]]
 item = "vipoogikkiwhupg62nolhh3s6y"
 
-# GitLab SSH key (USAF)
+# usaf - gitlab
 [[ssh-keys]]
 item = "3f33pkgx4r3atsdjpdyg37nwru"
 
-# Git authentication key for RTX GitLab
+# cfs - gitlab (auth)
 [[ssh-keys]]
 item = "qycn2mtcodebjidrqin5k7q5hy"
 
+# cisco - gitlab
 [[ssh-keys]]
 item = "fkkv2ntnwxdz3pmbx5nd6tnqgy"
 
-# SANS SEC488 course SSH key
+# cisco - il5
+[[ssh-keys]]
+item = "eztnkttd546q64o3e6rnqb4tcq"
+
+# cisco - il6
+[[ssh-keys]]
+item = "akn3gslikqn2py6xki5ncxi254"
+
+# personal - github
 [[ssh-keys]]
 item = "es3f7nrfsyozjzdjfmejficihu"

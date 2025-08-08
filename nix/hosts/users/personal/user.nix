@@ -11,6 +11,7 @@ let
   # Define the list of casks once
   userPkgs = with pkgs; [
     # Add any Cisco-specific tools here
+    home-assistant-custom-components.spook
   ];
 in
 {
