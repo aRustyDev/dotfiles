@@ -1,0 +1,15 @@
+FROM alpine:latest
+
+RUN apk --no-cache add zsh curl git awk\
+    && mkdir -p /home/main/. \
+    && git clone https://github.com/aRustyDev/dotfiles.git /home/main/.dotfiles
+
+# Set Zsh as the default shell for the 'main' user
+RUN adduser -D main \
+    && chown -R main:main /app \
+    && chsh -s /usr/bin/zsh main
+
+USER main
+WORKDIR /app
+
+CMD ["zsh"]
