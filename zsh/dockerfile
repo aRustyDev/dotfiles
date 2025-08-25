@@ -1,15 +1,33 @@
-FROM alpine:latest
+FROM sickcodes/docker-osx:latest
+EXPOSE 50922 10022
 
-RUN apk --no-cache add zsh curl git awk\
-    && mkdir -p /home/main/. \
-    && git clone https://github.com/aRustyDev/dotfiles.git /home/main/.dotfiles
+ENV DISPLAY="${DISPLAY:-:0.0}"
+ENV GENERATE_UNIQUE=true
+ENV CPU='Haswell-noTSX'
+ENV CPUID_FLAGS='kvm=on,vendor=GenuineIntel,+invtsc,vmware-cpuid-freq=on'
+ENV MASTER_PLIST_URL='https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom-sonoma.plist'
+ENV SHORTNAME=sequoia
+
+VOLUME /tmp/.X11-unix
+# RUN apk --no-cache add zsh curl git gawk shadow\
+#     && mkdir -p /home/main/. \
+#     && git clone https://github.com/aRustyDev/dotfiles.git /home/main/.dotfiles
+
+# Install Homebrew
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# clone dotfiles
+RUN git clone https://github.com/aRustyDev/dotfiles.git /home/main/.dotfiles
+# Install zsh
+RUN brew install zsh jq
+# Install defined dependencies
+RUN brew install $(jq '.install[]' /home/main/.dotfiles/zsh/init/data/install.json)
 
 # Set Zsh as the default shell for the 'main' user
-RUN adduser -D main \
-    && chown -R main:main /app \
-    && chsh -s /usr/bin/zsh main
+# RUN adduser -D main \
+#     && chown -R main:main /home/main \
+#     && chsh -s /usr/bin/zsh main
 
-USER main
-WORKDIR /app
+# USER main
+# WORKDIR /home/main
 
-CMD ["zsh"]
+# CMD ["zsh", "/home/main/.dotfiles/zsh/init.sh"]

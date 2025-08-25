@@ -1,0 +1,4 @@
+test:
+    echo "Testing ZSH"
+    docker run --rm -it --device /dev/kvm -v /tmp/.X11-unix:/tmp/.X11-unix zshrc:latest
+    echo "Testing Complete"
