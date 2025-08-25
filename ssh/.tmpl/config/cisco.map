@@ -36,7 +36,7 @@ Host ite-combine-system-w4g-il5-vpc
 
 Host combine-w4g-il5-bastion
   SetEnv TERM=xterm-256color
-  User adamsm
+  User op://Cisco/gitlab/user
   Hostname op://Cisco/il5/bastion-host
   ProxyJump ite-combine-system-w4g-il5-vpc
   DynamicForward op://Cisco/il5/port
