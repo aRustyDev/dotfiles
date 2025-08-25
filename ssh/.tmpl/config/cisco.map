@@ -3,7 +3,9 @@
 # This won't be added again if you remove it.
 Include ~/.orbstack/ssh/config
 
+
 Host eng-bastion
+  SetEnv TERM=xterm-256color
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
   Hostname op://Cisco/gitlab/host
   User op://Cisco/gitlab/user
@@ -11,6 +13,7 @@ Host eng-bastion
   IdentitiesOnly yes
 
 Host il5*
+  SetEnv TERM=xterm-256color
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
   Hostname op://Cisco/il5/host
   User op://Cisco/il5/user
@@ -18,11 +21,25 @@ Host il5*
   IdentitiesOnly yes
 
 Host il6*
+  SetEnv TERM=xterm-256color
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
   Hostname op://Cisco/il6/host
   User op://Cisco/il6/user
   DynamicForward op://Cisco/il6/proxy
   IdentitiesOnly yes
+
+Host ite-combine-system-w4g-il5-vpc
+  SetEnv TERM=xterm-256color
+  User ec2-user
+  IdentityFile ~/.ssh/ite-combine-system-w4g-il5-vpc.pem
+  Hostname op://Cisco/il5/ip
+
+Host combine-w4g-il5-bastion
+  SetEnv TERM=xterm-256color
+  User adamsm
+  Hostname op://Cisco/il5/bastion-host
+  ProxyJump ite-combine-system-w4g-il5-vpc
+  DynamicForward op://Cisco/il5/port
 
 # Default to using 1Password for SSH
 Host *
