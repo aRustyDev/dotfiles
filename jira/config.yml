@@ -1,0 +1,249 @@
+# ~/.jira.d/config.yml
+# Go-jira configuration for JIRA Server/Data Center with custom automation commands
+
+# Your JIRA Server endpoint - note the lack of /secure/Dashboard.jspa
+# Go-jira needs the base URL, not the web interface URL
+endpoint: https://jira.yourcompany.com
+
+# Authentication method for Server/DC with PAT
+# 'bearer' tells go-jira to use Authorization: Bearer <token> headers
+authentication-method: bearer
+
+# Default project - this saves typing when creating issues
+# You can always override with -p flag
+project: PROJ
+
+# User identification - for Server/DC, this is typically your username
+# Not your email like in Cloud instances
+user: your.username
+
+# Password source configuration for secure credential storage
+# This prevents tokens from being stored in plain text
+password-source: keyring
+
+# Custom fields mapping - this helps when working with your templates
+# Map friendly names to JIRA's custom field IDs
+custom-fields:
+  story-points: customfield_10001
+  epic-link: customfield_10002
+  time-tracking: customfield_10003
+
+# Editor configuration - which editor opens for issue creation/editing
+# Go-jira will check $JIRA_EDITOR, then $EDITOR, then default to vi
+# editor: vim
+
+# Custom commands - the heart of your automation
+custom-commands:
+  # Command 1: Log work from a YAML template
+  - name: log-work
+    help: Log work on a JIRA issue from a YAML template file
+    args:
+      # These define the command-line arguments for your custom command
+      - name: ISSUE
+        help: Issue key to log work against (e.g., PROJ-123)
+        required: true
+      - name: TEMPLATE
+        help: Path to YAML template file containing work log details
+        required: true
+        default: worklog-template.yaml
+    # The script that runs when you execute 'jira log-work'
+    script: |
+      #!/bin/bash
+      # This script demonstrates how to process a YAML template and log work
+      
+      # First, let's set up error handling
+      set -euo pipefail
+      
+      # Extract our arguments (go-jira passes them as positional parameters)
+      ISSUE_KEY="$1"
+      TEMPLATE_FILE="$2"
+      
+      # Validate the template file exists
+      if [ ! -f "$TEMPLATE_FILE" ]; then
+        echo "Error: Template file '$TEMPLATE_FILE' not found" >&2
+        exit 1
+      fi
+      
+      # Parse the YAML file using a tool like yq (you'll need to install this)
+      # For this example, I'll show how to extract values and use them
+      
+      # Read time spent from template (format: 1h 30m)
+      TIME_SPENT=$(grep '^timeSpent:' "$TEMPLATE_FILE" | cut -d':' -f2- | xargs)
+      
+      # Read work description
+      COMMENT=$(awk '/^comment:/{flag=1; next} /^[^ ]/{flag=0} flag' "$TEMPLATE_FILE" | sed 's/^  //')
+      
+      # Read the date (optional - defaults to now)
+      WORK_DATE=$(grep '^date:' "$TEMPLATE_FILE" | cut -d':' -f2- | xargs || echo "")
+      
+      # Build the JSON payload for the work log
+      # We use a here-document for readability
+      JSON_PAYLOAD=$(cat <<EOF
+      {
+        "timeSpent": "$TIME_SPENT",
+        "comment": "$COMMENT"
+      EOF
+      )
+      
+      # Add date if specified
+      if [ -n "$WORK_DATE" ]; then
+        JSON_PAYLOAD+=",\"started\": \"$WORK_DATE\""
+      fi
+      
+      JSON_PAYLOAD+="}"
+      
+      # Log the work using go-jira's worklog add command
+      echo "Logging ${TIME_SPENT} on ${ISSUE_KEY}..."
+      
+      # Use echo to pipe the comment to jira command
+      # This avoids issues with special characters in the comment
+      echo "$COMMENT" | {{jira}} worklog add "$ISSUE_KEY" --time-spent="$TIME_SPENT" --noedit
+      
+      echo "✓ Work logged successfully"
+
+  # Command 2: Create subtask from a YAML template
+  - name: create-subtask
+    help: Create a subtask under an existing issue using a YAML template
+    args:
+      - name: PARENT
+        help: Parent issue key (e.g., PROJ-123)
+        required: true
+      - name: TEMPLATE
+        help: Path to YAML template file containing subtask details
+        required: false
+        default: subtask-template.yaml
+    script: |
+      #!/bin/bash
+      # Script to create subtasks from a structured YAML template
+      
+      set -euo pipefail
+      
+      PARENT_KEY="$1"
+      TEMPLATE_FILE="${2:-subtask-template.yaml}"
+      
+      # Validate parent issue exists
+      echo "Validating parent issue ${PARENT_KEY}..."
+      if ! {{jira}} view "$PARENT_KEY" > /dev/null 2>&1; then
+        echo "Error: Parent issue '$PARENT_KEY' not found or not accessible" >&2
+        exit 1
+      fi
+      
+      # For this example, I'll show a more sophisticated template parsing approach
+      # In practice, you might want to use a proper YAML parser
+      
+      # Extract subtask details from template
+      # This assumes a template structure with multiple subtasks
+      
+      # Create a temporary file for the issue description
+      TEMP_DESC=$(mktemp)
+      
+      # Parse the template and create each subtask
+      # This is a simplified parser - in production, use proper YAML tools
+      
+      SUBTASK_COUNT=0
+      IN_SUBTASK=false
+      SUMMARY=""
+      DESCRIPTION=""
+      ASSIGNEE=""
+      
+      while IFS= read -r line; do
+        # Detect start of a subtask definition
+        if [[ "$line" =~ ^-\ summary: ]]; then
+          # If we were processing a previous subtask, create it
+          if [ -n "$SUMMARY" ]; then
+            echo "Creating subtask: $SUMMARY"
+            
+            # Prepare the create command
+            CREATE_CMD="{{jira}} create --noedit"
+            CREATE_CMD+=" --type=Sub-task"
+            CREATE_CMD+=" --parent=$PARENT_KEY"
+            CREATE_CMD+=" -o summary=\"$SUMMARY\""
+            
+            if [ -n "$DESCRIPTION" ]; then
+              echo "$DESCRIPTION" > "$TEMP_DESC"
+              CREATE_CMD+=" -o description=@$TEMP_DESC"
+            fi
+            
+            if [ -n "$ASSIGNEE" ]; then
+              CREATE_CMD+=" -o assignee=$ASSIGNEE"
+            fi
+            
+            # Execute the create command
+            eval "$CREATE_CMD"
+            ((SUBTASK_COUNT++))
+          fi
+          
+          # Start processing new subtask
+          SUMMARY=$(echo "$line" | sed 's/^- summary: //' | sed 's/^"//' | sed 's/"$//')
+          DESCRIPTION=""
+          ASSIGNEE=""
+          IN_SUBTASK=true
+          
+        elif [[ "$line" =~ ^\ \ description: ]] && [ "$IN_SUBTASK" = true ]; then
+          # Start of description
+          DESCRIPTION=$(echo "$line" | sed 's/^  description: //')
+          
+        elif [[ "$line" =~ ^\ \ assignee: ]] && [ "$IN_SUBTASK" = true ]; then
+          # Assignee field
+          ASSIGNEE=$(echo "$line" | sed 's/^  assignee: //')
+          
+        elif [[ "$line" =~ ^\ \ \ \  ]] && [ "$IN_SUBTASK" = true ]; then
+          # Continuation of description (indented content)
+          DESCRIPTION+=$'\n'$(echo "$line" | sed 's/^    //')
+        fi
+      done < "$TEMPLATE_FILE"
+      
+      # Don't forget the last subtask
+      if [ -n "$SUMMARY" ]; then
+        echo "Creating subtask: $SUMMARY"
+        CREATE_CMD="{{jira}} create --noedit"
+        CREATE_CMD+=" --type=Sub-task"
+        CREATE_CMD+=" --parent=$PARENT_KEY"
+        CREATE_CMD+=" -o summary=\"$SUMMARY\""
+        
+        if [ -n "$DESCRIPTION" ]; then
+          echo "$DESCRIPTION" > "$TEMP_DESC"
+          CREATE_CMD+=" -o description=@$TEMP_DESC"
+        fi
+        
+        if [ -n "$ASSIGNEE" ]; then
+          CREATE_CMD+=" -o assignee=$ASSIGNEE"
+        fi
+        
+        eval "$CREATE_CMD"
+        ((SUBTASK_COUNT++))
+      fi
+      
+      # Cleanup
+      rm -f "$TEMP_DESC"
+      
+      echo "✓ Created $SUBTASK_COUNT subtask(s) under $PARENT_KEY"
+
+# Query shortcuts - these make common searches easier
+queries:
+  # Your assigned issues
+  mine: assignee = currentUser() AND resolution = Unresolved
+  
+  # Issues you reported
+  reported: reporter = currentUser() AND resolution = Unresolved
+  
+  # Sprint work (adjust the sprint name pattern for your team)
+  sprint: sprint in openSprints() AND project = {{project}}
+  
+  # Today's work - useful for daily standups
+  today: updatedDate >= -1d AND (assignee = currentUser() OR reporter = currentUser())
+
+# Aliases - shortcuts for common commands
+aliases:
+  - name: ls
+    help: List my open issues
+    args:
+      - name: PROJECT
+        help: Project key to filter by
+        default: ""
+    script: |
+      if [ -n "$1" ]; then
+        {{jira}} list --query "assignee = currentUser() AND resolution = Unresolved AND project = $1"
+      else
+        {{jira}} list --query "{{queries.mine}}"
+      fi

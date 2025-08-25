@@ -1,0 +1,41 @@
+# Ghostty Configuration
+
+# Font configuration
+font-family = "JetBrains Mono"
+font-size = 14
+font-thicken = true
+
+# Theme
+theme = dark
+
+# Window configuration
+window-padding-x = 10
+window-padding-y = 10
+window-decoration = true
+window-theme = auto
+
+# Cursor
+cursor-style = block
+cursor-blink = true
+
+# Scrollback
+scrollback-limit = 10000
+
+# Bell
+audible-bell = false
+visual-bell = true
+
+# Copy on select
+copy-on-select = true
+
+# macOS specific
+macos-option-as-alt = true
+macos-titlebar-style = tabs
+
+# Performance
+adjust-cell-height = 0
+adjust-cell-width = 0
+
+# Keybindings
+keybind = cmd+k=clear
+keybind = cmd+shift+enter=toggle_fullscreen

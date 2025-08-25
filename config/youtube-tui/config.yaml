@@ -1,0 +1,9 @@
+mouse_support: true
+invidious_instance: https://vid.puffyan.us                                                                                                     max_watch_history: 50                                                                                                                          allow_unicode: false                                                                                                                           images: Sixels
+refresh_after_modifying_search_filters: true
+provider: YouTube
+env:
+  browser: firefox
+  video-player: mpv
+  youtube-downloader: yt-dlp
+  terminal-emulator: konsole -e

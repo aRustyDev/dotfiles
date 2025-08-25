@@ -1,6 +1,5 @@
 {
-  # https://github.com/LnL7/nix-darwin
-  description = "Example Darwin system flake";
+  description = "Darwin system flake for analyst";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -12,332 +11,91 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
-  let
-    configuration = { pkgs, ... }: {
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
-      environment.systemPackages = with pkgs; [
-        vim
-        neovim
-          # https://www.youtube.com/watch?v=x__SZUuLOxw
-          # https://www.youtube.com/watch?v=E2mKJ73M9pg
-          # https://alpha2phi.medium.com/learn-neovim-the-practical-way-8818fcf4830f#cbd3
-          # https://github.com/wolandark/Vimwiki-Graphviz
-          # https://github.com/nadrad/h-m-m
-          # https://github.com/org-roam/org-roam-ui
-          # https://github.com/nvim-neorg/neorg
-          # https://www.youtube.com/watch?v=K4PoBfz3WLA
-          # https://www.youtube.com/watch?v=02lE-yGJWvc
-          # https://www.youtube.com/watch?v=2KLFjhGjmbI
-          # https://www.youtube.com/watch?v=oLpGahrsSGQ
-        wget
-        git
-        gnupg
-        vscode
-
-        librewolf
-        # zen # https://github.com/NixOS/nixpkgs/issues/327982
-        arc-browser
-        mullvad-browser
-
-        slack-cli
-        slack
-        slack-term
-
-        _1password-cli
-        _1password-cli-beta
-        _1password-gui
-        _1password-gui-beta
-        go-passbolt-cli
-
-        direnv
-
-        fscryptctl
-        age
-        agebox # Git Repo Encryption
-
-        xcodes
-        darwin.xcode
-        xcode-install
-        xcbuild
-        # swiftPackages.xcbuild
-        cocoapods
-        cocoapods-beta
-        darwin.ios-deploy
-        xcbeautify
-
-        # SSH :
-        sshs
-        fast-ssh
-        # tctl # Not in nixpkgs
-        # tsh # Not in nixpkgs
-        # teleport-connect # Not in nixpkgs
-
-        # TUIs (Misc) :
-        so
-        docui
-        impala
-        dooit
-        tdf
-        tuifeed
-        jqp
-        notcurses
-        bluetuith
-        youtube-tui
-        hextazy
-        thokr
-        clipse
-        caligula
-        nix-inspect
-        oha
-        lazysql
-        gobang
-        russ
-        mprocs
-        ngggram
-        scope-tui
-        s-tui
-        openapi-tui
-        md-tui
-        mqtt-tui
-        manga-tui
-        libcryptui
-        gpg-tui
-        gitui
-        csv-tui
-        cicero
-        dive
-        lazydocker
-        ctop
-
-        atac
-        termshark
-        tshark
-        # portal # Still not sure about this one
-        # magic-wormhole # Still not sure about this one
-        glow
-        mdp
-        ripgrep
-        # lnav
-        # angle-grinder
-        # xxd
-        # hexyl
-        # drill
-        # difftastic
-        # plocate
-        # zenith
-        # btm
-        # awk
-        # ack
-        # pgcli
-        # orbstack
-        # localstack
-        # nerdfonts
-        # bat
-        # bottom
-        # broot
-        # btop
-        # fzf
-        # cheat
-        # fd
-        # diffutils
-        # delta
-        # choose
-        # duf
-        # coreutils
-        # diffutils
-        # doggo
-        # dog
-        # dust
-        # eza
-        # zoxide
-        # findutils
-        # glances
-        # gping
-        # hyperfine
-        # tmate
-        # lsd
-        # mcfly
-        # mtr
-        # fuck
-        # pls
-        # procs
-        # ag
-        # ripgrep-all
-        # rustscan
-        # asdf
-        # sd
-        # tldr
-        # trashy
-        # gtop
-        starship
-        # alacritty # https://www.youtube.com/watch?v=uOnL4fEnldA
-        # kitty
-        # wezterm
-        # entr
-        tmux # https://www.youtube.com/watch?v=DzNmUNvnB04
-        yazi
-        obsidian
-
-        bruno
-        # httpie
-        # xh
-        # curlie
-
-        pre-commit
-        # git-delta
-        lazygit
-
-        # Terraform :
-        terraform
-        tenv
-        terraform-local
-        terraform-docs
-        terraform-inventory
-        # pluralith # Not in nixpkgs
-        tftui
-
-        # Android
-        adbtuifm
-
-        # Workflow : https://temporal.io/how-it-works
-        # temporal-cli # Still not sure about this one
-
-        # Rust : https://xeiaso.net/blog/how-i-start-nix-2020-03-08/
-        rustup
-        rustc
-        cargo
-        rustfmt
-        rustPackages.clippy
-        rustycli
-        rust-script
-        rust-petname
-        rust-code-analysis
-        jetbrains.rust-rover
-        rustup-toolchain-install-master
-        # RUST_BACKTRACE = 1;
-
-        # Java :
-        jetbrains.idea-ultimate
-
-        # golang
-        jetbrains.goland
-
-        # C/C++ :
-        jetbrains.clion
-
-        atuin
-        natscli
-        nats-top
-        nats-server
-        nkeys
-        nsc
-
-        cloudflared
-        cloudflare-warp
-        wrangler
-        cloudflare-utils
-
-        citrix_workspace
-        vmware-horizon-client
-        vmware-workstation
-        virtualbox
-        kvmtool
-        libvirt
-        virter
-        qemu
-        firectl
-        firecracker
-
-        # ruby
-        # python
-        # node
-        # vault
-        # helm
-        # packer
-        # vagrant
-
-        wireguard-tools
-        wireguard-go
-
-        jq
-        yq
-        # htmlq
-
-        # kubectl
-        # kubelogin-oidc
-        # kubeshark
-        # k9s
-        # cilium-cli
-
-        # aws-cli
-        # azure-cli
-        # google-cloud-sdk
-      ];
-
-      # Auto upgrade nix package and the daemon service.
-      services.nix-daemon.enable = true;
-      # nix.package = pkgs.nix;
-
-      # Necessary for using flakes on this system.
+  outputs = {
+    self,
+    nix-darwin,
+    nixpkgs,
+    home-manager,
+  }: let
+    # Base darwin configuration
+    darwinConfiguration = {
+      # Nix daemon settings
       nix.settings.experimental-features = "nix-command flakes";
 
-      # Create /etc/zshrc that loads the nix-darwin environment.
-      programs.zsh.enable = true;  # default shell on catalina
-      # programs.fish.enable = true;
+      # Enable zsh
+      programs.zsh.enable = true;
 
-      # Set Git commit hash for darwin-version.
+      # System configuration revision
       system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
       system.stateVersion = 4;
 
-
-      # The platform the configuration will be used on.
+      # Platform
       nixpkgs.hostPlatform = "x86_64-darwin";
+      nixpkgs.config.allowUnfree = true;
 
-      # Enable touch id for sudo
-      security.pam.enableSudoTouchIdAuth = true;
+      # Touch ID for sudo
+      security.pam.services.sudo_local.touchIdAuth = true;
+    };
 
-      users.users.arustydev.home = "/Users/analyst";
-      home-manager.backupFileExtension = "backup";
-      nix.configureBuildUsers = true;
-      nix.useDaemon = true;
+    # Function to create a darwin configuration for a specific machine
+    mkDarwinConfiguration = {
+      username,
+      userConfig,
+    }:
+      nix-darwin.lib.darwinSystem {
+        system = "x86_64-darwin";
+        specialArgs = {
+          dotfilesPath = /Users/analyst/dotfiles;
+        };
+        modules = [
+          darwinConfiguration
+          ./configuration.nix
+          home-manager.darwinModules.home-manager
+          {
+            # Set the specific user for this machine
+            users.users."${username}" = {
+              name = username;
+              home = "/Users/${username}";
+            };
 
-      # https://daiderd.com/nix-darwin/manual/index.html      #
-      system.defaults = {
-        dock.autohide = true;
-        dock.mru-spaces = false;
-        finder.AppleShowAllExtensions = true;
-        finder.FXPreferredViewStyle = "clmv";
-        loginwindow.LoginwindowText = "aRustyDev";
-        screencapture.location = "~/Pictures/screenshots";
-        screensaver.askForPasswordDelay = 10;
+            home-manager = {
+              backupFileExtension = "nix.bak";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = {
+                dotfilesPath = /Users/analyst/dotfiles;
+              };
+              users."${username}" = import userConfig;
+            };
+          }
+        ];
+      };
+  in {
+    # Machine configurations
+    darwinConfigurations = {
+      # CFS configuration
+      "cfs" = mkDarwinConfiguration {
+        username = "analyst";
+        userConfig = ./hosts/users/cfs.nix;
       };
 
-      # Homebrew needs to be installed on its own!
-      homebrew.enable = true;
-      homebrew.casks = [
-	      "wireshark"
-        "orbstack"
-        "nikitabobko/tap/aerospace" # https://www.youtube.com/watch?v=-FoWClVHG5g
-        "tetra" # https://tetragon.io/docs/installation/tetra-cli/
-      ];
-      homebrew.brews = [
-	      "imagemagick"
-      ];
-    };
-  in
-  {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#simple
-    darwinConfigurations."simple" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
-    };
+      # Cisco configuration
+      "cisco-mbp" = mkDarwinConfiguration {
+        username = "asmith";
+        userConfig = ./hosts/users/seneca.nix;
+      };
 
-    # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."simple".pkgs;
+      # Personal configuration
+      "admz-mbp" = mkDarwinConfiguration {
+        username = "adam";
+        userConfig = ./hosts/users/personal.nix;
+      };
+
+      # Legacy hostname using cfs configuration
+      "nw-mbp" = mkDarwinConfiguration {
+        username = "analyst";
+        userConfig = ./hosts/users/cfs.nix;
+      };
+    };
   };
 }

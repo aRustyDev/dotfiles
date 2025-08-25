@@ -1,0 +1,61 @@
+https://www.intigriti.com/
+https://identity.bugcrowd.com/login
+https://hackerone.com/users/sign_in
+https://login.synack.com/
+
+https://chat.openai.com/
+https://claude.ai/login
+https://supermaven.com/login
+https://arrows.app/
+
+# GitHub
+https://github.com/aRustyDev/dotfiles
+
+# Learning
+https://www.oreilly.com/member/login
+https://ondemand.sans.org/
+https://academy.tcm-sec.com/sign_in
+https://training.trainsec.net/login
+https://www.networkdefense.co/
+https://madewithml.com/
+https://saferinternetproject.com.au/
+https://learnk8s.io/
+
+# OSINT
+https://academy.theosintion.com/courses
+
+# Intelligence
+https://www.dataabyss.ai/platform-resources/china-digital-computer-innovations
+
+# eBPF
+https://labs-map.isovalent.com/
+
+# Offsec
+https://pwn.college/
+https://www.hackthebox.com/
+https://academy.hackthebox.com/
+https://portal.offsec.com/
+https://www.vulnmachines.com/
+
+# Talk Development
+https://snappify.com/
+https://techicons.dev/
+https://sli.dev/
+
+# USAF
+https://office.com
+https://dtsproweb.defensetravel.osd.mil/dts-app/pubsite/all/view/
+https://arowsr.afrc.af.mil/arows-r/
+
+# Kernels / Internals Stuff
+https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/keepout/keepout.html
+https://kernel.org/
+https://newosxbook.com/
+https://newosxbook.com/1stEdIsFree.html
+https://newosxbook.com/ent.jl
+https://developer.apple.com/macos/
+https://developer.apple.com/documentation/macos-release-notes/
+https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/OSX_Technology_Overview/SystemTechnology/SystemTechnology.html
+https://www.apple.com/media/us/osx/2012/docs/OSX_for_UNIX_Users_TB_July2011.pdf
+http://faisal.com/docs/osxforgeeks.html
+https://forums.macrumors.com/threads/learning-unix-on-the-mac.2326031/

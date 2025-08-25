@@ -1,0 +1,5 @@
+tools:
+  offsec:
+    - https://github.com/DynamoRIO/dynamorio
+    - https://github.com/AFLplusplus/AFLplusplus
+    - https://github.com/googleprojectzero/winafl

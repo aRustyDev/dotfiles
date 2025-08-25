@@ -1,0 +1,28 @@
+{
+  "tools": [
+    {
+      "name": "@google/gemini-cli",
+      "version": "latest",
+      "enabled": true,
+      "description": "Google Gemini CLI tool"
+    },
+    {
+      "name": "codex",
+      "version": "latest",
+      "enabled": true,
+      "description": "OpenAI Codex CLI"
+    },
+    {
+      "name": "@angular/cli",
+      "version": "latest",
+      "enabled": true,
+      "description": "Angular CLI for CFS projects"
+    },
+    {
+      "name": "nx",
+      "version": "latest",
+      "enabled": true,
+      "description": "Nx monorepo tools"
+    }
+  ]
+}

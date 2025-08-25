@@ -1,4 +1,3 @@
-
 {
   # https://github.com/LnL7/nix-darwin
   description = "Example Darwin system flake";
@@ -13,8 +12,12 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
-  {
+  outputs = inputs @ {
+    self,
+    nix-darwin,
+    nixpkgs,
+    home-manager,
+  }: {
     krewPlugins = with nixpkgs.krewPlugins; [
       kubectl
       kubectx

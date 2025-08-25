@@ -1,0 +1,7 @@
+# YouTube
+
+## Linux Kernel
+
+- Explore Linux Kernel Programming with QEMU
+  - https://blog.leonardotamiano.xyz/tech/linux-kernel-qemu-setup/
+  - https://www.youtube.com/watch?v=4PdMZd0Bt7c

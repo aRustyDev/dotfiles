@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+#
+# Git Setup Wrapper Script
+# Provides backward compatibility and automatic backend selection
+#
+# Usage: git setup <profile-name>
+#        git setup add <name> <display-name> <email> [ssh-key-path]
+#        git setup list
+
+set -euo pipefail
+
+# Determine script directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Check which implementation to use based on available tools and preferences
+USE_PYTHON=true
+USE_SQLITE_BASH=false
+
+# Check if Python is available and script exists
+if ! command -v python3 &> /dev/null || [ ! -f "$SCRIPT_DIR/git-setup-manager.py" ]; then
+    USE_PYTHON=false
+    USE_SQLITE_BASH=true
+fi
+
+# Override with environment variable if set
+if [ "${GIT_SETUP_BACKEND:-}" = "bash" ]; then
+    USE_PYTHON=false
+    USE_SQLITE_BASH=true
+elif [ "${GIT_SETUP_BACKEND:-}" = "python" ]; then
+    USE_PYTHON=true
+    USE_SQLITE_BASH=false
+fi
+
+# For simple profile usage (git setup <profile>), provide helpful migration message
+if [ $# -eq 1 ] && [[ ! "$1" =~ ^(add|list|delete|show|help|init|import-1password|use)$ ]]; then
+    profile_name="$1"
+
+    # Check if profile exists in new system
+    if [ "$USE_PYTHON" = true ]; then
+        if python3 "$SCRIPT_DIR/git-setup-manager.py" show "$profile_name" &>/dev/null; then
+            exec python3 "$SCRIPT_DIR/git-setup-manager.py" use "$profile_name"
+        else
+            echo "Profile '$profile_name' not found in the new system."
+            echo ""
+            echo "To migrate from 1Password, run:"
+            echo "  git setup import-1password"
+            echo ""
+            echo "Or manually add the profile:"
+            echo "  git setup add $profile_name \"Your Name\" \"your.email@example.com\" ~/.ssh/your_key"
+            echo ""
+            echo "Available profiles:"
+            python3 "$SCRIPT_DIR/git-setup-manager.py" list
+            exit 1
+        fi
+    elif [ "$USE_SQLITE_BASH" = true ]; then
+        exec bash "$SCRIPT_DIR/git-setup-sqlite.sh" use "$profile_name"
+    fi
+fi
+
+# Delegate to appropriate implementation
+if [ "$USE_PYTHON" = true ]; then
+    exec python3 "$SCRIPT_DIR/git-setup-manager.py" "$@"
+elif [ "$USE_SQLITE_BASH" = true ]; then
+    exec bash "$SCRIPT_DIR/git-setup-sqlite.sh" "$@"
+else
+    echo "Error: No suitable git-setup implementation found"
+    echo "Please ensure either Python 3 or the bash SQLite script is available"
+    exit 1
+fi

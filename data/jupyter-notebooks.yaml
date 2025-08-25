@@ -1,0 +1,4 @@
+tools:
+  offsec:
+    - https://github.com/GhostPack/DeepPass
+    - https://github.com/GhostPack/Invoke-Evasion

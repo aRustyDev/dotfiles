@@ -1,0 +1,5 @@
+---
+- name: load_zshenv-ENVMAP
+  query: . | unique | .[] | to_entries | .[]
+- name: merge_env-iobj
+  query: . | "{\"\(.env)\":\"\(.path)\"}"

@@ -1,0 +1,45 @@
+install-nix:
+	@if ! command -v nix &> /dev/null; then curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install; fi
+
+install: install-nix
+	@#nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
+	@#./result/bin/darwin-installer
+	@mkdir -p ~/.config/nix-darwin
+	@cd ~/.config/nix-darwin
+	@nix flake init -t nix-darwin
+	@sed -i '' "s/simple/$(scutil --get LocalHostName)/" flake.nix
+	@nix run nix-darwin -- switch --flake ~/.config/nix-darwin
+	@darwin-rebuild switch --flake ~/.config/nix-darwin
+	@echo "TODO: add '/run/current-system/sw/bin' to your PATH"
+
+update:
+	@cp *.nix ~/.config/nix-darwin
+	@cp hosts/*.nix ~/.config/nix-darwin/hosts
+
+# Use the analyst-specific flake
+switch:
+	darwin-rebuild switch --flake .#nw-mbp
+
+# Build without switching
+build:
+	darwin-rebuild build --flake .#nw-mbp
+
+# Check the configuration without building
+check:
+	darwin-rebuild check --flake .#nw-mbp
+
+uninstall:
+	@sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
+	@sudo mv /etc/bashrc.backup-before-nix /etc/bashrc
+	@sudo mv /etc/bash.bashrc.backup-before-nix /etc/bash.bashrc
+	@sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+	@sudo rm /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+	@sudo launchctl unload /Library/LaunchDaemons/org.nixos.darwin-store.plist
+	@sudo rm /Library/LaunchDaemons/org.nixos.darwin-store.plist
+	@sudo dscl . -delete /Groups/nixbld
+	@for u in $(sudo dscl . -list /Users | grep _nixbld); do sudo dscl . -delete /Users/$u; done
+	@sudo vifs || true
+	@if [[$(sudo grep -c ^ /etc/synthetic.conf) == 1]] ; then sudo rm /etc/synthetic.conf; else sudo sed -i '' 's/nix\n//g' /etc/synthetic.conf; fi
+	@sudo rm -rf /etc/nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels ~/.nix-profile ~/.nix-defexpr ~/.nix-channels
+	@sudo diskutil apfs deleteVolume /nix
+	@diskutil list

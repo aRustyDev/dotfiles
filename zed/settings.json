@@ -1,0 +1,130 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "ssh_connections": [
+    {
+      "host": "localhost",
+      "username": "developer",
+      "port": 2222,
+      "args": [
+        "-i",
+        "~/.ssh/zed_test_key"
+      ],
+      "projects": [
+        {
+          "paths": [
+            "/home/developer"
+          ]
+        }
+      ]
+    }
+  ],
+  "icon_theme": "Catppuccin Latte",
+  "agent": {
+    "default_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-latest"
+    },
+    "version": "2"
+  },
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
+  "edit_predictions": {
+    // A list of globs representing files that edit predictions should be disabled for.
+    // There's a sensible default list of globs already included.
+    // Any addition to this list will be merged with the default list.
+    "disabled_globs": [
+      "**/.env*",
+      "**/*.pem",
+      "**/*.key",
+      "**/*.cert",
+      "**/*.crt",
+      "**talks.md"
+    ]
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Macchiato",
+    "dark": "Catppuccin Macchiato"
+  },
+
+  // File Type Associations
+  "file_types": {
+    // Map file extensions to Sieve language
+    "Sieve": ["sieve", "sv", "*.sieve", "*.sv"]
+
+    // // You can also map specific filenames if needed
+    // "sieve": ["dovecot.sieve", "filter.sieve"]
+  },
+
+  // Tree-sitter Configuration (if you want syntax highlighting from your grammar)
+  // "tree_sitter": {
+  //   // If you've published your tree-sitter grammar or want to use it locally
+  //   "grammars": {
+  //     "sieve": {
+  //       // Path to your compiled tree-sitter grammar
+  //       "repository": "https://github.com/yourusername/tree-sitter-sieve",
+  //       "rev": "main"
+
+  //       // Alternative: local path if you have the grammar locally
+  //       // "path": "/path/to/tree-sitter-sieve"
+  //     }
+  //   }
+  // },
+  "languages": {
+    // Define Sieve language settings
+    "Sieve": {
+      // Associate with your custom language server
+      "language_servers": ["sieve_lsp"],
+
+      // Editor behavior for Sieve files
+      "tab_size": 2,
+      "hard_tabs": false,
+      "preferred_line_length": 80,
+
+      // Auto-formatting settings
+      "format_on_save": "on",
+      "formatter": "language_server",
+
+      // Code completion settings
+      "show_completions_on_input": true
+    }
+  },
+  "lsp": {
+    "sieve_lsp": {
+      "binary": {
+        // Whether to fetch the binary from the internet, or attempt to find locally.
+        "ignore_system_version": false,
+        "path": "/Users/analyst/.cargo/bin/sieve_lsp",
+        // "arguments": ["--option", "value"],
+        // Environment variables for the language server process
+        "env": {
+          "RUST_LOG": "info" // Set log level (debug, info, warn, error)
+        }
+      },
+      "initialization_options": {
+        "proton_extensions": true,
+        "strict_mode": false,
+        "max_errors": 100,
+        "semantic_analysis": true
+      }
+    }
+  }
+  // "overrides": [
+  //     {
+  //         "files": ["tauri.conf.json"],
+  //         "options": {
+  //             "parser": "json5"
+  //         }
+  //     }
+  // ]
+}

@@ -1,0 +1,124 @@
+{
+  "tools": [
+    {
+      "name": "npm",
+      "version": "latest",
+      "enabled": true,
+      "description": "Node package manager"
+    },
+    {
+      "name": "pnpm",
+      "version": "latest",
+      "enabled": true,
+      "description": "Fast, disk space efficient package manager"
+    },
+    {
+      "name": "prettier",
+      "version": "latest",
+      "enabled": true,
+      "description": "Code formatter"
+    },
+    {
+      "name": "eslint",
+      "version": "latest",
+      "enabled": true,
+      "description": "JavaScript linter"
+    },
+    {
+      "name": "typescript",
+      "version": "latest",
+      "enabled": true,
+      "description": "TypeScript compiler"
+    },
+    {
+      "name": "@anthropic-ai/claude-code",
+      "version": "latest",
+      "enabled": true,
+      "description": "Claude CLI - Anthropic's AI assistant for the terminal"
+    },
+    {
+      "name": "@biomejs/biome",
+      "version": "latest",
+      "enabled": true,
+      "description": "Fast formatter and linter for JS/TS/JSX"
+    },
+    {
+      "name": "@commitlint/cli",
+      "version": "latest",
+      "enabled": true,
+      "description": "Lint commit messages"
+    },
+    {
+      "name": "@commitlint/config-conventional",
+      "version": "latest",
+      "enabled": true,
+      "description": "Conventional commits config for commitlint"
+    },
+    {
+      "name": "stylelint",
+      "version": "latest",
+      "enabled": true,
+      "description": "CSS linter"
+    },
+    {
+      "name": "stylelint-config-standard",
+      "version": "latest",
+      "enabled": true,
+      "description": "Standard config for stylelint"
+    },
+    {
+      "name": "stylelint-config-standard-scss",
+      "version": "latest",
+      "enabled": true,
+      "description": "SCSS config for stylelint"
+    },
+    {
+      "name": "astro",
+      "version": "latest",
+      "enabled": true,
+      "description": "Static site builder"
+    },
+    {
+      "name": "@slidev/cli",
+      "version": "latest",
+      "enabled": true,
+      "description": "Presentation slides for developers"
+    },
+    {
+      "name": "vsce",
+      "version": "latest",
+      "enabled": true,
+      "description": "VS Code Extension Manager"
+    },
+    {
+      "name": "yo",
+      "version": "latest",
+      "enabled": true,
+      "description": "Yeoman scaffolding tool"
+    },
+    {
+      "name": "generator-code",
+      "version": "latest",
+      "enabled": true,
+      "description": "VS Code extension generator"
+    },
+    {
+      "name": "grunt-cli",
+      "version": "latest",
+      "enabled": true,
+      "description": "Grunt task runner CLI"
+    },
+    {
+      "name": "web-ext",
+      "version": "latest",
+      "enabled": true,
+      "description": "Mozilla WebExtension development tool"
+    },
+    {
+      "name": "crx",
+      "version": "latest",
+      "enabled": true,
+      "description": "Chrome extension packaging tool"
+    }
+  ]
+}
