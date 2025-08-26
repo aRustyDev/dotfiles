@@ -1,0 +1,5 @@
+alias ll="ls -l"
+alias la="ls -Al"
+alias pu="pushd"
+alias po="popd"
+alist zplug="antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh"

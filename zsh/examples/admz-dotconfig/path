@@ -1,0 +1,39 @@
+#!/usr/bin/env zsh
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# PATH will be configured after nix-daemon.sh is sourced
+
+# Configure PATH after nix-daemon.sh to ensure our paths take precedence
+# Initialize path array from current PATH
+path=(${(s/:/)PATH})
+
+# Ensure darwin-rebuild is accessible by adding nix-darwin path first
+if [[ -d /run/current-system/sw/bin ]]; then
+    path=('/run/current-system/sw/bin' $path)
+fi
+
+# Add other important paths
+path=("$VOLTA_HOME/bin" $path)
+path=("$CARGO_HOME/bin" $path)
+
+# Append additional paths
+path+=('/Applications/VMware Fusion.app/Contents/Public')
+path+=('/usr/local/share/dotnet')
+path+=("$HOME/.local/pkg/dotnet/tools")
+path+=('/usr/local/go/bin')
+path+=("$HOME/.pyenv/shims")
+path+=("$HOME/.local/bin")
+path+=("$HOME/.local/volta/bin")
+
+# Ensure unique paths
+typeset -U path cdpath fpath manpath
+
+# Export the constructed PATH
+export PATH="${(j.:.)path}"
+
+# Ensure /run/current-system/sw/bin is in PATH for darwin-rebuild
+if [[ -d /run/current-system/sw/bin ]] && [[ ":$PATH:" != *":/run/current-system/sw/bin:"* ]]; then
+    export PATH="/run/current-system/sw/bin:$PATH"
+fi

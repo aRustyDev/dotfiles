@@ -1,0 +1,55 @@
+#!/usr/bin/env zsh
+
+# Oh-My-Zsh/Prezto calls compinit during initialization,
+# calling it twice causes slight start up slowdown
+# as all $fpath entries will be traversed again.
+autoload -U compinit && compinit
+
+source <(starship init zsh)
+
+# Declare an array
+my_tools=(tenv kubectl helm op docker orb volta cosign rekor gcloud)
+
+# Loop through each element
+for TOOL in "${my_tools[@]}"
+do
+  if command -v $TOOL &> /dev/null; then
+      source <($TOOL completion zsh)
+  fi
+done
+
+# List current Homebrew packages for reference
+if command -v atuin &> /dev/null; then
+    source <(atuin gen-completions --shell zsh)
+fi
+
+
+# Rustup completions
+if command -v rustup &> /dev/null; then
+    source <(rustup completions zsh cargo)
+fi
+
+# Homebrew completions
+if command -v brew &> /dev/null; then
+    source <(brew shellenv)
+fi
+
+# Bruno completions
+if command -v bruno &> /dev/null; then
+    source <(bruno --completion-script zsh)
+fi
+
+# Justfile completions
+if command -v just &> /dev/null; then
+    source <(just --completions zsh)
+fi
+
+# github cli completions
+if command -v gh &> /dev/null; then
+    source <(gh completion -s zsh)
+fi
+
+# gitlab cli completions
+if command -v gh &> /dev/null; then
+    source <(glab completion -s zsh)
+fi

@@ -1,0 +1,11 @@
+# # Symlink SSH Config Dir
+# mkdir -p "$(dirname "$HOME/.ssh")"
+# rm -r $HOME/.ssh/*
+# ln -s $HOME_CONFIG/ssh $HOME/.ssh
+# chmod 0600 $HOME/.ssh
+
+# # Symlink Orbstack Volume Mount Dir
+# mkdir -p "$(dirname "$HOME/Orbstack")"
+# rm -r $HOME/Orbstack/*
+# ln -s $HOME_DATA/orbstack $HOME/Orbstack
+# chmod 0600 $HOME/Orbstack
