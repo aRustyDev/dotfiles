@@ -21,3 +21,7 @@
     name = asmith
     email = adam.smith@thops.io
     signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKtTUfrQotS79osFP+q9k+JzeBo5M+r4ZfSfP3xwyf1
+
+[includeIf "hasconfig:remote.*.url:https://github.com/darkhuntlabs/**"]
+    name = Adam Smith
+    email = adam.smith@darkhuntlabs.com
