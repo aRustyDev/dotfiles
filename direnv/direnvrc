@@ -1,0 +1,5 @@
+# Git directory for the current repository
+typeset -r GitDirLocal=$(git rev-parse --git-dir)
+
+# Working tree of the current repository
+typeset -r GitWorkTreeLocal=$(git rev-parse --show-toplevel)
