@@ -1,91 +1,79 @@
-# Dotfiles Documentation Index
+# Index for `~/code/contributing`
 
-Welcome to the dotfiles repository documentation. This index provides a comprehensive overview of all documentation available in this repository.
+This is the index for the contributing directory, it provides an indexed list of all the files and directories within the contributing directory's .claude/ by project
 
-## 🏠 Main Documentation
+### Shared Resources
 
-- **[README.md](../README.md)** - Main repository documentation explaining the Nix-Darwin dotfiles system
-- **[PROJECT.md](PROJECT.md)** - Project management context and development workflow
+- [README.md](./README.md)
+- [LESSONS_LEARNED](./lessons/INDEX.md)
 
-## 🛠️ Nix-Darwin Configuration
+### Projects
+```markdown
+- todos: project specific todos and tasks; intended to capture high-level project goals and milestones, and serve as a spot for AI Agents and Developers to collaborate on project progress and tasks.
+- plans: project specific plans and strategies (ie roadmap, milestones, specific plan docs, etc.)
+- notes: project specific notes and scratch files; less formal than `docs`, holds sub-directories for different topics (ie brainstorming, ideas, troubleshooting in-progress, bugs in-progress, etc.)
+- tests: project specific docs related to testing, including test plans, test cases, test results, and test automation scripts.
+- build: project specific build related scripts and tools (ie justfile, makefile, shell scripts, etc)
+- docs: project specific documentation for historical purposes (ie ADRs, Analysis/troubleshooting reports, lessons learned, testing/coverage reports, design documents, user guides, API references, developer guides, etc)
+- examples: project specific examples (ie code snippets, sample configurations, etc)
+- feedback: project specific feedback resources targeting AI Agents and Developers (ie user-interaction forms, reviewer/developer Question:Answer docs, Code Review Feedback, etc)
+- help: project specific help resources targeting AI Agents and Developers (ie FAQs, troubleshooting guides, etc)
+```
 
-### Core Documentation
-- **[nix-darwin/MACHINES.md](../nix-darwin/MACHINES.md)** - Multi-machine configuration guide
-- **[nix-darwin/SETUP-ANALYST.md](../nix-darwin/SETUP-ANALYST.md)** - Analyst user profile setup instructions
-- **[nix-darwin/hosts/npm-tools/README.md](../nix-darwin/hosts/npm-tools/README.md)** - Volta-based npm package management
-
-### Task Tracking
-- **[nix-darwin/TODO.md](../nix-darwin/TODO.md)** - Nix-Darwin configuration tasks
-- **[nix-darwin/hosts/TODO.md](../nix-darwin/hosts/TODO.md)** - Packages to be added to nix configuration
-
-## 🔧 Git Configuration
-
-### Main Documentation
-- **[git/README.md](../git/README.md)** - Git configuration overview
-- **[git/commands/README.md](../git/commands/README.md)** - Git-setup command documentation
-- **[git/commands/GIT_SETUP_GUIDE.md](../git/commands/GIT_SETUP_GUIDE.md)** - Comprehensive git-setup guide
-
-### Technical Documentation
-- **[git/docs/ARCHITECTURE.md](../git/docs/ARCHITECTURE.md)** - Technical architecture deep dive
-- **[git/docs/MIGRATION.md](../git/docs/MIGRATION.md)** - Detailed migration guide from 1Password
-
-### Legacy Documentation
-- **[git/commands/legacy/README.md](../git/commands/legacy/README.md)** - Original implementation documentation
-
-## 📚 Personal References
-
-### Notes
-- **[data/notes/app-ideas.md](../data/notes/app-ideas.md)** - Application ideas and concepts
-
-### Bookmarks
-- **Education**
-  - [data/bookmarks/edu/nvim.md](../data/bookmarks/edu/nvim.md) - Neovim learning resources
-- **Research**
-  - [data/bookmarks/research/ai.md](../data/bookmarks/research/ai.md) - AI research links
-  - [data/bookmarks/research/reverse-engineering.md](../data/bookmarks/research/reverse-engineering.md) - Reverse engineering resources
-- **Blogs**
-  - [data/bookmarks/blogs/reverse-engineering.md](../data/bookmarks/blogs/reverse-engineering.md) - RE blog collection
-  - [data/bookmarks/blogs/windows.md](../data/bookmarks/blogs/windows.md) - Windows development blogs
-- **Other**
-  - [data/bookmarks/meetups/raw.md](../data/bookmarks/meetups/raw.md) - Meetup information
-  - [data/bookmarks/projects/ecad.md](../data/bookmarks/projects/ecad.md) - ECAD project resources
-
-## 📋 Documentation Standards
-
-### File Organization
-- Main documentation files are kept at the repository root
-- Module-specific documentation resides within the module directory
-- Technical deep-dives are in `docs/` subdirectories
-- Personal references are in `data/`
-
-### Documentation Types
-1. **README.md** - Overview and getting started guides
-2. **GUIDE.md** - Comprehensive usage documentation
-3. **ARCHITECTURE.md** - Technical implementation details
-4. **TODO.md** - Task tracking (consider converting to GitHub issues)
-5. **SETUP-*.md** - Installation and configuration instructions
-
-### Best Practices
-- Keep documentation close to the code it describes
-- Use clear, descriptive titles
-- Include examples where appropriate
-- Cross-reference related documentation
-- Update documentation when making code changes
-
-## 🔍 Quick Links
-
-### Essential Reading
-1. [Main README](../README.md) - Start here
-2. [Nix-Darwin Machines Guide](../nix-darwin/MACHINES.md) - For multi-machine setup
-3. [Git Setup Guide](../git/commands/GIT_SETUP_GUIDE.md) - For git configuration
-
-### For Contributors
-1. [PROJECT.md](PROJECT.md) - Development workflow
-2. [Git Architecture](../git/docs/ARCHITECTURE.md) - For extending git-setup
-
-### For Migration
-1. [Git Migration Guide](../git/docs/MIGRATION.md) - Migrating from 1Password git setup
-
----
-
-*Last updated: December 2024*
+- tree-sitter
+  - [TODO](./plans/tree-sitter/TODO.md): a tree-sitter level todo, help plan out future tree-sitter related projects (e.g., tree-sitter language support for new programming languages, tree-sitter integration with other tools, etc.)
+  - kvconf: A configuration file parser and generator written in Rust.
+    - [todos](./plans/tree-sitter/kvconf/TODO.md)
+    - [plans](./plans/tree-sitter/kvconf/INDEX.md)
+    - [notes](./notes/tree-sitter/kvconf/INDEX.md)
+    - [tests](./tests/tree-sitter/kvconf/INDEX.md)
+    - [build](./build/tree-sitter/kvconf/INDEX.md)
+    - [docs](./docs/tree-sitter/kvconf/INDEX.md)
+    - [examples](./examples/tree-sitter/kvconf/INDEX.md)
+    - [feedback](./feedback/tree-sitter/kvconf/INDEX.md)
+    - [help](./help/tree-sitter/kvconf/INDEX.md)
+- languages
+  - rust: this is the project for contributing to the Rust Compiler
+    - [todos](./plans/languages/rustc/TODO.md)
+    - [plans](./plans/languages/rustc/INDEX.md)
+    - [notes](./notes/languages/rustc/INDEX.md)
+    - [tests](./tests/languages/rustc/INDEX.md)
+    - [build](./build/languages/rustc/INDEX.md)
+    - [docs](./docs/languages/rustc/INDEX.md)
+    - [examples](./examples/languages/rustc/INDEX.md)
+    - [feedback](./feedback/languages/rustc/INDEX.md)
+    - [help](./help/languages/rustc/INDEX.md)
+  - roc: this is the project for contributing to the Roc Compiler
+    - [todos](./plans/languages/roc/TODO.md)
+    - [plans](./plans/languages/roc/INDEX.md)
+    - [notes](./notes/languages/roc/INDEX.md)
+    - [tests](./tests/languages/roc/INDEX.md)
+    - [build](./build/languages/roc/INDEX.md)
+    - [docs](./docs/languages/roc/INDEX.md)
+    - [examples](./examples/languages/roc/INDEX.md)
+    - [feedback](./feedback/languages/roc/INDEX.md)
+    - [help](./help/languages/roc/INDEX.md)
+- package-managers
+  - cargo
+    - [todos](./plans/pkg-mgrs/cargo/TODO.md)
+    - [plans](./plans/pkg-mgrs/cargo/INDEX.md)
+    - [notes](./notes/pkg-mgrs/cargo/INDEX.md)
+    - [tests](./tests/pkg-mgrs/cargo/INDEX.md)
+    - [build](./build/pkg-mgrs/cargo/INDEX.md)
+    - [docs](./docs/pkg-mgrs/cargo/INDEX.md)
+    - [examples](./examples/pkg-mgrs/cargo/INDEX.md)
+    - [feedback](./feedback/pkg-mgrs/cargo/INDEX.md)
+    - [help](./help/pkg-mgrs/cargo/INDEX.md)
+- dotfiles
+- zed
+  - [TODO](./plans/zed/TODO.md): a Zed specific TODO list
+  - kvconf: A configuration file parser and generator written in Rust.
+    - [todos](./plans/tree-sitter/kvconf/TODO.md)
+    - [plans](./plans/tree-sitter/kvconf/INDEX.md)
+    - [notes](./notes/tree-sitter/kvconf/INDEX.md)
+    - [tests](./tests/tree-sitter/kvconf/INDEX.md)
+    - [build](./build/tree-sitter/kvconf/INDEX.md)
+    - [docs](./docs/tree-sitter/kvconf/INDEX.md)
+    - [examples](./examples/tree-sitter/kvconf/INDEX.md)
+    - [feedback](./feedback/tree-sitter/kvconf/INDEX.md)
+    - [help](./help/tree-sitter/kvconf/INDEX.md)
