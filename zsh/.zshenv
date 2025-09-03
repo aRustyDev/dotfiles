@@ -12,6 +12,7 @@ XDG_DATA_HOME="/Users/asmith/.local/data"
 XDG_STATE_HOME="/Users/asmith/.local/state"
 XDG_RUNTIME_DIR='/Users/asmith/.local/share'
 
+<<<<<<< Updated upstream
 # Tool Configs
 ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/config.ini"
 ANTIDOTE_HOME="$XDG_CONFIG_HOME/zsh/plugins"
@@ -55,3 +56,11 @@ HOME_PKG='/Users/asmith/.local/pkg' # Managed User Local Packages
 # GOVCS=''
 # GOWORK=''
 # PKG_CONFIG='pkg-config'
+=======
+ZDOTDIR=$HOME_CONFIG/zsh/                # Set ZSH Config Dir
+HISTFILE=$HOME_CACHE/zsh/history         # Set History File Location for Zsh
+SHELL_SESSION_DIR=$HOME_CACHE/sessions   # Set Session Storage Location for Zsh
+GOBIN=$XDG_BIN_DIR/go
+GOPATH=$HOME_CACHE/go
+GPG_TTY=$(tty)
+>>>>>>> Stashed changes
