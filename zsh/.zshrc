@@ -14,6 +14,7 @@ autoload -U compinit && compinit
 
 
 eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
 
 plugins=(git gh gcloud aws docker docker-compose man golang helm kubectl minikube command-not-found colored-man-pages sigstore azure terraform macos)
 # https://github.com/unixorn/awesome-zsh-plugins
@@ -211,3 +212,5 @@ export ARCHFLAGS="-arch x86_64"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# defaults write com.apple.finder AppleShowAllFiles TRUE; killall Finder
