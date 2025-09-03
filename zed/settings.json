@@ -7,20 +7,156 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "auto_install_extensions": {
+    // Themes
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    // Build Tools
+    "dockerfile": true,
+    "git-firefly": true,
+    "make": true,
+    "just": true,
+    "neocmake": true,
+    // Config Langs
+    "toml": true,
+    "ini": true,
+    "rainbow-csv": true,
+    "proto": true,
+    "python-requirements": true,
+    "hyprlang": true,
+    "gosum": true,
+    "tombi": true,
+    "authzed": true,
+    "github-actions": true,
+    // Querying
+    "sql": true,
+    "graphql": true,
+    // Infrastructure
+    "terraform": true,
+    "ansible": true,
+    "opentofu": true,
+    // Templating
+    "mustache": true,
+    // Software: Compiled
+    "zig": true,
+    "swift": true,
+    "csharp": true,
+    "assembly": true,
+    "kotlin": true,
+    "v": true,
+    // Scripting
+    "lua": true,
+    "powershell": true,
+    "nu": true,
+    // Software: Functional
+    "haskell": true,
+    "roc": true,
+    "scala": true,
+    "scheme": true,
+    "fsharp": true,
+    // Unordered
+    "jsonnet": true,
+    "erlang": true,
+    "gleam": true,
+    "groovy": true,
+    "odin": true,
+    "slint": true,
+    "nim": true,
+    "verilog": true,
+    "elm": true,
+    "qml": true,
+    "strace": true,
+    "tree-sitter-query": true,
+    "tera": true,
+    "uiua": true,
+    "ical": true,
+    "vcard": true,
+    "move": true,
+    "lean4": false,
+    "leptos": true,
+    "moonbit": true,
+    "sieve": true,
+    "typespec": true,
+    "grit": true,
+    "baml": true,
+    "jq": true,
+    // "env": false,
+    "r": false,
+    "basher": true,
+    "golangci-lint": true,
+    "codebook": true, // REVIEW
+    "marksman": true, // REVIEW
+    "harper": true, // REVIEW
+    "wakatime": true,
+    "typos": true, // REVIEW
+    "cspell": true,
+    "oxc": false, // REVIEW
+    "gitlab-ci-ls": true,
+    "stylelint": true,
+    "relay": true, // REVIEW
+    "activitywatch": true, // REVIEW
+    "yara": false, // REVIEW
+    "ty": true,
+    "postgres-language-server": false,
+    "tsgo": false,
+    "package-swift-lsp": false,
+    "pyrefly": true,
+    "crates-lsp": true,
+    "css-modules-kit": false, // Frontend stuff
+    "just-ls": true,
+    "ast-grep": true,
+    "air": true, // R Formatter
+    "design-tokens": true, // Frontend stuff
+    "markdownlint": true,
+    "postgres-context-server": false,
+    "mcp-server-github": true,
+    "mcp-server-sequential-thinking": false,
+    "browser-tools-context-server": false,
+    "mcp-server-gitlab": false,
+    "mcp-server-figma": false,
+    "mcp-server-supabase": false,
+    "mcp-server-buildkite": false,
+    "mcp-server-container-use": true,
+    "terraform-context-server": false,
+    "go-snippets": false,
+    "python-snippets": false,
+    "rust-snippets": false,
+    "sqlc-snippets": false
+  },
+  "context_servers": {
+    "terraform-context-server": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {}
+    },
+    "container-use-mcp": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {}
+    },
+    "surrealdb": {
+      "source": "custom",
+      "enabled": true,
+      "command": "npx",
+      "args": ["-y", "surrealdb-mcp-server"],
+      "env": {
+        "SURREALDB_NS": "git-setup-rs",
+        "SURREALDB_DB": "git-setup-rs",
+        "SURREALDB_USER": "root",
+        "SURREALDB_URL": "https://surrealdb-tikv.default.svc.cluster.local:8000",
+        "SURREALDB_PASS": "StrongSecretPassword!"
+      }
+    }
+  },
   "ssh_connections": [
     {
       "host": "localhost",
       "username": "developer",
       "port": 2222,
-      "args": [
-        "-i",
-        "~/.ssh/zed_test_key"
-      ],
+      "args": ["-i", "~/.ssh/zed_test_key"],
       "projects": [
         {
-          "paths": [
-            "/home/developer"
-          ]
+          "paths": ["/home/developer"]
         }
       ]
     }
@@ -59,11 +195,8 @@
 
   // File Type Associations
   "file_types": {
-    // Map file extensions to Sieve language
-    "Sieve": ["sieve", "sv", "*.sieve", "*.sv"]
-
-    // // You can also map specific filenames if needed
-    // "sieve": ["dovecot.sieve", "filter.sieve"]
+    "Sieve": ["sieve", "sv", "*.sieve", "*.sv"],
+    "Diff": ["dif"]
   },
 
   // Tree-sitter Configuration (if you want syntax highlighting from your grammar)
@@ -104,7 +237,7 @@
       "binary": {
         // Whether to fetch the binary from the internet, or attempt to find locally.
         "ignore_system_version": false,
-        "path": "/Users/analyst/.cargo/bin/sieve_lsp",
+        "path": "$HOME/.cargo/bin/sieve_lsp",
         // "arguments": ["--option", "value"],
         // Environment variables for the language server process
         "env": {
