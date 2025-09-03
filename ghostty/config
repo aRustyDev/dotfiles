@@ -1,3 +1,46 @@
+# This is the configuration file for Ghostty.
+#
+# This template file has been automatically created at the following
+# path since Ghostty couldn't find any existing config files on your system:
+#
+#   /Users/adamsm/Library/Application Support/com.mitchellh.ghostty/config
+#
+# The template does not set any default options, since Ghostty ships
+# with sensible defaults for all options. Users should only need to set
+# options that they want to change from the default.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+
+# Config syntax crash course
+# ==========================
+# # The config file consists of simple key-value pairs,
+# # separated by equals signs.
+# font-family = Iosevka
+# window-padding-x = 2
+#
+# # Spacing around the equals sign does not matter.
+# # All of these are identical:
+# key=value
+# key= value
+# key =value
+# key = value
+#
+# # Any line beginning with a # is a comment. It's not possible to put
+# # a comment after a config option, since it would be interpreted as a
+# # part of the value. For example, this will have a value of "#123abc":
+# background = #123abc
+#
+# # Empty values are used to reset config keys to default.
+# key =
+#
+# # Some config options have unique syntaxes for their value,
+# # which is explained in the docs for that config option.
+# # Just for example:
+# resize-overlay-duration = 4s 200ms
 # Ghostty Configuration
 
 # Font configuration
@@ -7,12 +50,25 @@ font-thicken = true
 
 # Theme
 theme = dark
+# theme = dark:catppuccin-macchiatto,light:catppuccin-latte
+
+app-notifications = no-clipboard-copy
+desktop-notifications = true
+
+auto-update = download
+auto-update-channel = tip
+
+# title = " "
+# title-report
 
 # Window configuration
 window-padding-x = 10
 window-padding-y = 10
 window-decoration = true
 window-theme = auto
+# window-subtitle
+# window-titlebar-background
+# window-titlebar-foreground
 
 # Cursor
 cursor-style = block
@@ -27,15 +83,52 @@ visual-bell = true
 
 # Copy on select
 copy-on-select = true
+# clipboard-read
+# clipboard-write
+# clipboard-trim-trailing-spaces
+# clipboard-paste-protection
+# clipboard-paste-bracketed-safe
 
 # macOS specific
 macos-option-as-alt = true
 macos-titlebar-style = tabs
+# macos-window-shadow
+# macos-icon
+# macos-icon-frame
+# macos-icon-ghost-color
+# macos-icon-screen-color
+# macos-secure-input-indication
+# macos-auto-secure-input
+# macos-titlebar-proxy-icon
+# macos-non-native-fullscreen
+
+shell-integration = zsh # zsh, fish, bash, elvish
+# shell-integration-features = cursor,sudo,title
 
 # Performance
 adjust-cell-height = 0
 adjust-cell-width = 0
 
 # Keybindings
+# - close_tab
+# - new_tab
+# - new_split:left
+# - new_split:up
+# - new_split:down
+# - resize_slit
+# - equalize_splits
+# - open_config
+# - reload_config
+# - next_tab
+# - last_tab
+# - goto_tab
+# - move_tab
+# - toggle_tab_overview
+# - new_window
+# - write_scrollback_file
+# - clear_screen / clear
+# - esc
+# -
 keybind = cmd+k=clear
+keybind = cmd+d=new_split:right
 keybind = cmd+shift+enter=toggle_fullscreen
