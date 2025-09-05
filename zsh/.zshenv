@@ -1,12 +1,24 @@
+# export ZSH_TRACE_FILE="/tmp/zsh-trace-$$"
+# echo "=== ZSH Startup Trace $(date) ===" > $ZSH_TRACE_FILE
+# set -x
+# exec 2>>$ZSH_TRACE_FILE
+
 # Standard Configs
 LANG='en_US.UTF-8'
-SSH_AUTH_SOCK='/Users/asmith/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock'
+SSH_AUTH_SOCK="$HOME/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 GPG_TTY=$(tty)
-VISUAL=""
-# EDITOR='nvim'
-EDITOR="/Applications/Zed.app/Contents/MacOS/cli -n --wait"
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+    EDITOR='nvim'
+    VISUAL='nvim'
+else
+    EDITOR="/Applications/Zed.app/Contents/MacOS/cli -n --wait"
+    VISUAL='zed'
+fi
 PAGER=""
+MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
 TERM=""
+ARCHFLAGS="-arch x86_64"
 
 TmpDir=$(realpath "${(Q)$(mktemp -d)}")
 
@@ -27,10 +39,12 @@ XDG_DOWNLOAD_DIR="$HOME/Downloads"  # Desc:
 # XDG_DATA_DIRS
 # XDG_CONFIG_DIRS
 
+# History options should be set in .zshrc and after oh-my-zsh sourcing.
+# See https://github.com/nix-community/home-manager/issues/177.
 # History Configs
 HISTSIZE='10000'
 SAVEHIST='10000'
-HIST_STAMPS='mm/dd/yyyy'
+HIST_STAMPS="mm/dd/yyyy" # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HISTFILE=${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/history              # Set History File Location for Zsh
 
 # ZSH Configs
@@ -47,6 +61,7 @@ SHELL_SESSION_DIR="${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/sessions"  # Set Se
 
 # Managed by path_master (custom rewrite of /usr/libexec/path_helper)
 MANPATH='/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/opt/homebrew/Cellar/antidote/1.9.10/share/antidote/man:/usr/local/man:/usr/share/man:/usr/local/share/man:/Applications/Ghostty.app/Contents/Resources/man:'
+# MANPATH="/usr/local/man:$MANPATH"
 XDG_CONFIG_DIRS=$XDG_CONFIG_PATH # Persistent Configs
 XDG_DATA_DIRS=$XDG_DATA_PATH     # Persistent Data
 
@@ -54,20 +69,24 @@ XDG_DATA_DIRS=$XDG_DATA_PATH     # Persistent Data
 HOME_CACHE=$XDG_CACHE_HOME # Ephemeral Data
 HOME_CONFIG=$XDG_CONFIG_HOME
 HOME_DATA=$XDG_DATA_HOME
-HOME_LIB='/Users/asmith/.local/lib' # Source Code Libraries
-HOME_PKG='/Users/asmith/.local/pkg' # Managed User Local Packages
+HOME_LIB="$HOME/.local/lib" # Source Code Libraries
+HOME_PKG="$HOME/.local/pkg" # Managed User Local Packages
+THEMES_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/themes"
 
 # Tool Configs
 ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/config.ini"
 
+ATUIN_CONFIG_DIR="$XDG_CONFIG_HOME/atuin"
+ATUIN_THEME_DIR="$THEMES_DIR/atuin"
+
 # GOBIN=''
-# GOCACHE='/Users/asmith/Library/Caches/go-build'
-# GOENV='/Users/asmith/Library/Application Support/go/env'
-# GOMODCACHE='/Users/asmith/go/pkg/mod'
-# GOPATH='/Users/asmith/go'
+# GOCACHE='$HOME/Library/Caches/go-build'
+# GOENV='$HOME/Library/Application Support/go/env'
+# GOMODCACHE='$HOME/go/pkg/mod'
+# GOPATH='$HOME/go'
 # GOROOT='/opt/homebrew/Cellar/go/1.24.6/libexec'
 # GOTELEMETRY='local'
-# GOTELEMETRYDIR='/Users/asmith/Library/Application Support/go/telemetry'
+# GOTELEMETRYDIR='$HOME/Library/Application Support/go/telemetry'
 # GOTMPDIR=''
 # GOTOOLDIR='/opt/homebrew/Cellar/go/1.24.6/libexec/pkg/tool/darwin_arm64'
 # GOVCS=''
@@ -121,4 +140,11 @@ EKSCTL_ENABLE_CREDENTIAL_CACHE=1
 STARSHIP_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/starship/config.toml"
 STARSHIP_CACHE="${XDG_CACHE_HOME:-$HOME/.local/cache}/starship/cache"
 
+YAZI_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/yazi"
+# ~/.local/state/yazi/yazi.log
+# YAZI_LOG
+
 _ZO_DATA_DIR="$XDG_DATA_HOME/zoxide"
+# _ZO_EXCLUDE_DIRS
+
+# CUSTOM_PAGES_DIR # https://tealdeer-rs.github.io/tealdeer/usage_custom_pages.html#custom-pages

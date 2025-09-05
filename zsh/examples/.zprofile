@@ -1,0 +1,8 @@
+# System-wide profile for interactive zsh(1) login shells.
+
+# Setup user specific overrides for this in ~/.zprofile. See zshbuiltins(1)
+# and zshoptions(1) for more details
+
+if [ -x $XDG_BIN_HOME/path_master ]; then
+    eval `$XDG_BIN_HOME/path_master -s`
+fi
