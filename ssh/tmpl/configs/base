@@ -1,0 +1,27 @@
+# http://man.openbsd.org/OpenBSD-current/man5/ssh_config.5
+# https://www.ssh.com/academy/ssh/config
+FingerprintHash sha256
+EnableSSHKeysign yes
+HostbasedAuthentication no
+HashKnownHosts yes
+# PKCS11Provider /usr/local/lib/opensc-pkcs11.so
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+GSSAPIAuthentication no
+GSSAPIDelegateCredentials no
+GSSAPIKeyExchange no
+GSSAPITrustDNS no
+BatchMode no
+# SmartcardDevice
+CheckHostIP yes
+StrictHostKeyChecking no
+IdentitiesOnly yes
+VisualHostKey yes
+UserKnownHostsFile ~/.ssh/known_hosts
+UpdateHostKeys
+# TunnelDevice
+# Tunnel
+# SyslogFacility
+# SecurityKeyProvider /usr/local/lib/opensc-pkcs11.so
+# LogVerbose
+# LogLevel

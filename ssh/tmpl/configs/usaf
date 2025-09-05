@@ -1,0 +1,21 @@
+Host *.rogue.lab
+    ProxyCommand sh -c "tsh login --proxy=ctvi.rogue.labs; /usr/bin/nc %h %p"
+    User aRustyDev
+    Port 22
+
+Host ctvi
+    ProxyCommand sh -c "tsh login --proxy=ctvi.rogue.labs; /usr/bin/nc %h %p"
+    IdentityFile ~/.tsh/ctvi.rogue.labs
+    HostKeyAlias ctvi
+    LocalForward 127.0.0.1:8080 127.0.0.1:8080
+    ServerAliveInterval 10
+    ServerAliveCountMax 3
+    SendEnv HELLOWORLD
+    Hostname 10.0.0.1
+    User aRustyDev
+    Port 22
+
+Host irt
+    IdentityFile ~/.ssh/pubs/irt_dc_ed25519
+    User adam.smith.103
+    HostName pve01.rogue.lab
