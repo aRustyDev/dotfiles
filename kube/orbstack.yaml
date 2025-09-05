@@ -1,0 +1,18 @@
+apiVersion: v1
+clusters:
+  - cluster:
+      certificate-authority-data: op://cisco/kube/orbstack/ca-data
+      server: op://cisco/kube/orbstack/url
+    name: op://cisco/kube/orbstack/name
+contexts:
+  - context:
+      cluster: op://cisco/kube/orbstack/name
+      user: op://cisco/kube/orbstack/username
+    name: op://cisco/kube/orbstack/name
+kind: Config
+preferences: {}
+users:
+  - name: op://cisco/kube/orbstack/username
+    user:
+      client-certificate-data: op://cisco/kube/orbstack/client-cert
+      client-key-data: op://cisco/kube/orbstack/client-key
