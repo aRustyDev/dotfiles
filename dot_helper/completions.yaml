@@ -1,0 +1,21 @@
+---
+rg: "--generate complete-[zsh|bash|fish|powershell]"
+gh: "completion --shell [bash|zsh|fish|powershell]"
+op: "completion [bash|zsh|fish|powershell]"
+yq: "shell-completion [bash|zsh|fish|powershell]"
+opa: "completions [zsh]" # TODO: check for supported shells
+k9s: "completions [zsh]" # TODO: check for supported shells
+helm: "completions [bash|zsh|fish|powershell]"
+just: "--completions [bash|elvish|fish|nushell|powershel|zsh]"
+syft: "completions [zsh]" # TODO: check for supported shells
+atuin: "gen-completions --shell [bash|zsh|fish|powershell|nushell|elvish]"
+falco: "completions [zsh]" # TODO: check for supported shells
+grype: "completions [zsh]" # TODO: check for supported shells
+trivy: "completions [zsh]" # TODO: check for supported shells
+volta: "completions [bash|elvish|fish|powershel|zsh]"
+eksctl: "completions [zsh]" # TODO: check for supported shells
+cosign: "completions [zsh]" # TODO: check for supported shells
+docker: "completions [zsh]" # TODO: check for supported shells
+cilium: "completions [zsh]" # TODO: check for supported shells
+templar: "completions [zsh]" # TODO: check for supported shells
+kubectl: "completions [bash|zsh|fish|powershell]"
