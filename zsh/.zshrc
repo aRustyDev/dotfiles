@@ -15,9 +15,10 @@ casks=(
     resvg imagemagick helm kubectl atuin jq \
     starship zoxide yazi lsd bat fzf nvim yq \
     ansible just helm-ls 1password-cli@beta \
-    font-symbols-only-nerd-font tealdeer info \
-    mise eza archive pyenv k9s turbot/tap/steampipe \
-    zsh gawk grep gnu-sed coreutils
+    font-symbols-only-nerd-font tealdeer texinfo \
+    mise eza archiver pyenv k9s turbot/tap/steampipe \
+    zsh gawk grep gnu-sed coreutils shfmt \
+    shellcheck tenv
 )
 # brew install $casks
 

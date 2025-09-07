@@ -1,3 +1,4 @@
+# shellcheck disable=SC2034
 # export ZSH_TRACE_FILE="/tmp/zsh-trace-$$"
 # echo "=== ZSH Startup Trace $(date) ===" > $ZSH_TRACE_FILE
 # set -x
@@ -17,7 +18,7 @@ else
 fi
 PAGER=""
 MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
-TERM=""
+TERM="xterm-256color"
 ARCHFLAGS="-arch x86_64"
 
 TmpDir=$(realpath "${(Q)$(mktemp -d)}")
