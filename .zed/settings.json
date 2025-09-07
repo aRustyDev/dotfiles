@@ -1,0 +1,34 @@
+{
+  "languages": {
+    "Markdown": {
+      "format_on_save": "on"
+    },
+    "C": {
+      "format_on_save": "on",
+      "tab_size": 2
+    }
+  },
+  "file_types": {
+    "Diff": ["dif"],
+    "C": ["C", "H"]
+  },
+  "lsp": {
+    "rust-analyzer": {
+      "initialization_options": {
+        "rust": {
+          "analyzerTargetDir": true
+        },
+        "inlayHints": {
+          "maxLength": null,
+          "lifetimeElisionHints": {
+            "enable": "skip_trivial",
+            "useParameterNames": true
+          },
+          "closureReturnTypeHints": {
+            "enable": "always"
+          }
+        }
+      }
+    }
+  }
+}
