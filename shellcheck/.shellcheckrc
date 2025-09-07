@@ -1,0 +1,5 @@
+disable=SC2039,SC2154
+enable=add-default-case,deprecate-which
+source-path=./lib:../common
+external-sources=true
+shell=SHELL
