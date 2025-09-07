@@ -1,0 +1,8 @@
+dictionaries = ["en_us", "en_gb"]
+words = ["atuin", "ansible", "XDG", "MANPATH"]
+
+ignore_paths = ["target/**/*", "**/*.json", ".git/**/*"]
+ignore_patterns = [
+  "^[A-Za-z_]+?=", # KEY names
+  "^[A-Z]{2,}=",   # All caps words like "HTML", "CSS"
+]
