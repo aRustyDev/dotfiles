@@ -110,6 +110,9 @@ CARGO_STATE="${XDG_STATE_HOME:-$HOME/.local/state}/cargo"
 
 KUBECONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/kube"
 KUBE_EDITOR=$EDITOR
+# KREW_DEFAULT_INDEX_URI="git@github.com:foo/custom-index.git"
+KREW_ROOT="${XDG_BIN_HOME:-$HOME/.local/bin}/krew/bin"
+KREW_NO_UPGRADE_CHECK=0
 
 GHOSTTY_RESOURCES_DIR="/Applications/Ghostty.app/Contents/Resources/ghostty"
 

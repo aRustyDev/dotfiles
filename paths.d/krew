@@ -1,1 +1,2 @@
 $XDG_CONFIG_HOME/kube/plugins
+${KREW_ROOT:-$HOME/.krew}/bin
