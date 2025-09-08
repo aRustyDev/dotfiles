@@ -1,0 +1,5 @@
+---
+- name: personal
+  url: git@github.com/aRustyDev/krew-index
+- name: cisco-map
+  url: git@sscm.gus.cisco.com/c4p/map/krew-index

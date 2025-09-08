@@ -1,0 +1,112 @@
+apiVersion: v1
+clusters:
+  - cluster:
+      proxy-url: op://cisco/kube/ite-devops-2/proxy-url
+      certificate-authority-data: op://cisco/kube/ite-devops-2/ca-data
+      server: op://cisco/kube/ite-devops-2/url
+    name: op://cisco/kube/ite-devops-2/name
+  - cluster:
+      proxy-url: op://cisco/kube/ite-devops-1/proxy-url
+      certificate-authority-data: op://cisco/kube/ite-devops-1/ca-data
+      server: op://cisco/kube/ite-devops-1/url
+    name: op://cisco/kube/ite-devops-1/name
+contexts:
+  - context:
+      cluster: op://cisco/kube/ite-devops-1/name
+      user: op://cisco/kube/ite-devops-1/user@op://cisco/kube/ite-devops-1/name
+    name: op://cisco/kube/ite-devops-1/user@op://cisco/kube/ite-devops-1/name
+kind: Config
+preferences: {}
+users:
+  - name: op://cisco/kube/ite-devops-1/username
+    user:
+      exec:
+        apiVersion: client.authentication.k8s.io/v1beta1
+        args:
+          - token
+          - -i
+          - ite-devops-2
+        command: aws-iam-authenticator
+        env:
+          - name: AWS_STS_REGIONAL_ENDPOINTS
+            value: regional
+          - name: AWS_DEFAULT_REGION
+            value: op://cisco/aws/ite-devops/region
+          - name: AWS_PROFILE
+            value: op://cisco/aws/ite-devops/admin
+        provideClusterInfo: false
+
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    proxy-url: socks5://localhost:9876
+    server: https://02DAAB1E3F3939F8020253C1B9DF21D4.gr7.us-east-1.eks.amazonaws.com
+  name: arn:aws:eks:us-east-1:396913725940:cluster/ite-devops-2
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://60093C82C067D726658042AC993A1B5A.gr7.us-east-1.eks.amazonaws.com
+  name: ite-devops.us-east-1.eksctl.io
+contexts:
+- context:
+    cluster: ite-devops.us-east-1.eksctl.io
+    user: adamsm@ite-devops.us-east-1.eksctl.io
+  name: adamsm@ite-devops.us-east-1.eksctl.io
+- context:
+    cluster: arn:aws:eks:us-east-1:396913725940:cluster/ite-devops-2
+    user: arn:aws:eks:us-east-1:396913725940:cluster/ite-devops-2
+  name: arn:aws:eks:us-east-1:396913725940:cluster/ite-devops-2
+current-context: arn:aws:eks:us-east-1:396913725940:cluster/ite-devops-2
+kind: Config
+preferences: {}
+users:
+- name: adamsm
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - token
+      - -i
+      - ite-devops
+      command: aws-iam-authenticator
+      env:
+      - name: AWS_STS_REGIONAL_ENDPOINTS
+        value: regional
+      - name: AWS_DEFAULT_REGION
+        value: us-east-1
+      - name: AWS_PROFILE
+        value: c4p-ite-devops-admin
+      interactiveMode: IfAvailable
+      provideClusterInfo: false
+- name: arn:aws:eks:us-east-1:396913725940:cluster/ite-devops-2
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - --region
+      - us-east-1
+      - eks
+      - get-token
+      - --cluster-name
+      - ite-devops-2
+      - --output
+      - json
+      command: aws
+      env:
+      - name: AWS_PROFILE
+        value: c4p-ite-devops-admin
+      interactiveMode: IfAvailable
+      provideClusterInfo: false
+- name: arn:aws:eks:us-east-1:396913725940:cluster/ite-devops-2
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - -config
+      - ~/.config/aws-sso/gov.yaml
+      command: aws-sso
+      env:
+      - name: AWS_PROFILE
+        value: c4p-ite-devops-admin
+      interactiveMode: IfAvailable
+      provideClusterInfo: false
