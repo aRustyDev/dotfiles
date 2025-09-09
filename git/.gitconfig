@@ -12,16 +12,35 @@
 [gpg "ssh"]
     program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 
+; === Cisco Repos ===
+[includeIf "hasconfig:remote.*.url:git@sscm.gus.cisco.com/**"]
+    name = Adam Smith
+    email = adamsm@cisco.com
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUFKvAloldeFGPMnfGDDilNb7BwxqOfaZzy/7qSEYSs
+
 [includeIf "hasconfig:remote.*.url:https://sscm.gus.cisco.com/**"]
     name = Adam Smith
     email = adamsm@cisco.com
     signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUFKvAloldeFGPMnfGDDilNb7BwxqOfaZzy/7qSEYSs
 
+; === CFS Repos ===
 [includeIf "hasconfig:remote.*.url:https://git.va.th.ten/**"]
     name = asmith
     email = adam.smith@thops.io
     signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKtTUfrQotS79osFP+q9k+JzeBo5M+r4ZfSfP3xwyf1
 
+; === DHL Repos ===
 [includeIf "hasconfig:remote.*.url:https://github.com/darkhuntlabs/**"]
     name = Adam Smith
     email = adam.smith@darkhuntlabs.com
+
+; === Personal Repos ===
+[includeIf "hasconfig:remote.*.url:https://github.com/aRustyDev/**"]
+    name = aRustyDev
+    email = 36318507+aRustyDev@users.noreply.github.com
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHgo2d9L1pQ26RFCCWD3m1paeEtc3J1TJ6E+yZeDjpV
+
+[includeIf "hasconfig:remote.*.url:git@github.com/aRustyDev/**"]
+    name = aRustyDev
+    email = 36318507+aRustyDev@users.noreply.github.com
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHgo2d9L1pQ26RFCCWD3m1paeEtc3J1TJ6E+yZeDjpV
