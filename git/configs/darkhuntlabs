@@ -1,0 +1,5 @@
+; === === === HTTPS Repos === === ===
+[includeIf "hasconfig:remote.*.url:https://github.com/darkhuntlabs/**"]
+    name = "op://Dark Hunt Labs/ihka7j6o5usyyjziuledqfmcq4/username"
+    email = "op://Dark Hunt Labs/ihka7j6o5usyyjziuledqfmcq4/email"
+    signingkey = "op://Dark Hunt Labs/ihka7j6o5usyyjziuledqfmcq4/public key"

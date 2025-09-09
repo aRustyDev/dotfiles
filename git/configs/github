@@ -1,0 +1,11 @@
+; === === === HTTPS Repos === === ===
+[includeIf "hasconfig:remote.*.url:https://github.com/aRustyDev/**"]
+    name = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/username"
+    email = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/email"
+    signingkey = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/public key"
+
+; === === === SSH Repos === === ===
+[includeIf "hasconfig:remote.*.url:git@github.com:aRustyDev/**"]
+    name = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/username"
+    email = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/email"
+    signingkey = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/public key"

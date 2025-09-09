@@ -1,0 +1,5 @@
+; === === === HTTPS Repos === === ===
+[includeIf "hasconfig:remote.*.url:https://git.va.th.ten/**"]
+    name = "op://Raytheon/pf7qqkab7nz7ufmhvjirtuf6be/username"
+    email = "op://Raytheon/pf7qqkab7nz7ufmhvjirtuf6be/email"
+    signingkey = "op://Raytheon/pf7qqkab7nz7ufmhvjirtuf6be/public key"

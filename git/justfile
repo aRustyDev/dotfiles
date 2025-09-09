@@ -1,2 +1,10 @@
+GIT := `echo ${XDG_CONFIG_HOME:-$HOME/.config}/git`
+
 install:
-    @op inject -i .gitconfig -o $HOME/.gitconfig
+    @mkdir -p "{{ GIT }}"/{templates,configs,bin}
+    @for config in `ls ./configs/`; do \
+        cat configs/$config | envsubst | op inject -f -o "{{ GIT }}/configs/$config"; \
+    done
+    @cat config | envsubst | op inject -f -o "{{ GIT }}/config"
+    @cp -r templates/* "{{ GIT }}/templates"
+    @cp -r bin/* "{{ GIT }}/bin"

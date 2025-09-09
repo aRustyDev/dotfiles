@@ -1,0 +1,11 @@
+; === === === SSH Based === === ===
+[includeIf "hasconfig:remote.*.url:git@sscm.gus.cisco.com:*/**"]
+    name = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/username"
+    email = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/email"
+    signingkey = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/public key"
+
+; === === === HTTPS Repos === === ===
+[includeIf "hasconfig:remote.*.url:https://sscm.gus.cisco.com/**"]
+    name = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/username"
+    email = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/email"
+    signingkey = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/public key"
