@@ -1,7 +1,7 @@
 [user]
-    name = aRustyDev
-    email = 36318507+aRustyDev@users.noreply.github.com
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHgo2d9L1pQ26RFCCWD3m1paeEtc3J1TJ6E+yZeDjpV
+    name = "op://SANS/es3f7nrfsyozjzdjfmejficihu/username"
+    email = "op://SANS/es3f7nrfsyozjzdjfmejficihu/email"
+    signingkey = "op://SANS/es3f7nrfsyozjzdjfmejficihu/public key"
 
 [commit]
     gpgsign = true
@@ -14,33 +14,34 @@
 
 ; === Cisco Repos ===
 [includeIf "hasconfig:remote.*.url:git@sscm.gus.cisco.com/**"]
-    name = Adam Smith
-    email = adamsm@cisco.com
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUFKvAloldeFGPMnfGDDilNb7BwxqOfaZzy/7qSEYSs
+    name = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/username"
+    email = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/email"
+    signingkey = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/public key"
 
 [includeIf "hasconfig:remote.*.url:https://sscm.gus.cisco.com/**"]
-    name = Adam Smith
-    email = adamsm@cisco.com
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUFKvAloldeFGPMnfGDDilNb7BwxqOfaZzy/7qSEYSs
+    name = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/username"
+    email = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/email"
+    signingkey = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/public key"
 
 ; === CFS Repos ===
 [includeIf "hasconfig:remote.*.url:https://git.va.th.ten/**"]
-    name = asmith
-    email = adam.smith@thops.io
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKtTUfrQotS79osFP+q9k+JzeBo5M+r4ZfSfP3xwyf1
+    name = "op://Raytheon/pf7qqkab7nz7ufmhvjirtuf6be/username"
+    email = "op://Raytheon/pf7qqkab7nz7ufmhvjirtuf6be/email"
+    signingkey = "op://Raytheon/pf7qqkab7nz7ufmhvjirtuf6be/public key"
 
 ; === DHL Repos ===
 [includeIf "hasconfig:remote.*.url:https://github.com/darkhuntlabs/**"]
-    name = Adam Smith
-    email = adam.smith@darkhuntlabs.com
+    name = "op://Dark Hunt Labs/ihka7j6o5usyyjziuledqfmcq4/username"
+    email = "op://Dark Hunt Labs/ihka7j6o5usyyjziuledqfmcq4/email"
+    signingkey = "op://Dark Hunt Labs/ihka7j6o5usyyjziuledqfmcq4/public key"
 
 ; === Personal Repos ===
 [includeIf "hasconfig:remote.*.url:https://github.com/aRustyDev/**"]
-    name = aRustyDev
-    email = 36318507+aRustyDev@users.noreply.github.com
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHgo2d9L1pQ26RFCCWD3m1paeEtc3J1TJ6E+yZeDjpV
+    name = "op://SANS/es3f7nrfsyozjzdjfmejficihu/username"
+    email = "op://SANS/es3f7nrfsyozjzdjfmejficihu/email"
+    signingkey = "op://SANS/es3f7nrfsyozjzdjfmejficihu/public key"
 
 [includeIf "hasconfig:remote.*.url:git@github.com/aRustyDev/**"]
-    name = aRustyDev
-    email = 36318507+aRustyDev@users.noreply.github.com
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHgo2d9L1pQ26RFCCWD3m1paeEtc3J1TJ6E+yZeDjpV
+    name = "op://SANS/es3f7nrfsyozjzdjfmejficihu/username"
+    email = "op://SANS/es3f7nrfsyozjzdjfmejficihu/email"
+    signingkey = "op://SANS/es3f7nrfsyozjzdjfmejficihu/public key"

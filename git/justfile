@@ -1,0 +1,2 @@
+install:
+    @op inject -i .gitconfig -o $HOME/.gitconfig
