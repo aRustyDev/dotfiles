@@ -3,6 +3,23 @@ if [ -x /usr/libexec/path_helper ]; then
 	eval `/usr/libexec/path_helper -s`
 fi
 
+casks=(
+    antidote ffmpeg sevenzip poppler ripgrep \
+    resvg imagemagick helm kubectl atuin jq \
+    starship zoxide yazi lsd bat fzf nvim yq fd \
+    ansible just helm-ls 1password-cli@beta \
+    font-symbols-only-nerd-font tealdeer texinfo \
+    mise eza archiver pyenv k9s turbot/tap/steampipe \
+    zsh bash gawk grep gnu-sed coreutils shfmt \
+    shellcheck tenv kubectx
+)
+# brew update
+# brew upgrade
+# brew install $casks
+
+# TODO: Update Terraform Modules
+
+
 # XDG_CONFIG_HOME: Where user-specific configurations should be written (analogous to /etc).
 # - Purpose: For user-specific configuration files and directories. This is where applications should store their settings.
 # - $HOME/.config
