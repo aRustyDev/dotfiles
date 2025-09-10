@@ -12,9 +12,7 @@ build:
         export CLEANED=`mktemp -d -t "zed.$target"`; \
         export MERGING="{{ profile }}"; \
         just _update; \
-        echo $CLEANED; \
-        tree $CLEANED; \
-        rm -rf $CLEANED; \
+        rm -rf $TMPDIR/zed.*; \
     done
 
 # Installs Zed dotiles to XDG_CONFIG_HOME/zed
@@ -38,9 +36,7 @@ _merge:
 
 # Cleans the json files of comments, stores in $TMPDIR/
 _clean:
-    @tree $CFG
     @for this in `ls $CFG`; do \
-        echo $CLEANED/$this; \
         sed 's/^ *\/\/.*//; s|// .*||g' $CFG/$this \
         > $CLEANED/$this; \
     done
