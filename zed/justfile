@@ -22,8 +22,13 @@ install:
 # Takes Merges file and pushes to repo local zed
 _update: _clean
     @just _merge > "{{ dotroot }}/.zed/$CFG.json"
-    @sed -i '' $'1i\\\n// === === FILE MANAGED BY AUTOMATION === ===' "{{ dotroot }}/.zed/$CFG.json"
-    @sed -i '' $'2i\\\n// === === Edits go in [ <dotfiles>/zed/${CFG}.json ] === ===' "{{ dotroot }}/.zed/$CFG.json"
+    @sed -i '' $'1i\\\n// === === === === === === === === === === === === === === === === === === === === ===\n' "{{ dotroot }}/.zed/$CFG.json"
+    @if [[ "$CFG" == "settings" ]]; then \
+        sed -i '' $'2i\\\n// ||| FILE MANAGED BY AUTOMATION     (Source: [ <dotfiles>/zed/settings/*.json ]) |||\n' "{{ dotroot }}/.zed/settings.json"; \
+    elif [[ "$CFG" == "debug" ]]; then \
+        sed -i '' $'2i\\\n// ||| FILE MANAGED BY AUTOMATION        (Source: [ <dotfiles>/zed/debug/*.json ]) |||\n' "{{ dotroot }}/.zed/debug.json"; \
+    fi
+    @sed -i '' $'3i\\\n// === === === === === === === === === === === === === === === === === === === === ===\n' "{{ dotroot }}/.zed/$CFG.json"
 
 # Returns the Absolute path of the current TMPDIR
 _get_clean_dir:

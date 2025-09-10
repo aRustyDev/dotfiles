@@ -1,5 +1,8 @@
-// === === FILE MANAGED BY AUTOMATION === ===[
-// === === Edits go in [ <dotfiles>/zed/${CFG}.json ] === ===  {
+// === === === === === === === === === === === === === === === === === === === === ===
+// ||| FILE MANAGED BY AUTOMATION        (Source: [ <dotfiles>/zed/debug/*.json ]) |||
+// === === === === === === === === === === === === === === === === === === === === ===
+[
+  {
     "label": "Debug native binary",
     "build": {
       "command": "make",

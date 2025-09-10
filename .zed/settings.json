@@ -1,9 +1,11 @@
-// === === FILE MANAGED BY AUTOMATION === ==={
-// === === Edits go in [ <dotfiles>/zed/${CFG}.json ] === ===  "load_direnv": "shell_hook",
+// === === === === === === === === === === === === === === === === === === === === ===
+// ||| FILE MANAGED BY AUTOMATION     (Source: [ <dotfiles>/zed/settings/*.json ]) |||
+// === === === === === === === === === === === === === === === === === === === === ===
+{
+  "load_direnv": "shell_hook",
   "disable_ai": true,
   "diagnostics_max_severity": "hint",
   "proxy": "socks5h://localhost:9876",
-  "projects_online_by_default": false,
   "private_files": [
     "**/.priv*.env*",
     "**/*.pem",
