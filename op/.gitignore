@@ -1,0 +1,4 @@
+# Build by justfile
+agent.toml
+merged.json
+*.plist
