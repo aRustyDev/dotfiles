@@ -1,0 +1,40 @@
+OPWDOT := x'${XDG_CONFIG_HOME:-$HOME/.config}/1Password/ssh'
+profile := if `hostname` == "ADAMSM-M-7L95" { "cisco" } else if `hostname` == "ADAMSM-M-7L95" { "cfs" } else { "51nos" }
+
+# install 1Password related dotfiles to the system
+install: trees
+    @cp agent.toml {{ OPWDOT }}/agent.toml
+
+# Create 1Password related directory trees
+trees:
+    @mkdir -p {{ OPWDOT }}
+
+build +targets:
+    @just _merged $(just _uniq_targets {{ targets }}) | mustache mustaches/agent.mustache > agent.toml
+    @just _plist "ssh" | mustache mustaches/plist.ssh.mustache > com.1password.SSH_AUTH_SOCK.plist
+
+# Returns {merged:[{key:str,value:str}]} (Merged + Formatted JSON)
+_merged +targets:
+    @for t in {{targets}}; do \
+        just _json $t; \
+    done | jq -s 'add | { "merged": . }'
+
+# Returns UNIQ [targets]
+_uniq_targets +targets:
+    @echo {{ if targets == 'personal' { targets + ' ' + 'private' } else if targets =~ 'personal' { replace(targets, 'private', '') } else { replace(targets, 'private', '') + ' ' + 'personal' } }}
+
+# exists(file) ? filepath : exit 1
+_file f:
+    @O=agents/{{f}}.yaml && if [[ -f $O ]]; then echo $O; else exit 1; fi
+
+# returns formatted targets
+_json target:
+    @TGT={{target}} yq -o json '.[] as $item ireduce ({}; .[$item | strenv(TGT) + "(" + .key + ")"] = ($item | .id) ) | to_entries' $(just _file {{target}})
+
+_plist name:
+    @yq -o json '(.. | select(tag == "!!str")) |= envsubst' plists/{{name}}.yaml
+
+# test +files:
+#     @for f in $(just _uniq_targets {{ files }}); do \
+#         just _json $f; \
+#     done
