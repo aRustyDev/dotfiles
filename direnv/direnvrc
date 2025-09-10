@@ -3,30 +3,3 @@ typeset -r GitDirLocal=$(git rev-parse --git-dir)
 
 # Working tree of the current repository
 typeset -r GitWorkTreeLocal=$(git rev-parse --show-toplevel)
-
-AWS_DEFAULT_REGION="us-east-1"
-AWS_PROFILE="c4p-ite-devops-admin"
-
-aws-sso -config ~/.config/aws-sso/gov.yaml
-
-for cluster in `aws eks list-clusters`; do
-    json=$(aws eks describe-cluster --name $cluster | jq '.')
-    aws eks update-kubeconfig \
-        --name $cluster \
-        --endpoint-url $(echo $json | jq '.') \
-        --alias $alias \
-        --user-alias $user \
-        --assume-role-arn $role \
-        --role-arn $role
-done
-
-
-kubectl get secrets -o json | jq -c '.items[] | select(.type == "kubernetes.io/tls")' | while read item; do;
-    echo "$item" | yq -p=json '.' | kubectl --context ite-devops-2 -n docs apply --dry-run=client -f -
-done
-
-kubectl get secrets -o json | jq -c '.items[] | select(.type == "helm.sh/release.v1")' | while read item; do;
-    echo "$item" | yq -p=json '.' | kubectl --context ite-devops-2 -n docs apply --dry-run=client -f -
-done
-
-kubectl get secrets oauth2-proxy-docs-secrets -o yaml | kubectl --context ite-devops-2 -n docs apply --dry-run=client -f -
