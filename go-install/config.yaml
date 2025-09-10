@@ -25,3 +25,4 @@ tools:
 templates:
   offsec:
     - https://github.com/projectdiscovery/nuclei-templates
+    - github.com/quantumew/mustache-cli@latest
