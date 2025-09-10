@@ -17,5 +17,6 @@ eksctl: "completions [zsh]" # TODO: check for supported shells
 cosign: "completions [zsh]" # TODO: check for supported shells
 docker: "completions [zsh]" # TODO: check for supported shells
 cilium: "completions [zsh]" # TODO: check for supported shells
+mdbook: "completions [bash|zsh|fish|powershell]"
 templar: "completions [zsh]" # TODO: check for supported shells
-kubectl: "completions [bash|zsh|fish|powershell]"
+kubectl: "completions [bash|elvish|fish|powershell|zsh]"
