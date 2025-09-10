@@ -1,4 +1,23 @@
-{
+// === === FILE MANAGED BY AUTOMATION === ==={
+// === === Edits go in [ <dotfiles>/zed/${CFG}.json ] === ===  "load_direnv": "shell_hook",
+  "disable_ai": true,
+  "diagnostics_max_severity": "hint",
+  "proxy": "socks5h://localhost:9876",
+  "projects_online_by_default": false,
+  "private_files": [
+    "**/.priv*.env*",
+    "**/*.pem",
+    "**/*.key",
+    "**/*.cert",
+    "**/*.crt"
+  ],
+  "redact_private_values": true,
+  "format_on_save": "on",
+  "relative_line_numbers": true,
+  "journal": {
+    "path": "$XDG_CACHE_HOME/zed/journal",
+    "hour_format": "hour12"
+  },
   "languages": {
     "Markdown": {
       "format_on_save": "on"
@@ -6,13 +25,62 @@
     "C": {
       "format_on_save": "on",
       "tab_size": 2
+    },
+    "Sieve": {
+      "language_servers": [
+        "sieve_lsp"
+      ],
+      "tab_size": 2,
+      "hard_tabs": false,
+      "preferred_line_length": 80,
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "show_completions_on_input": true
     }
   },
   "file_types": {
-    "Diff": ["dif"],
-    "C": ["C", "H"]
+    "Diff": [
+      "dif"
+    ],
+    "C": [
+      "C",
+      "H"
+    ],
+    "Tide": [
+      "*.tide",
+      "*.td"
+    ],
+    "Sieve": [
+      "sieve",
+      "sv",
+      "*.sieve",
+      "*.sv"
+    ],
+    "Git Config": [
+      "$XDG_CONFIG_HOME/git/config",
+      "$XDG_CONFIG_HOME/git/configs/*"
+    ],
+    "SSH Config": [
+      "$XDG_CONFIG_HOME/ssh/config",
+      "$XDG_CONFIG_HOME/ssh/configs/*"
+    ]
   },
   "lsp": {
+    "sieve_lsp": {
+      "binary": {
+        "ignore_system_version": false,
+        "path": "$HOME/.cargo/bin/sieve_lsp",
+        "env": {
+          "RUST_LOG": "info"
+        }
+      },
+      "initialization_options": {
+        "proton_extensions": true,
+        "strict_mode": false,
+        "max_errors": 100,
+        "semantic_analysis": true
+      }
+    },
     "rust-analyzer": {
       "initialization_options": {
         "rust": {
@@ -30,5 +98,157 @@
         }
       }
     }
+  },
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    "dockerfile": true,
+    "git-firefly": true,
+    "make": true,
+    "just": true,
+    "neocmake": true,
+    "toml": true,
+    "ini": true,
+    "rainbow-csv": true,
+    "proto": true,
+    "python-requirements": true,
+    "hyprlang": true,
+    "gosum": true,
+    "tombi": true,
+    "authzed": true,
+    "github-actions": true,
+    "sql": true,
+    "graphql": true,
+    "terraform": true,
+    "ansible": true,
+    "opentofu": true,
+    "mustache": true,
+    "zig": true,
+    "swift": true,
+    "csharp": true,
+    "assembly": true,
+    "kotlin": true,
+    "v": true,
+    "lua": true,
+    "powershell": true,
+    "nu": true,
+    "haskell": true,
+    "roc": true,
+    "scala": true,
+    "scheme": true,
+    "fsharp": true,
+    "jsonnet": true,
+    "erlang": true,
+    "gleam": true,
+    "groovy": true,
+    "odin": true,
+    "slint": true,
+    "nim": true,
+    "verilog": true,
+    "elm": true,
+    "qml": true,
+    "strace": true,
+    "tree-sitter-query": true,
+    "tera": true,
+    "uiua": true,
+    "ical": true,
+    "vcard": true,
+    "move": true,
+    "lean4": false,
+    "leptos": true,
+    "moonbit": true,
+    "sieve": true,
+    "typespec": true,
+    "grit": true,
+    "baml": true,
+    "jq": true,
+    "r": false,
+    "basher": true,
+    "golangci-lint": true,
+    "codebook": true,
+    "marksman": true,
+    "harper": true,
+    "wakatime": true,
+    "typos": true,
+    "cspell": true,
+    "oxc": false,
+    "gitlab-ci-ls": true,
+    "stylelint": true,
+    "relay": true,
+    "activitywatch": true,
+    "yara": false,
+    "ty": true,
+    "postgres-language-server": false,
+    "tsgo": false,
+    "package-swift-lsp": false,
+    "pyrefly": true,
+    "crates-lsp": true,
+    "css-modules-kit": false,
+    "just-ls": true,
+    "ast-grep": true,
+    "air": true,
+    "design-tokens": true,
+    "markdownlint": true,
+    "postgres-context-server": false,
+    "mcp-server-github": true,
+    "mcp-server-sequential-thinking": false,
+    "browser-tools-context-server": false,
+    "mcp-server-gitlab": false,
+    "mcp-server-figma": false,
+    "mcp-server-supabase": false,
+    "mcp-server-buildkite": false,
+    "mcp-server-container-use": true,
+    "terraform-context-server": false,
+    "go-snippets": false,
+    "python-snippets": false,
+    "rust-snippets": false,
+    "sqlc-snippets": false
+  },
+  "context_servers": {
+    "terraform-context-server": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {}
+    },
+    "container-use-mcp": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {}
+    },
+    "surrealdb": {
+      "source": "custom",
+      "enabled": true,
+      "command": "npx",
+      "args": [
+        "-y",
+        "surrealdb-mcp-server"
+      ],
+      "env": {
+        "SURREALDB_NS": "git-setup-rs",
+        "SURREALDB_DB": "git-setup-rs",
+        "SURREALDB_USER": "root",
+        "SURREALDB_URL": "https://surrealdb-tikv.default.svc.cluster.local:8000",
+        "SURREALDB_PASS": "StrongSecretPassword!"
+      }
+    }
+  },
+  "icon_theme": "Catppuccin Latte",
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Macchiato",
+    "dark": "Catppuccin Macchiato"
+  },
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
+  "edit_predictions": {
+    "disabled_globs": [
+      "**/.env*",
+      "**/*.pem",
+      "**/*.key",
+      "**/*.cert",
+      "**/*.crt",
+      "**talks.md"
+    ]
   }
 }

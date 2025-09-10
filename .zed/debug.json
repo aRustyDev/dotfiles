@@ -1,0 +1,28 @@
+// === === FILE MANAGED BY AUTOMATION === ===[
+// === === Edits go in [ <dotfiles>/zed/${CFG}.json ] === ===  {
+    "label": "Debug native binary",
+    "build": {
+      "command": "make",
+      "args": [
+        "-j8"
+      ],
+      "cwd": "$ZED_WORKTREE_ROOT"
+    },
+    "program": "$ZED_WORKTREE_ROOT/build/prog",
+    "request": "launch",
+    "adapter": "CodeLLDB"
+  },
+  {
+    "label": "Build & Debug native binary",
+    "adapter": "CodeLLDB",
+    "build": {
+      "command": "cargo",
+      "args": [
+        "build"
+      ]
+    },
+    "sourceLanguages": [
+      "rust"
+    ]
+  }
+]
