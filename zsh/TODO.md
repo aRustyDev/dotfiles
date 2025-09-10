@@ -16,3 +16,10 @@
 - symlinks
 - .zshenv
 - completions
+
+```zsh
+# mkdir -p ~/Library/LaunchAgents
+# cp $HOME/nix/1Password/com.1password.SSH_AUTH_SOCK.plist > ~/Library/LaunchAgents/com.1password.SSH_AUTH_SOCK.plist
+# launchctl load -w ~/Library/LaunchAgents/com.1password.SSH_AUTH_SOCK.plis
+# compdef _op op
+```
