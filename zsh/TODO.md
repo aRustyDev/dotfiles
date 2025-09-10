@@ -23,3 +23,38 @@
 # launchctl load -w ~/Library/LaunchAgents/com.1password.SSH_AUTH_SOCK.plis
 # compdef _op op
 ```
+
+- manage /etc/shells, as well as default shell (/opt/homebrew/bin/zsh)
+
+```bash
+# List of acceptable shells for chpass(1).
+# Ftpd will not allow users to connect who are not using
+# one of these shells.
+
+/bin/bash
+/bin/csh
+/bin/dash
+/bin/ksh
+/bin/sh
+/bin/tcsh
+/bin/zsh
+/opt/homebrew/bin/zsh
+# /opt/homebrew/bin/bash
+# nushell
+# fish
+# elvish
+# xonsh
+# powershell?
+```
+
+- manage install and versioning of critical packages
+  Clang: 17.0.0 build 1700
+  Git: 2.39.5 => /Library/Developer/CommandLineTools/usr/bin/git
+  Curl: 8.7.1 => /usr/bin/curl
+  CLT: 16.4.0.0.1.1747106510
+  Xcode: N/A
+  Rosetta 2: false
+  gcc
+  cc
+  zsh
+  bash
