@@ -1,0 +1,5 @@
+---
+env:
+  name: SSH_AUTH_SOCK
+  value: $SSH_AUTH_SOCK
+home: $HOME
