@@ -1,0 +1,55 @@
+dotroot := `git rev-parse --show-toplevel`
+zed_dot_dir := `echo "${XDG_CONFIG_HOME:=$HOME/.config}/zed"`
+settings := `mktemp -d -t "zed.settings"`
+debug := `mktemp -d -t "zed.debug"`
+profile := if `hostname` == "ADAMSM-M-7L95" { "cisco" } else if `hostname` == "ADAMSM-M-7L95" { "cfs" } else { "personal" }
+setting_files := "settings debug"
+
+# Updates the repo local configs (./zed/ -> .zed/)
+build:
+    @for target in {{ setting_files }}; do \
+        export CFG="$target"; \
+        export CLEANED=`mktemp -d -t "zed.$target"`; \
+        export MERGING="{{ profile }}"; \
+        just _update; \
+        echo $CLEANED; \
+        tree $CLEANED; \
+        rm -rf $CLEANED; \
+    done
+
+# Installs Zed dotiles to XDG_CONFIG_HOME/zed
+install:
+    @cp "{{ dotroot }}/.zed/{settings,debug}.json" "{{ zed_dot_dir }}/"
+
+# Takes Merges file and pushes to repo local zed
+_update: _clean
+    @just _merge > "{{ dotroot }}/.zed/$CFG.json"
+    @sed -i '' $'1i\\\n// === === FILE MANAGED BY AUTOMATION === ===' "{{ dotroot }}/.zed/$CFG.json"
+    @sed -i '' $'2i\\\n// === === Edits go in [ <dotfiles>/zed/${CFG}.json ] === ===' "{{ dotroot }}/.zed/$CFG.json"
+
+# Returns the Absolute path of the current TMPDIR
+_get_clean_dir:
+    @echo "{{ if "$CFG" == "debug" { debug } else { settings } }}"
+
+# Merges CLEAN default.json and <profile>.json
+_merge:
+    @jq -s 'add' $(ls $CLEANED/{default,$MERGING}.json)
+
+
+# Cleans the json files of comments, stores in $TMPDIR/
+_clean:
+    @tree $CFG
+    @for this in `ls $CFG`; do \
+        echo $CLEANED/$this; \
+        sed 's/^ *\/\/.*//; s|// .*||g' $CFG/$this \
+        > $CLEANED/$this; \
+    done
+
+
+# test:
+#     for target in {{ setting_files }}; do \
+#         echo $target; \
+#     done
+
+# _depFoo:
+#     @export EXAMPLE=Baz

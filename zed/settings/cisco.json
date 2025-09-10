@@ -1,0 +1,15 @@
+{
+  "load_direnv": "shell_hook",
+  "disable_ai": true,
+  "diagnostics_max_severity": "hint",
+  "proxy": "socks5h://localhost:9876",
+  "projects_online_by_default": false,
+  "private_files": [
+    "**/.priv*.env*",
+    "**/*.pem",
+    "**/*.key",
+    "**/*.cert",
+    "**/*.crt"
+  ],
+  "redact_private_values": true
+}

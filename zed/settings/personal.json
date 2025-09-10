@@ -1,0 +1,61 @@
+{
+  "agent": {
+    "default_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-latest"
+    },
+    "version": "2"
+  },
+  "language_models": {
+    "google": {
+      "api_url": "https://generativelanguage.googleapis.com"
+    },
+    "anthropic": {
+      "api_url": "https://api.anthropic.com"
+    },
+    "ollama": {
+      "api_url": "http://localhost:11434"
+    },
+    "openai": {
+      "api_url": "https://api.openai.com/v1"
+    }
+  },
+  "ssh_connections": [
+    {
+      "host": "localhost",
+      "username": "developer",
+      "port": 2222,
+      "args": ["-i", "~/.ssh/zed_test_key"],
+      "projects": [
+        {
+          "paths": ["/home/developer"]
+        }
+      ]
+    }
+  ],
+  "context_servers": {
+    "terraform-context-server": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {}
+    },
+    "container-use-mcp": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {}
+    },
+    "surrealdb": {
+      "source": "custom",
+      "enabled": true,
+      "command": "npx",
+      "args": ["-y", "surrealdb-mcp-server"],
+      "env": {
+        "SURREALDB_NS": "git-setup-rs",
+        "SURREALDB_DB": "git-setup-rs",
+        "SURREALDB_USER": "root",
+        "SURREALDB_URL": "https://surrealdb-tikv.default.svc.cluster.local:8000",
+        "SURREALDB_PASS": "StrongSecretPassword!"
+      }
+    }
+  }
+}
