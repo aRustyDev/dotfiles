@@ -1,0 +1,23 @@
+volta install --verbose --very-verbose node
+[trace] log level: VeryVerbose
+[verbose] No custom hooks found
+[verbose] Node index cache was not found or was invalid
+error: Could not download Node version registry
+from https://nodejs.org/dist/index.json
+
+Please verify your internet connection.
+[verbose] Error cause: Io Error: Socket is not connected (os error 57)
+Error details written to /Users/adamsm/.volta/log/volta-error-2025-09-10_11_30_43.540.log
+
+```
+cat /Users/adamsm/.volta/log/volta-error-2025-09-10_11_30_43.540.log
+"/opt/homebrew/Cellar/volta/2.0.2/libexec/bin/volta" "install" "--verbose" "--very-verbose" "node"
+Volta v2.0.2
+
+Could not download Node version registry
+from https://nodejs.org/dist/index.json
+
+Please verify your internet connection.
+
+Error cause: Io Error: Socket is not connected (os error 57)
+```
