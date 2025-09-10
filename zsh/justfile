@@ -1,4 +1,18 @@
+default := (zdotdir `echo "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/"`)
+
 test:
     echo "Testing ZSH"
     docker run --rm -it --device /dev/kvm -v /tmp/.X11-unix:/tmp/.X11-unix zshrc:latest
     echo "Testing Complete"
+
+install zdotdir:
+    @mkdir -p "{{ zdotdir }}"
+    @cp .zshrc "{{ zdotdir }}"
+    @cp .zshenv "{{ zdotdir }}"
+    @cp .zprofile "{{ zdotdir }}"
+    @cp .zlogin "{{ zdotdir }}"
+    @cp -r plugins "{{ zdotdir }}"
+    @cp -r init "{{ zdotdir }}"
+    @cp -r functions "{{ zdotdir }}"
+    @cp -r completions "{{ zdotdir }}"
+    @cp -r ../dot_helper/ "${XDG_CONFIG_HOME:-$HOME/.config}"

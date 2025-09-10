@@ -13,4 +13,4 @@ alias cat='bat'
 alias ku='kubectl'
 alias kua='kubectl --all-namespaces'
 alias zshbench='time ZSH_PROFILE=1 zsh -i -c exit && unset ZSH_PROFILE'
-alist zplug="antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh"
+alias zplug="antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh"

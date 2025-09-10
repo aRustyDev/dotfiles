@@ -1,4 +1,6 @@
-complete -C '/opt/homebrew/bin/aws_completer' aws
+# autoload bashcompinit
+# bashcompinit
+# complete -C '/opt/homebrew/bin/aws_completer' aws
 
 generate_completions() {
     if [[ -v $ZDOTDIR ]]; then

@@ -96,8 +96,17 @@ ATUIN_THEME_DIR="$THEMES_DIR/atuin"
 GOBIN="${XDG_BIN_HOME:-$HOME/.local/bin}/go"
 GOPATH="${XDG_CONFIG_HOME:-$HOME/.config}/go"
 
+# GIT_CONFIG_GLOBAL= # path to the global (per-user) configuration file
+# GIT_CONFIG_SYSTEM= # path to the system-level configuration file
+# GIT_CONFIG_NOSYSTEM= # disables the use of the system-wide configuration file
+# GIT_DIR= # The location of the .git folder.
+# GIT_EDITOR=$EDITOR # The editor Git will launch for commit messages, etc.
+# GIT_PAGER=$PAGER # The pager used for multi-page output.
+# GIT_EXEC_PATH= # Where Git looks for its sub-programs.
+
 OP_SIGN="/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 OP_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/op"
+OP_AGENT_TOM="${XDG_CONFIG_HOME:-$HOME/.config}/1Password/ssh/agent.toml"
 
 CARGO_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/cargo"
 CARGO_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/cargo"
@@ -119,9 +128,16 @@ GHOSTTY_RESOURCES_DIR="/Applications/Ghostty.app/Contents/Resources/ghostty"
 AWS_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/cloud/aws/config"
 AWS_SHARED_CREDENTIALS_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/cloud/aws/creds"
 AWS_DATA_PATH="${XDG_DATA_HOME:-$HOME/.config}/cloud/aws"
-AWS_DEFAULT_REGION="us-east-1"
-# AWS_PROFILE=
+if [[ $(hostname) == "ADAMSM-M-7L95" ]]; then
+    AWS_DEFAULT_REGION="us-east-1"
+    AWS_PROFILE="c4p-ite-devops-admin"
+else
+    AWS_DEFAULT_REGION="us-gov-west-1"
+fi
 EKSCTL_ENABLE_CREDENTIAL_CACHE=1
+
+# TELEPORT_DOMAIN=teleport.example.com:443
+# TELEPORT_VERSION="$(curl -s https://$TELEPORT_DOMAIN/v1/webapi/find | jq -r '.server_version')"
 
 # VAULT_HTTP_PROXY
 # VAULT_PROXY_ADDR
