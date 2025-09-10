@@ -2,35 +2,53 @@
 # This file is managed by Nix (nix-darwin + home-manager)
 # Manual changes may be overwritten on system rebuild
 
-# Git signing key for Bespin Project
+# cfs(bespin):sign
 [[ssh-keys]]
-item = "bespin-auth"
-vault = "rtx-bespin"
-account = "Avengers"
+item = "vipoogikkiwhupg62nolhh3s6y"
 
-# Git authentication key for Bespin Project
+# cfs(bespin):auth
 [[ssh-keys]]
-item = "bespin-sign"
-vault = "rtx-bespin"
-account = "Avengers"
+item = "7wrp2wy6re2rtf262h7iyjezuy"
 
-# GitLab SSH key (USAF)
+# 51nos
 [[ssh-keys]]
-item = "GitLab"
-vault = "USAF"
-account = "Avengers"
+item = "3f33pkgx4r3atsdjpdyg37nwru"
 
-# Git authentication key for RTX GitLab
+# cfs
 [[ssh-keys]]
-item = "gitlab-auth"
-vault = "Raytheon"
-account = "Avengers"
+item = "pf7qqkab7nz7ufmhvjirtuf6be"
 
-# SANS SEC488 course SSH key
+# cfs(gitlab):auth
 [[ssh-keys]]
-item = "SEC488"
-vault = "SANS"
-account = "Avengers"
+item = "qycn2mtcodebjidrqin5k7q5hy"
+
+# github
+[[ssh-keys]]
+item = "qagqzim6dvtbopwnwhtyk6zjje"
+
+# cisco(github):auth
+[[ssh-keys]]
+item = "fkkv2ntnwxdz3pmbx5nd6tnqgy"
+
+# cisco(ite)
+[[ssh-keys]]
+item = "fkkv2ntnwxdz3pmbx5nd6tnqgy"
+
+# cisco(il5)
+[[ssh-keys]]
+item = "eztnkttd546q64o3e6rnqb4tcq"
+
+# cisco(il6)
+[[ssh-keys]]
+item = "akn3gslikqn2py6xki5ncxi254"
+
+# cisco(combine)
+[[ssh-keys]]
+item = "uvp6h52e767ptady4m573oeyl4"
+
+# vm(nixos)
+[[ssh-keys]]
+item = "kc74enlgu5vee374cqox4bmiai"
 
 # Additional SSH keys to be configured:
 # - GitHub personal account
