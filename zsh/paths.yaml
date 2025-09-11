@@ -60,6 +60,13 @@ xdgdatapathsd: # XDG_DATA_DIRS
   0-standard:
     - "/usr/local/share"
     - "/usr/share"
+    - "/Library/Application Support"
+    - "$HOME/.local/share"
+
 xdgconfigpathsd: # XDG_CONFIG_DIRS
   0-standard:
     - "/etc/xdg"
+    - "$HOME/Library/Preferences"
+    - "/Library/Application Support"
+    - "/Library/Preferences"
+    - "$HOME/.config"
