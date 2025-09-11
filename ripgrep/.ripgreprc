@@ -1,0 +1,37 @@
+# Don't let ripgrep vomit really long lines to my terminal, and show a preview.
+--max-columns=150
+--max-columns-preview
+
+# Add my 'web' type.
+--type-add
+web:*.{html,css,js}*
+
+# Search hidden files / directories (e.g. dotfiles) by default
+--hidden
+
+# Using glob patterns to include/exclude files or folders
+--glob=!.git/*
+
+# or
+--glob
+!.git/*
+
+# Set the colors.
+--colors=line:none
+--colors=line:style:bold
+
+# Because who cares about case!?
+--smart-case
+
+-i, --ignore-case               Case insensitive search.
+--ignore-file=PATH              Specify additional ignore files.
+--ignore-file-case-insensitive  Process ignore files case insensitively.
+--no-ignore                     Don't use ignore files.
+--no-ignore-dot                 Don't use .ignore or .rgignore files.
+--no-ignore-exclude             Don't use local exclusion files.
+--no-ignore-files               Don't use --ignore-file arguments.
+--no-ignore-global              Don't use global ignore files.
+--no-ignore-parent              Don't use ignore files in parent directories.
+--no-ignore-vcs                 Don't use ignore files from source control.
+--no-require-git                Use .gitignore outside of git repositories.
+--no-ignore-messages            Suppress gitignore parse error messages.
