@@ -42,7 +42,8 @@
     "SSH Config": [
       "$XDG_CONFIG_HOME/ssh/config",
       "$XDG_CONFIG_HOME/ssh/configs/*"
-    ]
+    ],
+    "Shell Script": ["direnvrc", ".envrc"]
   },
   "lsp": {
     "sieve_lsp": {
