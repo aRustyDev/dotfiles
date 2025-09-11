@@ -1,4 +1,5 @@
 ### direnv Utility Functions
+
 direnv also provides you with a set of utility functions that are available in the context of .envrc file.
 
 As an example, the `PATH_add` function can be used to expand the values of the `$PATH` variable.
@@ -19,3 +20,7 @@ direnv calls these utility functions as stdlib functions. There are other useful
 You can find a list of all supported stdlib functions at this documentation link.
 
 > Note: It is also possible to create your own extensions by creating a bash file at `~/.config/direnv/direnvrc` or `~/.config/direnv/lib/*.sh`. These files are loaded before your .envrc and thus allow you to make your own customized extensions to direnv.
+
+https://shivamarora.medium.com/a-guide-to-manage-your-environment-variables-in-a-better-way-using-direnv-2c1cd475c8e
+
+https://sixfeetup.com/blog/direnv-manage-environment-variables
