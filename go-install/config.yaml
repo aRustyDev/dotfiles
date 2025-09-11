@@ -22,7 +22,9 @@ tools:
     - github.com/projectdiscovery/aix/cmd/aix@latest
     - github.com/projectdiscovery/proxify/cmd/proxify@latest
     - github.com/projectdiscovery/simplehttpserver/cmd/simplehttpserver@latest
+  templating:
+    - cuelang.org/go/cmd/cue@master
+    - github.com/quantumew/mustache-cli@latest
 templates:
   offsec:
     - https://github.com/projectdiscovery/nuclei-templates
-    - github.com/quantumew/mustache-cli@latest
