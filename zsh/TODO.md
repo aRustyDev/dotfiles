@@ -1,5 +1,11 @@
 # TODO
 
+## Shells: Zsh
+
+| status | Task                                          | notes |
+| ------ | --------------------------------------------- | ----- |
+| `todo` | [teleport][teleport]: Implement Agentless SSH |       |
+
 - Build Dotfiles
   - $HISTFILE
 - Build Dotdirs

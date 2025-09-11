@@ -1,6 +1,12 @@
-# TODOs
+# TODO
 
-- [path_helper](path_master): Manage PATH vars based on files in /etc/*paths.d/
+## dot_helper
+
+| status | Task                                          | notes |
+| ------ | --------------------------------------------- | ----- |
+| `todo` | [teleport][teleport]: Implement Agentless SSH |       |
+
+- [path_helper](path_master): Manage PATH vars based on files in /etc/\*paths.d/
 - `/etc/shells` config
 - zsh config
   - zshenv
@@ -17,8 +23,8 @@
   - cortex
   - gemini
 
-
 ## Commands
+
 ```bash
 dot_helper completion zsh # zsh, bash, fish, elvish, powershell
 dot_helper completions    # run completions for shell based on config
@@ -36,16 +42,13 @@ dot_helper alias          # manage aliases from config & depending on whats inst
 
 - `atuin dotfiles var set NAME 'value'`
 
-
-    antidote ffmpeg sevenzip poppler ripgrep \
-    resvg imagemagick helm kubectl atuin jq \
-    starship zoxide yazi lsd bat fzf nvim yq \
-    ansible just helm-ls 1password-cli@beta \
-    font-symbols-only-nerd-font tealdeer info \
-    mise eza archive pyenv k9s turbot/tap/steampipe \
-    zsh gawk grep gnu-sed coreutils
-
-
+  antidote ffmpeg sevenzip poppler ripgrep \
+   resvg imagemagick helm kubectl atuin jq \
+   starship zoxide yazi lsd bat fzf nvim yq \
+   ansible just helm-ls 1password-cli@beta \
+   font-symbols-only-nerd-font tealdeer info \
+   mise eza archive pyenv k9s turbot/tap/steampipe \
+   zsh gawk grep gnu-sed coreutils
 
 for profile in ${(z)NIX_PROFILES}; do
   fpath+=($profile/share/zsh/site-functions $profile/share/zsh/$ZSH_VERSION/functions $profile/share/zsh/vendor-completions)
@@ -76,3 +79,8 @@ fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
 
 # # Ensure unique paths
 # typeset -U path cdpath fpath manpath -->
+
+- [teleport]: https://goteleport.com/docs/enroll-resources/server-access/openssh/openssh-agentless/
+- [cue-file]: ../.build/cue/ssh
+- [tree-sitter-highlighter]: ../tree-sitter/highlights/ssh-config
+- [tree-sitter-parser]: ../tree-sitter/parsers/ssh-config
