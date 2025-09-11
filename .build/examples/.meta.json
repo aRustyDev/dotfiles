@@ -1,0 +1,24 @@
+{
+  "url": {
+    "contribute": "",
+    "bugz": "",
+    "docs": ""
+  },
+  "dotdir": true,
+  "env": {
+    "shell": "./path/to/env.yaml",
+    "dir": "./path/to/.env"
+  },
+  "just": ["./path/to/sub/justfile", "./path/to/justfile"],
+  "templates": [
+    "$REPO/path/to/sub/template.yaml",
+    "$REPO/path/to/template.yaml"
+  ],
+  "xdg": {
+    "bin": null,
+    "data": null,
+    "cache": null,
+    "state": null,
+    "config": null
+  }
+}
