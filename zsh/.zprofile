@@ -12,11 +12,15 @@ casks=(
     mise eza archiver pyenv k9s turbot/tap/steampipe \
     zsh bash gawk grep gnu-sed coreutils shfmt \
     shellcheck tenv kubectx cue-lang/tap/cue opa \
-    falcoctl grype trivy cilium-cli
+    falcoctl grype trivy cilium-cli golang rustup
 )
 # brew update
 # brew upgrade
 # brew install $casks
+
+if [ ! command -v rustup 2>/dev/null ]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
 
 # TODO: Update Terraform Modules
 
