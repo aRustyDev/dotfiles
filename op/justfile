@@ -1,3 +1,5 @@
+set shell := ["zsh", "-cu"]
+
 OPWDOT := x'${XDG_CONFIG_HOME:-$HOME/.config}/1Password/ssh'
 profile := if `hostname` == "ADAMSM-M-7L95" { "cisco" } else if `hostname` == "ADAMSM-M-7L95" { "cfs" } else { "51nos" }
 
