@@ -1,3 +1,6 @@
+# Metadata
+
+```json
 {
   "version": "1.0.0",
   "category": "example",
@@ -59,3 +62,4 @@
     "config": null
   }
 }
+```

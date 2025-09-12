@@ -7,6 +7,7 @@
 [Methods](./about/methods.md)
 [Configurations](./about/configs.md)
 [Patterns](./about/patterns.md)
+[Metadata](./about/metadata.md)
 
 ---
 
