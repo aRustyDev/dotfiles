@@ -16,8 +16,8 @@ volta: "completions [bash|elvish|fish|powershel|zsh]"
 eksctl: "completion [bash|zsh|fish|powershell]"
 cosign: "completion [bash|zsh|fish|powershell]"
 docker: "completion [bash|zsh|fish|powershell]"
-cilium: "completions [zsh]" # TODO: check for supported shells
 mdbook: "completions [bash|zsh|fish|powershell]"
+cilium: "completion [bash|zsh|fish|powershell]"
 templar: "completions [zsh]" # TODO: check for supported shells
 kubectl: "completions [bash|elvish|fish|powershell|zsh]"
 falcoctl: "completions [bash|zsh|fish|powershell]"
