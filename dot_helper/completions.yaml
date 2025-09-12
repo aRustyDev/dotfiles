@@ -14,7 +14,7 @@ grype: "completion [bash|zsh|fish]"
 trivy: "completion [bash|zsh|fish|powershell]"
 volta: "completions [bash|elvish|fish|powershel|zsh]"
 eksctl: "completion [bash|zsh|fish|powershell]"
-cosign: "completions [zsh]" # TODO: check for supported shells
+cosign: "completion [bash|zsh|fish|powershell]"
 docker: "completions [zsh]" # TODO: check for supported shells
 cilium: "completions [zsh]" # TODO: check for supported shells
 mdbook: "completions [bash|zsh|fish|powershell]"
