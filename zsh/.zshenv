@@ -214,6 +214,12 @@ STARSHIP_CACHE="${XDG_CACHE_HOME:-$HOME/.local/cache}/starship/cache"
 # VAULT_MFA
 # VAULT_NAMESPACE
 
+# --- [ Vim: Neovim ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+# NVIM_LOG_FILE=$XDG_CACHE_HOME/nvim/log
+# VIM=$XDG_DATA_HOME/nvim
+# VIMRUNTIME=$XDG_RUNTIME_DIR/nvim
+
 # --- [ Yazi ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 YAZI_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/yazi"
