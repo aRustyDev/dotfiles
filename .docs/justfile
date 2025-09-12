@@ -1,0 +1,15 @@
+root := `git rev-parse --show-toplevel`
+cue := root + "/.build/cue"
+docs := root + "/.docs/src"
+
+# vet src/{{target}}/index.json
+vet target:
+    @cue vet -c {{cue}}/{{target}}.cue {{docs}}/{{target}}/index.json
+
+# vet all src/*/index.json files
+vet-all:
+    @for d in `find {{docs}} -type d -depth 1 | sed 's|{{docs}}/||'`; do \
+        if [ -f "{{cue}}/$d.cue" ]; then \
+            just vet $d; \
+        fi; \
+    done
