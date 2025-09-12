@@ -1,18 +1,27 @@
-default := (zdotdir `echo "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/"`)
+root := `git rev-parse --show-toplevel`
+zsh := root + "/zsh"
+docker := root + "/.build/zsh.Dockerfile"
+xdg_runtime := "${XDG_RUNTIME_DIR:-$HOME/.local/share}"
+xdg_config := "${XDG_CONFIG_HOME:-$HOME/.config}"
+xdg_cache := "${XDG_CACHE_HOME:-$HOME/.config}"
+xdg_state := "${XDG_STATE_HOME:-$HOME/.config}"
+xdg_data := "${XDG_DATA_HOME:-$HOME/.config}"
+xdg_bin := "${XDG_BIN_HOME:-$HOME/.config}"
+zdotdir := xdg_config + "/zsh/"
 
 test:
     echo "Testing ZSH"
     docker run --rm -it --device /dev/kvm -v /tmp/.X11-unix:/tmp/.X11-unix zshrc:latest
     echo "Testing Complete"
 
-install zdotdir:
-    @mkdir -p "{{ zdotdir }}"
-    @cp .zshrc "{{ zdotdir }}"
-    @cp .zshenv "{{ zdotdir }}"
-    @cp .zprofile "{{ zdotdir }}"
-    @cp .zlogin "{{ zdotdir }}"
-    @cp -r plugins "{{ zdotdir }}"
-    @cp -r init "{{ zdotdir }}"
-    @cp -r functions "{{ zdotdir }}"
-    @cp -r completions "{{ zdotdir }}"
-    @cp -r ../dot_helper/ "${XDG_CONFIG_HOME:-$HOME/.config}"
+install dest=zdotdir:
+    @mkdir -p "{{ dest }}"
+    @cp {{zsh}}/.zshrc "{{ dest }}"
+    @cp {{zsh}}/.zshenv "{{ dest }}"
+    @cp {{zsh}}/.zprofile "{{ dest }}"
+    @cp {{zsh}}/.zlogin "{{ dest }}"
+    @cp -r {{zsh}}/plugins "{{ dest }}"
+    @cp -r {{zsh}}/init "{{ dest }}"
+    @cp -r {{zsh}}/functions "{{ dest }}"
+    @cp -r {{zsh}}/completions "{{ dest }}"
+    @cp -r {{root}}/dot_helper/ {{xdg_config}}
