@@ -1,0 +1,9 @@
+{
+  "name": "Python Dev Container",
+  "dockerFile": "Dockerfile",
+  "settings": {
+    "python.pythonPath": "/usr/local/bin/python3"
+  },
+  "extensions": ["ms-python.python"],
+  "postCreateCommand": "pip install -r requirements.txt"
+}
