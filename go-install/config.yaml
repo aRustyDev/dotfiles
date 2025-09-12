@@ -24,7 +24,7 @@ tools:
     - github.com/projectdiscovery/simplehttpserver/cmd/simplehttpserver@latest
   templating:
     - cuelang.org/go/cmd/cue@master
-    - github.com/quantumew/mustache-cli@latest
+    - github.com/cbroglie/mustache/cmd/mustache@latest
 templates:
   offsec:
     - https://github.com/projectdiscovery/nuclei-templates
