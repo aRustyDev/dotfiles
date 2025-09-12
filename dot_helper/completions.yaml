@@ -11,7 +11,7 @@ just: "--completions [bash|elvish|fish|nushell|powershel|zsh]"
 syft: "completion [bash|zsh|fish|powershell]"
 atuin: "gen-completions --shell [bash|zsh|fish|powershell|nushell|elvish]"
 grype: "completion [bash|zsh|fish]"
-trivy: "completions [zsh]" # TODO: check for supported shells
+trivy: "completion [bash|zsh|fish|powershell]"
 volta: "completions [bash|elvish|fish|powershel|zsh]"
 eksctl: "completions [zsh]" # TODO: check for supported shells
 cosign: "completions [zsh]" # TODO: check for supported shells
