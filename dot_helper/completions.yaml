@@ -10,7 +10,6 @@ helm: "completions [bash|zsh|fish|powershell]"
 just: "--completions [bash|elvish|fish|nushell|powershel|zsh]"
 syft: "completion [bash|zsh|fish|powershell]"
 atuin: "gen-completions --shell [bash|zsh|fish|powershell|nushell|elvish]"
-falco: "completions [zsh]" # TODO: check for supported shells
 grype: "completions [zsh]" # TODO: check for supported shells
 trivy: "completions [zsh]" # TODO: check for supported shells
 volta: "completions [bash|elvish|fish|powershel|zsh]"
@@ -21,3 +20,4 @@ cilium: "completions [zsh]" # TODO: check for supported shells
 mdbook: "completions [bash|zsh|fish|powershell]"
 templar: "completions [zsh]" # TODO: check for supported shells
 kubectl: "completions [bash|elvish|fish|powershell|zsh]"
+falcoctl: "completions [bash|zsh|fish|powershell]"
