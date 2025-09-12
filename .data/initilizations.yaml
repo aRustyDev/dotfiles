@@ -1,0 +1,25 @@
+---
+starship:
+  critical: true
+  suffix: "init [zsh|bash|elvish|ion|fish|tcsh|powershell|xonsh]"
+brew:
+  critical: true
+  suffix: "shellenv"
+zoxide:
+  critical: true
+  suffix: "init [zsh|bash|elvish|xonsh|fish|tcsh|powershell|nushell|posix]"
+direnv:
+  critical: false
+  suffix: "hook [zsh|bash|elvish|tcsh|fish|murex|powershell]"
+vault:
+  critical: false
+  suffix: "-autocomplete-install"
+atuin:
+  critical: false
+  suffix: "init [zsh|bash|fish|nu|xonsh]"
+fzf:
+  critical: false
+  suffix: "--[zsh|bash|fish]"
+tldr: # TODO: Extend this to do completions
+  critical: false
+  suffix: "--update"

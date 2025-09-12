@@ -1,0 +1,80 @@
+---
+rg:
+  shells: "[zsh|bash|fish|powershell]"
+  cmplt: "--generate complete-"
+gh:
+  shells: "[bash|zsh|fish|powershell]"
+  cmplt: "completion --shell "
+op:
+  shells: "[bash|zsh|fish|powershell]"
+  cmplt: "completion "
+yq:
+  shells: "[bash|zsh|fish|powershell]"
+  cmplt: "shell-completion "
+opa:
+  shells: "[zsh]" # TODO: check for supported shells
+  cmplt: "completions "
+k9s:
+  shells: "[zsh]" # TODO: check for supported shells
+  cmplt: "completions "
+helm:
+  shells: "[bash|zsh|fish|powershell]"
+  cmplt: "completions "
+just:
+  shells: "[bash|elvish|fish|nushell|powershel|zsh]"
+  cmplt: "--completions "
+syft:
+  shells: "[zsh]" # TODO: check for supported shells
+  cmplt: "completions "
+atuin:
+  shells: "[bash|zsh|fish|powershell|nushell|elvish]"
+  cmplt: "gen-completions --shell "
+  init: "init [zsh|bash|fish|nu|xonsh]"
+falco:
+  shells: "[zsh]" # TODO: check for supported shells
+  cmplt: "completions "
+grype:
+  shells: "[zsh]" # TODO: check for supported shells
+  cmplt: "completions "
+trivy:
+  shells: "[zsh]" # TODO: check for supported shells
+  cmplt: "completions "
+volta:
+  shells: "[bash|elvish|fish|powershel|zsh]"
+  cmplt: "completions "
+eksctl:
+  shells: "[zsh]" # TODO: check for supported shells"
+  cmplt: "completions "
+cosign:
+  shells: "[zsh]" # TODO: check for supported shells"
+  cmplt: "completions "
+docker:
+  shells: "[zsh]" # TODO: check for supported shells"
+  cmplt: "completions "
+cilium:
+  shells: "[zsh]" # TODO: check for supported shells"
+  cmplt: "completions "
+templar:
+  shells: "[zsh]" # TODO: check for supported shells"
+  cmplt: "completions "
+kubectl:
+  shells: "[zsh]" # TODO: check for supported shells"
+  cmplt: "completions [bash|zsh|fish|powershell]"
+starship:
+  shells: "[zsh|bash|elvish|ion|fish|tcsh|powershell|xonsh]"
+  critical: true
+  init: "init "
+brew:
+  critical: true
+  init: "shellenv"
+zoxide:
+  critical: true
+  init: "init [zsh|bash|elvish|xonsh|fish|tcsh|powershell|nushell|posix]"
+direnv:
+  init: "hook [zsh|bash|elvish|tcsh|fish|murex|powershell]"
+vault:
+  init: "-autocomplete-install"
+fzf:
+  init: "--[zsh|bash|fish]"
+tldr: # TODO: Extend this to do completions
+  init: "--update"
