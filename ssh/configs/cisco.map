@@ -1,34 +1,20 @@
+Host sscm.gus.cisco.com
+    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+
 Host eng-bastion
-    Hostname "op://cisco/gitlab/bastion/url" #
-    User "op://cisco/gitlab/username" #
-    DynamicForward op://cisco/gitlab/bastion/proxy
-    IdentityFile "$HOME/.config/ssh/gitlab.pub"
-    IdentitiesOnly "yes"
+    Hostname "op://cisco/dlf3evji4vruje55q2er7zgrw4/bastion/url"
+    User "op://cisco/dlf3evji4vruje55q2er7zgrw4/bastion/user"
+    DynamicForward "op://cisco/dlf3evji4vruje55q2er7zgrw4/bastion/dynamic-forward"
+    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
 Host ite-combine-system-w4g-il5-vpc
-    User op://cisco/gitlab/combine-proxy/user
-    IdentityFile ~/.ssh/ite-combine-system-w4g-il5-vpc.pem
-    Hostname op://cisco/gitlab/combine-proxy/ip
+    User op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/vpc/user
+    IdentityFile ~/.ssh/Combine.pem
+    Hostname op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/vpc/url
+    IdentitiesOnly yes
 
 Host combine-w4g-il5-bastion
-    User op://cisco/gitlab/combine/user
-    Hostname op://cisco/gitlab/combine/url
+    User op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/bastion/user
+    Hostname op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/bastion/url
     ProxyJump ite-combine-system-w4g-il5-vpc
-    DynamicForward op://cisco/gitlab/combine/proxy-port
-    ForwardAgent yes
-
-# Personal GitHub
-Host personalgit
-	HostName github.com
-	User git
-	IdentityFile ~/.ssh/personal_git.pub
-	IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-	IdentitiesOnly yes
-
-# Work GitHub
-Host workgit
-	HostName github.com
-	User git
-	IdentityFile ~/.ssh/work_git.pub
-	IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-	IdentitiesOnly yes
+    DynamicForward op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/bastion/dynamic-forward
