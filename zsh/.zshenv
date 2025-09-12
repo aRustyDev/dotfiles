@@ -49,6 +49,14 @@ HIST_STAMPS="mm/dd/yyyy" # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HISTFILE=${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/history              # Set History File Location for Zsh
 
 # === === === === === === === === === === === === === === === === === === === === ===
+# ||   MacOS Configs                                                               ||
+# === === === === === === === === === === === === === === === === === === === === ===
+
+# https://superuser.com/questions/82123/mac-whats-cfusertextencoding-for
+# https://apple.stackexchange.com/questions/308744/safe-to-remove-rnd-and-cfusertextencoding
+# __CF_USER_TEXT_ENCODING=
+
+# === === === === === === === === === === === === === === === === === === === === ===
 # ||   Shell Configs                                                               ||
 # === === === === === === === === === === === === === === === === === === === === ===
 
@@ -63,6 +71,15 @@ ZPLUGINS="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins"
 ZSH_DISABLE_COMPFIX='true'
 ZSH_EVALCACHE_DIR="${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/evalcache"
 SHELL_SESSION_DIR="${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/sessions"  # Set Session Storage Location for Zsh
+
+# --- [ ShEnv ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+# SHENV_VERSION
+SHENV_ROOT="${XDG_CONFIG_HOME:-$HOME/.config}/shenv"
+# SHENV_DEBUG
+# SHENV_HOOK_PATH
+# SHENV_DIR
+# SHELL_BUILD_ARIA2_OPTS
 
 # === === === === === === === === === === === === === === === === === === === === ===
 # ||   PATH Configs                                                                ||
