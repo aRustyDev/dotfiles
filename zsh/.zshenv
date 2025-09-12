@@ -190,6 +190,10 @@ RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/ripgrep/config"
 STARSHIP_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/starship/config.toml"
 STARSHIP_CACHE="${XDG_CACHE_HOME:-$HOME/.local/cache}/starship/cache"
 
+# --- [ Stow ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+# STOW_DIR=$HOME
+
 # --- [ TLDR ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 # CUSTOM_PAGES_DIR # https://tealdeer-rs.github.io/tealdeer/usage_custom_pages.html#custom-pages

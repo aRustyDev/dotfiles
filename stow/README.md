@@ -1,0 +1,2 @@
+- [stow]: https://medium.com/@waterkip/managing-my-dotfiles-with-gnu-stow-262d2540a866 "Blog post"
+- [stow-docs]: https://www.gnu.org/software/stow/manual/stow.html "Docs"
