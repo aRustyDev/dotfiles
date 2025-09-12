@@ -70,3 +70,11 @@ xdgconfigpathsd: # XDG_CONFIG_DIRS
     - "/Library/Application Support"
     - "/Library/Preferences"
     - "$HOME/.config"
+fontsd:
+  0-standard:
+    - "$HOME/Library/Fonts"
+    - "/Library/Fonts"
+    - "/System/Library/Fonts"
+    - "/Network/Library/Fonts"
+    - "$XDG_DATA_DIRS/fonts"
+    - "$XDG_DATA_HOME/fonts"
