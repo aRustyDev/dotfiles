@@ -26,14 +26,14 @@ RUN apt-get install -y \
     build-essential gcc coreutils apt-transport-https\
     zlib1g-dev libssl-dev libreadline-dev libffi-dev \
     libbz2-dev libsqlite3-dev libncurses5-dev \
-    ca-certificates libncursesw5-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates libncursesw5-dev
 
-RUN apt-get install -y \
-    zoxide jq yq neovim bat wget gawk grep sed shellcheck \
-    fzf ffmpeg 7zip poppler-utils fd-find imagemagick \
-    texinfo tenv kubectl starship helm just eza unzip shfmt
+# RUN apt-get install -y \
+#     zoxide jq yq neovim bat wget gawk grep sed shellcheck \
+#     fzf ffmpeg 7zip poppler-utils fd-find imagemagick \
+#     texinfo tenv kubectl starship helm just eza unzip shfmt\
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/*
 
 # # Install tools not available in standard Debian repos
 # # Install kubectl
@@ -72,11 +72,11 @@ RUN K9S_VERSION=$(curl -s "https://api.github.com/repos/derailed/k9s/releases/la
     && mv k9s /usr/local/bin/
 
 # Install yazi
-RUN YAZI_VERSION=$(curl -s "https://api.github.com/repos/sxyazi/yazi/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/') \
-    && curl -L "https://github.com/sxyazi/yazi/releases/download/v${YAZI_VERSION}/yazi-x86_64-unknown-linux-gnu.zip" -o yazi.zip \
-    && unzip yazi.zip \
-    && mv yazi-x86_64-unknown-linux-gnu/yazi /usr/local/bin/ \
-    && rm -rf yazi.zip yazi-x86_64-unknown-linux-gnu
+# RUN YAZI_VERSION=$(curl -s "https://api.github.com/repos/sxyazi/yazi/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/') \
+#     && curl -L "https://github.com/sxyazi/yazi/releases/download/v${YAZI_VERSION}/yazi-x86_64-unknown-linux-gnu.zip" -o yazi.zip \
+#     && unzip yazi.zip \
+#     && mv yazi-x86_64-unknown-linux-gnu/yazi /usr/local/bin/ \
+#     && rm -rf yazi.zip yazi-x86_64-unknown-linux-gnu
 
 # # Install shfmt
 # RUN SHFMT_VERSION=$(curl -s "https://api.github.com/repos/mvdan/sh/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/') \
@@ -92,9 +92,6 @@ RUN groupadd --gid "$GID" "$USER" && \
 
 # Copy config files to the new user's home
 RUN chown -R $USER:$USER /home/$USER
-
-# Switch to the unprivileged user
-USER $USER
 
 # === === === [ BASH ] === === ===
 COPY bash/.bashrc /root/.bashrc
@@ -125,6 +122,9 @@ COPY zsh/.zshrc /home/$USER/.zshrc
 
 RUN source /home/$USER/.zshrc && \
     source /home/$USER/.bashrc
+
+# Switch to the unprivileged user
+USER $USER
 
 # Install Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
