@@ -1,0 +1,11 @@
+Host *.admz.blvd
+    Hostname bfc94374231c.mylabserver.com
+    User cloud_user
+
+Host *.blvd
+    User asmith
+    IdentityFile ~/.ssh/blvd.pub
+    IdentitiesOnly yes
+
+Host ctrl.cluster.blvd
+    Host 192.168.8.7

@@ -4,23 +4,27 @@ root := `git rev-parse --show-toplevel`
 ssh := root + "/ssh"
 output_file := ssh + "/config"
 dotssh := if env("XDG_CONFIG_HOME", "") != "" { "$XDG_CONFIG_HOME/ssh" } else { "$HOME/.ssh" }
-profile := if `hostname` == "ADAMSM-M-7L95" { "cisco.map" } else if `hostname` == "ADAMSM-M-7L95" { "cfs" } else { "personal" }
+host := `hostname`
+profile := if host == "ADAMSM-M-7L95" { "cisco" } else if host == "Maui-HX1G434XJL" { "cfs" } else { "personal" }
+
+list-targets target="*":
+    @ls -1 {{ if target == "*" { ssh + "/configs/" } else { ssh + "/configs/" + target } }}
 
 build +targets=profile:
     @echo "[SSH Config] | Building"
-    @for cfg in `ls -f {{ ssh + "/configs/{includes.orb," + replace(targets, " ", ",") + ",default}" }}`; do \
-        DOTSSH={{dotssh}} \
+    @for cfg in `lsd -U {{ ssh + "/configs/{includes/orb," + replace(targets, " ", "/*,") + "/*" + ",default}" }}`; do \
+        DOTSSH={{ dotssh }} \
         envsubst < "$cfg"; \
         echo ""; \
-    done > {{output_file}}
+    done > {{ output_file }}
 
 install +targets=profile:
     @echo "[SSH Config] | Installing"
-    @just build {{targets}}
-    @op inject -f -i {{output_file}} -o {{dotssh}}/config
-    @chmod 600 {{dotssh}}/config
+    @just build {{ targets }}
+    @op inject -f -i {{ output_file }} -o {{ dotssh }}/config
+    @chmod 600 {{ dotssh }}/config
     @just clean
     @echo "[SSH Config] | [x] Done"
 
 clean:
-    @rm -f {{output_file}}
+    @rm -f {{ output_file }}
