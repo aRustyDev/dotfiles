@@ -12,7 +12,7 @@ casks=(
     mise eza archiver pyenv k9s turbot/tap/steampipe \
     zsh bash gawk grep gnu-sed coreutils shfmt \
     shellcheck tenv kubectx cue-lang/tap/cue opa \
-    falcoctl
+    falcoctl grype
 )
 # brew update
 # brew upgrade
