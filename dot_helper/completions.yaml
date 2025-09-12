@@ -18,6 +18,6 @@ cosign: "completion [bash|zsh|fish|powershell]"
 docker: "completion [bash|zsh|fish|powershell]"
 mdbook: "completions [bash|zsh|fish|powershell]"
 cilium: "completion [bash|zsh|fish|powershell]"
-templar: "completions [zsh]" # TODO: check for supported shells
+templar: "completion [bash|zsh|fish|powershell]"
 kubectl: "completions [bash|elvish|fish|powershell|zsh]"
 falcoctl: "completions [bash|zsh|fish|powershell]"
