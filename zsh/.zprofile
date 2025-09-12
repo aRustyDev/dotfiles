@@ -11,7 +11,7 @@ casks=(
     font-symbols-only-nerd-font tealdeer texinfo \
     mise eza archiver pyenv k9s turbot/tap/steampipe \
     zsh bash gawk grep gnu-sed coreutils shfmt \
-    shellcheck tenv kubectx cue-lang/tap/cue
+    shellcheck tenv kubectx cue-lang/tap/cue opa
 )
 # brew update
 # brew upgrade

@@ -3,7 +3,7 @@ rg: "--generate complete-[zsh|bash|fish|powershell]"
 gh: "completion --shell [bash|zsh|fish|powershell]"
 op: "completion [bash|zsh|fish|powershell]"
 yq: "shell-completion [bash|zsh|fish|powershell]"
-opa: "completions [zsh]" # TODO: check for supported shells
+opa: "completions [bash|zsh|fish|powershell]"
 cue: "completion [bash|zsh|fish|powershell]"
 k9s: "completions [zsh]" # TODO: check for supported shells
 helm: "completions [bash|zsh|fish|powershell]"
