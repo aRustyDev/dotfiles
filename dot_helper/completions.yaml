@@ -13,7 +13,7 @@ atuin: "gen-completions --shell [bash|zsh|fish|powershell|nushell|elvish]"
 grype: "completion [bash|zsh|fish]"
 trivy: "completion [bash|zsh|fish|powershell]"
 volta: "completions [bash|elvish|fish|powershel|zsh]"
-eksctl: "completions [zsh]" # TODO: check for supported shells
+eksctl: "completion [bash|zsh|fish|powershell]"
 cosign: "completions [zsh]" # TODO: check for supported shells
 docker: "completions [zsh]" # TODO: check for supported shells
 cilium: "completions [zsh]" # TODO: check for supported shells
