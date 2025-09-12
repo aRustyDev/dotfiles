@@ -8,7 +8,7 @@ cue: "completion [bash|zsh|fish|powershell]"
 k9s: "completion [bash|zsh|fish|powershell]"
 helm: "completions [bash|zsh|fish|powershell]"
 just: "--completions [bash|elvish|fish|nushell|powershel|zsh]"
-syft: "completions [zsh]" # TODO: check for supported shells
+syft: "completion [bash|zsh|fish|powershell]"
 atuin: "gen-completions --shell [bash|zsh|fish|powershell|nushell|elvish]"
 falco: "completions [zsh]" # TODO: check for supported shells
 grype: "completions [zsh]" # TODO: check for supported shells
