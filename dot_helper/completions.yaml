@@ -10,7 +10,7 @@ helm: "completions [bash|zsh|fish|powershell]"
 just: "--completions [bash|elvish|fish|nushell|powershel|zsh]"
 syft: "completion [bash|zsh|fish|powershell]"
 atuin: "gen-completions --shell [bash|zsh|fish|powershell|nushell|elvish]"
-grype: "completions [zsh]" # TODO: check for supported shells
+grype: "completion [bash|zsh|fish]"
 trivy: "completions [zsh]" # TODO: check for supported shells
 volta: "completions [bash|elvish|fish|powershel|zsh]"
 eksctl: "completions [zsh]" # TODO: check for supported shells
