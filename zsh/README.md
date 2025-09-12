@@ -8,3 +8,13 @@
 6. `/etc/zshrc` : System (interactive)
 7. `~/.zshrc` : HOME (if ZDOTDIR not set!)
 8. `$ZDOTDIR/.zshrc` : Your intended one
+
+### Ideas
+
+```
+- .Xdefaults
+- .aliasrc
+- .functions
+- .profile
+- .shellrc
+```
