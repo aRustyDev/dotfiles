@@ -1,8 +1,7 @@
 import '../.build/just/lib.just'
 set shell := ["zsh", "-cu"]
 
-OPWDOT := x'${XDG_CONFIG_HOME:-$HOME/.config}/1Password/ssh'
-# profile := if `hostname` == "ADAMSM-M-7L95" { "cisco" } else if `hostname` == "Maui-HX1G434XJL" { "cfs" } else { "51nos" }
+OPWDOT := xdg_config + "/1Password/ssh"
 
 # install 1Password related dotfiles to the system
 install: trees

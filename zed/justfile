@@ -1,8 +1,9 @@
-dotroot := `git rev-parse --show-toplevel`
-zed_dot_dir := `echo "${XDG_CONFIG_HOME:=$HOME/.config}/zed"`
+import '../.build/just/lib.just'
+set shell := ["zsh", "-cu"]
+
+zed_dot_dir := xdg_config + "/zed"
 settings := `mktemp -d -t "zed.settings"`
 debug := `mktemp -d -t "zed.debug"`
-profile := if `hostname` == "ADAMSM-M-7L95" { "cisco" } else if `hostname` == "ADAMSM-M-7L95" { "cfs" } else { "personal" }
 setting_files := "settings debug"
 
 # Updates the repo local configs (./zed/ -> .zed/)
@@ -17,18 +18,18 @@ build:
 
 # Installs Zed dotiles to XDG_CONFIG_HOME/zed
 install:
-    @cp "{{ dotroot }}/.zed/{settings,debug}.json" "{{ zed_dot_dir }}/"
+    @cp "{{ root }}/.zed/{settings,debug}.json" "{{ zed_dot_dir }}/"
 
 # Takes Merges file and pushes to repo local zed
 _update: _clean
-    @just _merge > "{{ dotroot }}/.zed/$CFG.json"
-    @sed -i '' $'1i\\\n// === === === === === === === === === === === === === === === === === === === === ===\n' "{{ dotroot }}/.zed/$CFG.json"
+    @just _merge > "{{ root }}/.zed/$CFG.json"
+    @sed -i '' $'1i\\\n// === === === === === === === === === === === === === === === === === === === === ===\n' "{{ root }}/.zed/$CFG.json"
     @if [[ "$CFG" == "settings" ]]; then \
-        sed -i '' $'2i\\\n// ||| FILE MANAGED BY AUTOMATION     (Source: [ <dotfiles>/zed/settings/*.json ]) |||\n' "{{ dotroot }}/.zed/settings.json"; \
+        sed -i '' $'2i\\\n// ||| FILE MANAGED BY AUTOMATION     (Source: [ <dotfiles>/zed/settings/*.json ]) |||\n' "{{ root }}/.zed/settings.json"; \
     elif [[ "$CFG" == "debug" ]]; then \
-        sed -i '' $'2i\\\n// ||| FILE MANAGED BY AUTOMATION        (Source: [ <dotfiles>/zed/debug/*.json ]) |||\n' "{{ dotroot }}/.zed/debug.json"; \
+        sed -i '' $'2i\\\n// ||| FILE MANAGED BY AUTOMATION        (Source: [ <dotfiles>/zed/debug/*.json ]) |||\n' "{{ root }}/.zed/debug.json"; \
     fi
-    @sed -i '' $'3i\\\n// === === === === === === === === === === === === === === === === === === === === ===\n' "{{ dotroot }}/.zed/$CFG.json"
+    @sed -i '' $'3i\\\n// === === === === === === === === === === === === === === === === === === === === ===\n' "{{ root }}/.zed/$CFG.json"
 
 # Returns the Absolute path of the current TMPDIR
 _get_clean_dir:

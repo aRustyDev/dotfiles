@@ -1,10 +1,16 @@
-GIT := `echo ${XDG_CONFIG_HOME:-$HOME/.config}/git`
+import '../.build/just/lib.just'
+set shell := ["zsh", "-cu"]
+
+dot := xdg_config + "/git"
 
 install:
-    @mkdir -p "{{ GIT }}"/{templates,configs,bin}
+    @mkdir -p "{{ dot }}"/{templates,configs,bin}
     @for config in `ls ./configs/`; do \
-        cat configs/$config | envsubst | op inject -f -o "{{ GIT }}/configs/$config"; \
+        cat configs/$config | envsubst | op inject -f -o "{{ dot }}/configs/$config"; \
     done
-    @cat config | envsubst | op inject -f -o "{{ GIT }}/config"
-    @cp -r templates/* "{{ GIT }}/templates"
-    @cp -r bin/* "{{ GIT }}/bin"
+    @cat config | envsubst | op inject -f -o "{{ dot }}/config"
+    @cp -r templates/* "{{ dot }}/templates"
+    @cp -r bin/* "{{ dot }}/bin"
+
+mktree:
+    @mkdir -p "{{ dot }}"/{templates,configs,bin}
