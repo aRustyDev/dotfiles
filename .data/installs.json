@@ -1,0 +1,9 @@
+{
+  "platform": {
+    "cross": ["golang", "compile", "node", "pip", "cargo"],
+    "windows": ["chocolatey", "winget"],
+    "darwin": ["homebrew", "macports"],
+    "linux": ["{{pkgmgr}}"],
+    "bsd": []
+  }
+}

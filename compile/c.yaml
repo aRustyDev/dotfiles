@@ -3,3 +3,7 @@ tools:
     - https://github.com/DynamoRIO/dynamorio
     - https://github.com/AFLplusplus/AFLplusplus
     - https://github.com/googleprojectzero/winafl
+  development:
+    - https://github.com/agvxov/csope
+    - https://github.com/NikolaDucak/caps-log
+    - https://github.com/uoaerg/wavemon
