@@ -1,0 +1,793 @@
+[
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "antidote",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "ffmpeg",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "sevenzip",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "poppler",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "ripgrep",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "resvg",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "imagemagick",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "helm",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "kubectl",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "atuin",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "jq",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "starship",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "zoxide",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "yazi",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "lsd",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "bat",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "fzf",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "nvim",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "yq",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "fd",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "ansible",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "just",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "helm-ls",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "1password-cli@beta",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "font-symbols-only-nerd-font",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "tealdeer",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "texinfo",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "mise",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "eza",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "archiver",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "pyenv",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "k9s",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "steampipe",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "zsh",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "bash",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gawk",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "grep",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gnu-sed",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "coreutils",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "shfmt",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "shellcheck",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "tenv",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "kubectx",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "cue",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "opa",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "falcoctl",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "grype",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "trivy",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "cilium-cli",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "golang",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "rustup",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "tokei",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "cloc",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "oxker",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gum",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "mpv",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "chafa",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "slides",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "browsh",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gping",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gobang",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "bmon",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "bandwhich",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "btop",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "otel-desktop-viewer",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "otel-tui",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "wireshark-chmodbpf",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "rustnet",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "wtfutil",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "brows",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "catalyst",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "chiko",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "grpcurl",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "git-delta",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "grv",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "readline",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "pkg-config",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "cmake",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "jqp",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "lazygit",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "lazyjournal",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "mitmproxy",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "proxymock",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "prs",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "runme",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "tftui",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "soft-serve",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "dive",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "ctop",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "cruise",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "kdash",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "container",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "lazycontainer",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "kubetui",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "helix",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gittype",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "boost",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "libgit2",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "diskonaut",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gpg-tui",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "pug",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "nemu",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "termshark",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "macmon",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "surreal",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gpg2",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "libgpg-error",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gpgme",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gpgmepp",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "fish",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "nushell",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "github-mcp-server",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "firefox@developer-edition",
+    "tap": "todo",
+    "url": "todo"
+  }
+]
