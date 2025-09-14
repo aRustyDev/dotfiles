@@ -1,5 +1,4 @@
 import '../.build/just/lib.just'
-set shell := ["zsh", "-cu"]
 
 ssh := root + "/ssh"
 output_file := ssh + "/config"

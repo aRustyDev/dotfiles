@@ -1,5 +1,4 @@
 import '../.build/just/lib.just'
-set shell := ["zsh", "-cu"]
 
 zsh := root + "/zsh"
 docker := root + "/.build/zsh.Dockerfile"

@@ -1,5 +1,4 @@
 import '../.build/just/lib.just'
-set shell := ["zsh", "-cu"]
 
 zed_dot_dir := xdg_config + "/zed"
 settings := `mktemp -d -t "zed.settings"`

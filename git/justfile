@@ -1,5 +1,4 @@
 import '../.build/just/lib.just'
-set shell := ["zsh", "-cu"]
 
 dot := xdg_config + "/git"
 

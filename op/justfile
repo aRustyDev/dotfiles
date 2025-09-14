@@ -1,5 +1,4 @@
 import '../.build/just/lib.just'
-set shell := ["zsh", "-cu"]
 
 OPWDOT := xdg_config + "/1Password/ssh"
 
