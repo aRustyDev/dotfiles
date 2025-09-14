@@ -3,16 +3,57 @@ if [ -x /usr/libexec/path_helper ]; then
 	eval `/usr/libexec/path_helper -s`
 fi
 
+# brew tap KrishnaSSH/tap
+# brew install gophertube
+
+taps=(
+    browsh-org/homebrew-browsh \
+    domcyrus/rustnet \
+    wtfutil/wtfutil \
+    rubysolo/tools \
+    PraveenGongada/tap \
+    NucleoFusion/homebrew-tap \
+    kdash-rs/kdash \
+    leg100/tap \
+    idoavrah/homebrew \
+    turbot/tap \
+    tako8ki/tap \
+    cue-lang/tap \
+    CtrlSpice/homebrew-otel-desktop-viewer \
+    ymtdzzz/tap \
+    felangga/chiko \
+    noahgorstein/tap \
+    speedscale/tap \
+    dhth/tap \
+    unhappychoice/tap \
+    charmbracelet/tap \
+    surrealdb/tap
+)
+for t in $taps; do
+    brew tap $t
+done
+
 casks=(
     antidote ffmpeg sevenzip poppler ripgrep \
     resvg imagemagick helm kubectl atuin jq \
     starship zoxide yazi lsd bat fzf nvim yq fd \
     ansible just helm-ls 1password-cli@beta \
     font-symbols-only-nerd-font tealdeer texinfo \
-    mise eza archiver pyenv k9s turbot/tap/steampipe \
+    mise eza archiver pyenv k9s steampipe \
     zsh bash gawk grep gnu-sed coreutils shfmt \
-    shellcheck tenv kubectx cue-lang/tap/cue opa \
-    falcoctl grype trivy cilium-cli golang rustup
+    shellcheck tenv kubectx cue opa falcoctl grype \
+    trivy cilium-cli golang rustup tokei cloc oxker \
+    gum mpv chafa slides browsh gping gobang bmon \
+    bandwhich btop otel-desktop-viewer otel-tui \
+    wireshark-chmodbpf rustnet wtfutil brows \
+    catalyst chiko grpcurl git-delta grv readline \
+    pkg-config cmake jqp lazygit lazyjournal mitmproxy \
+    proxymock prs runme tftui soft-serve dive ctop \
+    cruise kdash container lazycontainer kubetui \
+    helix gittype boost libgit2 diskonaut gpg-tui \
+    pug nemu termshark macmon surreal gpg2 libgpg-error \
+    gpgme gpgmepp fish nushell github-mcp-server \
+    firefox@developer-edition
 )
 # brew update
 # brew upgrade
