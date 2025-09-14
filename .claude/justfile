@@ -2,7 +2,6 @@
 # This coordinates project-specific justfiles using a modular architecture
 
 import '../.build/just/lib.just'
-set shell := ["zsh", "-cu"]
 
 # Configurable defaults - change these to work on different projects
 CATEGORY := env("CLAUDE_CATEGORY", "tree-sitter")
