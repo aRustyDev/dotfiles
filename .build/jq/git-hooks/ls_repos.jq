@@ -1,0 +1,1 @@
+[ .repos[] | "\(.owner)/\(.repo)" | unique ]
