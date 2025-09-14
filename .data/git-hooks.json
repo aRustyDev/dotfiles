@@ -1,0 +1,571 @@
+{
+  "hooks": [
+    {
+      "written_in": "",
+      "supports": "",
+      "name": "",
+      "tags": ["python"],
+      "repo": "pre-commit-hooks"
+    }
+  ],
+  "repos": [
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "pre-commit-hooks",
+      "owner": "pre-commit",
+      "repo": "pre-commit-hooks",
+      "tags": ["python"],
+      "url": "https://github.com/pre-commit/pre-commit-hooks"
+    },
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "pygrep",
+      "owner": "pre-commit",
+      "repo": "pygrep-hooks",
+      "tags": ["python"],
+      "url": "https://github.com/pre-commit/pygrep-hooks"
+    },
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "sync-pre-commit-deps",
+      "owner": "pre-commit",
+      "repo": "sync-pre-commit-deps",
+      "tags": ["python"],
+      "url": "https://github.com/pre-commit/sync-pre-commit-deps"
+    },
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "shellcheck",
+      "owner": "shellcheck-py",
+      "repo": "shellcheck-py",
+      "tags": ["python"],
+      "url": "https://github.com/shellcheck-py/shellcheck-py"
+    },
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "bashate",
+      "owner": "openstack",
+      "repo": "bashate",
+      "tags": ["python"],
+      "url": "https://github.com/openstack/bashate"
+    },
+    {
+      "description": "automatically upgrade syntax for newer versions of the language",
+      "domain": "https://github.com",
+      "name": "pyupgrade",
+      "owner": "asottile",
+      "repo": "pyupgrade",
+      "tags": ["python"],
+      "url": "https://github.com/asottile/pyupgrade"
+    },
+    {
+      "description": "automatically add trailing commas to calls and literals",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "asottile",
+      "repo": "add-trailing-comma",
+      "tags": ["python"],
+      "url": "https://github.com/asottile/add-trailing-comma"
+    },
+    {
+      "description": "A pygments lexer for pre-commit output.",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "asottile",
+      "repo": "pygments-pre-commit",
+      "tags": ["python"],
+      "url": "https://github.com/asottile/pygments-pre-commit"
+    },
+    {
+      "description": "The uncompromising Python code formatter",
+      "domain": "https://github.com",
+      "name": "black",
+      "owner": "psf",
+      "repo": "black",
+      "tags": ["python", "format"],
+      "url": "https://github.com/psf/black"
+    },
+    {
+      "description": "automatically fixes PEP8 violations",
+      "domain": "https://github.com",
+      "name": "autopep8",
+      "owner": "hhatto",
+      "repo": "autopep8",
+      "tags": ["python"],
+      "url": "https://github.com/hhatto/autopep8"
+    },
+    {
+      "description": "a highly configurable python formatter",
+      "domain": "https://github.com",
+      "name": "yapf",
+      "owner": "google",
+      "repo": "yapf",
+      "tags": ["python"],
+      "url": "https://github.com/google/yapf"
+    },
+    {
+      "description": "a linter framework for python",
+      "domain": "https://github.com",
+      "name": "flake8",
+      "owner": "PyCQA",
+      "repo": "flake8",
+      "tags": ["python", "lint"],
+      "url": "https://github.com/PyCQA/flake8"
+    },
+    {
+      "description": "an import sorter for python",
+      "domain": "https://github.com",
+      "name": "isort",
+      "owner": "PyCQA",
+      "repo": "isort",
+      "tags": ["python", "sort"],
+      "url": "https://github.com/PyCQA/isort"
+    },
+    {
+      "description": "the ruff linter and formatter for python",
+      "domain": "https://github.com",
+      "name": "ruff",
+      "owner": "astral-sh",
+      "repo": "ruff-pre-commit",
+      "tags": ["python", "lint", "format"],
+      "url": "https://github.com/astral-sh/ruff-pre-commit"
+    },
+    {
+      "description": "automatically upgrade your Django project code",
+      "domain": "https://github.com",
+      "name": "django-upgrade",
+      "owner": "adamchainz",
+      "repo": "django-upgrade",
+      "tags": ["python", "django"],
+      "url": "https://github.com/adamchainz/django-upgrade"
+    },
+    {
+      "description": "a handful of language-agnostic hooks which are universally useful!",
+      "domain": "https://github.com",
+      "name": "todo",
+      "owner": "pre-commit",
+      "repo": "pre-commit-hooks",
+      "tags": [],
+      "url": "https://github.com/pre-commit/pre-commit-hooks"
+    },
+    {
+      "description": "a few quick regex-based hooks for a handful of quick syntax checks",
+      "domain": "https://github.com",
+      "name": "todo",
+      "owner": "pre-commit",
+      "repo": "pygrep-hooks",
+      "tags": [],
+      "url": "https://github.com/pre-commit/pygrep-hooks"
+    },
+    {
+      "description": "sync pre-commit hook dependencies based on other installed hooks",
+      "domain": "https://github.com",
+      "name": "todo",
+      "owner": "pre-commit",
+      "repo": "sync-pre-commit-deps",
+      "tags": ["sync"],
+      "url": "https://github.com/pre-commit/sync-pre-commit-deps"
+    },
+    {
+      "description": "pre-commit mirrors of a handful of popular tools",
+      "domain": "https://github.com",
+      "name": "todo",
+      "owner": "pre-commit",
+      "repo": "mirrors-*",
+      "tags": [],
+      "url": "https://github.com/pre-commit/mirrors-*"
+    },
+    {
+      "description": "a fast formatter / fixer written in rust",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "biomejs",
+      "repo": "pre-commit",
+      "tags": ["fix", "format"],
+      "url": "https://github.com/biomejs/pre-commit"
+    },
+    {
+      "description": "linter / fixer",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "standard",
+      "repo": "standard",
+      "tags": ["lint", "fix"],
+      "url": "https://github.com/standard/standard"
+    },
+    {
+      "description": "optimize png files",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "shssoichiro",
+      "repo": "oxipng",
+      "tags": ["png", "images"],
+      "url": "https://github.com/shssoichiro/oxipng"
+    },
+    {
+      "description": "check many common configurations with jsonschema",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "python-jsonschema",
+      "repo": "check-jsonschema",
+      "tags": ["json"],
+      "url": "https://github.com/python-jsonschema/check-jsonschema"
+    },
+    {
+      "description": "lint your GitHub Actions workflow files",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "rhysd",
+      "repo": "actionlint",
+      "tags": ["yaml", "github", "gha", "cicd"],
+      "url": "https://github.com/rhysd/actionlint"
+    },
+    {
+      "description": "a formatter for yaml files",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "google",
+      "repo": "yamlfmt",
+      "tags": ["yaml", "fix", "format"],
+      "url": "https://github.com/google/yamlfmt"
+    },
+    {
+      "description": "a linter for YAML files:",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "adrienverge",
+      "repo": "yamllint",
+      "tags": ["yaml", "lint"],
+      "url": "https://github.com/adrienverge/yamllint"
+    },
+    {
+      "description": "find and fix common typographical errors",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "crate-ci",
+      "repo": "typos",
+      "tags": ["spelling", "fix"],
+      "url": "https://github.com/crate-ci/typos"
+    },
+    {
+      "description": "generate a table-of-contents in markdown files",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "thlorenz",
+      "repo": "doctoc",
+      "tags": ["markdown", "toc"],
+      "url": "https://github.com/thlorenz/doctoc"
+    },
+    {
+      "description": "A linter for prose.",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "amperser",
+      "repo": "proselint",
+      "tags": ["prose", "lint"],
+      "url": "https://github.com/amperser/proselint"
+    },
+    {
+      "description": "a Markdown lint tool in Ruby",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "markdownlint",
+      "repo": "markdownlint",
+      "tags": ["ruby", "lint"],
+      "url": "https://github.com/markdownlint/markdownlint"
+    },
+    {
+      "description": "a Markdown lint tool in Node",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "DavidAnson",
+      "repo": "markdownlint-cli2",
+      "tags": ["markdown", "lint"],
+      "url": "https://github.com/DavidAnson/markdownlint-cli2"
+    },
+    {
+      "description": "check code for common misspellings",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "codespell-project",
+      "repo": "codespell",
+      "tags": ["spelling"],
+      "url": "https://github.com/codespell-project/codespell"
+    },
+    {
+      "description": "enforce Swift style and conventions",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "realm",
+      "repo": "SwiftLint",
+      "tags": ["swift", "lint"],
+      "url": "https://github.com/realm/SwiftLint"
+    },
+    {
+      "description": "a formatter for Swift",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "nicklockwood",
+      "repo": "SwiftFormat",
+      "tags": ["swift", "fix", "format"],
+      "url": "https://github.com/nicklockwood/SwiftFormat"
+    },
+    {
+      "description": "format and validate terraform syntax",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "AleksaC",
+      "repo": "terraform-py",
+      "tags": ["terraform", "fix", "format"],
+      "url": "https://github.com/AleksaC/terraform-py"
+    },
+    {
+      "description": "static analysis and formatting for Ruby",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "rubocop",
+      "repo": "rubocop",
+      "tags": ["ruby", "fix", "format"],
+      "url": "https://github.com/rubocop/rubocop"
+    },
+    {
+      "description": "tooling for Protocol Buffers",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "bufbuild",
+      "repo": "buf",
+      "tags": ["protobuf"],
+      "url": "https://github.com/bufbuild/buf"
+    },
+    {
+      "description": "a modular linter and auto formatter for SQL",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "sqlfluff",
+      "repo": "sqlfluff",
+      "tags": ["sql", "lint", "fix", "format"],
+      "url": "https://github.com/sqlfluff/sqlfluff"
+    },
+    {
+      "description": "aws CloudFormation linter",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "aws-cloudformation",
+      "repo": "cfn-lint",
+      "tags": ["cloudformation", "lint"],
+      "url": "https://github.com/aws-cloudformation/cfn-lint"
+    },
+    {
+      "description": "linter / formatter for jsonnet",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "google",
+      "repo": "go-jsonnet",
+      "tags": ["jsonnet", "lint", "format"],
+      "url": "https://github.com/google/go-jsonnet"
+    },
+    {
+      "description": "an opinionated Lua code formatter",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "JohnnyMorganz",
+      "repo": "StyLua",
+      "tags": ["lua", "format"],
+      "url": "https://github.com/JohnnyMorganz/StyLua"
+    },
+    {
+      "description": "a formatter for Lua code",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "Koihik",
+      "repo": "LuaFormatter",
+      "tags": ["lua", "format"],
+      "url": "https://github.com/Koihik/LuaFormatter"
+    },
+    {
+      "description": "linter for Makefile syntax",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "mrtazz",
+      "repo": "checkmake",
+      "tags": ["make", "lint"],
+      "url": "https://github.com/mrtazz/checkmake"
+    },
+    {
+      "description": "run common linters on Jupyter Notebooks",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "nbqa-dev",
+      "repo": "nbqa",
+      "tags": ["lint", "jupyter"],
+      "url": "https://github.com/nbqa-dev/nbqa"
+    },
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "jorisroovers",
+      "repo": "gitlint",
+      "tags": ["commits-msg", "git"],
+      "url": "https://github.com/jorisroovers/gitlint"
+    },
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "commitizen-tools",
+      "repo": "commitizen",
+      "tags": ["commits-msg", "git"],
+      "url": "https://github.com/commitizen-tools/commitizen"
+    },
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "gitleaks",
+      "repo": "gitleaks",
+      "tags": ["secrets", "git"],
+      "url": "https://github.com/gitleaks/gitleaks"
+    },
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "trufflesecurity",
+      "repo": "truffleHog",
+      "tags": ["secrets"],
+      "url": "https://github.com/trufflesecurity/truffleHog"
+    },
+    {
+      "description": "",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "thoughtworks",
+      "repo": "talisman",
+      "tags": ["secrets"],
+      "url": "https://github.com/thoughtworks/talisman"
+    },
+    {
+      "description": "a few other python code quality tools",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "PyCQA",
+      "repo": "bandit",
+      "tags": ["python"],
+      "url": "https://github.com/PyCQA/bandit"
+    },
+    {
+      "description": "a few other python code quality tools",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "PyCQA",
+      "repo": "isort",
+      "tags": ["python"],
+      "url": "https://github.com/PyCQA/isort"
+    },
+    {
+      "description": "a few other python code quality tools",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "PyCQA",
+      "repo": "doc8",
+      "tags": ["python"],
+      "url": "https://github.com/PyCQA/doc8"
+    },
+    {
+      "description": "a few other python code quality tools",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "PyCQA",
+      "repo": "eradicate",
+      "tags": ["python"],
+      "url": "https://github.com/PyCQA/eradicate"
+    },
+    {
+      "description": "a few other python code quality tools",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "PyCQA",
+      "repo": "autoflake",
+      "tags": ["python"],
+      "url": "https://github.com/PyCQA/autoflake"
+    },
+    {
+      "description": "a few other python code quality tools",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "PyCQA",
+      "repo": "flake8",
+      "tags": ["python"],
+      "url": "https://github.com/PyCQA/flake8"
+    },
+    {
+      "description": "a few other python code quality tools",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "PyCQA",
+      "repo": "docformatter",
+      "tags": ["python"],
+      "url": "https://github.com/PyCQA/docformatter"
+    },
+    {
+      "description": "a few other python code quality tools",
+      "domain": "https://github.com",
+      "name": "",
+      "owner": "PyCQA",
+      "repo": "pydocstyle",
+      "tags": ["python"],
+      "url": "https://github.com/PyCQA/pydocstyle"
+    },
+    {
+      "description": "automatically upgrade syntax for newer versions of the language",
+      "domain": "https://github.com",
+      "name": "pyupgrade",
+      "owner": "asottile",
+      "repo": "dead",
+      "tags": ["python"],
+      "url": "https://github.com/asottile/dead"
+    },
+    {
+      "description": "automatically upgrade syntax for newer versions of the language",
+      "domain": "https://github.com",
+      "name": "pyupgrade",
+      "owner": "asottile",
+      "repo": "yesqa",
+      "tags": ["python"],
+      "url": "https://github.com/asottile/yesqa"
+    },
+    {
+      "description": "automatically upgrade syntax for newer versions of the language",
+      "domain": "https://github.com",
+      "name": "pyupgrade",
+      "owner": "asottile",
+      "repo": "reorder-python-imports",
+      "tags": ["python"],
+      "url": "https://github.com/asottile/reorder-python-imports"
+    },
+    {
+      "description": "automatically upgrade syntax for newer versions of the language",
+      "domain": "https://github.com",
+      "name": "pyupgrade",
+      "owner": "asottile",
+      "repo": "setup-cfg-fmt",
+      "tags": ["python"],
+      "url": "https://github.com/asottile/setup-cfg-fmt"
+    },
+    {
+      "description": "automatically upgrade syntax for newer versions of the language",
+      "domain": "https://github.com",
+      "name": "pyupgrade",
+      "owner": "asottile",
+      "repo": "flake8",
+      "tags": ["python"],
+      "url": "https://github.com/asottile/flake8"
+    }
+  ]
+}
