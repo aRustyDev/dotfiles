@@ -26,8 +26,8 @@
     "$REPO/path/to/template.yaml"
   ],
   "loc": 0,
-  "health_checks": [],
-  "generates": [],
+  "health_checks": ["npm run healthcheck"],
+  "generates": ["$VAR/path/to/new/thing"],
   "platform_overrides": {
     "darwin": {
       "just": ["./path/to/sub/justfile", "./path/to/justfile"],
