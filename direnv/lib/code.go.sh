@@ -1,4 +1,4 @@
 # Create new TEMPDIR to store tempfiles
 if [[ -f go.sum ]]; then
-    GOTMPDIR=`mktmp -d -t "go"`
+    GOTMPDIR=`mktemp -d -t "go"`
 fi
