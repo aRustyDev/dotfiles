@@ -1,12 +1,8 @@
-root := `git rev-parse --show-toplevel`
+import '../.build/just/lib.just'
+set shell := ["zsh", "-cu"]
+
 zsh := root + "/zsh"
 docker := root + "/.build/zsh.Dockerfile"
-xdg_runtime := "${XDG_RUNTIME_DIR:-$HOME/.local/share}"
-xdg_config := "${XDG_CONFIG_HOME:-$HOME/.config}"
-xdg_cache := "${XDG_CACHE_HOME:-$HOME/.config}"
-xdg_state := "${XDG_STATE_HOME:-$HOME/.config}"
-xdg_data := "${XDG_DATA_HOME:-$HOME/.config}"
-xdg_bin := "${XDG_BIN_HOME:-$HOME/.config}"
 zdotdir := xdg_config + "/zsh/"
 
 test:

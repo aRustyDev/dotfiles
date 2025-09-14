@@ -1,11 +1,9 @@
-# set shell := ["bash", "-uc"]
+import '../.build/just/lib.just'
+set shell := ["zsh", "-cu"]
 
-root := `git rev-parse --show-toplevel`
 ssh := root + "/ssh"
 output_file := ssh + "/config"
 dotssh := if env("XDG_CONFIG_HOME", "") != "" { "$XDG_CONFIG_HOME/ssh" } else { "$HOME/.ssh" }
-host := `hostname`
-profile := if host == "ADAMSM-M-7L95" { "cisco" } else if host == "Maui-HX1G434XJL" { "cfs" } else { "personal" }
 
 list-targets target="*":
     @ls -1 {{ if target == "*" { ssh + "/configs/" } else { ssh + "/configs/" + target } }}

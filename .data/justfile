@@ -1,0 +1,67 @@
+import '../.build/just/lib.just'
+set shell := ["zsh", "-cu"]
+
+# tmp := `mktemp -d -t "zed.settings"`
+
+# File Paths
+new_hooks_jq := jqd + "/git-hooks/new.jq"
+
+# Configs
+ghq_limit := 10
+
+# Query Strings
+jq_repos := '[ .repos[] | "\(.owner)/\(.repo)" | unique ]'
+jq_owners := '[ .repos[] | "\(.owner)" | unique ]'
+
+# Lists
+known_owners := shell("jq -c " + "'" + jq_owners + "'" + " " + hooks)
+known_repos := shell("jq -c " + "'" + jq_repos + "'" + " " + hooks)
+
+# 1. ignore owners
+# 2. search by owners, ignore repos
+# 3.
+
+_repos_belonging_too owner:
+    jq '[ .repos[] | select(.owner == {{owner}}) | .owner ]' {{hooks}}
+
+# Find new work from previously unknown owners
+new-owner-new-repo:
+    @gh search code \
+        --limit {{ghq_limit}} \
+        --filename .pre-commit-hooks.yaml \
+        --language yaml \
+        --match path \
+        --json repository \
+        --jq '[ .[].repository.nameWithOwner ] - {{known_repos}} ' \
+    | jq -s -f  {{jq_hooks}} {{hooks}} > {{tmp}} && mv {{tmp}} {{hooks}}
+
+# Enrich the entries for known repos
+enrich-known-repos:
+    @for tuple in {{known_repos}}; do \
+        IFS='/' read -r owner repo <<< "$tuple"; \
+        gh search repos $repo --owner="$owner" --match name --json description,name,license,owner,url; \
+    done
+
+# Find new work from existing known owners
+existing-owner-new-repo:
+    @for owner in {{known_owners}}; do \
+        gh search code \
+            --limit {{ghq_limit}} \
+            --owner $owner \
+            --filename .pre-commit-hooks.yaml \
+            --language yaml \
+            --match path \
+            --json repository \
+            --jq {{'[ .[].repository.nameWithOwner ] - ' + $(just _repos_belonging_too $owner)}} \
+        | jq -s -f  {{jq_hooks}} > {{tmp}} && mv {{tmp}} {{hooks}}
+    done
+
+test:
+    @#echo '{{known_repos}}'
+    @gh search code \
+        --limit {{ghq_limit}} \
+        --filename .pre-commit-hooks.yaml \
+        --language yaml \
+        --match path \
+        --json repository \
+        --jq '[ .[].repository.nameWithOwner ] - {{known_repos}} '

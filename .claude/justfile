@@ -1,6 +1,9 @@
 # Top-level Claude Project Justfile
 # This coordinates project-specific justfiles using a modular architecture
 
+import '../.build/just/lib.just'
+set shell := ["zsh", "-cu"]
+
 # Configurable defaults - change these to work on different projects
 CATEGORY := env("CLAUDE_CATEGORY", "tree-sitter")
 PROJECT := env("CLAUDE_PROJECT", "kvconf")
@@ -8,7 +11,7 @@ PROJECT := env("CLAUDE_PROJECT", "kvconf")
 # Build the import path from the variables
 import? 'build/{{CATEGORY}}/{{PROJECT}}/justfile'
 
-# Optionally import category-level if it exists  
+# Optionally import category-level if it exists
 import? 'build/{{CATEGORY}}/justfile'
 
 # Default recipe - show available commands
@@ -41,18 +44,18 @@ check-feedback:
     #!/usr/bin/env bash
     set -euo pipefail
     FEEDBACK_DIR="feedback/{{CATEGORY}}/{{PROJECT}}"
-    
+
     if [ ! -d "$FEEDBACK_DIR" ]; then
         echo "❌ Feedback directory not found: $FEEDBACK_DIR"
         exit 1
     fi
-    
+
     echo "Checking feedback for {{CATEGORY}}/{{PROJECT}}..."
-    
+
     # Find pending feedback
     PENDING=$(grep -r "Status: Pending" "$FEEDBACK_DIR" 2>/dev/null | wc -l | tr -d ' ')
     IN_PROGRESS=$(grep -r "Status: In Progress" "$FEEDBACK_DIR" 2>/dev/null | wc -l | tr -d ' ')
-    
+
     if [ "$PENDING" -gt 0 ] || [ "$IN_PROGRESS" -gt 0 ]; then
         echo "📝 Active feedback found:"
         [ "$PENDING" -gt 0 ] && echo "  - Pending: $PENDING items"

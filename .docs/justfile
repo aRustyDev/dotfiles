@@ -1,6 +1,5 @@
-root := `git rev-parse --show-toplevel`
-cue := root + "/.build/cue"
-docs := root + "/.docs/src"
+import '../.build/just/lib.just'
+set shell := ["zsh", "-cu"]
 
 # vet src/{{target}}/index.json
 vet target:
@@ -8,8 +7,8 @@ vet target:
 
 # vet all src/*/index.json files
 vet-all:
-    @for d in `find {{docs}} -type d -depth 1 | sed 's|{{docs}}/||'`; do \
-        if [ -f "{{cue}}/$d.cue" ]; then \
+    @for d in `find {{docs}} -type d -depth 1 | sed 's|{{docsd}}/||'`; do \
+        if [ -f "{{cued}}/$d.cue" ]; then \
             just vet $d; \
         fi; \
     done
