@@ -1,0 +1,5 @@
+# Go packages/libraries to install
+---
+- github.com/rivo/tview@master
+- github.com/rgburke/grv/cmd/grv
+- github.com/gcla/termshark/v2/cmd/termshark
