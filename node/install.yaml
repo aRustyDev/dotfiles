@@ -6,7 +6,9 @@
 - "anthropic-ai/claude-code"
 - "openai/codex"
 - "google/gemini-cli"
-- cloc
-- wrangler@latest
-- neoss
-- tweakcc
+- "cloc"
+- "wrangler@latest"
+- "neoss"
+- "tweakcc"
+- "yo"
+- "generator-langium"
