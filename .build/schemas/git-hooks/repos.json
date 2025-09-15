@@ -1,0 +1,16 @@
+{
+  "created": "",
+  "description": ".repository.description",
+  "domain": "https://github.com",
+  "forks": ["ids", ".repository.forks_url"],
+  "id": ".repository.id",
+  "is_fork": ".repository.fork",
+  "name": "todo:{{.repository.name}}",
+  "node_id": ".repository.node_id",
+  "owner": ".repository.owner.login",
+  "parent": "id-of-forked-from",
+  "repo": ".repository.name",
+  "tags": [""],
+  "updated": "",
+  "url": "{{.domain}}/{{.repository.owner.login}}/{{.repository.name}}"
+}
