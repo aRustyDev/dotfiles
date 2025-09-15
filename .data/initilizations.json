@@ -1,0 +1,44 @@
+{
+  "inits": [
+    {
+      "name": "starship",
+      "critical": true,
+      "suffix": "init [zsh|bash|elvish|ion|fish|tcsh|powershell|xonsh]"
+    },
+    {
+      "name": "brew",
+      "critical": true,
+      "suffix": "shellenv"
+    },
+    {
+      "name": "zoxide",
+      "critical": true,
+      "suffix": "init [zsh|bash|elvish|xonsh|fish|tcsh|powershell|nushell|posix]"
+    },
+    {
+      "name": "direnv",
+      "critical": false,
+      "suffix": "hook [zsh|bash|elvish|tcsh|fish|murex|powershell]"
+    },
+    {
+      "name": "vault",
+      "critical": false,
+      "suffix": "-autocomplete-install"
+    },
+    {
+      "name": "atuin",
+      "critical": false,
+      "suffix": "init [zsh|bash|fish|nu|xonsh]"
+    },
+    {
+      "name": "fzf",
+      "critical": false,
+      "suffix": "--[zsh|bash|fish]"
+    },
+    {
+      "name": "tldr",
+      "critical": false,
+      "suffix": "--update"
+    }
+  ]
+}
