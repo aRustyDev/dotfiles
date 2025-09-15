@@ -4,7 +4,9 @@
       "name": "",
       "repo": "pre-commit-hooks",
       "supports": "",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "written_in": ""
     }
   ],
@@ -13,7 +15,10 @@
       "created": "todo",
       "description": "format and validate terraform syntax",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -21,23 +26,32 @@
       "owner": "AleksaC",
       "parent": "id-of-forked-from",
       "repo": "terraform-py",
-      "tags": ["terraform", "fix", "format"],
+      "tags": [
+        "terraform",
+        "fix",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/AleksaC/terraform-py"
     },
     {
       "created": "todo",
-      "description": "todo",
+      "description": "Mythril is a symbolic-execution-based securty analysis tool for EVM bytecode. It detects security vulnerabilities in smart contracts built for Ethereum and other EVM-compatible blockchains.",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
-      "id": ".repository.id",
-      "is_fork": ".repository.fork",
-      "name": "todo:null",
-      "node_id": ".repository.node_id",
+      "forks": [
+        "ids",
+        "https://api.github.com/repos/ConsenSysDiligence/mythril/forks"
+      ],
+      "id": "103890505",
+      "is_fork": "false",
+      "name": "todo:mythril",
+      "node_id": "MDEwOlJlcG9zaXRvcnkxMDM4OTA1MDU=",
       "owner": "ConsenSysDiligence",
       "parent": "id-of-forked-from",
       "repo": "mythril",
-      "tags": ["todo"],
+      "tags": [
+        "todo"
+      ],
       "updated": "todo",
       "url": "https://github.com/ConsenSysDiligence/mythril"
     },
@@ -45,7 +59,10 @@
       "created": "todo",
       "description": "a Markdown lint tool in Node",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -53,7 +70,10 @@
       "owner": "DavidAnson",
       "parent": "id-of-forked-from",
       "repo": "markdownlint-cli2",
-      "tags": ["markdown", "lint"],
+      "tags": [
+        "markdown",
+        "lint"
+      ],
       "updated": "todo",
       "url": "https://github.com/DavidAnson/markdownlint-cli2"
     },
@@ -61,7 +81,10 @@
       "created": "todo",
       "description": "an opinionated Lua code formatter",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -69,7 +92,10 @@
       "owner": "JohnnyMorganz",
       "parent": "id-of-forked-from",
       "repo": "StyLua",
-      "tags": ["lua", "format"],
+      "tags": [
+        "lua",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/JohnnyMorganz/StyLua"
     },
@@ -77,7 +103,10 @@
       "created": "todo",
       "description": "a formatter for Lua code",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -85,7 +114,10 @@
       "owner": "Koihik",
       "parent": "id-of-forked-from",
       "repo": "LuaFormatter",
-      "tags": ["lua", "format"],
+      "tags": [
+        "lua",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/Koihik/LuaFormatter"
     },
@@ -93,7 +125,10 @@
       "created": "todo",
       "description": "a few other python code quality tools",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -101,7 +136,9 @@
       "owner": "PyCQA",
       "parent": "id-of-forked-from",
       "repo": "autoflake",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/PyCQA/autoflake"
     },
@@ -109,7 +146,10 @@
       "created": "todo",
       "description": "a few other python code quality tools",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -117,7 +157,9 @@
       "owner": "PyCQA",
       "parent": "id-of-forked-from",
       "repo": "bandit",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/PyCQA/bandit"
     },
@@ -125,7 +167,10 @@
       "created": "todo",
       "description": "a few other python code quality tools",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -133,7 +178,9 @@
       "owner": "PyCQA",
       "parent": "id-of-forked-from",
       "repo": "doc8",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/PyCQA/doc8"
     },
@@ -141,7 +188,10 @@
       "created": "todo",
       "description": "a few other python code quality tools",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -149,7 +199,9 @@
       "owner": "PyCQA",
       "parent": "id-of-forked-from",
       "repo": "docformatter",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/PyCQA/docformatter"
     },
@@ -157,7 +209,10 @@
       "created": "todo",
       "description": "a few other python code quality tools",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -165,7 +220,9 @@
       "owner": "PyCQA",
       "parent": "id-of-forked-from",
       "repo": "eradicate",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/PyCQA/eradicate"
     },
@@ -173,7 +230,10 @@
       "created": "todo",
       "description": "a linter framework for python",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -181,7 +241,10 @@
       "owner": "PyCQA",
       "parent": "id-of-forked-from",
       "repo": "flake8",
-      "tags": ["python", "lint"],
+      "tags": [
+        "python",
+        "lint"
+      ],
       "updated": "todo",
       "url": "https://github.com/PyCQA/flake8"
     },
@@ -189,7 +252,10 @@
       "created": "todo",
       "description": "an import sorter for python",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -197,7 +263,10 @@
       "owner": "PyCQA",
       "parent": "id-of-forked-from",
       "repo": "isort",
-      "tags": ["python", "sort"],
+      "tags": [
+        "python",
+        "sort"
+      ],
       "updated": "todo",
       "url": "https://github.com/PyCQA/isort"
     },
@@ -205,7 +274,10 @@
       "created": "todo",
       "description": "a few other python code quality tools",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -213,23 +285,30 @@
       "owner": "PyCQA",
       "parent": "id-of-forked-from",
       "repo": "pydocstyle",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/PyCQA/pydocstyle"
     },
     {
       "created": "todo",
-      "description": "todo",
+      "description": "EJSON is a small library to manage encrypted secrets using asymmetric encryption.",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
-      "id": ".repository.id",
-      "is_fork": ".repository.fork",
-      "name": "todo:null",
-      "node_id": ".repository.node_id",
+      "forks": [
+        "ids",
+        "https://api.github.com/repos/Shopify/ejson/forks"
+      ],
+      "id": "19246943",
+      "is_fork": "false",
+      "name": "todo:ejson",
+      "node_id": "MDEwOlJlcG9zaXRvcnkxOTI0Njk0Mw==",
       "owner": "Shopify",
       "parent": "id-of-forked-from",
       "repo": "ejson",
-      "tags": ["todo"],
+      "tags": [
+        "todo"
+      ],
       "updated": "todo",
       "url": "https://github.com/Shopify/ejson"
     },
@@ -237,7 +316,10 @@
       "created": "todo",
       "description": "automatically upgrade your Django project code",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -245,7 +327,10 @@
       "owner": "adamchainz",
       "parent": "id-of-forked-from",
       "repo": "django-upgrade",
-      "tags": ["python", "django"],
+      "tags": [
+        "python",
+        "django"
+      ],
       "updated": "todo",
       "url": "https://github.com/adamchainz/django-upgrade"
     },
@@ -253,7 +338,10 @@
       "created": "todo",
       "description": "a linter for YAML files:",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -261,7 +349,10 @@
       "owner": "adrienverge",
       "parent": "id-of-forked-from",
       "repo": "yamllint",
-      "tags": ["yaml", "lint"],
+      "tags": [
+        "yaml",
+        "lint"
+      ],
       "updated": "todo",
       "url": "https://github.com/adrienverge/yamllint"
     },
@@ -269,7 +360,10 @@
       "created": "todo",
       "description": "A linter for prose.",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -277,7 +371,10 @@
       "owner": "amperser",
       "parent": "id-of-forked-from",
       "repo": "proselint",
-      "tags": ["prose", "lint"],
+      "tags": [
+        "prose",
+        "lint"
+      ],
       "updated": "todo",
       "url": "https://github.com/amperser/proselint"
     },
@@ -285,7 +382,10 @@
       "created": "todo",
       "description": "automatically add trailing commas to calls and literals",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -293,7 +393,9 @@
       "owner": "asottile",
       "parent": "id-of-forked-from",
       "repo": "add-trailing-comma",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/asottile/add-trailing-comma"
     },
@@ -301,7 +403,10 @@
       "created": "todo",
       "description": "automatically upgrade syntax for newer versions of the language",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -309,7 +414,9 @@
       "owner": "asottile",
       "parent": "id-of-forked-from",
       "repo": "dead",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/asottile/dead"
     },
@@ -317,7 +424,10 @@
       "created": "todo",
       "description": "automatically upgrade syntax for newer versions of the language",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -325,7 +435,9 @@
       "owner": "asottile",
       "parent": "id-of-forked-from",
       "repo": "flake8",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/asottile/flake8"
     },
@@ -333,7 +445,10 @@
       "created": "todo",
       "description": "A pygments lexer for pre-commit output.",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -341,7 +456,9 @@
       "owner": "asottile",
       "parent": "id-of-forked-from",
       "repo": "pygments-pre-commit",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/asottile/pygments-pre-commit"
     },
@@ -349,7 +466,10 @@
       "created": "todo",
       "description": "automatically upgrade syntax for newer versions of the language",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -357,7 +477,9 @@
       "owner": "asottile",
       "parent": "id-of-forked-from",
       "repo": "pyupgrade",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/asottile/pyupgrade"
     },
@@ -365,7 +487,10 @@
       "created": "todo",
       "description": "automatically upgrade syntax for newer versions of the language",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -373,7 +498,9 @@
       "owner": "asottile",
       "parent": "id-of-forked-from",
       "repo": "reorder-python-imports",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/asottile/reorder-python-imports"
     },
@@ -381,7 +508,10 @@
       "created": "todo",
       "description": "automatically upgrade syntax for newer versions of the language",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -389,7 +519,9 @@
       "owner": "asottile",
       "parent": "id-of-forked-from",
       "repo": "setup-cfg-fmt",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/asottile/setup-cfg-fmt"
     },
@@ -397,7 +529,10 @@
       "created": "todo",
       "description": "automatically upgrade syntax for newer versions of the language",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -405,7 +540,9 @@
       "owner": "asottile",
       "parent": "id-of-forked-from",
       "repo": "yesqa",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/asottile/yesqa"
     },
@@ -413,7 +550,10 @@
       "created": "todo",
       "description": "the ruff linter and formatter for python",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -421,7 +561,11 @@
       "owner": "astral-sh",
       "parent": "id-of-forked-from",
       "repo": "ruff-pre-commit",
-      "tags": ["python", "lint", "format"],
+      "tags": [
+        "python",
+        "lint",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/astral-sh/ruff-pre-commit"
     },
@@ -429,7 +573,10 @@
       "created": "todo",
       "description": "aws CloudFormation linter",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -437,7 +584,10 @@
       "owner": "aws-cloudformation",
       "parent": "id-of-forked-from",
       "repo": "cfn-lint",
-      "tags": ["cloudformation", "lint"],
+      "tags": [
+        "cloudformation",
+        "lint"
+      ],
       "updated": "todo",
       "url": "https://github.com/aws-cloudformation/cfn-lint"
     },
@@ -445,7 +595,10 @@
       "created": "todo",
       "description": "a fast formatter / fixer written in rust",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -453,23 +606,31 @@
       "owner": "biomejs",
       "parent": "id-of-forked-from",
       "repo": "pre-commit",
-      "tags": ["fix", "format"],
+      "tags": [
+        "fix",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/biomejs/pre-commit"
     },
     {
       "created": "todo",
-      "description": "todo",
+      "description": "Naive linter for English prose",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
-      "id": ".repository.id",
-      "is_fork": ".repository.fork",
-      "name": "todo:null",
-      "node_id": ".repository.node_id",
+      "forks": [
+        "ids",
+        "https://api.github.com/repos/btford/write-good/forks"
+      ],
+      "id": "19128505",
+      "is_fork": "false",
+      "name": "todo:write-good",
+      "node_id": "MDEwOlJlcG9zaXRvcnkxOTEyODUwNQ==",
       "owner": "btford",
       "parent": "id-of-forked-from",
       "repo": "write-good",
-      "tags": ["todo"],
+      "tags": [
+        "todo"
+      ],
       "updated": "todo",
       "url": "https://github.com/btford/write-good"
     },
@@ -477,7 +638,10 @@
       "created": "todo",
       "description": "tooling for Protocol Buffers",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -485,7 +649,9 @@
       "owner": "bufbuild",
       "parent": "id-of-forked-from",
       "repo": "buf",
-      "tags": ["protobuf"],
+      "tags": [
+        "protobuf"
+      ],
       "updated": "todo",
       "url": "https://github.com/bufbuild/buf"
     },
@@ -493,7 +659,10 @@
       "created": "todo",
       "description": "check code for common misspellings",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -501,7 +670,9 @@
       "owner": "codespell-project",
       "parent": "id-of-forked-from",
       "repo": "codespell",
-      "tags": ["spelling"],
+      "tags": [
+        "spelling"
+      ],
       "updated": "todo",
       "url": "https://github.com/codespell-project/codespell"
     },
@@ -509,7 +680,10 @@
       "created": "todo",
       "description": "",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -517,7 +691,10 @@
       "owner": "commitizen-tools",
       "parent": "id-of-forked-from",
       "repo": "commitizen",
-      "tags": ["commits-msg", "git"],
+      "tags": [
+        "commits-msg",
+        "git"
+      ],
       "updated": "todo",
       "url": "https://github.com/commitizen-tools/commitizen"
     },
@@ -525,7 +702,10 @@
       "created": "todo",
       "description": "find and fix common typographical errors",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -533,7 +713,10 @@
       "owner": "crate-ci",
       "parent": "id-of-forked-from",
       "repo": "typos",
-      "tags": ["spelling", "fix"],
+      "tags": [
+        "spelling",
+        "fix"
+      ],
       "updated": "todo",
       "url": "https://github.com/crate-ci/typos"
     },
@@ -541,7 +724,10 @@
       "created": "todo",
       "description": "",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -549,7 +735,10 @@
       "owner": "gitleaks",
       "parent": "id-of-forked-from",
       "repo": "gitleaks",
-      "tags": ["secrets", "git"],
+      "tags": [
+        "secrets",
+        "git"
+      ],
       "updated": "todo",
       "url": "https://github.com/gitleaks/gitleaks"
     },
@@ -557,7 +746,10 @@
       "created": "todo",
       "description": "linter / formatter for jsonnet",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -565,23 +757,32 @@
       "owner": "google",
       "parent": "id-of-forked-from",
       "repo": "go-jsonnet",
-      "tags": ["jsonnet", "lint", "format"],
+      "tags": [
+        "jsonnet",
+        "lint",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/google/go-jsonnet"
     },
     {
       "created": "todo",
-      "description": "todo",
+      "description": "☂️ TypeScript style guide, formatter, and linter.  ",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
-      "id": ".repository.id",
-      "is_fork": ".repository.fork",
-      "name": "todo:null",
-      "node_id": ".repository.node_id",
+      "forks": [
+        "ids",
+        "https://api.github.com/repos/google/gts/forks"
+      ],
+      "id": "98927279",
+      "is_fork": "false",
+      "name": "todo:gts",
+      "node_id": "MDEwOlJlcG9zaXRvcnk5ODkyNzI3OQ==",
       "owner": "google",
       "parent": "id-of-forked-from",
       "repo": "gts",
-      "tags": ["todo"],
+      "tags": [
+        "todo"
+      ],
       "updated": "todo",
       "url": "https://github.com/google/gts"
     },
@@ -589,7 +790,10 @@
       "created": "todo",
       "description": "a formatter for yaml files",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -597,7 +801,11 @@
       "owner": "google",
       "parent": "id-of-forked-from",
       "repo": "yamlfmt",
-      "tags": ["yaml", "fix", "format"],
+      "tags": [
+        "yaml",
+        "fix",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/google/yamlfmt"
     },
@@ -605,7 +813,10 @@
       "created": "todo",
       "description": "a highly configurable python formatter",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -613,7 +824,9 @@
       "owner": "google",
       "parent": "id-of-forked-from",
       "repo": "yapf",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/google/yapf"
     },
@@ -621,7 +834,10 @@
       "created": "todo",
       "description": "automatically fixes PEP8 violations",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -629,7 +845,9 @@
       "owner": "hhatto",
       "parent": "id-of-forked-from",
       "repo": "autopep8",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/hhatto/autopep8"
     },
@@ -637,7 +855,10 @@
       "created": "todo",
       "description": "",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -645,7 +866,10 @@
       "owner": "jorisroovers",
       "parent": "id-of-forked-from",
       "repo": "gitlint",
-      "tags": ["commits-msg", "git"],
+      "tags": [
+        "commits-msg",
+        "git"
+      ],
       "updated": "todo",
       "url": "https://github.com/jorisroovers/gitlint"
     },
@@ -653,7 +877,10 @@
       "created": "todo",
       "description": "todo",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -661,7 +888,9 @@
       "owner": "kamadorueda",
       "parent": "id-of-forked-from",
       "repo": "alejandra",
-      "tags": ["todo"],
+      "tags": [
+        "todo"
+      ],
       "updated": "todo",
       "url": "https://github.com/kamadorueda/alejandra"
     },
@@ -669,7 +898,10 @@
       "created": "todo",
       "description": "a Markdown lint tool in Ruby",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -677,7 +909,10 @@
       "owner": "markdownlint",
       "parent": "id-of-forked-from",
       "repo": "markdownlint",
-      "tags": ["ruby", "lint"],
+      "tags": [
+        "ruby",
+        "lint"
+      ],
       "updated": "todo",
       "url": "https://github.com/markdownlint/markdownlint"
     },
@@ -685,7 +920,10 @@
       "created": "todo",
       "description": "linter for Makefile syntax",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -693,7 +931,10 @@
       "owner": "mrtazz",
       "parent": "id-of-forked-from",
       "repo": "checkmake",
-      "tags": ["make", "lint"],
+      "tags": [
+        "make",
+        "lint"
+      ],
       "updated": "todo",
       "url": "https://github.com/mrtazz/checkmake"
     },
@@ -701,7 +942,10 @@
       "created": "todo",
       "description": "run common linters on Jupyter Notebooks",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -709,7 +953,10 @@
       "owner": "nbqa-dev",
       "parent": "id-of-forked-from",
       "repo": "nbqa",
-      "tags": ["lint", "jupyter"],
+      "tags": [
+        "lint",
+        "jupyter"
+      ],
       "updated": "todo",
       "url": "https://github.com/nbqa-dev/nbqa"
     },
@@ -717,7 +964,10 @@
       "created": "todo",
       "description": "a formatter for Swift",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -725,7 +975,11 @@
       "owner": "nicklockwood",
       "parent": "id-of-forked-from",
       "repo": "SwiftFormat",
-      "tags": ["swift", "fix", "format"],
+      "tags": [
+        "swift",
+        "fix",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/nicklockwood/SwiftFormat"
     },
@@ -733,7 +987,10 @@
       "created": "todo",
       "description": "",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -741,7 +998,9 @@
       "owner": "openstack",
       "parent": "id-of-forked-from",
       "repo": "bashate",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/openstack/bashate"
     },
@@ -749,7 +1008,10 @@
       "created": "todo",
       "description": "todo",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -757,7 +1019,9 @@
       "owner": "oracle-samples",
       "parent": "id-of-forked-from",
       "repo": "oci-data-science-ai-samples",
-      "tags": ["todo"],
+      "tags": [
+        "todo"
+      ],
       "updated": "todo",
       "url": "https://github.com/oracle-samples/oci-data-science-ai-samples"
     },
@@ -765,7 +1029,10 @@
       "created": "todo",
       "description": "pre-commit mirrors of a handful of popular tools",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -781,7 +1048,10 @@
       "created": "todo",
       "description": "a handful of language-agnostic hooks which are universally useful!",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -797,7 +1067,10 @@
       "created": "todo",
       "description": "a few quick regex-based hooks for a handful of quick syntax checks",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -813,7 +1086,10 @@
       "created": "todo",
       "description": "sync pre-commit hook dependencies based on other installed hooks",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -821,7 +1097,9 @@
       "owner": "pre-commit",
       "parent": "id-of-forked-from",
       "repo": "sync-pre-commit-deps",
-      "tags": ["sync"],
+      "tags": [
+        "sync"
+      ],
       "updated": "todo",
       "url": "https://github.com/pre-commit/sync-pre-commit-deps"
     },
@@ -829,7 +1107,10 @@
       "created": "todo",
       "description": "The uncompromising Python code formatter",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -837,7 +1118,10 @@
       "owner": "psf",
       "parent": "id-of-forked-from",
       "repo": "black",
-      "tags": ["python", "format"],
+      "tags": [
+        "python",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/psf/black"
     },
@@ -845,7 +1129,10 @@
       "created": "todo",
       "description": "todo",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -853,23 +1140,30 @@
       "owner": "purcell",
       "parent": "id-of-forked-from",
       "repo": "sqlint",
-      "tags": ["todo"],
+      "tags": [
+        "todo"
+      ],
       "updated": "todo",
       "url": "https://github.com/purcell/sqlint"
     },
     {
       "created": "todo",
-      "description": "todo",
+      "description": "Install and Run Python Applications in Isolated Environments",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
-      "id": ".repository.id",
-      "is_fork": ".repository.fork",
-      "name": "todo:null",
-      "node_id": ".repository.node_id",
+      "forks": [
+        "ids",
+        "https://api.github.com/repos/pypa/pipx/forks"
+      ],
+      "id": "151871286",
+      "is_fork": "false",
+      "name": "todo:pipx",
+      "node_id": "MDEwOlJlcG9zaXRvcnkxNTE4NzEyODY=",
       "owner": "pypa",
       "parent": "id-of-forked-from",
       "repo": "pipx",
-      "tags": ["todo"],
+      "tags": [
+        "todo"
+      ],
       "updated": "todo",
       "url": "https://github.com/pypa/pipx"
     },
@@ -877,7 +1171,10 @@
       "created": "todo",
       "description": "check many common configurations with jsonschema",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -885,7 +1182,9 @@
       "owner": "python-jsonschema",
       "parent": "id-of-forked-from",
       "repo": "check-jsonschema",
-      "tags": ["json"],
+      "tags": [
+        "json"
+      ],
       "updated": "todo",
       "url": "https://github.com/python-jsonschema/check-jsonschema"
     },
@@ -893,7 +1192,10 @@
       "created": "todo",
       "description": "enforce Swift style and conventions",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -901,7 +1203,10 @@
       "owner": "realm",
       "parent": "id-of-forked-from",
       "repo": "SwiftLint",
-      "tags": ["swift", "lint"],
+      "tags": [
+        "swift",
+        "lint"
+      ],
       "updated": "todo",
       "url": "https://github.com/realm/SwiftLint"
     },
@@ -909,7 +1214,10 @@
       "created": "todo",
       "description": "lint your GitHub Actions workflow files",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -917,7 +1225,12 @@
       "owner": "rhysd",
       "parent": "id-of-forked-from",
       "repo": "actionlint",
-      "tags": ["yaml", "github", "gha", "cicd"],
+      "tags": [
+        "yaml",
+        "github",
+        "gha",
+        "cicd"
+      ],
       "updated": "todo",
       "url": "https://github.com/rhysd/actionlint"
     },
@@ -925,7 +1238,10 @@
       "created": "todo",
       "description": "static analysis and formatting for Ruby",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -933,7 +1249,11 @@
       "owner": "rubocop",
       "parent": "id-of-forked-from",
       "repo": "rubocop",
-      "tags": ["ruby", "fix", "format"],
+      "tags": [
+        "ruby",
+        "fix",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/rubocop/rubocop"
     },
@@ -941,7 +1261,10 @@
       "created": "todo",
       "description": "",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -949,7 +1272,9 @@
       "owner": "shellcheck-py",
       "parent": "id-of-forked-from",
       "repo": "shellcheck-py",
-      "tags": ["python"],
+      "tags": [
+        "python"
+      ],
       "updated": "todo",
       "url": "https://github.com/shellcheck-py/shellcheck-py"
     },
@@ -957,7 +1282,10 @@
       "created": "todo",
       "description": "optimize png files",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -965,7 +1293,10 @@
       "owner": "shssoichiro",
       "parent": "id-of-forked-from",
       "repo": "oxipng",
-      "tags": ["png", "images"],
+      "tags": [
+        "png",
+        "images"
+      ],
       "updated": "todo",
       "url": "https://github.com/shssoichiro/oxipng"
     },
@@ -973,7 +1304,10 @@
       "created": "todo",
       "description": "a modular linter and auto formatter for SQL",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -981,7 +1315,12 @@
       "owner": "sqlfluff",
       "parent": "id-of-forked-from",
       "repo": "sqlfluff",
-      "tags": ["sql", "lint", "fix", "format"],
+      "tags": [
+        "sql",
+        "lint",
+        "fix",
+        "format"
+      ],
       "updated": "todo",
       "url": "https://github.com/sqlfluff/sqlfluff"
     },
@@ -989,7 +1328,10 @@
       "created": "todo",
       "description": "linter / fixer",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -997,7 +1339,10 @@
       "owner": "standard",
       "parent": "id-of-forked-from",
       "repo": "standard",
-      "tags": ["lint", "fix"],
+      "tags": [
+        "lint",
+        "fix"
+      ],
       "updated": "todo",
       "url": "https://github.com/standard/standard"
     },
@@ -1005,7 +1350,10 @@
       "created": "todo",
       "description": "generate a table-of-contents in markdown files",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -1013,7 +1361,10 @@
       "owner": "thlorenz",
       "parent": "id-of-forked-from",
       "repo": "doctoc",
-      "tags": ["markdown", "toc"],
+      "tags": [
+        "markdown",
+        "toc"
+      ],
       "updated": "todo",
       "url": "https://github.com/thlorenz/doctoc"
     },
@@ -1021,7 +1372,10 @@
       "created": "todo",
       "description": "",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -1029,7 +1383,9 @@
       "owner": "thoughtworks",
       "parent": "id-of-forked-from",
       "repo": "talisman",
-      "tags": ["secrets"],
+      "tags": [
+        "secrets"
+      ],
       "updated": "todo",
       "url": "https://github.com/thoughtworks/talisman"
     },
@@ -1037,7 +1393,10 @@
       "created": "todo",
       "description": "",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -1045,7 +1404,9 @@
       "owner": "trufflesecurity",
       "parent": "id-of-forked-from",
       "repo": "truffleHog",
-      "tags": ["secrets"],
+      "tags": [
+        "secrets"
+      ],
       "updated": "todo",
       "url": "https://github.com/trufflesecurity/truffleHog"
     },
@@ -1053,7 +1414,10 @@
       "created": "todo",
       "description": "todo",
       "domain": "https://github.com",
-      "forks": ["ids", ".repository.forks_url"],
+      "forks": [
+        "ids",
+        ".repository.forks_url"
+      ],
       "id": ".repository.id",
       "is_fork": ".repository.fork",
       "name": "todo:null",
@@ -1061,7 +1425,9 @@
       "owner": "wemake-services",
       "parent": "id-of-forked-from",
       "repo": "wemake-python-styleguide",
-      "tags": ["todo"],
+      "tags": [
+        "todo"
+      ],
       "updated": "todo",
       "url": "https://github.com/wemake-services/wemake-python-styleguide"
     }
