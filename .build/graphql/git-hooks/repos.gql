@@ -1,0 +1,67 @@
+# search-repos-with-file-check.graphql
+query SearchReposWithFileCheck(
+    $searchQuery: String!
+    # $cursor: String
+    $first: Int = 5
+) {
+    search(
+        query: $searchQuery
+        type: REPOSITORY
+        first: $first # after: $cursor
+    ) {
+        codeCount
+        repositoryCount
+        edges {
+            node {
+                ... on Repository {
+                    nameWithOwner
+                }
+            }
+            textMatches {
+                fragment
+            }
+        }
+        nodes {
+            ... on Repository {
+                nameWithOwner
+            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+        # nodes {
+        #     ... on Repository {
+        #         nameWithOwner
+        #         name
+        #         owner
+        #         parent
+        #         description
+        #         diskUsage
+        #         id
+        #         labels
+        #         licenseInfo
+        #         updatedAt
+        #         url
+
+        #         # # Check if .pre-commit-hooks.yaml exists
+        #         # hasHooksFile: object(
+        #         #     expression: "HEAD:.pre-commit-hooks.yaml"
+        #         # ) {
+        #         #     ... on Blob {
+        #         #         byteSize
+        #         #     }
+        #         # }
+
+        #         # # Check alternative location
+        #         # hasHooksInFolder: object(
+        #         #     expression: "HEAD:.pre-commit-hooks/.pre-commit-hooks.yaml"
+        #         # ) {
+        #         #     ... on Blob {
+        #         #         byteSize
+        #         #     }
+        #         # }
+        #     }
+        # }
+    }
+}
