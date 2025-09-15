@@ -1,0 +1,8 @@
+{
+  "mans": [
+    {
+      "name": "rg",
+      "cmd": "--generate man"
+    }
+  ]
+}

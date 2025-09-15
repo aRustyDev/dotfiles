@@ -1,0 +1,121 @@
+{
+  "pathsd": [
+    {
+      "name": "0",
+      "priority": "standard:",
+      "paths": ["/sbin"]
+    },
+    {
+      "name": "10",
+      "priority": "cryptex:",
+      "paths": [
+        "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+      ]
+    },
+    {
+      "name": "15",
+      "priority": "nix:",
+      "paths": ["/nix/var/nix/profiles/default/bin"]
+    },
+    {
+      "name": "20",
+      "priority": "homebrew:",
+      "paths": ["/opt/homebrew/bin"]
+    },
+    {
+      "name": "25",
+      "priority": "1Password:",
+      "paths": ["/Applications/1Password.app/Contents/MacOS/"]
+    },
+    {
+      "name": "30",
+      "priority": "ghostty:",
+      "paths": ["/Applications/Ghostty.app/Contents/MacOS"]
+    },
+    {
+      "name": "35",
+      "priority": "orbstack:",
+      "paths": ["${XDG_BIN_HOME:-$HOME}/.orbstack/bin"]
+    },
+    {
+      "name": "40",
+      "priority": "gcloud:",
+      "paths": ["/usr/lib/google-cloud-sdk/bin"]
+    },
+    {
+      "name": "45",
+      "priority": "volta:",
+      "paths": ["/opt/volta/bin"]
+    },
+    {
+      "name": "50",
+      "priority": "cargo:",
+      "paths": ["/opt/cargo/bin"]
+    },
+    {
+      "name": "55",
+      "priority": "golang:",
+      "paths": ["/opt/go/bin"]
+    },
+    {
+      "name": "60",
+      "priority": "zig:",
+      "paths": ["/opt/zig/bin"]
+    },
+    {
+      "name": "65",
+      "priority": "roc:",
+      "paths": ["/opt/roc/bin"]
+    },
+    {
+      "name": "70",
+      "priority": "python3:",
+      "paths": ["/opt/python/3/bin"]
+    },
+    {
+      "name": "75",
+      "priority": "python2:",
+      "paths": ["/opt/python/2/bin"]
+    }
+  ],
+  "manpathsd": [
+    {
+      "name": "0",
+      "priority": "standard:",
+      "paths": ["/usr/local/share/man"]
+    },
+    {
+      "name": "1",
+      "priority": "ghostty:",
+      "paths": ["/Applications/Ghostty.app/Contents/Resources/man"]
+    }
+  ],
+  "infopathsd": [
+    {
+      "name": "0",
+      "priority": "standard:",
+      "paths": ["$HOME/.local/share/info"]
+    }
+  ],
+  "xdgdatapathsd": [
+    {
+      "name": "0",
+      "priority": "standard:",
+      "paths": ["$HOME/.local/share"]
+    }
+  ],
+  "xdgconfigpathsd": [
+    {
+      "name": "0",
+      "priority": "standard:",
+      "paths": ["$HOME/.config"]
+    }
+  ],
+  "fontsd": [
+    {
+      "name": "0",
+      "priority": "standard:",
+      "paths": ["$XDG_DATA_HOME/fonts"]
+    }
+  ]
+}
