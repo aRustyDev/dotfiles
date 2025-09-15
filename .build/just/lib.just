@@ -3,34 +3,41 @@ root := `git rev-parse --show-toplevel`
 host := `hostname`
 
 # Repo Directories
-dockerd := root + "/.build/docker"
-jqd := root + "/.build/jq"
-cued := root + "/.build/cue"
+datad := root + "/.data"
+build := root + "/.build"
 docsd := root + "/.docs/src"
+jqd := build + "/jq"
+cued := build + "/cue"
+dockerd := build + "/docker"
 
 # XDG Paths
-xdg_bin := "${XDG_BIN_HOME:-$HOME/.config}"
-xdg_data := "${XDG_DATA_HOME:-$HOME/.config}"
-xdg_cache := "${XDG_CACHE_HOME:-$HOME/.config}"
-xdg_state := "${XDG_STATE_HOME:-$HOME/.config}"
-xdg_config := "${XDG_CONFIG_HOME:-$HOME/.config}"
-xdg_runtime := "${XDG_RUNTIME_DIR:-$HOME/.local/share}"
+xdg_bin := `echo ${XDG_BIN_HOME:=$HOME/.local/bin}`
+xdg_data := `echo ${XDG_DATA_HOME:=$HOME/.local/share}`
+xdg_cache := `echo ${XDG_CACHE_HOME:=$HOME/.local/cache}`
+xdg_state := `echo ${XDG_STATE_HOME:=$HOME/.local/state}`
+xdg_config := `echo ${XDG_CONFIG_HOME:=$HOME/.config}`
+xdg_runtime := `echo ${XDG_RUNTIME_DIR:=$HOME/.local/share}`
 
 # Data Files (json)
-hosts := root + "/.data/hosts.json"
-brews := root + "/.data/brews.json"
-hooks := root + "/.data/git-hooks.json"
+# - fp: file path
+# - db: database / datafile
+hostsdb := "hosts.json"
+brewsdb := "brews.json"
+hooksdb := "git-hooks.json"
+hostsfp := datad + "/" + hostsdb
+brewsfp := datad + "/" + brewsdb
+hooksfp := datad + "/" + hooksdb
 
 # Data Files (yaml)
-fpaths := root + "/.data/fpaths.yaml"
-paths := root + "/.data/paths.yaml"
-mans := root + "/.data/man.yaml"
-tools := root + "/.data/tools.yaml"
-inits := root + "/.data/initializations.yaml"
-comps := root + "/.data/completions.yaml"
+fpaths := datad + "/fpaths.yaml"
+paths := datad + "/paths.yaml"
+mans := datad + "/man.yaml"
+tools := datad + "/tools.yaml"
+inits := datad + "/initializations.yaml"
+comps := datad + "/completions.yaml"
 
 # Computed Values
-profile := shell("jq --arg h " + host + " '.[$h]' " + hosts)
+profile := shell("jq --arg h " + host + " '.[$h]' " + hostsfp)
 metas := shell("fd -Hi -E .build/ -t file meta.json " + root)
 todos := shell("fd -Hi -E .build/ -t file todo.md " + root)
 # tmp := `mktemp -d -t "zed.settings"`
@@ -50,7 +57,7 @@ todos := shell("fd -Hi -E .build/ -t file todo.md " + root)
 # ? x.xdg.* != true
 
 
-test:
+_test:
     @echo {{metas}}
 
 meta:
