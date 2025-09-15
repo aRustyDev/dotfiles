@@ -1,28 +1,38 @@
 import '../.build/just/lib.just'
-set shell := ["zsh", "-cu"]
 
-# tmp := `mktemp -d -t "zed.settings"`
+tmp := `mktemp -d -t "dotfiles.data"`
+# githooksct := `gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" "/search/code?q=filename:.pre-commit-hooks.yaml&language:yaml" --jq '.total_count'`
 
 # File Paths
-new_hooks_jq := jqd + "/git-hooks/new.jq"
+format_new_hooks_jq := jqd + "/git-hooks/new.jq"
+format_x_hooks_jq := jqd + "/git-hooks/x.jq"
+filter_uniq_repos := jqd + "/git-hooks/uniq_repos.jq"
+jq_repos := jqd + "/git-hooks/ls_repos.jq"
+jq_owners := jqd + "/git-hooks/ls_owners.jq"
+tmphooks := tmp + "/" + hooksdb
 
 # Configs
-ghq_limit := 10
+ghq_limit := "100"
+q_fname := "filename:.pre-commit-hooks.yaml"
+q_lang := "language:yaml"
+q_in := "in:path"
+q_path := "path:/"
+p_pg_size := "per_page=" + ghq_limit
+p_q := "q=" + q_fname + "+" + q_lang + "+" + q_in + "+" + q_path
+params := p_q + "&" + p_pg_size
+h1 := "'Accept: application/vnd.github+json'"
+h2 := "'X-GitHub-Api-Version: 2022-11-28'"
 
 # Query Strings
-jq_repos := '[ .repos[] | "\(.owner)/\(.repo)" | unique ]'
-jq_owners := '[ .repos[] | "\(.owner)" | unique ]'
+gh_jq_new := shell("cat " + format_x_hooks_jq)
+gh_api := "gh api -H " + h1 + " -H " + h2
 
-# Lists
-known_owners := shell("jq -c " + "'" + jq_owners + "'" + " " + hooks)
-known_repos := shell("jq -c " + "'" + jq_repos + "'" + " " + hooks)
-
-# 1. ignore owners
-# 2. search by owners, ignore repos
-# 3.
-
-_repos_belonging_too owner:
-    jq '[ .repos[] | select(.owner == {{owner}}) | .owner ]' {{hooks}}
+# Shells
+githooksct := shell(gh_api + " '/search/code?" + params + "' --jq '.total_count'")   # returns: int
+known_owners := shell("jq -c -f " + jq_owners + " " + hooksfp)              # returns: [string]
+known_repos := shell("jq -c -f " + jq_repos + " " + hooksfp)                # returns: [{string, string}]
+pagect := shell("echo $(( ( " + githooksct + "/" + ghq_limit + " ) + 1 ))") # returns: int
+pages := shell("echo {0.." + pagect + "}")                                  # returns: [int]
 
 # Find new work from previously unknown owners
 new-owner-new-repo:
@@ -33,13 +43,19 @@ new-owner-new-repo:
         --match path \
         --json repository \
         --jq '[ .[].repository.nameWithOwner ] - {{known_repos}} ' \
-    | jq -s -f  {{jq_hooks}} {{hooks}} > {{tmp}} && mv {{tmp}} {{hooks}}
+    | jq -f {{format_new_hooks_jq}} \
+    | jq -f {{filter_uniq_repos}} {{hooksfp}} - \
+    > {{tmphooks}} && mv {{tmphooks}} {{hooksfp}}
 
 # Enrich the entries for known repos
 enrich-known-repos:
     @for tuple in {{known_repos}}; do \
         IFS='/' read -r owner repo <<< "$tuple"; \
-        gh search repos $repo --owner="$owner" --match name --json description,name,license,owner,url; \
+        gh search repos $repo \
+            --owner=$owner \
+            --match name \
+            --json description,name,license,owner,url \
+        | jq '.'; \
     done
 
 # Find new work from existing known owners
@@ -52,16 +68,32 @@ existing-owner-new-repo:
             --language yaml \
             --match path \
             --json repository \
-            --jq {{'[ .[].repository.nameWithOwner ] - ' + $(just _repos_belonging_too $owner)}} \
-        | jq -s -f  {{jq_hooks}} > {{tmp}} && mv {{tmp}} {{hooks}}
+            --jq '[ .[].repository.nameWithOwner ] - {{known_repos}} ' \
+        | jq -f {{format_new_hooks_jq}} \
+        | jq -f {{filter_uniq_repos}} {{hooksfp}} - \
+        > {{tmphooks}} && mv {{tmphooks}} {{hooksfp}}
     done
 
 test:
-    @#echo '{{known_repos}}'
-    @gh search code \
-        --limit {{ghq_limit}} \
-        --filename .pre-commit-hooks.yaml \
-        --language yaml \
-        --match path \
-        --json repository \
-        --jq '[ .[].repository.nameWithOwner ] - {{known_repos}} '
+    @ord="desc" && \
+    for n in {{pages}}; do \
+        m=$((($n+1)%10)); \
+        echo "(i, ord): $m, $ord"; \
+        if [ $m -eq 0 ]; then ord="asc"; fi; \
+        echo "/search/code?{{params}}&page=$m&order=$ord"; \
+        if [ $m -eq 9 ] && [ "$ord" = "asc" ]; then echo "bork $m, $ord"; fi; \
+    done
+
+# Get all pre-commit-hook repos
+get-pre-commit:
+    @# gh api "/search/code?q={{params}}&per_page={{ghq_limit}}&page=N"
+    @# Get all matching repos
+    @# Return:
+    @ord="desc" && \
+    for n in {{pages}}; do \
+        m=$((($n+1)%10)); \
+        if [ $m -eq 0 ]; then ord="asc"; fi; \
+        {{gh_api}} "/search/code?{{params}}&page=$m&order=$ord" --jq '{{gh_jq_new}}'; \
+        if [ $m -eq 9 ] && [ "$ord" = "asc" ]; then break; fi; \
+        sleep 15; \
+    done
