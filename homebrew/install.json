@@ -19,6 +19,14 @@
     "channel": null,
     "dependencies": ["todo"],
     "license": "todo",
+    "name": "hurl",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "channel": null,
+    "dependencies": ["todo"],
+    "license": "todo",
     "name": "sevenzip",
     "tap": "todo",
     "url": "todo"
@@ -627,7 +635,7 @@
     "channel": null,
     "dependencies": ["todo"],
     "license": "todo",
-    "name": "jqp",
+    "name": "noahgorstein/tap/jqp",
     "tap": "todo",
     "url": "todo"
   },
