@@ -813,12 +813,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": ["inetutils"],
+    "dependencies": ["pkgconf", "rust"],
+    "licenses": ["MIT"],
     "name": "gping",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/orf/gping"
   },
   {
     "cask": false,
