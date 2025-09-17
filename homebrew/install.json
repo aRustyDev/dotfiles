@@ -327,7 +327,7 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [],
     "dependencies": [
       "cmake, gettext",
       "libuv",
