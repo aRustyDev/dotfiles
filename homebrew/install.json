@@ -1279,11 +1279,23 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": [
+      "pkgconf",
+      "gnutls",
+      "libassuan",
+      "libgcrypt",
+      "libgpg-error",
+      "libksba",
+      "libusb",
+      "npth",
+      "pinentry",
+      "readline",
+      "gettext"
+    ],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "gpg2",
     "tap": null,
-    "url": "todo"
+    "url": "https://gnupg.org/"
   },
   {
     "cask": false,
