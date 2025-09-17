@@ -1249,11 +1249,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["wireshark", "go"],
+    "licenses": ["MIT"],
     "name": "termshark",
     "tap": null,
-    "url": "todo"
+    "url": "https://termshark.io"
   },
   {
     "cask": false,
