@@ -1259,11 +1259,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["rust"],
+    "licenses": ["MIT"],
     "name": "macmon",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/vladkens/macmon"
   },
   {
     "cask": false,
