@@ -924,11 +924,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "chiko",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/felangga/chiko"
   },
   {
     "cask": false,
