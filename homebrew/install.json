@@ -248,11 +248,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["protobuf", "rust"],
+    "licenses": ["MIT"],
     "name": "atuin",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://atuin.sh/"
   },
   {
     "cask": false,
