@@ -496,11 +496,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["AGPL-3.0-only"],
     "name": "steampipe",
     "tap": null,
-    "url": "todo"
+    "url": "https://steampipe.io/"
   },
   {
     "cask": false,
