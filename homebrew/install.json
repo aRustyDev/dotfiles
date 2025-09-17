@@ -410,7 +410,7 @@
     "licenses": ["todo"],
     "name": "1password-cli",
     "tap": null,
-    "url": "todo"
+    "url": "https://developer.1password.com/docs/cli"
   },
   {
     "cask": false,
