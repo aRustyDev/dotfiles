@@ -81,8 +81,8 @@
     "dependencies": ["todo"],
     "license": "todo",
     "name": "virtualbox",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://www.virtualbox.org/"
   },
   {
     "cask": false,
