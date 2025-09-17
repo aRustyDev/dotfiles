@@ -367,11 +367,20 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": [
+      "pkgconf",
+      "rust, certifi",
+      "cryptography",
+      "libsodium",
+      "libssh",
+      "libyaml",
+      "python@3.13",
+      "tree"
+    ],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "ansible",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://www.ansible.com/"
   },
   {
     "cask": false,
