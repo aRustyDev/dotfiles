@@ -11,6 +11,16 @@
   },
   {
     "cask": true,
+    "channel": "nightly",
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "1password",
+    "tap": null,
+    "url": "https://developer.1password.com/docs/cli"
+  },
+  {
+    "cask": true,
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
