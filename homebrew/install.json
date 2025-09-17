@@ -1115,10 +1115,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["MIT"],
     "name": "kdash",
-    "tap": "kdash-rs",
-    "url": "todo"
+    "tap": "kdash-rs/kdash",
+    "url": "https://github.com/kdash-rs/kdash"
   },
   {
     "cask": false,
