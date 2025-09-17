@@ -619,11 +619,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["Apache-2.0"],
     "name": "cue",
     "tap": "cue-lang/tap",
-    "url": "todo"
+    "url": "https://cuelang.org/"
   },
   {
     "cask": false,
