@@ -476,11 +476,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["autoconf", "openssl@3", "pkgconf", "readline"],
+    "licenses": ["MIT"],
     "name": "pyenv",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/pyenv/pyenv"
   },
   {
     "cask": false,
