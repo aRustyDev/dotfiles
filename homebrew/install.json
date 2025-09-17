@@ -23,6 +23,16 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["BSD-3-Clause"],
+    "name": "sipcalc",
+    "tap": null,
+    "url": "https://github.com/sii/sipcalc"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
     "dependencies": [
       "pkgconf",
       "rust, certifi",
