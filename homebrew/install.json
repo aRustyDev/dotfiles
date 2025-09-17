@@ -1273,7 +1273,7 @@
     "licenses": ["todo"],
     "name": "surreal",
     "tap": "surrealdb/tap",
-    "url": "todo"
+    "url": "https://surrealdb.com"
   },
   {
     "cask": false,
