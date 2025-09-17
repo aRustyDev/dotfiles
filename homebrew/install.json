@@ -69,10 +69,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "license": "MIT",
     "name": "aerospace",
     "tap": "nikitabobko/tap",
-    "url": "todo"
+    "url": "https://github.com/nikitabobko/AeroSpace"
   },
   {
     "cask": true,
