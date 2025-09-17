@@ -571,11 +571,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go", "scdoc"],
+    "licenses": ["BSD-3-Clause"],
     "name": "shfmt",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/mvdan/sh"
   },
   {
     "cask": false,
