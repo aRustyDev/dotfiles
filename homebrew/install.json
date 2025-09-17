@@ -117,12 +117,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "license": "todo",
+    "conflicts": [],
+    "dependencies": ["sigstore/tap/gitsign-credential-cache"],
+    "license": "Apache-2.0",
     "name": "gitsign",
     "tap": "sigstore/tap",
-    "url": "todo"
+    "url": "https://sigstore.dev"
   },
   {
     "cask": false,
