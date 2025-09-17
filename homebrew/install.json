@@ -599,11 +599,11 @@
       "tgenv",
       "tofuenv"
     ],
-    "dependencies": ["todo", "cosign"],
-    "licenses": ["todo"],
+    "dependencies": ["todo", "go", "cosign"],
+    "licenses": ["Apache-2.0"],
     "name": "tenv",
     "tap": null,
-    "url": "todo"
+    "url": "https://tofuutils.github.io/tenv/"
   },
   {
     "cask": false,
