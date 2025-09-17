@@ -868,7 +868,7 @@
     "licenses": ["todo"],
     "name": "otel-desktop-viewer",
     "tap": "CtrlSpice/homebrew-otel-desktop-viewer",
-    "url": "todo"
+    "url": "https://github.com/CtrlSpice/otel-desktop-viewer"
   },
   {
     "cask": false,
