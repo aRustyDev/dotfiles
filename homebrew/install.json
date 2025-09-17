@@ -486,11 +486,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["Apache-2.0"],
     "name": "k9s",
     "tap": null,
-    "url": "todo"
+    "url": "https://k9scli.io/"
   },
   {
     "cask": false,
