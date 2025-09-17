@@ -396,11 +396,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "helm-ls",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/mrjosh/helm-ls"
   },
   {
     "cask": false,
