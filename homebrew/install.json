@@ -187,11 +187,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["cargo-c", "rust"],
+    "licenses": ["MPL-2.0"],
     "name": "resvg",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/linebender/resvg"
   },
   {
     "cask": false,
