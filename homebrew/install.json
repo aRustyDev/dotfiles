@@ -911,14 +911,14 @@
     "url": "https://wtfutil.com"
   },
   {
-    "cask": false,
-    "channel": null,
+    "cask": true,
+    "channel": "dev",
     "conflicts": ["todo"],
     "dependencies": ["todo"],
     "licenses": ["todo"],
-    "name": "brows",
+    "name": "google-chrome",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.google.com/chrome/"
   },
   {
     "cask": false,
