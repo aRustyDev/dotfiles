@@ -649,11 +649,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["Apache-2.0"],
     "name": "grype",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/anchore/grype"
   },
   {
     "cask": false,
