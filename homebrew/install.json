@@ -995,10 +995,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["MIT"],
     "name": "jqp",
     "tap": "noahgorstein/tap",
-    "url": "todo"
+    "url": "https://github.com/noahgorstein/jqp"
   },
   {
     "cask": false,
