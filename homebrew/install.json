@@ -985,10 +985,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["BSD-3-Clause"],
     "name": "cmake",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.cmake.org/"
   },
   {
     "cask": false,
