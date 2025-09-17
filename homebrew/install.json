@@ -944,11 +944,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["pkgconf", "rust", "libgit2", "oniguruma"],
+    "licenses": ["MIT"],
     "name": "git-delta",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/dandavison/delta"
   },
   {
     "cask": false,
