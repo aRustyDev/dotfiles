@@ -386,11 +386,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["rust"],
+    "licenses": ["CC0-1.0"],
     "name": "just",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/casey/just"
   },
   {
     "cask": false,
