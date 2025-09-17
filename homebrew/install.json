@@ -1165,10 +1165,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["MIT"],
     "name": "gittype",
-    "tap": null,
-    "url": "todo"
+    "tap": "unhappychoice/tap",
+    "url": "https://github.com/unhappychoice/gittype"
   },
   {
     "cask": false,
