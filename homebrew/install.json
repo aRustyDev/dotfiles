@@ -1134,11 +1134,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "lazycontainer",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/andreybleme/lazycontainer"
   },
   {
     "cask": false,
