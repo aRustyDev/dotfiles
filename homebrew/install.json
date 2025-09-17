@@ -318,11 +318,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "fzf",
     "tap": "todo",
-    "url": "todo"
+    "url": "https://github.com/junegunn/fzf"
   },
   {
     "cask": false,
