@@ -541,11 +541,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["pkgconf", "pcre2"],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "grep",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.gnu.org/software/grep/"
   },
   {
     "cask": false,
