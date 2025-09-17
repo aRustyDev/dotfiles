@@ -904,11 +904,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MPL-2.0"],
     "name": "wtfutil",
     "tap": "wtfutil/wtfutil",
-    "url": "todo"
+    "url": "https://wtfutil.com"
   },
   {
     "cask": false,
