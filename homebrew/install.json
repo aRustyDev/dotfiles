@@ -1204,11 +1204,18 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": [
+      "pkgconf",
+      "rust",
+      "gnupg",
+      "gpgme",
+      "libgpg-error",
+      "libxcb"
+    ],
+    "licenses": ["MIT"],
     "name": "gpg-tui",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/orhun/gpg-tui"
   },
   {
     "cask": false,
