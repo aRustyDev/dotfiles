@@ -1351,11 +1351,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "github-mcp-server",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/github/github-mcp-server"
   },
   {
     "cask": false,
