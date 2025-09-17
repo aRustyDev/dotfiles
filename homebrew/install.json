@@ -346,12 +346,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": ["python-yq"],
+    "dependencies": ["go", "pandoc"],
+    "licenses": ["MIT"],
     "name": "yq",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/mikefarah/yq"
   },
   {
     "cask": false,
