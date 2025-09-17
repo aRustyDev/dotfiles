@@ -1221,11 +1221,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MPL-2.0"],
     "name": "pug",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/leg100/pug"
   },
   {
     "cask": false,
