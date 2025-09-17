@@ -1028,7 +1028,7 @@
     "licenses": ["todo"],
     "name": "mitmproxy",
     "tap": null,
-    "url": "todo"
+    "url": "https://mitmproxy.org/"
   },
   {
     "cask": false,
