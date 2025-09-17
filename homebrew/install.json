@@ -729,11 +729,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "gum",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/charmbracelet/gum"
   },
   {
     "cask": false,
