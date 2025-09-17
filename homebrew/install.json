@@ -581,11 +581,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["gmp", "cabal-install", "ghc", "pandoc"],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "shellcheck",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.shellcheck.net/"
   },
   {
     "cask": false,
