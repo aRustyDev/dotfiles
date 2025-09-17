@@ -1321,11 +1321,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["cmake", "gpgme", "pkgconf"],
+    "licenses": ["LGPL-2.1-or-later"],
     "name": "gpgmepp",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.gnupg.org/related_software/gpgme/"
   },
   {
     "cask": false,
