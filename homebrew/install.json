@@ -1064,11 +1064,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
+    "dependencies": ["python3"],
     "licenses": ["todo"],
     "name": "tftui",
-    "tap": null,
-    "url": "todo"
+    "tap": "idoavrah/homebrew",
+    "url": "https://github.com/idoavrah/terraform-tui"
   },
   {
     "cask": false,
