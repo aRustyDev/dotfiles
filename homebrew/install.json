@@ -794,11 +794,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "slides",
     "tap": null,
-    "url": "todo"
+    "url": "https://maaslalani.com/slides/"
   },
   {
     "cask": false,
