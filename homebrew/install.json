@@ -176,12 +176,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [],
+    "dependencies": ["asciidoctor", "pkgconf", "rust", "pcre2"],
+    "licenses": ["Unlicense"],
     "name": "ripgrep",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/BurntSushi/ripgrep"
   },
   {
     "cask": false,
