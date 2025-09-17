@@ -1014,11 +1014,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "lazyjournal",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/Lifailon/lazyjournal"
   },
   {
     "cask": false,
