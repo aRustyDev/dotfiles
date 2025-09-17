@@ -1074,11 +1074,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "soft-serve",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/charmbracelet/soft-serve"
   },
   {
     "cask": false,
