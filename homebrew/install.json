@@ -1094,11 +1094,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "ctop",
     "tap": null,
-    "url": "todo"
+    "url": "https://bcicen.github.io/ctop/"
   },
   {
     "cask": false,
