@@ -877,7 +877,7 @@
     "dependencies": ["todo"],
     "licenses": ["todo"],
     "name": "otel-tui",
-    "tap": null,
+    "tap": "ymtdzzz/tap",
     "url": "todo"
   },
   {
