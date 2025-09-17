@@ -139,10 +139,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["LGPL-2.1-or-later", "BSD-3-Clause"],
     "name": "sevenzip",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://7-zip.org"
   },
   {
     "cask": false,
