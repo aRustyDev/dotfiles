@@ -669,11 +669,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["Apache-2.0"],
     "name": "cilium-cli",
     "tap": null,
-    "url": "todo"
+    "url": "https://cilium.io"
   },
   {
     "cask": false,
