@@ -894,11 +894,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["rust", "pkg-config"],
+    "licenses": ["Apache-2.0"],
     "name": "rustnet",
     "tap": "domcyrus/rustnet",
-    "url": "todo"
+    "url": "https://github.com/domcyrus/rustnet"
   },
   {
     "cask": false,
