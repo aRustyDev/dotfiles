@@ -237,12 +237,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [],
+    "dependencies": ["bash", "go", "coreutils"],
+    "licenses": ["Apache-2.0"],
     "name": "kubectl",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://kubernetes.io/docs/reference/kubectl/"
   },
   {
     "cask": false,
