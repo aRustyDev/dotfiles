@@ -308,11 +308,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["pkgconf", "rust, libgit2", "oniguruma"],
+    "licenses": ["Apache-2.0", "MIT"],
     "name": "bat",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/sharkdp/bat"
   },
   {
     "cask": false,
