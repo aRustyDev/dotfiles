@@ -425,9 +425,9 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": ["tldr", "tlrc"],
+    "dependencies": ["rust"],
+    "licenses": ["Apache-2.0", "MIT"],
     "name": "tealdeer",
     "tap": null,
     "url": "todo"
