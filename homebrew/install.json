@@ -678,12 +678,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [],
+    "dependencies": [],
+    "licenses": ["BSD-3-Clause"],
     "name": "golang",
     "tap": null,
-    "url": "todo"
+    "url": "https://go.dev/"
   },
   {
     "cask": false,
