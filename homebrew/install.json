@@ -699,11 +699,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["rust"],
+    "licenses": ["Apache-2.0", "MIT"],
     "name": "tokei",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/XAMPPRocky/tokei"
   },
   {
     "cask": false,
