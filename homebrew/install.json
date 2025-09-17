@@ -1101,14 +1101,14 @@
     "url": "https://bcicen.github.io/ctop/"
   },
   {
-    "cask": false,
+    "cask": true,
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
     "licenses": ["todo"],
     "name": "cruise",
-    "tap": null,
-    "url": "todo"
+    "tap": "NucleoFusion/homebrew-tap",
+    "url": "https://nucleofusion.github.io/cruise/"
   },
   {
     "cask": false,
