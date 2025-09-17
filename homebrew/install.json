@@ -1301,11 +1301,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["gettext"],
+    "licenses": ["LGPL-2.1-or-later"],
     "name": "libgpg-error",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.gnupg.org/related_software/libgpg-error/"
   },
   {
     "cask": false,
