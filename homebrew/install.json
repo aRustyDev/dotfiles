@@ -111,8 +111,8 @@
     "dependencies": ["todo"],
     "license": "todo",
     "name": "vagrant",
-    "tap": "hashicorp/tap",
-    "url": "todo"
+    "tap": null,
+    "url": "https://www.vagrantup.com/"
   },
   {
     "cask": false,
