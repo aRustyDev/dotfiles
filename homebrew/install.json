@@ -1,6 +1,8 @@
 [
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "antidote",
@@ -8,7 +10,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "ffmpeg",
@@ -16,7 +20,69 @@
     "url": "todo"
   },
   {
+    "cask": true,
     "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "aerospace",
+    "tap": "nikitabobko/tap",
+    "url": "todo"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "virtualbox",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "smimesign",
+    "tap": "todo",
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "packer",
+    "tap": "hashicorp/tap",
+    "url": "todo"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "vagrant",
+    "tap": "hashicorp/tap",
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "license": "todo",
+    "name": "gitsign",
+    "tap": "sigstore/tap",
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "hurl",
@@ -24,7 +90,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "sevenzip",
@@ -32,7 +100,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "poppler",
@@ -40,7 +110,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "ripgrep",
@@ -48,7 +120,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "resvg",
@@ -56,7 +130,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "imagemagick",
@@ -64,7 +140,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "helm",
@@ -72,7 +150,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "kubectl",
@@ -80,7 +160,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "atuin",
@@ -88,7 +170,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "jq",
@@ -96,7 +180,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "starship",
@@ -104,7 +190,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "zoxide",
@@ -112,7 +200,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "yazi",
@@ -120,7 +210,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "lsd",
@@ -128,7 +220,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "bat",
@@ -136,7 +230,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "fzf",
@@ -144,7 +240,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "nvim",
@@ -152,7 +250,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "yq",
@@ -160,7 +260,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "fd",
@@ -168,7 +270,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "ansible",
@@ -176,7 +280,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "just",
@@ -184,7 +290,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "helm-ls",
@@ -192,7 +300,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": "beta",
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "1password-cli",
@@ -200,7 +310,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "font-symbols-only-nerd-font",
@@ -208,7 +320,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "tealdeer",
@@ -216,7 +330,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "texinfo",
@@ -224,7 +340,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "mise",
@@ -232,7 +350,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "eza",
@@ -240,7 +360,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "archiver",
@@ -248,7 +370,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "pyenv",
@@ -256,7 +380,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "k9s",
@@ -264,7 +390,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "steampipe",
@@ -272,7 +400,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "zsh",
@@ -280,7 +410,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "bash",
@@ -288,7 +420,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gawk",
@@ -296,7 +430,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "grep",
@@ -304,7 +440,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gnu-sed",
@@ -312,7 +450,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "coreutils",
@@ -320,7 +460,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "shfmt",
@@ -328,7 +470,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "shellcheck",
@@ -336,15 +480,27 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
-    "dependencies": ["todo"],
+    "conflicts": [
+      "atmos",
+      "opentofu",
+      "terragrunt",
+      "terramate",
+      "tfenv",
+      "tgenv",
+      "tofuenv"
+    ],
+    "dependencies": ["todo", "cosign"],
     "license": "todo",
     "name": "tenv",
     "tap": "todo",
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "kubectx",
@@ -352,7 +508,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "cue",
@@ -360,7 +518,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "opa",
@@ -368,7 +528,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "falcoctl",
@@ -376,7 +538,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "grype",
@@ -384,7 +548,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "trivy",
@@ -392,7 +558,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "cilium-cli",
@@ -400,7 +568,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "golang",
@@ -408,7 +578,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "rustup",
@@ -416,7 +588,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "tokei",
@@ -424,7 +598,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "cloc",
@@ -432,7 +608,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "oxker",
@@ -440,7 +618,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gum",
@@ -448,7 +628,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "mpv",
@@ -456,7 +638,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "chafa",
@@ -464,7 +648,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "slides",
@@ -472,7 +658,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "browsh",
@@ -480,7 +668,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gping",
@@ -488,7 +678,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gobang",
@@ -496,7 +688,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "bmon",
@@ -504,7 +698,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "bandwhich",
@@ -512,7 +708,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "btop",
@@ -520,7 +718,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "otel-desktop-viewer",
@@ -528,7 +728,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "otel-tui",
@@ -536,7 +738,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "wireshark-chmodbpf",
@@ -544,7 +748,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "rustnet",
@@ -552,7 +758,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "wtfutil",
@@ -560,7 +768,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "brows",
@@ -568,7 +778,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "catalyst",
@@ -576,7 +788,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "chiko",
@@ -584,7 +798,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "grpcurl",
@@ -592,7 +808,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "git-delta",
@@ -600,7 +818,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "grv",
@@ -608,7 +828,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "readline",
@@ -616,7 +838,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "pkg-config",
@@ -624,7 +848,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "cmake",
@@ -632,15 +858,19 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
-    "name": "noahgorstein/tap/jqp",
-    "tap": "todo",
+    "name": "jqp",
+    "tap": "noahgorstein/tap",
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "lazygit",
@@ -648,7 +878,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "lazyjournal",
@@ -656,7 +888,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "mitmproxy",
@@ -664,7 +898,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "proxymock",
@@ -672,7 +908,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "prs",
@@ -680,7 +918,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "runme",
@@ -688,7 +928,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "tftui",
@@ -696,7 +938,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "soft-serve",
@@ -704,7 +948,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "dive",
@@ -712,7 +958,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "ctop",
@@ -720,7 +968,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "cruise",
@@ -728,15 +978,19 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
-    "name": "kdash-rs/kdash",
-    "tap": "todo",
+    "name": "kdash",
+    "tap": "kdash-rs",
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "container",
@@ -744,7 +998,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "lazycontainer",
@@ -752,7 +1008,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "kubetui",
@@ -760,7 +1018,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "helix",
@@ -768,7 +1028,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gittype",
@@ -776,7 +1038,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "boost",
@@ -784,7 +1048,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "libgit2",
@@ -792,7 +1058,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "diskonaut",
@@ -800,7 +1068,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gpg-tui",
@@ -808,7 +1078,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "pug",
@@ -816,7 +1088,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "nemu",
@@ -824,7 +1098,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "termshark",
@@ -832,7 +1108,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "macmon",
@@ -840,7 +1118,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "surreal",
@@ -848,7 +1128,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gpg2",
@@ -856,7 +1138,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "libgpg-error",
@@ -864,7 +1148,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gpgme",
@@ -872,7 +1158,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "gpgmepp",
@@ -880,7 +1168,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "fish",
@@ -888,7 +1178,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "nushell",
@@ -896,7 +1188,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "github-mcp-server",
@@ -904,7 +1198,9 @@
     "url": "todo"
   },
   {
+    "cask": false,
     "channel": "developer-edition",
+    "conflicts": ["todo"],
     "dependencies": ["todo"],
     "license": "todo",
     "name": "firefox",
