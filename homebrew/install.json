@@ -854,11 +854,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["lowdown ✘, coreutils"],
+    "licenses": ["Apache-2.0"],
     "name": "btop",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/aristocratos/btop"
   },
   {
     "cask": false,
