@@ -934,11 +934,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "grpcurl",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/fullstorydev/grpcurl"
   },
   {
     "cask": false,
