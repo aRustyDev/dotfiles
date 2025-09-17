@@ -1153,12 +1153,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": ["evil-helix", "hex"],
+    "dependencies": ["rust"],
+    "licenses": ["MPL-2.0"],
     "name": "helix",
     "tap": null,
-    "url": "todo"
+    "url": "https://helix-editor.com"
   },
   {
     "cask": false,
