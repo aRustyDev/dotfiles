@@ -531,11 +531,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["gmp", "mpfr", "readline", "gettext"],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "gawk",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.gnu.org/software/gawk/"
   },
   {
     "cask": false,
