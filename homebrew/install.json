@@ -430,7 +430,7 @@
     "licenses": ["Apache-2.0", "MIT"],
     "name": "tealdeer",
     "tap": null,
-    "url": "todo"
+    "url": "https://tealdeer-rs.github.io/tealdeer/"
   },
   {
     "cask": false,
