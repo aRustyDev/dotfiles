@@ -288,11 +288,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["rust"],
+    "licenses": ["MIT"],
     "name": "yazi",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/sxyazi/yazi"
   },
   {
     "cask": false,
