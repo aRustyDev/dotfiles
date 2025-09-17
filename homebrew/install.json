@@ -147,12 +147,31 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": ["pdf2image", "pdftohtml", "xpdf"],
+    "dependencies": [
+      "cmake",
+      "gobject-introspection",
+      "pkgconf",
+      "cairo",
+      "fontconfig",
+      "freetype",
+      "gettext",
+      "glib",
+      "gpgme",
+      "gpgmepp",
+      "jpeg-turbo",
+      "libpng",
+      "libtiff",
+      "little-cms2",
+      "nspr",
+      "nss",
+      "openjpeg",
+      "libassuan"
+    ],
+    "licenses": ["GPL-2.0-only"],
     "name": "poppler",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://poppler.freedesktop.org/"
   },
   {
     "cask": false,
