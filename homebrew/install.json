@@ -328,11 +328,20 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": [
+      "cmake, gettext",
+      "libuv",
+      "lpeg",
+      "luajit",
+      "luv",
+      "tree-sitter",
+      "unibilium",
+      "utf8proc"
+    ],
+    "licenses": ["Apache-2.0"],
     "name": "nvim",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://neovim.io/"
   },
   {
     "cask": false,
