@@ -639,11 +639,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["Apache-2.0"],
     "name": "falcoctl",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/falcosecurity/falcoctl"
   },
   {
     "cask": false,
