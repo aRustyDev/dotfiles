@@ -710,10 +710,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["GPL-2.0-or-later"],
     "name": "cloc",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/AlDanial/cloc/"
   },
   {
     "cask": false,
