@@ -227,12 +227,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [],
+    "dependencies": ["go"],
+    "licenses": ["Apache-2.0"],
     "name": "helm",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://helm.sh/"
   },
   {
     "cask": false,
