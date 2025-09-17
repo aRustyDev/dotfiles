@@ -1037,8 +1037,8 @@
     "dependencies": ["todo"],
     "licenses": ["todo"],
     "name": "proxymock",
-    "tap": null,
-    "url": "todo"
+    "tap": "speedscale/tap",
+    "url": "https://speedscale.com/"
   },
   {
     "cask": false,
