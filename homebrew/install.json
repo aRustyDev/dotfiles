@@ -926,16 +926,6 @@
     "conflicts": ["todo"],
     "dependencies": ["todo"],
     "licenses": ["todo"],
-    "name": "catalyst",
-    "tap": null,
-    "url": "todo"
-  },
-  {
-    "cask": false,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
     "name": "chiko",
     "tap": null,
     "url": "todo"
