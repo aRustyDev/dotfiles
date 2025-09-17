@@ -1331,11 +1331,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["cmake", "rust", "ncurses", "pcre2"],
+    "licenses": ["GPL-2.0-only"],
     "name": "fish",
     "tap": null,
-    "url": "todo"
+    "url": "https://fishshell.com"
   },
   {
     "cask": false,
