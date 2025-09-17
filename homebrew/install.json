@@ -1365,6 +1365,6 @@
     "licenses": ["todo"],
     "name": "firefox",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.mozilla.org/firefox/developer/"
   }
 ]
