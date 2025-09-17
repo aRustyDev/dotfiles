@@ -446,11 +446,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["pkgconf", "rust, usage"],
+    "licenses": ["MIT"],
     "name": "mise",
     "tap": null,
-    "url": "todo"
+    "url": "https://mise.jdx.dev/"
   },
   {
     "cask": false,
