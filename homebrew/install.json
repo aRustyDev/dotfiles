@@ -629,11 +629,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["Apache-2.0"],
     "name": "opa",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.openpolicyagent.org"
   },
   {
     "cask": false,
