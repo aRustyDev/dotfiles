@@ -1231,11 +1231,19 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": [
+      "cmake",
+      "pkgconf",
+      "gettext",
+      "json-c",
+      "libarchive",
+      "ncurses",
+      "openssl@3"
+    ],
+    "licenses": ["BSD-2-Clause"],
     "name": "nemu",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/nemuTUI/nemu"
   },
   {
     "cask": false,
