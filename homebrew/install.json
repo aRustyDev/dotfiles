@@ -1084,11 +1084,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["go"],
+    "licenses": ["MIT"],
     "name": "dive",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/wagoodman/dive"
   },
   {
     "cask": false,
