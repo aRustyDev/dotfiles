@@ -1341,11 +1341,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["pkgconf", "rust", "openssl@3"],
+    "licenses": ["MIT"],
     "name": "nushell",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.nushell.sh"
   },
   {
     "cask": false,
