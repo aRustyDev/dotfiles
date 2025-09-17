@@ -87,12 +87,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "license": "todo",
+    "conflicts": [],
+    "dependencies": ["go"],
+    "license": "MIT",
     "name": "smimesign",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/github/smimesign"
   },
   {
     "cask": false,
