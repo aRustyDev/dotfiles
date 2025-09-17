@@ -1311,11 +1311,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["gnupg", "libassuan", "libgpg-error"],
+    "licenses": ["LGPL-2.1-or-later"],
     "name": "gpgme",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.gnupg.org/related_software/gpgme/"
   },
   {
     "cask": false,
