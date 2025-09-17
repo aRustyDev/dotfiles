@@ -854,7 +854,7 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["lowdown ✘, coreutils"],
+    "dependencies": ["lowdown", "coreutils"],
     "licenses": ["Apache-2.0"],
     "name": "btop",
     "tap": null,
