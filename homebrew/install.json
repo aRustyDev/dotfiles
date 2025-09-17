@@ -1184,11 +1184,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["cmake", "pkgconf", "libssh2"],
+    "licenses": ["GPL-2.0-only WITH GCC-exception-2.0"],
     "name": "libgit2",
     "tap": null,
-    "url": "todo"
+    "url": "https://libgit2.org/"
   },
   {
     "cask": false,
