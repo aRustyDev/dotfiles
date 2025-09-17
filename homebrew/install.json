@@ -356,12 +356,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": ["fdclone"],
+    "dependencies": ["rust"],
+    "licenses": ["Apache-2.0", "MIT"],
     "name": "fd",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/sharkdp/fd"
   },
   {
     "cask": false,
