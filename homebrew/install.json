@@ -834,11 +834,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["pkgconf", "confuse"],
+    "licenses": ["BSD-2-Clause"],
     "name": "bmon",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/tgraf/bmon"
   },
   {
     "cask": false,
