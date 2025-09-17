@@ -33,6 +33,10 @@
       "cmd": "completions [bash|zsh|fish|powershell]"
     },
     {
+      "name": "tenv",
+      "cmd": "completion [bash|zsh|fish|powershell]"
+    },
+    {
       "name": "just",
       "cmd": "--completions [bash|elvish|fish|nushell|powershel|zsh]"
     },
@@ -87,6 +91,10 @@
     {
       "name": "falcoctl",
       "cmd": "completions [bash|zsh|fish|powershell]"
+    },
+    {
+      "name": "packer",
+      "cmd": "-autocomplete-install"
     }
   ]
 }
