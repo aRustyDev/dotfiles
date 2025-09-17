@@ -506,11 +506,16 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["ncurses", "pcre2", "autoconf", "texinfo"],
+    "licenses": [
+      "MIT-Modern-Variant",
+      "GPL-2.0-only",
+      "GPL-2.0-or-later",
+      "ISC"
+    ],
     "name": "zsh",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.zsh.org/"
   },
   {
     "cask": false,
