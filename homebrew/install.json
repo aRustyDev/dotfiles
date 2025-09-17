@@ -965,10 +965,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "readline",
     "tap": null,
-    "url": "todo"
+    "url": "https://tiswww.case.edu/php/chet/readline/rltop.html"
   },
   {
     "cask": false,
