@@ -825,10 +825,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["MIT"],
     "name": "gobang",
-    "tap": null,
-    "url": "todo"
+    "tap": "tako8ki/tap",
+    "url": "https://github.com/TaKO8Ki/gobang"
   },
   {
     "cask": false,
