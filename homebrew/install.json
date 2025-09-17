@@ -560,12 +560,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": ["b2sum", "gfold", "idutils", "uutils-coreutils"],
+    "dependencies": ["gmp"],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "coreutils",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.gnu.org/software/coreutils/"
   },
   {
     "cask": false,
