@@ -771,11 +771,24 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": [
+      "pkgconf",
+      "cairo",
+      "freetype",
+      "glib",
+      "jpeg-turbo",
+      "jpeg-xl",
+      "libavif",
+      "librsvg",
+      "libtiff",
+      "webp",
+      "gdk-pixbuf",
+      "gettext"
+    ],
+    "licenses": ["LGPL-3.0-or-later"],
     "name": "chafa",
     "tap": null,
-    "url": "todo"
+    "url": "https://hpjansson.org/chafa/"
   },
   {
     "cask": false,
