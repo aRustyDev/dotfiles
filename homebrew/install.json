@@ -552,10 +552,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "gnu-sed",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.gnu.org/software/sed/"
   },
   {
     "cask": false,
