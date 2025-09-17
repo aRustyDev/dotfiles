@@ -1194,11 +1194,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["rust"],
+    "licenses": ["MIT"],
     "name": "diskonaut",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/imsnif/diskonaut"
   },
   {
     "cask": false,
