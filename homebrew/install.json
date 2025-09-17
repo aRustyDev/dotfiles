@@ -321,7 +321,7 @@
     "dependencies": ["go"],
     "licenses": ["MIT"],
     "name": "fzf",
-    "tap": "todo",
+    "tap": null,
     "url": "https://github.com/junegunn/fzf"
   },
   {
