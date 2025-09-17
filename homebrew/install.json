@@ -975,10 +975,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["ISC"],
     "name": "pkg-config",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/pkgconf/pkgconf"
   },
   {
     "cask": false,
