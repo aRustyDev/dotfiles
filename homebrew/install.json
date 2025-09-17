@@ -808,7 +808,7 @@
     "licenses": ["todo"],
     "name": "browsh",
     "tap": "browsh-org/homebrew-browsh",
-    "url": "todo"
+    "url": "https://www.brow.sh"
   },
   {
     "cask": false,
