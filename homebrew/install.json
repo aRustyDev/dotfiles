@@ -420,7 +420,7 @@
     "licenses": ["todo"],
     "name": "font-symbols-only-nerd-font",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/ryanoasis/nerd-fonts"
   },
   {
     "cask": false,
