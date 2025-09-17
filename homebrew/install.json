@@ -3,11 +3,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "license": "todo",
+    "dependencies": [],
+    "license": "MIT",
     "name": "antidote",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://antidote.sh/"
   },
   {
     "cask": false,
