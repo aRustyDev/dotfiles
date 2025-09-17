@@ -98,11 +98,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
+    "dependencies": ["go"],
     "license": "todo",
     "name": "packer",
     "tap": "hashicorp/tap",
-    "url": "todo"
+    "url": "https://packer.io"
   },
   {
     "cask": true,
