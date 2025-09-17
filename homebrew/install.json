@@ -4,7 +4,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": [],
-    "license": "MIT",
+    "licenses": ["MIT"],
     "name": "antidote",
     "tap": null,
     "url": "https://antidote.sh/"
@@ -59,7 +59,7 @@
       "libogg",
       "libsamplerate"
     ],
-    "license": "GPL-2.0-or-later",
+    "licenses": ["GPL-2.0-or-later"],
     "name": "ffmpeg",
     "tap": null,
     "url": "https://ffmpeg.org/"
@@ -69,7 +69,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "MIT",
+    "licenses": ["MIT"],
     "name": "aerospace",
     "tap": "nikitabobko/tap",
     "url": "https://github.com/nikitabobko/AeroSpace"
@@ -79,7 +79,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "virtualbox",
     "tap": null,
     "url": "https://www.virtualbox.org/"
@@ -89,7 +89,7 @@
     "channel": null,
     "conflicts": [],
     "dependencies": ["go"],
-    "license": "MIT",
+    "licenses": ["MIT"],
     "name": "smimesign",
     "tap": null,
     "url": "https://github.com/github/smimesign"
@@ -99,7 +99,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["go"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "packer",
     "tap": "hashicorp/tap",
     "url": "https://packer.io"
@@ -109,7 +109,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "vagrant",
     "tap": null,
     "url": "https://www.vagrantup.com/"
@@ -119,7 +119,7 @@
     "channel": null,
     "conflicts": [],
     "dependencies": ["sigstore/tap/gitsign-credential-cache"],
-    "license": "Apache-2.0",
+    "licenses": ["Apache-2.0"],
     "name": "gitsign",
     "tap": "sigstore/tap",
     "url": "https://sigstore.dev"
@@ -129,7 +129,7 @@
     "channel": null,
     "conflicts": [],
     "dependencies": ["pkgconf", "rust"],
-    "license": "Apache-2.0",
+    "licenses": ["Apache-2.0"],
     "name": "hurl",
     "tap": null,
     "url": "https://hurl.dev"
@@ -139,7 +139,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "sevenzip",
     "tap": "todo",
     "url": "todo"
@@ -149,7 +149,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "poppler",
     "tap": "todo",
     "url": "todo"
@@ -159,7 +159,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "ripgrep",
     "tap": "todo",
     "url": "todo"
@@ -169,7 +169,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "resvg",
     "tap": "todo",
     "url": "todo"
@@ -179,7 +179,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "imagemagick",
     "tap": "todo",
     "url": "todo"
@@ -189,7 +189,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "helm",
     "tap": "todo",
     "url": "todo"
@@ -199,7 +199,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "kubectl",
     "tap": "todo",
     "url": "todo"
@@ -209,7 +209,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "atuin",
     "tap": "todo",
     "url": "todo"
@@ -219,7 +219,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "jq",
     "tap": "todo",
     "url": "todo"
@@ -229,7 +229,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "starship",
     "tap": "todo",
     "url": "todo"
@@ -239,7 +239,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "zoxide",
     "tap": "todo",
     "url": "todo"
@@ -249,7 +249,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "yazi",
     "tap": "todo",
     "url": "todo"
@@ -259,7 +259,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "lsd",
     "tap": "todo",
     "url": "todo"
@@ -269,7 +269,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "bat",
     "tap": "todo",
     "url": "todo"
@@ -279,7 +279,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "fzf",
     "tap": "todo",
     "url": "todo"
@@ -289,7 +289,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "nvim",
     "tap": "todo",
     "url": "todo"
@@ -299,7 +299,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "yq",
     "tap": "todo",
     "url": "todo"
@@ -309,7 +309,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "fd",
     "tap": "todo",
     "url": "todo"
@@ -319,7 +319,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "ansible",
     "tap": "todo",
     "url": "todo"
@@ -329,7 +329,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "just",
     "tap": "todo",
     "url": "todo"
@@ -339,7 +339,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "helm-ls",
     "tap": "todo",
     "url": "todo"
@@ -349,7 +349,7 @@
     "channel": "beta",
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "1password-cli",
     "tap": "todo",
     "url": "todo"
@@ -359,7 +359,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "font-symbols-only-nerd-font",
     "tap": "todo",
     "url": "todo"
@@ -369,7 +369,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "tealdeer",
     "tap": "todo",
     "url": "todo"
@@ -379,7 +379,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "texinfo",
     "tap": "todo",
     "url": "todo"
@@ -389,7 +389,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "mise",
     "tap": "todo",
     "url": "todo"
@@ -399,7 +399,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "eza",
     "tap": "todo",
     "url": "todo"
@@ -409,7 +409,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "archiver",
     "tap": "todo",
     "url": "todo"
@@ -419,7 +419,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "pyenv",
     "tap": "todo",
     "url": "todo"
@@ -429,7 +429,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "k9s",
     "tap": "todo",
     "url": "todo"
@@ -439,7 +439,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "steampipe",
     "tap": "todo",
     "url": "todo"
@@ -449,7 +449,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "zsh",
     "tap": "todo",
     "url": "todo"
@@ -459,7 +459,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "bash",
     "tap": "todo",
     "url": "todo"
@@ -469,7 +469,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gawk",
     "tap": "todo",
     "url": "todo"
@@ -479,7 +479,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "grep",
     "tap": "todo",
     "url": "todo"
@@ -489,7 +489,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gnu-sed",
     "tap": "todo",
     "url": "todo"
@@ -499,7 +499,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "coreutils",
     "tap": "todo",
     "url": "todo"
@@ -509,7 +509,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "shfmt",
     "tap": "todo",
     "url": "todo"
@@ -519,7 +519,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "shellcheck",
     "tap": "todo",
     "url": "todo"
@@ -537,7 +537,7 @@
       "tofuenv"
     ],
     "dependencies": ["todo", "cosign"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "tenv",
     "tap": "todo",
     "url": "todo"
@@ -547,7 +547,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "kubectx",
     "tap": "todo",
     "url": "todo"
@@ -557,7 +557,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "cue",
     "tap": "cue-lang/tap",
     "url": "todo"
@@ -567,7 +567,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "opa",
     "tap": "todo",
     "url": "todo"
@@ -577,7 +577,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "falcoctl",
     "tap": "todo",
     "url": "todo"
@@ -587,7 +587,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "grype",
     "tap": "todo",
     "url": "todo"
@@ -597,7 +597,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "trivy",
     "tap": "todo",
     "url": "todo"
@@ -607,7 +607,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "cilium-cli",
     "tap": "todo",
     "url": "todo"
@@ -617,7 +617,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "golang",
     "tap": "todo",
     "url": "todo"
@@ -627,7 +627,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "rustup",
     "tap": "todo",
     "url": "todo"
@@ -637,7 +637,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "tokei",
     "tap": "todo",
     "url": "todo"
@@ -647,7 +647,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "cloc",
     "tap": "todo",
     "url": "todo"
@@ -657,7 +657,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "oxker",
     "tap": "todo",
     "url": "todo"
@@ -667,7 +667,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gum",
     "tap": "todo",
     "url": "todo"
@@ -677,7 +677,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "mpv",
     "tap": "todo",
     "url": "todo"
@@ -687,7 +687,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "chafa",
     "tap": "todo",
     "url": "todo"
@@ -697,7 +697,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "slides",
     "tap": "todo",
     "url": "todo"
@@ -707,7 +707,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "browsh",
     "tap": "browsh-org/homebrew-browsh",
     "url": "todo"
@@ -717,7 +717,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gping",
     "tap": "todo",
     "url": "todo"
@@ -727,7 +727,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gobang",
     "tap": "todo",
     "url": "todo"
@@ -737,7 +737,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "bmon",
     "tap": "todo",
     "url": "todo"
@@ -747,7 +747,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "bandwhich",
     "tap": "todo",
     "url": "todo"
@@ -757,7 +757,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "btop",
     "tap": "todo",
     "url": "todo"
@@ -767,7 +767,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "otel-desktop-viewer",
     "tap": "CtrlSpice/homebrew-otel-desktop-viewer",
     "url": "todo"
@@ -777,7 +777,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "otel-tui",
     "tap": "todo",
     "url": "todo"
@@ -787,7 +787,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "wireshark-chmodbpf",
     "tap": "todo",
     "url": "todo"
@@ -797,7 +797,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "rustnet",
     "tap": "domcyrus/rustnet",
     "url": "todo"
@@ -807,7 +807,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "wtfutil",
     "tap": "wtfutil/wtfutil",
     "url": "todo"
@@ -817,7 +817,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "brows",
     "tap": "todo",
     "url": "todo"
@@ -827,7 +827,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "catalyst",
     "tap": "todo",
     "url": "todo"
@@ -837,7 +837,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "chiko",
     "tap": "todo",
     "url": "todo"
@@ -847,7 +847,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "grpcurl",
     "tap": "todo",
     "url": "todo"
@@ -857,7 +857,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "git-delta",
     "tap": "todo",
     "url": "todo"
@@ -867,7 +867,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "grv",
     "tap": "todo",
     "url": "todo"
@@ -877,7 +877,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "readline",
     "tap": "todo",
     "url": "todo"
@@ -887,7 +887,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "pkg-config",
     "tap": "todo",
     "url": "todo"
@@ -897,7 +897,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "cmake",
     "tap": "todo",
     "url": "todo"
@@ -907,7 +907,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "jqp",
     "tap": "noahgorstein/tap",
     "url": "todo"
@@ -917,7 +917,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "lazygit",
     "tap": "todo",
     "url": "todo"
@@ -927,7 +927,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "lazyjournal",
     "tap": "todo",
     "url": "todo"
@@ -937,7 +937,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "mitmproxy",
     "tap": "todo",
     "url": "todo"
@@ -947,7 +947,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "proxymock",
     "tap": "todo",
     "url": "todo"
@@ -957,7 +957,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "prs",
     "tap": "todo",
     "url": "todo"
@@ -967,7 +967,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "runme",
     "tap": "todo",
     "url": "todo"
@@ -977,7 +977,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "tftui",
     "tap": "todo",
     "url": "todo"
@@ -987,7 +987,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "soft-serve",
     "tap": "todo",
     "url": "todo"
@@ -997,7 +997,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "dive",
     "tap": "todo",
     "url": "todo"
@@ -1007,7 +1007,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "ctop",
     "tap": "todo",
     "url": "todo"
@@ -1017,7 +1017,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "cruise",
     "tap": "todo",
     "url": "todo"
@@ -1027,7 +1027,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "kdash",
     "tap": "kdash-rs",
     "url": "todo"
@@ -1037,7 +1037,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "container",
     "tap": "todo",
     "url": "todo"
@@ -1047,7 +1047,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "lazycontainer",
     "tap": "todo",
     "url": "todo"
@@ -1057,7 +1057,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "kubetui",
     "tap": "todo",
     "url": "todo"
@@ -1067,7 +1067,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "helix",
     "tap": "todo",
     "url": "todo"
@@ -1077,7 +1077,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gittype",
     "tap": "todo",
     "url": "todo"
@@ -1087,7 +1087,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "boost",
     "tap": "todo",
     "url": "todo"
@@ -1097,7 +1097,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "libgit2",
     "tap": "todo",
     "url": "todo"
@@ -1107,7 +1107,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "diskonaut",
     "tap": "todo",
     "url": "todo"
@@ -1117,7 +1117,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gpg-tui",
     "tap": "todo",
     "url": "todo"
@@ -1127,7 +1127,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "pug",
     "tap": "todo",
     "url": "todo"
@@ -1137,7 +1137,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "nemu",
     "tap": "todo",
     "url": "todo"
@@ -1147,7 +1147,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "termshark",
     "tap": "todo",
     "url": "todo"
@@ -1157,7 +1157,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "macmon",
     "tap": "todo",
     "url": "todo"
@@ -1167,7 +1167,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "surreal",
     "tap": "surrealdb/tap",
     "url": "todo"
@@ -1177,7 +1177,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gpg2",
     "tap": "todo",
     "url": "todo"
@@ -1187,7 +1187,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "libgpg-error",
     "tap": "todo",
     "url": "todo"
@@ -1197,7 +1197,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gpgme",
     "tap": "todo",
     "url": "todo"
@@ -1207,7 +1207,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "gpgmepp",
     "tap": "todo",
     "url": "todo"
@@ -1217,7 +1217,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "fish",
     "tap": "todo",
     "url": "todo"
@@ -1227,7 +1227,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "nushell",
     "tap": "todo",
     "url": "todo"
@@ -1237,7 +1237,7 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "github-mcp-server",
     "tap": "todo",
     "url": "todo"
@@ -1247,7 +1247,7 @@
     "channel": "developer-edition",
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "license": "todo",
+    "licenses": ["todo"],
     "name": "firefox",
     "tap": "todo",
     "url": "todo"
