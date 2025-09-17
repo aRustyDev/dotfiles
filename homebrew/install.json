@@ -437,10 +437,10 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "texinfo",
     "tap": null,
-    "url": "todo"
+    "url": "https://www.gnu.org/software/texinfo/"
   },
   {
     "cask": false,
