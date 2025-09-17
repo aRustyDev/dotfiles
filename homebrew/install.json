@@ -1044,11 +1044,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["pkgconf", "gpgme", "rust"],
+    "licenses": ["GPL-3.0-only"],
     "name": "prs",
     "tap": null,
-    "url": "todo"
+    "url": "https://timvisee.com/projects/prs"
   },
   {
     "cask": false,
