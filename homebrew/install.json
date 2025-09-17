@@ -609,11 +609,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["kubernetes-cli"],
+    "licenses": ["Apache-2.0"],
     "name": "kubectx",
     "tap": null,
-    "url": "todo"
+    "url": "https://github.com/ahmetb/kubectx"
   },
   {
     "cask": false,
