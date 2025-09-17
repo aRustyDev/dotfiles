@@ -127,12 +127,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "license": "todo",
+    "conflicts": [],
+    "dependencies": ["pkgconf", "rust"],
+    "license": "Apache-2.0",
     "name": "hurl",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://hurl.dev"
   },
   {
     "cask": false,
