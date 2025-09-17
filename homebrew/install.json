@@ -298,11 +298,11 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "dependencies": ["pandoc", "rust"],
+    "licenses": ["Apache-2.0"],
     "name": "lsd",
-    "tap": "todo",
-    "url": "todo"
+    "tap": null,
+    "url": "https://github.com/lsd-rs/lsd"
   },
   {
     "cask": false,
