@@ -688,12 +688,12 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [],
+    "dependencies": ["rust"],
+    "licenses": ["Apache-2.0", "MIT"],
     "name": "rustup",
     "tap": null,
-    "url": "todo"
+    "url": "https://rust-lang.github.io/rustup/"
   },
   {
     "cask": false,
