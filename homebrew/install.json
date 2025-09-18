@@ -40,6 +40,16 @@
     "url": "https://mosh.org"
   },
   {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["s-lang"],
+    "licenses": ["GPL-2.0-or-later"],
+    "name": "most",
+    "tap": null,
+    "url": "https://www.jedsoft.org/most/"
+  },
+  {
     "cask": true,
     "channel": null,
     "conflicts": ["todo"],
