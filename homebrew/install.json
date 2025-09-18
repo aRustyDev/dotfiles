@@ -30,6 +30,16 @@
     "url": "https://sigs.k8s.io/krew/"
   },
   {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["pkgconf", "tmux", "protobuf"],
+    "licenses": ["GPL-3.0-or-later"],
+    "name": "mosh",
+    "tap": null,
+    "url": "https://mosh.org"
+  },
+  {
     "cask": true,
     "channel": null,
     "conflicts": ["todo"],
