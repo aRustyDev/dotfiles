@@ -1,0 +1,64 @@
+# mustache will be used to preprocess this file in memory.
+# - first, all values will be shell expanded, so '${XDG_CONFIG_HOME:-$HOME}' style works.
+#   - shell used can be set as #! style, so its arbitrary what shell is used to execute the script
+# - second, all 'default' keys will be copied to all pkg.* that don't have that value set
+# - third, all keys will be compounded to the "used" values (ie dest = pkg.prefix.dest + pkg.dest)
+# - fourth, all keys will be interpolated, where '.foo' is current package
+#   - ex(pkg.ssh): .prefix.dest is checking the current default value in pkg.ssh.<name>.prefix.dest, else the full path is required (ie config.prefix.dest
+
+# if a pkgs "table" is [[pkg.<foo>]] then its keypath is `pkg.<foo>.<key>`
+# if no pkg.<key>.just is set, then source will be used as the `-f` value for justfile
+# - `prefix`: a special key that will be used to add whatever the string is to the beginning of the specified `prefix.<key>`. (ie pkg.key = pkg.prefix.key + pkg.key; only if pkg.key exists)
+#   - caveat: if a `pkg.key` string starts with a "/" the prefix will be ignored
+
+# These are the config values for stow to use when operating.
+[config]
+# Will create the XDG directory structure if it doesn't exist
+xdg = true
+
+# This is the default values for all packages
+[default]
+# type : inferred by default
+sudo = false
+prefix.dest = "${XDG_CONFIG_HOME:+$XDG_CONFIG_HOME/ssh}${XDG_CONFIG_HOME:=$HOME/.ssh}/{{.name}}/"
+prefix.src = "./{{self.name}}/"
+
+[[pkg]]
+name = "starship"
+dest = "starship/config.toml"
+src = "starship/starship.toml"
+
+[[pkg]] # This will run before the pkg.ssh.* (pubs, config, configs, etc)
+name = "ssh"
+just = "build ssh {{.prefix.dest}}" # "build ssh {{pkg.ssh.prefix.dest}}" would also work
+
+[[pkg.ssh]]
+name = "pubs"
+dest = ".ssh/config"
+src = "ssh/config"
+
+[[pkg.ssh]]
+name = "config"
+dest = "$HOME/.ssh/config"
+src = "ssh/config"
+
+[[pkg.ssh]]
+name = "configs"
+dest = "ssh/configs"
+src = "ssh/configs"
+
+[[pkg.ssh]]
+name = "authorized_users"
+dest = "ssh/{{name}}"
+src = "authorized_users"
+
+[[pkg]]
+name = "zed"
+dest = "config.toml"
+src = "zed"
+just = "build zed {{.prefix.dest}}"
+
+[[pkg.zed]]
+name = "settings.json"
+dest = "config.toml"
+src = "zed/settings.json"

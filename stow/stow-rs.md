@@ -20,3 +20,5 @@ src = "path/to/pkg/foo/"
 - `.stow.local.ignore`: ignore file, not checked into version control
 - `.stow.ignore`: ignore file, checked into version control
 - `stow.toml`: configuration file
+- Need some way to "uninstall" the stowed packages too
+- Integrate with `atuin` to sync dotfiles across devices
