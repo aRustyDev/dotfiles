@@ -43,6 +43,16 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
+    "dependencies": ["libpq", "ncurses", "readline"],
+    "licenses": ["BSD-2-Clause"],
+    "name": "pspg",
+    "tap": null,
+    "url": "https://github.com/okbob/pspg"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["s-lang"],
     "licenses": ["GPL-2.0-or-later"],
     "name": "most",
