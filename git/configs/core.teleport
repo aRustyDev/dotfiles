@@ -1,2 +1,2 @@
 [core]
-sshCommand = ssh -i ~/.ssh/id_company2
+    sshCommand = ssh -i ~/.ssh/id_company2

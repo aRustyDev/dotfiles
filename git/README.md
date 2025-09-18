@@ -21,6 +21,11 @@ git/
 
 ```
 
+## Allowed Signers
+
+- [Docs (ssh-keygen(1))](https://www.man7.org/linux/man-pages/man1/ssh-keygen.1.html#ALLOWED_SIGNERS)
+- https://jms1.info/git/ssh.html
+
 ## Git Setup Command
 
 The `git setup` command configures git repositories with SSH keys from 1Password without requiring modifications to 1Password's configuration files.
@@ -54,22 +59,26 @@ git setup github
 ## Other Git Configurations
 
 ### SSH Configuration
+
 - Managed through 1Password SSH agent
 - See `../1Password/agent.toml` for SSH key definitions
 
 ### Git Aliases
+
 - Defined in Nix configuration
 - See `../nix-darwin/hosts/programs/git.nix`
 
 ## Installation
 
 1. **Quick Install**:
+
    ```bash
    cd git
    ./setup.sh
    ```
 
 2. **Manual Install**:
+
    ```bash
    ln -sf ~/dotfiles/git/commands/git-setup-v2 /usr/local/bin/git-setup
    ```
@@ -94,6 +103,7 @@ See `docs/github-issues/issue-5-testing-framework.md` for testing plans.
 Track progress on the [GitHub Project Board](https://github.com/users/aRustyDev/projects/16).
 
 Key issues:
+
 - Transform git-setup to modern 1Password integration (Epic)
 - Implement MVP version
 - Add advanced features

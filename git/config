@@ -1,8 +1,30 @@
 [core]
     autocrlf = input
 
+# Default branch name
 [init]
     defaultBranch = main
+
+# Help with typos
+[help]
+    autoCorrect = 20
+
+# Pull settings
+[pull]
+    ff = only
+    rebase = true
+
+# Pull settings
+[log]
+    showSignature = true
+
+# Fix conflicts only once
+[rerere]
+    enabled = true
+
+# Auto prune when fetching
+[fetch]
+    prune = true
 
 [user]
     name = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/username"
@@ -12,6 +34,9 @@
 [commit]
     gpgsign = true
 
+[tag]
+    gpgsign = true
+
 [gpg]
     format = ssh
 
@@ -19,17 +44,17 @@
     program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 
 ; === === === Cisco Repos === === ===
-[include]
+[includeIf "hasconfig:remote.*.url:git@sscm.gus.cisco.com:*/**"]
     path = "${XDG_CONFIG_HOME}/git/configs/cisco"
 
 ; === === === DHL Repos === === ===
-[include]
+[includeIf "hasconfig:remote.*.url:https://github.com/darkhuntlabs/**"]
     path = "${XDG_CONFIG_HOME}/git/configs/darkhuntlabs"
 
 ; === === === CFS Repos === === ===
-[include]
+[includeIf "hasconfig:remote.*.url:https://git.va.th.ten/**"]
     path = "${XDG_CONFIG_HOME}/git/configs/cfs"
 
 ; === === === Personal Repos === === ===
-[include]
+[includeIf "hasconfig:remote.*.url:git@github.com:aRustyDev/**"]
     path = "${XDG_CONFIG_HOME}/git/configs/github"

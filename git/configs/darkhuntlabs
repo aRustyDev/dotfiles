@@ -1,5 +1,8 @@
 ; === === === HTTPS Repos === === ===
-[includeIf "hasconfig:remote.*.url:https://github.com/darkhuntlabs/**"]
+[user]
     name = "op://Dark Hunt Labs/ihka7j6o5usyyjziuledqfmcq4/username"
     email = "op://Dark Hunt Labs/ihka7j6o5usyyjziuledqfmcq4/email"
     signingkey = "op://Dark Hunt Labs/ihka7j6o5usyyjziuledqfmcq4/public key"
+
+[gpg "ssh"]
+    allowedSignersFile = ${XDG_CONFIG_HOME}/git/allowed_signers/darkhuntlabs

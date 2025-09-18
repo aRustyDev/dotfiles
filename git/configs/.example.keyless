@@ -1,0 +1,20 @@
+[gpg "x509" ]
+    program = gitsign
+
+[gpg]
+    format = x509
+
+[gitsign]
+    fulcio = https://fulcio.sigstore.dev/
+    logPath = ${XDG_CACHE_HOME}/gitsign
+    clientID = sigstore
+    issuer = https://oauth2.sigstore.dev/auth
+    matchCommitter = false
+    redirectURL = ""
+    rekor = https://rekor.sigstore.dev/
+    connectorID = https://github.com/login/oauth
+    tokenProvider = interactive
+    timestampServerURL = ""
+    timestampCertChain = ""
+    autoclose = true
+    autocloseTimeout = 6

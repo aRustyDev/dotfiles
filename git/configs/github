@@ -1,11 +1,8 @@
 ; === === === HTTPS Repos === === ===
-[includeIf "hasconfig:remote.*.url:https://github.com/aRustyDev/**"]
-    name = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/username"
-    email = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/email"
-    signingkey = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/public key"
+[user]
+    name = "op://Developer/qagqzim6dvtbopwnwhtyk6zjje/username"
+    email = "op://Developer/qagqzim6dvtbopwnwhtyk6zjje/email"
+    signingkey = "op://Developer/qagqzim6dvtbopwnwhtyk6zjje/public key"
 
-; === === === SSH Repos === === ===
-[includeIf "hasconfig:remote.*.url:git@github.com:aRustyDev/**"]
-    name = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/username"
-    email = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/email"
-    signingkey = "op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/public key"
+[gpg "ssh"]
+    allowedSignersFile = ${XDG_CONFIG_HOME}/git/allowed_signers/github

@@ -1,0 +1,4 @@
+[gpg "x509" ]
+    program = smimesign
+[gpg]
+    format = x509
