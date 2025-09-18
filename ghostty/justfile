@@ -1,1 +1,18 @@
 import '../.build/just/lib.just'
+
+ghostty := root + "/ghostty"
+dotdir := xdg_config + "/ghostty"
+
+install: config configs themes
+
+mktree:
+    @mkdir -p {{dotdir}}/{configs,themes}
+
+config: mktree
+    @cp {{ghostty}}/config {{dotdir}}/config
+
+configs: mktree
+    @cp -r {{ghostty}}/configs/* {{dotdir}}/configs/
+
+themes: mktree
+    @cp -r {{ghostty}}/themes/* {{dotdir}}/themes/
