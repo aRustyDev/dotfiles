@@ -1,5 +1,16 @@
 [core]
     autocrlf = input
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+
+[merge]
+    conflictStyle = zdiff3
 
 # Default branch name
 [init]
@@ -26,10 +37,22 @@
 [fetch]
     prune = true
 
+[filter "lfs"]
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+
 [user]
     name = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/username"
     email = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/email"
     signingkey = "op://developer/qagqzim6dvtbopwnwhtyk6zjje/public key"
+
+[http]
+    sslVerify = true
+
+[author]
+    gpgsign = true
 
 [commit]
     gpgsign = true
