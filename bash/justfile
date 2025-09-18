@@ -1,1 +1,8 @@
 import '../.build/just/lib.just'
+
+dotdir := env("HOME")
+
+install: config
+
+config:
+    cp .bashrc {{dotdir}}/.bashrc

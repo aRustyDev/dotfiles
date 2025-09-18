@@ -29,6 +29,7 @@ _install-everything:
     @just install op
     @just install ghostty
     @just install aerospace
+    @just install bash
     @just install zed
     @just install starship
     @just install nvim
