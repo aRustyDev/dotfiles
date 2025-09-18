@@ -13,3 +13,19 @@ update:
     @curl https://packages.cloud.google.com/apt/doc/apt-key.gpg -o .build/apt/keyrings/google-cloud.gpg
     @curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | gpg --enarmor -o .build/apt/keyrings/cloudflared.gpg
     @chmod 644 .build/apt/{sources,keyrings}/*
+
+install target="all":
+    @{{ if target == "all" { "just _install-everything" } else { "just -f " + root + "/" + target + "/justfile install" } }}
+
+_install-everything:
+    @just install zsh
+    @just install homebrew
+    @just install op
+    @just install ghostty
+    @just install aerospace
+    @just install zed
+    @just install starship
+    @just install nvim
+    @just install kube
+    @just install git
+    @just install ssh
