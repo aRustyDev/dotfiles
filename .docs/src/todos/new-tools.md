@@ -6,3 +6,9 @@
 - Need to extend [tuix](https://github.com/pythops/tuix?tab=readme-ov-file) to support macos
 - Need a rocketchat client
 - Need a WireGuard TUI
+
+- `Apropos` extended
+  - support man, texinfo, md, mdx, etc
+  - support searching based on categories
+    - `git-hook`, `kubectl`, `git-cmd`, `vim-plugin`, `scripts`, etc
+  - support searching based on tags
