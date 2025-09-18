@@ -24,6 +24,16 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "affine",
+    "tap": null,
+    "url": "https://affine.pro/"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
     "licenses": ["MIT"],
     "name": "aerospace",
     "tap": "nikitabobko/tap",
