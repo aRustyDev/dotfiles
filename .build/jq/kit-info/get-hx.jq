@@ -1,0 +1,1 @@
+.[] | select(.groups | contains(["hx"]))

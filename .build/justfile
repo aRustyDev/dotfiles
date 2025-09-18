@@ -1,1 +1,63 @@
 import 'just/lib.just'
+
+rpgrp := build + "/ripgrep"
+testdata := datad + "/.examples"
+outd := datad + "/.temp"
+
+# Runs Ripgrep against the designated target -> json
+rg target="kit-info":
+    @echo "[" > {{outd}}/{{target}}.json
+    @jq -r '.patterns[] | "\(.key) \(.array) \(.b64) \(.multiline)"' {{rpgrp}}/{{target}}.json | while read -r key array b64 multiline; do \
+        ptrn=`just _pattern $key`; \
+        echo ${ptrn:1:-1} > {{rpgrp}}/just.tmp; \
+        output="\${$key}"; \
+        val=$(rg -oUP -f {{rpgrp}}/just.tmp "{{testdata}}/{{target}}" -r $output | sed 's/^\d+:?//;'); \
+        if [[ "$multiline" == "true" ]]; then \
+            echo $val >> {{rpgrp}}/{{target}}.${key}.multiline; \
+            val=$(printf "%q" "$(< {{rpgrp}}/{{target}}.${key}.multiline)"); \
+        fi; \
+        if [[ "$array" == "true" ]]; then \
+            val=$(echo $val | jq -R . | jq -s .); \
+            echo "{\"$key\": $val}," >> {{outd}}/{{target}}.json; \
+            continue; \
+        fi; \
+        if [[ "$b64" == "true" ]]; then \
+            val=$(echo $val | base64); \
+        fi; \
+        echo "{\"$key\": \"$val\"}," >> {{outd}}/{{target}}.json; \
+    done
+    @truncate -s-2 {{outd}}/{{target}}.json
+    @echo "]" >> {{outd}}/{{target}}.json
+    @jq -f {{jqd}}/{{target}}/enrich-json.jq {{outd}}/{{target}}.json > {{rpgrp}}/{{target}}.tmp.json && mv {{rpgrp}}/{{target}}.tmp.json {{outd}}/{{target}}.json
+
+_pattern key target="kit-info":
+    @jq --arg i "{{key}}" '.patterns[] | select(.key == $i) | "\(.prefix)(?P<\(.key)>\(.string))"' ripgrep/{{target}}.json
+
+# One off quick run of RG against 'key' from kit-info.json
+_rg key:
+    #!/usr/bin/env zsh
+    ptrn=`just _pattern {{key}}`; \
+    echo ${ptrn:1:-1} > {{rpgrp}}/just.tmp; \
+    val=$(rg -oUP -f {{rpgrp}}/just.tmp "{{testdata}}/kit-info" -r '{{ "${" + key + "}" }}"' | sed 's/^\d+:?//;'); \
+    echo "{\"{{key}}\": \"$val\"},"
+
+# Push Kit-Info to 1Password
+op-kit-info:
+    @echo "push to 1password"
+    @jq --arg cx "$CX" -f {{jqd}}/kit-info/get-aws.jq {{outd}}/kit-info.json | mustache {{templd}}/kit-info/aws-creds.mustache > {{outd}}/op.kit-info.aws.json
+    @jq --arg cx "$CX" -f {{jqd}}/kit-info/get-aws.jq {{outd}}/kit-info.json | mustache {{templd}}/kit-info/aws-config.mustache > {{xdg_config}}/aws/configs/${CX}
+    @jq --arg cx "$CX" -f {{jqd}}/kit-info/get-splunk.jq {{outd}}/kit-info.json | mustache {{templd}}/kit-info/servers.splunk.mustache > {{outd}}/op.kit-info.splunk.json
+    @jq --arg cx "$CX" -f {{jqd}}/kit-info/get-hx.jq {{outd}}/kit-info.json | mustache {{templd}}/kit-info/servers.hx.mustache > {{outd}}/op.kit-info.hx.json
+    @jq --arg cx "$CX" -f {{jqd}}/kit-info/get-iris.jq {{outd}}/kit-info.json | mustache {{templd}}/kit-info/iris.mustache > {{outd}}/op.kit-info.iris.json
+    @op item create --template {{outd}}/op.kit-info.aws.json
+    @op item create --template {{outd}}/op.kit-info.splunk.json
+    @op item create --template {{outd}}/op.kit-info.hx.json
+    @op document create "{{outd}}/kit-info.json" --file-name "kit-info.$CX.json" --title "kit-info" --tags "$CX",engagement --vault "Raytheon"
+    @op document create "{{xdg_config}}/aws/configs/${CX}" --file-name "aws-config.$CX" --title "aws-config" --tags "$CX",engagement --vault "Raytheon"
+    @op item create --template {{outd}}/op.kit-info.aws.json
+
+clean:
+    @rm -f {{rpgrp}}/*.output.json
+    @rm -f {{rpgrp}}/*.tmp.json
+    @rm -f {{rpgrp}}/*.tmp
+    @rm -f {{rpgrp}}/*.multiline

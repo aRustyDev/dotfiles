@@ -1,0 +1,149 @@
+{
+  "title": "Splunk",
+  "tags": ["splunk", "engagement", {{cx}}],
+  "vault": {
+    "id": "yuizfueclsqpshuu77fi2rtniq"
+  },
+  "category": "SERVER",
+  "sections": [
+    {
+      "id": "cluster_manager",
+      "label": "Cluster Manager"
+    },
+    {
+      "id": "search_head",
+      "label": "Search Head"
+    },
+    {
+      "id": "search_head_admin",
+      "label": "Search Head (Admin)"
+    },
+    {
+      "id": "forwarder",
+      "label": "Forwarder"
+    },
+    {
+      "id": "indexer",
+      "label": "Indexer"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "Usage Notes",
+      "value": "{{usage}}"
+    },
+    {
+      "id": "username",
+      "type": "STRING",
+      "section": {
+        "id": "search_head",
+        "label": "Search Head"
+      },
+      "label": "username",
+      "value": ""
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "section": {
+        "id": "search_head",
+        "label": "Search Head"
+      },
+      "label": "password",
+      "value": ""
+    },
+    {
+      "id": "username_admin",
+      "type": "STRING",
+      "section": {
+        "id": "search_head_admin",
+        "label": "Search Head (Admin)"
+      },
+      "label": "username (admin)",
+      "value": "admin"
+    },
+    {
+      "id": "password_admin",
+      "type": "CONCEALED",
+      "section": {
+        "id": "search_head_admin",
+        "label": "Search Head (Admin)"
+      },
+      "label": "password (admin)",
+      "value": "{{splunk_admin_pw}}"
+    },
+    {
+      "id": "cluster_manager_ip",
+      "section": {
+        "id": "cluster_manager",
+        "label": "Cluster Manager"
+      },
+      "type": "STRING",
+      "label": "Cluster Manager IP",
+      "value": "{{ip_cluster_mgr}}"
+    },
+    {
+      "id": "search_head_ip",
+      "section": {
+        "id": "search_head",
+        "label": "Search Head"
+      },
+      "type": "STRING",
+      "label": "Search Head IP",
+      "value": "{{ip_searchhead}}"
+    },
+    {
+      "id": "forwarder_ip",
+      "section": {
+        "id": "forwarder",
+        "label": "Forwarder"
+      },
+      "type": "STRING",
+      "label": "Forwarder IP",
+      "value": "{{ip_forwarder}}"
+    },
+    {
+      "id": "indexer_ip",
+      "section": {
+        "id": "indexer",
+        "label": "Indexer"
+      },
+      "type": "STRING",
+      "label": "Indexer IP",
+      "value": "{{ip_indexer}}"
+    },
+    {
+      "id": "search_head_ip",
+      "section": {
+        "id": "search_head",
+        "label": "Search Head"
+      },
+      "type": "STRING",
+      "label": "Search Head IP",
+      "value": "{{cluster_mgr_url}}"
+    },
+    {
+      "id": "search_head_url",
+      "section": {
+        "id": "search_head",
+        "label": "Search Head"
+      },
+      "type": "STRING",
+      "label": "Search Head URL",
+      "value": "{{search_head_url}}"
+    },
+    {
+      "id": "splunk_fwd_domain",
+      "section": {
+        "id": "forwarder",
+        "label": "Forwarder"
+      },
+      "type": "STRING",
+      "label": "Splunk Forwarder Domain",
+      "value": "{{splunk_fwd_domain}}"
+    }
+  ]
+}

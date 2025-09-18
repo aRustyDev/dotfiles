@@ -1,0 +1,65 @@
+{
+  "title": "{{cx}}",
+  "tags": ["{{cx}}", "engagement"],
+  "category": "DOCUMENT",
+  "vault": {
+    "id": "yuizfueclsqpshuu77fi2rtniq"
+  },
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "notesPlain",
+      "value": ""
+    }
+  ]
+}
+{
+  "sections": [
+    {
+      "id": "config"
+    }
+  ],
+  "fields": [
+    {
+      "id": "username",
+      "type": "STRING",
+      "purpose": "USERNAME",
+      "label": "Access Key ID",
+      "value": "{{access_key_id}}"
+    },
+    {
+      "id": "password",
+      "type": "CONCEALED",
+      "purpose": "PASSWORD",
+      "label": "Secret Access Key",
+      "value": "{{secret_access_key}}"
+    },
+    {
+        "id": "default-region",
+        "section": {
+            "id": "config"
+        },
+        "type": "STRING",
+        "label": "Default region",
+        "value": "{{region}}"
+    },
+    {
+        "id": "mfa-serial",
+        "section": {
+            "id": "config"
+        },
+        "type": "STRING",
+        "label": "mfa serial",
+        "value": "{{mfa_serial}}"
+    },
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "Getting Started",
+      "value": "`aws sts get-caller-identity --profile {{cx}}`\n\n## Save your QR code\n- Open and unlock the 1Password app.\n- Select the item where your AWS credentials are saved, then select Edit.\n- Select **Add More** -> **One-Time Password**.\n- [Follow the steps to enable a virtual multi-factor authentication device](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_virtual.html) for your AWS account.\n- Select Show secret key in the AWS wizard, then copy the string of characters into the One-Time Password field on your item.\n- Select Save.\n\nYour item will now show a one-time password that you can use to finish the AWS multi-factor authentication device set-up flow."
+    }
+  ]
+}

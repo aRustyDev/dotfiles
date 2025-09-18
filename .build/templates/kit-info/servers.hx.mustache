@@ -1,0 +1,75 @@
+{
+  "title": "HX({{cx}})",
+  "tags": ["{{cx}}","hx","engagement"],
+  "vault": {
+    "id": "yuizfueclsqpshuu77fi2rtniq"
+  },
+  "category": "SERVER",
+  "sections": [
+    {
+      "id": "hx",
+      "label": "HX Console"
+    },
+    {
+      "id": "agent",
+      "label": "HX Agent"
+    }
+  ],
+  "fields": [
+    {
+      "id": "notesPlain",
+      "type": "STRING",
+      "purpose": "NOTES",
+      "label": "Usage Notes",
+      "value": "{{usage}}"
+    },
+    {
+      "id": "url",
+      "type": "STRING",
+      "label": "URL",
+      "value": "{{hx_url}}"
+    },
+    {
+      "id": "username (admin)",
+      "type": "STRING",
+      "label": "username",
+      "value": "admin"
+    },
+    {
+      "id": "password (admin)",
+      "type": "CONCEALED",
+      "label": "password",
+      "value": "{{hx_admin_pw}}"
+    },
+    {
+      "id": "hx_agent_url",
+      "section": {
+        "id": "agent",
+        "label": "HX Agent"
+      },
+      "type": "STRING",
+      "label": "Agent URL",
+      "value": "{{hx_agent_url}}"
+    },
+    {
+      "id": "hx_url",
+      "section": {
+        "id": "hx",
+        "label": "HX Console"
+      },
+      "type": "STRING",
+      "label": "HX URL",
+      "value": "{{hx_url}}"
+    },
+    {
+      "id": "hx_ip",
+      "section": {
+        "id": "hx",
+        "label": "HX Console"
+      },
+      "type": "STRING",
+      "label": "HX IP",
+      "value": "{{ip_hx}}"
+    }
+  ]
+}
