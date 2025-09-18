@@ -20,6 +20,16 @@
     "url": "https://developer.1password.com/docs/cli"
   },
   {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["kubernetes-cli", "go"],
+    "licenses": ["Apache-2.0"],
+    "name": "krew",
+    "tap": null,
+    "url": "https://sigs.k8s.io/krew/"
+  },
+  {
     "cask": true,
     "channel": null,
     "conflicts": ["todo"],
