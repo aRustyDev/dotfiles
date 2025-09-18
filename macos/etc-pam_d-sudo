@@ -1,0 +1,13 @@
+# https://dev.to/siddhantkcode/enable-touch-id-authentication-for-sudo-on-macos-sonoma-14x-4d28
+# https://linux.die.net/man/5/pam.d
+# https://www.sudo.ws/docs/man/1.8.27/sudoers.man/
+# https://www.openpolicyagent.org/docs/ssh-and-sudo-authorization
+# sudo: auth account password session
+auth       include        sudo_local
+auth       sufficient     pam_tid.so
+auth       sufficient     pam_smartcard.so
+auth       required       pam_opendirectory.so
+account    required       pam_permit.so
+password   required       pam_deny.so
+session    required       pam_permit.so
+session    required       pam_permit.so
