@@ -16,7 +16,7 @@ else
     export EDITOR="/Applications/Zed.app/Contents/MacOS/cli -n --wait"
     export VISUAL='zed'
 fi
-export PAGER=""
+export PAGER="most"
 export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
 export TERM="xterm-256color"
 export ARCHFLAGS="-arch x86_64"
@@ -115,6 +115,12 @@ export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/config.ini"
 
 export ATUIN_CONFIG_DIR="$XDG_CONFIG_HOME/atuin"
 export ATUIN_THEME_DIR="$THEMES_DIR/atuin"
+
+# --- [ Bat ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+export BAT_PAGER=$PAGER
+export BAT_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/bat/config"
+export BAT_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/bat"
 
 # --- [ CARGO ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 

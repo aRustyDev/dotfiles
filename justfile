@@ -1,3 +1,5 @@
+import '.build/just/lib.just'
+
 restart target:
     @if [ {{ target }} = "zshrc" ]; then \
         echo "Clearing antidote cache and plugins..."; \
@@ -13,6 +15,10 @@ update:
     @curl https://packages.cloud.google.com/apt/doc/apt-key.gpg -o .build/apt/keyrings/google-cloud.gpg
     @curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | gpg --enarmor -o .build/apt/keyrings/cloudflared.gpg
     @chmod 644 .build/apt/{sources,keyrings}/*
+
+dependencies:
+    @brew update && brew upgrade
+    @brew install most git-delta jq jqp yq 1password@nightly 1password-cli@beta
 
 install target="all":
     @{{ if target == "all" { "just _install-everything" } else { "just -f " + root + "/" + target + "/justfile install" } }}

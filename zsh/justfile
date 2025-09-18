@@ -2,14 +2,19 @@ import '../.build/just/lib.just'
 
 zsh := root + "/zsh"
 docker := root + "/.build/zsh.Dockerfile"
-dotdir := xdg_config + "/zsh/"
+dotdir := xdg_config + "/zsh"
 
 test:
     echo "Testing ZSH"
     docker run --rm -it --device /dev/kvm -v /tmp/.X11-unix:/tmp/.X11-unix zshrc:latest
     echo "Testing Complete"
 
-install: zenv zrc zprofile zlogin zplugins zinit zcomp zfuncs dot_helper
+install: _etc zenv zrc zprofile zlogin zplugins zinit zcomp zfuncs dot_helper
+    @echo " ::: source {{dotdir}}/.zshenv"
+    @echo " ::: source {{dotdir}}/.zshrc"
+
+_etc:
+    @sudo cp {{zsh}}/etc/.zshenv /etc/zshenv
 
 zplugins: mktree
     @cp -r {{zsh}}/plugins "{{ dotdir }}"
@@ -27,11 +32,11 @@ dot_helper: mktree
     @cp -r {{root}}/dot_helper/ {{xdg_config}}
 
 zlogin: mktree
-    @cp {{zsh}}/.zlogin {{dotdir}}/.zlogin
+    #@cp {{zsh}}/.zlogin {{dotdir}}/.zlogin
     @echo "Copied .zlogin -> {{dotdir}}/.zlogin"
 
 zprofile: mktree
-    @cp {{zsh}}/.zprofile {{dotdir}}/.zprofile
+    #@cp {{zsh}}/.zprofile {{dotdir}}/.zprofile
     @echo "Copied .zprofile -> {{dotdir}}/.zprofile"
 
 zrc: mktree
@@ -43,4 +48,4 @@ zenv: mktree
     @echo "Copied .zshenv -> {{dotdir}}/.zshenv"
 
 mktree:
-    @mkdir -p "{{ dotdir }}"
+    @mkdir -p {{ dotdir }}/{completions,init,plugins,functions}
