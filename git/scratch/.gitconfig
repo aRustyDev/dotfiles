@@ -3,20 +3,7 @@
 ; https://github.blog/news-insights/product-news/introducing-artifact-attestations-now-in-public-beta/
 ; https://devblogs.microsoft.com/devops/a-deep-dive-into-git-performance-using-trace2/
 [user]
-        signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuYacrQTogQthysPK1Y347ReTcb0r69ccJKe2VF+EXe
-        useConfigOnly = true
-[includeIf "hasconfig:remote.*.url:https://github.com/**"]
-        email = developer@gh.arusty.dev
-        name = aRustyDev
-[includeIf "hasconfig:remote.*.url:https://git.darkhuntlabs.com/**"]
-        email = adam.smith@darkhuntlabs.com
-        name = asmith
-[includeIf "hasconfig:remote.*.url:https://git.arusty.dev/**"]
-        email = developer@gh.arusty.dev
-        name = aRustyDev
-[includeIf "hasconfig:remote.*.url:https://git.va.th.ten/**"]
-        email = adam.smith@associates.gwe.cisa.dhs.gov
-        name = asmith
+    useConfigOnly = true
 ; ------ END USER CONFIG ------
 [credential]
         helper = osxkeychain
