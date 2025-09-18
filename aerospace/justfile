@@ -1,1 +1,12 @@
 import '../.build/just/lib.just'
+
+dotdir := xdg_config + "/aerospace"
+
+install: config
+
+config: mktree
+    cp config.toml {{dotdir}}/aerospace.toml
+    rm -f $HOME/.aerospace.toml
+
+mktree:
+    @mkdir -p {{dotdir}}
