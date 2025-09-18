@@ -1,4 +1,5 @@
 init_antidote(){
+    # source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
     if [[ -v $ZPLUGINS ]]; then
         echo "ERROR(init_antidote): ZPLUGINS not set [$ZPLUGINS]"
         # exit 1
