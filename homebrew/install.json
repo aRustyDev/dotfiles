@@ -34,6 +34,16 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "raycast",
+    "tap": null,
+    "url": "https://raycast.com/"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
     "licenses": ["MIT"],
     "name": "aerospace",
     "tap": "nikitabobko/tap",
