@@ -1,0 +1,64 @@
+{
+  "version": "0.1.0",
+  "name": "git",
+  "tags": ["git"],
+  "description": "The git configuration builder directory",
+  "completions": {},
+  "dependencies": [
+    {
+      "name": "git-delta",
+      "type": "binary"
+    },
+    {
+      "name": "gitsign",
+      "type": "binary"
+    },
+    {
+      "name": "smimesign",
+      "type": "binary"
+    }
+  ],
+  "dotdir": "{{xdg}}/git",
+  "envs": [
+    {
+      "key": "GIT_CONFIG_GLOBAL",
+      "value": "\\$XDG_CONFIG_HOME/git/config"
+    },
+    {
+      "key": "GIT_CONFIG_SYSTEM",
+      "value": null
+    },
+    {
+      "key": "GIT_CONFIG_NOSYSTEM",
+      "value": null
+    },
+    {
+      "key": "GIT_EDITOR",
+      "value": "\\$EDITOR"
+    },
+    {
+      "key": "GIT_PAGER",
+      "value": "\\$PAGER"
+    },
+    {
+      "key": "GIT_EXEC_PATH",
+      "value": null
+    }
+  ],
+  "templates": ["{{root}}/.build/templates/git-config.mustache"],
+  "loc": 0,
+  "health_checks": ["just -f {{root}}/.build/just/git.justfile healthcheck"],
+  "generates": [
+    "{{dotdir}}/config",
+    "{{dotdir}}/configs/{{just_targets}}",
+    "{{dotdir}}/allowed_signers/{{just_targets}}",
+    "{{dotdir}}/bin/"
+  ],
+  "xdg": {
+    "bin": null,
+    "data": null,
+    "cache": null,
+    "state": null,
+    "config": null
+  }
+}
