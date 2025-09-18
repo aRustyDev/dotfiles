@@ -1,0 +1,1196 @@
+{
+  "kube": {
+    "plugins": [
+      {
+        "category": "uncategorized",
+        "name": "advise-policy",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/sysdiglabs/kube-policy-advisor"
+      },
+      {
+        "category": "context",
+        "name": "allctx",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/onatm/kubectl-allctx"
+      },
+      {
+        "category": "debug",
+        "name": "apidocs",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/hashmap-kz/kubectl-apidocs"
+      },
+      {
+        "category": "uncategorized",
+        "name": "apparmor-manager",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/sysdiglabs/kube-apparmor-manager"
+      },
+      {
+        "category": "uncategorized",
+        "name": "argo-apps-viz",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/syndlex/argo-apps-viz"
+      },
+      {
+        "category": "core",
+        "name": "assert",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/morningspace/kubeassert"
+      },
+      {
+        "category": "uncategorized",
+        "name": "auth-proxy",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/int128/kauthproxy"
+      },
+      {
+        "category": "context",
+        "name": "autons",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/ragrag/kubectl-autons"
+      },
+      {
+        "category": "uncategorized",
+        "name": "aws-auth",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/keikoproj/aws-auth"
+      },
+      {
+        "category": "debug",
+        "name": "blame",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/knight42/kubectl-blame"
+      },
+      {
+        "category": "volumes",
+        "name": "browse-pvc",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/clbx/kubectl-browse-pvc"
+      },
+      {
+        "category": "uncategorized",
+        "name": "cache",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/yhlooo/kubectl-cache"
+      },
+      {
+        "category": "certificates",
+        "name": "cert-manager",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/cert-manager/cert-manager"
+      },
+      {
+        "category": "uncategorized",
+        "name": "cilium",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/bmcustodio/kubectl-cilium"
+      },
+      {
+        "category": "output",
+        "name": "clog",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/orangetangerine/kubectl-clog"
+      },
+      {
+        "category": "uncategorized",
+        "name": "cluster-compare",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/openshift/kube-compare"
+      },
+      {
+        "category": "uncategorized",
+        "name": "cluster-group",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/u2takey/kubectl-clusters"
+      },
+      {
+        "category": "certificates",
+        "name": "cm",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/stolostron/cm-cli"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "cm",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/sunny0826/kubecm"
+      },
+      {
+        "category": "uncategorized",
+        "name": "cnf",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/hedgieinsocks/kubectl-cnf"
+      },
+      {
+        "category": "uncategorized",
+        "name": "cnp-viz",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/mostafahussein/kubectl-cnp-viz"
+      },
+      {
+        "category": "output",
+        "name": "colorize-applied",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/cappyzawa/kubectl-colorize-applied"
+      },
+      {
+        "category": "output",
+        "name": "colorize-managed-fields",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/tt-kuma/kubectl-colorize-managed-fields"
+      },
+      {
+        "category": "uncategorized",
+        "name": "commander",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/schabrolles/kubectl-commander"
+      },
+      {
+        "category": "uncategorized",
+        "name": "cond",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/ahmetb/kubectl-cond"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "config-cleanup",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/B23admin/kubectl-config-cleanup"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "config-doctor",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/aptakube/kubectl-config-doctor"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "config-import",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/rafi/kubectl-config-import"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "config-registry",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/mumoshu/config-registry"
+      },
+      {
+        "category": "core",
+        "name": "count",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/chenjiandongx/kubectl-count"
+      },
+      {
+        "category": "debug",
+        "name": "crashwatch",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/bedirhangull/kubectl-crashwatch"
+      },
+      {
+        "category": "uncategorized",
+        "name": "crd-wizard",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/pehlicd/crd-wizard"
+      },
+      {
+        "category": "core",
+        "name": "ctr",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/cfanbo/kubectr"
+      },
+      {
+        "category": "context",
+        "name": "ctx",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/ahmetb/kubectx"
+      },
+      {
+        "category": "output",
+        "name": "custom-cols",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/webofmars/kubectl-custom-cols"
+      },
+      {
+        "category": "output",
+        "name": "cwide",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/reborn1867/kubectl-cwide"
+      },
+      {
+        "category": "uncategorized",
+        "name": "cyphernetes",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/avitaltamir/cyphernetes"
+      },
+      {
+        "category": "uncategorized",
+        "name": "datree",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/datreeio/kubectl-datree"
+      },
+      {
+        "category": "uncategorized",
+        "name": "dds",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/aws-containers/kubectl-detector-for-docker-socket"
+      },
+      {
+        "category": "uncategorized",
+        "name": "deprecations",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/rikatz/kubepug"
+      },
+      {
+        "category": "volumes",
+        "name": "df-pv",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/yashbhutwala/kubectl-df-pv"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "discover",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/mateimicu/kdiscover"
+      },
+      {
+        "category": "debug",
+        "name": "doctor",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/emirozer/kubectl-doctor"
+      },
+      {
+        "category": "debug",
+        "name": "dpm",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/bavarianbidi/kubectl-dpm"
+      },
+      {
+        "category": "debug",
+        "name": "dumpy",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/larryTheSlap/dumpy"
+      },
+      {
+        "category": "debug",
+        "name": "emit-event",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/rajatjindal/kubectl-emit-event"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "encrypted-kubeconfig",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/n4-de/kubectl-encrypted-kubeconfig"
+      },
+      {
+        "category": "core",
+        "name": "example",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/seredot/kubectl-example"
+      },
+      {
+        "category": "core",
+        "name": "exec-as",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/jordanwilson230/kubectl-plugins/tree/krew#kubectl-exec-as"
+      },
+      {
+        "category": "core",
+        "name": "execws",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/jpts/kubectl-execws"
+      },
+      {
+        "category": "core",
+        "name": "explore",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/keisku/kubectl-explore"
+      },
+      {
+        "category": "core",
+        "name": "fields",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/rewanthtammana/kubectl-fields"
+      },
+      {
+        "category": "debug",
+        "name": "flame",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/VerizonMedia/kubectl-flame"
+      },
+      {
+        "category": "core",
+        "name": "foreach",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/ahmetb/kubectl-foreach"
+      },
+      {
+        "category": "core",
+        "name": "fuzzy",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/d-kuro/kubectl-fuzzy"
+      },
+      {
+        "category": "core",
+        "name": "gadget",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/inspektor-gadget/inspektor-gadget"
+      },
+      {
+        "category": "core",
+        "name": "get-all",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/stackitcloud/kubectl-get-all"
+      },
+      {
+        "category": "uncategorized",
+        "name": "graph",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/steveteuber/kubectl-graph"
+      },
+      {
+        "category": "core",
+        "name": "grep",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/guessi/kubectl-grep"
+      },
+      {
+        "category": "debug",
+        "name": "health",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/iNecas/kube-health"
+      },
+      {
+        "category": "core",
+        "name": "history",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/wd/kubectl-history"
+      },
+      {
+        "category": "debug",
+        "name": "http",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/sttts/kubectl-http"
+      },
+      {
+        "category": "debug",
+        "name": "ice",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/NimbleArchitect/kubectl-ice"
+      },
+      {
+        "category": "core",
+        "name": "iexec",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/gabeduke/kubectl-iexec"
+      },
+      {
+        "category": "uncategorized",
+        "name": "image",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/pete911/kubectl-image"
+      },
+      {
+        "category": "uncategorized",
+        "name": "images",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/chenjiandongx/kubectl-images"
+      },
+      {
+        "category": "uncategorized",
+        "name": "ingress-nginx",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/https://kubernetes.github.io/ingress-nginx/kubectl-plugin/"
+      },
+      {
+        "category": "uncategorized",
+        "name": "ingress-rule",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/pragaonj/ingress-rule-updater"
+      },
+      {
+        "category": "uncategorized",
+        "name": "insider",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/truegoric/k8s-insider"
+      },
+      {
+        "category": "uncategorized",
+        "name": "ipick",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/similarweb/kubectl-ipick"
+      },
+      {
+        "category": "debug",
+        "name": "janitor",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/dastergon/kubectl-janitor"
+      },
+      {
+        "category": "context",
+        "name": "kc",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/dodevops/kc"
+      },
+      {
+        "category": "core",
+        "name": "klock",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/applejag/kubectl-klock"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "konfig",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/corneliusweig/konfig"
+      },
+      {
+        "category": "uncategorized",
+        "name": "kor",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/yonahd/kor"
+      },
+      {
+        "category": "core",
+        "name": "ktop",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/vladimirvivien/ktop"
+      },
+      {
+        "category": "uncategorized",
+        "name": "kubescape",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/kubescape/kubescape"
+      },
+      {
+        "category": "uncategorized",
+        "name": "kubesec-scan",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/controlplaneio/kubectl-kubesec"
+      },
+      {
+        "category": "uncategorized",
+        "name": "kyverno",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/kyverno/kyverno"
+      },
+      {
+        "category": "debug",
+        "name": "lineage",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/tohjustin/kube-lineage"
+      },
+      {
+        "category": "uncategorized",
+        "name": "link",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/umutbasal/kubectl-link"
+      },
+      {
+        "category": "uncategorized",
+        "name": "log2rbac",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/jkremser/log2rbac-operator/tree/master/kubectl-plugin"
+      },
+      {
+        "category": "uncategorized",
+        "name": "marvin",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/undistro/marvin"
+      },
+      {
+        "category": "uncategorized",
+        "name": "match-name",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/gerald1248/kubectl-match-name"
+      },
+      {
+        "category": "multi-exec",
+        "name": "mc",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/jonnylangefeld/kubectl-mc"
+      },
+      {
+        "category": "multi-exec",
+        "name": "mexec",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/major1201/kubectl-mexec"
+      },
+      {
+        "category": "core",
+        "name": "mtail",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/grzesuav/kubectl-mtail"
+      },
+      {
+        "category": "uncategorized",
+        "name": "multiforward",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/njnygaard/kubectl-multiforward"
+      },
+      {
+        "category": "output",
+        "name": "neat",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/itaysk/kubectl-neat"
+      },
+      {
+        "category": "uncategorized",
+        "name": "net-forward",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/antitree/krew-net-forward"
+      },
+      {
+        "category": "debug",
+        "name": "netobserv",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/netobserv/network-observability-cli"
+      },
+      {
+        "category": "debug",
+        "name": "nginx-supportpkg",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/nginxinc/nginx-supportpkg-for-k8s"
+      },
+      {
+        "category": "debug",
+        "name": "node-logs",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/aravindhp/kubectl-node-logs"
+      },
+      {
+        "category": "debug",
+        "name": "node-shell",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/kvaps/kubectl-node-shell"
+      },
+      {
+        "category": "debug",
+        "name": "node-ssm",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/VioletCranberry/kubectl-node-ssm"
+      },
+      {
+        "category": "uncategorized",
+        "name": "nodegizmo",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/Kavinraja-G/node-gizmo"
+      },
+      {
+        "category": "uncategorized",
+        "name": "nodepools",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/grafana/kubectl-nodepools"
+      },
+      {
+        "category": "uncategorized",
+        "name": "np-viewer",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/runoncloud/kubectl-np-viewer"
+      },
+      {
+        "category": "context",
+        "name": "ns",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/juanvallejo/kubectl-ns"
+      },
+      {
+        "category": "uncategorized",
+        "name": "nsenter",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/pabateman/kubectl-nsenter"
+      },
+      {
+        "category": "uncategorized",
+        "name": "oidc-login",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/int128/kubelogin"
+      },
+      {
+        "category": "uncategorized",
+        "name": "outdated",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/replicatedhq/outdated"
+      },
+      {
+        "category": "output",
+        "name": "output",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/GrigoriyMikhalkin/kubectl-output"
+      },
+      {
+        "category": "uncategorized",
+        "name": "passman",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/chrisns/kubectl-passman"
+      },
+      {
+        "category": "uncategorized",
+        "name": "permissions",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/garethjevans/kubectl-permissions"
+      },
+      {
+        "category": "core",
+        "name": "pexec",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/ssup2/kpexec"
+      },
+      {
+        "category": "output",
+        "name": "pickdeep",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/flavono123/kupid"
+      },
+      {
+        "category": "output",
+        "name": "plogs",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/kha7iq/plogs"
+      },
+      {
+        "category": "debug",
+        "name": "pod-dive",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/caiobegotti/pod-dive"
+      },
+      {
+        "category": "debug",
+        "name": "pod-inspect",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/jpriebe/kubectl-pod-inspect"
+      },
+      {
+        "category": "debug",
+        "name": "pods-on",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/ahmetb/kubectl-pods_on"
+      },
+      {
+        "category": "uncategorized",
+        "name": "portal",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/federicotdn/kubectl-portal"
+      },
+      {
+        "category": "debug",
+        "name": "preflight",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/replicatedhq/troubleshoot"
+      },
+      {
+        "category": "uncategorized",
+        "name": "preq",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/prequel-dev/preq"
+      },
+      {
+        "category": "debug",
+        "name": "print-env",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/pedrobarco/kubectl-print-env"
+      },
+      {
+        "category": "debug",
+        "name": "profefe",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/profefe/kube-profefe"
+      },
+      {
+        "category": "debug",
+        "name": "promdump",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/ihcsim/promdump"
+      },
+      {
+        "category": "uncategorized",
+        "name": "rakkess",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/corneliusweig/rakkess"
+      },
+      {
+        "category": "uncategorized",
+        "name": "rbac-lookup",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/FairwindsOps/rbac-lookup"
+      },
+      {
+        "category": "uncategorized",
+        "name": "rbac-tool",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/alcideio/rbac-tool"
+      },
+      {
+        "category": "uncategorized",
+        "name": "rbac-view",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/jasonrichardsmith/rbac-view"
+      },
+      {
+        "category": "uncategorized",
+        "name": "realname-diff",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/hhiroshell/kubectl-realname-diff"
+      },
+      {
+        "category": "uncategorized",
+        "name": "relay",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/knight42/krelay"
+      },
+      {
+        "category": "uncategorized",
+        "name": "resource-capacity",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/robscott/kube-capacity"
+      },
+      {
+        "category": "uncategorized",
+        "name": "retina",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/microsoft/retina"
+      },
+      {
+        "category": "uncategorized",
+        "name": "reverse-proxy",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/rajatjindal/kubectl-reverse-proxy"
+      },
+      {
+        "category": "uncategorized",
+        "name": "revisions",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/timebertt/kubectl-revisions"
+      },
+      {
+        "category": "uncategorized",
+        "name": "rolesum",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/Ladicle/kubectl-rolesum"
+      },
+      {
+        "category": "uncategorized",
+        "name": "rook-ceph",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/rook/kubectl-rook-ceph"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "saconfig",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/larsks/kubectl-saconfig"
+      },
+      {
+        "category": "uncategorized",
+        "name": "score",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/zegl/kube-score"
+      },
+      {
+        "category": "debug",
+        "name": "service-tree",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/feloy/kubectl-service-tree"
+      },
+      {
+        "category": "context",
+        "name": "shell-ctx",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/glemsom/shell-ctx"
+      },
+      {
+        "category": "debug",
+        "name": "sick-pods",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/alecjacobs5401/kubectl-sick-pods"
+      },
+      {
+        "category": "core",
+        "name": "slice",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/patrickdappollonio/kubectl-slice"
+      },
+      {
+        "category": "debug",
+        "name": "sniff",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/eldadru/ksniff"
+      },
+      {
+        "category": "uncategorized",
+        "name": "socks5-proxy",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/yokawasa/kubectl-plugin-socks5-proxy"
+      },
+      {
+        "category": "core",
+        "name": "sort-manifests",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/superbrothers/ksort"
+      },
+      {
+        "category": "core",
+        "name": "split-yaml",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/nathforge/kubectl-split-yaml"
+      },
+      {
+        "category": "debug",
+        "name": "spy",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/huazhihao/kubespy"
+      },
+      {
+        "category": "debug",
+        "name": "sql",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/yaacov/kubectl-sql"
+      },
+      {
+        "category": "core",
+        "name": "status",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/bergerx/kubectl-status"
+      },
+      {
+        "category": "debug",
+        "name": "stern",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/stern/stern"
+      },
+      {
+        "category": "debug",
+        "name": "strace",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/michaelwasher/kstrace"
+      },
+      {
+        "category": "core",
+        "name": "sudo",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/postfinance/kubectl-sudo"
+      },
+      {
+        "category": "debug",
+        "name": "support-bundle",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/replicatedhq/troubleshoot"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "switch-config",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/radraw/kube-switch-config"
+      },
+      {
+        "category": "core",
+        "name": "tail",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/boz/kail"
+      },
+      {
+        "category": "uncategorized",
+        "name": "tap",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/https://soluble-ai.github.io/kubetap/"
+      },
+      {
+        "category": "uncategorized",
+        "name": "tmux-exec",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/predatorray/kubectl-tmux-exec"
+      },
+      {
+        "category": "debug",
+        "name": "topology",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/bmcustodio/kubectl-topology"
+      },
+      {
+        "category": "debug",
+        "name": "trace",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/iovisor/kubectl-trace"
+      },
+      {
+        "category": "debug",
+        "name": "track",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/semihbkgr/kubectl-track"
+      },
+      {
+        "category": "debug",
+        "name": "tree",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/ahmetb/kubectl-tree"
+      },
+      {
+        "category": "debug",
+        "name": "ttsum",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/eytan-avisror/ttsum"
+      },
+      {
+        "category": "uncategorized",
+        "name": "tunnel",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/omrikiei/ktunnel"
+      },
+      {
+        "category": "uncategorized",
+        "name": "unlimited",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/nilic/kubectl-unlimited"
+      },
+      {
+        "category": "uncategorized",
+        "name": "unused-volumes",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/dirathea/kubectl-unused-volumes"
+      },
+      {
+        "category": "uncategorized",
+        "name": "validate",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/kubernetes-sigs/kubectl-validate"
+      },
+      {
+        "category": "uncategorized",
+        "name": "vault-login",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/FalcoSuessgott/kubectl-vault-login"
+      },
+      {
+        "category": "uncategorized",
+        "name": "view-allocations",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/davidB/kubectl-view-allocations"
+      },
+      {
+        "category": "kubeconfig",
+        "name": "view-serviceaccount-kubeconfig",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/superbrothers/kubectl-view-serviceaccount-kubeconfig-plugin"
+      },
+      {
+        "category": "uncategorized",
+        "name": "view-utilization",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/etopeter/kubectl-view-utilization"
+      },
+      {
+        "category": "uncategorized",
+        "name": "view-webhook",
+        "status": "unsupported",
+        "tags": [],
+        "url": "https://github.com/Trendyol/kubectl-view-webhook"
+      },
+      {
+        "category": "uncategorized",
+        "name": "viewnode",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/NTTDATA-DACH/viewnode"
+      },
+      {
+        "category": "uncategorized",
+        "name": "vpa-recommendation",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/wI2L/kubectl-vpa-recommendation"
+      },
+      {
+        "category": "debug",
+        "name": "watch-diff",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/alexmt/kubectl-watch-diff"
+      },
+      {
+        "category": "core",
+        "name": "who-can",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/aquasecurity/kubectl-who-can"
+      },
+      {
+        "category": "core",
+        "name": "whoami",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/rajatjindal/kubectl-whoami"
+      },
+      {
+        "category": "uncategorized",
+        "name": "wider",
+        "status": "todo",
+        "tags": [],
+        "url": "https://github.com/boriscosic/wider"
+      }
+    ]
+  }
+}
