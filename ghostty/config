@@ -49,8 +49,7 @@ font-size = 14
 font-thicken = true
 
 # Theme
-theme = dark
-# theme = dark:catppuccin-macchiatto,light:catppuccin-latte
+theme = Catppuccin Macchiato
 
 app-notifications = no-clipboard-copy
 desktop-notifications = true
@@ -78,8 +77,7 @@ cursor-blink = true
 scrollback-limit = 10000
 
 # Bell
-audible-bell = false
-visual-bell = true
+bell-features = attention, title, border
 
 # Copy on select
 copy-on-select = true
@@ -129,6 +127,8 @@ adjust-cell-width = 0
 # - clear_screen / clear
 # - esc
 # -
-keybind = cmd+k=clear
+keybind = cmd+k=clear_screen
+keybind = cmd+opt+left=previous_tab
+keybind = cmd+opt+right=next_tab
 keybind = cmd+d=new_split:right
 keybind = cmd+shift+enter=toggle_fullscreen
