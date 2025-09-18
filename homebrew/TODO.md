@@ -211,3 +211,12 @@ to start a single-node cluster that stores its data under:
 The database is available on the default port of 8000:
   http://localhost:8000
 ```
+
+### pspg
+
+```
+Add the following line to your psql profile (e.g. ~/.psqlrc)
+  \setenv PAGER pspg
+  \pset border 2
+  \pset linestyle unicode
+```
