@@ -1,0 +1,14 @@
+{
+  "libraries": [
+    {
+      "name": "jq-rs",
+      "version": "0.4.1",
+      "language": "rust",
+      "url": "https://crates.io/crates/jq-rs",
+      "docs": "https://docs.rs/jq-rs/0.4.1",
+      "description": "provides access to jq 1.6 via the libjq C API",
+      "license": "MIT",
+      "tags": ["jq", "json", "api-bindings", "searching", "filtering"]
+    }
+  ]
+}
