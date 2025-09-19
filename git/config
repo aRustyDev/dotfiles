@@ -67,17 +67,17 @@
     program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 
 ; === === === Cisco Repos === === ===
-[includeIf "hasconfig:remote.*.url:git@sscm.gus.cisco.com:*/**"]
+[includeIf "hasconfig:remote.*.url:*sscm.gus.cisco.com:**/**"]
     path = "${XDG_CONFIG_HOME}/git/configs/cisco"
 
 ; === === === DHL Repos === === ===
-[includeIf "hasconfig:remote.*.url:https://github.com/darkhuntlabs/**"]
+[includeIf "hasconfig:remote.*.url:*github.com/darkhuntlabs/**"]
     path = "${XDG_CONFIG_HOME}/git/configs/darkhuntlabs"
 
 ; === === === CFS Repos === === ===
-[includeIf "hasconfig:remote.*.url:https://git.va.th.ten/**"]
+[includeIf "hasconfig:remote.*.url:*git.va.th.ten/**"]
     path = "${XDG_CONFIG_HOME}/git/configs/cfs"
 
 ; === === === Personal Repos === === ===
-[includeIf "hasconfig:remote.*.url:git@github.com:aRustyDev/**"]
+[includeIf "hasconfig:remote.*.url:*github.com:aRustyDev/**"]
     path = "${XDG_CONFIG_HOME}/git/configs/github"
