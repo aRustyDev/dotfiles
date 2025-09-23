@@ -1,0 +1,5 @@
+Host {{shortname}}
+    Hostname "op://{{vault}}/{{uuid}}/bastion/url"
+    User "op://{{vault}}/{{uuid}}/bastion/user"
+    DynamicForward "op://{{vault}}/{{uuid}}/bastion/dynamic-forward"
+    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"

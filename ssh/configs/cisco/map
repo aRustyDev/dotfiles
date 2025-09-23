@@ -7,14 +7,14 @@ Host eng-bastion
     DynamicForward "op://cisco/dlf3evji4vruje55q2er7zgrw4/bastion/dynamic-forward"
     IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
-Host ite-combine-system-w4g-il5-vpc
+Host combine-vpc
     User op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/vpc/user
     IdentityFile ~/.ssh/Combine.pem
     Hostname op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/vpc/url
     IdentitiesOnly yes
 
-Host combine-w4g-il5-bastion
+Host combine-bastion
     User op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/bastion/user
     Hostname op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/bastion/url
-    ProxyJump ite-combine-system-w4g-il5-vpc
+    ProxyJump combine-vpc
     DynamicForward op://cisco/cdr4xxl3hqgmsygkbl5oivz5eu/bastion/dynamic-forward
