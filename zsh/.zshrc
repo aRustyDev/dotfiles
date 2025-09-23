@@ -178,3 +178,4 @@ echo "Shell ready: $(date +%s.%N)" >&2
 
 # set +x
 echo "Check trace at: $ZSH_TRACE_FILE"
+# source /Users/adamsm/.config/op/plugins.sh

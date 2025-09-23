@@ -9,13 +9,13 @@ export LANG='en_US.UTF-8'
 export SSH_AUTH_SOCK="$HOME/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 export GPG_TTY=$(tty)
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='nvim'
-    export VISUAL='nvim'
-else
-    export EDITOR="/Applications/Zed.app/Contents/MacOS/cli -n --wait"
-    export VISUAL='zed'
-fi
+# if [[ -n $SSH_CONNECTION ]]; then
+#     export EDITOR='nvim'
+#     export VISUAL='nvim'
+# else
+#     export EDITOR="nvim"
+#     export VISUAL="/Applications/Zed.app/Contents/MacOS/cli -n --wait"
+# fi
 export PAGER="most"
 export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
 export TERM="xterm-256color"
@@ -88,8 +88,8 @@ export SHENV_ROOT="${XDG_CONFIG_HOME:-$HOME/.config}/shenv"
 # Managed by path_master (custom rewrite of /usr/libexec/path_helper)
 export MANPATH='/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/usr/local/man:/opt/homebrew/Cellar/antidote/1.9.10/share/antidote/man:/usr/local/man:/usr/share/man:/usr/local/share/man:/Applications/Ghostty.app/Contents/Resources/man:'
 # MANPATH="/usr/local/man:$MANPATH"
-export XDG_CONFIG_DIRS=$XDG_CONFIG_PATH # Persistent Configs
-export XDG_DATA_DIRS=$XDG_DATA_PATH     # Persistent Data
+export XDG_CONFIG_DIRS=${XDG_CONFIG_PATH:-""} # Persistent Configs
+export XDG_DATA_DIRS=${XDG_DATA_PATH:-""}     # Persistent Data
 
 # === === === === === === === === === === === === === === === === === === === === ===
 # ||   Tool Configs                                                                ||
