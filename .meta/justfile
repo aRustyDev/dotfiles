@@ -1,0 +1,45 @@
+import '../.build/just/lib.just'
+
+template_index := root + "/.data/indexs/templates.json"
+
+# Syncs schema for .meta/schema.json -> */.meta.json
+install:
+    #!/usr/bin/env bash
+    echo "Installing .meta.json schemas"
+    fd -t d ".*" --full-path {{root}} | while read -r i; do
+        if [[ -f $i/.meta.json ]]; then
+            cat $i/.meta.json | jq -s '.' {{root}}/.meta/schema.json > $i/.meta.json
+        else;
+            cp {{root}}/.meta/schema.json $i/.meta.json
+        fi
+    done
+
+get-completions:
+    echo ""
+
+get-aliases:
+    echo ""
+
+get-paths:
+    echo ""
+
+get-functions:
+    echo ""
+
+get-configs:
+    echo ""
+
+# Add a unique reference to a template
+add-template path:
+    echo "Adding template..."
+    cat {{template_index}} | jq --arg id "$(uuidgen)" '(. + {id: "$id", path: "{{path}}"}) | unique_by(.id)' > {{template_index}}
+
+# Add a unique reference to a dependency
+add-dependency path:
+    echo "Adding template..."
+    kuzu example.kuzu
+    cat {{template_index}} | jq --arg id "$(uuidgen)" '(. + {id: "$id", path: "{{path}}"}) | unique_by(.id)' > {{template_index}}
+
+# returns paths of all .meta.json files
+get-all-meta:
+    fd -t f -e json --hidden meta {{root}}

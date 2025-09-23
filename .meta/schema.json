@@ -1,0 +1,36 @@
+{
+  "version": "0.1.0",
+  "category": "TODO",
+  "tags": ["TODO"],
+  "description": "TODO",
+  "completions": null,
+  "keybindings": null,
+  "aliases": null,
+  "dotdir": null,
+  "ignore": null,
+  "just": null,
+  "env": null,
+  "loc": 0,
+  "xdg": {
+    "bin": null,
+    "data": null,
+    "cache": null,
+    "state": null,
+    "config": null
+  },
+  "dependencies": [
+    {
+      "kind": "binary|env|file|arch|platform",
+      "var": "TODO"
+    }
+  ],
+  "url": {
+    "contribute": "TODO",
+    "bugz": "TODO",
+    "docs": "TODO"
+  },
+  "templates": ["TODO"],
+  "health_checks": ["TODO"],
+  "generates": ["TODO"],
+  "platform_overrides": {}
+}
