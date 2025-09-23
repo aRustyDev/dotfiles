@@ -1,0 +1,5 @@
+[workspace-to-monitor-force-assignment]
+1 = "main"  # Monitor sequence number from left to right. 1-based indexing
+2 = "secondary"  # Main monitor
+3 = "1"  # Non-main monitor in case when there are only two monitors
+4 = "2"

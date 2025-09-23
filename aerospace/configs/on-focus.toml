@@ -1,0 +1,2 @@
+on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]
+

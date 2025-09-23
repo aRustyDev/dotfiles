@@ -1,0 +1,31 @@
+[[on-window-detected]]
+if.app-id = "com.mitchellh.ghostty"
+run = "move-node-to-workspace T"  # mnemonics T - Terminal
+
+[[on-window-detected]]
+if.app-id = "com.google.Chrome"
+run = "move-node-to-workspace GC"  # mnemonics GC - Google Chrome
+
+[[on-window-detected]]
+if.app-id = "org.mozilla.firefox"
+run = "move-node-to-workspace FF"  # mnemonics ff - Firefox
+
+[[on-window-detected]]
+if.app-id = "dev.zed.Zed"
+run = "move-node-to-workspace Z"  # mnemonics z - Zed
+
+[[on-window-detected]]
+if.app-id = "com.apple.Safari"
+run = "move-node-to-workspace SF"  # mnemonics sf - safari
+
+[[on-window-detected]]
+if.app-id = "dev.kdrag0n.MacVirt"
+run = "move-node-to-workspace O"  # mnemonics o - Orbstack
+
+[[on-window-detected]]
+if.app-id = "org.virtualbox.app.VirtualBox"
+run = "move-node-to-workspace VB"  # mnemonics vb - VirtualBox
+
+[[on-window-detected]]
+if.app-id = "pro.affine.app"
+run = "move-node-to-workspace N"  # mnemonics n - Notes
