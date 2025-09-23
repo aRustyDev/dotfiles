@@ -33,6 +33,10 @@
       "cmd": "completions [bash|zsh|fish|powershell]"
     },
     {
+      "name": "glab",
+      "cmd": "completion -s [bash|zsh|fish|powershell]"
+    },
+    {
       "name": "tenv",
       "cmd": "completion [bash|zsh|fish|powershell]"
     },
