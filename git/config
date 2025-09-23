@@ -33,6 +33,9 @@
 [rerere]
     enabled = true
 
+[push]
+    default = current
+
 # Auto prune when fetching
 [fetch]
     prune = true
