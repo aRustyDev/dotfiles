@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+  "connections": {
+    // comments are supported
+    "starter-connection": {
+      "type": "github",
+      "repos": ["sourcebot-dev/sourcebot"]
+    }
+  }
+}
