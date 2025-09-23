@@ -167,7 +167,7 @@ export OP_AGENT_TOML="${XDG_CONFIG_HOME:-$HOME/.config}/1Password/ssh/agent.toml
 
 # --- [ Kube: Configs ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-export KUBECONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/kube"
+export KUBECONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/kube/config"
 export KUBE_EDITOR=$EDITOR
 
 # --- [ Kube: Plugins ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
