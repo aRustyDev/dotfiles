@@ -1,0 +1,51 @@
+
+"title": "{{title}}",
+"tags": ["pat", "gitlab", {{tags}}],
+"vault": {
+  "id": "{{vault_id}}"
+},
+"category": "API_CREDENTIAL",
+"fields": [
+    {
+        "id": "username",
+        "type": "STRING",
+        "label": "username",
+        "value": "{{user}}"
+    },
+    {
+        "id": "token",
+        "type": "CONCEALED",
+        "label": "token",
+        "value": "{{token}}"
+    },
+    {
+        "id": "type",
+        "type": "MENU",
+        "label": "type",
+        "value": ""
+    },
+    {
+        "id": "filename",
+        "type": "STRING",
+        "label": "filename",
+        "value": ""
+    },
+    {
+        "id": "validFrom",
+        "type": "DATE",
+        "label": "valid from",
+        "value": ""
+    },
+    {
+        "id": "expires",
+        "type": "DATE",
+        "label": "expires",
+        "value": ""
+    },
+    {
+        "id": "host",
+        "type": "STRING",
+        "label": "host",
+        "value": "{{host}}"
+    }
+]

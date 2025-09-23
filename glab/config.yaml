@@ -1,0 +1,8 @@
+hosts:
+  op://Cisco/gitlab/domain:
+    api_protocol: ssh
+    api_host: op://Cisco/gitlab/domain
+    token: op://Cisco/gitlab/token
+    client_cert: $XDG_DATA_HOME/glab/client.crt
+    client_key: $XDG_DATA_HOME/glab/client.key
+    ca_cert: $XDG_DATA_HOME/glab/ca-chain.pem
