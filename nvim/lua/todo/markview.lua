@@ -1,0 +1,2 @@
+-- https://dotfyle.com/plugins/OXY2DEV/markview.nvim
+-- ☄️ Highly customisable markdown(latex & inline html) previewer for Neovim
