@@ -10,5 +10,13 @@
     "**/*.cert",
     "**/*.crt"
   ],
+  "edit_predictions": {
+    "copilot": {
+      "enterprise_uri": "https://your.enterprise.domain"
+    }
+  },
+  "features": {
+    "edit_prediction_provider": "copilot"
+  },
   "redact_private_values": true
 }
