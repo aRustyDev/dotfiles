@@ -33,6 +33,16 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
+    "dependencies": ["cmake"],
+    "licenses": ["MIT"],
+    "name": "kuzu",
+    "tap": null,
+    "url": "https://kuzudb.com/"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["pkgconf", "tmux", "protobuf"],
     "licenses": ["GPL-3.0-or-later"],
     "name": "mosh",
