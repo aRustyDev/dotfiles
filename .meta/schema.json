@@ -18,16 +18,18 @@
     "state": null,
     "config": null
   },
+  "paths": null,
+  "functions": null,
   "dependencies": [
     {
-      "kind": "binary|env|file|arch|platform",
+      "kind": "binary",
       "var": "TODO"
     }
   ],
   "url": {
-    "contribute": "TODO",
-    "bugz": "TODO",
-    "docs": "TODO"
+    "contribute": "https://TODO/",
+    "bugz": "https://TODO/",
+    "docs": "https://TODO/"
   },
   "templates": ["TODO"],
   "health_checks": ["TODO"],

@@ -1,5 +1,6 @@
 import '../.build/just/lib.just'
 
+cue := root + "/.build/cue"
 template_index := root + "/.data/indexs/templates.json"
 
 # Syncs schema for .meta/schema.json -> */.meta.json
@@ -7,27 +8,48 @@ install:
     #!/usr/bin/env bash
     echo "Installing .meta.json schemas"
     fd -t d ".*" --full-path {{root}} | while read -r i; do
-        if [[ -f $i/.meta.json ]]; then
-            cat $i/.meta.json | jq -s '.' {{root}}/.meta/schema.json > $i/.meta.json
-        else;
-            cp {{root}}/.meta/schema.json $i/.meta.json
+        if [[ -f "${i}.meta.json" ]]; then
+            cat $i/.meta.json \
+           | jq -s \
+            --arg path "$(echo $i | sed 's|{{root}}/||')" \
+            ' .[] += { "path": "\($path)" } ' {{root}}/.meta/schema.json > $i/.meta.json
+        else
+            jq \
+            --arg id "$(uuidgen)" \
+            --arg path "$(echo $i | sed 's|{{root}}/||')" \
+            ' .[] += { "id": "\($id)", "path": "\($path)" }' {{root}}/.meta/schema.json > $i/.meta.json
+        fi
+    done
+
+validate:
+    #!/usr/bin/env bash
+    fd -t f --hidden "meta" -e json --full-path {{root}} | while read -r i; do
+        if [[ -f "${i}" ]]; then
+            cue vet -c {{datad}}/schema.cue ${i}
+        else
         fi
     done
 
 get-completions:
-    echo ""
+    jq -s 'add | .[] | select(.completions != null and .completions != false)' **/.meta.json
 
 get-aliases:
-    echo ""
+    jq -s 'add | .[] | select(.aliases != null and .aliases != false)' **/.meta.json
 
 get-paths:
-    echo ""
+    jq -s 'add | .[] | select(.paths != null and .paths != false)' **/.meta.json
 
 get-functions:
-    echo ""
+    jq -s 'add | .[] | select(.functions != null and .functions != false)' **/.meta.json
 
 get-configs:
     echo ""
+
+update-index:
+    jq -s 'add | .[] | select(.functions != null and .functions != false)' **/.meta.json
+
+get-todo:
+    jq -s 'add | ' **/.meta.json
 
 # Add a unique reference to a template
 add-template path:
