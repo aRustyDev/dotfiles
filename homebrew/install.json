@@ -11,13 +11,23 @@
   },
   {
     "cask": true,
-    "channel": "nightly",
+    "channel": "twilight",
     "conflicts": ["todo"],
     "dependencies": ["todo"],
     "licenses": ["todo"],
-    "name": "1password",
+    "name": "zen",
     "tap": null,
-    "url": "https://developer.1password.com/docs/cli"
+    "url": "https://zen-browser.app/"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "zen",
+    "tap": null,
+    "url": "https://zen-browser.app/"
   },
   {
     "cask": false,
