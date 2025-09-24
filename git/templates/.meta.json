@@ -21,6 +21,8 @@
       "state": null,
       "config": null
     },
+    "paths": null,
+    "functions": null,
     "dependencies": [
       {
         "kind": "binary|env|file|arch|platform",
@@ -41,6 +43,8 @@
     "generates": [
       "TODO"
     ],
-    "platform_overrides": {}
+    "platform_overrides": {},
+    "id": "CC68157A-73D3-469A-8C03-E5C562A93E6E",
+    "path": "git/templates/"
   }
 ]

@@ -21,6 +21,8 @@
       "state": null,
       "config": null
     },
+    "paths": null,
+    "functions": null,
     "dependencies": [
       {
         "kind": "binary|env|file|arch|platform",
@@ -41,6 +43,8 @@
     "generates": [
       "TODO"
     ],
-    "platform_overrides": {}
+    "platform_overrides": {},
+    "id": "7F7E6D44-92C2-4BEE-90BA-BD2972AAD4A9",
+    "path": "ssh/notes/"
   }
 ]

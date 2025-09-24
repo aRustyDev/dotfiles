@@ -21,6 +21,8 @@
       "state": null,
       "config": null
     },
+    "paths": null,
+    "functions": null,
     "dependencies": [
       {
         "kind": "binary|env|file|arch|platform",
@@ -41,6 +43,8 @@
     "generates": [
       "TODO"
     ],
-    "platform_overrides": {}
+    "platform_overrides": {},
+    "id": "D7D8E2C4-9482-4D64-8DDA-C219A520D0EF",
+    "path": "data/notes/"
   }
 ]

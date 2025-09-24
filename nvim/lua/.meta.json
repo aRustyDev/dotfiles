@@ -21,6 +21,8 @@
       "state": null,
       "config": null
     },
+    "paths": null,
+    "functions": null,
     "dependencies": [
       {
         "kind": "binary|env|file|arch|platform",
@@ -41,6 +43,8 @@
     "generates": [
       "TODO"
     ],
-    "platform_overrides": {}
+    "platform_overrides": {},
+    "id": "43F1B7C8-CF49-4736-9B03-7D065051C0C9",
+    "path": "nvim/lua/"
   }
 ]

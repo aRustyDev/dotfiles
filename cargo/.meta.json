@@ -21,6 +21,8 @@
       "state": null,
       "config": null
     },
+    "paths": null,
+    "functions": null,
     "dependencies": [
       {
         "kind": "binary|env|file|arch|platform",
@@ -41,6 +43,8 @@
     "generates": [
       "TODO"
     ],
-    "platform_overrides": {}
+    "platform_overrides": {},
+    "id": "A78C7DBB-D754-46E6-B575-E1D66292228D",
+    "path": "cargo/"
   }
 ]
