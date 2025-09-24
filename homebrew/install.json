@@ -53,6 +53,16 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
+    "dependencies": ["gnupg", "qrencode", "tree", "gnu-getopt"],
+    "licenses": ["GPL-2.0-or-later"],
+    "name": "pass",
+    "tap": null,
+    "url": "https://www.passwordstore.org/"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["pkgconf", "tmux", "protobuf"],
     "licenses": ["GPL-3.0-or-later"],
     "name": "mosh",
