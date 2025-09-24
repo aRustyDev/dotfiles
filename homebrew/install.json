@@ -40,6 +40,16 @@
     "url": "https://kuzudb.com/"
   },
   {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["TODO"],
+    "licenses": ["TODO"],
+    "name": "omnissa-horizon-client",
+    "tap": null,
+    "url": "https://www.omnissa.com/"
+  },
+  {
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
