@@ -23,5 +23,32 @@ DOD SW CA-74 through DOD SW CA-77, and
 DOD SW CA-82 through DOD SW CA-85
 
 ```bash
-eval $(op item list --vault USAF --tags cac --format json | jq -r '.[] | "op document get \"\(.id)\" --out-file \"${XDG_DATA_HOME:-$HOME}/\(.title).cer\""')
+mkdir -p ${XDG_DATA_HOME:-$HOME}/certs
+op item list --vault USAF --tags cac --format json | jq -r '.[] | "op document get \"\(.id)\" --out-file \"${XDG_DATA_HOME:-$HOME}/certs/\(.title).cer\""'
+
+# Add Root Certificates
+for cert in ${XDG_DATA_HOME:-$HOME}/certs/*ROOT*.cer; do
+    sudo security add-trusted-cert \
+        -p ssl -p smime -p codeSign -p IPSec -p basic -p swUpdate -p pkgSign -p timestamping -p eap \
+        -d \
+        -r trustRoot \
+        -k /Library/Keychains/System.keychain "$cert"
+done
+rm ${XDG_DATA_HOME:-$HOME}/certs/*ROOT*.cer
+
+# Add Intermediate Certificates
+for cert in ${XDG_DATA_HOME:-$HOME}/certs/*.cer; do
+    security add-trusted-cert \
+        -p ssl -p smime -p codeSign -p IPSec -p basic -p swUpdate -p pkgSign -p timestamping -p eap -p pkgSign \
+        -d \
+        -r trustAsRoot \
+        -k ~/Library/Keychains/login.keychain-db "$cert"
+done
+rm ${XDG_DATA_HOME:-$HOME}/certs/*.cer
+
+# Importing PKCS#12 Files
+for cert in ${XDG_DATA_HOME:-$HOME}/certs/*.p12; do
+    security import "$cert" -k ~/Library/Keychains/login.keychain
+done
+rm ${XDG_DATA_HOME:-$HOME}/certs/*.p12
 ```
