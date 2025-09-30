@@ -10,3 +10,7 @@ config: mktree
 
 mktree:
     @mkdir -p {{dotdir}}
+
+build target:
+    #!/usr/bin/env bash
+    cat ""
