@@ -11,93 +11,13 @@
   },
   {
     "cask": true,
-    "channel": "twilight",
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
-    "name": "zen",
-    "tap": null,
-    "url": "https://zen-browser.app/"
-  },
-  {
-    "cask": true,
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
-    "licenses": ["todo"],
-    "name": "zen",
-    "tap": null,
-    "url": "https://zen-browser.app/"
-  },
-  {
-    "cask": false,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["kubernetes-cli", "go"],
-    "licenses": ["Apache-2.0"],
-    "name": "krew",
-    "tap": null,
-    "url": "https://sigs.k8s.io/krew/"
-  },
-  {
-    "cask": false,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["cmake"],
     "licenses": ["MIT"],
-    "name": "kuzu",
-    "tap": null,
-    "url": "https://kuzudb.com/"
-  },
-  {
-    "cask": true,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["TODO"],
-    "licenses": ["TODO"],
-    "name": "omnissa-horizon-client",
-    "tap": null,
-    "url": "https://www.omnissa.com/"
-  },
-  {
-    "cask": false,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["gnupg", "qrencode", "tree", "gnu-getopt"],
-    "licenses": ["GPL-2.0-or-later"],
-    "name": "pass",
-    "tap": null,
-    "url": "https://www.passwordstore.org/"
-  },
-  {
-    "cask": false,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pkgconf", "tmux", "protobuf"],
-    "licenses": ["GPL-3.0-or-later"],
-    "name": "mosh",
-    "tap": null,
-    "url": "https://mosh.org"
-  },
-  {
-    "cask": false,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["libpq", "ncurses", "readline"],
-    "licenses": ["BSD-2-Clause"],
-    "name": "pspg",
-    "tap": null,
-    "url": "https://github.com/okbob/pspg"
-  },
-  {
-    "cask": false,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["s-lang"],
-    "licenses": ["GPL-2.0-or-later"],
-    "name": "most",
-    "tap": null,
-    "url": "https://www.jedsoft.org/most/"
+    "name": "aerospace",
+    "tap": "nikitabobko/tap",
+    "url": "https://github.com/nikitabobko/AeroSpace"
   },
   {
     "cask": true,
@@ -108,36 +28,6 @@
     "name": "affine",
     "tap": null,
     "url": "https://affine.pro/"
-  },
-  {
-    "cask": true,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
-    "name": "raycast",
-    "tap": null,
-    "url": "https://raycast.com/"
-  },
-  {
-    "cask": true,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["MIT"],
-    "name": "aerospace",
-    "tap": "nikitabobko/tap",
-    "url": "https://github.com/nikitabobko/AeroSpace"
-  },
-  {
-    "cask": false,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["BSD-3-Clause"],
-    "name": "sipcalc",
-    "tap": null,
-    "url": "https://github.com/sii/sipcalc"
   },
   {
     "cask": false,
@@ -849,6 +739,16 @@
   {
     "cask": false,
     "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["kubernetes-cli", "go"],
+    "licenses": ["Apache-2.0"],
+    "name": "krew",
+    "tap": null,
+    "url": "https://sigs.k8s.io/krew/"
+  },
+  {
+    "cask": false,
+    "channel": null,
     "conflicts": [],
     "dependencies": ["bash", "go", "coreutils"],
     "licenses": ["Apache-2.0"],
@@ -875,6 +775,16 @@
     "name": "kubetui",
     "tap": null,
     "url": "https://github.com/sarub0b0/kubetui"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["cmake"],
+    "licenses": ["MIT"],
+    "name": "kuzu",
+    "tap": null,
+    "url": "https://kuzudb.com/"
   },
   {
     "cask": false,
@@ -970,6 +880,26 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
+    "dependencies": ["pkgconf", "tmux", "protobuf"],
+    "licenses": ["GPL-3.0-or-later"],
+    "name": "mosh",
+    "tap": null,
+    "url": "https://mosh.org"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["s-lang"],
+    "licenses": ["GPL-2.0-or-later"],
+    "name": "most",
+    "tap": null,
+    "url": "https://www.jedsoft.org/most/"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
     "dependencies": [
       "docutils",
       "meson",
@@ -1017,6 +947,16 @@
     "url": "https://github.com/nemuTUI/nemu"
   },
   {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "netron",
+    "tap": null,
+    "url": "https://github.com/lutzroeder/netron"
+  },
+  {
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
@@ -1044,6 +984,16 @@
     "name": "nvim",
     "tap": null,
     "url": "https://neovim.io/"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["TODO"],
+    "licenses": ["TODO"],
+    "name": "omnissa-horizon-client",
+    "tap": null,
+    "url": "https://www.omnissa.com/"
   },
   {
     "cask": false,
@@ -1094,6 +1044,16 @@
     "name": "packer",
     "tap": "hashicorp/tap",
     "url": "https://packer.io"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["gnupg", "qrencode", "tree", "gnu-getopt"],
+    "licenses": ["GPL-2.0-or-later"],
+    "name": "pass",
+    "tap": null,
+    "url": "https://www.passwordstore.org/"
   },
   {
     "cask": false,
@@ -1158,6 +1118,16 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
+    "dependencies": ["libpq", "ncurses", "readline"],
+    "licenses": ["BSD-2-Clause"],
+    "name": "pspg",
+    "tap": null,
+    "url": "https://github.com/okbob/pspg"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["go"],
     "licenses": ["MPL-2.0"],
     "name": "pug",
@@ -1173,6 +1143,16 @@
     "name": "pyenv",
     "tap": null,
     "url": "https://github.com/pyenv/pyenv"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "raycast",
+    "tap": null,
+    "url": "https://raycast.com/"
   },
   {
     "cask": false,
@@ -1263,6 +1243,16 @@
     "name": "shfmt",
     "tap": null,
     "url": "https://github.com/mvdan/sh"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["BSD-3-Clause"],
+    "name": "sipcalc",
+    "tap": null,
+    "url": "https://github.com/sii/sipcalc"
   },
   {
     "cask": false,
@@ -1461,6 +1451,26 @@
     "name": "yq",
     "tap": null,
     "url": "https://github.com/mikefarah/yq"
+  },
+  {
+    "cask": true,
+    "channel": "twilight",
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "zen",
+    "tap": null,
+    "url": "https://zen-browser.app/"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "zen",
+    "tap": null,
+    "url": "https://zen-browser.app/"
   },
   {
     "cask": false,
