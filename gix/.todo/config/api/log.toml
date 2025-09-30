@@ -1,0 +1,88 @@
+# Log Configuration
+# Controls output format of git log command
+
+[log]
+# Abbreviate commit SHA-1 values
+abbrevCommit = false
+
+# Default date format
+date = "default"  # relative, iso, iso-strict, rfc, short, raw, human, unix, format:...
+
+# Add ref names decoration
+decorate = "auto"  # true, false, short, full, auto
+
+# How to show merge commits
+diffMerges = "separate"  # off, none, first-parent, 1, separate, m, combined, c, dense-combined, cc
+
+# Refs to exclude from decoration
+excludeDecoration = ""
+
+# Follow file renames
+follow = false
+
+# Colors for graph lines
+graphColors = "red,green,yellow,blue,magenta,cyan"
+
+# Format for mailing list (--pretty=email)
+mailinglist = false
+
+# Show root commits
+showRoot = true
+
+# Show GPG signatures
+showSignature = false
+
+# Additional log configurations:
+
+# Number output lines
+# lineNumber = false
+
+# Show notes
+# showNotes = true
+
+# Default number of commits to show
+# maxCount = 100
+
+# Pretty format
+# pretty = "oneline"
+
+# Date format examples:
+# date = "relative"     # "2 hours ago"
+# date = "iso"          # 2023-03-15 14:30:45 +0100
+# date = "iso-strict"   # 2023-03-15T14:30:45+01:00
+# date = "rfc"          # Wed, 15 Mar 2023 14:30:45 +0100
+# date = "short"        # 2023-03-15
+# date = "raw"          # 1678891845 +0100
+# date = "human"        # Mar 15 14:30
+# date = "unix"         # 1678891845
+# date = "format:%Y-%m-%d %H:%M:%S"  # Custom format
+
+# Decorate modes:
+# - false: No decoration
+# - true/short: Show ref names
+# - full: Show full ref names (refs/heads/main)
+# - auto: Decorate if output is to terminal
+
+# Diff merge formats:
+# - off/none: Omit diff output for merges
+# - first-parent: Show diff with first parent only
+# - separate: Show diff with each parent separately
+# - combined: Show combined diff
+# - dense-combined: Compact combined diff
+
+# Graph color customization:
+# Colors are used in order for parallel development lines
+# Can use: black, red, green, yellow, blue, magenta, cyan, white
+# Can also use 256-color palette: color123
+# Or 24-bit color: #ff0000
+
+# Useful log aliases leveraging these settings:
+# [alias]
+# lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+# ll = "log --pretty=format:'%C(yellow)%h%Cred%d %Creset%s%Cblue [%cn]' --decorate --numstat"
+# ld = "log --pretty=format:'%C(yellow)%h %ad%Cred%d %Creset%s%Cblue [%cn]' --decorate --date=short"
+
+# Performance tips:
+# - follow = true can be slow on large repos
+# - showSignature = true requires GPG verification (slower)
+# - Large graphColors list helps distinguish branches

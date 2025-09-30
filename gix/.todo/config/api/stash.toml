@@ -1,0 +1,76 @@
+# Stash Configuration
+# Settings for git stash behavior
+
+[stash]
+# Include untracked files by default in stash show
+showIncludeUntracked = false
+
+# Show patch by default
+showPatch = false
+
+# Show stat by default
+showStat = false
+
+# Notes:
+# - showIncludeUntracked: When showing stash contents,
+#   include untracked files that were stashed
+#
+# - showPatch: Show full diff when displaying stash
+#   Same as always using --patch
+#
+# - showStat: Show diffstat when displaying stash
+#   Same as always using --stat
+
+# Common stash operations:
+# git stash                    # Stash changes
+# git stash -u                 # Include untracked files
+# git stash -a                 # Include ignored files
+# git stash push -m "message"  # Stash with message
+# git stash push <files>       # Stash specific files
+# git stash --keep-index       # Stash only unstaged changes
+
+# Managing stashes:
+# git stash list               # List all stashes
+# git stash show               # Show latest stash
+# git stash show -p            # Show with patch
+# git stash show stash@{2}     # Show specific stash
+# git stash pop                # Apply and remove latest
+# git stash apply              # Apply but keep stash
+# git stash drop               # Remove latest stash
+# git stash clear              # Remove all stashes
+
+# Advanced usage:
+# git stash branch <name>      # Create branch from stash
+# git stash create             # Create stash without storing
+# git stash store              # Store created stash
+
+# Stash entry format:
+# stash@{0}: WIP on main: 1234567 Commit message
+# stash@{1}: On develop: Custom stash message
+# stash@{2}: autostash
+
+# Selective stashing:
+# git stash push -p            # Interactive stashing
+# git stash push -- src/       # Stash only src/ directory
+# git stash push -m "tests" *test*  # Stash test files
+
+# Configuration examples:
+
+# Always show full patch:
+# [stash]
+# showPatch = true
+
+# Always include untracked:
+# [stash]
+# showIncludeUntracked = true
+
+# Workflow tips:
+# - Use descriptive messages with -m
+# - Clean up old stashes periodically
+# - Use stash@{n} to reference specific stashes
+# - Consider branches for long-term WIP
+
+# Recovering lost stashes:
+# git fsck --unreachable | grep commit
+# git show <sha>
+# git stash store <sha>

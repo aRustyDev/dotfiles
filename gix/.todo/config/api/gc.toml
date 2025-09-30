@@ -1,0 +1,93 @@
+# Garbage Collection Configuration
+# Controls Git's garbage collection and optimization behavior
+
+[gc]
+# Compression level for aggressive GC
+aggressiveDepth = 50
+
+# Window size for aggressive GC delta compression
+aggressiveWindow = 250
+
+# Automatically run gc when this many loose objects exist
+auto = 6700
+
+# Run auto gc in background
+autoDetach = true
+
+# Maximum number of packs before consolidation
+autoPackLimit = 50
+
+# Size threshold for "big" packfiles
+bigPackThreshold = "2g"
+
+# Use cruft packs for unreachable objects
+cruftPacks = false
+
+# When to expire reflog entries for gc
+logExpiry = "1.day.ago"
+
+# Pack refs when gc runs
+packRefs = true
+
+# When to prune unreachable objects
+pruneExpire = "2.weeks.ago"
+
+# Reflog expiration for reachable commits
+reflogExpire = "90.days"
+
+# Reflog expiration for unreachable commits
+reflogExpireUnreachable = "30.days"
+
+# Rerere cache expiration for resolved conflicts
+rerereResolved = "60.days"
+
+# Rerere cache expiration for unresolved conflicts
+rerereUnresolved = "15.days"
+
+# When to prune worktrees
+worktreePruneExpire = "3.months.ago"
+
+# Additional gc settings:
+
+# Write multi-pack bitmaps
+# writeMultiPackIndex = false
+
+# Write commit graph during gc
+# writeCommitGraph = true
+
+# Notes on auto gc:
+# Git automatically runs gc when:
+# - Number of loose objects exceeds gc.auto
+# - Number of packs exceeds gc.autoPackLimit
+# - Other housekeeping thresholds are met
+
+# Performance tuning:
+# - Increase auto for less frequent gc (better performance, more disk usage)
+# - Decrease auto for more frequent gc (less disk usage, more CPU usage)
+# - Set auto = 0 to disable automatic gc
+
+# Aggressive gc:
+# Run with: git gc --aggressive
+# - Uses aggressiveDepth and aggressiveWindow
+# - Much slower but better compression
+# - Recommended occasionally for long-lived repos
+
+# Cruft packs:
+# - cruftPacks = true stores unreachable objects separately
+# - Improves performance by not mixing reachable/unreachable objects
+# - Newer feature, may not be available in older Git versions
+
+# Time period examples:
+# - "2.weeks.ago"
+# - "3.months.ago"
+# - "1.year.ago"
+# - "never" (keep forever)
+# - "now" (prune immediately)
+
+# Manual maintenance commands:
+# - git gc: Normal garbage collection
+# - git gc --aggressive: Deep compression
+# - git gc --auto: Only run if needed
+# - git gc --prune=now: Prune immediately
+# - git repack -adf: Repack without gc
+# - git prune: Remove unreachable objects

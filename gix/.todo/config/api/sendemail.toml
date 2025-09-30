@@ -1,0 +1,175 @@
+# Send Email Configuration  
+# Settings for git send-email command
+
+[sendemail]
+# Aliases file for email addresses
+aliasesFile = "~/.mailrc"
+
+# Aliases file type
+aliasFileType = "mutt"  # mutt, mailrc, pine, elm, gnus
+
+# Annotate patches with notes
+annotate = false
+
+# Character encoding
+assume8bitEncoding = "UTF-8"
+
+# BCC recipients
+bcc = ""
+
+# CC recipients  
+cc = ""
+
+# Command to generate CC list
+ccCmd = ""
+
+# Chain reply-to previous email
+chainReplyTo = false
+
+# Compose email before sending
+compose = ""
+
+# Confirmation before sending
+confirm = "auto"  # always, never, cc, compose, auto
+
+# Envelope sender
+envelopeSender = "auto"  # auto, <address>
+
+# Forbidden sendmail variables
+forbidSendmailVariables = ""
+
+# From address
+from = "Your Name <your.email@example.com>"
+
+# Identity to use
+identity = ""
+
+# Allow editing of all fields
+multiEdit = true
+
+# Sendmail command (if not using SMTP)
+sendmailCmd = ""
+
+# Add signed-off-by from cc
+signedoffbycc = true
+
+# SMTP batch size
+smtpBatchSize = 100
+
+# SMTP debug mode
+smtpDebug = false
+
+# SMTP domain
+smtpDomain = ""
+
+# SMTP encryption
+smtpEncryption = "tls"  # ssl, tls, none
+
+# SMTP password (not recommended in config)
+smtpPass = ""
+
+# Delay between reconnections
+smtpReloginDelay = 0.5
+
+# SMTP server
+smtpServer = "smtp.example.com"
+
+# SMTP server options
+smtpServerOption = ""
+
+# SMTP server port
+smtpServerPort = 587
+
+# SSL certificate path
+smtpSSLCertPath = ""
+
+# SMTP username
+smtpUser = "user@example.com"
+
+# Suppress CC for certain addresses
+suppresscc = "self"  # self, author, cc, bodycc, sob, cccmd, body, all
+
+# Suppress from address
+suppressFrom = false
+
+# Thread emails
+thread = true
+
+# Default To recipients
+to = ""
+
+# Command to generate To list
+toCmd = ""
+
+# Transfer encoding
+transferEncoding = "8bit"  # 7bit, 8bit, quoted-printable, base64, auto
+
+# Validate patches before sending
+validate = true
+
+# Add X-Mailer header
+xmailer = true
+
+# Provider-specific configurations using dot notation
+[sendemail.gmail]
+from = "Your Name <your.email@gmail.com>"
+smtpServer = "smtp.gmail.com"
+smtpServerPort = 587
+smtpEncryption = "tls"
+smtpUser = "your.email@gmail.com"
+# Use app-specific password, not regular password
+
+[sendemail.outlook]
+from = "Your Name <your.email@outlook.com>"
+smtpServer = "smtp-mail.outlook.com"
+smtpServerPort = 587
+smtpEncryption = "tls"  
+smtpUser = "your.email@outlook.com"
+
+[sendemail.work]
+from = "Work Name <work@company.com>"
+smtpServer = "smtp.company.com"
+smtpServerPort = 587
+smtpEncryption = "tls"
+smtpUser = "work@company.com"
+
+# Common usage:
+# git send-email *.patch                # Send patch files
+# git send-email --to=list@example.com *.patch
+# git send-email --compose *.patch      # Compose cover letter
+# git send-email -3                     # Send last 3 commits
+# git send-email origin/main..HEAD      # Send commits since origin
+
+# Workflow example:
+# 1. Create patches: git format-patch origin/main
+# 2. Review patches: git send-email --annotate *.patch
+# 3. Send patches: git send-email --to=maintainer@project.org *.patch
+
+# Identity usage:
+# git send-email --identity=work *.patch
+# Uses [sendemail.work] configuration
+
+# Authentication:
+# - Don't store passwords in config
+# - Use credential helpers
+# - Use app-specific passwords for Gmail/Outlook
+# - Consider OAuth2 where supported
+
+# Testing:
+# git send-email --dry-run *.patch      # Test without sending
+# git send-email --smtp-debug=1 *.patch  # Debug SMTP connection
+
+# suppresscc options:
+# - self: Don't CC yourself
+# - author: Don't CC commit author  
+# - cc: Don't use commit's CC list
+# - bodycc: Don't scan body for CC
+# - sob: Don't CC Signed-off-by addresses
+# - all: Suppress all auto CC
+
+# Best practices:
+# - Test with --dry-run first
+# - Use --annotate to review before sending
+# - Configure identity for different contexts
+# - Set up proper From address
+# - Use app passwords for security

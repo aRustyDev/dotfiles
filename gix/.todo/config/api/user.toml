@@ -1,0 +1,20 @@
+# User Information Configuration
+# Identifies the user for commits and other Git operations
+
+[user]
+# Your full name as it will appear in commits
+name = "Your Name"
+
+# Your email address for commits
+email = "your.email@example.com"
+
+# GPG key ID for signing commits and tags
+signingkey = "ABCD1234"
+
+# Require user.email and user.name to be set explicitly
+# Prevents Git from guessing based on system information
+useConfigOnly = true
+
+# Additional user settings examples:
+# signingkey = "GPG-KEY-ID"  # Can be GPG key ID or SSH key path
+# signingkey = "~/.ssh/id_ed25519.pub"  # For SSH signing

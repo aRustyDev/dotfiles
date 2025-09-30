@@ -14,6 +14,66 @@
     "channel": null,
     "conflicts": ["todo"],
     "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "zen",
+    "tap": null,
+    "url": "https://zen-browser.app/"
+  },
+  {
+    "cask": false,
+    "channel": "twilight",
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "zen",
+    "tap": null,
+    "url": "https://zen-browser.app/"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "obsidian",
+    "tap": null,
+    "url": "https://obsidian.md/"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "logseq",
+    "tap": null,
+    "url": "https://github.com/logseq/logseq"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["Apache-2.0"],
+    "name": "typst",
+    "tap": null,
+    "url": "https://typst.app/"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["kubernetes-cli", "go"],
+    "licenses": ["Apache-2.0"],
+    "name": "krew",
+    "tap": null,
+    "url": "https://sigs.k8s.io/krew/"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["cmake"],
     "licenses": ["MIT"],
     "name": "aerospace",
     "tap": "nikitabobko/tap",

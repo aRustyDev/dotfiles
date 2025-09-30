@@ -1,0 +1,71 @@
+# Instaweb Configuration
+# Settings for git instaweb (instant web browsing of repository)
+
+[instaweb]
+# Web browser to launch
+browser = "firefox"
+
+# Web server to use
+httpd = "lighttpd"  # lighttpd, apache2, mongoose, plackup, python, webrick
+
+# Bind to local interface only
+local = true
+
+# Path to httpd modules (server-specific)
+modulePath = ""
+
+# Port to listen on
+port = 1234
+
+# Server-specific module paths:
+# modulePath = "/usr/lib/apache2/modules"  # Apache
+# modulePath = "/usr/lib/lighttpd"         # Lighttpd
+
+# httpd options:
+# - lighttpd: Lightweight, fast (default)
+# - apache2: Apache web server
+# - mongoose: Embedded web server
+# - plackup: Perl PSGI/Plack server
+# - python: Python's SimpleHTTPServer
+# - webrick: Ruby's WEBrick server
+
+# Common usage:
+# git instaweb                    # Start web server
+# git instaweb --start           # Start in background
+# git instaweb --stop            # Stop server
+# git instaweb --restart         # Restart server
+# git instaweb --port=8080       # Use different port
+# git instaweb --httpd=python    # Use Python server
+# git instaweb --browser=chrome  # Use different browser
+
+# Server-specific setup:
+
+# Python (no setup needed):
+# [instaweb]
+# httpd = python
+# port = 8000
+
+# Apache (requires Apache installed):
+# [instaweb]
+# httpd = apache2
+# modulePath = /usr/lib/apache2/modules
+# port = 8080
+
+# WEBrick (requires Ruby):
+# [instaweb]
+# httpd = webrick
+# port = 9090
+
+# Features available in web interface:
+# - Browse repository tree
+# - View commit history
+# - See diffs and patches
+# - View individual files
+# - Search commits
+# - RSS/Atom feeds
+
+# Troubleshooting:
+# - Check if port is already in use
+# - Ensure chosen httpd is installed
+# - Check firewall settings for local access
+# - Try different httpd if one fails

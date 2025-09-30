@@ -1,0 +1,115 @@
+# Upload Pack Configuration
+# Server-side settings for git fetch/clone operations
+
+[uploadpack]
+# Advertise object info capability
+advertiseObjectInfo = true
+
+# Allow clients to request any SHA1
+allowAnySHA1InWant = false
+
+# Allow partial clone filters
+allowFilter = true
+
+# Allow reachable SHA1 requests
+allowReachableSHA1InWant = false
+
+# Allow clients to request specific refs
+allowRefInWant = false
+
+# Allow tip SHA1 requests
+allowTipSHA1InWant = false
+
+# References to hide from clients
+hideRefs = ""
+
+# Keep-alive interval in seconds
+keepAlive = 5
+
+# Hook to modify pack objects
+packObjectsHook = ""
+
+# Filter-specific settings using dot notation
+[uploadpack.filter]
+# Allow specific filters
+allow = true
+"blob:none" = true
+"blob:limit" = true
+tree = true
+"sparse:oid" = true
+combine = true
+
+# Security levels (from most to least restrictive):
+
+# 1. Locked down:
+# [uploadpack]
+# allowAnySHA1InWant = false
+# allowReachableSHA1InWant = false
+# allowTipSHA1InWant = false
+# allowFilter = false
+
+# 2. Standard (default):
+# [uploadpack]
+# allowTipSHA1InWant = false
+# allowFilter = true
+# allowReachableSHA1InWant = false
+
+# 3. Permissive:
+# [uploadpack]
+# allowReachableSHA1InWant = true
+# allowTipSHA1InWant = true
+# allowFilter = true
+
+# hideRefs examples:
+# hideRefs = refs/pull/*          # Hide pull requests
+# hideRefs = refs/changes/*       # Hide Gerrit changes  
+# hideRefs = refs/users/*         # Hide user refs
+# hideRefs = ^refs/heads/secret-  # Hide branches with prefix
+
+# Partial clone filters:
+# - blob:none - Omit all blobs
+# - blob:limit=<size> - Omit blobs larger than size
+# - tree:<depth> - Limit tree depth
+# - sparse:oid=<oid> - Use sparse-checkout specification
+# - combine:<filter1>+<filter2> - Combine filters
+
+# packObjectsHook:
+# Custom script to process pack generation
+# Receives pack-objects arguments
+# Can modify/filter objects being sent
+
+# Performance tuning:
+# [uploadpack]
+# keepAlive = 10  # Longer keep-alive for slow networks
+# packObjectsHook = /usr/local/bin/pack-optimizer
+
+# Advertising capabilities:
+# - advertiseObjectInfo: Support object info queries
+# - allowRefInWant: Let clients request refs by name
+# - v2 protocol: More efficient ref advertisement
+
+# Common use cases:
+
+# Public mirror:
+# [uploadpack]
+# allowFilter = true
+# allowTipSHA1InWant = true
+
+# Private repository:
+# [uploadpack]
+# hideRefs = refs/users/*
+# hideRefs = refs/pull/*
+# allowFilter = false
+
+# CI/CD server:
+# [uploadpack]
+# allowReachableSHA1InWant = true
+# allowFilter = true
+# [uploadpack.filter]
+# tree = true  # Fast checkout for CI
+
+# Monitoring:
+# Check server logs for:
+# - Partial clone requests
+# - Hidden ref access attempts
+# - Unusual SHA1 requests

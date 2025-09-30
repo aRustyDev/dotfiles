@@ -1,0 +1,67 @@
+# Web Configuration
+# Settings for web-related Git commands
+
+[web]
+# Web browser to use
+browser = "firefox"
+
+# Notes:
+# - browser: Default web browser for Git commands
+#   that open web pages
+#   Used by: git web--browse, git help --web
+#   See browser.toml for browser-specific settings
+
+# Common browsers:
+# browser = "firefox"
+# browser = "chrome"
+# browser = "chromium"
+# browser = "safari"
+# browser = "edge"
+# browser = "opera"
+
+# Text-based browsers:
+# browser = "lynx"
+# browser = "w3m"
+# browser = "links"
+
+# System default:
+# browser = "xdg-open"      # Linux
+# browser = "open"          # macOS  
+# browser = "start"         # Windows
+
+# Custom browser:
+# browser = "custom-browser"
+# Then configure in browser.custom-browser
+
+# Commands that use web.browser:
+# git help --web <command>      # Open help in browser
+# git web--browse <url>         # Open URL
+# git instaweb                  # May use for viewing
+
+# Environment override:
+# GIT_WEB_BROWSER=chrome git help --web commit
+
+# Platform-specific defaults:
+# - Linux: Tries xdg-open, then common browsers
+# - macOS: Uses open command
+# - Windows: Uses start command
+
+# Testing browser configuration:
+# git web--browse https://example.com
+# git help --web status
+
+# Integration with other tools:
+# Some Git GUI tools may respect this setting
+# Extensions may use it for opening links
+
+# Fallback behavior:
+# If specified browser fails, Git may try:
+# 1. Common browsers in PATH
+# 2. Platform-specific methods
+# 3. Error if nothing works
+
+# Best practices:
+# - Set to your preferred browser
+# - Use full path if browser not in PATH
+# - Configure browser-specific options in browser.*
+# - Test with git web--browse after configuring

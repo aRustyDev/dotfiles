@@ -1,0 +1,41 @@
+# Bundle Configuration
+# Controls git-bundle behavior for bundle files
+
+[bundle]
+# Bundle format version
+version = 1
+
+# Bundle creation mode
+mode = "all"  # all, partial
+
+# Notes on bundle versions:
+# - version 1: Original bundle format
+# - version 2: Supports newer features
+# - version 3: Latest format with additional capabilities
+
+# Mode options:
+# - all: Include all objects needed for a complete bundle
+# - partial: Allow partial bundles (requires recipient to have some objects)
+
+# Bundle files (.bundle) are used for:
+# - Offline repository transfer
+# - Backup purposes
+# - Sharing via email or USB
+# - Initial clone in disconnected environments
+
+# Common bundle operations:
+# git bundle create repo.bundle HEAD              # Bundle current branch
+# git bundle create repo.bundle --all             # Bundle all branches
+# git bundle create repo.bundle main              # Bundle specific branch
+# git bundle create changes.bundle origin..HEAD   # Bundle new commits
+#
+# git bundle verify repo.bundle                   # Check bundle validity
+# git bundle list-heads repo.bundle               # List bundle contents
+#
+# git clone repo.bundle new-repo                  # Clone from bundle
+# git pull repo.bundle main                       # Pull from bundle
+# git fetch repo.bundle refs/heads/*:refs/remotes/bundle/*  # Fetch bundle
+
+# Creating incremental bundles:
+# git bundle create update.bundle lastbackup..HEAD --all
+# This creates a bundle with commits since 'lastbackup' tag

@@ -1,0 +1,86 @@
+# Maintenance Configuration
+# Background maintenance settings for repository optimization
+
+[maintenance]
+# Enable automatic maintenance
+auto = true
+
+# Maintenance strategy
+strategy = "incremental"  # none, incremental
+
+# Individual maintenance task configurations
+[maintenance.gc]
+# Garbage collection task
+enabled = true
+schedule = "weekly"
+
+[maintenance.commit-graph]
+# Update commit-graph file
+enabled = true
+schedule = "hourly"
+
+[maintenance.prefetch]
+# Prefetch objects from remotes
+enabled = true
+schedule = "hourly"
+
+[maintenance.loose-objects]
+# Clean up loose objects
+enabled = true
+schedule = "daily"
+
+[maintenance.incremental-repack]
+# Incremental repacking
+enabled = true
+schedule = "daily"
+
+[maintenance.pack-refs]
+# Pack loose references
+enabled = true
+schedule = "weekly"
+
+# Schedule options:
+# - hourly: Run every hour
+# - daily: Run once per day  
+# - weekly: Run once per week
+
+# Strategy explanations:
+# - none: No automatic maintenance
+# - incremental: Gradual optimization (recommended)
+#   Runs different tasks on different schedules
+#   Minimizes impact on performance
+
+# Setting up maintenance:
+# git maintenance start           # Enable background maintenance
+# git maintenance stop           # Disable background maintenance
+# git maintenance run            # Run maintenance tasks now
+# git maintenance register       # Register repo for maintenance
+# git maintenance unregister     # Unregister repo
+
+# Manual task execution:
+# git maintenance run --task=gc
+# git maintenance run --task=commit-graph
+# git maintenance run --task=prefetch
+
+# Platform-specific scheduling:
+# - Linux: Uses cron
+# - macOS: Uses launchd
+# - Windows: Uses Task Scheduler
+
+# Benefits of maintenance:
+# - Better performance over time
+# - Automatic optimization
+# - Reduced manual intervention
+# - Background operation
+
+# Task descriptions:
+# - gc: Full garbage collection
+# - commit-graph: Update commit-graph for faster walks
+# - prefetch: Fetch from remotes without updating refs
+# - loose-objects: Collect loose objects into packs
+# - incremental-repack: Repack objects efficiently
+# - pack-refs: Pack loose refs for better performance
+
+# Monitoring:
+# Check .git/maintenance.lock for running tasks
+# Review git maintenance logs for issues

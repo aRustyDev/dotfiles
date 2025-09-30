@@ -1,0 +1,44 @@
+# Push Configuration
+# Controls the behavior of git push operations
+
+[push]
+# Automatically set up remote tracking when pushing new branches
+autoSetupRemote = false
+
+# Default push behavior
+default = "simple"  # nothing, current, upstream, simple, matching
+
+# Push annotated tags reachable from pushed commits
+followTags = false
+
+# Sign all pushed commits with GPG
+gpgSign = false
+
+# Use protocol v2 push negotiation to reduce data sent
+negotiate = true
+
+# Push options to send to the server (can be specified multiple times)
+pushOption = [
+    "ci.skip",
+    "merge_request.create"
+]
+
+# How to handle submodules when pushing
+recurseSubmodules = "check"  # check, on-demand, only, no
+
+# Use bitmaps during push to speed up object counting
+useBitmaps = true
+
+# Additional push configurations
+
+# Example of pushOption for different scenarios:
+# pushOption = ["ci.skip"]  # Skip CI for this push
+# pushOption = ["merge_request.create", "merge_request.target=main"]  # GitLab MR options
+# pushOption = ["reviewers=user1,user2"]  # Gerrit code review options
+
+# Notes on push.default values:
+# - nothing: Do not push anything unless explicitly specified
+# - current: Push current branch to remote branch with same name
+# - upstream: Push current branch to its upstream branch
+# - simple: Like upstream, but refuse if upstream branch name differs (default)
+# - matching: Push all branches with same name on remote

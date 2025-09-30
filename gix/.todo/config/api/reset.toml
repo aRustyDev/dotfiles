@@ -1,0 +1,71 @@
+# Reset Configuration
+# Controls git reset behavior
+
+[reset]
+# Suppress output during reset
+quiet = false
+
+# Notes:
+# - quiet: When true, suppresses feedback messages
+#   Only errors are shown
+
+# Reset modes explained:
+# --soft: Move HEAD only
+#   - Keeps index (staging area)
+#   - Keeps working directory
+#   - Use to: Undo commits but keep changes staged
+#
+# --mixed (default): Move HEAD and reset index
+#   - Resets index
+#   - Keeps working directory  
+#   - Use to: Undo commits and unstage changes
+#
+# --hard: Move HEAD, reset index and working directory
+#   - Resets index
+#   - Resets working directory
+#   - Use to: Completely undo commits and changes
+#
+# --merge: Reset index and update working tree
+#   - Keeps local modifications
+#   - Use to: Abort merge but keep local changes
+#
+# --keep: Reset but keep local modifications
+#   - Fails if conflicts would occur
+#   - Use to: Safely reset with uncommitted changes
+
+# Common reset operations:
+# git reset HEAD~1              # Undo last commit (mixed)
+# git reset --soft HEAD~1       # Undo commit, keep staged
+# git reset --hard HEAD~1       # Completely remove commit
+# git reset HEAD <file>         # Unstage file
+# git reset --hard origin/main  # Reset to remote state
+# git reset --merge ORIG_HEAD   # Undo merge
+# git reset --keep HEAD~3       # Go back 3 commits safely
+
+# Reset vs revert:
+# - reset: Rewrites history (don't use on shared branches)
+# - revert: Creates new commit to undo (safe for shared)
+
+# Recovering from reset:
+# git reflog                    # Show all HEAD movements
+# git reset --hard HEAD@{1}     # Undo last reset
+# git reset --hard <commit>     # Reset to specific commit
+
+# Safety tips:
+# - Use --soft or --mixed for safety
+# - Use --hard only when sure
+# - Check git status before reset
+# - Use git stash to save changes
+# - Remember git reflog for recovery
+
+# Common workflows:
+# # Squash last 3 commits
+# git reset --soft HEAD~3
+# git commit -m "Combined commit"
+#
+# # Split a commit
+# git reset HEAD~1
+# git add -p  # Stage selectively
+# git commit -m "First part"
+# git add .
+# git commit -m "Second part"

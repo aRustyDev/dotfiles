@@ -1,0 +1,106 @@
+# Transfer Configuration
+# Settings for object transfer operations
+
+[transfer]
+# Advertise session ID capability
+advertiseSID = true
+
+# Bundle URI support
+bundleURI = "auto"  # true, false, auto
+
+# How to handle credentials in URLs
+credentialsInUrl = "allow"  # allow, warn, die
+
+# Check transferred objects
+fsckObjects = false
+
+# Hide references from clients
+hideRefs = ""
+
+# Maximum number of objects to unpack
+unpackLimit = 100
+
+# Fsck settings for transfer using dot notation
+[transfer.fsck]
+# Skip list for known issues
+skipList = ""
+
+# How to handle missing email
+missingEmail = "ignore"  # ignore, warn, error
+
+# Specific fsck checks
+# zeroPaddedFilemode = "warn"
+# badTimezone = "ignore"
+
+# Notes on settings:
+
+# advertiseSID:
+# - Session IDs help correlate logs
+# - Useful for debugging distributed operations
+
+# bundleURI:
+# - Supports downloading bundles for initial clone
+# - auto = Use if server advertises
+# - Can significantly speed up clones
+
+# credentialsInUrl:
+# - allow: Permit URLs like https://user:pass@host
+# - warn: Warn but allow (helps migration)
+# - die: Reject URLs with credentials
+
+# fsckObjects:
+# - Validate all received objects
+# - Slower but more secure
+# - Recommended for important repositories
+
+# hideRefs:
+# - Patterns for refs to hide from clients
+# - Useful for internal refs
+# - Can be specified multiple times
+
+# Security configurations:
+
+# High security:
+# [transfer]
+# fsckObjects = true
+# credentialsInUrl = die
+# [transfer.fsck]
+# missingEmail = error
+# zeroPaddedFilemode = error
+
+# Performance optimized:
+# [transfer]
+# fsckObjects = false
+# bundleURI = true
+# unpackLimit = 1000
+
+# Common hideRefs patterns:
+# hideRefs = refs/pull/*        # GitHub pull requests  
+# hideRefs = refs/changes/*     # Gerrit changes
+# hideRefs = refs/users/*       # User-specific refs
+# hideRefs = ^refs/tags/v0      # Old tags
+
+# Bundle URI usage:
+# Server advertises bundle locations
+# Client can download static bundles
+# Reduces server load for initial clones
+
+# Fsck checks available:
+# - badDateOverflow
+# - badEmail
+# - badName
+# - badObjectSha1
+# - badTagName
+# - badTimezone
+# - emptyName
+# - missingAuthor
+# - missingCommitter
+# - missingEmail
+# - zeroPaddedFilemode
+# Many more...
+
+# Best practices:
+# - Enable fsckObjects for production
+# - Use credentialsInUrl = warn during migration
+# - Configure hideRefs for server repositories
+# - Set appropriate fsck levels based on needs

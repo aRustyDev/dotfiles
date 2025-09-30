@@ -1,0 +1,66 @@
+# Tag Configuration
+# Controls behavior of git tag operations
+
+[tag]
+# Force signing of annotated tags
+forceSignAnnotated = false
+
+# Sign all tags with GPG by default
+gpgSign = false
+
+# Default sort order for git tag listing
+sort = "version:refname"
+
+# Additional tag settings:
+
+# Tag message cleanup mode (like commit.cleanup)
+# cleanup = "strip"  # strip, whitespace, verbatim
+
+# GPG key for signing tags (defaults to user.signingkey)
+# signingKey = "GPG-KEY-ID"
+
+# Sort order options:
+# - version:refname: Version sort (v1.0.9 before v1.0.10)
+# - refname: Alphabetical sort
+# - creatordate: Date tag was created
+# - taggerdate: Date tag was tagged
+# - -<criteria>: Prefix with - for reverse order
+
+# Examples of different sort orders:
+# sort = "version:refname"   # v1.0.1, v1.0.2, v1.0.10 (version aware)
+# sort = "refname"           # v1.0.1, v1.0.10, v1.0.2 (alphabetical)
+# sort = "-version:refname"  # v1.0.10, v1.0.2, v1.0.1 (reverse version)
+# sort = "creatordate"       # Oldest tags first
+# sort = "-creatordate"      # Newest tags first
+
+# Tag types:
+# 1. Lightweight tags: Simple pointers to commits
+#    git tag v1.0.0
+#
+# 2. Annotated tags: Full objects with metadata
+#    git tag -a v1.0.0 -m "Version 1.0.0"
+#
+# 3. Signed tags: Annotated tags with GPG signature
+#    git tag -s v1.0.0 -m "Version 1.0.0"
+
+# Best practices:
+# - Use annotated tags for releases
+# - Use lightweight tags for personal bookmarks
+# - Sign tags for additional security
+# - Use semantic versioning (v1.2.3)
+
+# Useful tag commands:
+# git tag                    # List all tags
+# git tag -l "v1.0.*"       # List tags matching pattern
+# git tag -n                 # Show tag messages
+# git tag -n5                # Show 5 lines of tag message
+# git show v1.0.0           # Show tag details
+# git tag -d v1.0.0         # Delete local tag
+# git push origin :v1.0.0   # Delete remote tag
+# git push --tags           # Push all tags
+# git push origin v1.0.0    # Push specific tag
+
+# Signing tags:
+# - Requires GPG key configured in user.signingkey
+# - Recipients need your public key to verify
+# - Use git tag -v <tag> to verify signed tag

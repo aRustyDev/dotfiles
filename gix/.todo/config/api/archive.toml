@@ -1,0 +1,28 @@
+# Archive Configuration
+# Controls git-archive behavior for creating archives
+
+[archive]
+# Restrict archive operations to local repositories only
+restrictRemote = true
+
+# Notes:
+# - restrictRemote: When true, git-archive refuses to create
+#   archives from remote repositories for security reasons
+# - Set to false only if you trust the remote repository
+
+# Common archive commands:
+# git archive HEAD > archive.tar              # Create tar archive
+# git archive --format=zip HEAD > archive.zip  # Create zip archive
+# git archive --prefix=project/ HEAD           # Add prefix to paths
+# git archive -o latest.tar.gz HEAD           # Output to file
+# git archive HEAD path/to/files              # Archive specific paths
+
+# Archive formats:
+# - tar (default)
+# - tar.gz (with gzip compression)
+# - tar.bz2 (with bzip2 compression)  
+# - tar.xz (with xz compression)
+# - zip
+
+# Remote archives (when restrictRemote = false):
+# git archive --remote=git://example.com/repo.git HEAD

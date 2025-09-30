@@ -1,0 +1,88 @@
+# GUI Tool Configuration
+# Define custom tools for Git GUI
+
+# Example: Start web server for repository browsing
+[guitool.gitweb]
+# Command to execute
+cmd = "git instaweb --httpd=webrick"
+
+# Whether the tool needs a file selected
+needsFile = false
+
+# Keyboard shortcut (optional)
+# accel = "Ctrl-W"
+
+# Don't block GUI while running
+# noconsole = true
+
+# Confirm before running
+# confirm = true
+
+# Working directory for command
+# pwd = "top"  # top (repository root) or current
+
+# More tool examples
+[guitool.gitk]
+cmd = "gitk --all"
+needsFile = false
+noconsole = true
+
+[guitool.blame]
+cmd = "git gui blame $FILENAME"
+needsFile = true
+noconsole = true
+
+[guitool.edit]
+cmd = "code $FILENAME"
+needsFile = true
+noconsole = true
+
+[guitool.terminal]
+cmd = "gnome-terminal"
+needsFile = false
+noconsole = true
+pwd = "current"
+
+[guitool.fetch-all]
+cmd = "git fetch --all --prune"
+needsFile = false
+confirm = true
+
+[guitool.push-tags]
+cmd = "git push --tags"
+needsFile = false
+confirm = true
+
+[guitool.stash-all]
+cmd = "git stash push -m 'GUI stash' --include-untracked"
+needsFile = false
+confirm = true
+
+[guitool.clean]
+cmd = "git clean -fd"
+needsFile = false
+confirm = true
+
+# Variables available in commands:
+# $FILENAME - Currently selected file
+# $REVISION - Currently selected revision
+# $ARGS - Additional arguments
+
+# Tool settings:
+# - cmd: Command to execute (required)
+# - needsFile: Whether a file must be selected
+# - confirm: Ask for confirmation before running
+# - noconsole: Don't wait for command to complete
+# - pwd: Working directory (top or current)
+# - accel: Keyboard shortcut
+
+# Adding tools to Git GUI:
+# Tools appear in Tools menu in git-gui
+# Shortcuts can be assigned for quick access
+# Tools can operate on selected files or globally
+
+# Best practices:
+# - Use confirm=true for destructive operations
+# - Use noconsole=true for GUI applications
+# - Set appropriate pwd for the tool's needs
+# - Provide meaningful names for tools

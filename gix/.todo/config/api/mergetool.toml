@@ -1,0 +1,90 @@
+# Mergetool Configuration
+# Settings for external merge conflict resolution tools
+
+[mergetool]
+# Hide resolved conflicts in the merge tool
+hideResolved = false
+
+# Keep .orig backup files after merge
+keepBackup = true
+
+# Keep temporary files after merge
+keepTemporaries = false
+
+# Prompt before launching merge tool
+prompt = true
+
+# Trust the exit code of the merge tool
+trustExitCode = false
+
+# Write temporary files to a specific location
+writeToTemp = false
+
+# Specific merge tool configurations using dot notation
+[mergetool.vimdiff]
+# Command to invoke the merge tool
+cmd = "vim -d \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\""
+trustExitCode = false
+
+[mergetool.vimdiff2]
+cmd = "vim -d \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
+
+[mergetool.vimdiff3]
+cmd = "vim -d \"$LOCAL\" \"$REMOTE\" \"$MERGED\" -c \"wincmd J\""
+
+[mergetool.meld]
+cmd = "meld \"$LOCAL\" \"$BASE\" \"$REMOTE\" --output=\"$MERGED\""
+trustExitCode = false
+
+[mergetool.kdiff3]
+cmd = "kdiff3 \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\""
+trustExitCode = false
+
+[mergetool.vscode]
+cmd = "code --wait --merge \"$REMOTE\" \"$LOCAL\" \"$BASE\" \"$MERGED\""
+trustExitCode = false
+
+[mergetool.p4merge]
+cmd = "p4merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
+trustExitCode = false
+
+[mergetool.bc]  # Beyond Compare
+cmd = "bcomp \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\""
+trustExitCode = true
+
+[mergetool.smerge]  # Sublime Merge
+cmd = "smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\""
+trustExitCode = false
+
+# Variables available in merge tool commands:
+# $LOCAL - Current branch version
+# $REMOTE - Version being merged in
+# $BASE - Common ancestor version
+# $MERGED - File where result should be saved
+# $BACKUP - Original file with conflict markers
+
+# Setting default merge tool:
+# Set merge.tool in merge.toml
+
+# Common usage:
+# git mergetool                  # Launch tool for all conflicts
+# git mergetool -t vimdiff       # Use specific tool
+# git mergetool file.txt         # Resolve specific file
+# git mergetool --tool-help      # List available tools
+# git mergetool --no-prompt      # Skip confirmation prompts
+
+# hideResolved effect:
+# When true, only shows conflicting sections
+# When false, shows entire files with conflicts
+
+# Backup files:
+# keepBackup = true creates .orig files
+# Clean up with: git clean -f '*.orig'
+
+# Trust exit code:
+# true: Non-zero exit means merge was unsuccessful
+# false: Always prompt to confirm successful merge
+
+# After merging:
+# git add <merged-files>         # Stage resolved files
+# git commit                     # Complete the merge

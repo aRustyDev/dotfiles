@@ -1,0 +1,89 @@
+# Repack Configuration
+# Settings for repacking Git objects
+
+[repack]
+# Depth for cruft pack delta chains
+cruftDepth = 4
+
+# Number of threads for cruft pack generation
+cruftThreads = 1
+
+# Window size for cruft pack delta search
+cruftWindow = 20
+
+# Memory limit for cruft pack window
+cruftWindowMemory = 0
+
+# Include kept objects in packs
+packKeptObjects = false
+
+# Update server info after repack
+updateServerInfo = true
+
+# Use delta base offset representation
+useDeltaBaseOffset = true
+
+# Write bitmap indexes
+writeBitmaps = true
+
+# Notes on settings:
+# - cruftDepth: Max delta chain length in cruft packs
+#   Lower = larger packs, faster access
+#
+# - cruftThreads: Threads for cruft pack generation
+#   0 = auto-detect based on CPUs
+#
+# - cruftWindow: Delta search window for cruft packs
+#   Higher = better compression, slower
+#
+# - packKeptObjects: Include objects from .keep packs
+#   true = repack everything (ignores .keep)
+#   false = respect .keep markers
+#
+# - writeBitmaps: Create bitmap indexes
+#   Speeds up counting/traversal operations
+
+# Common repack operations:
+# git repack                    # Simple repack
+# git repack -a                 # Repack all objects
+# git repack -d                 # Delete redundant packs
+# git repack -f                 # Force delta recomputation
+# git repack -F                 # Force object reuse
+# git repack -a -d -f           # Full aggressive repack
+# git repack -a -d --write-bitmap-index  # With bitmaps
+
+# Incremental vs full repack:
+# Incremental (default):
+# - Only packs loose objects
+# - Keeps existing packs
+# - Fast but may accumulate packs
+
+# Full repack (-a):
+# - Combines all objects into new packs
+# - More efficient result
+# - Takes longer
+
+# Cruft packs:
+# Store unreachable objects separately
+# - Improves performance
+# - Easier garbage collection
+# - Prevents mixing reachable/unreachable
+
+# Performance tuning:
+# Large repos:
+# [repack]
+# writeBitmaps = true
+# useDeltaBaseOffset = true
+# packKeptObjects = false
+# cruftThreads = 4
+
+# Bitmap benefits:
+# - Faster 'git fetch' negotiation
+# - Faster 'git push' object counting
+# - Faster 'git gc' operations
+# - Small space overhead
+
+# .keep files:
+# - touch .git/objects/pack/pack-<hash>.keep
+# - Prevents pack from being repacked
+# - Useful for large historical packs

@@ -1,0 +1,103 @@
+# Core Git Configuration Options
+# These control fundamental Git behavior and repository settings
+
+[core]
+# Repository format version
+repositoryformatversion = 0
+
+# Object storage settings
+filemode = true
+bare = false
+logallrefupdates = true
+symlinks = true
+ignorecase = true
+precomposeunicode = true
+
+# Trust and security settings
+trustctime = true
+checkStat = "default"
+quotepath = true
+
+# File handling settings
+autocrlf = "input"  # true, false, input
+safecrlf = "warn"   # true, false, warn
+eol = "lf"          # lf, crlf, native
+
+# Performance settings
+preloadindex = true
+fscache = true
+bigFileThreshold = "512m"
+
+# Editors and pagers
+editor = "vim"
+pager = "less -FRX"
+whitespace = "blank-at-eol,space-before-tab,blank-at-eof"
+
+# Hooks and attributes
+hooksPath = "~/.git/hooks"
+attributesFile = "~/.gitattributes"
+
+# Working tree
+worktree = "/path/to/worktree"
+
+# Refs
+notesRef = "refs/notes/commits"
+
+# Compression settings
+compression = -1  # -1 to 9
+loosecompression = -1
+
+# Pack file settings
+packedGitLimit = "256m"
+packedGitWindowSize = "1m"
+
+# Delta compression
+deltaBaseCacheLimit = "96m"
+
+# File system monitor
+fsmonitor = true
+fsmonitorHookVersion = 2
+
+# Other core settings
+abbrev = "auto"
+commentChar = "auto"
+excludesFile = "~/.gitignore_global"
+askpass = "/usr/bin/ssh-askpass"
+sshCommand = "ssh -o StrictHostKeyChecking=no"
+
+# Additional core settings that might be less common
+# createObject = "rename"  # link, rename
+# alternateRefsCommand = ""
+# alternateRefsPrefixes = ""
+# bigFileThreshold = "512m"
+# checkRoundtripEncoding = "SHIFT-JIS"
+# commitGraph = true
+# filesRefLockTimeout = 100
+# gitProxy = "proxy-command for example.com"
+# hideDotFiles = "dotGitOnly"  # true, false, dotGitOnly
+# ignoreCase = true
+# longpaths = true
+# multiPackIndex = true
+# packedRefsTimeout = 1000
+# preferSymlinkRefs = false
+# protectHFS = true
+# protectNTFS = true
+# restrictinheritedhandles = true
+# sharedRepository = "umask"  # umask, group, all, world, everybody, 0xxx
+# sparseCheckout = true
+# sparseCheckoutCone = true
+# splitIndex = false
+# unsetenvvars = ""
+# untrackedCache = true  # true, false, keep
+# useReplaceRefs = true
+# warnAmbiguousRefs = true
+
+# Platform-specific settings
+# [core.windows]
+# symlinks = false
+# filemode = false
+# hideDotFiles = "dotGitOnly"
+
+# [core.macos]
+# precomposeunicode = true
+# protectHFS = true

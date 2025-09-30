@@ -1,0 +1,50 @@
+# Fast Import Configuration
+# Controls git fast-import behavior
+
+[fastimport]
+# Maximum number of objects to keep in memory before writing pack
+unpackLimit = 100
+
+# Notes:
+# - unpackLimit: Controls memory usage vs. performance trade-off
+#   Lower values = less memory, more I/O
+#   Higher values = more memory, better performance
+#   0 = always write packs immediately
+
+# Fast-import is used for:
+# - Importing from other version control systems
+# - Bulk repository creation
+# - Repository conversion tools
+# - Backup/restore operations
+
+# Common fast-import operations:
+# git fast-import < import-stream         # Import from stream
+# git fast-import --quiet < import.dat    # Quiet mode
+# git fast-import --force < import.dat    # Force import
+# git fast-import --done < import.dat     # Expect 'done' command
+# git fast-import --cat-blob-fd=3 3>blob  # Export blobs during import
+
+# Fast-export (companion command):
+# git fast-export --all > export.dat      # Export entire repository
+# git fast-export main > branch.dat       # Export specific branch
+# git fast-export --anonymize             # Anonymize data
+# git fast-export --signed-tags=strip     # Handle signed tags
+
+# Stream format example:
+# blob
+# mark :1
+# data 12
+# Hello world
+# 
+# commit refs/heads/main
+# mark :2
+# author Name <email> 1234567890 +0000
+# committer Name <email> 1234567890 +0000
+# data 14
+# Initial commit
+# M 100644 :1 hello.txt
+
+# Performance considerations:
+# - Higher unpackLimit reduces I/O but uses more memory
+# - For large imports, monitor memory usage
+# - Consider using checkpoints for very large imports

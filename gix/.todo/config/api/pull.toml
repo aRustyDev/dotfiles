@@ -1,0 +1,87 @@
+# Pull Configuration
+# Controls git pull behavior and merge strategies
+
+[pull]
+# Fast-forward behavior
+ff = "only"  # true, false, only
+
+# Default strategy for octopus merges (>2 parents)
+octopus = "octopus"
+
+# Whether to rebase instead of merge
+rebase = false  # true, false, merges, preserve, interactive
+
+# Default strategy for two-parent merges
+twohead = "recursive"
+
+# ff (fast-forward) options:
+# - true: Allow fast-forward (default)
+# - false: Always create merge commit
+# - only: Only allow fast-forward (fail otherwise)
+
+# rebase options:
+# - false: Merge (create merge commit)
+# - true: Rebase onto upstream
+# - merges: Rebase preserving merge commits
+# - preserve: Deprecated alias for merges
+# - interactive: Interactive rebase
+
+# Common pull scenarios:
+
+# Always rebase (linear history):
+# [pull]
+# rebase = true
+
+# Never rebase (preserve merge commits):
+# [pull]
+# rebase = false
+# ff = false
+
+# Rebase only if fast-forward possible:
+# [pull]
+# ff = only
+
+# Interactive rebase on pull:
+# [pull]
+# rebase = interactive
+
+# Merge strategies:
+# - recursive: Default two-parent merge
+# - resolve: Older two-parent merge
+# - octopus: Multi-parent merge (>2)
+# - ours: Keep our version entirely
+# - subtree: Modified recursive for subtrees
+
+# Common pull commands:
+# git pull                      # Use configured behavior
+# git pull --rebase             # Force rebase
+# git pull --no-rebase          # Force merge
+# git pull --ff-only            # Only fast-forward
+# git pull --no-ff              # Force merge commit
+# git pull --rebase=interactive # Interactive rebase
+
+# Pull with options:
+# git pull --autostash          # Stash before pull
+# git pull --no-autostash       # Don't stash
+# git pull -s recursive -X ours # Merge favoring our changes
+# git pull --allow-unrelated-histories
+
+# Setting up for teams:
+# Linear history team:
+# git config pull.rebase true
+# git config pull.ff only
+
+# Feature branch workflow:
+# git config pull.rebase false
+# git config pull.ff false
+
+# Warning about rebase:
+# - Don't rebase commits that exist outside your repository
+# - Rebasing rewrites history
+# - Can cause issues for other developers
+
+# Best practices:
+# - Use rebase for private branches
+# - Use merge for shared branches
+# - Set pull.ff=only to avoid accidental merges
+# - Configure per-repository based on workflow

@@ -1,0 +1,135 @@
+# Diff Configuration
+# Controls how Git displays differences between files
+
+[diff]
+# Algorithm for computing diffs
+algorithm = "histogram"  # myers, minimal, patience, histogram
+
+# Automatically refresh index before diffing
+autoRefreshIndex = true
+
+# Color moved lines differently
+colorMoved = "default"  # no, default, plain, blocks, zebra, dimmed-zebra
+
+# How to handle whitespace in moved lines
+colorMovedWS = "allow-indentation-change"
+
+# Number of context lines
+context = 3
+
+# External diff program
+external = ""
+
+# How to handle submodules in diffs
+ignoreSubmodules = "none"  # none, untracked, dirty, all
+
+# Use mnemonic prefixes (i/index, w/worktree, etc.) instead of a/b
+mnemonicPrefix = false
+
+# Omit a/ and b/ prefixes from filenames
+noPrefix = false
+
+# File defining order of files in diff output
+orderFile = ""
+
+# Show paths relative to current directory
+relative = false
+
+# Detect renames
+renames = true  # true, false, copies
+
+# Limit on rename detection
+renameLimit = 1000
+
+# Width of filename section in --stat output
+statGraphWidth = 80
+
+# How to display submodule changes
+submodule = "short"  # short, log, diff
+
+# Suppress blank lines from being shown
+suppressBlankEmpty = false
+
+# Default diff tool
+tool = "vimdiff"
+
+# Regular expression defining word boundaries
+wordRegex = ""
+
+# Highlight whitespace errors
+wsErrorHighlight = "all"  # old, new, context, all, none
+
+# Per-file-type diff settings using dot notation
+[diff.binary]
+# How to handle binary files
+textconv = "hexdump -C"
+binary = true
+
+[diff.exif]
+# Show EXIF data for images
+textconv = "exiftool"
+
+[diff.zip]
+# Show contents of zip files
+textconv = "unzip -c -a"
+
+[diff.pdf]
+# Convert PDF to text for diffing
+textconv = "pdftotext"
+cachetextconv = true
+
+[diff.doc]
+# Convert Word documents to text
+textconv = "antiword"
+
+[diff.odt]
+# Convert OpenDocument text to plain text
+textconv = "odt2txt"
+
+[diff.markdown]
+# Custom word regex for Markdown
+wordRegex = "[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+"
+
+[diff.python]
+# Python-specific diff settings
+xfuncname = "^[ \t]*((class|def)[ \t].*)$"
+
+[diff.java]
+# Java-specific diff settings
+xfuncname = "^[ \t]*(((public|protected|private|static)[ \t]+)*((class|interface|enum)[ \t]+.*)|(.*[ \t]+)?([a-zA-Z_][a-zA-Z0-9_]*[ \t]*\\(.*))[ \t]*$"
+
+[diff.cpp]
+# C++ specific diff settings
+xfuncname = "^[ \t]*((template[ \t]*<[^>]+>[ \t]*)?((class|struct|namespace)[ \t]+[a-zA-Z0-9_]+.*)|([a-zA-Z_][a-zA-Z0-9_:]*[ \t]*\\([^)]*\\)[^;]*))$"
+
+# Custom diff driver example
+[diff.custom]
+name = "Custom file type"
+driver = "custom-diff-tool %A %B"
+xfuncname = "^[ \t]*(.*)$"
+wordRegex = "[a-zA-Z0-9_]+"
+binary = false
+textconv = "custom-to-text"
+cachetextconv = true
+command = "custom-diff-command"
+
+# Algorithm notes:
+# - myers: The default, good for most cases
+# - minimal: Produces smallest diff but may be slower
+# - patience: Good for code with many similar lines
+# - histogram: Fast algorithm, good for large files
+
+# colorMoved notes:
+# - no: Do not color moved lines
+# - default: Moved lines colored with cyan/blue
+# - plain: Moved lines colored with no dimming
+# - blocks: Blocks of moved text are colored
+# - zebra: Blocks of moved text with alternating colors
+# - dimmed-zebra: Like zebra but with dimming
+
+# wsErrorHighlight notes:
+# - old: Highlight whitespace errors in deleted lines
+# - new: Highlight whitespace errors in added lines
+# - context: Highlight whitespace errors in context lines
+# - all: Highlight all whitespace errors
+# - none: Do not highlight whitespace errors

@@ -1,0 +1,74 @@
+# GUI Configuration
+# Settings for Git GUI applications
+
+[gui]
+# Width of commit message text area
+commitMsgWidth = 72
+
+# Number of context lines in diff view
+diffContext = 3
+
+# Display untracked files
+displayUntracked = true
+
+# GUI encoding
+encoding = "utf-8"
+
+# Use fast copy detection for blame
+fastCopyBlame = true
+
+# Match tracking branch by default
+matchTrackingBranch = false
+
+# Template for new branch names
+newBranchTemplate = ""
+
+# Prune remote branches during fetch
+pruneDuringFetch = true
+
+# Spelling dictionary to use
+spellingDictionary = "none"
+
+# Trust file modification times
+trustmtime = true
+
+# Additional GUI settings:
+# fontui = "sans 10"     # UI font
+# fontdiff = "monospace 10"  # Diff font
+# gcwarning = true       # Warn before running gc
+# warndetachedcommit = true  # Warn when committing in detached HEAD
+# maxfilesdisplayed = 5000  # Maximum files to display
+# tabsize = 8            # Tab width in diff view
+
+# Notes:
+# - These settings apply to git-gui and gitk
+# - Some settings may be ignored by other GUI tools
+# - GUI tools may have their own configuration
+
+# commitMsgWidth:
+# - Guides for commit message wrapping
+# - Standard is 72 characters for body text
+# - Subject lines should be ~50 characters
+
+# spellingDictionary options:
+# - none: No spell checking
+# - en_US, en_GB, etc.: Language codes
+# - Path to custom dictionary file
+
+# Common GUI commands:
+# git gui                    # Launch Git GUI
+# git gui blame file.txt     # Blame view for file
+# git gui browser          # Repository browser
+# git gui citool            # Commit tool
+# gitk                      # History viewer
+# gitk --all                # Show all branches
+# gitk file.txt             # History for specific file
+
+# GUI alternatives:
+# - SourceTree (Atlassian)
+# - GitKraken
+# - GitHub Desktop
+# - Tower
+# - SmartGit
+# - TortoiseGit (Windows)
+# Each may have its own configuration system

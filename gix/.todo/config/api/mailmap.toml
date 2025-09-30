@@ -1,0 +1,61 @@
+# Mailmap Configuration
+# Settings for author/committer name and email mapping
+
+[mailmap]
+# Path to mailmap file
+file = "~/.mailmap"
+
+# Blob containing mailmap data
+blob = "HEAD:.mailmap"
+
+# Notes:
+# - file: Path to external mailmap file
+#   Can be absolute or relative to home directory
+#
+# - blob: Reference to blob in repository containing mailmap
+#   Useful for versioned mailmap data
+#   Format: <rev>:<path>
+
+# Mailmap file format:
+# Proper Name <proper@email.com> <commit@email.com>
+# Proper Name <proper@email.com> Commit Name <commit@email.com>
+# <proper@email.com> <commit@email.com>
+# Proper Name <proper@email.com> Commit Name <commit@email.com>
+
+# Example .mailmap entries:
+# # Fix capitalization
+# John Doe <john@example.com> john doe <john@example.com>
+# 
+# # Company email change
+# Jane Smith <jane@newcompany.com> <jane@oldcompany.com>
+# 
+# # Name change
+# Robert Johnson <rob@example.com> Bob Johnson <bob@example.com>
+# 
+# # Multiple old addresses
+# Alice Brown <alice@current.com> <alice@old1.com>
+# Alice Brown <alice@current.com> <alice@old2.com>
+
+# Using mailmap:
+# git log --use-mailmap              # Apply mailmap to log output
+# git shortlog --use-mailmap         # Apply to shortlog
+# git blame --use-mailmap file.txt   # Apply to blame
+# git check-mailmap "Old Name <old@email.com>"  # Test mapping
+
+# Setting up:
+# 1. Create .mailmap in repository root
+# 2. Or create ~/.mailmap for global mapping
+# 3. Or store in repository as blob
+
+# Best practices:
+# - Commit .mailmap to repository for team consistency
+# - Document why mappings exist (comments with #)
+# - Keep entries sorted for easier maintenance
+# - Test mappings with git check-mailmap
+
+# Common use cases:
+# - Fixing typos in historical commits
+# - Updating after email address changes
+# - Consolidating different name variations
+# - Corporate email transitions
+# - Marriage/name changes

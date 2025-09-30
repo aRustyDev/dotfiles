@@ -1,0 +1,87 @@
+# comment
+[core]
+filemode = false
+gitproxy="proxy-command for kernel.org"
+gitproxy="default-proxy" # for all the rest
+
+[branch.main]
+remote = "origin"
+merge = "refs/heads/main"
+rebase = true
+
+[browser]
+default = "firefox"
+
+[browser.firefox]
+cmd = "firefox"
+path = "/usr/bin/firefox"
+
+
+# --- |[ URL Shortcuts ]| --- --- --- --- ---
+[credential]
+	helper = "cache --timeout=3600"
+	useHttpPath = false
+	username = "default-username"
+
+[credential."https://example.com"]
+	username = "specific-username"
+	helper = "store"
+# --- --- --- --- --- --- --- --- --- --- ---
+
+[diff."toolFoo"]
+cmd = "diff command to run"
+
+[diff.default]
+external = "/usr/local/bin/diff-wrapper"
+renames = true
+
+[http]
+sslVerify = true
+
+[http."https://weak.example.com"]
+sslVerify = false
+cookieFile = "/tmp/cookie.txt"
+
+# --- |[ URL Shortcuts ]| --- --- --- --- ---
+[[urls]] # git clone ex:path/to/project.git
+key = "ex"
+url = "https://weak.example.com/"
+
+[[urls]] # git clone gh:torvalds/linux.git
+key = "gh"
+url = "https://github.com/"
+
+[[urls]] # git clone org:project
+key = "org"
+url = "git@github.com:your-org/"
+# --- --- --- --- --- --- --- --- --- --- ---
+
+[[includes]]
+if = "gitdir:~/repos/myProject"
+path = "./path/from/config.toml"
+
+[[includes]]
+path = "path/to/always/include"
+
+[[includes]]
+if.gitdir.i = "~/repos/myProject"
+path = "./path/to/case-insensitive/Config.toml"
+
+[[includes]]
+if.onbranch = "feat/*/*"
+path = "./path/to/case-insensitive/Config.toml"
+
+[[includes]]
+if.hasconfig.remote.origin.protocol = "git"
+if.hasconfig.remote.origin.domain = "github.com"
+if.hasconfig.remote.origin.path = "your-org/"
+if.hasconfig.remote.origin.repo = "**"
+path = "./path/to/case-insensitive/Config.toml"
+
+[[includes]]
+if.hasconfig.remote.origin.url = "git@github.com:your-org/**"
+path = "./path/to/case-insensitive/Config.toml"
+
+[[includes]]
+if.hasconfig.remote.origin.url = "git@github.com:your-org/**"
+path = "./path/to/case-insensitive/Config.toml"

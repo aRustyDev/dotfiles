@@ -1,0 +1,79 @@
+# SSH Configuration
+# Settings for SSH transport
+
+[ssh]
+# SSH variant to use
+variant = "auto"  # auto, simple, openssh, plink, putty, tortoiseplink
+
+# SSH variant details:
+# - auto: Detect based on ssh command name (default)
+# - simple: Basic SSH (no advanced options)
+# - openssh: OpenSSH (supports -o, -p, -4, -6)
+# - plink: PuTTY plink
+# - putty: PuTTY
+# - tortoiseplink: TortoisePlink on Windows
+
+# Setting SSH command:
+# Use core.sshCommand in core.toml
+# core.sshCommand = "ssh -i ~/.ssh/special_key"
+
+# Per-variant behavior:
+
+# OpenSSH (most common):
+# - Supports port: user@host:port
+# - Supports options: -o Option=Value
+# - IPv4/IPv6: -4, -6 flags
+# - Example: ssh -p 2222 user@host
+
+# Plink/PuTTY:
+# - Port: -P 2222
+# - Options: Different syntax
+# - Example: plink -P 2222 user@host
+
+# Simple:
+# - No special option handling
+# - Just: ssh user@host command
+
+# Common SSH configurations:
+
+# Force specific variant:
+# [ssh]
+# variant = openssh
+
+# Windows with PuTTY:
+# [ssh]
+# variant = plink
+
+# Using custom SSH:
+# [core]
+# sshCommand = "/custom/ssh -v"
+# [ssh]
+# variant = simple
+
+# SSH URL formats:
+# ssh://user@host:port/path/to/repo.git
+# user@host:path/to/repo.git (scp-like)
+# host:path/to/repo.git
+
+# SSH config file (~/.ssh/config):
+# Host github.com
+#     HostName github.com
+#     User git
+#     IdentityFile ~/.ssh/id_ed25519
+#     Port 22
+
+# Debugging SSH:
+# GIT_SSH_COMMAND="ssh -v" git fetch
+# GIT_SSH_COMMAND="ssh -vvv" git push  # More verbose
+# GIT_TRACE=1 GIT_SSH_COMMAND="ssh -v" git pull
+
+# Common SSH issues:
+# - Wrong key: Specify with -i
+# - Wrong port: Use -p (OpenSSH) or -P (plink)  
+# - Permissions: chmod 600 ~/.ssh/id_*
+# - Agent: ssh-add to add keys
+
+# Multiple SSH keys:
+# [core]
+# sshCommand = "ssh -i ~/.ssh/github_key"
+# Or use ~/.ssh/config for per-host configuration

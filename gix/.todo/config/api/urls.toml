@@ -1,0 +1,87 @@
+# URL Shortcuts Configuration
+# Alternative array-based format for URL shortcuts
+# This format may be more suitable for TOML-based Git config implementations
+
+# GitHub shortcut
+[[urls]]
+key = "gh"
+url = "https://github.com/"
+# Usage: git clone gh:torvalds/linux
+
+[[urls]]
+key = "gh-ssh"
+url = "git@github.com:"
+# Usage: git clone gh-ssh:torvalds/linux
+
+# GitLab shortcut
+[[urls]]
+key = "gl"
+url = "https://gitlab.com/"
+# Usage: git clone gl:gitlab-org/gitlab
+
+# Bitbucket shortcut
+[[urls]]
+key = "bb"
+url = "https://bitbucket.org/"
+# Usage: git clone bb:atlassian/python-bitbucket
+
+# Corporate/Organization shortcuts
+[[urls]]
+key = "work"
+url = "git@git.company.com:"
+# Usage: git clone work:team/project
+
+[[urls]]
+key = "corp"
+url = "https://git.company.com/"
+# Usage: git clone corp:team/project
+
+# Personal server
+[[urls]]
+key = "home"
+url = "ssh://git@home.server.com:2222/"
+# Usage: git clone home:projects/myapp
+
+# Specific organization shortcuts
+[[urls]]
+key = "myorg"
+url = "git@github.com:my-organization/"
+# Usage: git clone myorg:repository
+
+# Project-specific shortcuts
+[[urls]]
+key = "linux"
+url = "https://git.kernel.org/"
+# Usage: git clone linux:pub/scm/linux/kernel/git/torvalds/linux.git
+
+[[urls]]
+key = "apache"
+url = "https://gitbox.apache.org/repos/asf/"
+# Usage: git clone apache:kafka.git
+
+# Mirror shortcuts
+[[urls]]
+key = "mirror"
+url = "https://mirror.company.com/git/"
+# Usage: git clone mirror:external/library
+
+# Local development shortcuts
+[[urls]]
+key = "dev"
+url = "file:///home/user/development/"
+# Usage: git clone dev:project
+
+[[urls]]
+key = "nas"
+url = "file:///mnt/nas/git/"
+# Usage: git clone nas:backups/project
+
+# Notes:
+# - This array format may be specific to certain TOML-based Git implementations
+# - Standard Git uses the url."base".insteadOf format
+# - Keys should be short and memorable
+# - URLs can be any valid Git remote URL format
+# - Consider security implications of shortcuts in shared configs
+
+# The 'key' field creates a shortcut that expands to the full URL
+# For example: 'gh:user/repo' expands to 'https://github.com/user/repo'

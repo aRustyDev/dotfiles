@@ -1,0 +1,94 @@
+# Rebase Configuration
+# Controls behavior of git rebase operations
+
+[rebase]
+# Use abbreviated command names in interactive rebase
+abbreviateCommands = true
+
+# Automatically squash fixup! commits
+autoSquash = false
+
+# Automatically stash/unstash uncommitted changes
+autoStash = false
+
+# Backend to use for rebasing
+backend = "apply"  # apply, merge
+
+# Use fork point heuristic
+forkPoint = true
+
+# Format for interactive rebase instruction list
+instructionFormat = ""
+
+# Check for missing commits
+missingCommitsCheck = "warn"  # warn, error, ignore
+
+# Reschedule failed exec commands
+rescheduleFailedExec = false
+
+# Show diffstat after rebase
+stat = true
+
+# Update refs that point to rebased commits
+updateRefs = false
+
+# Additional rebase settings:
+
+# Preserve merges (deprecated, use --rebase-merges)
+# preserveMerges = false
+
+# Sign commits during rebase
+# gpgSign = false
+
+# Example instruction format:
+# instructionFormat = "(%an) %s"  # Shows author name with subject
+# instructionFormat = "[%ar] %s"  # Shows relative date with subject
+
+# Abbreviate commands example:
+# With abbreviateCommands = true:
+# p 1234567 Commit message     (instead of "pick")
+# r abcdefg Another commit      (instead of "reword")  
+# e 9876543 Edit this commit    (instead of "edit")
+# s fedcba9 Squash into previous (instead of "squash")
+# f 1357924 Fixup commit        (instead of "fixup")
+
+# AutoSquash example:
+# Commits with messages like:
+# - "fixup! Original commit message"
+# - "squash! Original commit message"
+# Will be automatically reordered and marked for squash/fixup
+
+# Backend notes:
+# - apply: Traditional rebase using git-am (default)
+# - merge: Use merge machinery (handles renames better)
+
+# Missing commits check:
+# Detects if commits were removed from the instruction list
+# - warn: Show warning but continue
+# - error: Abort rebase
+# - ignore: Don't check
+
+# Update refs:
+# Updates branches that pointed to rebased commits
+# Helpful for dependent feature branches
+
+# Useful aliases for rebase workflows:
+# [alias]
+# ri = "rebase -i"
+# rc = "rebase --continue"
+# ra = "rebase --abort"
+# rs = "rebase --skip"
+# rim = "rebase -i master"
+# rid = "rebase -i develop"
+
+# Interactive rebase commands:
+# p, pick = use commit
+# r, reword = use commit, but edit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, meld into previous
+# f, fixup = like squash, but discard message
+# x, exec = run command (the rest of the line)
+# d, drop = remove commit
+# l, label = label current HEAD
+# t, reset = reset HEAD to a label
+# m, merge = create merge commit

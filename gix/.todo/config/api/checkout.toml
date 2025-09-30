@@ -1,0 +1,45 @@
+# Checkout Configuration
+# Controls git-checkout behavior and defaults
+
+[checkout]
+# Default remote when checking out remote branches
+defaultRemote = "origin"
+
+# Attempt to guess remote branch names
+guess = true
+
+# Number of parallel workers for checkout
+workers = 0  # 0 = auto-detect based on CPU cores
+
+# Additional checkout settings:
+# thresholdForParallelism = 100  # Minimum files for parallel checkout
+
+# Notes on settings:
+# - defaultRemote: Used when branch name is ambiguous
+#   Example: 'git checkout feature' might exist on multiple remotes
+#
+# - guess: When true, 'git checkout <name>' will:
+#   1. Look for local branch
+#   2. Look for remote branch to create tracking branch
+#   3. Fall back to detached HEAD on commit/tag
+#
+# - workers: Parallel checkout for better performance
+#   Only used when checking out many files
+#   0 = number of CPU cores
+#   1 = disable parallelism
+
+# Common checkout operations:
+# git checkout main                    # Switch to branch
+# git checkout -b new-feature         # Create and switch to new branch
+# git checkout -b feature origin/feature  # Create tracking branch
+# git checkout -- file.txt            # Restore file from index
+# git checkout HEAD~2 -- file.txt     # Restore file from specific commit
+# git checkout -                      # Switch to previous branch
+# git checkout --orphan new-branch    # Create orphan branch
+# git checkout -p                     # Interactive checkout
+
+# With guess = true:
+# git checkout feature     # Creates local tracking branch if origin/feature exists
+
+# With guess = false:
+# git checkout feature     # Only switches if local branch exists

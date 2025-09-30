@@ -1,0 +1,97 @@
+# Protocol Configuration
+# Git transfer protocol settings
+
+[protocol]
+# Control which protocols are allowed
+allow = "all"  # always, never, user
+
+# Protocol version to use
+version = 2  # 0, 1, 2
+
+# Per-protocol settings using dot notation
+[protocol.file]
+# Local file protocol
+allow = "always"
+
+[protocol.git]
+# Git protocol (git://)
+allow = "always"
+
+[protocol.ssh]
+# SSH protocol
+allow = "always"
+
+[protocol.http]
+# HTTP protocol
+allow = "always"
+
+[protocol.https]
+# HTTPS protocol
+allow = "always"
+
+# Additional protocol settings
+[protocol.ftp]
+# FTP protocol (if supported)
+allow = "never"
+
+[protocol.ftps]
+# FTPS protocol (if supported)
+allow = "never"
+
+# Protocol allow values:
+# - always: Always allow this protocol
+# - never: Never allow this protocol
+# - user: Allow for user-initiated actions only
+
+# Protocol versions:
+# - 0: Original Git wire protocol
+# - 1: Same as v0 but clients can request v0
+# - 2: Improved protocol with better performance
+
+# Version 2 benefits:
+# - Server-side filtering of refs
+# - Better performance with many refs
+# - Supports partial clone
+# - More efficient negotiation
+# - Extensible for future features
+
+# Security considerations:
+# Restricting protocols by use case:
+
+# High security environment:
+# [protocol]
+# allow = "never"
+# [protocol.https]
+# allow = "always"
+# [protocol.ssh]  
+# allow = "user"
+
+# Internal network:
+# [protocol]
+# allow = "user"
+# [protocol.file]
+# allow = "always"
+# [protocol.ssh]
+# allow = "always"
+# [protocol.http]
+# allow = "never"  # Force HTTPS
+
+# Testing protocol version:
+# GIT_TRACE_PACKET=1 git ls-remote origin
+# Look for "version 2" in output
+
+# Forcing specific protocol version:
+# git -c protocol.version=1 fetch
+# git -c protocol.version=2 clone <url>
+
+# Common issues:
+# - Older servers may not support v2
+# - Some proxies/firewalls block git://
+# - file:// protocol security risks
+# - http:// lacks encryption
+
+# Best practices:
+# - Use HTTPS for public repositories
+# - Use SSH for private repositories  
+# - Avoid git:// and http:// protocols
+# - Keep protocol.version=2 for performance

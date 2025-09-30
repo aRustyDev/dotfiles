@@ -1,0 +1,99 @@
+# Pretty Configuration
+# Define custom log output formats
+
+[pretty]
+# Define custom format named "fixes"
+fixes = "Fixes: %h (\"%s\")"
+
+# More custom format examples
+oneline-long = "%H %s"
+simple = "%h %s (%an)"
+detail = "%h %ai %an%n%s%n"
+changelog = "* %s (%an)"
+github = "%h %s (@%an)"
+tickets = "%h %s%n%+b%-N"
+
+# Format placeholders:
+# Hash/Commit:
+# %H - Full commit hash
+# %h - Abbreviated commit hash
+# %T - Tree hash
+# %t - Abbreviated tree hash
+# %P - Parent hashes
+# %p - Abbreviated parent hashes
+
+# Author/Committer:
+# %an - Author name
+# %ae - Author email
+# %ad - Author date
+# %ai - Author date (ISO format)
+# %ar - Author date (relative)
+# %cn - Committer name  
+# %ce - Committer email
+# %cd - Committer date
+# %ci - Committer date (ISO)
+# %cr - Committer date (relative)
+
+# Subject/Body:
+# %s - Subject (first line)
+# %f - Sanitized subject (filename safe)
+# %b - Body
+# %B - Raw body (subject + body)
+# %N - Notes
+
+# Special:
+# %n - Newline
+# %% - Literal %
+# %x00 - Byte from hex code
+# %w() - Wrap text
+# %<() - Pad/align text
+# %>() - Right align
+# %>>() - Right align with padding
+# %<|() - Center text
+
+# Colors:
+# %Cred - Red text
+# %Cgreen - Green text  
+# %Cblue - Blue text
+# %Creset - Reset color
+# %C(...) - Custom color
+
+# Complex examples:
+[pretty.detailed]
+# Detailed format with colors and alignment
+fixes = "%C(yellow)%h%Creset %C(cyan)%<(12,trunc)%an%Creset %C(green)%<(16)%ar%Creset %s"
+
+[pretty.release]
+# Format for release notes
+fixes = "- %s (%h, @%an)"
+
+[pretty.blame-like]
+# Similar to blame output
+fixes = "%h (%an %ar) %s"
+
+[pretty.full-info]
+# Everything including GPG signature
+fixes = "commit %H%nAuthor: %an <%ae>%nDate:   %ai%n%n%w(0,4,4)%B"
+
+# Using custom formats:
+# git log --pretty=fixes
+# git log --pretty=simple
+# git show --pretty=changelog
+
+# Combining with other options:
+# git log --pretty=fixes --graph
+# git log --pretty=simple --oneline  
+# git log --pretty=detail -5
+
+# Setting default format:
+# git config format.pretty simple
+
+# Built-in formats:
+# - oneline: <hash> <title line>
+# - short: Like default but without date
+# - medium: Default format
+# - full: Like medium but with full dates
+# - fuller: Like full plus committer info
+# - raw: Full commit object
+# - format:<string>: Custom format
+# - tformat:<string>: Custom with terminator

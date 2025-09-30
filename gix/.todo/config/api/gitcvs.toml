@@ -1,0 +1,76 @@
+# Git CVS Server Configuration
+# Settings for Git's CVS compatibility layer
+
+[gitcvs]
+# Annotation to append to commit messages
+commitMsgAnnotation = ""
+
+# Enable CVS server emulation
+enabled = false
+
+# Log file for CVS operations
+logFile = ""
+
+# Use CRLF attributes from files
+usecrlfattr = true
+
+# Treat all files as binary
+allBinary = false
+
+# Database name (%G = project name)
+dbName = "%G"
+
+# Database driver
+dbDriver = "SQLite"
+
+# Database user
+dbUser = ""
+
+# Database password
+dbPass = ""
+
+# Database table name prefix
+dbTableNamePrefix = ""
+
+# Per-access-method configuration using dot notation
+[gitcvs.ext]
+# External access method configuration
+dbName = "%G.%a"  # %a = access method
+dbTableNamePrefix = "ext_"
+
+[gitcvs.pserver]
+# Pserver access method configuration
+dbName = "%G.pserver"
+enabled = true
+
+# Notes:
+# - Git CVS server allows CVS clients to access Git repositories
+# - Useful for gradual migration from CVS to Git
+# - Each access method can have its own database
+
+# Database substitutions:
+# %G - Git directory name
+# %a - Access method (ext, pserver)
+# %g - Git directory name (lowercase)
+# %m - Module name
+# %M - Module name (lowercase)
+
+# Setting up CVS server:
+# 1. Enable gitcvs in config
+# 2. Configure database settings
+# 3. Set up CVS pserver or SSH access
+# 4. Map Git branches to CVS modules
+
+# Common gitcvs operations:
+# git cvsserver                          # Run CVS server
+# git config gitcvs.enabled true         # Enable CVS server
+# git config gitcvs.logfile cvs.log      # Enable logging
+
+# CVS client access:
+# cvs -d :pserver:user@server:/path checkout module
+# cvs -d :ext:user@server:/path checkout module
+
+# Limitations:
+# - CVS concepts don't map perfectly to Git
+# - Some CVS operations may not work as expected
+# - Performance may be slower than native Git

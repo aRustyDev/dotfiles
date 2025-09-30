@@ -1,0 +1,53 @@
+# Commit Graph Configuration
+# Controls the commit-graph feature for performance optimization
+
+[commitGraph]
+# Generation number version
+generationVersion = 2
+
+# Maximum number of new Bloom filters to compute
+maxNewFilters = 10
+
+# Read changed path Bloom filters
+readChangedPaths = true
+
+# Additional settings:
+# writeChangedPaths = true  # Write Bloom filters for changed paths
+
+# Notes:
+# - generationVersion: Algorithm version for generation numbers
+#   Version 2 is newer and handles more edge cases
+#
+# - maxNewFilters: Limits computation time when writing commit-graph
+#   with Bloom filters for changed paths
+#
+# - readChangedPaths: Enable reading Bloom filters to speed up
+#   pathspec-limited revision walks (e.g., git log -- path)
+
+# Commit-graph improves performance for:
+# - Commit walks (log, rev-list)
+# - Merge base calculations
+# - Reachability checks
+# - Push/fetch negotiations
+
+# Manual commit-graph operations:
+# git commit-graph write                 # Write commit-graph file
+# git commit-graph write --reachable     # Include all reachable commits
+# git commit-graph write --append        # Append to existing graph
+# git commit-graph write --split         # Write incremental graph files
+# git commit-graph verify                # Verify integrity
+
+# Automatic maintenance:
+# Enabled via maintenance.commit-graph.enabled = true
+# See maintenance.toml for automatic updates
+
+# Performance impact:
+# - Significantly speeds up operations in large repositories
+# - Small overhead when writing (usually during gc/maintenance)
+# - Bloom filters speed up file-history operations
+
+# Changed paths Bloom filters:
+# Speed up commands like:
+# - git log -- file.txt
+# - git blame file.txt
+# - git diff HEAD~1000 -- file.txt

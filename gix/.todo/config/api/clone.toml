@@ -1,0 +1,48 @@
+# Clone Configuration
+# Controls git-clone default behavior
+
+[clone]
+# Default name for remote repository
+defaultRemoteName = "origin"
+
+# Reject cloning shallow repositories
+rejectShallow = false
+
+# Additional clone settings:
+# templateDir = "~/.git-templates"  # Template directory for new clones
+
+# Notes:
+# - defaultRemoteName: Name given to the remote repository
+#   Can be overridden with 'git clone -o <name>'
+#
+# - rejectShallow: Whether to reject cloning shallow repositories
+#   Useful if you need full history for your workflow
+
+# Common clone operations:
+# git clone <url>                      # Basic clone
+# git clone <url> <directory>          # Clone into specific directory
+# git clone -o upstream <url>          # Use different remote name
+# git clone --depth 1 <url>            # Shallow clone (only recent history)
+# git clone --branch <branch> <url>    # Clone specific branch
+# git clone --single-branch <url>      # Clone only one branch
+# git clone --recurse-submodules <url> # Clone with submodules
+# git clone --mirror <url>             # Bare mirror clone
+# git clone --bare <url>               # Bare clone (no working tree)
+# git clone --filter=blob:none <url>   # Partial clone without blobs
+# git clone --filter=tree:0 <url>      # Partial clone without trees
+
+# Shallow cloning:
+# git clone --depth 1                  # Only most recent commit
+# git clone --depth 10                 # Last 10 commits
+# git clone --shallow-since=2023-01-01 # Commits since date
+# git clone --shallow-exclude=v1.0     # Exclude commits before tag
+
+# Partial clone (Git 2.17+):
+# git clone --filter=blob:none <url>   # Download blobs on demand
+# git clone --filter=blob:limit=1m     # Skip blobs larger than 1MB
+# git clone --filter=tree:0            # Only download needed trees
+
+# Performance tips:
+# - Use --depth 1 for CI/CD or when history isn't needed
+# - Use --single-branch when you only need one branch
+# - Use partial clone for very large repositories

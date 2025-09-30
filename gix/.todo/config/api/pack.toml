@@ -1,0 +1,105 @@
+# Pack Configuration
+# Controls Git's pack file generation and optimization
+
+[pack]
+# Allow reuse of existing pack data
+allowPackReuse = "multi"  # true, false, multi
+
+# Compression level (-1 to 9)
+compression = -1  # -1 = zlib default (usually 6)
+
+# Memory limit for delta search
+deltaCacheLimit = "256m"
+
+# Cache size for delta compression
+deltaCacheSize = "256m"
+
+# Enable delta compression
+deltaCompression = true
+
+# Maximum delta chain depth
+depth = 50
+
+# Pack index file version
+indexVersion = 2
+
+# Island configuration for delta relationships
+island = ""
+islandCore = ""
+
+# Maximum pack file size (0 = unlimited)
+packSizeLimit = 0
+
+# Prefer keeping bitmaps at branch tips
+preferBitmapTips = true
+
+# Read reverse index for faster lookups
+readReverseIndex = true
+
+# Number of threads for packing
+threads = 0  # 0 = auto-detect
+
+# Use bitmap indexes for faster counting
+useBitmaps = true
+
+# Use sparse packing algorithm
+useSparse = true
+
+# Window size for delta compression
+window = 10
+
+# Memory limit for delta compression window
+windowMemory = 0  # 0 = unlimited
+
+# Write bitmap hash cache for faster lookups
+writeBitmapHashCache = true
+
+# Write bitmap lookup table
+writeBitmapLookupTable = false
+
+# Write reverse indexes
+writeReverseIndex = true
+
+# Performance tuning notes:
+
+# Compression levels:
+# -1 = Default (good balance)
+#  0 = No compression (fastest, largest)
+#  1 = Fast compression (larger files)
+#  6 = Default zlib level
+#  9 = Best compression (slowest, smallest)
+
+# Delta compression settings:
+# - Higher depth = better compression, slower
+# - Larger window = better compression, more memory
+# - Larger deltaCacheSize = faster for large repos
+
+# Bitmap settings:
+# - Bitmaps speed up counting objects (push, fetch, gc)
+# - Only useful for repos with many refs
+# - Takes extra space but improves performance
+
+# Thread settings:
+# - threads = 0 uses number of CPUs
+# - More threads = faster packing (if I/O permits)
+# - May want to limit on shared systems
+
+# Pack size limits:
+# packSizeLimit = "2g"  # Useful for filesystems with size limits
+# packSizeLimit = "650m"  # CD-ROM size
+# packSizeLimit = "4g"  # FAT32 limit
+
+# Advanced island configuration:
+# Islands group related objects for better deltas
+# Useful for hosting platforms with many forks
+# island = "refs/virtual/([0-9]+)/"
+# islandCore = "refs/heads/"
+
+# Memory usage estimation:
+# Total memory H (window * averageObjectSize) + windowMemory + deltaCacheSize
+
+# Useful pack-related commands:
+# git repack -a -d -f    # Full repack with aggressive settings
+# git pack-objects       # Low-level packing
+# git verify-pack        # Verify pack integrity
+# git count-objects -v   # Show pack statistics

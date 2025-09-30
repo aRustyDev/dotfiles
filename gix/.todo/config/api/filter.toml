@@ -1,0 +1,79 @@
+# Filter Configuration
+# Defines filters for transforming file contents
+
+# Git LFS (Large File Storage) filter
+[filter.lfs]
+# Command to clean file content before storing in Git
+clean = "git-lfs clean -- %f"
+
+# Command to smudge file content when checking out
+smudge = "git-lfs smudge -- %f"
+
+# Command for long-running process protocol
+process = "git-lfs filter-process"
+
+# Whether this filter is required
+required = true
+
+# Custom filter examples
+[filter.indent]
+# Auto-format indentation
+clean = "indent -st"
+smudge = "cat"
+
+[filter.keywords]
+# Expand RCS-style keywords
+clean = "perl -pe 's/\\$Date[^\\$]*\\$/\\$Date\\$/'"
+smudge = "perl -pe 's/\\$Date\\$/\\$Date: `date`\\$/'"
+
+[filter.compress]
+# Compress files in repository
+clean = "gzip -n"
+smudge = "gzip -d"
+required = false
+
+[filter.secret]
+# Encrypt/decrypt sensitive files
+clean = "openssl enc -aes-256-cbc -salt -k $SECRET_KEY"
+smudge = "openssl enc -d -aes-256-cbc -k $SECRET_KEY"
+required = true
+
+[filter.minify]
+# Minify JavaScript files
+clean = "uglifyjs"
+smudge = "cat"
+
+[filter.prettier]
+# Format code with prettier
+clean = "prettier --stdin-filepath %f"
+smudge = "cat"
+
+# Filter driver settings explained:
+# - clean: Transform working tree file to repository format
+# - smudge: Transform repository format to working tree
+# - process: Long-running filter process (more efficient)
+# - required: If true, Git will abort if filter fails
+# - %f: Placeholder for filename being processed
+
+# Setting up filters:
+# 1. Define filter in config (as above)
+# 2. Apply filter in .gitattributes:
+#    *.jpg filter=lfs
+#    *.png filter=lfs
+#    *.c filter=indent
+#    secrets.txt filter=secret
+
+# Process protocol:
+# More efficient for filtering many files
+# Filter runs as daemon and processes multiple files
+
+# Common use cases:
+# - Git LFS for large binary files
+# - Code formatting on commit
+# - Keyword expansion/removal
+# - Encryption of sensitive data
+# - Compression of specific file types
+
+# Testing filters:
+# echo "test" | git config filter.name.clean
+# git check-attr filter -- filename

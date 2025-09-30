@@ -1,0 +1,117 @@
+# Remote Configuration
+# Defines remote repositories and their settings
+
+# Remote repository configurations using dot notation
+[remote.origin]
+# URL(s) for the remote repository
+url = "git@github.com:user/repo.git"
+# Can have multiple URLs for pushing to multiple remotes
+# url = "git@backup.com:user/repo.git"
+
+# Default fetch refspec
+fetch = "+refs/heads/*:refs/remotes/origin/*"
+# Can have multiple fetch refspecs
+# fetch = "+refs/pull/*/head:refs/remotes/origin/pr/*"  # GitHub PRs
+
+# Push refspec (if different from default)
+# push = "refs/heads/*:refs/heads/*"
+
+# Push URL if different from fetch URL
+# pushurl = "git@github.com:user/repo.git"
+
+# How to fetch tags
+tagOpt = "--tags"  # --tags, --no-tags
+
+# Fetch prune behavior
+prune = true
+
+# Skip default refspecs
+skipDefaultUpdate = false
+
+# Receive pack program on remote
+# receivepack = "git-receive-pack"
+
+# Upload pack program on remote
+# uploadpack = "git-upload-pack"
+
+# Fetch submodules
+fetchRecurseSubmodules = "on-demand"  # yes, on-demand, no
+
+[remote.upstream]
+url = "https://github.com/original/repo.git"
+fetch = "+refs/heads/*:refs/remotes/upstream/*"
+# Don't push to upstream by default
+pushurl = "DISABLED"
+tagOpt = "--no-tags"  # Don't fetch upstream tags
+
+[remote.fork]
+url = "git@github.com:myuser/repo.git"
+fetch = "+refs/heads/*:refs/remotes/fork/*"
+# Fetch GitHub pull requests
+fetch = "+refs/pull/*/head:refs/remotes/fork/pr/*"
+
+[remote.backup]
+# Multiple URLs for redundancy
+url = "git@gitlab.com:user/repo.git"
+url = "git@bitbucket.org:user/repo.git"
+# Push to all URLs
+pushurl = "git@gitlab.com:user/repo.git"
+pushurl = "git@bitbucket.org:user/repo.git"
+
+[remote.ci]
+# Read-only remote for CI/CD
+url = "https://github.com/org/repo.git"
+# Fetch only specific branches
+fetch = "+refs/heads/main:refs/remotes/ci/main"
+fetch = "+refs/heads/develop:refs/remotes/ci/develop"
+fetch = "+refs/heads/release/*:refs/remotes/ci/release/*"
+
+# Remote configuration for specific purposes
+[remote.staging]
+url = "ssh://git@staging.company.com/repo.git"
+fetch = "+refs/heads/*:refs/remotes/staging/*"
+# Custom receive pack for deployment hooks
+receivepack = "deploy-receive-pack"
+
+[remote.production]
+url = "ssh://git@prod.company.com/repo.git"
+fetch = "+refs/heads/main:refs/remotes/production/main"
+# Only allow fast-forward pushes
+# push = "+refs/heads/main:refs/heads/main"
+
+# Mirror configuration
+[remote.mirror]
+url = "git@mirror.company.com:org/repo.git"
+fetch = "+refs/*:refs/*"
+mirror = true
+
+# Partial clone configuration
+[remote.partial]
+url = "https://github.com/large/repo.git"
+fetch = "+refs/heads/*:refs/remotes/partial/*"
+# Partial clone filters
+partialclonefilter = "blob:none"
+# promisor = true
+
+# Notes on fetch refspecs:
+# - Format: +<src>:<dst>
+# - + means force update
+# - * wildcards are supported
+# - refs/heads/* are branches
+# - refs/tags/* are tags
+# - refs/pull/*/head are GitHub PRs
+# - refs/merge-requests/*/head are GitLab MRs
+
+# Notes on push refspecs:
+# - Format: <src>:<dst>
+# - Leave empty for default behavior
+# - Use 'DISABLED' as pushurl to prevent pushing
+# - Can push to different branch names
+
+# Common patterns:
+# - Fetch all branches: "+refs/heads/*:refs/remotes/origin/*"
+# - Fetch specific branch: "+refs/heads/main:refs/remotes/origin/main"
+# - Fetch tags: "+refs/tags/*:refs/tags/*"
+# - Mirror: "+refs/*:refs/*"
+# - GitHub PRs: "+refs/pull/*/head:refs/remotes/origin/pr/*"
+# - GitLab MRs: "+refs/merge-requests/*/head:refs/remotes/origin/mr/*"

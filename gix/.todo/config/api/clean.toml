@@ -1,0 +1,45 @@
+# Clean Configuration
+# Controls git-clean behavior for removing untracked files
+
+[clean]
+# Require -f flag to actually remove files
+requireForce = true
+
+# Notes:
+# - requireForce: Safety feature to prevent accidental file deletion
+#   Set to false to allow 'git clean' without -f (dangerous!)
+
+# Common clean operations:
+# git clean -n                # Dry run - show what would be removed
+# git clean -f                # Remove untracked files
+# git clean -fd               # Remove untracked files and directories
+# git clean -fx               # Remove untracked and ignored files
+# git clean -fX               # Remove only ignored files
+# git clean -i                # Interactive mode
+#
+# git clean -f *.tmp          # Clean specific pattern
+# git clean -f -e important.txt  # Clean but exclude specific file
+
+# Clean options:
+# -d: Remove untracked directories too
+# -f: Force (required if requireForce = true)
+# -i: Interactive mode
+# -n: Dry run
+# -q: Quiet, only report errors
+# -x: Remove ignored files too
+# -X: Remove only ignored files
+# -e <pattern>: Exclude pattern from cleaning
+
+# Safety tips:
+# - Always run with -n first to preview
+# - Use -i for interactive selection
+# - Be very careful with -x (removes ignored files)
+# - Consider using git stash --include-untracked instead
+
+# Interactive mode options:
+# 1: clean files
+# 2: filter by pattern
+# 3: select by numbers
+# 4: ask each
+# 5: quit
+# 6: help

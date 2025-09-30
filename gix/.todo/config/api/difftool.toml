@@ -1,0 +1,65 @@
+# Difftool Configuration
+# Controls external diff tool behavior
+
+[difftool]
+# Prompt before each invocation of the diff tool
+prompt = false
+
+# Trust the exit code of the diff tool
+trustExitCode = true
+
+# Specific diff tool configurations using dot notation
+[difftool.vimdiff]
+# Command to invoke the diff tool
+cmd = "vim -d \"$LOCAL\" \"$REMOTE\""
+
+[difftool.meld]
+cmd = "meld \"$LOCAL\" \"$REMOTE\""
+
+[difftool.kdiff3]
+cmd = "kdiff3 \"$LOCAL\" \"$REMOTE\""
+
+[difftool.vscode]
+cmd = "code --wait --diff \"$LOCAL\" \"$REMOTE\""
+
+[difftool.sublime]
+cmd = "subl --wait \"$LOCAL\" \"$REMOTE\""
+
+[difftool.p4merge]
+cmd = "p4merge \"$LOCAL\" \"$REMOTE\""
+
+[difftool.bc]  # Beyond Compare
+cmd = "bcomp \"$LOCAL\" \"$REMOTE\""
+
+[difftool.winmerge]
+cmd = "WinMergeU \"$LOCAL\" \"$REMOTE\""
+
+[difftool.emerge]
+cmd = "emerge -f \"$LOCAL\" \"$REMOTE\""
+
+# Custom diff tool with path
+[difftool.custom]
+cmd = "/usr/local/bin/my-diff-tool \"$LOCAL\" \"$REMOTE\""
+path = "/usr/local/bin/my-diff-tool"
+
+# Notes on variables:
+# $LOCAL - Path to file in working tree
+# $REMOTE - Path to file being compared against
+# $BASE - Common ancestor (for merge conflicts)
+# $MERGED - File where merged result should be written
+
+# Common usage:
+# git difftool                    # Use configured diff tool
+# git difftool -t vimdiff         # Use specific tool
+# git difftool -y                 # Skip prompt (same as prompt=false)
+# git difftool --tool-help        # List available tools
+# git difftool HEAD~1             # Compare with previous commit
+# git difftool branch1..branch2   # Compare branches
+# git difftool --dir-diff         # Compare directories
+
+# Setting default diff tool:
+# Set diff.tool in diff.toml to specify default
+
+# trustExitCode notes:
+# - true: Non-zero exit means comparison was canceled
+# - false: Ignore exit code (default for some tools)

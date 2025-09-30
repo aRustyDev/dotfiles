@@ -1,0 +1,55 @@
+# Multi-pack-index Configuration
+# Settings for multi-pack index files (MIDX)
+
+[multi-pack-index]
+# Maximum size for packs to include in MIDX
+maxPackSize = "2g"
+
+# Include bitmap hash cache in multi-pack bitmaps
+bitmapHashCache = true
+
+# Notes:
+# - maxPackSize: Packs larger than this won't be included
+#   in multi-pack-index operations
+#   Helps manage very large pack files separately
+#
+# - bitmapHashCache: Store hashes for bitmap traversal
+#   Improves bitmap performance at cost of file size
+
+# Multi-pack-index benefits:
+# - Faster object lookups across multiple packs
+# - Reduced memory usage
+# - Better performance with many pack files
+# - Enables multi-pack bitmaps
+
+# MIDX operations:
+# git multi-pack-index write              # Create MIDX
+# git multi-pack-index verify             # Verify integrity
+# git multi-pack-index expire             # Remove stale entries
+# git multi-pack-index repack             # Repack into single pack
+
+# With bitmaps:
+# git multi-pack-index write --bitmap     # Create with bitmaps
+# Speeds up:
+# - Reachability checks
+# - Pack generation for fetch/push
+# - Counting objects
+
+# Automatic MIDX maintenance:
+# - During git gc
+# - During git maintenance run
+# - With fetch.writeCommitGraph = true
+
+# File location:
+# .git/objects/pack/multi-pack-index
+# .git/objects/pack/multi-pack-index-*.bitmap
+
+# Performance considerations:
+# - MIDX most useful with many pack files (>10)
+# - maxPackSize prevents huge packs from being processed
+# - Bitmap hash cache trades space for speed
+
+# Troubleshooting:
+# rm .git/objects/pack/multi-pack-index*  # Remove and regenerate
+# git multi-pack-index verify             # Check for corruption
+# GIT_TRACE2=1 git multi-pack-index write # Debug output

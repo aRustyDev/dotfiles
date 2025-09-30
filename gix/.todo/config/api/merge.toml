@@ -1,0 +1,100 @@
+# Merge Configuration
+# Controls merge behavior and strategies
+
+[merge]
+# Automatically stash/unstash uncommitted changes before/after merge
+autoStash = false
+
+# Include branch description in merge commit message
+branchdesc = true
+
+# Style of conflict markers
+conflictStyle = "merge"  # merge, diff3, zdiff3
+
+# Use upstream branch by default when no merge spec given
+defaultToUpstream = false
+
+# How to handle directory renames
+directoryRenames = false  # false, true, conflict
+
+# Fast-forward behavior
+ff = true  # true, false, only
+
+# GPG sign merge commits
+gpgSign = false
+
+# Include summaries of merged commits in merge commit message
+log = true
+
+# Limit on rename detection
+renameLimit = 1000
+
+# Re-normalize line endings during merge
+renormalize = false
+
+# Show diffstat after merge
+stat = true
+
+# Branch name to omit from merge commit messages
+suppressDest = ""
+
+# Default merge tool
+tool = "vimdiff"
+
+# Verbosity level for merge output
+verbosity = 2  # 0-5
+
+# Verify GPG signatures on merged commits
+verifySignatures = false
+
+# Merge driver configurations
+[merge.ours]
+# Simple driver that always keeps "our" version
+driver = "true"
+
+[merge.binary]
+# Driver for binary files
+driver = "git merge-file --ours --binary %O %A %B"
+
+[merge.union]
+# Union merge driver - includes changes from both sides
+driver = "git merge-file --union %O %A %B"
+
+# Custom merge driver example
+[merge.custom-xml]
+name = "Custom XML merge driver"
+driver = "xml-merge-tool %O %A %B %P"
+
+# Merge tool specific configurations
+[merge.tool "vimdiff"]
+cmd = "vim -d $LOCAL $REMOTE $MERGED"
+trustExitCode = false
+
+[merge.tool "kdiff3"]
+cmd = "kdiff3 $BASE $LOCAL $REMOTE -o $MERGED"
+trustExitCode = false
+
+# Strategy-specific options
+[merge.conflictstyle]
+# diff3 shows the original text between conflict markers
+# zdiff3 is like diff3 but smarter about matching up changes
+
+# Rename detection settings
+[merge.renames]
+# Control rename detection during merges
+# Setting to "copies" also detects copies, not just renames
+
+# Notes on conflictStyle:
+# - merge: Standard <<<<<<< ======= >>>>>>> markers
+# - diff3: Adds ||||||| original text section
+# - zdiff3: Like diff3 but with zealous matching
+
+# Notes on directoryRenames:
+# - false: Do not detect directory renames
+# - true: Detect directory renames
+# - conflict: Detect but mark conflicts when ambiguous
+
+# Notes on ff (fast-forward):
+# - true: Allow fast-forward (default)
+# - false: Always create merge commit
+# - only: Only allow fast-forward merges

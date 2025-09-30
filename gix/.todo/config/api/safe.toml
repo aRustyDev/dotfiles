@@ -1,0 +1,79 @@
+# Safe Configuration
+# Security settings for repository ownership
+
+[safe]
+# Directories considered safe despite ownership
+directory = "/path/to/safe/directory"
+# Can be specified multiple times in gitconfig
+# directory = "/another/safe/path"
+# directory = "*"  # Trust all directories (not recommended)
+
+# Bare repository handling
+bareRepository = "all"  # all, explicit
+
+# Notes:
+# - directory: Marks directories as safe even if owned
+#   by different user. Prevents "dubious ownership" errors
+#   Use "*" to trust all (security risk!)
+#
+# - bareRepository: Controls bare repository discovery
+#   all = Allow bare repos anywhere (default)
+#   explicit = Only allow if GIT_DIR is set
+
+# Security context:
+# Git checks repository ownership to prevent
+# malicious repositories from executing code
+
+# Common scenarios requiring safe.directory:
+
+# Docker/containers:
+# [safe]
+# directory = /workspace
+# directory = /app
+
+# Shared development server:
+# [safe]  
+# directory = /srv/git/*
+# directory = /home/*/projects/*
+
+# CI/CD systems:
+# [safe]
+# directory = /builds/*
+# directory = /github/workspace
+
+# WSL (Windows Subsystem for Linux):
+# [safe]
+# directory = /mnt/c/Users/*/repos/*
+
+# Adding safe directories:
+# git config --global --add safe.directory /path/to/repo
+# git config --global --add safe.directory '*'  # Trust all
+
+# Checking current safe directories:
+# git config --global --get-all safe.directory
+
+# Removing safe directory:
+# git config --global --unset safe.directory /path/to/repo
+
+# bareRepository security:
+# Prevents git from discovering bare repos in unexpected places
+# Set to "explicit" for maximum security:
+# [safe]
+# bareRepository = explicit
+
+# Then use bare repos with:
+# GIT_DIR=/path/to/bare.git git log
+
+# Best practices:
+# - Only add specific directories you trust
+# - Avoid using "*" in production
+# - Review safe.directory settings regularly
+# - Use explicit mode for bare repos in secure environments
+# - Document why directories are marked safe
+
+# Troubleshooting ownership issues:
+# Error: "detected dubious ownership"
+# Solutions:
+# 1. Add to safe.directory
+# 2. Fix ownership: chown -R $(whoami) .
+# 3. Clone fresh copy with correct ownership

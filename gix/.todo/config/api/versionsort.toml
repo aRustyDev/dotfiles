@@ -1,0 +1,10 @@
+# Version Sort Configuration
+# Controls how version strings are compared and sorted
+
+[versionsort]
+# Suffix to strip from version strings before comparing
+# This allows proper sorting of tags like v1.0-rc1, v1.0-rc2, v1.0
+suffix = "-rc"  # Example: -rc, -pre, -beta, .rc
+
+# DEPRECATED: Use versionsort.suffix instead
+# prereleaseSuffix = "-pre"  # Deprecated alias for versionsort.suffix

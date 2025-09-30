@@ -1,0 +1,56 @@
+# Blame Configuration
+# Controls git-blame output and behavior
+
+[blame]
+# Mark boundary commits (root commits, commits from other branches)
+blankBoundary = false
+
+# Coloring scheme for repeated metadata
+coloring = "repeatedLines"  # none, repeatedLines
+
+# Date format for blame output
+date = "iso"  # see log.date for format options
+
+# Show author email instead of name
+showEmail = false
+
+# Show root commits as normal commits
+showRoot = false
+
+# File containing revisions to ignore
+ignoreRevsFile = ".git-blame-ignore-revs"
+
+# Additional blame settings:
+# markUnblamableLines = false  # Mark lines that can't be attributed
+# markIgnoredLines = false     # Mark lines from ignored revisions
+
+# Date format options (same as log.date):
+# - default: Default format
+# - iso: ISO 8601 format
+# - iso-strict: Strict ISO 8601
+# - rfc: RFC 2822 format
+# - short: YYYY-MM-DD
+# - raw: Seconds since epoch
+# - human: Human readable
+# - unix: Unix timestamp
+# - relative: "2 hours ago"
+
+# Coloring options:
+# - none: No special coloring
+# - repeatedLines: Color metadata from same commit
+
+# Ignore revisions file:
+# List commit hashes to ignore (one per line)
+# Useful for ignoring formatting commits
+# Example .git-blame-ignore-revs:
+# # Reformatted entire codebase
+# a8940f7fbddf7fad9d7d50014d4e8d46baf30592
+# # Updated copyright headers
+# 905e279670b9c5f86b4c2b896d09b2b9a564bdf4
+
+# Usage:
+# git blame file.txt                  # Basic blame
+# git blame -L 10,20 file.txt        # Blame lines 10-20
+# git blame -C file.txt              # Detect moved/copied lines
+# git blame -w file.txt              # Ignore whitespace
+# git blame --ignore-revs-file=.formatting-commits file.txt

@@ -1,0 +1,61 @@
+# Gitweb Configuration
+# Settings for Gitweb web interface
+
+[gitweb]
+# Repository description
+description = ""
+
+# Repository owner
+owner = ""
+
+# Repository URL
+url = ""
+
+# Additional gitweb settings:
+# category = ""  # Project category
+# class = ""     # CSS class for styling
+
+# Notes:
+# - These settings are read by Gitweb web interface
+# - Gitweb is a Git web interface written in Perl
+# - Usually runs as CGI script on web server
+
+# Description:
+# - Shown on project list page
+# - Can also be set in .git/description file
+# - HTML is escaped
+
+# Owner:
+# - Repository owner/maintainer name
+# - Shown in project listing
+# - Can include email: "Name <email@example.com>"
+
+# URL:
+# - Clone URL for the repository
+# - Shown on project page
+# - Can be HTTP(S), SSH, or Git protocol
+
+# Setting up Gitweb:
+# 1. Install gitweb package
+# 2. Configure web server (Apache, Nginx)
+# 3. Set project root in gitweb.conf
+# 4. Configure repository settings
+
+# Example configuration:
+# [gitweb]
+# description = "My awesome project for doing cool things"
+# owner = "Jane Developer <jane@example.com>"
+# url = "https://git.example.com/awesome-project.git"
+# category = "Libraries"
+
+# Alternative: Using .git/description file
+# echo "My project description" > .git/description
+
+# Common Gitweb features:
+# - Browse repository tree
+# - View commit history
+# - View diffs and patches
+# - Search commits
+# - Generate RSS/Atom feeds
+# - Syntax highlighting
+# - Blame/annotation view

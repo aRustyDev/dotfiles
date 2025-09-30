@@ -1,0 +1,49 @@
+# Extensions Configuration
+# Repository format extensions and capabilities
+
+[extensions]
+# Object hash algorithm
+objectFormat = "sha1"  # sha1, sha256
+
+# Reference storage format
+refStorage = "files"  # files, reftable
+
+# Additional extensions:
+# worktreeConfig = false  # Enable per-worktree configuration
+# partialClone = "origin"  # Partial clone remote name
+# preciousObjects = false  # Prevent object deletion
+
+# Notes on objectFormat:
+# - sha1: Traditional Git object format (default)
+# - sha256: New experimental SHA-256 object format
+# - Repositories with different formats cannot interact directly
+# - SHA-256 is more secure but not widely supported yet
+
+# Notes on refStorage:
+# - files: Traditional file-based ref storage (default)
+# - reftable: New binary format for refs (experimental)
+# - Reftable offers better performance for many refs
+
+# Worktree configuration:
+# When worktreeConfig = true:
+# - Allows per-worktree configuration in .git/worktrees/*/config
+# - Useful for different sparse-checkout per worktree
+
+# Partial clone:
+# Indicates this is a partial clone repository
+# The value is the remote name used for fetching missing objects
+
+# Precious objects:
+# When preciousObjects = true:
+# - Git will never delete objects in this repository
+# - Useful for shared object stores
+# - Prevents gc from removing any objects
+
+# WARNING: Extensions change repository format
+# Older Git versions may not be able to work with repositories
+# that use newer extensions. Be careful when enabling them.
+
+# Checking repository format:
+# cat .git/config | grep repositoryformatversion
+# Version 0 = traditional format
+# Version 1 = supports extensions

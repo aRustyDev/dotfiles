@@ -1,0 +1,108 @@
+# HTTP Configuration
+# Controls how Git interacts with HTTP/HTTPS remotes
+
+[http]
+# Cookie file to use with HTTP requests
+cookieFile = "~/.gitcookies"
+
+# Allow empty username/password for authentication
+emptyAuth = false
+
+# Extra headers to send with HTTP requests (can be specified multiple times)
+extraHeader = [
+    "X-Custom-Header: value",
+    "Authorization: Bearer token"
+]
+
+# How to handle HTTP redirects
+followRedirects = "initial"  # true, false, initial
+
+# Minimum speed in bytes per second below which transfer is aborted
+lowSpeedLimit = 1000
+
+# Time in seconds that transfer speed can remain below lowSpeedLimit
+lowSpeedTime = 10
+
+# Maximum number of concurrent HTTP requests
+maxRequests = 5
+
+# Disable use of EPSV ftp command
+noEPSV = false
+
+# Maximum size of buffer for HTTP requests in bytes
+postBuffer = 1048576
+
+# HTTP proxy URL
+proxy = ""
+
+# Authentication method for proxy
+proxyAuthMethod = "anyauth"  # basic, digest, negotiate, ntlm, anyauth
+
+# SSL certificate for proxy authentication
+proxySSLCert = ""
+
+# Whether proxy SSL certificate is password protected
+proxySSLCertPasswordProtected = false
+
+# SSL key file for proxy
+proxySSLKey = ""
+
+# CA certificate for validating proxy SSL certificate
+proxySSLCAInfo = ""
+
+# Whether to verify proxy's SSL certificate
+proxySSLVerify = true
+
+# Save cookies to cookieFile after HTTP requests
+saveCookies = false
+
+# Check certificate revocation (Windows schannel only)
+schannelCheckRevoke = true
+
+# Use system certificate store (Windows schannel only)
+schannelUseSSLCAInfo = false
+
+# SSL/TLS backend to use
+sslBackend = "openssl"  # openssl, gnutls, schannel
+
+# CA certificate bundle file
+sslCAInfo = ""
+
+# Directory containing CA certificates
+sslCAPath = ""
+
+# Client SSL certificate
+sslCert = ""
+
+# Whether client certificate is password protected
+sslCertPasswordProtected = false
+
+# SSL private key file
+sslKey = ""
+
+# Verify SSL certificates
+sslVerify = true
+
+# User agent string to send with HTTP requests
+userAgent = "git/2.39.0"
+
+# HTTP protocol version to use
+version = "HTTP/1.1"  # HTTP/1.1, HTTP/2
+
+# Per-URL HTTP settings using dot notation
+[http."https://example.com"]
+sslCAInfo = "/path/to/certificate.pem"
+sslVerify = true
+proxy = "http://proxy.example.com:8080"
+# Can also have extraHeader as array here
+extraHeader = ["X-Custom: value"]
+
+[http."https://weak.security.example.com"]
+# Disable SSL verification for specific host (use with caution!)
+sslVerify = false
+
+[http."https://corporate.example.com"]
+# Use specific certificates for corporate servers
+sslCAInfo = "/etc/ssl/corporate-ca-bundle.crt"
+sslCert = "/home/user/.ssl/client-cert.pem"
+sslKey = "/home/user/.ssl/client-key.pem"

@@ -1,0 +1,131 @@
+# Git Aliases Configuration
+# Create shortcuts for frequently used Git commands
+
+[alias]
+# Basic shortcuts
+co = "checkout"
+ci = "commit"
+st = "status"
+br = "branch"
+cp = "cherry-pick"
+cl = "clone"
+
+# Status and diff shortcuts
+s = "status -s"
+ss = "status"
+d = "diff"
+dc = "diff --cached"
+ds = "diff --staged"
+
+# Logging shortcuts
+l = "log --oneline --graph"
+lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+ll = "log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --numstat"
+hist = "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short"
+today = "log --since=midnight --author='$(git config user.name)' --oneline"
+
+# Branch management
+ba = "branch -a"
+bd = "branch -d"
+bD = "branch -D"
+branches = "branch -a"
+branchname = "rev-parse --abbrev-ref HEAD"
+
+# Commit shortcuts
+cm = "commit -m"
+ca = "commit -am"
+amend = "commit --amend"
+ammend = "commit --amend"  # Common typo
+
+# Staging shortcuts
+a = "add"
+aa = "add ."
+ap = "add -p"
+au = "add -u"
+
+# Unstaging and undoing
+unstage = "reset HEAD --"
+uncommit = "reset --soft HEAD~1"
+undo = "reset HEAD~1 --mixed"
+nevermind = "!git reset --hard HEAD && git clean -df"
+
+# Stash operations
+sl = "stash list"
+sa = "stash apply"
+ss = "stash save"
+sp = "stash pop"
+
+# Remote operations
+f = "fetch"
+fo = "fetch origin"
+fu = "fetch upstream"
+p = "push"
+po = "push origin"
+pu = "push upstream"
+pr = "pull --rebase"
+
+# Working with remotes
+remotes = "remote -v"
+url = "remote get-url origin"
+
+# Inspection commands
+type = "cat-file -t"
+dump = "cat-file -p"
+info = "!git config --list | grep -E '^(user|remote)'"
+
+# Finding things
+# Find branches containing commit
+fb = "!f() { git branch -a --contains $1; }; f"
+
+# Find tags containing commit
+ft = "!f() { git describe --always --contains $1; }; f"
+
+# Find commits by commit message
+fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+
+# Interactive rebase
+ri = "rebase -i"
+rim = "!git rebase -i $(git merge-base HEAD master)"
+rid = "!git rebase -i $(git merge-base HEAD develop)"
+
+# Cleanup and maintenance
+cleanup = "!git remote prune origin && git gc"
+trim = "!git reflog expire --expire=now --all && git gc --prune=now"
+
+# Advanced workflows
+wip = "!git add -A && git commit -m 'WIP'"
+unwip = "!git log -1 --pretty=%B | grep -q '^WIP' && git reset HEAD~1 || echo 'No WIP commit found'"
+
+# GitHub specific (requires hub or gh CLI)
+pr-checkout = "!f() { git fetch origin pull/$1/head:pr-$1 && git checkout pr-$1; }; f"
+
+# Show verbose output for commands
+verbose = "!git config --global alias.$1 '!git $1 --verbose'"
+
+# Complex aliases using shell commands
+# Show all aliases
+aliases = "!git config --get-regexp '^alias\\.' | sed 's/alias\\.\\([^ ]*\\) /\\1 = /'"
+
+# Open repository in browser (requires git-extras)
+open = "!f() { URL=$(git config remote.${1:-origin}.url); xdg-open ${URL} || open ${URL}; }; f"
+
+# Ignore files locally
+ignore = "!f() { echo $1 >> .git/info/exclude; }; f"
+unignore = "!f() { grep -v \"^$1$\" .git/info/exclude > .git/info/exclude.tmp && mv .git/info/exclude.tmp .git/info/exclude; }; f"
+
+# List files changed in a commit
+files = "!f() { git diff-tree --no-commit-id --name-only -r ${1:-HEAD}; }; f"
+
+# Show current branch description
+about = "!git config branch.$(git symbolic-ref --short HEAD).description"
+
+# Shell command aliases - prefix with !
+visual = "!gitk"
+gui = "!git gui"
+
+# Alias with arguments using shell functions
+# Example: git bclean branch-name
+bclean = "!f() { git branch --merged ${1:-master} | grep -v \" ${1:-master}$\" | xargs -r git branch -d; }; f"
+
+# Note: When using '!' prefix, Git runs the command in shell
+# Use quotes carefully and escape when necessary

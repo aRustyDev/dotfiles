@@ -12,6 +12,10 @@
 [merge]
     conflictStyle = zdiff3
 
+# araxis,bc,codecompare,deltawalker,diffmerge,diffuse,ecmerge,emerge,examdiff,guiffy,gvimdiff,kdiff3,kompare,meld,nvimdiff,opendiff,p4merge,smerge,tkdiff,vimdiff,vscode,winmerge,xxdiff
+[diff]
+    guitool = nvimdiff
+
 # Default branch name
 [init]
     defaultBranch = main

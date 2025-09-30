@@ -1,0 +1,27 @@
+# AM (Apply Mailbox) Configuration
+# Controls git-am behavior for applying patches from emails
+
+[am]
+# Preserve carriage returns when applying patches
+keepcr = false
+
+# Enable 3-way merge fallback when patch doesn't apply cleanly
+threeWay = true
+
+# Notes:
+# - keepcr: Useful when applying patches from Windows systems
+# - threeWay: Attempts 3-way merge if patch fails to apply
+#   Requires the blobs referenced in the patch to be available
+
+# Common usage:
+# git am < patch.mbox          # Apply patches from mailbox
+# git am *.patch              # Apply series of patches
+# git am --continue           # Continue after resolving conflicts
+# git am --abort              # Abort patch application
+# git am --skip               # Skip current patch
+
+# With threeWay = true:
+# If patch doesn't apply cleanly, Git will:
+# 1. Look for the blob the patch applies to
+# 2. Attempt a 3-way merge
+# 3. Leave conflict markers if needed

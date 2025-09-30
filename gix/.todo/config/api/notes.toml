@@ -1,0 +1,72 @@
+# Notes Configuration  
+# Settings for Git notes (annotations for commits)
+
+[notes]
+# Default notes reference to display
+displayRef = "refs/notes/commits"
+
+# Merge strategy for notes
+mergeStrategy = "manual"  # manual, ours, theirs, union, cat_sort_uniq
+
+# Rewrite settings for notes using dot notation
+[notes.rewrite]
+# Copy notes on amend
+amend = true
+
+# Copy notes on rebase
+rebase = true
+
+# Additional notes references for display
+# Can be specified multiple times in gitconfig
+# In TOML, might need to be handled as a string or array
+# displayRef = "refs/notes/commits"
+# displayRef = "refs/notes/review"
+
+# Notes references explained:
+# - refs/notes/commits: Default location
+# - refs/notes/review: Code review notes
+# - refs/notes/tested: Testing status
+# - refs/notes/discussion: Discussion threads
+
+# Merge strategies:
+# - manual: Merge conflicts must be resolved manually
+# - ours: Keep our version on conflicts
+# - theirs: Take their version on conflicts  
+# - union: Concatenate both versions
+# - cat_sort_uniq: Concatenate, sort, and remove duplicates
+
+# Common notes operations:
+# git notes add -m "Note text"          # Add note to HEAD
+# git notes add -m "Note" <commit>      # Add note to specific commit
+# git notes edit                        # Edit note in editor
+# git notes show <commit>               # Show note for commit
+# git notes list                        # List all notes
+# git notes remove <commit>             # Remove note
+# git notes copy <from> <to>            # Copy note between commits
+
+# Using different note namespaces:
+# git notes --ref=review add -m "LGTM"
+# git notes --ref=tested add -m "Passed QA"
+# git log --notes=review --notes=tested
+
+# Sharing notes:
+# git push origin refs/notes/*          # Push all notes
+# git fetch origin refs/notes/*:refs/notes/*  # Fetch notes
+# git push origin refs/notes/review     # Push specific notes
+
+# Notes in log output:
+# git log --notes                       # Show default notes
+# git log --notes=review                # Show specific notes
+# git log --notes='*'                   # Show all notes
+# git log --no-notes                    # Hide notes
+
+# Automatic note operations:
+# - amend = true: Keep notes when amending commits
+# - rebase = true: Keep notes during rebase
+
+# Use cases for notes:
+# - Code review comments
+# - Testing status
+# - Build results
+# - Issue/ticket references
+# - Additional metadata without changing commits

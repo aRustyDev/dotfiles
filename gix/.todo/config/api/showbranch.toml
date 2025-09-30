@@ -1,0 +1,69 @@
+# Show Branch Configuration
+# Settings for git show-branch command
+
+[showbranch]
+# Default branches to show
+default = "--all"
+
+# Notes:
+# - default: Arguments to use when none specified
+#   Common values:
+#   --all: Show all branches
+#   --heads: Show local branches only
+#   --remotes: Show remote branches only
+#   --tags: Show tags
+
+# Show-branch displays branch topology
+# Shows which commits are in which branches
+
+# Common usage:
+# git show-branch               # Show current branches
+# git show-branch --all         # Show all refs
+# git show-branch main develop  # Compare specific branches
+# git show-branch --more=10     # Show 10 more commits
+# git show-branch --list        # List branches only
+
+# Output format:
+# * [main] Latest commit on main
+#  ! [develop] Feature in progress
+# --
+# *  [main] Latest commit on main
+#  + [develop] Feature in progress
+#  + [develop~1] Previous work
+# *+ [main~1] Common ancestor
+
+# Legend:
+# * = commit is in first branch
+# + = commit is in other branch
+# - = commit is not in this branch
+# ! = branch header
+
+# Useful options:
+# --all          # All refs
+# --heads        # Local branches
+# --tags         # Tags
+# --remotes      # Remote branches
+# --color        # Colorize output
+# --more=<n>     # Show n more commits
+# --list         # Don't show topology
+# --independent  # Show only independent heads
+# --merge-base   # Show merge bases only
+# --topics       # Show only commits not in first branch
+
+# Example configurations:
+
+# Show all local branches by default:
+# [showbranch]
+# default = --heads
+
+# Show specific branches:
+# [showbranch]
+# default = main develop feature/*
+
+# Show more context:
+# [showbranch]
+# default = --all --more=20
+
+# Alternative to show-branch:
+# git log --graph --oneline --all
+# More flexible and often clearer output

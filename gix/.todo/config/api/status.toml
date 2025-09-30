@@ -1,0 +1,75 @@
+# Status Configuration
+# Controls output of git status command
+
+[status]
+# Show branch tracking info (ahead/behind)
+aheadBehind = true
+
+# Show branch information
+branch = true
+
+# Show comment prefix in status output
+displayCommentPrefix = false
+
+# Show paths relative to current directory
+relative = false
+
+# Rename detection limit
+renameLimit = 1000
+
+# Detect renames
+renames = true
+
+# Show stash count in status
+showStash = false
+
+# Show untracked files
+showUntrackedFiles = "normal"  # no, normal, all
+
+# Show submodule summary
+submoduleSummary = false
+
+# Additional status configurations:
+
+# Short format by default (like git status -s)
+# short = true
+
+# Show ignored files
+# showIgnored = false
+
+# Submodule summary size (number of commits)
+# submoduleSummary = 10  # Can be boolean or number
+
+# Notes on showUntrackedFiles:
+# - no: Don't show untracked files
+# - normal: Show untracked files and directories
+# - all: Show individual files in untracked directories
+
+# Performance considerations:
+# - aheadBehind = false can speed up status in large repos
+# - renameLimit controls how hard Git tries to detect renames
+# - Lower values = faster but might miss renames
+
+# Example status with all features:
+# On branch main
+# Your branch is ahead of 'origin/main' by 2 commits.
+#   (use "git push" to publish your local commits)
+# Your stash currently has 3 entries
+#
+# Changes to be committed:
+#   (use "git restore --staged <file>..." to unstage)
+#         modified:   src/main.js
+#         renamed:    old-name.js -> new-name.js
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git restore <file>..." to discard changes in working directory)
+#         modified:   README.md
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#         temp/
+#         notes.txt
+#
+# Submodules changed but not updated:
+# * submodule-name 1234567...89abcdef (2):

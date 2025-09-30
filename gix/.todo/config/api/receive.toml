@@ -1,0 +1,114 @@
+# Receive Configuration
+# Settings for receiving pushes (server-side)
+
+[receive]
+# Advertise push options capability
+advertisePushOptions = true
+
+# Run gc after receiving objects
+autogc = true
+
+# Seed for certificate nonce generation
+certNonceSeed = ""
+
+# What to do when pushing to current branch
+denyCurrentBranch = "refuse"  # refuse, warn, ignore, updateInstead
+
+# What to do when deleting current branch
+denyDeleteCurrent = "refuse"  # refuse, warn, ignore
+
+# Deny deletion of branches/tags
+denyDeletes = false
+
+# Deny non-fast-forward updates
+denyNonFastForwards = false
+
+# Check objects for validity
+fsckObjects = false
+
+# References to hide from clients
+hideRefs = ""
+
+# Keep-alive interval in seconds
+keepAlive = 5
+
+# Maximum size of pack to accept (0 = unlimited)
+maxInputSize = 0
+
+# References for proc-receive hook
+procReceiveRefs = ""
+
+# Allow shallow repository updates
+shallowUpdate = false
+
+# Update server info after receive
+updateServerInfo = true
+
+# Fsck settings for receive using dot notation
+[receive.fsck]
+# Skip list for known issues
+skipList = ""
+
+# How to handle missing email
+missingEmail = "ignore"  # ignore, warn, error
+
+# Specific fsck checks
+# zeroPaddedFilemode = "ignore"
+# badTimezone = "warn"
+# trailingDotInBarePath = "error"
+
+# denyCurrentBranch options:
+# - refuse: Reject push (default)
+# - warn: Warn but allow
+# - ignore: Allow silently  
+# - updateInstead: Update working tree too
+
+# Common server configurations:
+
+# Shared repository:
+# [receive]
+# denyCurrentBranch = refuse
+# denyNonFastForwards = true
+# denyDeletes = true
+
+# CI/CD deployment repository:
+# [receive]
+# denyCurrentBranch = updateInstead
+# fsckObjects = true
+
+# Backup repository:
+# [receive]
+# denyDeletes = false
+# denyNonFastForwards = false
+# updateServerInfo = true
+
+# Security settings:
+# [receive]
+# fsckObjects = true
+# maxInputSize = 104857600  # 100MB limit
+# denyNonFastForwards = true
+
+# hideRefs examples:
+# hideRefs = refs/pull/*      # Hide pull requests
+# hideRefs = refs/changes/*   # Hide Gerrit changes
+# hideRefs = refs/tmp/*       # Hide temporary refs
+# hideRefs = ^refs/tags/old-  # Hide tags starting with "old-"
+
+# Push options:
+# When advertisePushOptions = true:
+# git push --push-option=<option>
+# Used by:
+# - GitLab for merge requests
+# - Gerrit for reviews
+# - Custom hooks for metadata
+
+# Hooks triggered on receive:
+# - pre-receive: Can reject entire push
+# - update: Can reject individual ref updates
+# - post-receive: Notifications after push
+# - post-update: Update server info
+
+# Server info files:
+# - info/refs: List of references
+# - objects/info/packs: List of pack files
+# Updated when updateServerInfo = true

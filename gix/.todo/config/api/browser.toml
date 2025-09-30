@@ -1,0 +1,62 @@
+# Browser Configuration
+# Defines web browsers for Git commands that open web pages
+
+[browser]
+# Default browser to use
+default = "firefox"
+
+# Browser-specific configurations using dot notation
+[browser.firefox]
+# Command to launch the browser
+cmd = "firefox"
+
+# Path to browser executable (optional)
+path = "/usr/bin/firefox"
+
+[browser.chrome]
+cmd = "google-chrome"
+# path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"  # macOS
+# path = "C:/Program Files/Google/Chrome/Application/chrome.exe"  # Windows
+
+[browser.safari]
+cmd = "open -a Safari"  # macOS specific
+
+[browser.edge]
+cmd = "microsoft-edge"
+# path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+
+[browser.chromium]
+cmd = "chromium-browser"
+
+[browser.opera]
+cmd = "opera"
+
+# Custom browser example
+[browser.custom]
+cmd = "my-browser"
+path = "/opt/my-browser/bin/browser"
+
+# Browser with specific arguments
+[browser.firefox-private]
+cmd = "firefox --private-window"
+
+[browser.chrome-incognito]
+cmd = "google-chrome --incognito"
+
+# Text-based browsers
+[browser.lynx]
+cmd = "lynx"
+
+[browser.w3m]
+cmd = "w3m"
+
+# Notes:
+# - Used by commands like git-help --web, git-instaweb
+# - The 'path' is optional if 'cmd' is in PATH
+# - On macOS, use 'open -a AppName' for applications
+# - On Windows, may need full paths with proper escaping
+
+# Usage context:
+# git help --web <command>     # Opens help in web browser
+# git instaweb                 # Browse repository via web interface
+# Custom tools may also use these browser settings

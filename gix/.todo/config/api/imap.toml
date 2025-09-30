@@ -1,0 +1,74 @@
+# IMAP Configuration
+# Settings for sending patches via IMAP (git imap-send)
+
+[imap]
+# IMAP folder to store patches
+folder = "INBOX"
+
+# IMAP server hostname
+host = "imap.example.com"
+
+# IMAP password (not recommended in config)
+pass = ""
+
+# IMAP server port
+port = 993
+
+# Send patches as HTML
+preformattedHTML = false
+
+# Verify SSL certificate
+sslverify = true
+
+# Command to tunnel connection through
+tunnel = ""
+
+# IMAP username
+user = "user@example.com"
+
+# Additional IMAP settings:
+# authMethod = ""  # Authentication method (CRAM-MD5, LOGIN, etc.)
+
+# Example configurations:
+
+# Gmail:
+# [imap]
+# host = imap.gmail.com
+# user = your-email@gmail.com
+# port = 993
+# sslverify = true
+# folder = "[Gmail]/Drafts"
+
+# Office 365:
+# [imap]
+# host = outlook.office365.com
+# user = your-email@company.com
+# port = 993
+# sslverify = true
+# folder = "Drafts"
+
+# Using tunnel for secure connection:
+# [imap]
+# tunnel = "openssl s_client -connect imap.example.com:993 -quiet"
+
+# Notes on password handling:
+# - Don't store passwords in config files
+# - Use credential helpers instead
+# - Or provide password interactively
+# - Consider using OAuth2 where supported
+
+# Common usage:
+# git format-patch origin/main        # Create patches
+# git imap-send < *.patch            # Send via IMAP
+# cat *.patch | git imap-send        # Send multiple patches
+
+# IMAP folder notes:
+# - Gmail uses "[Gmail]/Drafts"
+# - Exchange/Outlook often uses "Drafts"
+# - Check your email client for folder names
+
+# Security considerations:
+# - Always use SSL/TLS (port 993)
+# - Verify certificates (sslverify = true)
+# - Don't commit passwords to repository
+# - Consider using app-specific passwords

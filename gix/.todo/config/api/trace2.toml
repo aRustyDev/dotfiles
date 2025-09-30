@@ -1,0 +1,104 @@
+# Trace2 Configuration
+# Advanced tracing and telemetry system
+
+[trace2]
+# Normal format target
+normalTarget = ""
+
+# Brief mode for normal format
+normalBrief = false
+
+# Performance format target
+perfTarget = ""
+
+# Brief mode for performance format
+perfBrief = false
+
+# Event format target
+eventTarget = ""
+
+# Brief mode for event format
+eventBrief = false
+
+# Debug destination selection
+destinationDebug = false
+
+# Target types:
+# - File path: /path/to/trace.log
+# - Directory: /path/to/traces/  
+# - stderr: Output to standard error
+# - af_unix:/path/to/socket: Unix socket
+# - af_unix:stream:/path/to/socket: Stream socket
+
+# Format explanations:
+
+# Normal format:
+# Human-readable output similar to GIT_TRACE
+# Good for debugging command execution
+
+# Performance format:
+# Detailed performance metrics
+# Timing for each operation
+# Resource usage statistics
+
+# Event format:
+# JSON structured events
+# Machine-parseable
+# Best for telemetry systems
+
+# Example configurations:
+
+# Development debugging:
+# [trace2]
+# normalTarget = stderr
+# normalBrief = true
+
+# Performance analysis:
+# [trace2]
+# perfTarget = /tmp/git-perf.log
+# perfBrief = false
+
+# Telemetry collection:
+# [trace2]
+# eventTarget = af_unix:stream:/tmp/git-telemetry.sock
+# eventBrief = false
+
+# Log rotation setup:
+# [trace2]
+# normalTarget = /var/log/git/trace/
+# eventTarget = /var/log/git/events/
+
+# Environment variable overrides:
+# GIT_TRACE2=/tmp/trace.normal
+# GIT_TRACE2_PERF=/tmp/trace.perf
+# GIT_TRACE2_EVENT=/tmp/trace.event
+
+# Brief mode effects:
+# - Reduces output verbosity
+# - Omits less critical information
+# - Smaller log files
+
+# Common trace2 usage:
+# GIT_TRACE2=1 git status              # Trace to stderr
+# GIT_TRACE2=/tmp/trace git fetch      # Trace to file
+# GIT_TRACE2_PERF=1 git log --graph    # Performance trace
+
+# Reading event format:
+# Each line is a JSON object with:
+# - event: Event type
+# - time: Timestamp
+# - repo: Repository ID
+# - cmd: Command info
+# - Various event-specific fields
+
+# Integration with monitoring:
+# - Send events to logging systems
+# - Aggregate performance metrics
+# - Track command usage patterns
+# - Monitor error rates
+
+# Troubleshooting:
+# - Check file permissions for log paths
+# - Ensure directories exist
+# - Monitor disk space for log files
+# - Use brief mode to reduce volume

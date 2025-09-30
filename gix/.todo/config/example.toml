@@ -1,0 +1,33 @@
+# comment
+[core]
+filemode = false
+gitproxy="proxy-command for kernel.org"
+gitproxy="default-proxy ; for all the rest"
+
+[diff]
+external = "/usr/local/bin/diff-wrapper"
+renames = true
+
+[http]
+sslVerify = true
+
+[http."https://weak.example.com"]
+sslVerify = false
+cookieFile = "/tmp/cookie.txt"
+
+# --- |[ URL Shortcuts ]| --- --- --- --- ---
+[url."https://weak.example.com/"]
+insteadOf = "ex:" # git clone ex:path/to/project.git
+
+[url."https://github.com/"]
+insteadOf = "gh:" # git clone gh:torvalds/linux.git
+
+[url."git@github.com:your-org/"]
+insteadOf = "org:" # git clone org:project
+# --- --- --- --- --- --- --- --- --- --- ---
+
+[include]
+[includeIf."gitdir"]
+[includeIf."gitdir/i"]
+[includeIf."onbranch"]
+[includeIf."hasconfig:remote.*.url"]

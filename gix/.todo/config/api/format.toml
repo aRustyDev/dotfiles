@@ -1,0 +1,79 @@
+# Format Configuration
+# Controls git format-patch output
+
+[format]
+# Attach patches inline instead of as attachments
+attachInline = false
+
+# How to generate cover letter subject from branch description
+coverFromDescription = "auto"  # auto, none, subject, message
+
+# Generate cover letter by default
+coverLetter = "auto"  # true, false, auto
+
+# From header for patches
+from = "Your Name <your.email@example.com>"
+
+# Include notes in patches
+notes = false
+
+# Number patches by default
+numbered = "auto"  # auto, true, false
+
+# Directory to output patches
+outputDirectory = ""
+
+# Default pretty format
+pretty = "medium"
+
+# Path to signature file
+signatureFile = "~/.signature"
+
+# Add Signed-off-by line
+signOff = false
+
+# Subject prefix for patches
+subjectPrefix = "PATCH"
+
+# File extension for patches
+suffix = ".patch"
+
+# Threading style
+thread = "shallow"  # deep, shallow, false
+
+# Default To: address
+to = ""
+
+# Default Cc: addresses
+cc = ""
+
+# Additional format settings:
+# base = "auto"  # Include base commit info
+# noprefix = false  # Omit a/, b/ prefixes
+# zeroPad = false  # Zero-pad patch numbers
+# quiet = false  # Suppress output
+
+# Notes on key settings:
+# - numbered: auto means number if multiple patches
+# - thread: shallow = thread cover letter only
+#           deep = thread all patches
+# - coverFromDescription: How to extract subject from branch description
+#   auto = subject if description is one line
+#   subject = always use first line
+#   message = always use full description
+
+# Common format-patch usage:
+# git format-patch origin/main           # All commits since origin/main
+# git format-patch -3                    # Last 3 commits
+# git format-patch -M origin/main        # Detect renames
+# git format-patch --cover-letter        # Include cover letter
+# git format-patch -o patches/           # Output to directory
+# git format-patch --subject-prefix="PATCH v2"  # Version prefix
+
+# Applying patches:
+# git am *.patch                         # Apply patch series
+# git am --3way patches/*.patch          # Three-way merge
+
+# Email workflow:
+# git send-email *.patch                 # Send patches via email
+# git send-email --annotate *.patch      # Edit patches before sending

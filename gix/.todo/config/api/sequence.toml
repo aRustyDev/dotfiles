@@ -1,0 +1,75 @@
+# Sequence Configuration
+# Settings for sequencer operations (cherry-pick, revert, rebase)
+
+[sequence]
+# Editor for sequence instructions
+editor = ""
+
+# Notes:
+# - editor: Override editor for sequencer operations
+#   If empty, uses core.editor
+#   Useful for different editor for interactive operations
+
+# Sequencer operations:
+# - git rebase -i (interactive rebase)
+# - git cherry-pick (multiple commits)
+# - git revert (multiple commits)
+
+# Setting sequence editor:
+# [sequence]
+# editor = "vim -c 'set syntax=gitrebase'"
+# editor = "code --wait"
+# editor = "emacs -nw"
+
+# Environment variable override:
+# GIT_SEQUENCE_EDITOR="vim" git rebase -i
+
+# Sequencer states:
+# .git/rebase-merge/      # Rebase in progress
+# .git/rebase-apply/      # Rebase --apply in progress
+# .git/CHERRY_PICK_HEAD   # Cherry-pick in progress
+# .git/REVERT_HEAD        # Revert in progress
+# .git/sequencer/         # Sequencer state
+
+# Common sequencer commands:
+# --continue    # Continue after resolving conflicts
+# --abort       # Cancel operation
+# --skip        # Skip current commit
+# --quit        # Stop but keep changes
+# --edit-todo   # Edit remaining steps
+
+# Interactive rebase commands:
+# p, pick <commit>    # Use commit
+# r, reword <commit>  # Use commit, edit message
+# e, edit <commit>    # Use commit, stop for amending
+# s, squash <commit>  # Meld into previous commit
+# f, fixup <commit>   # Like squash but discard message
+# x, exec <command>   # Run shell command
+# b, break           # Stop here
+# d, drop <commit>    # Remove commit
+# l, label <label>    # Label current HEAD
+# t, reset <label>    # Reset HEAD to label
+# m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
+
+# Tips for sequence editor:
+# - Syntax highlighting helps
+# - Set up keybindings for reordering
+# - Use editor with good undo/redo
+# - Configure editor to exit with :wq
+
+# Example vim configuration:
+# [sequence]
+# editor = "vim -c 'set ft=gitrebase' -c 'set nobackup'"
+
+# Example VS Code configuration:
+# [sequence]
+# editor = "code --wait --new-window"
+
+# Sequencer workflow:
+# 1. Start operation (rebase -i, cherry-pick)
+# 2. Editor opens with instructions
+# 3. Edit instructions
+# 4. Save and close editor
+# 5. Git executes instructions
+# 6. Resolve conflicts if any
+# 7. Continue/abort as needed

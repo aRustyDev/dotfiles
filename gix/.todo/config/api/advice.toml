@@ -1,0 +1,105 @@
+# Advice Messages Configuration
+# Controls which advice messages Git will display to help users
+
+[advice]
+# Shown when git-add is asked to add an ignored file to the index
+addEmbeddedRepo = true
+
+# Shown when git-add is run without a pathspec
+addEmptyPathspec = true
+
+# Shown when attempting to add an ignored file to the index
+addIgnoredFile = true
+
+# Shown when git-am fails to apply a patch while the working tree is dirty
+amWorkDir = true
+
+# Shown when git-checkout could check out a remote-tracking branch
+checkoutAmbiguousRemoteBranchName = true
+
+# Shown when git-merge refuses to merge without committing first
+commitBeforeMerge = true
+
+# Shown when checking out a commit that is not a branch head
+detachedHead = true
+
+# Shown when git-fetch takes a long time to calculate forced updates
+fetchShowForcedUpdates = true
+
+# Shown when a graft file is deprecated
+graftFileDeprecated = true
+
+# Shown when a hook is ignored because the hook is not set as executable
+ignoredHook = true
+
+# Shown when Git is configured to use an implicit identity
+implicitIdentity = true
+
+# Shown when a nested tag is encountered
+nestedTag = true
+
+# Shown when git-push fails because a pushed ref already exists on the remote
+pushAlreadyExists = true
+
+# Shown when git-push rejects an update that tries to overwrite a remote ref
+pushFetchFirst = true
+
+# Shown when git-push rejects a non-fast-forward update
+pushNeedsForce = true
+
+# Shown when git-push fails due to a non-fast-forward update to the current branch
+pushNonFFCurrent = true
+
+# Deprecated advice for non-fast-forward push when push.default is "matching"
+pushNonFFMatching = true
+
+# Shown when git-push rejects a forced update of a ref that points to different objects
+pushRefNeedsUpdate = true
+
+# Shown when git-push gives up trying to guess the remote ref
+pushUnqualifiedRefname = true
+
+# Shown when git-push rejects an update
+pushUpdateRejected = true
+
+# Shown when git-reset is invoked with --quiet
+resetQuiet = true
+
+# Shown when conflict resolution is needed
+resolveConflict = true
+
+# Shown when git-rm is used on a file
+rmHints = true
+
+# Shown when a sequencer command is already in progress
+sequencerInUse = true
+
+# Shown when git-branch fails to set an upstream
+setUpstreamFailure = true
+
+# Shown when git-cherry-pick or git-rebase skips commits
+skippedCherryPicks = true
+
+# Shown to advise how to disable status.aheadBehind for performance
+statusAheadBehind = true
+
+# Shown when git-status takes a long time
+statusHints = true
+
+# Shown when git-status is invoked with -u
+statusUoption = true
+
+# Shown when a submodule alternate error strategy causes failure
+submoduleAlternateErrorStrategyDie = true
+
+# Shown when submodules are not updated after a merge
+submodulesNotUpdated = true
+
+# Shown when updating a sparse path would remove an entry from the index
+updateSparsePath = true
+
+# Shown when Git is waiting for editor input
+waitingForEditor = true
+
+# Additional advice settings that may be available
+# worktreeAddOrphan = true  # Shown when creating an orphan worktree

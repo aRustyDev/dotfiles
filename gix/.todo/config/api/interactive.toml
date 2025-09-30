@@ -1,0 +1,65 @@
+# Interactive Configuration
+# Settings for Git's interactive commands
+
+[interactive]
+# Program to pipe diffs through in interactive mode
+diffFilter = ""
+
+# Enable single-key input mode
+singleKey = false
+
+# Notes:
+# - diffFilter: Command to process diffs before display
+#   Useful for syntax highlighting or diff improvement
+#   Example: "delta", "diff-so-fancy", "diff-highlight"
+#
+# - singleKey: Allow single keypress in interactive mode
+#   Requires Term::ReadKey Perl module
+#   Makes interaction faster but less safe
+
+# Example diff filters:
+
+# Delta (syntax highlighting):
+# diffFilter = "delta --color-only"
+
+# diff-so-fancy:
+# diffFilter = "diff-so-fancy"
+
+# diff-highlight (comes with Git):
+# diffFilter = "diff-highlight"
+
+# Custom filter:
+# diffFilter = "sed 's/^/ /'"
+
+# Interactive commands affected:
+# - git add -i (--interactive)
+# - git add -p (--patch)  
+# - git checkout -p
+# - git commit -p
+# - git reset -p
+# - git restore -p
+# - git stash -p
+
+# Interactive mode commands:
+# y - stage this hunk
+# n - do not stage this hunk
+# q - quit; do not stage this or remaining hunks
+# a - stage this hunk and all later hunks
+# d - do not stage this hunk or later hunks
+# g - select a hunk to go to
+# / - search for a hunk matching regex
+# j - leave this hunk undecided, see next undecided
+# J - leave this hunk undecided, see next hunk
+# k - leave this hunk undecided, see previous undecided
+# K - leave this hunk undecided, see previous hunk
+# s - split the current hunk into smaller hunks
+# e - manually edit the current hunk
+# ? - print help
+
+# With singleKey = true:
+# Just press the key without Enter
+# Faster but easier to make mistakes
+
+# Setting up diff-highlight:
+# PATH="$PATH:$(git --exec-path)/contrib/diff-highlight"
+# git config interactive.diffFilter diff-highlight

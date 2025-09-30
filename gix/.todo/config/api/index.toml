@@ -1,0 +1,66 @@
+# Index Configuration
+# Settings for Git's index (staging area)
+
+[index]
+# Record end of index entries for integrity checking
+recordEndOfIndexEntries = false
+
+# Record offset table for faster access
+recordOffsetTable = true
+
+# Enable sparse index
+sparse = false
+
+# Use threads for index operations
+threads = true
+
+# Index file format version
+version = 4
+
+# Notes on settings:
+# - recordEndOfIndexEntries: Adds hash at end of index
+#   Helps detect truncation but slightly slower
+#
+# - recordOffsetTable: Speeds up index access
+#   Especially helpful for large repositories
+#
+# - sparse: Enable sparse index (experimental)
+#   Only tracks directories in sparse-checkout
+#   Can significantly improve performance
+#
+# - threads: Use multiple threads for loading index
+#   true = auto-detect number of threads
+#   false = single threaded
+#   number = specific thread count
+#
+# - version: Index format version
+#   2 = Traditional format
+#   3 = Supports higher precision timestamps
+#   4 = Supports end-of-index entry (default)
+
+# Sparse index:
+# Requires sparse-checkout to be enabled
+# git sparse-checkout init --cone
+# git config index.sparse true
+
+# Performance tuning:
+# For large repositories:
+# [index]
+# version = 4
+# threads = true
+# recordOffsetTable = true
+# sparse = true  # If using sparse-checkout
+
+# Index-related commands:
+# git update-index --refresh          # Refresh index
+# git update-index --skip-worktree    # Skip file in working tree
+# git update-index --no-skip-worktree # Stop skipping file
+# git update-index --assume-unchanged # Assume file unchanged
+# git ls-files -s                     # Show index contents
+# git read-tree                       # Read tree into index
+# git write-tree                      # Write index as tree
+
+# Troubleshooting:
+# git update-index --really-refresh   # Force refresh
+# rm .git/index && git reset          # Rebuild index
+# git fsck --full                     # Check index integrity

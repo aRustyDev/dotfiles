@@ -1,0 +1,88 @@
+# URL Configuration
+# URL rewriting rules for Git operations
+
+# GitHub shortcuts
+[url."git@github.com:"]
+insteadOf = "gh:"
+pushInsteadOf = "github:"
+pushInsteadOf = "git://github.com/"
+
+[url."git://github.com/"]
+insteadOf = "github:"
+
+[url."https://github.com/"]
+insteadOf = "http://github.com/"
+
+# GitLab shortcuts
+[url."git@gitlab.com:"]
+insteadOf = "gl:"
+pushInsteadOf = "gitlab:"
+
+[url."https://gitlab.com/"]
+insteadOf = "gitlab:"
+
+# Bitbucket shortcuts
+[url."git@bitbucket.org:"]
+insteadOf = "bb:"
+pushInsteadOf = "bitbucket:"
+
+[url."https://bitbucket.org/"]
+insteadOf = "bitbucket:"
+
+# Gist shortcuts
+[url."git@gist.github.com:"]
+insteadOf = "gist:"
+pushInsteadOf = "gist:"
+
+# Corporate/Enterprise examples
+[url."git@git.company.com:"]
+insteadOf = "company:"
+pushInsteadOf = "https://git.company.com/"
+
+[url."https://git.company.com/"]
+insteadOf = "http://git.company.com/"
+
+# Force SSH for specific organizations
+[url."git@github.com:myorg/"]
+insteadOf = "https://github.com/myorg/"
+
+# Force HTTPS for specific cases
+[url."https://github.com/"]
+insteadOf = "git@github.com:"
+# Only for specific environments where SSH is blocked
+
+# Personal server shortcuts
+[url."ssh://git@personal.server.com:2222/"]
+insteadOf = "my:"
+
+# Local network shortcuts
+[url."git://192.168.1.100/"]
+insteadOf = "local:"
+
+# Specific project shortcuts
+[url."git@github.com:torvalds/"]
+insteadOf = "linux:"
+
+[url."git@github.com:nodejs/"]
+insteadOf = "node:"
+
+# Notes on URL rewriting:
+# - insteadOf: Rewrites URLs for all operations
+# - pushInsteadOf: Only rewrites URLs for push operations
+# - Rules are applied in order, last match wins
+# - Useful for:
+#   - Creating shortcuts (gh:user/repo)
+#   - Forcing protocol (SSH vs HTTPS)
+#   - Redirecting to mirrors
+#   - Working around firewalls
+
+# Example usage with shortcuts:
+# git clone gh:user/repo
+# git clone gl:group/project
+# git clone company:team/project
+# git remote add upstream linux:linux
+
+# Security considerations:
+# - Be careful with URL rewriting in shared configurations
+# - Can potentially redirect to unexpected locations
+# - Always verify the actual URL with: git remote -v

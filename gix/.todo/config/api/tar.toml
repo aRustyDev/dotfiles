@@ -1,0 +1,59 @@
+# Tar Configuration
+# Settings for tar archive creation
+
+[tar]
+# Default umask for tar files
+umask = 002
+
+# Notes:
+# - umask: Permission mask for files in tar archives
+#   002 = rwxrwxr-x (group writable)
+#   022 = rwxr-xr-x (default Unix)
+#   077 = rwx------ (owner only)
+
+# Understanding umask:
+# Removes permissions from default (666 for files, 777 for dirs)
+# umask 002: 666 - 002 = 664 (rw-rw-r--)
+# umask 022: 666 - 022 = 644 (rw-r--r--)
+# umask 077: 666 - 077 = 600 (rw-------)
+
+# Common umask values:
+# 000 - No restrictions (dangerous)
+# 002 - Group collaborative
+# 022 - Standard default
+# 027 - Group readable, not writable
+# 077 - Private to user
+
+# Tar archives created by:
+# git archive --format=tar
+# git archive --format=tar.gz
+# git archive --format=tar.bz2
+# git archive --format=tar.xz
+
+# Archive examples:
+# git archive --format=tar HEAD | tar -tv  # List contents
+# git archive --format=tar HEAD > project.tar
+# git archive --format=tar.gz HEAD > project.tar.gz
+# git archive --format=tar --prefix=project/ HEAD > project.tar
+
+# Checking permissions in archive:
+# tar -tvf archive.tar
+# -rw-rw-r-- user/group ... file.txt
+
+# Setting umask for different scenarios:
+
+# Open source project (world readable):
+# [tar]
+# umask = 022
+
+# Internal project (group collaborative):
+# [tar]
+# umask = 002  
+
+# Sensitive project (owner only):
+# [tar]
+# umask = 077
+
+# Note: This only affects tar archives
+# For zip archives, see zip attributes
+# File permissions in working tree are not affected

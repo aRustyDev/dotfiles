@@ -1,0 +1,68 @@
+# Split Index Configuration
+# Settings for split index feature
+
+[splitindex]
+# Maximum percentage of entries before splitting
+maxPercentChange = 20
+
+# When to expire unused shared index files
+sharedIndexExpire = "2.weeks.ago"
+
+# Notes:
+# - maxPercentChange: Trigger new shared index when
+#   this percentage of entries change
+#   Lower = more frequent splits
+#   Higher = less frequent splits
+#
+# - sharedIndexExpire: Remove unused shared indexes
+#   older than this time period
+
+# Split index improves performance by:
+# - Sharing unchanged entries between indexes
+# - Reducing I/O for large repositories
+# - Faster index updates
+
+# How it works:
+# 1. Base index contains unchanged entries
+# 2. Split index contains changes
+# 3. Git reads both to construct full index
+
+# Enabling split index:
+# git update-index --split-index
+# Or set core.splitIndex = true
+
+# Disabling split index:
+# git update-index --no-split-index
+# Or set core.splitIndex = false
+
+# Files created:
+# .git/index              # Split index
+# .git/sharedindex.<sha>  # Shared base index
+
+# Performance impact:
+# - Faster for large repos (>10k files)
+# - Most beneficial with few changes
+# - Small overhead for small repos
+
+# Maintenance:
+# Old shared indexes cleaned by:
+# - git gc
+# - git update-index --split-index
+# Based on sharedIndexExpire setting
+
+# Monitoring:
+# ls -la .git/sharedindex.*  # List shared indexes
+# git update-index --test-split-index  # Test performance
+
+# Best practices:
+# - Enable for large repositories
+# - Monitor .git/sharedindex.* size
+# - Adjust maxPercentChange based on workflow
+# - Run gc periodically to clean old indexes
+
+# Example for large repo:
+# [core]
+# splitIndex = true
+# [splitindex]
+# maxPercentChange = 10  # Split more frequently
+# sharedIndexExpire = 1.week.ago  # Clean up sooner

@@ -1,0 +1,46 @@
+# ls-refs Configuration
+# Protocol v2 ls-refs command settings
+
+[lsrefs]
+# How to handle unborn HEAD references
+unborn = "advertise"  # advertise, allow, ignore
+
+# Notes on unborn:
+# - advertise: Advertise unborn HEAD to clients (default)
+#   Allows cloning of empty repositories
+#   Clients can set HEAD to unborn branch
+#
+# - allow: Allow clients to ask about unborn HEAD
+#   But don't advertise it
+#
+# - ignore: Don't support unborn HEAD at all
+#   Older behavior
+
+# This affects Protocol v2 operations:
+# - Remote operations when server speaks protocol v2
+# - Allows proper handling of empty repositories
+# - Enables setting default branch before first commit
+
+# Example scenarios:
+
+# With unborn = "advertise":
+# git init --bare empty.git
+# git -c init.defaultBranch=main clone empty.git
+# cd empty && git branch  # Shows "main" even though no commits
+
+# With unborn = "ignore":
+# Same commands would result in default "master" branch
+
+# Protocol v2 benefits:
+# - More efficient ref advertisement
+# - Better handling of large numbers of refs
+# - Supports partial clone and fetches
+# - Improved push/fetch performance
+
+# Checking protocol version:
+# GIT_TRACE_PACKET=1 git ls-remote origin
+# Look for "version 2" in output
+
+# Related configuration:
+# protocol.version = 2  # Enable protocol v2
+# See protocol.toml for protocol settings

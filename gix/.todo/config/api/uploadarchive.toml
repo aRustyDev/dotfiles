@@ -1,0 +1,59 @@
+# Upload Archive Configuration
+# Server-side settings for git upload-archive
+
+[uploadarchive]
+# Allow unreachable objects in archives
+allowUnreachable = false
+
+# Notes:
+# - allowUnreachable: Whether clients can request
+#   archives containing objects not reachable from refs
+#   Security risk if enabled!
+
+# Git upload-archive:
+# - Server-side component of git archive --remote
+# - Allows clients to request archives
+# - Runs when client uses: git archive --remote=<repo>
+
+# Security implications:
+# allowUnreachable = true allows clients to:
+# - Request any object by SHA-1
+# - Access deleted/unreferenced content
+# - Potentially expose sensitive data
+
+# Safe configuration:
+# [uploadarchive]
+# allowUnreachable = false
+
+# Server setup:
+# - Usually runs via git-daemon or SSH
+# - Can be disabled entirely for security
+# - Consider using uploadarchive.allowFilter
+
+# Restricting archive access:
+# - Use SSH forced commands
+# - Implement pre-upload-archive hook
+# - Disable in git-daemon with --forbid-override
+
+# Example SSH restriction:
+# In ~/.ssh/authorized_keys:
+# command="git-upload-archive '/path/to/repo.git'" ssh-rsa ...
+
+# Common usage:
+# Client side:
+# git archive --remote=git://server/repo.git HEAD
+# git archive --remote=ssh://server/repo.git main > archive.tar
+
+# Server logs show:
+# upload-archive for /repo.git
+
+# Best practices:
+# - Keep allowUnreachable = false
+# - Use authentication (SSH) over anonymous access
+# - Monitor server logs for unusual activity
+# - Consider disabling if not needed
+
+# Alternatives to remote archives:
+# - Clone and archive locally
+# - Use CI/CD to generate archives
+# - Provide pre-generated downloads

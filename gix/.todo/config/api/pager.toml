@@ -1,0 +1,82 @@
+# Pager Configuration
+# Control pager usage for various Git commands
+
+[pager]
+# Use pager for branch listing
+branch = true
+
+# Use pager for config output
+config = true
+
+# Use pager for diff output
+diff = true
+
+# Use pager for grep results
+grep = true
+
+# Use pager for log output
+log = true
+
+# Use pager for show command
+show = true
+
+# Use pager for status
+status = true
+
+# Use pager for tag listing
+tag = true
+
+# Additional pager settings:
+# blame = true      # Use pager for blame
+# help = true       # Use pager for help
+# reflog = true     # Use pager for reflog
+# shortlog = true   # Use pager for shortlog
+# stash = false     # Don't page stash list
+# whatchanged = true # Use pager for whatchanged
+
+# Notes:
+# - true: Always use pager
+# - false: Never use pager  
+# - Command will be paged based on output size/terminal
+
+# Global pager setting in core.pager
+# See core.toml for pager program configuration
+
+# Common pager programs:
+# - less (default): Feature-rich pager
+# - more: Simple pager
+# - cat: No paging (output everything)
+# - delta: Syntax highlighting diff pager
+# - bat: Cat with syntax highlighting
+
+# Pager environment variables:
+# PAGER: System pager preference
+# GIT_PAGER: Override for Git only
+# LESS: Options for less pager
+
+# Recommended less options:
+# export LESS='-F -R -X -S'
+# -F: Exit if content fits on screen
+# -R: Handle colors correctly
+# -X: Don't clear screen on exit
+# -S: Don't wrap long lines
+
+# Disabling pager:
+# git --no-pager <command>           # One-time disable
+# git config pager.<command> false   # Permanent for command
+# GIT_PAGER=cat git <command>        # Using environment
+
+# Custom pager per command:
+# git config core.pager 'less -FRX'  # Default pager
+# git config pager.diff 'delta'      # Diff-specific pager
+# git config pager.log 'less -S'     # Log-specific pager
+
+# Advanced pager examples:
+# # Syntax highlighting with bat
+# git config core.pager 'bat --style=plain'
+# 
+# # Side-by-side diff with delta  
+# git config pager.diff 'delta --side-by-side'
+# 
+# # No pager for short output
+# git config pager.branch 'less -F'

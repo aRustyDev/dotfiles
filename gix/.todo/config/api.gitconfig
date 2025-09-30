@@ -1,0 +1,1088 @@
+# Git Configuration Reference
+# Complete list of git-config options as per https://git-scm.com/docs/git-config
+# This file serves as a comprehensive template for all available Git configuration options
+
+# Configuration File Hierarchy:
+# 1. System: $(prefix)/etc/gitconfig
+# 2. Global: ~/.gitconfig or $XDG_CONFIG_HOME/git/config
+# 3. Local: .git/config
+# 4. Worktree: .git/config.worktree
+# 5. Command line: -c option
+
+# Syntax Notes:
+# - Section names and variable names are case-insensitive
+# - Boolean values: true, false, yes, no, on, off, 1, 0
+# - Integer values can use k, M, or G suffixes (1024-based)
+# - Colors: normal, black, red, green, yellow, blue, magenta, cyan, white
+# - Attributes: bold, dim, ul, blink, reverse, italic, strike
+
+# Include other config files
+[include]
+	path = /path/to/other/config
+	# Conditional includes
+	# if gitdir:/path/to/repo/.git
+	# if gitdir/i:C:/Work/Repos/
+
+[includeIf "gitdir:/path/to/group/"]
+	path = /path/to/group-specific-config
+
+[includeIf "gitdir:~/projects/"]
+	path = ~/.gitconfig-personal
+
+[includeIf "gitdir:~/work/"]
+	path = ~/.gitconfig-work
+
+# Core Variables
+[core]
+	# Repository format version
+	repositoryformatversion = 0
+	
+	# Object storage
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	symlinks = true
+	ignorecase = true
+	precomposeunicode = true
+	
+	# Trust and security
+	trustctime = true
+	checkStat = default
+	quotepath = true
+	
+	# File handling
+	autocrlf = input  # true, false, input
+	safecrlf = warn   # true, false, warn
+	eol = lf          # lf, crlf, native
+	
+	# Performance
+	preloadindex = true
+	fscache = true
+	bigFileThreshold = 512m
+	
+	# Editors and pagers
+	editor = vim
+	pager = less -FRX
+	whitespace = blank-at-eol,space-before-tab,blank-at-eof
+	
+	# Hooks and attributes
+	hooksPath = ~/.git/hooks
+	attributesFile = ~/.gitattributes
+	
+	# Working tree
+	worktree = /path/to/worktree
+	
+	# Refs
+	notesRef = refs/notes/commits
+	
+	# Compression
+	compression = -1  # -1 to 9
+	loosecompression = -1
+	
+	# Pack files
+	packedGitLimit = 256m
+	packedGitWindowSize = 1m
+	
+	# Delta compression
+	deltaBaseCacheLimit = 96m
+	
+	# File system monitor
+	fsmonitor = true
+	fsmonitorHookVersion = 2
+	
+	# Other core settings
+	abbrev = auto
+	commentChar = auto
+	excludesFile = ~/.gitignore_global
+	askpass = /usr/bin/ssh-askpass
+	sshCommand = ssh -o StrictHostKeyChecking=no
+
+# User Information
+[user]
+	name = Your Name
+	email = your.email@example.com
+	signingkey = ABCD1234
+	useConfigOnly = true
+
+# Advice Messages
+[advice]
+	addEmbeddedRepo = true
+	addEmptyPathspec = true
+	addIgnoredFile = true
+	amWorkDir = true
+	checkoutAmbiguousRemoteBranchName = true
+	commitBeforeMerge = true
+	detachedHead = true
+	fetchShowForcedUpdates = true
+	graftFileDeprecated = true
+	ignoredHook = true
+	implicitIdentity = true
+	nestedTag = true
+	pushAlreadyExists = true
+	pushFetchFirst = true
+	pushNeedsForce = true
+	pushNonFFCurrent = true
+	pushNonFFMatching = true
+	pushRefNeedsUpdate = true
+	pushUnqualifiedRefname = true
+	pushUpdateRejected = true
+	resetQuiet = true
+	resolveConflict = true
+	rmHints = true
+	sequencerInUse = true
+	setUpstreamFailure = true
+	skippedCherryPicks = true
+	statusAheadBehind = true
+	statusHints = true
+	statusUoption = true
+	submoduleAlternateErrorStrategyDie = true
+	submodulesNotUpdated = true
+	updateSparsePath = true
+	waitingForEditor = true
+
+# Add Configuration
+[add]
+	ignoreErrors = false
+	ignore-errors = false  # deprecated
+
+# Aliases
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	type = cat-file -t
+	dump = cat-file -p
+	
+	# Complex aliases
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	visual = !gitk
+	
+	# Shell command aliases
+	ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
+
+# AM (Apply Mailbox) Configuration
+[am]
+	keepcr = false
+	threeWay = true
+
+# Apply Configuration
+[apply]
+	ignoreWhitespace = no  # no, change, nowarn
+	whitespace = warn      # nowarn, warn, fix, error, error-all
+
+# Archive Configuration
+[archive]
+	restrictRemote = true
+
+# Blame Configuration
+[blame]
+	blankBoundary = false
+	coloring = repeatedLines
+	date = iso
+	showEmail = true
+	showRoot = false
+	ignoreRevsFile = .git-blame-ignore-revs
+
+# Branch Configuration
+[branch]
+	autoSetupMerge = always  # always, true, false
+	autoSetupRebase = always # never, local, remote, always
+	sort = -committerdate
+
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+
+[branch "develop"]
+	remote = origin
+	merge = refs/heads/develop
+	pushRemote = fork
+
+# Browser Configuration
+[browser "firefox"]
+	cmd = firefox
+	path = /usr/bin/firefox
+
+[browser "chrome"]
+	cmd = google-chrome
+
+# Bundle Configuration
+[bundle]
+	version = 1
+	mode = all  # all, partial
+
+# Checkout Configuration
+[checkout]
+	defaultRemote = origin
+	guess = true
+	workers = 0  # auto-detect
+
+# Cherry-pick Configuration
+[cherry-pick]
+	cleanupMode = strip  # strip, whitespace, verbatim, scissors, default
+
+# Clean Configuration
+[clean]
+	requireForce = true
+
+# Clone Configuration
+[clone]
+	defaultRemoteName = origin
+	rejectShallow = false
+
+# Color Configuration
+[color]
+	ui = auto  # always, auto, never, true, false
+	branch = auto
+	diff = auto
+	interactive = auto
+	pager = true
+	showBranch = auto
+	status = auto
+	grep = auto
+	decorate = auto
+	advice = yellow
+	push = auto
+	transport = auto
+	remote = auto
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+	upstream = cyan
+	plain = normal
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	func = normal
+	old = red bold
+	new = green bold
+	commit = yellow bold
+	whitespace = red reverse
+	context = normal
+	oldMoved = bold magenta
+	newMoved = bold cyan
+	oldMovedDimmed = bold magenta dim
+	newMovedDimmed = bold cyan dim
+	oldMovedAlternative = bold blue
+	newMovedAlternative = bold yellow
+	oldMovedAlternativeDimmed = bold blue dim
+	newMovedAlternativeDimmed = bold yellow dim
+
+[color "status"]
+	header = normal
+	added = green
+	changed = yellow
+	untracked = red
+	branch = cyan bold
+	nobranch = red bold
+	unmerged = red bold
+	updated = green
+	localbranch = cyan
+	remotebranch = red
+
+[color "grep"]
+	context = normal
+	filename = magenta
+	function = normal
+	linenumber = green
+	match = red bold
+	selected = normal
+	separator = cyan
+
+[color "interactive"]
+	prompt = blue bold
+	header = yellow
+	help = cyan
+	error = red
+
+[color "decorate"]
+	branch = bold green
+	remoteBranch = bold red
+	tag = bold yellow
+	stash = bold magenta
+	HEAD = bold cyan
+
+# Column Configuration
+[column]
+	ui = auto  # always, auto, never, column, row, plain, dense, nodense
+
+[column "branch"]
+	mode = auto
+
+[column "status"]
+	mode = auto
+
+[column "tag"]
+	mode = auto
+
+# Commit Configuration
+[commit]
+	cleanup = strip  # strip, whitespace, verbatim, scissors, default
+	gpgSign = false
+	status = true
+	template = ~/.gitmessage
+	verbose = false
+
+# Commitgraph Configuration
+[commitGraph]
+	generationVersion = 2
+	maxNewFilters = 10
+	readChangedPaths = true
+
+# Credential Configuration
+[credential]
+	helper = cache --timeout=3600
+	useHttpPath = false
+	username = default-username
+
+[credential "https://example.com"]
+	username = specific-username
+	helper = store
+
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+
+# Diff Configuration
+[diff]
+	algorithm = histogram  # myers, minimal, patience, histogram
+	autoRefreshIndex = true
+	colorMoved = default  # no, default, plain, blocks, zebra, dimmed-zebra
+	colorMovedWS = allow-indentation-change
+	context = 3
+	external = 
+	ignoreSubmodules = none  # none, untracked, dirty, all
+	mnemonicPrefix = false
+	noPrefix = false
+	orderFile = 
+	relative = false
+	renames = true  # true, false, copies
+	renameLimit = 1000
+	statGraphWidth = 80
+	submodule = short  # short, log, diff
+	suppressBlankEmpty = false
+	tool = vimdiff
+	wordRegex = 
+	wsErrorHighlight = all  # old, new, context, all, none
+
+[diff "binary"]
+	textconv = hexdump -C
+
+[diff "exif"]
+	textconv = exiftool
+
+[diff "zip"]
+	textconv = unzip -c -a
+
+# Difftool Configuration
+[difftool]
+	prompt = false
+	trustExitCode = true
+
+[difftool "vimdiff"]
+	cmd = vim -d "$LOCAL" "$REMOTE"
+
+# Extensions Configuration
+[extensions]
+	objectFormat = sha1  # sha1, sha256
+	refStorage = files   # files, reftable
+
+# Fastimport Configuration
+[fastimport]
+	unpackLimit = 100
+
+# Fetch Configuration
+[fetch]
+	prune = true
+	pruneTags = false
+	fsckObjects = false
+	parallel = 0  # auto-detect
+	recurseSubmodules = on-demand  # yes, on-demand, no
+	showForcedUpdates = true
+	output = full  # full, compact
+	negotiationAlgorithm = default  # default, skipping, noop
+
+[fetch "fsck"]
+	skipList = 
+	missingEmail = ignore  # ignore, warn, error
+
+# Filter Configuration
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+# Format Configuration
+[format]
+	attachInline = false
+	coverFromDescription = auto  # auto, none, subject, message
+	coverLetter = auto
+	from = Your Name <your.email@example.com>
+	notes = false
+	numbered = auto  # auto, true, false
+	outputDirectory = 
+	pretty = medium
+	signatureFile = ~/.signature
+	signOff = false
+	subjectPrefix = PATCH
+	suffix = .patch
+	thread = shallow  # deep, shallow, false
+	to = 
+	cc = 
+
+# GC (Garbage Collection) Configuration
+[gc]
+	aggressiveDepth = 50
+	aggressiveWindow = 250
+	auto = 6700
+	autoDetach = true
+	autoPackLimit = 50
+	bigPackThreshold = 2g
+	cruftPacks = false
+	logExpiry = 1.day.ago
+	packRefs = true
+	pruneExpire = 2.weeks.ago
+	reflogExpire = 90.days
+	reflogExpireUnreachable = 30.days
+	rerereResolved = 60.days
+	rerereUnresolved = 15.days
+	worktreePruneExpire = 3.months.ago
+
+# Gitcvs Configuration
+[gitcvs]
+	commitMsgAnnotation = 
+	enabled = false
+	logFile = 
+	usecrlfattr = true
+	allBinary = false
+	dbName = %G
+	dbDriver = SQLite
+	dbUser = 
+	dbPass = 
+	dbTableNamePrefix = 
+
+[gitcvs "ext"]
+	dbName = %G.%a
+	dbTableNamePrefix = ext_
+
+# Gitweb Configuration
+[gitweb]
+	description = 
+	owner = 
+	url = 
+
+# Gpg Configuration
+[gpg]
+	format = openpgp  # openpgp, x509
+	program = gpg
+	minTrustLevel = undefined  # undefined, never, marginal, fully, ultimate
+
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
+	revocationFile = ~/.ssh/revoked_signers
+	program = ssh-keygen
+
+# Grep Configuration
+[grep]
+	column = false
+	fallbackToNoIndex = false
+	lineNumber = false
+	patternType = default  # basic, extended, fixed, perl, default
+	extendedRegexp = false
+	threads = 0  # auto-detect
+
+# Gui Configuration
+[gui]
+	commitMsgWidth = 72
+	diffContext = 3
+	displayUntracked = true
+	encoding = utf-8
+	fastCopyBlame = true
+	matchTrackingBranch = false
+	newBranchTemplate = 
+	pruneDuringFetch = true
+	spellingDictionary = none
+	trustmtime = true
+
+# Guitool Configuration
+[guitool "gitweb"]
+	cmd = git instaweb --httpd=webrick
+	needsFile = false
+
+# Help Configuration
+[help]
+	autoCorrect = 0  # 0, positive number, immediate, never, prompt
+	browser = chrome
+	format = man  # man, info, web, html
+	htmlPath = 
+
+# Http Configuration
+[http]
+	cookieFile = ~/.gitcookies
+	emptyAuth = false
+	extraHeader = 
+	followRedirects = initial  # true, false, initial
+	lowSpeedLimit = 1000
+	lowSpeedTime = 10
+	maxRequests = 5
+	noEPSV = false
+	postBuffer = 1048576
+	proxy = 
+	proxyAuthMethod = anyauth  # basic, digest, negotiate, ntlm, anyauth
+	proxySSLCert = 
+	proxySSLCertPasswordProtected = false
+	proxySSLKey = 
+	proxySSLCAInfo = 
+	proxySSLVerify = true
+	saveCookies = false
+	schannelCheckRevoke = true
+	schannelUseSSLCAInfo = false
+	sslBackend = openssl  # openssl, gnutls, schannel
+	sslCAInfo = 
+	sslCAPath = 
+	sslCert = 
+	sslCertPasswordProtected = false
+	sslKey = 
+	sslVerify = true
+	userAgent = git/2.39.0
+	version = HTTP/1.1  # HTTP/1.1, HTTP/2
+
+[http "https://example.com"]
+	sslCAInfo = /path/to/certificate.pem
+	sslVerify = true
+	proxy = http://proxy.example.com:8080
+
+# i18n Configuration
+[i18n]
+	commitEncoding = UTF-8
+	logOutputEncoding = UTF-8
+
+# Imap Configuration
+[imap]
+	folder = INBOX
+	host = imap.example.com
+	pass = 
+	port = 993
+	preformattedHTML = false
+	sslverify = true
+	tunnel = 
+	user = user@example.com
+
+# Index Configuration
+[index]
+	recordEndOfIndexEntries = false
+	recordOffsetTable = true
+	sparse = false
+	threads = true
+	version = 4
+
+# Init Configuration
+[init]
+	templateDir = ~/.git-templates
+	defaultBranch = main
+
+# Instaweb Configuration
+[instaweb]
+	browser = firefox
+	httpd = lighttpd  # lighttpd, apache2, mongoose, plackup, python, webrick
+	local = true
+	modulePath = 
+	port = 1234
+
+# Interactive Configuration
+[interactive]
+	diffFilter = 
+	singleKey = false
+
+# Log Configuration
+[log]
+	abbrevCommit = false
+	date = default  # relative, iso, iso-strict, rfc, short, raw, human, unix, format:...
+	decorate = auto  # true, false, short, full, auto
+	diffMerges = separate  # off, none, first-parent, 1, separate, m, combined, c, dense-combined, cc
+	excludeDecoration = 
+	follow = false
+	graphColors = red,green,yellow,blue,magenta,cyan
+	mailinglist = false
+	showRoot = true
+	showSignature = false
+
+# Lsrefs Configuration
+[lsrefs]
+	unborn = advertise  # advertise, allow, ignore
+
+# Mailinfo Configuration
+[mailinfo]
+	scissors = false
+
+# Mailmap Configuration
+[mailmap]
+	file = ~/.mailmap
+	blob = HEAD:.mailmap
+
+# Maintenance Configuration
+[maintenance]
+	auto = true
+	strategy = incremental  # none, incremental
+
+[maintenance "gc"]
+	enabled = true
+	schedule = weekly
+
+[maintenance "commit-graph"]
+	enabled = true
+	schedule = hourly
+
+[maintenance "prefetch"]
+	enabled = true
+	schedule = hourly
+
+[maintenance "loose-objects"]
+	enabled = true
+	schedule = daily
+
+[maintenance "incremental-repack"]
+	enabled = true
+	schedule = daily
+
+# Man Configuration
+[man]
+	viewer = man
+	man.path = 
+
+[man "konqueror"]
+	cmd = konqueror
+	path = 
+
+# Merge Configuration
+[merge]
+	autoStash = false
+	branchdesc = true
+	conflictStyle = merge  # merge, diff3, zdiff3
+	defaultToUpstream = false
+	directoryRenames = false  # false, true, conflict
+	ff = true  # true, false, only
+	gpgSign = false
+	log = true
+	renameLimit = 1000
+	renormalize = false
+	stat = true
+	suppressDest = 
+	tool = vimdiff
+	verbosity = 2
+	verifySignatures = false
+
+[merge "ours"]
+	driver = true
+
+[merge "binary"]
+	driver = git merge-file --ours --binary %O %A %B
+
+# Mergetool Configuration
+[mergetool]
+	hideResolved = false
+	keepBackup = true
+	keepTemporaries = false
+	prompt = true
+	trustExitCode = false
+	writeToTemp = false
+
+[mergetool "vimdiff"]
+	cmd = vim -d "$LOCAL" "$BASE" "$REMOTE" "$MERGED"
+	trustExitCode = false
+
+# Multi-pack-index Configuration
+[multi-pack-index]
+	maxPackSize = 2g
+	bitmapHashCache = true
+
+# Notes Configuration
+[notes]
+	displayRef = refs/notes/commits
+	mergeStrategy = manual  # manual, ours, theirs, union, cat_sort_uniq
+
+[notes "rewrite"]
+	amend = true
+	rebase = true
+
+# Pack Configuration
+[pack]
+	allowPackReuse = multi  # true, false, multi
+	compression = -1
+	deltaCacheLimit = 256m
+	deltaCacheSize = 256m
+	deltaCompression = true
+	depth = 50
+	indexVersion = 2
+	island = 
+	islandCore = 
+	packSizeLimit = 0
+	preferBitmapTips = true
+	readReverseIndex = true
+	threads = 0  # auto-detect
+	useBitmaps = true
+	useSparse = true
+	window = 10
+	windowMemory = 0
+	writeBitmapHashCache = true
+	writeBitmapLookupTable = false
+	writeReverseIndex = true
+
+# Pager Configuration
+[pager]
+	branch = true
+	config = true
+	diff = true
+	grep = true
+	log = true
+	show = true
+	status = true
+	tag = true
+
+# Pretty Configuration
+[pretty]
+	fixes = Fixes: %h (\"%s\")
+
+# Protocol Configuration
+[protocol]
+	allow = all  # always, never, user
+	version = 2  # 0, 1, 2
+
+[protocol "file"]
+	allow = always
+
+[protocol "git"]
+	allow = always
+
+[protocol "ssh"]
+	allow = always
+
+[protocol "http"]
+	allow = always
+
+[protocol "https"]
+	allow = always
+
+# Pull Configuration
+[pull]
+	ff = only  # true, false, only
+	octopus = octopus
+	rebase = false  # true, false, merges, preserve, interactive
+	twohead = recursive
+
+# Push Configuration
+[push]
+	autoSetupRemote = false
+	default = simple  # nothing, current, upstream, simple, matching
+	followTags = false
+	gpgSign = false
+	negotiate = true
+	pushOption = 
+	recurseSubmodules = check  # check, on-demand, only, no
+	useBitmaps = true
+
+# Rebase Configuration
+[rebase]
+	abbreviateCommands = true
+	autoSquash = false
+	autoStash = false
+	backend = apply  # apply, merge
+	forkPoint = true
+	instructionFormat = 
+	missingCommitsCheck = warn  # warn, error, ignore
+	rescheduleFailedExec = false
+	stat = true
+	updateRefs = false
+
+# Receive Configuration
+[receive]
+	advertisePushOptions = true
+	autogc = true
+	certNonceSeed = 
+	denyCurrentBranch = refuse  # refuse, warn, ignore, updateInstead
+	denyDeleteCurrent = refuse  # refuse, warn, ignore
+	denyDeletes = false
+	denyNonFastForwards = false
+	fsckObjects = false
+	hideRefs = 
+	keepAlive = 5
+	maxInputSize = 0
+	procReceiveRefs = 
+	shallowUpdate = false
+	updateServerInfo = true
+
+[receive "fsck"]
+	skipList = 
+	missingEmail = ignore  # ignore, warn, error
+
+# Repack Configuration
+[repack]
+	cruftDepth = 4
+	cruftThreads = 1
+	cruftWindow = 20
+	cruftWindowMemory = 0
+	packKeptObjects = false
+	updateServerInfo = true
+	useDeltaBaseOffset = true
+	writeBitmaps = true
+
+# Rerere Configuration
+[rerere]
+	autoUpdate = false
+	enabled = true
+
+# Reset Configuration
+[reset]
+	quiet = false
+
+# Revert Configuration
+[revert]
+	reference = false
+
+# Safe Configuration
+[safe]
+	directory = /path/to/safe/directory
+	bareRepository = all  # all, explicit
+
+# Sendemail Configuration
+[sendemail]
+	aliasesFile = ~/.mailrc
+	aliasFileType = mutt  # mutt, mailrc, pine, elm, gnus
+	annotate = false
+	assume8bitEncoding = UTF-8
+	bcc = 
+	cc = 
+	ccCmd = 
+	chainReplyTo = false
+	compose = 
+	confirm = auto  # always, never, cc, compose, auto
+	envelopeSender = auto  # auto, <address>
+	forbidSendmailVariables = 
+	from = Your Name <your.email@example.com>
+	identity = 
+	multiEdit = true
+	sendmailCmd = 
+	signedoffbycc = true
+	smtpBatchSize = 100
+	smtpDebug = false
+	smtpDomain = 
+	smtpEncryption = tls  # ssl, tls, none
+	smtpPass = 
+	smtpReloginDelay = 0.5
+	smtpServer = smtp.example.com
+	smtpServerOption = 
+	smtpServerPort = 587
+	smtpSSLCertPath = 
+	smtpUser = user@example.com
+	suppresscc = self  # self, author, cc, bodycc, sob, cccmd, body, all
+	suppressFrom = false
+	thread = true
+	to = 
+	toCmd = 
+	transferEncoding = 8bit  # 7bit, 8bit, quoted-printable, base64, auto
+	validate = true
+	xmailer = true
+
+[sendemail "work"]
+	from = Work Name <work@company.com>
+	smtpServer = smtp.company.com
+	smtpUser = work@company.com
+
+# Sequence Configuration
+[sequence]
+	editor = 
+
+# Showbranch Configuration
+[showbranch]
+	default = --all
+
+# Splitindex Configuration
+[splitindex]
+	maxPercentChange = 20
+	sharedIndexExpire = 2.weeks.ago
+
+# SSH Configuration
+[ssh]
+	variant = auto  # auto, simple, openssh, plink, putty, tortoiseplink
+
+# Stash Configuration
+[stash]
+	showIncludeUntracked = false
+	showPatch = false
+	showStat = false
+
+# Status Configuration
+[status]
+	aheadBehind = true
+	branch = true
+	displayCommentPrefix = false
+	relative = false
+	renameLimit = 1000
+	renames = true
+	showStash = false
+	showUntrackedFiles = normal  # no, normal, all
+	submoduleSummary = false
+
+# Submodule Configuration
+[submodule]
+	active = true
+	alternateErrorStrategy = die  # die, info, ignore
+	alternateLocation = superproject  # superproject, ""
+	fetchJobs = 0  # auto-detect
+	propagateBranches = false
+	recurse = true
+
+[submodule "name"]
+	url = https://github.com/example/repo.git
+	path = path/to/submodule
+	branch = master
+	fetchRecurseSubmodules = true
+	ignore = none  # none, untracked, dirty, all
+	shallow = true
+	update = checkout  # checkout, rebase, merge, none
+
+# Tag Configuration
+[tag]
+	forceSignAnnotated = false
+	gpgSign = false
+	sort = version:refname
+
+# Tar Configuration
+[tar]
+	umask = 002
+
+# Trace2 Configuration
+[trace2]
+	normalTarget = 
+	normalBrief = false
+	perfTarget = 
+	perfBrief = false
+	eventTarget = 
+	eventBrief = false
+	destinationDebug = false
+
+# Transfer Configuration
+[transfer]
+	advertiseSID = true
+	bundleURI = auto  # true, false, auto
+	credentialsInUrl = allow  # allow, warn, die
+	fsckObjects = false
+	hideRefs = 
+	unpackLimit = 100
+
+[transfer "fsck"]
+	skipList = 
+	missingEmail = ignore  # ignore, warn, error
+
+# Uploadarchive Configuration
+[uploadarchive]
+	allowUnreachable = false
+
+# Uploadpack Configuration
+[uploadpack]
+	advertiseObjectInfo = true
+	allowAnySHA1InWant = false
+	allowFilter = true
+	allowReachableSHA1InWant = false
+	allowRefInWant = false
+	allowTipSHA1InWant = false
+	hideRefs = 
+	keepAlive = 5
+	packObjectsHook = 
+
+# Uploadpack "filter" Configuration
+[uploadpack "filter"]
+	allow = true
+	blob:none = true
+	blob:limit = true
+	tree = true
+	sparse:oid = true
+	combine = true
+
+# URL Shortcuts
+[url "git@github.com:"]
+	insteadOf = gh:
+	pushInsteadOf = github:
+	pushInsteadOf = git://github.com/
+
+[url "git://github.com/"]
+	insteadOf = github:
+
+[url "git@gist.github.com:"]
+	insteadOf = gist:
+	pushInsteadOf = gist:
+	pushInsteadOf = git://gist.github.com/
+
+[url "git://gist.github.com/"]
+	insteadOf = gist:
+
+# User Configuration
+[user]
+	email = your.email@example.com
+	name = Your Name
+	signingkey = GPG-KEY-ID
+	useConfigOnly = true
+
+# Versionsort Configuration
+[versionsort]
+	prereleaseSuffix = -pre
+	prereleaseSuffix = .pre
+	prereleaseSuffix = -beta
+	prereleaseSuffix = .beta
+	prereleaseSuffix = -rc
+	prereleaseSuffix = .rc
+
+# Web Configuration
+[web]
+	browser = firefox
+
+# Worktree Configuration
+[worktree]
+	guessRemote = true
+
+# Custom Sections (Examples)
+[company]
+	# Company-specific settings
+	server = git.company.com
+	defaultProject = main-project
+
+[feature]
+	# Feature flags
+	experimental = true
+	manyFiles = true
+
+# Environment Variables Override Examples:
+# GIT_CONFIG_GLOBAL=/path/to/global/config
+# GIT_CONFIG_SYSTEM=/path/to/system/config
+# GIT_CONFIG_NOSYSTEM=1
+# GIT_CONFIG_COUNT=2
+# GIT_CONFIG_KEY_0=user.name
+# GIT_CONFIG_VALUE_0=Override Name
+
+# Notes on Configuration Parsing:
+# - Last value wins for single-valued options
+# - Multi-valued options accumulate values
+# - Variables are case-insensitive but section names are case-sensitive
+# - Use backslash for line continuation
+# - Comments use # or ; at beginning of line
+# - Values can be quoted with double quotes
+# - Escape sequences: \n, \t, \b, \\, \"
+# - Boolean true: yes, on, true, 1
+# - Boolean false: no, off, false, 0, empty string
+
+# Configuration Best Practices:
+# 1. Keep sensitive data (passwords, tokens) out of config files
+# 2. Use conditional includes for environment-specific settings
+# 3. Document custom aliases and configurations
+# 4. Regularly review and update deprecated settings
+# 5. Test configuration changes in isolation first
+# 6. Use git config --list to verify active settings
+# 7. Leverage git config --show-origin to debug config precedence

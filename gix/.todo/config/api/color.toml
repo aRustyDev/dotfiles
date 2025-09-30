@@ -1,0 +1,114 @@
+# Color Configuration
+# Controls colored output in Git commands
+
+[color]
+# Master control for colored output
+ui = "auto"  # always, auto, never, true, false
+
+# Enable colors for specific commands
+branch = "auto"
+diff = "auto"
+interactive = "auto"
+pager = true
+showBranch = "auto"
+status = "auto"
+grep = "auto"
+decorate = "auto"
+advice = "yellow"
+push = "auto"
+transport = "auto"
+remote = "auto"
+
+# Branch colors
+[color.branch]
+current = "yellow reverse"
+local = "yellow"
+remote = "green"
+upstream = "cyan"
+plain = "normal"
+
+# Diff colors
+[color.diff]
+meta = "yellow bold"
+frag = "magenta bold"  # Line numbers and function context
+func = "normal"        # Function names in hunk header
+old = "red bold"
+new = "green bold"
+commit = "yellow bold"
+whitespace = "red reverse"
+context = "normal"
+oldMoved = "bold magenta"
+newMoved = "bold cyan"
+oldMovedDimmed = "bold magenta dim"
+newMovedDimmed = "bold cyan dim"
+oldMovedAlternative = "bold blue"
+newMovedAlternative = "bold yellow"
+oldMovedAlternativeDimmed = "bold blue dim"
+newMovedAlternativeDimmed = "bold yellow dim"
+
+# Status colors
+[color.status]
+header = "normal"
+added = "green"
+changed = "yellow"
+untracked = "red"
+branch = "cyan bold"
+nobranch = "red bold"
+unmerged = "red bold"
+updated = "green"
+localbranch = "cyan"
+remotebranch = "red"
+
+# Grep colors
+[color.grep]
+context = "normal"
+filename = "magenta"
+function = "normal"
+linenumber = "green"
+match = "red bold"
+selected = "normal"
+separator = "cyan"
+
+# Interactive colors (for interactive commands like add -i)
+[color.interactive]
+prompt = "blue bold"
+header = "yellow"
+help = "cyan"
+error = "red"
+
+# Decoration colors (for log --decorate)
+[color.decorate]
+branch = "bold green"
+remoteBranch = "bold red"
+tag = "bold yellow"
+stash = "bold magenta"
+HEAD = "bold cyan"
+
+# Available colors:
+# - normal
+# - black
+# - red
+# - green
+# - yellow
+# - blue
+# - magenta
+# - cyan
+# - white
+# - default (terminal's default color)
+# 
+# Colors can also use 0-255 palette: "123" or "#ff00ff" hex values
+#
+# Available attributes:
+# - bold
+# - dim
+# - ul (underline)
+# - blink
+# - reverse
+# - italic
+# - strike
+#
+# Examples:
+# "green bold" - bold green text
+# "red reverse" - red background with default foreground
+# "blue white" - blue text on white background
+# "ul red bold" - underlined bold red text

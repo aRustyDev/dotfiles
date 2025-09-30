@@ -1,0 +1,115 @@
+# Submodule Configuration
+# Controls behavior of Git submodules
+
+[submodule]
+# Whether submodules are considered active by default
+active = true
+
+# How to handle errors with submodule alternates
+alternateErrorStrategy = "die"  # die, info, ignore
+
+# Where to look for submodule alternates
+alternateLocation = "superproject"  # superproject, ""
+
+# Number of parallel submodule fetches
+fetchJobs = 0  # 0 means auto-detect
+
+# Propagate branch configuration to submodules
+propagateBranches = false
+
+# Recurse into submodules for commands by default
+recurse = true
+
+# Per-submodule configuration using dot notation
+[submodule.libs/common]
+# URL of the submodule repository
+url = "https://github.com/example/common-lib.git"
+
+# Path where submodule is located (relative to repository root)
+path = "libs/common"
+
+# Branch to track
+branch = "main"
+
+# Whether to fetch recursively
+fetchRecurseSubmodules = true
+
+# How to handle ignored files
+ignore = "none"  # none, untracked, dirty, all
+
+# Use shallow clone
+shallow = true
+
+# How to update the submodule
+update = "checkout"  # checkout, rebase, merge, none, !command
+
+[submodule.vendor/library]
+url = "git@github.com:vendor/library.git"
+path = "vendor/library"
+branch = "stable"
+update = "rebase"
+ignore = "dirty"  # Ignore unstaged changes
+
+[submodule.docs/wiki]
+url = "https://github.com/project/wiki.git"
+path = "docs/wiki"
+# Track a specific tag instead of branch
+branch = "v2.0"
+update = "none"  # Manual updates only
+shallow = true
+
+[submodule.private/module]
+# Use relative URL for private submodules
+url = "../private-module.git"
+path = "private/module"
+branch = "develop"
+update = "merge"
+# Don't fetch this submodule by default
+fetchRecurseSubmodules = false
+
+[submodule.tools/scripts]
+url = "https://gitlab.com/team/scripts.git"
+path = "tools/scripts"
+# Use custom update command
+update = "!git pull --ff-only"
+ignore = "untracked"  # Ignore untracked files
+
+# Submodule with specific clone configuration
+[submodule.large-assets]
+url = "https://github.com/project/assets.git"
+path = "assets"
+# Shallow clone with specific depth
+shallow = true
+# Active only in certain configurations
+active = false
+
+# Example of submodule group configuration
+[submodule.frontend/ui]
+url = "git@github.com:project/ui.git"
+path = "frontend/ui"
+branch = "main"
+# Custom label for grouping
+# Can activate groups with: git config submodule.active group:frontend
+
+# Notes on ignore values:
+# - none: Don't ignore changes (default)
+# - untracked: Ignore untracked files in submodule
+# - dirty: Ignore all changes in submodule work tree
+# - all: Never consider submodule modified
+
+# Notes on update values:
+# - checkout: Checkout commit recorded in superproject
+# - rebase: Rebase current branch onto commit
+# - merge: Merge commit into current branch
+# - none: Don't update automatically
+# - !command: Run custom shell command
+
+# Notes on shallow clones:
+# - Reduces clone size but limits history
+# - May cause issues with some operations
+# - Good for large repositories where history isn't needed
+
+# Activating specific submodules:
+# git config submodule.active "libs/*"
+# git config submodule.active ":(exclude)vendor/*"
+# git config submodule.active true  # All submodules

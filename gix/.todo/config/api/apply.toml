@@ -1,0 +1,35 @@
+# Apply Configuration
+# Controls how git-apply handles patches
+
+[apply]
+# How to handle whitespace differences
+ignoreWhitespace = "no"  # no, change, nowarn
+
+# What to do with whitespace errors
+whitespace = "warn"  # nowarn, warn, fix, error, error-all
+
+# ignoreWhitespace options:
+# - no: Consider whitespace differences as errors
+# - change: Ignore changes in whitespace
+# - nowarn: Ignore whitespace changes silently
+
+# whitespace options:
+# - nowarn: Don't warn about whitespace errors
+# - warn: Warn about whitespace errors (default)
+# - fix: Fix whitespace errors
+# - error: Treat whitespace errors as errors
+# - error-all: Fail on first whitespace error
+
+# Whitespace issues detected:
+# - Trailing whitespace
+# - Space before tab in indent
+# - Blank line at EOF
+# - Carriage return at EOL
+# - Tab in indent (if core.whitespace includes it)
+
+# Common usage:
+# git apply patch.diff         # Apply a patch
+# git apply --check patch.diff # Check if patch applies cleanly
+# git apply --3way patch.diff  # Fall back to 3-way merge
+# git apply -R patch.diff      # Reverse apply (remove patch)
+# git apply --whitespace=fix   # Fix whitespace while applying

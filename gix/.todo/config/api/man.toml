@@ -1,0 +1,76 @@
+# Man Configuration
+# Settings for manual page viewer
+
+[man]
+# Default man page viewer
+viewer = "man"
+
+# Path to search for man pages
+path = ""
+
+# Viewer-specific configurations using dot notation
+[man.konqueror]
+# Command to launch Konqueror
+cmd = "konqueror"
+
+# Path to konqueror executable
+path = ""
+
+[man.man]
+# Traditional man command
+cmd = "man"
+
+[man.woman]
+# Emacs woman mode
+cmd = "emacsclient -e '(woman \"%s\")'"
+
+[man.info]
+# Info viewer
+cmd = "info"
+
+[man.browser]
+# Web browser viewer
+cmd = "firefox"
+
+# Notes:
+# - viewer: Which viewer to use for man pages
+#   The viewer name corresponds to man.<viewer> section
+#
+# - path: Additional paths to search for man pages
+#   Colon-separated list like PATH variable
+
+# Common viewers:
+# - man: Traditional Unix man (default)
+# - woman: Emacs woman mode (no man required)
+# - konqueror: KDE browser/file manager
+# - info: GNU info viewer
+# - browser: Web browser
+
+# Setting up custom viewer:
+# [man]
+# viewer = "custom"
+# 
+# [man.custom]
+# cmd = "my-man-viewer"
+# path = "/usr/local/bin/my-man-viewer"
+
+# Usage:
+# git help --man <command>      # Force man format
+# git help --info <command>     # Force info format
+# git help <command>            # Use configured viewer
+
+# Environment variables:
+# MAN_PATH: Override man page search paths
+# MANPAGER: Override pager for man pages
+# PAGER: General pager override
+
+# Finding Git man pages:
+# $(git --man-path)             # Show Git's man page directory
+# ls $(git --man-path)          # List all Git man pages
+
+# Tips:
+# - Use 'man -k git' to search Git man pages
+# - Man pages follow format: git-<command>
+# - Section 1: Commands
+# - Section 5: File formats
+# - Section 7: Overview and tutorials

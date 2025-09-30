@@ -1,0 +1,76 @@
+# Revert Configuration
+# Controls git revert behavior
+
+[revert]
+# Show reference names in revert message
+reference = false
+
+# Notes:
+# - reference: When true, includes reference names
+#   in the default revert commit message
+#   Example: "Revert \"Subject\" (branch-name)"
+
+# Revert creates a new commit that undoes changes
+# Unlike reset, it doesn't rewrite history
+
+# Common revert operations:
+# git revert HEAD              # Revert last commit
+# git revert HEAD~3            # Revert specific commit
+# git revert <commit>          # Revert by SHA
+# git revert HEAD~3..HEAD      # Revert range
+# git revert -m 1 <merge>      # Revert merge commit
+
+# Revert options:
+# -e, --edit               # Edit commit message
+# -n, --no-commit         # Don't create commit
+# -s, --signoff           # Add Signed-off-by
+# -m, --mainline <num>    # Parent number for merges
+# --no-edit               # Use default message
+
+# Reverting merge commits:
+# Must specify which parent to revert to:
+# git revert -m 1 <merge>  # Revert to first parent
+# git revert -m 2 <merge>  # Revert to second parent
+
+# Multiple reverts:
+# git revert HEAD~3..HEAD  # Revert last 3 commits
+# Creates 3 separate revert commits
+
+# Revert vs reset comparison:
+# Revert:
+# - Creates new commit
+# - Safe for shared branches
+# - Preserves history
+# - Can be reverted again
+#
+# Reset:
+# - Rewrites history
+# - Only for local branches
+# - Removes commits
+# - Can lose work
+
+# Handling conflicts:
+# git revert <commit>
+# # Conflict occurs
+# # Fix conflicts
+# git add <fixed-files>
+# git revert --continue
+# # Or abort:
+# git revert --abort
+
+# Common workflows:
+# # Revert without committing
+# git revert -n HEAD~3..HEAD
+# # Make additional changes
+# git commit -m "Revert multiple changes"
+#
+# # Revert a revert
+# git revert <revert-commit>
+# # Reapplies original changes
+
+# Best practices:
+# - Use for public/shared branches
+# - Include reason in commit message
+# - Test after reverting
+# - Consider if cherry-pick is better
+# - Document what was reverted and why

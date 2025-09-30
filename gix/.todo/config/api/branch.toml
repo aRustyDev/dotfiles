@@ -1,0 +1,71 @@
+# Branch Configuration
+# Controls branch behavior and tracking
+
+[branch]
+# Automatically set up tracking when creating new branches
+autoSetupMerge = "always"  # always, true, false
+
+# Automatically set up rebase when creating new branches
+autoSetupRebase = "always"  # never, local, remote, always
+
+# Default sort order for git branch
+sort = "-committerdate"  # Can prefix with - for descending order
+
+# Per-branch configuration examples using dot notation
+[branch.main]
+# Remote repository this branch tracks
+remote = "origin"
+
+# Remote branch this branch tracks
+merge = "refs/heads/main"
+
+# Whether to rebase when pulling
+rebase = true
+
+# Description of what this branch is for
+description = "Main development branch"
+
+[branch.develop]
+remote = "origin"
+merge = "refs/heads/develop"
+rebase = true
+description = "Integration branch for features"
+
+# Push to a different remote than where we pull from
+pushRemote = "fork"
+
+[branch.feature-xyz]
+remote = "origin"
+merge = "refs/heads/feature-xyz"
+
+# Merge commits when rebasing instead of flattening
+rebase = "merges"  # true, false, merges, interactive
+
+[branch.hotfix]
+remote = "origin"
+merge = "refs/heads/hotfix"
+
+# Never rebase this branch
+rebase = false
+
+# Example of tracking upstream repository
+[branch.upstream-sync]
+remote = "upstream"
+merge = "refs/heads/main"
+rebase = true
+
+# Notes on autoSetupRebase values:
+# - never: Never set up rebase automatically
+# - local: Set up rebase for branches tracking local branches
+# - remote: Set up rebase for branches tracking remote branches
+# - always: Always set up rebase for new branches
+
+# Notes on sort values:
+# - authordate
+# - committerdate (default)
+# - creatordate
+# - objectsize
+# - taggerdate
+# - upstream
+# - version:refname
+# Prefix with '-' for descending order

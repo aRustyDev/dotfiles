@@ -1,0 +1,71 @@
+# Fetch Configuration
+# Controls behavior of git fetch operations
+
+[fetch]
+# Automatically prune remote-tracking branches
+prune = true
+
+# Prune tags that no longer exist on remote
+pruneTags = false
+
+# Check fetched objects for validity
+fsckObjects = false
+
+# Number of parallel submodule fetches
+parallel = 0  # 0 means auto-detect based on number of CPU cores
+
+# Fetch submodules
+recurseSubmodules = "on-demand"  # yes, on-demand, no
+
+# Show forced updates during fetch
+showForcedUpdates = true
+
+# Output format
+output = "full"  # full, compact
+
+# Negotiation algorithm for reducing data transfer
+negotiationAlgorithm = "default"  # default, skipping, noop
+
+# Write commit graph after fetch
+writeCommitGraph = false
+
+# Fsck configuration for fetch operations
+[fetch.fsck]
+# Skip list for known-broken objects
+skipList = ""
+
+# How to handle missing email in objects
+missingEmail = "ignore"  # ignore, warn, error
+
+# How to handle zero-padded file modes
+zeroPaddedFilemode = "warn"
+
+# Specific fsck checks
+# badDate = "error"
+# missingAuthor = "warn"
+
+# Per-remote fetch configuration can be set in remote.<name> section
+# See remote.toml for remote-specific fetch settings
+
+# Notes on recurseSubmodules values:
+# - yes: Always fetch submodules
+# - on-demand: Fetch when superproject references new commits
+# - no: Never fetch submodules automatically
+
+# Notes on negotiation algorithms:
+# - default: Standard negotiation
+# - skipping: Skip commits during negotiation (faster for some cases)
+# - noop: No negotiation (fetch everything)
+
+# Notes on output formats:
+# - full: Detailed output with all references
+# - compact: Condensed output
+
+# Performance tips:
+# - Enable parallel fetching for better performance with many submodules
+# - Use prune=true to keep remote-tracking branches clean
+# - Enable writeCommitGraph for better performance in large repos
+
+# Security considerations:
+# - Enable fsckObjects=true for additional validation
+# - Configure fetch.fsck settings for specific checks

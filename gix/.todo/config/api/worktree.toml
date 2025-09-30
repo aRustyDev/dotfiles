@@ -1,0 +1,84 @@
+# Worktree Configuration
+# Settings for git worktree functionality
+
+[worktree]
+# Guess remote tracking branch for new worktrees
+guessRemote = true
+
+# Notes:
+# - guessRemote: When creating a new worktree branch,
+#   try to find and track a remote branch with same name
+#   Similar to checkout.guess behavior
+
+# Worktree basics:
+# Multiple working trees sharing one repository
+# Each worktree has its own:
+# - Working directory
+# - Index (staging area)  
+# - HEAD reference
+# Shares with main repository:
+# - Object database
+# - References
+# - Configuration
+
+# Common worktree operations:
+# git worktree add <path> <branch>     # Create worktree
+# git worktree add -b <branch> <path>  # Create with new branch
+# git worktree list                    # List all worktrees
+# git worktree remove <path>           # Remove worktree
+# git worktree prune                   # Clean stale worktrees
+# git worktree move <old> <new>        # Relocate worktree
+# git worktree repair                  # Fix worktree references
+
+# guessRemote behavior:
+# With guessRemote = true:
+# git worktree add ../feature-x
+# If origin/feature-x exists, tracks it automatically
+
+# With guessRemote = false:
+# Must explicitly specify:
+# git worktree add ../feature-x origin/feature-x
+
+# Common workflows:
+
+# Feature development:
+# git worktree add -b feature-123 ../feature-123
+# cd ../feature-123
+# # Work on feature while main stays on master
+
+# Hotfix while working on feature:
+# git worktree add -b hotfix ../hotfix main
+# cd ../hotfix
+# # Fix bug without disturbing feature work
+
+# Review pull request:
+# git fetch origin pull/123/head:pr-123
+# git worktree add ../pr-123 pr-123
+# cd ../pr-123
+
+# Build different versions:
+# git worktree add ../v1.0 v1.0
+# git worktree add ../v2.0 v2.0
+# # Build/test multiple versions simultaneously
+
+# Worktree locations:
+# .git/worktrees/<name>/          # Worktree metadata
+# .git/worktrees/<name>/gitdir    # Points to worktree
+# <worktree>/.git                 # Points back to main repo
+
+# Best practices:
+# - Use descriptive paths matching branch names
+# - Clean up finished worktrees promptly
+# - Don't nest worktrees
+# - Use worktrees for parallel work
+# - Run git worktree prune periodically
+
+# Limitations:
+# - Each branch can only be checked out in one worktree
+# - Submodules need special handling
+# - Some tools may not fully support worktrees
+
+# Configuration per worktree:
+# Enable worktree-specific config:
+# git config extensions.worktreeConfig true
+# Then use .git/worktrees/<name>/config

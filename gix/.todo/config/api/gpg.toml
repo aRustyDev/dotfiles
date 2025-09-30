@@ -1,0 +1,68 @@
+# GPG Configuration
+# Controls GPG signing and verification
+
+[gpg]
+# Signature format to use
+format = "openpgp"  # openpgp, x509
+
+# GPG program to use
+program = "gpg"
+
+# Minimum trust level for signature verification
+minTrustLevel = "undefined"  # undefined, never, marginal, fully, ultimate
+
+# SSH signature settings using dot notation
+[gpg.ssh]
+# File containing allowed SSH signing keys
+allowedSignersFile = "~/.ssh/allowed_signers"
+
+# File containing revoked SSH keys
+revocationFile = "~/.ssh/revoked_signers"
+
+# Program to use for SSH signing
+program = "ssh-keygen"
+
+# X.509 signature settings
+[gpg.x509]
+# Program for X.509 operations
+program = "smimesign"
+
+# Notes on format:
+# - openpgp: Traditional GPG signatures (default)
+# - x509: S/MIME signatures using certificates
+# - ssh: SSH key signatures (Git 2.34+)
+
+# Trust levels for minTrustLevel:
+# - undefined: Unknown trust (default)
+# - never: Never trust
+# - marginal: Marginally trusted
+# - fully: Fully trusted
+# - ultimate: Ultimate trust (your own keys)
+
+# Setting up GPG signing:
+# 1. Generate GPG key: gpg --gen-key
+# 2. List keys: gpg --list-secret-keys --keyid-format=long
+# 3. Configure Git: git config user.signingkey <key-id>
+# 4. Sign commits: git commit -S
+
+# Setting up SSH signing:
+# 1. Set format: git config gpg.format ssh
+# 2. Set key: git config user.signingkey ~/.ssh/id_ed25519.pub
+# 3. Create allowed_signers file
+# 4. Sign commits: git commit -S
+
+# Allowed signers file format:
+# user@example.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA...
+# user2@example.com ssh-rsa AAAAB3NzaC1yc2EAAAADA...
+
+# Common GPG operations:
+# gpg --list-keys                    # List public keys
+# gpg --list-secret-keys             # List private keys
+# gpg --armor --export <key-id>      # Export public key
+# git log --show-signature           # Show signatures in log
+# git verify-commit <commit>         # Verify specific commit
+# git verify-tag <tag>               # Verify tag signature
+
+# Troubleshooting:
+# export GPG_TTY=$(tty)              # Fix GPG terminal issues
+# echo "test" | gpg --clearsign      # Test GPG signing

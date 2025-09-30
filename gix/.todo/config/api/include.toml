@@ -1,0 +1,62 @@
+# Include Configuration
+# Allows including configuration from other files
+
+# Always include a specific config file
+[[includes]]
+path = "~/.gitconfig-shared"
+
+# Include based on current repository directory
+[[includes]]
+if = "gitdir:~/work/"
+path = "~/.gitconfig-work"
+
+[[includes]]
+if = "gitdir:~/personal/"
+path = "~/.gitconfig-personal"
+
+# Case-insensitive directory matching (useful for case-insensitive filesystems)
+[[includes]]
+if.gitdir.i = "~/Projects/"
+path = "~/.gitconfig-projects"
+
+# Include when on specific branch patterns
+[[includes]]
+if.onbranch = "main"
+path = "~/.gitconfig-main-branch"
+
+[[includes]]
+if.onbranch = "feature/*"
+path = "~/.gitconfig-feature-branches"
+
+# Include based on remote URL configuration
+[[includes]]
+if.hasconfig.remote.origin.url = "git@github.com:mycompany/*"
+path = "~/.gitconfig-company"
+
+# Complex conditional with multiple criteria
+[[includes]]
+if.hasconfig.remote.origin.protocol = "https"
+if.hasconfig.remote.origin.domain = "github.com"
+if.hasconfig.remote.origin.path = "myorg/"
+if.hasconfig.remote.origin.repo = "**"
+path = "~/.gitconfig-myorg"
+
+# Include based on remote URL pattern
+[[includes]]
+if.hasconfig.remote.origin.url = "https://gitlab.com/**"
+path = "~/.gitconfig-gitlab"
+
+# Examples of different conditional patterns:
+
+# Include for all Git repositories under a specific path
+# [[includes]]
+# if = "gitdir:/home/user/projects/**"
+# path = "~/.gitconfig-projects"
+
+# Include for repositories with specific remote
+# [[includes]]
+# if.hasconfig.remote.upstream.url = "https://github.com/original/repo.git"
+# path = "~/.gitconfig-contributor"
+
+# Note: Order matters! Later includes can override earlier settings
+# Paths are relative to the including config file unless absolute

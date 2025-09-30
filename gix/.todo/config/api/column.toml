@@ -1,0 +1,56 @@
+# Column Configuration
+# Controls column display for various Git commands
+
+[column]
+# Global column display setting
+ui = "auto"  # always, auto, never, column, row, plain, dense, nodense
+
+# Per-command column settings using dot notation
+[column.branch]
+# Column display for git branch output
+mode = "auto"
+
+[column.status]
+# Column display for git status output
+mode = "auto"
+
+[column.tag]
+# Column display for git tag output
+mode = "auto"
+
+# Additional column configurations:
+# [column.clean]
+# mode = "auto"  # For git clean -i
+
+# Mode options explained:
+# - always: Always show in columns
+# - never: Never show in columns
+# - auto: Show in columns if output is to terminal
+# - column: Fill columns vertically (items go down)
+# - row: Fill rows first (items go across)
+# - plain: One item per line
+# - dense: Make columns with minimal space
+# - nodense: Make columns with more space
+
+# Examples of column layouts:
+# column mode:
+#   item1    item4    item7
+#   item2    item5    item8  
+#   item3    item6    item9
+#
+# row mode:
+#   item1    item2    item3
+#   item4    item5    item6
+#   item7    item8    item9
+
+# Commands that support column output:
+# - git branch (when listing)
+# - git tag (when listing)
+# - git status (untracked files)
+# - git clean -i (interactive mode)
+# - git add -i (interactive mode)
+
+# Override with command options:
+# git branch --column=always
+# git branch --no-column
+# git tag --column=row

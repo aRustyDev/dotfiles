@@ -1,0 +1,72 @@
+# Grep Configuration
+# Controls behavior of git grep command
+
+[grep]
+# Show column number of first match
+column = false
+
+# Fall back to untracked files if not in a git repository
+fallbackToNoIndex = false
+
+# Show line numbers
+lineNumber = false
+
+# Pattern type to use
+patternType = "default"  # basic, extended, fixed, perl, default
+
+# Use extended regular expressions
+extendedRegexp = false
+
+# Number of threads for searching
+threads = 0  # 0 means auto-detect
+
+# Additional grep settings:
+
+# Full name of files
+# fullName = false
+
+# Highlight matches (requires color.ui or color.grep)
+# highlight = true
+
+# Context lines
+# context = 3  # Show N lines of context
+# afterContext = 2  # Show N lines after match
+# beforeContext = 2  # Show N lines before match
+
+# Pattern type explanations:
+# - basic: Basic regular expressions (BRE)
+# - extended: Extended regular expressions (ERE)
+# - fixed: Fixed strings (no regex)
+# - perl: Perl-compatible regular expressions (PCRE)
+# - default: Use grep.extendedRegexp setting
+
+# Performance notes:
+# - threads = 0 uses optimal number based on CPU
+# - fixed patterns are fastest
+# - perl patterns are slowest but most powerful
+
+# Useful grep examples:
+# git grep "TODO"                    # Search for TODO
+# git grep -n "TODO"                 # With line numbers
+# git grep -i "todo"                 # Case insensitive
+# git grep -w "word"                 # Whole word match
+# git grep -e "TODO" -e "FIXME"      # Multiple patterns
+# git grep "TODO" -- "*.js"          # Only in JS files
+# git grep "TODO" -- :^vendor/       # Exclude vendor/
+# git grep -F "exact.string"         # Fixed string search
+# git grep -P "(?i)todo"             # Perl regex (case insensitive)
+
+# Advanced usage:
+# git grep "pattern" branch          # Search in branch
+# git grep "pattern" HEAD~10         # Search in past commit
+# git grep -l "pattern"              # List only filenames
+# git grep -L "pattern"              # Files without pattern
+# git grep --break "pattern"         # Empty line between files
+# git grep --heading "pattern"       # Group by file
+
+# Combining with other tools:
+# git grep -l "TODO" | xargs sed -i 's/TODO/DONE/g'
+# git grep -l "pattern" | xargs git add
+
+# Integration with color settings:
+# See color.grep.* in color.toml for match highlighting

@@ -1,0 +1,63 @@
+# Help Configuration
+# Controls git help behavior
+
+[help]
+# Automatically correct mistyped commands
+autoCorrect = 0  # 0, positive number, immediate, never, prompt
+
+# Default web browser for help
+browser = "chrome"
+
+# Help format
+format = "man"  # man, info, web, html
+
+# Path to HTML documentation
+htmlPath = ""
+
+# autoCorrect options:
+# - 0: Disabled (default)
+# - positive number: Correct after N deciseconds (0.1s units)
+# - immediate: Correct immediately
+# - never: Never correct
+# - prompt: Ask before correcting
+
+# Examples:
+# autoCorrect = 20   # Correct after 2 seconds
+# autoCorrect = 50   # Correct after 5 seconds
+
+# format options:
+# - man: Unix manual pages (default on Unix)
+# - info: GNU info format
+# - web: Open in web browser
+# - html: Local HTML files
+
+# Common help commands:
+# git help <command>           # Show help for command
+# git help -a                  # List all commands
+# git help -g                  # List guides
+# git help --web commit        # Open help in browser
+# git help --man commit        # Show man page
+# git help --info commit       # Show info format
+
+# With autoCorrect enabled:
+# $ git comit
+# WARNING: You called a Git command named 'comit', which does not exist.
+# Continuing in 2.0 seconds, assuming that you meant 'commit'.
+
+# Browser configuration:
+# See browser.toml for browser settings
+# Used when format = "web" or --web flag
+
+# Guides available with git help -g:
+# - tutorial: Git tutorial
+# - everyday: Everyday Git
+# - revisions: Specifying revisions
+# - workflows: Git workflows
+# - attributes: Git attributes
+# - glossary: Git glossary
+
+# Useful help aliases:
+# [alias]
+# h = help
+# hc = help --web config
+# ht = help tutorial

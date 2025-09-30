@@ -1,0 +1,39 @@
+# Cherry-pick Configuration  
+# Controls git cherry-pick behavior
+
+[cherry-pick]
+# How to clean up commit messages
+cleanupMode = "strip"  # strip, whitespace, verbatim, scissors, default
+
+# Notes on cleanup modes:
+# - strip: Remove leading/trailing blank lines and comments
+# - whitespace: Same as strip but keep comments
+# - verbatim: Use message exactly as given
+# - scissors: Remove everything after scissors line
+# - default: Same as strip if message is edited, otherwise verbatim
+
+# Common cherry-pick operations:
+# git cherry-pick <commit>             # Apply single commit
+# git cherry-pick <commit1> <commit2>  # Apply multiple commits
+# git cherry-pick <commit1>..<commit2> # Apply range (excluding commit1)
+# git cherry-pick <commit1>^..<commit2> # Apply range (including commit1)
+#
+# git cherry-pick -x <commit>          # Add "cherry picked from" line
+# git cherry-pick -e <commit>          # Edit commit message
+# git cherry-pick -n <commit>          # Don't create commit (stage only)
+# git cherry-pick -s <commit>          # Add Signed-off-by line
+# git cherry-pick -m 1 <merge-commit>  # Cherry-pick merge commit
+#
+# git cherry-pick --continue           # Continue after resolving conflicts
+# git cherry-pick --abort              # Abort cherry-pick operation
+# git cherry-pick --skip               # Skip current commit
+# git cherry-pick --quit               # Forget about current operation
+
+# Cherry-picking merge commits:
+# Use -m <parent-number> to specify which parent to use as baseline
+# -m 1 usually means mainline (first parent)
+
+# Best practices:
+# - Use -x to track where commits came from
+# - Be careful cherry-picking across very different branches
+# - Consider if merge or rebase would be more appropriate

@@ -1,0 +1,59 @@
+# i18n (Internationalization) Configuration
+# Character encoding settings for Git
+
+[i18n]
+# Character encoding for commit messages
+commitEncoding = "UTF-8"
+
+# Character encoding for log output
+logOutputEncoding = "UTF-8"
+
+# Notes:
+# - commitEncoding: Encoding used when creating commits
+#   Git stores the encoding in commit objects
+#   Default is UTF-8 (recommended)
+#
+# - logOutputEncoding: Encoding for displaying commits
+#   Git converts from commitEncoding to this encoding
+#   Default is UTF-8
+
+# Common encodings:
+# - UTF-8: Universal, recommended (default)
+# - ISO-8859-1: Western European (Latin-1)
+# - ISO-8859-2: Central European (Latin-2)
+# - Windows-1252: Windows Western European
+# - Shift_JIS: Japanese
+# - EUC-JP: Japanese
+# - GB2312: Simplified Chinese
+# - Big5: Traditional Chinese
+# - KOI8-R: Russian
+
+# Setting up for specific languages:
+# Japanese:
+# [i18n]
+# commitEncoding = "Shift_JIS"
+# logOutputEncoding = "UTF-8"
+
+# Russian:
+# [i18n]
+# commitEncoding = "Windows-1251"
+# logOutputEncoding = "UTF-8"
+
+# Checking encoding:
+# git log --encoding=UTF-8
+# git log --encoding=ISO-8859-1
+# file -bi .git/COMMIT_EDITMSG
+
+# Converting existing repository:
+# git filter-branch --msg-filter 'iconv -f ISO-8859-1 -t UTF-8'
+
+# Environment variables:
+# - LANG: System locale
+# - LC_ALL: Override all locale settings
+# - LC_MESSAGES: Language for messages
+
+# Best practices:
+# - Always use UTF-8 for new projects
+# - Be consistent across team members
+# - Document encoding if not UTF-8
+# - Consider .gitattributes for file encodings

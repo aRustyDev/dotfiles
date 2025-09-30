@@ -1,0 +1,75 @@
+# Commit Configuration
+# Controls behavior of git commit operations
+
+[commit]
+# How to clean up commit messages
+cleanup = "strip"  # strip, whitespace, verbatim, scissors, default
+
+# Sign commits with GPG by default
+gpgSign = false
+
+# Show status output in commit template
+status = true
+
+# Template file for commit messages
+template = "~/.gitmessage"
+
+# Show diff in commit message template
+verbose = false
+
+# Example commit template (~/.gitmessage):
+# Subject line (50 chars or less)
+# 
+# More detailed explanatory text, if necessary. Wrap it to about 72
+# characters or so. The blank line separating the summary from the body
+# is critical.
+# 
+# - Bullet points are okay, too
+# - Use a hyphen or asterisk for bullets
+# 
+# Resolves: #123
+# See also: #456, #789
+
+# Cleanup mode explanations:
+# - strip: Remove leading/trailing empty lines, trailing whitespace, #comments
+# - whitespace: Like strip but keep #comments
+# - verbatim: Don't change the message at all
+# - scissors: Remove everything after scissors line (-- >8 --)
+# - default: Same as strip if message is edited, otherwise verbatim
+
+# GPG signing configuration
+# gpgSign = true
+# To configure GPG key, see user.signingkey in user.toml
+
+# Verbose commits show full diff
+# verbose = true  # Shows diff in editor
+# verbose = 2     # Shows diff of staged and unstaged changes
+
+# Additional commit configurations that might be useful:
+# encoding = "UTF-8"  # Encoding for commit messages
+
+# Hooks related to commits:
+# - pre-commit: Run before commit is made
+# - prepare-commit-msg: Prepare default commit message
+# - commit-msg: Validate commit message
+# - post-commit: Run after commit is made
+
+# Best practices for commit messages:
+# 1. Subject line: 50 characters or less
+# 2. Blank line between subject and body
+# 3. Body: Wrap at 72 characters
+# 4. Use imperative mood ("Add feature" not "Added feature")
+# 5. Explain what and why, not how
+
+# Example of a good commit message:
+# Add retry logic to API client
+#
+# The API client now retries failed requests up to 3 times with
+# exponential backoff. This improves reliability when dealing with
+# temporary network issues or rate limiting.
+#
+# - Retry only on 5xx errors and network timeouts
+# - Exponential backoff: 1s, 2s, 4s
+# - Configurable via API_MAX_RETRIES environment variable
+#
+# Fixes: #1234

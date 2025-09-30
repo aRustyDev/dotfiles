@@ -1,0 +1,53 @@
+# Mailinfo Configuration
+# Settings for extracting patch information from emails
+
+[mailinfo]
+# Handle scissors lines (-- >8 --)
+scissors = false
+
+# Notes:
+# - scissors: When true, removes everything after a scissors line
+#   Scissors line looks like: -- >8 --
+#   Used to separate patch from discussion
+
+# Scissors line examples:
+# -- >8 --
+# ---8<---
+# --- 8< ---
+# -------- Original Message --------
+
+# Common usage with git-am:
+# git am --scissors < email.patch    # Cut at scissors
+# git am --no-scissors < email.patch # Don't cut (default)
+
+# Example email with scissors:
+# From: Developer <dev@example.com>
+# Subject: [PATCH] Fix bug in parser
+# 
+# This patch fixes the parsing bug reported in issue #123.
+# 
+# Here's some discussion about the approach...
+# 
+# -- >8 --
+# Subject: [PATCH] Fix parsing bug
+# 
+# The parser now correctly handles edge cases.
+# 
+# Signed-off-by: Developer <dev@example.com>
+# ---
+#  parser.c | 5 +++--
+#  1 file changed, 3 insertions(+), 2 deletions(-)
+
+# With scissors = true:
+# Only content after "-- >8 --" is used for the commit
+
+# Related commands:
+# git mailinfo msg patch < email     # Extract message and patch
+# git mailsplit -o. mbox            # Split mbox into messages
+# git am --message-id               # Add Message-Id to commit
+
+# Email patch workflow:
+# 1. Developer creates patches: git format-patch
+# 2. Sends via email: git send-email
+# 3. Maintainer applies: git am
+# 4. Mailinfo extracts commit info from email
