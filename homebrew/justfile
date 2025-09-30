@@ -1,1 +1,6 @@
 import '../.build/just/lib.just'
+
+jd := jqd + "/homebrew"
+
+clean:
+    jq -f {{jq}}/lint.jq {{root}}/homebrew/install.json
