@@ -1,0 +1,58 @@
+cmd+p = new private window
+cmd+s = focus search bar
+cmd+alt+s = save page
+cmd+r = reload page
+cmd+shift+r = reload page (skip cache)
+cmd+shift+o = open url
+cmd+<- = go back    # What is the difference between 'go' and 'navigate'
+cmd+-> = go forward # What is the difference between 'go' and 'navigate'
+cmd+l = focus location bar
+cmd+d = add bookmark
+cmd+shift+c = copy url
+cmd+ctrl+c = copy url as markdown
+cmd+shift+x = open extensions
+
+  = Toggle DevTools
+  = Toggle Browser Toolbox
+  = Toggle Browser Console
+  = Toggle Responsive Design Mode
+  = Toggle Inspector
+  = Toggle Web Console
+  = Toggle JavaScript Debugger
+  = Toggle Network Monitor
+  = Toggle Style Editor
+  = Toggle Performance
+  = Toggle Storage
+  = Toggle DOM
+  = Toggle Accessibility
+  = Toggle Inspector (Mac)
+
+  Browser:stop
+  Stop Loading
+  Toggle AI Chatbot Sidebar
+  Toggle Firefox Sidebar
+  Show All Tabs
+  Clear Browsing Data
+  Tools:Sanitize
+  WR Capture Command
+  Toggle WR Capture Command Sequence
+  show history
+  show all history
+  toggle full screen
+  delete key
+  open file
+
+  take screenshot
+  reset zoom # How to set "default zoom level"
+
+  find on page
+    - previous
+    - next
+
+  advanced find (regex)
+
+  select tab X
+  toggle tab register focus
+
+  select workspace X
+  toggle workspace register focus
