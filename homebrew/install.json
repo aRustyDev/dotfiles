@@ -902,6 +902,19 @@
     "conflicts": ["todo"],
     "dependencies": ["pkgconf", "tmux", "protobuf"],
     "licenses": ["GPL-3.0-or-later"],
+    "conflicts": ["parallel", "pwntools", "sponge", "task-spooler"],
+    "dependencies": ["docbook-xsl"],
+    "licenses": ["GPL-2.0-or-later AND (GPL-2.0-only OR Artistic-2.0)"],
+    "name": "moreutils",
+    "tap": null,
+    "url": "https://joeyh.name/code/moreutils/"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["pkgconf", "tmux", "protobuf"],
+    "licenses": ["GPL-3.0-or-later"],
     "name": "mosh",
     "tap": null,
     "url": "https://mosh.org"
