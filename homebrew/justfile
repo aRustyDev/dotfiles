@@ -7,10 +7,12 @@ homebrew := root + "/homebrew"
 manifest := homebrew + "/install.json"
 
 clean:
-    @git stash
     jq -f {{jq}}/lint.jq {{manifest}} | {{sponge}} {{manifest}} && just commit install.json "chore(homebrew): updated homebrew manifest"
 
 commit target msg:
+    @git stash push {{homebrew}}/{{target}}
+    @git stash save "stashed by 'just commit' recipe"
+    @git stash pop 1
     git add {{homebrew}}/{{target}}
     git commit -S -m "{{msg}}" || echo "No changes to commit"
-    git stash apply
+    git stash pop
