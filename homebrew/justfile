@@ -8,7 +8,7 @@ manifest := homebrew + "/install.json"
 
 clean:
     @git stash
-    jq -f {{jq}}/lint.jq {{manifest}} | {{sponge}} {{manifest}} && just commit {{manifest}} "chore(homebrew): updated homebrew manifest"
+    jq -f {{jq}}/lint.jq {{manifest}} | {{sponge}} {{manifest}} && just commit install.json "chore(homebrew): updated homebrew manifest"
 
 commit target msg:
     git add {{homebrew}}/{{target}}
