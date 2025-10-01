@@ -2,79 +2,31 @@
   {
     "cask": false,
     "channel": "beta",
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "1password-cli",
     "tap": null,
     "url": "https://developer.1password.com/docs/cli"
   },
   {
-    "cask": true,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
-    "name": "zen",
-    "tap": null,
-    "url": "https://zen-browser.app/"
-  },
-  {
-    "cask": false,
-    "channel": "twilight",
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
-    "name": "zen",
-    "tap": null,
-    "url": "https://zen-browser.app/"
-  },
-  {
-    "cask": true,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
-    "name": "obsidian",
-    "tap": null,
-    "url": "https://obsidian.md/"
-  },
-  {
-    "cask": true,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
-    "name": "logseq",
-    "tap": null,
-    "url": "https://github.com/logseq/logseq"
-  },
-  {
-    "cask": true,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["Apache-2.0"],
-    "name": "typst",
-    "tap": null,
-    "url": "https://typst.app/"
-  },
-  {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["kubernetes-cli", "go"],
-    "licenses": ["Apache-2.0"],
-    "name": "krew",
-    "tap": null,
-    "url": "https://sigs.k8s.io/krew/"
-  },
-  {
-    "cask": false,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["cmake"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "cmake"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "aerospace",
     "tap": "nikitabobko/tap",
     "url": "https://github.com/nikitabobko/AeroSpace"
@@ -82,9 +34,15 @@
   {
     "cask": true,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "affine",
     "tap": null,
     "url": "https://affine.pro/"
@@ -92,7 +50,9 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
     "dependencies": [
       "pkgconf",
       "rust, certifi",
@@ -103,7 +63,9 @@
       "python@3.13",
       "tree"
     ],
-    "licenses": ["GPL-3.0-or-later"],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "ansible",
     "tap": null,
     "url": "https://www.ansible.com/"
@@ -111,9 +73,13 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
     "dependencies": [],
-    "licenses": ["MIT"],
+    "licenses": [
+      "MIT"
+    ],
     "name": "antidote",
     "tap": null,
     "url": "https://antidote.sh/"
@@ -121,9 +87,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "archiver",
     "tap": null,
     "url": "https://github.com/mholt/archiver"
@@ -131,9 +103,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["protobuf", "rust"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "protobuf",
+      "rust"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "atuin",
     "tap": null,
     "url": "https://atuin.sh/"
@@ -141,9 +120,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "bandwhich",
     "tap": null,
     "url": "https://github.com/imsnif/bandwhich"
@@ -151,9 +136,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["ncurses", "readline", "gettext"],
-    "licenses": ["GPL-3.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "ncurses",
+      "readline",
+      "gettext"
+    ],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "bash",
     "tap": null,
     "url": "https://www.gnu.org/software/bash/"
@@ -161,9 +154,18 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pkgconf", "rust, libgit2", "oniguruma"],
-    "licenses": ["Apache-2.0", "MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pkgconf",
+      "rust, libgit2",
+      "oniguruma"
+    ],
+    "licenses": [
+      "Apache-2.0",
+      "MIT"
+    ],
     "name": "bat",
     "tap": null,
     "url": "https://github.com/sharkdp/bat"
@@ -171,9 +173,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pkgconf", "confuse"],
-    "licenses": ["BSD-2-Clause"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pkgconf",
+      "confuse"
+    ],
+    "licenses": [
+      "BSD-2-Clause"
+    ],
     "name": "bmon",
     "tap": null,
     "url": "https://github.com/tgraf/bmon"
@@ -181,9 +190,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["icu4c@77", "xz", "zstd"],
-    "licenses": ["BSL-1.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "icu4c@77",
+      "xz",
+      "zstd"
+    ],
+    "licenses": [
+      "BSL-1.0"
+    ],
     "name": "boost",
     "tap": null,
     "url": "https://www.boost.org/"
@@ -191,9 +208,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "browsh",
     "tap": "browsh-org/homebrew-browsh",
     "url": "https://www.brow.sh"
@@ -201,9 +224,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["lowdown", "coreutils"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "lowdown",
+      "coreutils"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "btop",
     "tap": null,
     "url": "https://github.com/aristocratos/btop"
@@ -211,7 +241,9 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
     "dependencies": [
       "pkgconf",
       "cairo",
@@ -226,7 +258,9 @@
       "gdk-pixbuf",
       "gettext"
     ],
-    "licenses": ["LGPL-3.0-or-later"],
+    "licenses": [
+      "LGPL-3.0-or-later"
+    ],
     "name": "chafa",
     "tap": null,
     "url": "https://hpjansson.org/chafa/"
@@ -234,9 +268,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "chiko",
     "tap": null,
     "url": "https://github.com/felangga/chiko"
@@ -244,9 +284,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "cilium-cli",
     "tap": null,
     "url": "https://cilium.io"
@@ -254,9 +300,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["GPL-2.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "GPL-2.0-or-later"
+    ],
     "name": "cloc",
     "tap": null,
     "url": "https://github.com/AlDanial/cloc/"
@@ -264,9 +316,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["BSD-3-Clause"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "BSD-3-Clause"
+    ],
     "name": "cmake",
     "tap": null,
     "url": "https://www.cmake.org/"
@@ -274,9 +332,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "container",
     "tap": null,
     "url": "todo"
@@ -284,9 +348,18 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["b2sum", "gfold", "idutils", "uutils-coreutils"],
-    "dependencies": ["gmp"],
-    "licenses": ["GPL-3.0-or-later"],
+    "conflicts": [
+      "b2sum",
+      "gfold",
+      "idutils",
+      "uutils-coreutils"
+    ],
+    "dependencies": [
+      "gmp"
+    ],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "coreutils",
     "tap": null,
     "url": "https://www.gnu.org/software/coreutils/"
@@ -294,9 +367,15 @@
   {
     "cask": true,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "cruise",
     "tap": "NucleoFusion/homebrew-tap",
     "url": "https://nucleofusion.github.io/cruise/"
@@ -304,9 +383,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "ctop",
     "tap": null,
     "url": "https://bcicen.github.io/ctop/"
@@ -314,9 +399,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "cue",
     "tap": "cue-lang/tap",
     "url": "https://cuelang.org/"
@@ -324,9 +415,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "diskonaut",
     "tap": null,
     "url": "https://github.com/imsnif/diskonaut"
@@ -334,9 +431,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "dive",
     "tap": null,
     "url": "https://github.com/wagoodman/dive"
@@ -344,9 +447,18 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pandoc", "pkgconf", "rust", "libgit2"],
-    "licenses": ["EUPL-1.2"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pandoc",
+      "pkgconf",
+      "rust",
+      "libgit2"
+    ],
+    "licenses": [
+      "EUPL-1.2"
+    ],
     "name": "eza",
     "tap": null,
     "url": "https://github.com/eza-community/eza"
@@ -354,9 +466,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "falcoctl",
     "tap": null,
     "url": "https://github.com/falcosecurity/falcoctl"
@@ -364,9 +482,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["fdclone"],
-    "dependencies": ["rust"],
-    "licenses": ["Apache-2.0", "MIT"],
+    "conflicts": [
+      "fdclone"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "Apache-2.0",
+      "MIT"
+    ],
     "name": "fd",
     "tap": null,
     "url": "https://github.com/sharkdp/fd"
@@ -374,7 +499,9 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
     "dependencies": [
       "pkgconf",
       "aom",
@@ -421,7 +548,9 @@
       "libogg",
       "libsamplerate"
     ],
-    "licenses": ["GPL-2.0-or-later"],
+    "licenses": [
+      "GPL-2.0-or-later"
+    ],
     "name": "ffmpeg",
     "tap": null,
     "url": "https://ffmpeg.org/"
@@ -429,9 +558,15 @@
   {
     "cask": false,
     "channel": "developer-edition",
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "firefox",
     "tap": null,
     "url": "https://www.mozilla.org/firefox/developer/"
@@ -439,9 +574,18 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["cmake", "rust", "ncurses", "pcre2"],
-    "licenses": ["GPL-2.0-only"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "cmake",
+      "rust",
+      "ncurses",
+      "pcre2"
+    ],
+    "licenses": [
+      "GPL-2.0-only"
+    ],
     "name": "fish",
     "tap": null,
     "url": "https://fishshell.com"
@@ -449,9 +593,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "font-symbols-only-nerd-font",
     "tap": null,
     "url": "https://github.com/ryanoasis/nerd-fonts"
@@ -459,9 +609,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "fzf",
     "tap": null,
     "url": "https://github.com/junegunn/fzf"
@@ -469,9 +625,18 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["gmp", "mpfr", "readline", "gettext"],
-    "licenses": ["GPL-3.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "gmp",
+      "mpfr",
+      "readline",
+      "gettext"
+    ],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "gawk",
     "tap": null,
     "url": "https://www.gnu.org/software/gawk/"
@@ -479,9 +644,18 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pkgconf", "rust", "libgit2", "oniguruma"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pkgconf",
+      "rust",
+      "libgit2",
+      "oniguruma"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "git-delta",
     "tap": null,
     "url": "https://github.com/dandavison/delta"
@@ -489,9 +663,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "github-mcp-server",
     "tap": null,
     "url": "https://github.com/github/github-mcp-server"
@@ -500,8 +680,12 @@
     "cask": false,
     "channel": null,
     "conflicts": [],
-    "dependencies": ["sigstore/tap/gitsign-credential-cache"],
-    "licenses": ["Apache-2.0"],
+    "dependencies": [
+      "sigstore/tap/gitsign-credential-cache"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "gitsign",
     "tap": "sigstore/tap",
     "url": "https://sigstore.dev"
@@ -509,9 +693,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "gittype",
     "tap": "unhappychoice/tap",
     "url": "https://github.com/unhappychoice/gittype"
@@ -519,9 +709,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["GPL-3.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "gnu-sed",
     "tap": null,
     "url": "https://www.gnu.org/software/sed/"
@@ -529,9 +725,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "gobang",
     "tap": "tako8ki/tap",
     "url": "https://github.com/TaKO8Ki/gobang"
@@ -541,7 +743,9 @@
     "channel": null,
     "conflicts": [],
     "dependencies": [],
-    "licenses": ["BSD-3-Clause"],
+    "licenses": [
+      "BSD-3-Clause"
+    ],
     "name": "golang",
     "tap": null,
     "url": "https://go.dev/"
@@ -549,9 +753,15 @@
   {
     "cask": true,
     "channel": "dev",
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "google-chrome",
     "tap": null,
     "url": "https://www.google.com/chrome/"
@@ -559,7 +769,9 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
     "dependencies": [
       "pkgconf",
       "rust",
@@ -568,7 +780,9 @@
       "libgpg-error",
       "libxcb"
     ],
-    "licenses": ["MIT"],
+    "licenses": [
+      "MIT"
+    ],
     "name": "gpg-tui",
     "tap": null,
     "url": "https://github.com/orhun/gpg-tui"
@@ -576,7 +790,9 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
     "dependencies": [
       "pkgconf",
       "gnutls",
@@ -590,7 +806,9 @@
       "readline",
       "gettext"
     ],
-    "licenses": ["GPL-3.0-or-later"],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "gpg2",
     "tap": null,
     "url": "https://gnupg.org/"
@@ -598,9 +816,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["gnupg", "libassuan", "libgpg-error"],
-    "licenses": ["LGPL-2.1-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "gnupg",
+      "libassuan",
+      "libgpg-error"
+    ],
+    "licenses": [
+      "LGPL-2.1-or-later"
+    ],
     "name": "gpgme",
     "tap": null,
     "url": "https://www.gnupg.org/related_software/gpgme/"
@@ -608,9 +834,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["cmake", "gpgme", "pkgconf"],
-    "licenses": ["LGPL-2.1-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "cmake",
+      "gpgme",
+      "pkgconf"
+    ],
+    "licenses": [
+      "LGPL-2.1-or-later"
+    ],
     "name": "gpgmepp",
     "tap": null,
     "url": "https://www.gnupg.org/related_software/gpgme/"
@@ -618,9 +852,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["inetutils"],
-    "dependencies": ["pkgconf", "rust"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "inetutils"
+    ],
+    "dependencies": [
+      "pkgconf",
+      "rust"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "gping",
     "tap": null,
     "url": "https://github.com/orf/gping"
@@ -628,9 +869,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pkgconf", "pcre2"],
-    "licenses": ["GPL-3.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pkgconf",
+      "pcre2"
+    ],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "grep",
     "tap": null,
     "url": "https://www.gnu.org/software/grep/"
@@ -638,9 +886,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "grpcurl",
     "tap": null,
     "url": "https://github.com/fullstorydev/grpcurl"
@@ -648,9 +902,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "grv",
     "tap": "todo",
     "url": "todo"
@@ -658,9 +918,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "grype",
     "tap": null,
     "url": "https://github.com/anchore/grype"
@@ -668,9 +934,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "gum",
     "tap": null,
     "url": "https://github.com/charmbracelet/gum"
@@ -678,9 +950,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["evil-helix", "hex"],
-    "dependencies": ["rust"],
-    "licenses": ["MPL-2.0"],
+    "conflicts": [
+      "evil-helix",
+      "hex"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "MPL-2.0"
+    ],
     "name": "helix",
     "tap": null,
     "url": "https://helix-editor.com"
@@ -689,8 +968,12 @@
     "cask": false,
     "channel": null,
     "conflicts": [],
-    "dependencies": ["go"],
-    "licenses": ["Apache-2.0"],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "helm",
     "tap": null,
     "url": "https://helm.sh/"
@@ -698,9 +981,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "helm-ls",
     "tap": null,
     "url": "https://github.com/mrjosh/helm-ls"
@@ -709,8 +998,13 @@
     "cask": false,
     "channel": null,
     "conflicts": [],
-    "dependencies": ["pkgconf", "rust"],
-    "licenses": ["Apache-2.0"],
+    "dependencies": [
+      "pkgconf",
+      "rust"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "hurl",
     "tap": null,
     "url": "https://hurl.dev"
@@ -718,7 +1012,9 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
     "dependencies": [
       "pkgconf",
       "fontconfig",
@@ -741,7 +1037,9 @@
       "imath",
       "libomp"
     ],
-    "licenses": ["ImageMagick"],
+    "licenses": [
+      "ImageMagick"
+    ],
     "name": "imagemagick",
     "tap": null,
     "url": "https://imagemagick.org/index.php"
@@ -750,8 +1048,12 @@
     "cask": false,
     "channel": null,
     "conflicts": [],
-    "dependencies": ["oniguruma"],
-    "licenses": ["MIT"],
+    "dependencies": [
+      "oniguruma"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "jq",
     "tap": null,
     "url": "https://jqlang.github.io/jq/"
@@ -759,9 +1061,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "jqp",
     "tap": "noahgorstein/tap",
     "url": "https://github.com/noahgorstein/jqp"
@@ -769,9 +1077,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust"],
-    "licenses": ["CC0-1.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "CC0-1.0"
+    ],
     "name": "just",
     "tap": null,
     "url": "https://github.com/casey/just"
@@ -779,9 +1093,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "k9s",
     "tap": null,
     "url": "https://k9scli.io/"
@@ -789,9 +1109,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "kdash",
     "tap": "kdash-rs/kdash",
     "url": "https://github.com/kdash-rs/kdash"
@@ -799,9 +1125,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["kubernetes-cli", "go"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "kubernetes-cli",
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "krew",
     "tap": null,
     "url": "https://sigs.k8s.io/krew/"
@@ -810,8 +1143,14 @@
     "cask": false,
     "channel": null,
     "conflicts": [],
-    "dependencies": ["bash", "go", "coreutils"],
-    "licenses": ["Apache-2.0"],
+    "dependencies": [
+      "bash",
+      "go",
+      "coreutils"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "kubectl",
     "tap": null,
     "url": "https://kubernetes.io/docs/reference/kubectl/"
@@ -819,9 +1158,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["kubernetes-cli"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "kubernetes-cli"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "kubectx",
     "tap": null,
     "url": "https://github.com/ahmetb/kubectx"
@@ -829,9 +1174,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "kubetui",
     "tap": null,
     "url": "https://github.com/sarub0b0/kubetui"
@@ -839,9 +1190,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["cmake"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "cmake"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "kuzu",
     "tap": null,
     "url": "https://kuzudb.com/"
@@ -849,9 +1206,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "lazycontainer",
     "tap": null,
     "url": "https://github.com/andreybleme/lazycontainer"
@@ -859,9 +1222,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "lazygit",
     "tap": null,
     "url": "https://github.com/jesseduffield/lazygit/"
@@ -869,9 +1238,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "lazyjournal",
     "tap": null,
     "url": "https://github.com/Lifailon/lazyjournal"
@@ -879,9 +1254,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["cmake", "pkgconf", "libssh2"],
-    "licenses": ["GPL-2.0-only WITH GCC-exception-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "cmake",
+      "pkgconf",
+      "libssh2"
+    ],
+    "licenses": [
+      "GPL-2.0-only WITH GCC-exception-2.0"
+    ],
     "name": "libgit2",
     "tap": null,
     "url": "https://libgit2.org/"
@@ -889,19 +1272,48 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["gettext"],
-    "licenses": ["LGPL-2.1-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "gettext"
+    ],
+    "licenses": [
+      "LGPL-2.1-or-later"
+    ],
     "name": "libgpg-error",
     "tap": null,
     "url": "https://www.gnupg.org/related_software/libgpg-error/"
   },
   {
+    "cask": true,
+    "channel": null,
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
+    "name": "logseq",
+    "tap": null,
+    "url": "https://github.com/logseq/logseq"
+  },
+  {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pandoc", "rust"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pandoc",
+      "rust"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "lsd",
     "tap": null,
     "url": "https://github.com/lsd-rs/lsd"
@@ -909,9 +1321,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "macmon",
     "tap": null,
     "url": "https://github.com/vladkens/macmon"
@@ -919,9 +1337,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pkgconf", "rust, usage"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pkgconf",
+      "rust, usage"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "mise",
     "tap": null,
     "url": "https://mise.jdx.dev/"
@@ -929,9 +1354,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "mitmproxy",
     "tap": null,
     "url": "https://mitmproxy.org/"
@@ -939,9 +1370,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pkgconf", "tmux", "protobuf"],
-    "licenses": ["GPL-3.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pkgconf",
+      "tmux",
+      "protobuf"
+    ],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "mosh",
     "tap": null,
     "url": "https://mosh.org"
@@ -949,9 +1388,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["s-lang"],
-    "licenses": ["GPL-2.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "s-lang"
+    ],
+    "licenses": [
+      "GPL-2.0-or-later"
+    ],
     "name": "most",
     "tap": null,
     "url": "https://www.jedsoft.org/most/"
@@ -959,7 +1404,9 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
     "dependencies": [
       "docutils",
       "meson",
@@ -983,7 +1430,9 @@
       "molten-vk",
       "xcode"
     ],
-    "licenses": ["LicenseRef-Homebrew-cannot-represent"],
+    "licenses": [
+      "LicenseRef-Homebrew-cannot-represent"
+    ],
     "name": "mpv",
     "tap": null,
     "url": "https://mpv.io"
@@ -991,7 +1440,9 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
     "dependencies": [
       "cmake",
       "pkgconf",
@@ -1001,7 +1452,9 @@
       "ncurses",
       "openssl@3"
     ],
-    "licenses": ["BSD-2-Clause"],
+    "licenses": [
+      "BSD-2-Clause"
+    ],
     "name": "nemu",
     "tap": null,
     "url": "https://github.com/nemuTUI/nemu"
@@ -1009,9 +1462,15 @@
   {
     "cask": true,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "netron",
     "tap": null,
     "url": "https://github.com/lutzroeder/netron"
@@ -1019,9 +1478,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pkgconf", "rust", "openssl@3"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pkgconf",
+      "rust",
+      "openssl@3"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "nushell",
     "tap": null,
     "url": "https://www.nushell.sh"
@@ -1040,7 +1507,9 @@
       "unibilium",
       "utf8proc"
     ],
-    "licenses": ["Apache-2.0"],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "nvim",
     "tap": null,
     "url": "https://neovim.io/"
@@ -1048,9 +1517,31 @@
   {
     "cask": true,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["TODO"],
-    "licenses": ["TODO"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
+    "name": "obsidian",
+    "tap": null,
+    "url": "https://obsidian.md/"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "TODO"
+    ],
+    "licenses": [
+      "TODO"
+    ],
     "name": "omnissa-horizon-client",
     "tap": null,
     "url": "https://www.omnissa.com/"
@@ -1058,9 +1549,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "opa",
     "tap": null,
     "url": "https://www.openpolicyagent.org"
@@ -1068,9 +1565,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "otel-desktop-viewer",
     "tap": "CtrlSpice/homebrew-otel-desktop-viewer",
     "url": "https://github.com/CtrlSpice/otel-desktop-viewer"
@@ -1078,9 +1581,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "otel-tui",
     "tap": "ymtdzzz/tap",
     "url": "todo"
@@ -1088,9 +1597,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "oxker",
     "tap": null,
     "url": "https://github.com/mrjackwills/oxker"
@@ -1098,9 +1613,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "packer",
     "tap": "hashicorp/tap",
     "url": "https://packer.io"
@@ -1108,9 +1629,18 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["gnupg", "qrencode", "tree", "gnu-getopt"],
-    "licenses": ["GPL-2.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "gnupg",
+      "qrencode",
+      "tree",
+      "gnu-getopt"
+    ],
+    "licenses": [
+      "GPL-2.0-or-later"
+    ],
     "name": "pass",
     "tap": null,
     "url": "https://www.passwordstore.org/"
@@ -1118,9 +1648,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["ISC"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "ISC"
+    ],
     "name": "pkg-config",
     "tap": null,
     "url": "https://github.com/pkgconf/pkgconf"
@@ -1128,7 +1664,11 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["pdf2image", "pdftohtml", "xpdf"],
+    "conflicts": [
+      "pdf2image",
+      "pdftohtml",
+      "xpdf"
+    ],
     "dependencies": [
       "cmake",
       "gobject-introspection",
@@ -1149,7 +1689,9 @@
       "openjpeg",
       "libassuan"
     ],
-    "licenses": ["GPL-2.0-only"],
+    "licenses": [
+      "GPL-2.0-only"
+    ],
     "name": "poppler",
     "tap": null,
     "url": "https://poppler.freedesktop.org/"
@@ -1157,9 +1699,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "proxymock",
     "tap": "speedscale/tap",
     "url": "https://speedscale.com/"
@@ -1167,9 +1715,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["pkgconf", "gpgme", "rust"],
-    "licenses": ["GPL-3.0-only"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "pkgconf",
+      "gpgme",
+      "rust"
+    ],
+    "licenses": [
+      "GPL-3.0-only"
+    ],
     "name": "prs",
     "tap": null,
     "url": "https://timvisee.com/projects/prs"
@@ -1177,9 +1733,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["libpq", "ncurses", "readline"],
-    "licenses": ["BSD-2-Clause"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "libpq",
+      "ncurses",
+      "readline"
+    ],
+    "licenses": [
+      "BSD-2-Clause"
+    ],
     "name": "pspg",
     "tap": null,
     "url": "https://github.com/okbob/pspg"
@@ -1187,9 +1751,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MPL-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MPL-2.0"
+    ],
     "name": "pug",
     "tap": null,
     "url": "https://github.com/leg100/pug"
@@ -1197,9 +1767,18 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["autoconf", "openssl@3", "pkgconf", "readline"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "autoconf",
+      "openssl@3",
+      "pkgconf",
+      "readline"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "pyenv",
     "tap": null,
     "url": "https://github.com/pyenv/pyenv"
@@ -1207,9 +1786,15 @@
   {
     "cask": true,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "raycast",
     "tap": null,
     "url": "https://raycast.com/"
@@ -1217,9 +1802,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["GPL-3.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "readline",
     "tap": null,
     "url": "https://tiswww.case.edu/php/chet/readline/rltop.html"
@@ -1227,9 +1818,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["cargo-c", "rust"],
-    "licenses": ["MPL-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "cargo-c",
+      "rust"
+    ],
+    "licenses": [
+      "MPL-2.0"
+    ],
     "name": "resvg",
     "tap": null,
     "url": "https://github.com/linebender/resvg"
@@ -1238,8 +1836,15 @@
     "cask": false,
     "channel": null,
     "conflicts": [],
-    "dependencies": ["asciidoctor", "pkgconf", "rust", "pcre2"],
-    "licenses": ["Unlicense"],
+    "dependencies": [
+      "asciidoctor",
+      "pkgconf",
+      "rust",
+      "pcre2"
+    ],
+    "licenses": [
+      "Unlicense"
+    ],
     "name": "ripgrep",
     "tap": null,
     "url": "https://github.com/BurntSushi/ripgrep"
@@ -1247,9 +1852,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "runme",
     "tap": null,
     "url": "https://runme.dev/"
@@ -1257,9 +1868,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust", "pkg-config"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust",
+      "pkg-config"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "rustnet",
     "tap": "domcyrus/rustnet",
     "url": "https://github.com/domcyrus/rustnet"
@@ -1268,8 +1886,13 @@
     "cask": false,
     "channel": null,
     "conflicts": [],
-    "dependencies": ["rust"],
-    "licenses": ["Apache-2.0", "MIT"],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "Apache-2.0",
+      "MIT"
+    ],
     "name": "rustup",
     "tap": null,
     "url": "https://rust-lang.github.io/rustup/"
@@ -1277,9 +1900,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["LGPL-2.1-or-later", "BSD-3-Clause"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "LGPL-2.1-or-later",
+      "BSD-3-Clause"
+    ],
     "name": "sevenzip",
     "tap": null,
     "url": "https://7-zip.org"
@@ -1287,9 +1917,18 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["gmp", "cabal-install", "ghc", "pandoc"],
-    "licenses": ["GPL-3.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "gmp",
+      "cabal-install",
+      "ghc",
+      "pandoc"
+    ],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "shellcheck",
     "tap": null,
     "url": "https://www.shellcheck.net/"
@@ -1297,9 +1936,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go", "scdoc"],
-    "licenses": ["BSD-3-Clause"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go",
+      "scdoc"
+    ],
+    "licenses": [
+      "BSD-3-Clause"
+    ],
     "name": "shfmt",
     "tap": null,
     "url": "https://github.com/mvdan/sh"
@@ -1307,9 +1953,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["BSD-3-Clause"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "BSD-3-Clause"
+    ],
     "name": "sipcalc",
     "tap": null,
     "url": "https://github.com/sii/sipcalc"
@@ -1317,9 +1969,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "slides",
     "tap": null,
     "url": "https://maaslalani.com/slides/"
@@ -1328,8 +1986,12 @@
     "cask": false,
     "channel": null,
     "conflicts": [],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "smimesign",
     "tap": null,
     "url": "https://github.com/github/smimesign"
@@ -1337,9 +1999,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "soft-serve",
     "tap": null,
     "url": "https://github.com/charmbracelet/soft-serve"
@@ -1347,9 +2015,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["cmake", "pkgconf", "rust"],
-    "licenses": ["ISC"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "cmake",
+      "pkgconf",
+      "rust"
+    ],
+    "licenses": [
+      "ISC"
+    ],
     "name": "starship",
     "tap": null,
     "url": "https://starship.rs/"
@@ -1357,9 +2033,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["AGPL-3.0-only"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "AGPL-3.0-only"
+    ],
     "name": "steampipe",
     "tap": null,
     "url": "https://steampipe.io/"
@@ -1367,9 +2049,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "surreal",
     "tap": "surrealdb/tap",
     "url": "https://surrealdb.com"
@@ -1377,9 +2065,17 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["tldr", "tlrc"],
-    "dependencies": ["rust"],
-    "licenses": ["Apache-2.0", "MIT"],
+    "conflicts": [
+      "tldr",
+      "tlrc"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "Apache-2.0",
+      "MIT"
+    ],
     "name": "tealdeer",
     "tap": null,
     "url": "https://tealdeer-rs.github.io/tealdeer/"
@@ -1396,8 +2092,14 @@
       "tgenv",
       "tofuenv"
     ],
-    "dependencies": ["todo", "go", "cosign"],
-    "licenses": ["Apache-2.0"],
+    "dependencies": [
+      "todo",
+      "go",
+      "cosign"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "tenv",
     "tap": null,
     "url": "https://tofuutils.github.io/tenv/"
@@ -1405,9 +2107,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["wireshark", "go"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "wireshark",
+      "go"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "termshark",
     "tap": null,
     "url": "https://termshark.io"
@@ -1415,9 +2124,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["GPL-3.0-or-later"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "GPL-3.0-or-later"
+    ],
     "name": "texinfo",
     "tap": null,
     "url": "https://www.gnu.org/software/texinfo/"
@@ -1425,9 +2140,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["python3"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "python3"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "tftui",
     "tap": "idoavrah/homebrew",
     "url": "https://github.com/idoavrah/terraform-tui"
@@ -1435,9 +2156,16 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust"],
-    "licenses": ["Apache-2.0", "MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "Apache-2.0",
+      "MIT"
+    ],
     "name": "tokei",
     "tap": null,
     "url": "https://github.com/XAMPPRocky/tokei"
@@ -1445,9 +2173,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["Apache-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
     "name": "trivy",
     "tap": null,
     "url": "https://trivy.dev/"
@@ -1455,9 +2189,31 @@
   {
     "cask": true,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "Apache-2.0"
+    ],
+    "name": "typst",
+    "tap": null,
+    "url": "https://typst.app/"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "vagrant",
     "tap": null,
     "url": "https://www.vagrantup.com/"
@@ -1465,9 +2221,15 @@
   {
     "cask": true,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "virtualbox",
     "tap": null,
     "url": "https://www.virtualbox.org/"
@@ -1475,9 +2237,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "wireshark-chmodbpf",
     "tap": null,
     "url": "https://www.wireshark.org/"
@@ -1485,9 +2253,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["go"],
-    "licenses": ["MPL-2.0"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "go"
+    ],
+    "licenses": [
+      "MPL-2.0"
+    ],
     "name": "wtfutil",
     "tap": "wtfutil/wtfutil",
     "url": "https://wtfutil.com"
@@ -1495,9 +2269,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "yazi",
     "tap": null,
     "url": "https://github.com/sxyazi/yazi"
@@ -1505,29 +2285,48 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["python-yq"],
-    "dependencies": ["go", "pandoc"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "python-yq"
+    ],
+    "dependencies": [
+      "go",
+      "pandoc"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "yq",
     "tap": null,
     "url": "https://github.com/mikefarah/yq"
   },
   {
     "cask": true,
-    "channel": "twilight",
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "channel": null,
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "zen",
     "tap": null,
     "url": "https://zen-browser.app/"
   },
   {
-    "cask": true,
-    "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["todo"],
-    "licenses": ["todo"],
+    "cask": false,
+    "channel": "twilight",
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "todo"
+    ],
+    "licenses": [
+      "todo"
+    ],
     "name": "zen",
     "tap": null,
     "url": "https://zen-browser.app/"
@@ -1535,9 +2334,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["rust"],
-    "licenses": ["MIT"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "rust"
+    ],
+    "licenses": [
+      "MIT"
+    ],
     "name": "zoxide",
     "tap": null,
     "url": "https://github.com/ajeetdsouza/zoxide"
@@ -1545,8 +2350,15 @@
   {
     "cask": false,
     "channel": null,
-    "conflicts": ["todo"],
-    "dependencies": ["ncurses", "pcre2", "autoconf", "texinfo"],
+    "conflicts": [
+      "todo"
+    ],
+    "dependencies": [
+      "ncurses",
+      "pcre2",
+      "autoconf",
+      "texinfo"
+    ],
     "licenses": [
       "MIT-Modern-Variant",
       "GPL-2.0-only",
