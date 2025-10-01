@@ -11,6 +11,6 @@ clean:
     jq -f {{jq}}/lint.jq {{manifest}} | {{sponge}} {{manifest}} && just commit {{manifest}} "chore(homebrew): updated homebrew manifest"
 
 commit target msg:
-    @git add {{homebrew}}/{{target}}
-    @git commit -S -m "{{msg}}" || echo "No changes to commit"
-    @git stash apply
+    git add {{homebrew}}/{{target}}
+    git commit -S -m "{{msg}}" || echo "No changes to commit"
+    git stash apply
