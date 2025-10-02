@@ -1,0 +1,10 @@
+{
+  "gitignore": false,
+  "ignore": [],
+  "ignoreCase": false,
+  "maxLines": 500,
+  "maxSize": "30kb",
+  "minLines": 5,
+  "minTokens": 50,
+  "mode": "mild"
+}

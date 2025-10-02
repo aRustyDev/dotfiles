@@ -1,0 +1,35 @@
+{
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/vscode-extension/**",
+    "**/.git/**",
+    "**/.pnpm-lock.json",
+    ".vscode",
+    "package-lock.json",
+    ".gitleaks.toml",
+    ".secretlintrc.json",
+    "/__pycache__/",
+    "*.pytest_cache/",
+    "*.cache/"
+  ],
+  "ignoreRegExpList": [
+    "(^|**/)drawio-viewer\\.js$",
+    "(^|**/)*\\.svg$",
+    "(^|**/)*\\.gz$",
+    "(^|**/)*\\.tgz$",
+    "(^|**/)*\\.tar$",
+    "(^|**/)*\\.gif$",
+    "(^|**/)*\\.jpe?g$",
+    "(^|**/)*\\.zip$",
+    "(^|**/)*\\.png$",
+    "(^|**/)*\\.gitkeep$",
+    "(^|/)\\.git/",
+    "(^|/)(\\.)?venv/",
+    "(^|/)(\\.)?env/",
+    "(^|/)node_modules/",
+    ".*\\.gitleaks\\.toml$"
+  ],
+  "language": "en",
+  "version": "0.2",
+  "words": []
+}

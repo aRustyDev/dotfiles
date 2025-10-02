@@ -1,0 +1,44 @@
+{
+  "AllowedContentTypes": [
+    "text/",
+    "application/json",
+    "application/javascript",
+    "application/xml",
+    "application/x-yaml"
+  ],
+  "Debug": false,
+  "Disable": {
+    "EndOfLine": false,
+    "IndentSize": false,
+    "Indentation": false,
+    "InsertFinalNewline": false,
+    "MaxLineLength": false,
+    "TrimTrailingWhitespace": false
+  },
+  "Exclude": [
+    "(^|/)\\.git/",
+    "(^|/)venv/",
+    "(^|/)\\.venv/",
+    "(^|/)env/",
+    "(^|/)\\.env/",
+    "(^|/)node_modules/",
+    "/__pycache__/",
+    "/\\.mypy_cache/",
+    "/\\.pytest_cache/",
+    "/\\.cache/",
+    "CACHEDIR\\.TAG$",
+    ".*\\.gitleaks.toml$",
+    "(^|/)\\.gitlab/ignore/",
+    "\\.(?:png|jpe?g|gif|pdf|tar|tgz|gz|zip)$",
+    "\\.drawio\\.svg$",
+    "(^|/)\\.pre-commit-config.yaml$",
+    ".*\\.gitkeep$"
+  ],
+  "Format": "",
+  "IgnoreDefaults": false,
+  "NoColor": false,
+  "PassedFiles": [],
+  "SpacesAfterTabs": false,
+  "Verbose": false,
+  "Version": "v3.4.0"
+}

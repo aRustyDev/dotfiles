@@ -1,0 +1,93 @@
+---
+# .prettierrc or .prettierrc.yaml
+
+# https://prettier.io/docs/options#semicolons
+semi: true
+
+# https://prettier.io/docs/options#quotes
+singleQuote: false
+
+# https://prettier.io/docs/options#quote-props
+quoteProps: "as-needed"
+
+# https://prettier.io/docs/options#jsx-quotes
+jsxSingleQuote: false
+
+# https://prettier.io/docs/options#trailing-commas
+trailingComma: "all"
+
+# https://prettier.io/docs/options#bracket-spacing
+bracketSpacing: true
+
+# https://prettier.io/docs/options#object-wrap
+objectWrap: "preserve"
+
+# https://prettier.io/docs/options#bracket-line
+bracketSameLine: false
+
+# https://prettier.io/docs/options#arrow-function-parentheses
+arrowParens: "always"
+
+# https://prettier.io/docs/options#range
+rangeStart: 0
+
+# https://prettier.io/docs/options#range
+# rangeEnd: Infinity
+
+# https://prettier.io/docs/options#parser
+plugins:
+  - prettier-plugin-sort-json
+  - prettier-plugin-sh
+
+# https://prettier.io/docs/options#file-path
+# filepath: None
+
+# https://prettier.io/docs/options#require-pragma
+requirePragma: false
+
+# https://prettier.io/docs/options#insert-pragma
+insertPragma: false
+
+# https://prettier.io/docs/options#check-ignore-pragma
+checkIgnorePragma: false
+
+# https://prettier.io/docs/options#prose-wrap
+proseWrap: "preserve"
+
+# https://prettier.io/docs/options#html-whitespace-sensitivity
+htmlWhitespaceSensitivity: "css"
+
+# https://prettier.io/docs/options#vue-files-script-and-style-tags-indentation
+vueIndentScriptAndStyle: false
+
+# https://prettier.io/docs/options#embedded-language-formatting
+embeddedLanguageFormatting: "auto"
+
+# https://prettier.io/docs/options#single-attribute-per-line
+singleAttributePerLine: false
+
+# === Set in .editorconfig ===
+# https://prettier.io/docs/options#end-of-line
+# endOfLine: "lf"
+# https://prettier.io/docs/options#tabs
+# useTabs: false
+# https://prettier.io/docs/options#tab-width
+# tabWidth: 2
+# https://prettier.io/docs/options#print-width
+# printWidth: 100
+
+# === [ Plugin: sort-json ] ===
+jsonRecursiveSort: false
+jsonSortOrder: '{"/.*/": "lexical"}'
+
+# :=== === === === === === ===:
+
+overrides:
+  - files: "*.test.js"
+    options:
+      semi: true
+  - files:
+      - "*.html"
+      - "legacy/**/*.js"
+    options:
+      tabWidth: 4

@@ -1,0 +1,39 @@
+{
+  "AbsolutePaths": false,
+  "BasePath": "",
+  "CommentsPath": "",
+  "Confidences": [
+    "High",
+    "Medium"
+  ],
+  "ConsoleVerbosityLevel": "Information",
+  "CrawlArchives": false,
+  "DisableConsoleOutput": false,
+  "DisableParallel": false,
+  "DisableSuppression": false,
+  "ExitCodeIsNumIssues": false,
+  "Globs": [
+    "**/.git/**",
+    "**/bin/**"
+  ],
+  "IgnoreDefaultRules": false,
+  "IgnoreRuleIds": [],
+  "LanguageRuleIgnoreMap": {},
+  "LanguagesPath": "",
+  "LogFileLevel": "Error",
+  "LogFilePath": null,
+  "OutputFile": "",
+  "OutputFileFormat": "",
+  "OutputTextFormat": "",
+  "RespectGitIgnore": false,
+  "RuleIds": [],
+  "Rules": [],
+  "Severities": [
+    "Critical",
+    "Important",
+    "Moderate",
+    "BestPractice",
+    "ManualReview"
+  ],
+  "SkipExcerpts": false
+}

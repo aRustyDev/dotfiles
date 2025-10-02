@@ -1,0 +1,46 @@
+{
+  "aliveStatusCodes": [
+    200,
+    206
+  ],
+  "fallbackRetryDelay": "30s",
+  "httpHeaders": [
+    {
+      "headers": {
+        "Authorization": "Basic Base64EncodedCredentials",
+        "Foo": "Bar"
+      },
+      "urls": [
+        "https://example.com"
+      ]
+    }
+  ],
+  "ignorePatterns": [
+    {
+      "pattern": "^http://example.net"
+    }
+  ],
+  "projectBaseUrl": "${workspaceFolder}",
+  "replacementPatterns": [
+    {
+      "pattern": "^.attachments",
+      "replacement": "file://some/conventional/folder/.attachments"
+    },
+    {
+      "pattern": "^/",
+      "replacement": "{{BASEURL}}/"
+    },
+    {
+      "global": true,
+      "pattern": "%20",
+      "replacement": "-"
+    },
+    {
+      "pattern": "images/(?<filename>.*)",
+      "replacement": "assets/$<filename>"
+    }
+  ],
+  "retryCount": 5,
+  "retryOn429": true,
+  "timeout": "20s"
+}

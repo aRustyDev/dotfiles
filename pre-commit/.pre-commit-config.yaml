@@ -1,47 +1,185 @@
+---
+# .pre-commit-config.yaml
 repos:
-  - repo: https://github.com/aRustyDev/pre-commit-hooks
-    rev: v0.2.1
-    hooks:
-    - id: dead-links
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0  # Use the ref you want to point at
+    rev: v6.0.0 # Use the ref you want to point at
     hooks:
-    # Housekeeping/Compatibility Hooks
-    - id: check-executables-have-shebangs
-    - id: check-shebang-scripts-are-executable
-    - id: check-symlinks
-    - id: check-case-conflict
-    # - id: check-illegal-windows-names # this still isn't in the main release yet
-    - id: check-merge-conflict
-    # - id: check-vcs-permalinks
-    - id: destroyed-symlinks
-    - id: forbid-new-submodules
-    - id: forbid-submodules
-    - id: no-commit-to-branch
-    # Secret Detection
-    - id: detect-private-key
-    # Linting Hooks
-    - id: trailing-whitespace
-    - id: end-of-file-fixer
-    - id: check-yaml
-    - id: sort-simple-yaml
-    - id: check-json
-    - id: check-toml
-    # - id: pretty-format-json
-    - id: double-quote-string-fixer
-    - id: check-added-large-files
-    - id: file-contents-sorter
-    - id: fix-byte-order-marker
-    - id: mixed-line-ending
-    # Python Hooks
-    - id: requirements-txt-fixer
-    - id: check-builtin-literals
-    - id: name-tests-test
-    - id: check-docstring-first
-    - id: debug-statements
-  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v9.16.0
+      - id: trailing-whitespace
+        name: core(lint)  | remove trailing whitespace
+      - id: check-case-conflict
+        name: core(lint)  | check case conflict
+      - id: check-merge-conflict
+        name: git(lint)   | check merge conflict
+      - id: end-of-file-fixer
+        name: core(lint)  | end of file fixer
+        exclude: ^.*\.svg$
+      - id: check-json
+        name: json(lint)  | check json
+      - id: check-toml
+        name: toml(lint)  | check toml
+      - id: check-yaml
+        name: yaml(lint)  | check yaml
+      - id: check-shebang-scripts-are-executable
+        name: core(lint)  | shebang scripts are executable
+      - id: check-symlinks
+        name: core(lint)  | check symlinks
+      - id: destroyed-symlinks
+        name: core(lint)  | destroyed symlinks
+      - id: file-contents-sorter
+        name: core(fix)   | file contents sorter
+      - id: mixed-line-ending
+        name: core(lint)  | mixed line ending
+      - id: no-commit-to-branch
+        name: git(branch)  | no commit to branch
+      - id: pretty-format-json
+        name: json(fix)   | pretty format json
+        args:
+          - "--autofix"
+      - id: sort-simple-yaml
+        name: yaml(lint)  | sort simple yaml
+      - id: requirements-txt-fixer
+        name: python(fix) | requirements txt fixer
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.28.0
     hooks:
-        - id: commitlint
-          stages: [commit-msg]
-          additional_dependencies: ['@commitlint/cli', '@commitlint/config-conventional']
+      - id: gitleaks
+        name: git(secrets)| gitleaks
+  - repo: https://github.com/AleksaC/terraform-py
+    rev: v1.13.3
+    hooks:
+      - id: tf-fmt
+        name: tf(fix)     | terraform fmt
+      - id: tf-validate
+        name: tf(lint)    | terraform validate
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.18.1
+    hooks:
+      - id: markdownlint-cli2
+        name: md(lint)    | markdownlint-cli2
+        args:
+          - "-q"
+          - "--config"
+          - ".gitlab/ci/.markdownlint-cli2.yaml"
+        pass_filenames: true
+        # NOTE: remove ignore from .gitlab/ci/.yamllint.yaml && .editorconfig-checker.json when done
+        exclude: "(^docs/(map-tech/(tools)|(standards)|(processes)|(infrastructure))|(supported-offerings)/.*$)|(^pproxy/.*)|(^venv/.*)|(.*/LICENSE.md$)"
+        verbose: true
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
+    hooks:
+      - id: shellcheck
+        name: sh(lint)     | shellcheck
+  - repo: https://github.com/editorconfig-checker/editorconfig-checker
+    # this git tag name is kept in sync by release-please
+    rev: v3.4.0
+    hooks:
+      - id: editorconfig-checker
+        name: editorcfg(lint)| editorconfig checker
+        stages:
+          - pre-commit
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.2.0
+    hooks:
+      - id: conventional-pre-commit
+        name: git(lint)     | conventional commit
+        stages:
+          - commit-msg
+        args: []
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.30
+    hooks:
+      - id: tofu-fmt
+        name: tofu(fix)     | tofu fmt
+      - id: tofu-validate
+        name: tofu(lint)    | tofu validate
+      - id: tflint
+        name: tf(lint)      | terraform linter
+      - id: gofmt
+        name: go(fix)       | go fmt
+      - id: golint
+        name: go(lint)      | go lint
+  - repo: https://github.com/streetsidesoftware/cspell-cli
+    rev: v9.2.0
+    hooks:
+      - id: cspell # Spell check changed files
+        name: core(lint)    | cspell
+      - id: cspell # Spell check the commit message
+        name: core(lint)    | check commit message spelling
+        args:
+          - --no-must-find-files
+          - --no-progress
+          - --no-summary
+          - --files
+          - .git/COMMIT_EDITMSG
+        stages: [commit-msg]
+        always_run: true # This might not be necessary.
+  - repo: https://github.com/tcort/markdown-link-check
+    rev: v3.13.7 # Use the latest version or a specific tag
+    hooks:
+      - id: markdown-link-check
+        name: core(lint)     | markdown-link-check
+        args: [--config, .gitlab/ci/.mdlc.json]
+  - repo: https://github.com/lycheeverse/lychee.git
+    rev: lychee-v0.20.1
+    hooks:
+      - id: lychee
+        name: core(lint)     | lychee - url checker
+        # Optionally include additional CLI arguments
+        args: ["--config", ".gitlab/ci/.lychee.toml"]
+  - repo: https://github.com/psf/black.git
+    rev: 25.9.0
+    hooks:
+      - id: black
+        name: py(lint)       | python black formatter
+  - repo: https://github.com/pycqa/flake8
+    rev: "7.3.0" # pick a git hash / tag to point to
+    hooks:
+      - id: flake8
+        name: py(lint)       |
+        types:
+          - python
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        name: js(lint)       |
+        types_or: [javascript]
+        # additional_dependencies:
+        # -   prettier@2.1.2
+        # -   '@prettier/plugin-xml@0.12.0'
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.13.2"
+    hooks:
+      - id: ruff-check
+        args: ["--fix"]
+        exclude: doc/data/messages
+      - id: ruff-check
+        name: ruff-doc
+        files: doc/data/messages
+        # Please exclude using doc/data/ruff.toml
+        # exclude: ""  # Leave empty
+  - repo: https://github.com/pylint-dev/pylint
+    rev: "v3.3.8"
+    hooks:
+      - id: pylint
+        name: py(lint) | pylint linter
+  - repo: https://github.com/PyCQA/isort
+    rev: 6.1.0
+    hooks:
+      - id: isort
+        name: py(fix) | Sort python imports
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0 # or specific git tag
+    hooks:
+      # - id: check-mailmap
+      # - id: git-check # Configure in .gitattributes
+      - id: script-must-have-extension
+        name: sh(lint) | shell scripts must have an extension
+      - id: shfmt
+        name: sh(lint) | shfmt
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.37.1
+    hooks:
+      - id: yamllint
+        name: yaml(lint) | yamllint
+        args: [--strict, -c=.gitlab/ci/.yamllint.yaml]
