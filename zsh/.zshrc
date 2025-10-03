@@ -176,6 +176,8 @@ typeset -U path cdpath fpath manpath
 
 echo "Shell ready: $(date +%s.%N)" >&2
 
+source ${XDG_CONFIG_HOME:-$HOME/.config}/op/plugins.sh
+
 # set +x
 echo "Check trace at: $ZSH_TRACE_FILE"
 # source /Users/adamsm/.config/op/plugins.sh

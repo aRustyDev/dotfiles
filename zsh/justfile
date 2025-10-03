@@ -46,6 +46,8 @@ zrc: mktree
 zenv: mktree
     @cp {{zsh}}/.zshenv {{dotdir}}/.zshenv
     @echo "Copied .zshenv -> {{dotdir}}/.zshenv"
+    @sudo cp {{zsh}}/etc/.zshenv /etc/zshenv
+    @echo "Copied ./etc/.zshenv -> /etc/zshenv"
 
 mktree:
     @mkdir -p {{ dotdir }}/{completions,init,plugins,functions}
