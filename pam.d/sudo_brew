@@ -1,0 +1,10 @@
+# sudo_local: local config file which survives system update and is included for sudo
+# === === === === === === === === === === === === === === === === === === === === ===
+# use of the pam_tid module (Touch ID) from within tmux
+auth       optional       /opt/homebrew/lib/pam/pam_reattach.so ignore_ssh
+
+# Docs: https://opensc.github.io/pam_pkcs11/doc/pam_pkcs11.html#idp4976976
+auth       sufficient     /usr/local/lib/security/pam_p11.so  /opt/homebrew/Cellar/opensc/0.26.1/lib/pkcs11/opensc-pkcs11.so
+
+# Docs: https://developers.yubico.com/pam-u2f/
+auth       sufficient     /opt/homebrew/lib/pam/pam_u2f.so debug
