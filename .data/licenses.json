@@ -1,0 +1,4895 @@
+[
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "0bsd",
+    "name": "bsd zero clause license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "3d-slicer-1.0",
+    "name": "3d slicer license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "aal",
+    "name": "attribution assurance license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "abstyles",
+    "name": "abstyles license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "adacore-doc",
+    "name": "adacore doc license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "adobe-2006",
+    "name": "adobe systems incorporated source code license agreement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "adobe-display-postscript",
+    "name": "adobe display postscript license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "adobe-glyph",
+    "name": "adobe glyph list license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "adobe-utopia",
+    "name": "adobe utopia font license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "adsl",
+    "name": "amazon digital services license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "afl-1.1",
+    "name": "academic free license v1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "afl-1.2",
+    "name": "academic free license v1.2",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "afl-2.0",
+    "name": "academic free license v2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "afl-2.1",
+    "name": "academic free license v2.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "afl-3.0",
+    "name": "academic free license v3.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "afmparse",
+    "name": "afmparse license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.1",
+    "fsf-free-libre": null,
+    "id": "agpl-1.0",
+    "name": "affero general public license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "agpl-1.0-only",
+    "name": "affero general public license v1.0 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "agpl-1.0-or-later",
+    "name": "affero general public license v1.0 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "agpl-3.0",
+    "name": "gnu affero general public license v3.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "agpl-3.0-only",
+    "name": "gnu affero general public license v3.0 only",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "agpl-3.0-or-later",
+    "name": "gnu affero general public license v3.0 or later",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "aladdin",
+    "name": "aladdin free public license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "amd-newlib",
+    "name": "amd newlib license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "amdplpa",
+    "name": "amd's plpa_map.c license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "aml",
+    "name": "apple mit license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "aml-glslang",
+    "name": "aml glslang variant license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ampas",
+    "name": "academy of motion picture arts and sciences bsd",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "antlr-pd",
+    "name": "antlr software rights notice",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "antlr-pd-fallback",
+    "name": "antlr software rights notice with license fallback",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "any-osi",
+    "name": "any osi license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "any-osi-perl-modules",
+    "name": "any osi license - perl modules",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "apache-1.0",
+    "name": "apache license 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "apache-1.1",
+    "name": "apache license 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "apache-2.0",
+    "name": "apache license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "apafml",
+    "name": "adobe postscript afm license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "apl-1.0",
+    "name": "adaptive public license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "app-s2p",
+    "name": "app::s2p license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "apsl-1.0",
+    "name": "apple public source license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "apsl-1.1",
+    "name": "apple public source license 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "apsl-1.2",
+    "name": "apple public source license 1.2",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "apsl-2.0",
+    "name": "apple public source license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "arphic-1999",
+    "name": "arphic public license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "artistic-1.0",
+    "name": "artistic license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "artistic-1.0-cl8",
+    "name": "artistic license 1.0 w/clause 8",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "artistic-1.0-perl",
+    "name": "artistic license 1.0 (perl)",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "artistic-2.0",
+    "name": "artistic license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "artistic-dist",
+    "name": "artistic license 1.0 (dist)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "aspell-ru",
+    "name": "aspell russian license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "aswf-digital-assets-1.0",
+    "name": "aswf digital assets license version 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "aswf-digital-assets-1.1",
+    "name": "aswf digital assets license 1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "baekmuk",
+    "name": "baekmuk license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bahyph",
+    "name": "bahyph license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "barr",
+    "name": "barr license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bcrypt-solar-designer",
+    "name": "bcrypt solar designer license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "beerware",
+    "name": "beerware license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bitstream-charter",
+    "name": "bitstream charter font license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bitstream-vera",
+    "name": "bitstream vera font license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bittorrent-1.0",
+    "name": "bittorrent open source license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "bittorrent-1.1",
+    "name": "bittorrent open source license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "blessing",
+    "name": "sqlite blessing",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "blueoak-1.0.0",
+    "name": "blue oak model license 1.0.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "boehm-gc",
+    "name": "boehm-demers-weiser gc license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "boehm-gc-without-fee",
+    "name": "boehm-demers-weiser gc license (without fee)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "borceux",
+    "name": "borceux license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "brian-gladman-2-clause",
+    "name": "brian gladman 2-clause license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "brian-gladman-3-clause",
+    "name": "brian gladman 3-clause license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-1-clause",
+    "name": "bsd 1-clause license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "bsd-2-clause",
+    "name": "bsd 2-clause 'simplified' license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-2-clause-darwin",
+    "name": "bsd 2-clause - ian darwin variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-2-clause-first-lines",
+    "name": "bsd 2-clause - first lines requirement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.10",
+    "fsf-free-libre": null,
+    "id": "bsd-2-clause-freebsd",
+    "name": "bsd 2-clause freebsd license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.9",
+    "fsf-free-libre": null,
+    "id": "bsd-2-clause-netbsd",
+    "name": "bsd 2-clause netbsd license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-2-clause-patent",
+    "name": "bsd-2-clause plus patent license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-2-clause-pkgconf-disclaimer",
+    "name": "bsd 2-clause pkgconf disclaimer variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-2-clause-views",
+    "name": "bsd 2-clause with views sentence",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "bsd-3-clause",
+    "name": "bsd 3-clause 'new' or 'revised' license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-acpica",
+    "name": "bsd 3-clause acpica variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-attribution",
+    "name": "bsd with attribution",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "bsd-3-clause-clear",
+    "name": "bsd 3-clause clear license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-flex",
+    "name": "bsd 3-clause flex variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-hp",
+    "name": "hewlett-packard bsd variant license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-lbnl",
+    "name": "lawrence berkeley national labs bsd variant license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-modification",
+    "name": "bsd 3-clause modification",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-no-military-license",
+    "name": "bsd 3-clause no military license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-no-nuclear-license",
+    "name": "bsd 3-clause no nuclear license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-no-nuclear-license-2014",
+    "name": "bsd 3-clause no nuclear license 2014",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-no-nuclear-warranty",
+    "name": "bsd 3-clause no nuclear warranty",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-open-mpi",
+    "name": "bsd 3-clause open mpi variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-3-clause-sun",
+    "name": "bsd 3-clause sun microsystems",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "bsd-4-clause",
+    "name": "bsd 4-clause 'original' or 'old' license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-4-clause-shortened",
+    "name": "bsd 4 clause shortened",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-4-clause-uc",
+    "name": "bsd-4-clause (university of california-specific)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-4.3reno",
+    "name": "bsd 4.3 reno license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-4.3tahoe",
+    "name": "bsd 4.3 tahoe license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-advertising-acknowledgement",
+    "name": "bsd advertising acknowledgement license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-attribution-hpnd-disclaimer",
+    "name": "bsd with attribution and hpnd disclaimer",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-inferno-nettverk",
+    "name": "bsd-inferno-nettverk",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-protection",
+    "name": "bsd protection license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-source-beginning-file",
+    "name": "bsd source code attribution - beginning of file variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-source-code",
+    "name": "bsd source code attribution",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-systemics",
+    "name": "systemics bsd variant license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bsd-systemics-w3works",
+    "name": "systemics w3works bsd variant license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "bsl-1.0",
+    "name": "boost software license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "busl-1.1",
+    "name": "business source license 1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.16",
+    "fsf-free-libre": null,
+    "id": "bzip2-1.0.5",
+    "name": "bzip2 and libbzip2 license v1.0.5",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "bzip2-1.0.6",
+    "name": "bzip2 and libbzip2 license v1.0.6",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "c-uda-1.0",
+    "name": "computational use of data agreement v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cal-1.0",
+    "name": "cryptographic autonomy license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cal-1.0-combined-work-exception",
+    "name": "cryptographic autonomy license 1.0 (combined work exception)",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "caldera",
+    "name": "caldera license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "caldera-no-preamble",
+    "name": "caldera license (without preamble)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "catharon",
+    "name": "catharon license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "catosl-1.1",
+    "name": "computer associates trusted open source license 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-1.0",
+    "name": "creative commons attribution 1.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-2.0",
+    "name": "creative commons attribution 2.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-2.5",
+    "name": "creative commons attribution 2.5 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-2.5-au",
+    "name": "creative commons attribution 2.5 australia",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-3.0",
+    "name": "creative commons attribution 3.0 unported",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-3.0-at",
+    "name": "creative commons attribution 3.0 austria",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-3.0-au",
+    "name": "creative commons attribution 3.0 australia",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-3.0-de",
+    "name": "creative commons attribution 3.0 germany",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-3.0-igo",
+    "name": "creative commons attribution 3.0 igo",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-3.0-nl",
+    "name": "creative commons attribution 3.0 netherlands",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-3.0-us",
+    "name": "creative commons attribution 3.0 united states",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "cc-by-4.0",
+    "name": "creative commons attribution 4.0 international",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-1.0",
+    "name": "creative commons attribution non commercial 1.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-2.0",
+    "name": "creative commons attribution non commercial 2.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-2.5",
+    "name": "creative commons attribution non commercial 2.5 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-3.0",
+    "name": "creative commons attribution non commercial 3.0 unported",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-3.0-de",
+    "name": "creative commons attribution non commercial 3.0 germany",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-4.0",
+    "name": "creative commons attribution non commercial 4.0 international",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-nd-1.0",
+    "name": "creative commons attribution non commercial no derivatives 1.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-nd-2.0",
+    "name": "creative commons attribution non commercial no derivatives 2.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-nd-2.5",
+    "name": "creative commons attribution non commercial no derivatives 2.5 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-nd-3.0",
+    "name": "creative commons attribution non commercial no derivatives 3.0 unported",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-nd-3.0-de",
+    "name": "creative commons attribution non commercial no derivatives 3.0 germany",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-nd-3.0-igo",
+    "name": "creative commons attribution non commercial no derivatives 3.0 igo",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-nd-4.0",
+    "name": "creative commons attribution non commercial no derivatives 4.0 international",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-1.0",
+    "name": "creative commons attribution non commercial share alike 1.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-2.0",
+    "name": "creative commons attribution non commercial share alike 2.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-2.0-de",
+    "name": "creative commons attribution non commercial share alike 2.0 germany",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-2.0-fr",
+    "name": "creative commons attribution-noncommercial-sharealike 2.0 france",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-2.0-uk",
+    "name": "creative commons attribution non commercial share alike 2.0 england and wales",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-2.5",
+    "name": "creative commons attribution non commercial share alike 2.5 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-3.0",
+    "name": "creative commons attribution non commercial share alike 3.0 unported",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-3.0-de",
+    "name": "creative commons attribution non commercial share alike 3.0 germany",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-3.0-igo",
+    "name": "creative commons attribution non commercial share alike 3.0 igo",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nc-sa-4.0",
+    "name": "creative commons attribution non commercial share alike 4.0 international",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nd-1.0",
+    "name": "creative commons attribution no derivatives 1.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nd-2.0",
+    "name": "creative commons attribution no derivatives 2.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nd-2.5",
+    "name": "creative commons attribution no derivatives 2.5 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nd-3.0",
+    "name": "creative commons attribution no derivatives 3.0 unported",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nd-3.0-de",
+    "name": "creative commons attribution no derivatives 3.0 germany",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-nd-4.0",
+    "name": "creative commons attribution no derivatives 4.0 international",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-sa-1.0",
+    "name": "creative commons attribution share alike 1.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-sa-2.0",
+    "name": "creative commons attribution share alike 2.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-sa-2.0-uk",
+    "name": "creative commons attribution share alike 2.0 england and wales",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-sa-2.1-jp",
+    "name": "creative commons attribution share alike 2.1 japan",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-sa-2.5",
+    "name": "creative commons attribution share alike 2.5 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-sa-3.0",
+    "name": "creative commons attribution share alike 3.0 unported",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-sa-3.0-at",
+    "name": "creative commons attribution share alike 3.0 austria",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-sa-3.0-de",
+    "name": "creative commons attribution share alike 3.0 germany",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-by-sa-3.0-igo",
+    "name": "creative commons attribution-sharealike 3.0 igo",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "cc-by-sa-4.0",
+    "name": "creative commons attribution share alike 4.0 international",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-pddc",
+    "name": "creative commons public domain dedication and certification",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-pdm-1.0",
+    "name": "creative    commons public domain mark 1.0 universal",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cc-sa-1.0",
+    "name": "creative commons share alike 1.0 generic",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "cc0-1.0",
+    "name": "creative commons zero v1.0 universal",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "cddl-1.0",
+    "name": "common development and distribution license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cddl-1.1",
+    "name": "common development and distribution license 1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cdl-1.0",
+    "name": "common documentation license 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cdla-permissive-1.0",
+    "name": "community data license agreement permissive 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cdla-permissive-2.0",
+    "name": "community data license agreement permissive 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cdla-sharing-1.0",
+    "name": "community data license agreement sharing 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cecill-1.0",
+    "name": "cecill free software license agreement v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cecill-1.1",
+    "name": "cecill free software license agreement v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "cecill-2.0",
+    "name": "cecill free software license agreement v2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cecill-2.1",
+    "name": "cecill free software license agreement v2.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "cecill-b",
+    "name": "cecill-b free software license agreement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "cecill-c",
+    "name": "cecill-c free software license agreement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cern-ohl-1.1",
+    "name": "cern open hardware licence v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cern-ohl-1.2",
+    "name": "cern open hardware licence v1.2",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cern-ohl-p-2.0",
+    "name": "cern open hardware licence version 2 - permissive",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cern-ohl-s-2.0",
+    "name": "cern open hardware licence version 2 - strongly reciprocal",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cern-ohl-w-2.0",
+    "name": "cern open hardware licence version 2 - weakly reciprocal",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cfitsio",
+    "name": "cfitsio license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "check-cvs",
+    "name": "check-cvs license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "checkmk",
+    "name": "checkmk license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "clartistic",
+    "name": "clarified artistic license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "clips",
+    "name": "clips license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cmu-mach",
+    "name": "cmu mach license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cmu-mach-nodoc",
+    "name": "cmu    mach - no notices-in-documentation variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cnri-jython",
+    "name": "cnri jython license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cnri-python",
+    "name": "cnri python license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cnri-python-gpl-compatible",
+    "name": "cnri python open source gpl compatible license agreement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "coil-1.0",
+    "name": "copyfree open innovation license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "community-spec-1.0",
+    "name": "community specification license 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "condor-1.1",
+    "name": "condor public license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "copyleft-next-0.3.0",
+    "name": "copyleft-next 0.3.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "copyleft-next-0.3.1",
+    "name": "copyleft-next 0.3.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cornell-lossless-jpeg",
+    "name": "cornell lossless jpeg license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "cpal-1.0",
+    "name": "common public attribution license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "cpl-1.0",
+    "name": "common public license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cpol-1.02",
+    "name": "code project open license 1.02",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cronyx",
+    "name": "cronyx license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "crossword",
+    "name": "crossword license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cryptoswift",
+    "name": "cryptoswift license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "crystalstacker",
+    "name": "crystalstacker license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cua-opl-1.0",
+    "name": "cua office public license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cube",
+    "name": "cube license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "curl",
+    "name": "curl license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "cve-tou",
+    "name": "common vulnerability enumeration tou license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "d-fsl-1.0",
+    "name": "deutsche freie software lizenz",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "dec-3-clause",
+    "name": "dec 3-clause license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "diffmark",
+    "name": "diffmark license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "dl-de-by-2.0",
+    "name": "data licence germany – attribution – version 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "dl-de-zero-2.0",
+    "name": "data licence germany – zero – version 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "doc",
+    "name": "doc license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "docbook-dtd",
+    "name": "docbook dtd license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "docbook-schema",
+    "name": "docbook schema license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "docbook-stylesheet",
+    "name": "docbook stylesheet license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "docbook-xml",
+    "name": "docbook xml license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "dotseqn",
+    "name": "dotseqn license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "drl-1.0",
+    "name": "detection rule license 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "drl-1.1",
+    "name": "detection rule license 1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "dsdp",
+    "name": "dsdp license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "dtoa",
+    "name": "david m. gay dtoa license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "dvipdfm",
+    "name": "dvipdfm license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ecl-1.0",
+    "name": "educational community license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ecl-2.0",
+    "name": "educational community license v2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "ecos-2.0",
+    "name": "ecos license version 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "efl-1.0",
+    "name": "eiffel forum license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "efl-2.0",
+    "name": "eiffel forum license v2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "egenix",
+    "name": "egenix.com public license 1.1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "elastic-2.0",
+    "name": "elastic license 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "entessa",
+    "name": "entessa public license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "epics",
+    "name": "epics open license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "epl-1.0",
+    "name": "eclipse public license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "epl-2.0",
+    "name": "eclipse public license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "erlpl-1.1",
+    "name": "erlang public license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "etalab-2.0",
+    "name": "etalab open license 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "eudatagrid",
+    "name": "eu datagrid software license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "eupl-1.0",
+    "name": "european union public license 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "eupl-1.1",
+    "name": "european union public license 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "eupl-1.2",
+    "name": "european union public license 1.2",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "eurosym",
+    "name": "eurosym license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fair",
+    "name": "fair license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fbm",
+    "name": "fuzzy bitmap license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fdk-aac",
+    "name": "fraunhofer fdk aac codec library",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ferguson-twofish",
+    "name": "ferguson twofish license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "frameworx-1.0",
+    "name": "frameworx open license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "freebsd-doc",
+    "name": "freebsd documentation license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "freeimage",
+    "name": "freeimage public license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "fsfap",
+    "name": "fsf all permissive license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fsfap-no-warranty-disclaimer",
+    "name": "fsf all permissive license (without warranty)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fsful",
+    "name": "fsf unlimited license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fsfullr",
+    "name": "fsf unlimited license (with license retention)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fsfullrsd",
+    "name": "fsf unlimited license (with license retention and short disclaimer)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fsfullrwd",
+    "name": "fsf unlimited license (with license retention and warranty disclaimer)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fsl-1.1-alv2",
+    "name": "functional source license, version 1.1, alv2 future license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fsl-1.1-mit",
+    "name": "functional source license, version 1.1, mit future license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ftl",
+    "name": "freetype project license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "furuseth",
+    "name": "furuseth license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "fwlw",
+    "name": "fwlw license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "game-programming-gems",
+    "name": "game programming gems license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gcr-docs",
+    "name": "gnome gcr documentation license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gd",
+    "name": "gd license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "generic-xts",
+    "name": "generic xts license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "gfdl-1.1",
+    "name": "gnu free documentation license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.1-invariants-only",
+    "name": "gnu free documentation license v1.1 only - invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.1-invariants-or-later",
+    "name": "gnu free documentation license v1.1 or later - invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.1-no-invariants-only",
+    "name": "gnu free documentation license v1.1 only - no invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.1-no-invariants-or-later",
+    "name": "gnu free documentation license v1.1 or later - no invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gfdl-1.1-only",
+    "name": "gnu free documentation license v1.1 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gfdl-1.1-or-later",
+    "name": "gnu free documentation license v1.1 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "gfdl-1.2",
+    "name": "gnu free documentation license v1.2",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.2-invariants-only",
+    "name": "gnu free documentation license v1.2 only - invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.2-invariants-or-later",
+    "name": "gnu free documentation license v1.2 or later - invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.2-no-invariants-only",
+    "name": "gnu free documentation license v1.2 only - no invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.2-no-invariants-or-later",
+    "name": "gnu free documentation license v1.2 or later - no invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gfdl-1.2-only",
+    "name": "gnu free documentation license v1.2 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gfdl-1.2-or-later",
+    "name": "gnu free documentation license v1.2 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "gfdl-1.3",
+    "name": "gnu free documentation license v1.3",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.3-invariants-only",
+    "name": "gnu free documentation license v1.3 only - invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.3-invariants-or-later",
+    "name": "gnu free documentation license v1.3 or later - invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.3-no-invariants-only",
+    "name": "gnu free documentation license v1.3 only - no invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gfdl-1.3-no-invariants-or-later",
+    "name": "gnu free documentation license v1.3 or later - no invariants",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gfdl-1.3-only",
+    "name": "gnu free documentation license v1.3 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gfdl-1.3-or-later",
+    "name": "gnu free documentation license v1.3 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "giftware",
+    "name": "giftware license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gl2ps",
+    "name": "gl2ps license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "glide",
+    "name": "3dfx glide license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "glulxe",
+    "name": "glulxe license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "glwtpl",
+    "name": "good luck with that public license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gnuplot",
+    "name": "gnuplot license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "gpl-1.0",
+    "name": "gnu general public license v1.0 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-1.0+",
+    "name": "gnu general public license v1.0 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gpl-1.0-only",
+    "name": "gnu general public license v1.0 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gpl-1.0-or-later",
+    "name": "gnu general public license v1.0 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "gpl-2.0",
+    "name": "gnu general public license v2.0 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-2.0+",
+    "name": "gnu general public license v2.0 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gpl-2.0-only",
+    "name": "gnu general public license v2.0 only",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gpl-2.0-or-later",
+    "name": "gnu general public license v2.0 or later",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-2.0-with-autoconf-exception",
+    "name": "gnu general public license v2.0 w/autoconf exception",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-2.0-with-bison-exception",
+    "name": "gnu general public license v2.0 w/bison exception",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-2.0-with-classpath-exception",
+    "name": "gnu general public license v2.0 w/classpath exception",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-2.0-with-font-exception",
+    "name": "gnu general public license v2.0 w/font exception",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-2.0-with-gcc-exception",
+    "name": "gnu general public license v2.0 w/gcc runtime library exception",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "gpl-3.0",
+    "name": "gnu general public license v3.0 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-3.0+",
+    "name": "gnu general public license v3.0 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gpl-3.0-only",
+    "name": "gnu general public license v3.0 only",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "gpl-3.0-or-later",
+    "name": "gnu general public license v3.0 or later",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-3.0-with-autoconf-exception",
+    "name": "gnu general public license v3.0 w/autoconf exception",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "gpl-3.0-with-gcc-exception",
+    "name": "gnu general public license v3.0 w/gcc runtime library exception",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "graphics-gems",
+    "name": "graphics gems license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gsoap-1.3b",
+    "name": "gsoap public license v1.3b",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gtkbook",
+    "name": "gtkbook license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "gutmann",
+    "name": "gutmann license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "haskellreport",
+    "name": "haskell language report license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hdf5",
+    "name": "hdf5 license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hdparm",
+    "name": "hdparm license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hidapi",
+    "name": "hidapi license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hippocratic-2.1",
+    "name": "hippocratic license 2.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hp-1986",
+    "name": "hewlett-packard 1986 license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hp-1989",
+    "name": "hewlett-packard 1989 license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "hpnd",
+    "name": "historical permission notice and disclaimer",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-dec",
+    "name": "historical permission notice and disclaimer - dec variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-doc",
+    "name": "historical permission notice and disclaimer - documentation variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-doc-sell",
+    "name": "historical permission notice and disclaimer - documentation sell variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-export-us",
+    "name": "hpnd with us government export control warning",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-export-us-acknowledgement",
+    "name": "hpnd with us government export control warning and acknowledgment",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-export-us-modify",
+    "name": "hpnd with us government export control warning and modification rqmt",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-export2-us",
+    "name": "hpnd with us government export control and 2 disclaimers",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-fenneberg-livingston",
+    "name": "historical permission notice and disclaimer - fenneberg-livingston variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-inria-imag",
+    "name": "historical permission notice and disclaimer    - inria-imag variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-intel",
+    "name": "historical permission notice and disclaimer - intel variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-kevlin-henney",
+    "name": "historical permission notice and disclaimer - kevlin henney variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-markus-kuhn",
+    "name": "historical permission notice and disclaimer - markus kuhn variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-merchantability-variant",
+    "name": "historical permission notice and disclaimer - merchantability variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-mit-disclaimer",
+    "name": "historical permission notice and disclaimer with mit disclaimer",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-netrek",
+    "name": "historical permission notice and disclaimer - netrek variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-pbmplus",
+    "name": "historical permission notice and disclaimer - pbmplus variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-sell-mit-disclaimer-xserver",
+    "name": "historical permission notice and disclaimer - sell xserver variant with mit disclaimer",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-sell-regexpr",
+    "name": "historical permission notice and disclaimer - sell regexpr variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-sell-variant",
+    "name": "historical permission notice and disclaimer - sell variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-sell-variant-mit-disclaimer",
+    "name": "hpnd sell variant with mit disclaimer",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-sell-variant-mit-disclaimer-rev",
+    "name": "hpnd sell variant with mit disclaimer - reverse",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-uc",
+    "name": "historical permission notice and disclaimer - university of california variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "hpnd-uc-export-us",
+    "name": "historical permission notice and disclaimer - university of california, us export warning",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "htmltidy",
+    "name": "html tidy license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ibm-pibs",
+    "name": "ibm powerpc initialization and boot software",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "icu",
+    "name": "icu license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "iec-code-components-eula",
+    "name": "iec    code components end-user licence agreement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ijg",
+    "name": "independent jpeg group license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ijg-short",
+    "name": "independent jpeg group license - short",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "imagemagick",
+    "name": "imagemagick license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "imatix",
+    "name": "imatix standard function library agreement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "imlib2",
+    "name": "imlib2 license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "info-zip",
+    "name": "info-zip license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "inner-net-2.0",
+    "name": "inner net license v2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "innosetup",
+    "name": "inno setup license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "intel",
+    "name": "intel open source license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "intel-acpi",
+    "name": "intel acpi software license agreement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "interbase-1.0",
+    "name": "interbase public license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ipa",
+    "name": "ipa font license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ipl-1.0",
+    "name": "ibm public license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "isc",
+    "name": "isc license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "isc-veillard",
+    "name": "isc veillard variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "jam",
+    "name": "jam license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "jasper-2.0",
+    "name": "jasper license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "jove",
+    "name": "jove license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "jpl-image",
+    "name": "jpl image use policy",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "jpnic",
+    "name": "japan network information center license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "json",
+    "name": "json license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "kastrup",
+    "name": "kastrup license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "kazlib",
+    "name": "kazlib license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "knuth-ctan",
+    "name": "knuth ctan license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lal-1.2",
+    "name": "licence art libre 1.2",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lal-1.3",
+    "name": "licence art libre 1.3",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "latex2e",
+    "name": "latex2e license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "latex2e-translated-notice",
+    "name": "latex2e with translated notice permission",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "leptonica",
+    "name": "leptonica license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "lgpl-2.0",
+    "name": "gnu library general public license v2 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "lgpl-2.0+",
+    "name": "gnu library general public license v2 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lgpl-2.0-only",
+    "name": "gnu library general public license v2 only",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lgpl-2.0-or-later",
+    "name": "gnu library general public license v2 or later",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "lgpl-2.1",
+    "name": "gnu lesser general public license v2.1 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "lgpl-2.1+",
+    "name": "gnu lesser general public license v2.1 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "lgpl-2.1-only",
+    "name": "gnu lesser general public license v2.1 only",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "lgpl-2.1-or-later",
+    "name": "gnu lesser general public license v2.1 or later",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "lgpl-3.0",
+    "name": "gnu lesser general public license v3.0 only",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "lgpl-3.0+",
+    "name": "gnu lesser general public license v3.0 or later",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "lgpl-3.0-only",
+    "name": "gnu lesser general public license v3.0 only",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "lgpl-3.0-or-later",
+    "name": "gnu lesser general public license v3.0 or later",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lgpllr",
+    "name": "lesser general public license for linguistic resources",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "libpng",
+    "name": "libpng license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "libpng-1.6.35",
+    "name": "png reference library license v1 (for libpng 0.5 through 1.6.35)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "libpng-2.0",
+    "name": "png reference library version 2",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "libselinux-1.0",
+    "name": "libselinux public domain notice",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "libtiff",
+    "name": "libtiff license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "libutil-david-nugent",
+    "name": "libutil david nugent license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "liliq-p-1.1",
+    "name": "licence libre du québec – permissive version 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "liliq-r-1.1",
+    "name": "licence libre du québec – réciprocité version 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "liliq-rplus-1.1",
+    "name": "licence libre du québec – réciprocité forte version 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "linux-man-pages-1-para",
+    "name": "linux man-pages - 1 paragraph",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "linux-man-pages-copyleft",
+    "name": "linux man-pages copyleft",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "linux-man-pages-copyleft-2-para",
+    "name": "linux man-pages copyleft - 2 paragraphs",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "linux-man-pages-copyleft-var",
+    "name": "linux man-pages copyleft variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "linux-openib",
+    "name": "linux kernel variant of openib.org license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "loop",
+    "name": "common lisp loop license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lpd-document",
+    "name": "lpd documentation license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lpl-1.0",
+    "name": "lucent public license version 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "lpl-1.02",
+    "name": "lucent public license v1.02",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lppl-1.0",
+    "name": "latex project public license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lppl-1.1",
+    "name": "latex project public license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "lppl-1.2",
+    "name": "latex project public license v1.2",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "lppl-1.3a",
+    "name": "latex project public license v1.3a",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lppl-1.3c",
+    "name": "latex project public license v1.3c",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lsof",
+    "name": "lsof license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lucida-bitmap-fonts",
+    "name": "lucida bitmap fonts license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lzma-sdk-9.11-to-9.20",
+    "name": "lzma sdk license (versions 9.11 to 9.20)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "lzma-sdk-9.22",
+    "name": "lzma sdk license (versions 9.22 and beyond)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mackerras-3-clause",
+    "name": "mackerras 3-clause license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mackerras-3-clause-acknowledgment",
+    "name": "mackerras 3-clause - acknowledgment variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "magaz",
+    "name": "magaz license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mailprio",
+    "name": "mailprio license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "makeindex",
+    "name": "makeindex license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "man2html",
+    "name": "man2html license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "martin-birgmeier",
+    "name": "martin birgmeier license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mcphee-slideshow",
+    "name": "mcphee slideshow license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "metamail",
+    "name": "metamail license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "minpack",
+    "name": "minpack license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mips",
+    "name": "mips license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "miros",
+    "name": "the miros licence",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "mit",
+    "name": "mit license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-0",
+    "name": "mit no attribution",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-advertising",
+    "name": "enlightenment license (e16)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-click",
+    "name": "mit click license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-cmu",
+    "name": "cmu license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-enna",
+    "name": "enna license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-feh",
+    "name": "feh license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-festival",
+    "name": "mit festival variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-khronos-old",
+    "name": "mit khronos - old variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-modern-variant",
+    "name": "mit license modern variant",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-open-group",
+    "name": "mit open group variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-testregex",
+    "name": "mit testregex variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mit-wu",
+    "name": "mit tom wu variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mitnfa",
+    "name": "mit +no-false-attribs license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mmixware",
+    "name": "mmixware license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "motosoto",
+    "name": "motosoto license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mpeg-ssg",
+    "name": "mpeg software simulation",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mpi-permissive",
+    "name": "mpi permissive license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mpich2",
+    "name": "mpich2 license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mpl-1.0",
+    "name": "mozilla public license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "mpl-1.1",
+    "name": "mozilla public license 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "mpl-2.0",
+    "name": "mozilla public license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mpl-2.0-no-copyleft-exception",
+    "name": "mozilla public license 2.0 (no copyleft exception)",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mplus",
+    "name": "mplus font license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ms-lpl",
+    "name": "microsoft limited public license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ms-pl",
+    "name": "microsoft public license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ms-rl",
+    "name": "microsoft reciprocal license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mtll",
+    "name": "matrix template library license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mulanpsl-1.0",
+    "name": "mulan permissive software license, version 1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mulanpsl-2.0",
+    "name": "mulan permissive software license, version 2",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "multics",
+    "name": "multics license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "mup",
+    "name": "mup license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "naist-2003",
+    "name": "nara institute of science and technology license (2003)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nasa-1.3",
+    "name": "nasa open source agreement 1.3",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "naumen",
+    "name": "naumen public license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nbpl-1.0",
+    "name": "net boolean public license v1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ncbi-pd",
+    "name": "ncbi public domain notice",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ncgl-uk-2.0",
+    "name": "non-commercial government licence",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ncl",
+    "name": "ncl source code license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ncsa",
+    "name": "university of illinois/ncsa open source license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": "3.25.0",
+    "fsf-free-libre": null,
+    "id": "net-snmp",
+    "name": "net-snmp license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "netcdf",
+    "name": "netcdf license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "newsletr",
+    "name": "newsletr license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ngpl",
+    "name": "nethack general public license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ngrep",
+    "name": "ngrep license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nicta-1.0",
+    "name": "nicta public software license, version 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nist-pd",
+    "name": "nist public domain notice",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nist-pd-fallback",
+    "name": "nist public domain notice with license fallback",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nist-software",
+    "name": "nist software license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nlod-1.0",
+    "name": "norwegian licence for open government data (nlod) 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nlod-2.0",
+    "name": "norwegian licence for open government data (nlod) 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nlpl",
+    "name": "no limit public license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "nokia",
+    "name": "nokia open source license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "nosl",
+    "name": "netizen open source license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "noweb",
+    "name": "noweb license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "npl-1.0",
+    "name": "netscape public license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "npl-1.1",
+    "name": "netscape public license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nposl-3.0",
+    "name": "non-profit open software license 3.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "nrl",
+    "name": "nrl license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ntia-pd",
+    "name": "ntia public domain notice",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ntp",
+    "name": "ntp license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ntp-0",
+    "name": "ntp no attribution",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "3.0",
+    "fsf-free-libre": null,
+    "id": "nunit",
+    "name": "nunit license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "o-uda-1.0",
+    "name": "open use of data agreement v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oar",
+    "name": "oar license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "occt-pl",
+    "name": "open cascade technology public license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oclc-2.0",
+    "name": "oclc research public license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "odbl-1.0",
+    "name": "open data commons open database license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "odc-by-1.0",
+    "name": "open data commons attribution license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "offis",
+    "name": "offis license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ofl-1.0",
+    "name": "sil open font license 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ofl-1.0-no-rfn",
+    "name": "sil open font license 1.0 with no reserved font name",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ofl-1.0-rfn",
+    "name": "sil open font license 1.0 with reserved font name",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ofl-1.1",
+    "name": "sil open font license 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ofl-1.1-no-rfn",
+    "name": "sil open font license 1.1 with no reserved font name",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ofl-1.1-rfn",
+    "name": "sil open font license 1.1 with reserved font name",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ogc-1.0",
+    "name": "ogc software license, version 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ogdl-taiwan-1.0",
+    "name": "taiwan open government data license, version 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ogl-canada-2.0",
+    "name": "open government licence - canada",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ogl-uk-1.0",
+    "name": "open government licence v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ogl-uk-2.0",
+    "name": "open government licence v2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ogl-uk-3.0",
+    "name": "open government licence v3.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ogtsl",
+    "name": "open group test suite license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-1.1",
+    "name": "open ldap public license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-1.2",
+    "name": "open ldap public license v1.2",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-1.3",
+    "name": "open ldap public license v1.3",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-1.4",
+    "name": "open ldap public license v1.4",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.0",
+    "name": "open ldap public license v2.0 (or possibly 2.0a and 2.0b)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.0.1",
+    "name": "open ldap public license v2.0.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.1",
+    "name": "open ldap public license v2.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.2",
+    "name": "open ldap public license v2.2",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.2.1",
+    "name": "open ldap public license v2.2.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.2.2",
+    "name": "open ldap public license 2.2.2",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "oldap-2.3",
+    "name": "open ldap public license v2.3",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.4",
+    "name": "open ldap public license v2.4",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.5",
+    "name": "open ldap public license v2.5",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.6",
+    "name": "open ldap public license v2.6",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "oldap-2.7",
+    "name": "open ldap public license v2.7",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oldap-2.8",
+    "name": "open ldap public license v2.8",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "olfl-1.3",
+    "name": "open logistics foundation license version 1.3",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oml",
+    "name": "open market license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "openpbs-2.3",
+    "name": "openpbs v2.3 software license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "openssl",
+    "name": "openssl license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "openssl-standalone",
+    "name": "openssl license - standalone",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "openvision",
+    "name": "openvision license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "opl-1.0",
+    "name": "open public license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "opl-uk-3.0",
+    "name": "united    kingdom open parliament licence v3.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "opubl-1.0",
+    "name": "open publication license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "oset-pl-2.1",
+    "name": "oset public license version 2.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "osl-1.0",
+    "name": "open software license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "osl-1.1",
+    "name": "open software license 1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "osl-2.0",
+    "name": "open software license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "osl-2.1",
+    "name": "open software license 2.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "osl-3.0",
+    "name": "open software license 3.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "padl",
+    "name": "padl license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "parity-6.0.0",
+    "name": "the parity public license 6.0.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "parity-7.0.0",
+    "name": "the parity public license 7.0.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "pddl-1.0",
+    "name": "open data commons public domain dedication & license 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "php-3.0",
+    "name": "php license v3.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "php-3.01",
+    "name": "php license v3.01",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "pixar",
+    "name": "pixar license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "pkgconf",
+    "name": "pkgconf license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "plexus",
+    "name": "plexus classworlds license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "pnmstitch",
+    "name": "pnmstitch license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "polyform-noncommercial-1.0.0",
+    "name": "polyform noncommercial license 1.0.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "polyform-small-business-1.0.0",
+    "name": "polyform small business license 1.0.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "postgresql",
+    "name": "postgresql license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ppl",
+    "name": "peer production license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "psf-2.0",
+    "name": "python software foundation license 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "psfrag",
+    "name": "psfrag license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "psutils",
+    "name": "psutils license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "python-2.0",
+    "name": "python license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "python-2.0.1",
+    "name": "python license 2.0.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "python-ldap",
+    "name": "python ldap license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "qhull",
+    "name": "qhull license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "qpl-1.0",
+    "name": "q public license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "qpl-1.0-inria-2004",
+    "name": "q public license 1.0 - inria 2004 variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "radvd",
+    "name": "radvd license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "rdisc",
+    "name": "rdisc license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "rhecos-1.1",
+    "name": "red hat ecos public license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "rpl-1.1",
+    "name": "reciprocal public license 1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "rpl-1.5",
+    "name": "reciprocal public license 1.5",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "rpsl-1.0",
+    "name": "realnetworks public source license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "rsa-md",
+    "name": "rsa message-digest license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "rscpl",
+    "name": "ricoh source code public license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ruby",
+    "name": "ruby license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ruby-pty",
+    "name": "ruby pty extension license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sax-pd",
+    "name": "sax public domain notice",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sax-pd-2.0",
+    "name": "sax public domain notice 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "saxpath",
+    "name": "saxpath license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "scea",
+    "name": "scea shared source license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "schemereport",
+    "name": "scheme language report license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sendmail",
+    "name": "sendmail license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sendmail-8.23",
+    "name": "sendmail license 8.23",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sendmail-open-source-1.1",
+    "name": "sendmail open source license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sgi-b-1.0",
+    "name": "sgi free software license b v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sgi-b-1.1",
+    "name": "sgi free software license b v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "sgi-b-2.0",
+    "name": "sgi free software license b v2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sgi-opengl",
+    "name": "sgi opengl license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sgp4",
+    "name": "sgp4 permission notice",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "shl-0.5",
+    "name": "solderpad hardware license v0.5",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "shl-0.51",
+    "name": "solderpad hardware license, version 0.51",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "simpl-2.0",
+    "name": "simple public license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "sissl",
+    "name": "sun industry standards source license v1.1",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sissl-1.2",
+    "name": "sun industry standards source license v1.2",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sl",
+    "name": "sl license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "sleepycat",
+    "name": "sleepycat license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "smail-gpl",
+    "name": "smail general public license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "smlnj",
+    "name": "standard ml of new jersey license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "smppl",
+    "name": "secure messaging protocol public license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "snia",
+    "name": "snia public license 1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "snprintf",
+    "name": "snprintf license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sofa",
+    "name": "sofa software license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "softsurfer",
+    "name": "softsurfer license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "soundex",
+    "name": "soundex license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "spencer-86",
+    "name": "spencer license 86",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "spencer-94",
+    "name": "spencer license 94",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "spencer-99",
+    "name": "spencer license 99",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "spl-1.0",
+    "name": "sun public license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ssh-keyscan",
+    "name": "ssh-keyscan license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ssh-openssh",
+    "name": "ssh openssh license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ssh-short",
+    "name": "ssh short notice",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ssleay-standalone",
+    "name": "ssleay license - standalone",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sspl-1.0",
+    "name": "server side public license, v 1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "standardml-nj",
+    "name": "standard ml of new jersey license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sugarcrm-1.1.3",
+    "name": "sugarcrm public license v1.1.3",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sul-1.0",
+    "name": "sustainable use license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sun-ppp",
+    "name": "sun ppp license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sun-ppp-2000",
+    "name": "sun ppp license (2000)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "sunpro",
+    "name": "sunpro license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "swl",
+    "name": "scheme widget library (swl) software license agreement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "swrule",
+    "name": "swrule license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "symlinks",
+    "name": "symlinks license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tapr-ohl-1.0",
+    "name": "tapr open hardware license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tcl",
+    "name": "tcl/tk license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tcp-wrappers",
+    "name": "tcp wrappers license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "termreadkey",
+    "name": "termreadkey license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tgppl-1.0",
+    "name": "transitive grace period public licence 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "thirdeye",
+    "name": "thirdeye license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "threeparttable",
+    "name": "threeparttable license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tmate",
+    "name": "tmate open source license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "torque-1.1",
+    "name": "torque v2.5+ software license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tosl",
+    "name": "trusster open source license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tpdl",
+    "name": "time::parsedate license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tpl-1.0",
+    "name": "thor public license 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "trustedqsl",
+    "name": "trustedqsl license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ttwl",
+    "name": "text-tabs+wrap license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ttyp0",
+    "name": "ttyp0 license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tu-berlin-1.0",
+    "name": "technische universitaet berlin license 1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "tu-berlin-2.0",
+    "name": "technische universitaet berlin license 2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ubuntu-font-1.0",
+    "name": "ubuntu font licence v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ucar",
+    "name": "ucar license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ucl-1.0",
+    "name": "upstream compatibility license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ulem",
+    "name": "ulem license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "umich-merit",
+    "name": "michigan/merit networks license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "unicode-3.0",
+    "name": "unicode license v3",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "unicode-dfs-2015",
+    "name": "unicode license agreement - data files and software (2015)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "unicode-dfs-2016",
+    "name": "unicode license agreement - data files and software (2016)",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "unicode-tou",
+    "name": "unicode terms of use",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "unixcrypt",
+    "name": "unixcrypt license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "unlicense",
+    "name": "the unlicense",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "unlicense-libtelnet",
+    "name": "unlicense - libtelnet variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "unlicense-libwhirlpool",
+    "name": "unlicense - libwhirlpool variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "upl-1.0",
+    "name": "universal permissive license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "urt-rle",
+    "name": "utah raster toolkit run length encoded license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "vim",
+    "name": "vim license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "vostrom",
+    "name": "vostrom public license for open source",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "vsl-1.0",
+    "name": "vovida software license v1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "w3c",
+    "name": "w3c software notice and license (2002-12-31)",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "w3c-19980720",
+    "name": "w3c software notice and license (1998-07-20)",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "w3c-20150513",
+    "name": "w3c software notice and document license (2015-05-13)",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "w3m",
+    "name": "w3m license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "watcom-1.0",
+    "name": "sybase open watcom public license 1.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "widget-workshop",
+    "name": "widget workshop license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "wsuipa",
+    "name": "wsuipa license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "wtfpl",
+    "name": "do what the f*ck you want to public license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "wwl",
+    "name": "wwl license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": "2.0rc2",
+    "fsf-free-libre": null,
+    "id": "wxwindows",
+    "name": "wxwindows library license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "x11",
+    "name": "x11 license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "x11-distribute-modifications-variant",
+    "name": "x11 license distribution modification variant",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "x11-swapped",
+    "name": "x11 swapped final paragraphs",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "xdebug-1.03",
+    "name": "xdebug license v 1.03",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "xerox",
+    "name": "xerox license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "xfig",
+    "name": "xfig license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "xfree86-1.1",
+    "name": "xfree86 license 1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "xinetd",
+    "name": "xinetd license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "xkeyboard-config-zinoviev",
+    "name": "xkeyboard-config zinoviev license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "xlock",
+    "name": "xlock license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "xnet",
+    "name": "x.net license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "xpp",
+    "name": "xpp license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "xskat",
+    "name": "xskat license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "xzoom",
+    "name": "xzoom license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "ypl-1.0",
+    "name": "yahoo! public license v1.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "ypl-1.1",
+    "name": "yahoo! public license v1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "zed",
+    "name": "zed license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "zeeff",
+    "name": "zeeff license",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "zend-2.0",
+    "name": "zend license v2.0",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "zimbra-1.3",
+    "name": "zimbra public license v1.3",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "zimbra-1.4",
+    "name": "zimbra public license v1.4",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "zlib",
+    "name": "zlib license",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "zlib-acknowledgement",
+    "name": "zlib/libpng license with acknowledgement",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": null,
+    "id": "zpl-1.1",
+    "name": "zope public license 1.1",
+    "osi-approved": null
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "zpl-2.0",
+    "name": "zope public license 2.0",
+    "osi-approved": true
+  },
+  {
+    "Deprecated": null,
+    "fsf-free-libre": true,
+    "id": "zpl-2.1",
+    "name": "zope public license 2.1",
+    "osi-approved": true
+  }
+]
