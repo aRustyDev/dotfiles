@@ -1,3 +1,2 @@
-untrusted:
-    @# sed "s/^#auth/auth/" /etc/pam.d/sudo_local.template | sudo tee /etc/pam.d/sudo_local
-    @# defaults write com.apple.security.authorization ignoreArd -bool TRUE
+install:
+    @sudo cp sudo_local /etc/pam.d/sudo_local
