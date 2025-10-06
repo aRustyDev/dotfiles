@@ -2,6 +2,13 @@
 // ||| FILE MANAGED BY AUTOMATION     (Source: [ <dotfiles>/zed/settings/*.json ]) |||
 // === === === === === === === === === === === === === === === === === === === === ===
 {
+  "agent_servers": {
+    "Claude Code": {
+      "command": "/path/to/volta/bin/claude",
+      "args": [],
+      "env": {}
+    }
+  },
   "load_direnv": "shell_hook",
   "disable_ai": true,
   "diagnostics_max_severity": "hint",
@@ -29,9 +36,7 @@
       "tab_size": 2
     },
     "Sieve": {
-      "language_servers": [
-        "sieve_lsp"
-      ],
+      "language_servers": ["sieve_lsp"],
       "tab_size": 2,
       "hard_tabs": false,
       "preferred_line_length": 80,
@@ -41,23 +46,10 @@
     }
   },
   "file_types": {
-    "Diff": [
-      "dif"
-    ],
-    "C": [
-      "C",
-      "H"
-    ],
-    "Tide": [
-      "*.tide",
-      "*.td"
-    ],
-    "Sieve": [
-      "sieve",
-      "sv",
-      "*.sieve",
-      "*.sv"
-    ],
+    "Diff": ["dif"],
+    "C": ["C", "H"],
+    "Tide": ["*.tide", "*.td"],
+    "Sieve": ["sieve", "sv", "*.sieve", "*.sv"],
     "Git Config": [
       "$XDG_CONFIG_HOME/git/config",
       "$XDG_CONFIG_HOME/git/configs/*"
@@ -207,6 +199,11 @@
     "sqlc-snippets": false
   },
   "context_servers": {
+    "homebrew": {
+      "source": "custom",
+      "command": "brew",
+      "args": ["mcp-server"]
+    },
     "terraform-context-server": {
       "source": "extension",
       "enabled": true,
@@ -221,10 +218,7 @@
       "source": "custom",
       "enabled": true,
       "command": "npx",
-      "args": [
-        "-y",
-        "surrealdb-mcp-server"
-      ],
+      "args": ["-y", "surrealdb-mcp-server"],
       "env": {
         "SURREALDB_NS": "git-setup-rs",
         "SURREALDB_DB": "git-setup-rs",
