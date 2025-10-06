@@ -2,7 +2,11 @@
   "completions": [
     {
       "name": "rg",
-      "cmd": "--generate complete-[zsh|bash|fish|powershell]"
+      "cmd": "--generate complete-[bash|zsh|fish|powershell]"
+    },
+    {
+      "name": "container-use",
+      "cmd": "completion [bash|zsh|fish|powershell]"
     },
     {
       "name": "gh",
