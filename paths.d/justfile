@@ -1,1 +1,10 @@
 import '../.build/just/lib.just'
+
+all := shell("lsd -1 " + root + "/paths.d/paths")
+
+install:
+    @echo "Installing dotfiles..."
+    @sudo cp /etc/paths.d/* "{{root}}"/paths.d/bak/
+    @for p in $(lsd -1 "{{root}}/paths.d/paths"); do \
+        cat "{{root}}/paths.d/paths/$p" | envsubst | sudo tee "/etc/paths.d/$p" > /dev/null; \
+    done
