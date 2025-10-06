@@ -1,5 +1,4 @@
-#Url: =~"^https://.*" // Must be unique in array, dont contain "([Oo]thers?)"
-#Tags: "python"|"sync"|"fix"|"format"|"lint"|"png"|"images"|"json"|"yaml"|"github"|"gha"|"cicd"|"spelling"|"markdown"|"toc"|"prose"|"ruby"|"swift"|"terraform"|"protobuf"|"sql"|"cloudformation"|"jsonnet"|"lua"|"make"|"just"|"jupyter"|"commits-msg"|"git"|"secrets"|"rust"|"go"|"roc"|"powershell"|"zsh"|"shell"|"bash"|"sh"|"fish"|"nushell"|"elvish"|"c"|"cpp"|"objc"|"java"|"kotlin"|"tide"|"mermaid"|"mdbook"|"awk"|"jq"|"yq"|"toml"|"ini"|"env"|"direnv"|"gitlab"|"cue"|"sed"|"cli" // Valid tags
+#SpdxId: "python"|"sync"|"fix"|"format"|"lint"|"png"|"images"|"json"|"yaml"|"github"|"gha"|"cicd"|"spelling"|"markdown"|"toc"|"prose"|"ruby"|"swift"|"terraform"|"protobuf"|"sql"|"cloudformation"|"jsonnet"|"lua"|"make"|"just"|"jupyter"|"commits-msg"|"git"|"secrets"|"rust"|"go"|"roc"|"powershell"|"zsh"|"shell"|"bash"|"sh"|"fish"|"nushell"|"elvish"|"c"|"cpp"|"objc"|"java"|"kotlin"|"tide"|"mermaid"|"mdbook"|"awk"|"jq"|"yq"|"toml"|"ini"|"env"|"direnv"|"gitlab"|"cue"|"sed"|"cli" // Valid tags
 
 #Repo: {
     name: string // Must be unique in array != "todo"
