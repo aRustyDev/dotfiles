@@ -1,7 +1,9 @@
 [core]
+    # on Windows use true, on Mac/Linux use input
     autocrlf = input
     pager = delta
     editor = nvim
+    attributesFile = ${XDG_CONFIG_HOME}/git/attributes
 
 [interactive]
     diffFilter = delta --color-only

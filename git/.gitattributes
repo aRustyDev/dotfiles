@@ -1,0 +1,117 @@
+######################################################################
+# gitattributes(5) describes the format and usage of this file.
+#
+# References:
+# https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html
+# https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases
+# https://git-scm.com/docs/gitattributes
+#
+# Note: When more than one pattern matches the path,
+#       a later line overrides an earlier line.
+#
+# Show indexed files EOL
+#   - git ls-files --eol
+#
+# Update EOL in local repo
+#   - git add --renormalize .
+#
+# Update existing EOL in your working tree
+#   - git rm --cached -r .
+#   - git reset --hard
+#
+######################################################################
+# All files are checked into the repo with LF
+* text=auto
+
+# By default, all files are text and retain LF endings, even on Windows.
+# https://help.github.com/articles/dealing-with-line-endings
+*.txt		text
+*.sh		text eol=lf
+
+# Files that are windows exclusive and should be checked out with CRLF
+*.bat       text=auto eol=crlf
+*.vcproj	text=auto eol=crlf
+
+# Image files are binary.
+# "binary" is an alias for "-text -diff".
+*.png       binary
+*.jpg		binary
+
+# ======================================================
+# Use built-in patterns to generate smarter diff text.
+# http://urbanautomaton.com/blog/2011/07/28/git-grep-and-language-specific-diffs/
+# ======================================================
+# suitable for source code in the Ada language.
+*.ada       diff=ada
+# suitable for source code in the Bourne-Again SHell language. Covers a superset of POSIX shell function definitions.
+*.sh        diff=bash
+# suitable for files with BibTeX coded references.
+*.bib       diff=bibtex
+# suitable for source code in the C and C++ languages.
+*.cpp       diff=cpp
+*.c         diff=cpp
+# suitable for source code in the C# language.
+*.cs        diff=csharp
+# suitable for cascading style sheets.
+*.css       diff=css
+# suitable for devicetree (DTS) files.
+*.dts       diff=dts
+*.dtb       diff=dts
+*.dtsi      diff=dts
+*.overlay   diff=dts
+# suitable for source code in the Elixir language.
+*.exs       diff=elixir
+*.ex        diff=elixir
+# suitable for source code in the Fortran language.
+*.for       diff=fortran
+*.f90       diff=fortran
+*.f95       diff=fortran
+*.f03       diff=fortran
+*.f08       diff=fortran
+*.f         diff=fortran
+# suitable for Fountain documents.
+*.spmd      diff=fountain
+# suitable for source code in the Go language.
+*.go        diff=golang
+# suitable for HTML/XHTML documents.
+*.html      diff=html
+# suitable for source code in the Java language.
+*.java      diff=java
+*.jar       diff=java
+*.class     diff=java
+*.js        diff=java
+# suitable for source code in the Kotlin language.
+*.kt        diff=kotlin
+*.kts       diff=kotlin
+# suitable for Markdown documents.
+*.md        diff=markdown
+# suitable for source code in the MATLAB and Octave languages.
+*.mat       diff=matlab
+# suitable for source code in the Objective-C language.
+*.mm        diff=objc
+*.m         diff=objc
+# suitable for source code in the Pascal/Delphi language.
+*.pas       diff=pascal
+*.pp        diff=pascal
+*.p         diff=pascal
+# suitable for source code in the Perl language.
+*.pl        diff=perl
+# suitable for source code in the PHP language.
+*.php       diff=php
+# suitable for source code in the Python language.
+*.py        diff=python
+# suitable for source code in the Ruby language.
+*.rb        diff=ruby
+# suitable for source code in the Rust language.
+*.rs        diff=rust
+# suitable for source code in the Scheme language.
+*.scm       diff=scheme
+# suitable for source code for LaTeX documents.
+*.tex       diff=tex
+
+
+
+# Allow blank lines at the end of these files.
+# https://git-scm.com/docs/gitattributes#_checking_whitespace_errors
+# https://git-scm.com/docs/git-config#git-config-corewhitespace
+# app/etc/issue whitespace=-blank-at-eof
