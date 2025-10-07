@@ -62,6 +62,156 @@
     "cask": false,
     "channel": null,
     "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "stow",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "pass",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": true,
+    "channel": "nightly",
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "1password",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": true,
+    "channel": "beta",
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "1password",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": true,
+    "channel": "7",
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "1password",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "1password",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": "beta",
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "1password-cli",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": "1",
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "1password-cli",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "1password-cli",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "pass-git-helper",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "pass-otp",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "go-passbolt-cli",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": true,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "orbstack",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "docker",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
+    "dependencies": ["todo"],
+    "licenses": ["todo"],
+    "name": "docker-compose",
+    "tap": null,
+    "url": "todo"
+  },
+  {
+    "cask": false,
+    "channel": null,
+    "conflicts": ["todo"],
     "dependencies": ["go"],
     "licenses": ["MIT"],
     "name": "archiver",
