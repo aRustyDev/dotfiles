@@ -4,7 +4,6 @@
       "name": "My SSH Key",
       "kind": "ssh",
       "vault": "vault-uuid",
-      "account": "item-id",
       "item": "item-id",
       "tags": []
     },
@@ -12,8 +11,14 @@
       "name": "My certificate",
       "kind": "certificate",
       "vault": "vault-uuid",
-      "account": "item-id",
       "item": "item-id",
+      "tags": []
+    },
+    {
+      "name": "ext-hd",
+      "kind": "pass",
+      "vault": "4yrzc7fzlpccfxbzjjxswxo3je",
+      "item": "k6xszrbukkeymijvevkoz7eowy",
       "tags": []
     }
   ]
