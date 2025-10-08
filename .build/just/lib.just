@@ -76,3 +76,12 @@ _lib_docker s d:
     docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix zshrc:latest
 
 _update_lines_of_code:
+
+# Get OP Vault/Item ID by Name
+op_id vault item="":
+    #!/usr/bin/env bash
+    v="{{vault}}"
+    i="{{item}}"
+    args="{{ if item == "" { "--format=json" } else { "--format=json --vault $v" } }}"
+    subj="{{ if item == "" { "vault" } else { "item" } }}"
+    op $subj list $args | jq -r --arg n "{{ if item == "" { vault } else { item } }}" '.[] | select( .{{ if item == "" { "name" } else { "title" } }} == $n ) | .id'
