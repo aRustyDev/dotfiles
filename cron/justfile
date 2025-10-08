@@ -7,3 +7,6 @@ install:
     @mkdir -p "{{cache}}/cron"
     @echo "{'cache': '{{cache}}', 'brew':'{{brew}}'}" | mustache templates/brew.mustache | envsubst > just.cron
     @crontab just.cron
+
+clean:
+    rm *.cron
