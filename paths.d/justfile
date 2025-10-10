@@ -1,6 +1,7 @@
 import '../.build/just/lib.just'
 
 all := shell("lsd -1 " + root + "/paths.d/paths")
+export BREW_PREFIX := shell(require("brew") + " --prefix")
 
 install:
     @echo "Installing dotfiles..."
@@ -8,3 +9,11 @@ install:
     @for p in $(lsd -1 "{{root}}/paths.d/paths"); do \
         cat "{{root}}/paths.d/paths/$p" | envsubst | sudo tee "/etc/paths.d/$p" > /dev/null; \
     done
+
+test:
+    @echo "Testing paths.d files..."
+    @for p in $(lsd -1 "{{root}}/paths.d/paths"); do \
+        echo "Testing $p..."; \
+        diff -u "/etc/paths.d/$p" <(cat "{{root}}/paths.d/paths/$p" | envsubst) || exit 1; \
+    done
+    @echo "All tests passed!"

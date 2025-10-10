@@ -1,1 +1,4 @@
 $CARGO_HOME/bin
+$HOME/.rustup/toolchains/beta-aarch64-apple-darwin/bin
+$HOME/.rustup/toolchains/nightly-aarch64-apple-darwin/bin
+$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin
