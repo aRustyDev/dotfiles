@@ -21,6 +21,16 @@
 - `archiver`: update tap w/ conflicts
 - `grv`: update tap w/ proper tap documenation (brew tap \*)
 
+## Entries
+
+```markdown
+- mas + `mas install xcode`
+- swift
+- swiftc
+- xcrun
+- xcodebuild
+```
+
 ## Healthchecks
 
 - conflicts != []
