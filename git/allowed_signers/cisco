@@ -1,3 +1,3 @@
-"op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/email" namespaces="file,git" op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/public key
-"op://Cisco/eztnkttd546q64o3e6rnqb4tcq/email" namespaces="file,git" op://Cisco/eztnkttd546q64o3e6rnqb4tcq/public key
-"op://Cisco/akn3gslikqn2py6xki5ncxi254/email" namespaces="file,git" op://Cisco/akn3gslikqn2py6xki5ncxi254/public key
+"{{op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/email}}" namespaces="file,git" {{ op://Cisco/fkkv2ntnwxdz3pmbx5nd6tnqgy/public key }}
+"{{op://Cisco/eztnkttd546q64o3e6rnqb4tcq/email}}" namespaces="file,git" {{ op://Cisco/eztnkttd546q64o3e6rnqb4tcq/public key }}
+"{{op://Cisco/akn3gslikqn2py6xki5ncxi254/email}}" namespaces="file,git" {{ op://Cisco/akn3gslikqn2py6xki5ncxi254/public key }}
