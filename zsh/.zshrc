@@ -10,17 +10,6 @@ echo "Shell init started: $(date +%s.%N)" >&2
 # ----------------------------------------
 # === === === === BREW REQ === === === ===
 # ----------------------------------------
-casks=(
-    antidote ffmpeg sevenzip poppler ripgrep \
-    resvg imagemagick helm kubectl atuin jq \
-    starship zoxide yazi lsd bat fzf nvim yq fd \
-    ansible just helm-ls 1password-cli@beta \
-    font-symbols-only-nerd-font tealdeer texinfo \
-    mise eza archiver pyenv k9s turbot/tap/steampipe \
-    zsh gawk grep gnu-sed coreutils shfmt \
-    shellcheck tenv kubectx
-)
-# brew install $casks
 
 # [doc](https://rhymeswithdiploma.com/2020/07/10/macos-is-at-least/)
 autoload -Uz is-at-least
@@ -175,6 +164,9 @@ typeset -U path cdpath fpath manpath
 # zprof
 
 echo "Shell ready: $(date +%s.%N)" >&2
+
+eval "$(atuin init zsh)"
+eval "$(starship init zsh)"
 
 source ${XDG_CONFIG_HOME:-$HOME/.config}/op/plugins.sh
 
