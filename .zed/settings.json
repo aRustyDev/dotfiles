@@ -199,6 +199,92 @@
     "sqlc-snippets": false
   },
   "context_servers": {
+    // docker mcp server enable playwright
+    // docker mcp oauth authorize github
+    // docker mcp server enable github-official
+    // "git": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": ["run", "-i", "--rm", "git"]
+    // },
+    // "time": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": ["run", "-i", "--rm", "time"]
+    // },
+    // "sqlite": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": ["run", "-i", "--rm", "sqlite"]
+    // },
+    // "fetch": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": ["run", "-i", "--rm", "fetch"]
+    // },
+    // "sequentialthinking": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": ["run", "-i", "--rm", "sequentialthinking"]
+    // },
+    // "puppeteer": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": [
+    //     "run",
+    //     "-i",
+    //     "--rm",
+    //     "--init",
+    //     "-e",
+    //     "DOCKER_CONTAINER=true",
+    //     "puppeteer"
+    //   ]
+    // },
+    // "postgres": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": [
+    //     "run",
+    //     "-i",
+    //     "--rm",
+    //     "postgres",
+    //     "postgresql://host.docker.internal:5432/mydb"
+    //   ]
+    // },
+    // "memory": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": ["run", "-i", "--rm", "memory"]
+    // },
+    // "google-maps": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": ["run", "-i", "--rm", "-e", "GOOGLE_MAPS_API_KEY", "google-maps"],
+    //   "env": {
+    //     "GOOGLE_MAPS_API_KEY": "YOUR-KEY-HERE"
+    //   }
+    // },
+    // "filesystem": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": [
+    //     "run",
+    //     "-i",
+    //     "--rm",
+    //     "--mount",
+    //     "type=bind,src=/path/to/your/local/folder,dst=/projects/bot-env",
+    //     "filesystem",
+    //     "/projects"
+    //   ]
+    // },
+    // "brave-search": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": ["run", "-i", "--rm", "-e", "BRAVE_API_KEY", "brave-search"],
+    //   "env": {
+    //     "BRAVE_API_KEY": "YOUR-KEY-HERE"
+    //   }
+    // },
     "homebrew": {
       "source": "custom",
       "command": "brew",
