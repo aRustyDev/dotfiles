@@ -1,0 +1,181 @@
+# https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data
+zendir := env("HOME") + "/Library/Caches/zen/Profiles/"
+profiles := "w9lwxj10"
+macos_domain := "app.zen-browser.zen"
+
+install:
+    just storage
+    just site-preferences
+    just chrome
+    just bookmarks-history
+    just cookies
+    just saved-passwords
+    just add-ons
+    just search-engine-preferences
+    just open-tabs
+    just config-settings
+    just ls-instructions
+
+backup:
+    require("sqlite3") zen/data/db/cert9.db .dump > cert9.txt
+
+# If you want to keep add-on customizations (this may not work 100% of the time).
+storage:
+    ls storage
+
+storage-bak:
+    ls storage
+
+site-preferences:
+    ls permissions.sqlite
+    ls content-prefs.sqlite
+
+site-preferences-bak:
+    ls permissions.sqlite
+    ls content-prefs.sqlite
+
+dictionary:
+    ls persdict.dat
+
+dictionary-bak:
+    ls persdict.dat
+
+autocomplete-history:
+    ls formhistory.sqlite
+
+autocomplete-history-bak:
+    ls formhistory.sqlite
+
+dom-storage:
+    ls webappsstore.sqlite
+    ls chromeappsstore.sqlite
+
+dom-storage-bak:
+    ls webappsstore.sqlite
+    ls chromeappsstore.sqlite
+
+# If you want to retain your interface customizations.
+chrome:
+    ls chrome
+
+chrome-bak:
+    ls chrome
+
+# Contains bookmarks and history.
+bookmarks-history:
+    ls places.sqlite
+
+bookmarks-history-bak:
+    ls places.sqlite
+
+# Stores login sessions.
+cookies:
+    ls cookies.sqlite
+
+cookies-bak:
+    require("sqlite3") zen/data/db/cookies.sqlite  .dump > cookies.txt
+
+security-devices:
+    ls pkcs11.txt
+
+security-devices-bak:
+    ls pkcs11.txt
+
+download-preferences:
+    ls handlers.json
+
+download-preferences-bak:
+    ls handlers.json
+
+# Holds your saved passwords.
+saved-passwords:
+    ls cert9.db # Security certificate settings
+    ls key4.db
+    ls logins.json
+
+saved-passwords-bak:
+    require("sqlite3") zen/data/db/cert9.db  .dump > cert9.txt
+    require("sqlite3") zen/data/db/key4.d  .dump > key4.txt
+    cp "{{zendir}}/logins.json" data/logins.json
+
+# These files keep track of your installed add-ons (but not their custom settings).
+add-ons:
+    ls extension-preferences.json
+    ls extensions.json
+    ls extension-settings.json
+    ls extensions
+
+add-ons-bak:
+    ls extension-preferences.json
+    ls extensions.json
+    ls extension-settings.json
+    ls extensions
+
+# Stores your search engine preferences.
+search-engine-preferences:
+    ls search.json.mozlz4
+
+search-engine-preferences-bak:
+    ls search.json.mozlz4
+
+window-dialog-settings:
+    ls xulstore.json
+
+window-dialog-settings-bak:
+    ls xulstore.json
+
+# Saves your currently open tabs.
+open-tabs:
+    ls sessionCheckpoints.json
+    ls sessionstore.jsonlz4
+
+open-tabs-bak:
+    ls sessionCheckpoints.json
+    ls sessionstore.jsonlz4
+
+containers:
+    ls containers.json
+
+containers-bak:
+    ls containers.json
+
+# Contains your about:config settings
+# User preferences
+config-settings:
+    ls prefs.js
+
+config-settings-bak:
+    ls prefs.js
+
+ls-instructions:
+    #!/usr/bin/env bash
+    cat << EOF
+    Go to about:profiles in Firefox.
+    Click on "Create a New Profile."
+    Select a folder to store the new profile.
+    Launch Firefox with the new profile.
+    Go to about:support again and open the profile folder for the new profile.
+    Turn off Firefox.
+    Paste the files you copied earlier into the new profile folder.
+    After ensuring everything works correctly, go back to about:profiles and set the newly created profile as the default.
+    This will make it your main profile moving forward.
+    EOF
+
+onepassword:
+    sudo mkdir /etc/1password
+    sudo touch /etc/1password/custom_allowed_browsers
+    echo "zen-bin" | sudo tee -a /etc/1password/custom_allowed_browsers
+
+onepassword-bak:
+    sudo mkdir /etc/1password
+    sudo touch /etc/1password/custom_allowed_browsers
+    echo "zen-bin" | sudo tee -a /etc/1password/custom_allowed_browsers
+
+# activity-stream.discovery_stream.json
+# safebrowsing
+# activity-stream.inferred_personalization_feed.json
+# settings
+# activity-stream.weather_feed.json
+# startupCache
+# cache2
+# thumbnails
