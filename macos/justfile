@@ -1,1 +1,21 @@
 import '../.build/just/lib.just'
+
+# https://macos-defaults.com/
+
+settings:
+    defaults write com.apple.dock "autohide" -bool "true" && killall Dock
+    defaults write com.apple.dock "autohide-delay" -float "0.1" && killall Dock
+    defaults write com.apple.dock "tilesize" -int "36" && killall Dock
+    defaults write com.apple.dock "show-recents" -bool "false" && killall Dock
+    defaults write com.apple.screencapture "location" -string "~/Pictures" && killall SystemUIServer
+    defaults write com.apple.finder "AppleShowAllFiles" -bool "false" && killall Finder
+    defaults write com.apple.finder "ShowPathbar" -bool "true" && killall Finder
+    defaults write com.apple.finder "FXPreferredViewStyle" -string "clmv" && killall Finder
+    defaults write com.apple.finder "_FXSortFoldersFirst" -bool "true" && killall Finder
+    defaults write com.apple.finder "FXDefaultSearchScope" -string "SCcf" && killall Finder
+    defaults write com.apple.finder "FXRemoveOldTrashItems" -bool "true" && killall Finder
+    defaults write NSGlobalDomain "AppleShowAllExtensions" -bool "false" && killall Finder
+    defaults write NSGlobalDomain "NSDocumentSaveNewDocumentsToCloud" -bool "false"
+    defaults write NSGlobalDomain com.apple.mouse.linear -bool "false"
+    defaults write NSGlobalDomain com.apple.mouse.scaling -float "1"
+    defaults write NSGlobalDomain AppleKeyboardUIMode -int "2"
