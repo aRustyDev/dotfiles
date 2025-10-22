@@ -107,6 +107,12 @@ export THEMES_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/themes"
 # ||   Tool Configs                                                                ||
 # === === === === === === === === === === === === === === === === === === === === ===
 
+# --- [ 1PW ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+export OP_SIGN="/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+export OP_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/op"
+export OP_AGENT_TOML="${XDG_CONFIG_HOME:-$HOME/.config}/1Password/ssh/agent.toml"
+
 # --- [ Ansible ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/config.ini"
@@ -133,6 +139,34 @@ export CARGO_STATE="${XDG_STATE_HOME:-$HOME/.local/state}/cargo"
 # export RUSTUP_TERM_COLOR
 # export RUSTUP_AUTO_INSTALL=1
 
+# --- [ Cloud: AWS ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+export AWS_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/cloud/aws/config"
+export AWS_SHARED_CREDENTIALS_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/cloud/aws/creds"
+export AWS_DATA_PATH="${XDG_DATA_HOME:-$HOME/.config}/cloud/aws"
+if [[ $(hostname) == "ADAMSM-M-7L95" ]]; then
+    export AWS_DEFAULT_REGION="us-east-1"
+    export AWS_PROFILE="c4p-ite-devops-admin"
+else
+    export AWS_DEFAULT_REGION="us-gov-west-1"
+fi
+export EKSCTL_ENABLE_CREDENTIAL_CACHE=1
+
+# --- [ Ghostty ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+export GHOSTTY_RESOURCES_DIR="/Applications/Ghostty.app/Contents/Resources/ghostty"
+
+# --- [ GIT ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+export GIT_CONFIG_GLOBAL="${XDG_CONFIG_HOME:-$HOME/.config}/git/config" # path to the global (per-user) configuration file
+# GIT_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/git/config" # Should only be set for --local
+# export GIT_CONFIG_SYSTEM= # path to the system-level configuration file
+# export GIT_CONFIG_NOSYSTEM= # disables the use of the system-wide configuration file
+# export GIT_DIR= # The location of the .git folder.
+export GIT_EDITOR=$EDITOR # The editor Git will launch for commit messages, etc.
+export GIT_PAGER=$PAGER # The pager used for multi-page output.
+# export GIT_EXEC_PATH= # Where Git looks for its sub-programs.
+
 # --- [ GO ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 export GOBIN="${XDG_BIN_HOME:-$HOME/.local/bin}/go/bin"
 # export GOCACHE='$HOME/Library/Caches/go-build'
@@ -148,23 +182,6 @@ export GOPATH="${XDG_CONFIG_HOME:-$HOME/.config}/go"
 # export GOWORK=''
 # export PKG_CONFIG='pkg-config'
 
-# --- [ GIT ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-export GIT_CONFIG_GLOBAL="${XDG_CONFIG_HOME:-$HOME/.config}/git/config" # path to the global (per-user) configuration file
-# GIT_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/git/config" # Should only be set for --local
-# export GIT_CONFIG_SYSTEM= # path to the system-level configuration file
-# export GIT_CONFIG_NOSYSTEM= # disables the use of the system-wide configuration file
-# export GIT_DIR= # The location of the .git folder.
-export GIT_EDITOR=$EDITOR # The editor Git will launch for commit messages, etc.
-export GIT_PAGER=$PAGER # The pager used for multi-page output.
-# export GIT_EXEC_PATH= # Where Git looks for its sub-programs.
-
-# --- [ 1PW ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-export OP_SIGN="/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-export OP_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/op"
-export OP_AGENT_TOML="${XDG_CONFIG_HOME:-$HOME/.config}/1Password/ssh/agent.toml"
-
 # --- [ Kube: Configs ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 export KUBECONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/kube/config"
@@ -176,27 +193,15 @@ export KUBE_EDITOR=$EDITOR
 export KREW_ROOT="${XDG_BIN_HOME:-$HOME/.local/bin}/krew/bin"
 export KREW_NO_UPGRADE_CHECK=0
 
-# --- [ Ghostty ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-export GHOSTTY_RESOURCES_DIR="/Applications/Ghostty.app/Contents/Resources/ghostty"
-
-# --- [ Cloud: AWS ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-export AWS_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/cloud/aws/config"
-export AWS_SHARED_CREDENTIALS_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/cloud/aws/creds"
-export AWS_DATA_PATH="${XDG_DATA_HOME:-$HOME/.config}/cloud/aws"
-if [[ $(hostname) == "ADAMSM-M-7L95" ]]; then
-    export AWS_DEFAULT_REGION="us-east-1"
-    export AWS_PROFILE="c4p-ite-devops-admin"
-else
-    export AWS_DEFAULT_REGION="us-gov-west-1"
-fi
-export EKSCTL_ENABLE_CREDENTIAL_CACHE=1
-
 # --- [ NODE: Volta ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 export VOLTA_HOME=$XDG_CONFIG_HOME/volta
 export VOLTA_FEATURE_PNPM=1
+
+# --- [ PyEnv ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+export PYENV_ROOT="${XDG_CONFIG_HOME:-$HOME/.config}/pyenv"
+export PYENV_SHELL=zsh
 
 # --- [ RipGrep ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -211,11 +216,6 @@ export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/ripgrep/config"
 
 export STARSHIP_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/starship/config.toml"
 export STARSHIP_CACHE="${XDG_CACHE_HOME:-$HOME/.local/cache}/starship/cache"
-
-# --- [ PyEnv ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-export PYENV_ROOT="${XDG_CONFIG_HOME:-$HOME/.config}/pyenv"
-export PYENV_SHELL=zsh
 
 # --- [ Stow ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
