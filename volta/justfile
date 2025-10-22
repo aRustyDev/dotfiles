@@ -1,0 +1,115 @@
+domains := "nodejs.org yarnpkg.com registry.npmjs.org www.npmjs.com"
+
+root := `git rev-parse --show-toplevel`
+brew_root := `brew --prefix`
+unbound_conf := brew_root + "/etc/unbound/unbound.conf"
+log_dir := cache_directory() + "/unbound"
+voltad := root + "/volta"
+gobin := env_var("GOPATH") + "/bin"
+local_ip := "127.0.0.2"
+
+# Ensure we fail on errors inside recipe shell blocks
+set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
+
+# Stop unbound, delete resolver files & restart mDNSResponder
+clean:
+    #!/usr/bin/env bash
+    set +e
+    sudo brew services stop unbound >/dev/null 2>&1 || true
+    just accounts delete
+    for domain in {{domains}}; do
+        sudo rm -f "/etc/resolver/$domain"
+    done
+    rm -rf "{{log_dir}}"
+    sudo dscacheutil -flushcache || true
+    sudo killall -HUP mDNSResponder || true
+    brew uninstall unbound || true
+    echo "==> Clean complete."
+
+install:
+    cp {{voltad}}/justfile $VOLTA_HOME/justfile
+    cp {{voltad}}/*.mustache $VOLTA_HOME/templates/
+    cp {{voltad}}/*.jq $VOLTA_HOME/jq/
+
+mktree:
+    mkdir -p $VOLTA_HOME
+    mkdir -p $VOLTA_HOME/templates
+    mkdir -p $VOLTA_HOME/jq
+
+# Startup unbound to support Volta
+init: install-prereqs
+    #!/usr/bin/env bash
+    mkdir -p "{{log_dir}}"
+    # ensure config exists (abort if missing)
+    doggo --short --json {{domains}} | jq --arg u "$(whoami)" --arg dns "{{local_ip}}" -f doggo.jq | mustache {{voltad}}/unbound.mustache > {{unbound_conf}}
+
+    # Create /etc/resolver entries (idempotent)
+    sudo mkdir -p /etc/resolver
+    for domain in {{domains}}; do
+        tmpfile=$(mktemp)
+        echo "nameserver {{local_ip}}" > "$tmpfile"
+        # Replace only if content changed
+        if ! sudo cmp -s "$tmpfile" "/etc/resolver/$domain"; then
+            sudo mv "$tmpfile" "/etc/resolver/$domain"
+        else
+            rm "$tmpfile"
+        fi
+    done
+
+    # Restart unbound to ensure new config + log path picked up
+    sudo brew services restart unbound
+    echo "==> unbound active. Verify with: just verify-dns"
+
+accounts action="create":
+    just dscl-group "{{action}}"
+    just dscl-user "{{action}}"
+    sudo dscl . -"{{action}}" /Groups/_unbound GroupMembership _unbound
+    # sudo unbound-anchor -a /usr/local/etc/unbound/root.key
+    # sudo unbound-control-setup -d /usr/local/etc/unbound
+
+dscl-group action="create":
+    sudo dscl . -"{{action}}" /Groups/_unbound
+    sudo dscl . -"{{action}}" /Groups/_unbound PrimaryGroupID 333
+
+dscl-user action="create":
+    sudo dscl . -"{{action}}" /Users/_unbound
+    sudo dscl . -"{{action}}" /Users/_unbound RecordName _unbound unbound
+    sudo dscl . -"{{action}}" /Users/_unbound RealName "Unbound DNS server"
+    sudo dscl . -"{{action}}" /Users/_unbound UniqueID 333
+    sudo dscl . -"{{action}}" /Users/_unbound PrimaryGroupID 333
+    sudo dscl . -"{{action}}" /Users/_unbound UserShell /usr/bin/false
+    sudo dscl . -"{{action}}" /Users/_unbound Password '*'
+
+# unbound, doggo (new 'dig'), jq, golang, mustache (templating)
+install-prereqs:
+    brew list unbound >/dev/null 2>&1 || brew install unbound
+    brew list doggo >/dev/null 2>&1 || brew install doggo
+    brew list jq >/dev/null 2>&1 || brew install jq
+    brew list golang >/dev/null 2>&1 || brew install golang
+    ls {{gobin}}/mustache || go install github.com/cbroglie/mustache/cmd/mustache@latest
+
+# Debug your connection
+verify-dns:
+    #!/usr/bin/env bash
+    echo "---- scutil --dns (filtered) ----"
+    scutil --dns | grep -A2 'resolver #'
+    echo "---- dig ------------------------"
+    for domain in {{domains}}; do
+        echo "[ $domain ] : dig +short AAAA @{{local_ip}}"
+        dig +short AAAA $domain @{{local_ip}} || true
+        echo "[ $domain ] : dig +short A @{{local_ip}}"
+        dig +short A $domain @{{local_ip}} || true
+    done
+    echo "curl -4 -I https://nodejs.org/dist/v20.16.0/node-v20.16.0-darwin-arm64.tar.gz "
+    curl -4 -I https://nodejs.org/dist/v20.16.0/node-v20.16.0-darwin-arm64.tar.gz
+    sudo lsof -nP -iUDP:53 -iTCP:53
+
+# Add VOLTA vars to bashrc & zshrc
+persist-envs:
+    #!/usr/bin/env bash
+    if [ ! grep "VOLTA_" $HOME/.bashrc ]; then
+        cat .env >> $HOME/.bashrc;
+    if
+    if [ ! grep "VOLTA_" ${ZDOTDIR:-$HOME}/.zshrc ]; then
+        cat .env >> ${ZDOTDIR:-$HOME}/.zshrc;
+    if
