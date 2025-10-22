@@ -212,6 +212,11 @@ export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/ripgrep/config"
 export STARSHIP_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/starship/config.toml"
 export STARSHIP_CACHE="${XDG_CACHE_HOME:-$HOME/.local/cache}/starship/cache"
 
+# --- [ PyEnv ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+export PYENV_ROOT="${XDG_CONFIG_HOME:-$HOME/.config}/pyenv"
+export PYENV_SHELL=zsh
+
 # --- [ Stow ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 # export STOW_DIR=$HOME
