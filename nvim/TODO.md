@@ -36,3 +36,28 @@ not sure how to integrate it into nvim, but want to explore this.
 - [MrJakob-1.5a]: https://www.youtube.com/watch?v=jbJjW3YCG_s "MrJakob: .editorconfig"
 - [MrJakob-1.5b]: https://www.youtube.com/watch?v=DUleGgw-XKo "MrJakob: guess-indent.nvim"
 - [MrJakob-2]: https://www.youtube.com/watch?v=E4qXZv34NQQ "MrJakob: Treesitter, Textobjects & which-key"
+- [dotfyles]: https://dotfyle.com/neovim/plugins/trending
+
+lewis6991/gitsigns.nvim
+rcarriga/nvim-notify
+folke/lazydev.nvim
+OXY2DEV/markview.nvim
+nvim-treesitter/nvim-treesitter-textobjects
+folke/snacks.nvim
+folke/sidekick.nvim
+nvim-telescope/telescope-media-files.nvim
+rafamadriz/friendly-snippets
+MunifTanjim/nui.nvim
+stevearc/conform.nvim
+nvim-lualine/lualine.nvim
+folke/noice.nvim
+kevinhwan91/nvim-ufo
+obsidian-nvim/obsidian.nvim
+catgoose/nvim-colorizer.lua
+folke/which-key.nvim
+folke/trouble.nvim
+mfussenegger/nvim-dap
+rcarriga/nvim-dap-ui
+stevearc/oil.nvim
+MeanderingProgrammer/render-markdown.nvim
+kylechui/nvim-surround
