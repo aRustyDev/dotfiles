@@ -61,3 +61,4 @@ rcarriga/nvim-dap-ui
 stevearc/oil.nvim
 MeanderingProgrammer/render-markdown.nvim
 kylechui/nvim-surround
+https://docs.gitlab.com/editor_extensions/neovim/setup/
