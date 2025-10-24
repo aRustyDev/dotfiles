@@ -1,0 +1,13 @@
+import '../.build/just/lib.just'
+
+# vet src/{{target}}/index.json
+vet target:
+    @cue vet -c {{cue}}/{{target}}.cue {{docs}}/{{target}}/index.json
+
+# vet all src/*/index.json files
+vet-all:
+    @for d in `find {{docs}} -type d -depth 1 | sed 's|{{docsd}}/||'`; do \
+        if [ -f "{{cued}}/$d.cue" ]; then \
+            just vet $d; \
+        fi; \
+    done
