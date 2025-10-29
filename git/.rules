@@ -1,0 +1,277 @@
+# Git Branching Strategy
+
+All branches should follow the pattern: `<type>/<user>/<issue-number>/<leaf>`
+- On branch creation, the `<leaf>` segment is optional.
+
+Examples
+```yaml
+- case: new branch
+  issue: 123
+  user: JohnSnow
+  type: feature
+# feat/JohnSnow/123/core
+```
+```yaml
+- case: some kind of work related to this feature, but modularizable into a leaf
+  issue: 123
+  user: JohnSnow
+  type: feature
+  leaf: add-login
+# feat/JohnSnow/123/add-login
+```
+
+---
+
+## Python Helper: Branch Name Generator
+
+Purpose: Provide a simple, copy‑pastable Python function an agent or developer can use to deterministically build a compliant branch name.
+
+Pattern enforced: `<type>/<user>/<issue-number>/<leaf>`
+
+### Rules Recap
+
+- type: Conventional Commit style. We normalize common aliases (e.g. "feature" → "feat", "bugfix" → "fix").
+- user: Pulled from `git config user.username` (preferred) or `git config user.name` (fallback). Sanitized (remove spaces and disallowed chars).
+- issue-number: Required. Must be a positive integer (string acceptable if convertible).
+- leaf: Optional. Defaults to `core`. Sanitized to a safe slug (`[a-z0-9][a-z0-9-_]*`).
+- Uppercase letters in the user segment are preserved (ex: `JohnSnow`).
+
+### Allowed / Normalized Types
+
+Allowed canonical types:
+`feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert`
+
+Accepted aliases (auto-mapped):
+- feature → feat
+- bugfix → fix
+
+### Sanitization Rules
+
+- user: keep `[A-Za-z0-9_.-]`; collapse repeated `.` or `-`; trim leading/trailing dots/dashes; must not become empty.
+- leaf: lowercase; convert spaces and `/` to `-`; strip invalid chars (keep `[a-z0-9-_]`); collapse `--`; default to `core` if empty after cleaning.
+- issue-number: must coerce to int > 0.
+
+### Failure Behavior
+
+- Raises `ValueError` with descriptive message if invalid inputs or missing git user identity.
+- No external dependencies.
+- Pure construction: does not create the git branch—caller runs git commands separately.
+
+### Python Function (copy/paste ready)
+
+```python
+def make_branch(issue_number, branch_type, leaf="core"):
+    """
+    Construct a git branch name following <type>/<user>/<issue-number>/<leaf>.
+
+    Parameters
+    ----------
+    issue_number : int | str
+        Positive issue/ticket number (coerced to int).
+    branch_type : str
+        Conventional commit style type (feat, fix, docs, style, refactor, perf,
+        test, build, ci, chore, revert) or an accepted alias ("feature", "bugfix").
+    leaf : str | None
+        Optional final path segment. Defaults to "core" if not provided/empty.
+
+    Returns
+    -------
+    str
+        Branch name string.
+
+    Raises
+    ------
+    ValueError
+        If inputs are invalid or git user identity cannot be determined.
+
+    Notes
+    -----
+    - Pulls user from `git config user.username` first, then `git config user.name`.
+    - Does not execute any git commands beyond reading config.
+    - Pure string constructor—does not create the branch.
+    """
+    import re
+    import subprocess
+
+    TYPE_ALIASES = {
+        "feat": "feat", "feature": "feat",
+        "fix": "fix", "bugfix": "fix",
+        "docs": "docs",
+        "style": "style",
+        "refactor": "refactor",
+        "perf": "perf",
+        "test": "test",
+        "build": "build",
+        "ci": "ci",
+        "chore": "chore",
+        "revert": "revert",
+    }
+
+    # Normalize type
+    if not isinstance(branch_type, str):
+        raise ValueError("branch_type must be a string")
+    key = branch_type.strip().lower()
+    if key not in TYPE_ALIASES:
+        allowed = sorted(set(TYPE_ALIASES.values()))
+        raise ValueError(
+            f"Unsupported branch type '{branch_type}'. Allowed: {', '.join(allowed)} "
+            "(aliases accepted: feature→feat, bugfix→fix)"
+        )
+    norm_type = TYPE_ALIASES[key]
+
+    # Coerce issue number
+    try:
+        issue_int = int(str(issue_number).strip())
+    except Exception as e:
+        raise ValueError(f"issue_number must be an integer-like value: {e}") from e
+    if issue_int <= 0:
+        raise ValueError("issue_number must be > 0")
+
+    # Resolve user from git config
+    def _git_config(cfg_key):
+        try:
+            out = subprocess.check_output(
+                ["git", "config", "--get", cfg_key],
+                stderr=subprocess.DEVNULL,
+                text=True,
+            ).strip()
+            return out or None
+        except Exception:
+            return None
+
+    user_raw = _git_config("user.username") or _git_config("user.name")
+    if not user_raw:
+        raise ValueError(
+            "Could not determine git user (tried user.username then user.name). Configure with:\n"
+            "  git config --global user.name 'Your Name'\n"
+            "  (optionally) git config --global user.username 'YourHandle'"
+        )
+
+    # Sanitize user: keep alnum, underscore, dot, dash
+    user_clean = re.sub(r"[^A-Za-z0-9_.-]+", "", user_raw)
+    user_clean = re.sub(r"[.-]{2,}", lambda m: m.group(0)[0], user_clean)  # collapse repeats
+    user_clean = user_clean.strip(".-")
+    if not user_clean:
+        raise ValueError(f"Derived empty user segment from raw '{user_raw}'")
+
+    # Leaf handling
+    leaf = "core" if not leaf else str(leaf)
+    leaf_work = leaf.lower()
+    leaf_work = leaf_work.replace("/", "-")
+    leaf_work = re.sub(r"\s+", "-", leaf_work)
+    leaf_work = re.sub(r"[^a-z0-9-_]", "", leaf_work)
+    leaf_work = re.sub(r"-{2,}", "-", leaf_work).strip("-")
+    if not leaf_work:
+        leaf_work = "core"
+
+    return f"{norm_type}/{user_clean}/{issue_int}/{leaf_work}"
+```
+
+### Usage Examples
+
+Generate ONLY the branch name (ad-hoc):
+```bash
+python - <<'PY'
+from pathlib import Path, re
+# Extract the function from this .rules file manually if not imported.
+# (For regular use, copy function to a helper module.)
+<PASTE FUNCTION HERE OR IMPORT>
+PY
+```
+
+Practical example (assuming you copied the function to `scripts/branch_name.py`):
+```bash
+python - <<'PY'
+from scripts.branch_name import make_branch
+print(make_branch(456, 'feature', 'add-login'))
+PY
+# feat/JohnSnow/456/add-login
+```
+
+Create the branch after generating the name:
+```bash
+BRANCH="$(python - <<'PY'
+from scripts.branch_name import make_branch
+print(make_branch(789, 'fix'))
+PY
+)"
+git fetch origin
+git switch -c "$BRANCH" origin/main
+```
+
+Inline one-liner (quick use; not recommended for long-term):
+```bash
+BRANCH=$(python - <<'PY'
+def make_branch(issue_number, branch_type, leaf="core"):
+    import re, subprocess
+    TYPE_ALIASES={"feat":"feat","feature":"feat","fix":"fix","bugfix":"fix","docs":"docs","style":"style","refactor":"refactor","perf":"perf","test":"test","build":"build","ci":"ci","chore":"chore","revert":"revert"}
+    key=branch_type.strip().lower()
+    if key not in TYPE_ALIASES: raise ValueError("Bad type")
+    t=TYPE_ALIASES[key]
+    i=int(issue_number)
+    def gc(k):
+        try: return subprocess.check_output(["git","config","--get",k],stderr=subprocess.DEVNULL,text=True).strip() or None
+        except: return None
+    u=gc("user.username") or gc("user.name")
+    if not u: raise SystemExit("Configure git user.name first")
+    u=re.sub(r"[^A-Za-z0-9_.-]+","",u).strip(".-")
+    leaf=leaf or "core"
+    lw=leaf.lower().replace("/","-")
+    import re as _r
+    lw=_r.sub(r"\s+","-",lw)
+    lw=_r.sub(r"[^a-z0-9-_]","",lw)
+    lw=_r.sub(r"-{2,}","-",lw).strip("-") or "core"
+    print(f"{t}/{u}/{i}/{lw}")
+print(make_branch(101, "feature"))
+PY
+)
+git switch -c "$BRANCH"
+```
+
+### Agent Instructions (Step-by-Step)
+
+Given: issue number (e.g. 342), work type (e.g. feature), optional leaf (e.g. parser-refine).
+
+1. Normalize the type using mapping (feature→feat, bugfix→fix).
+2. Retrieve git user:
+   - Try `git config --get user.username`
+   - Else `git config --get user.name`
+3. Sanitize user (remove invalid chars, trim separators).
+4. If leaf omitted, set to `core`; else sanitize to lowercase slug.
+5. Validate issue number > 0 integer.
+6. Assemble: `<type>/<user>/<issue-number>/<leaf>`
+7. Create the branch from base (usually main):
+   - `git fetch origin`
+   - `git switch -c <assembled> origin/main`
+
+### Validation Checklist
+
+- Branch type is in allowed list (after alias mapping).
+- Issue number > 0.
+- User segment non-empty after sanitization.
+- Leaf segment non-empty (defaults to core when blank).
+
+### Quick Validation Examples
+
+Input:
+- type: feature
+- issue: 101
+- user.name: "Jane Doe"
+Output user: JaneDoe
+Branch: `feat/JaneDoe/101/core`
+
+Input:
+- type: bugfix
+- issue: "202"
+- leaf: "improve parser"
+Branch: `fix/JaneDoe/202/improve-parser`
+
+Input:
+- type: chore
+- issue: 15
+- leaf: "deps"
+Branch: `chore/JaneDoe/15/deps`
+
+---
+
+End of helper section.

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/nix/git/schemas/make_branch-input.schema.json",
+  "title": "make_branch input",
+  "description": "Schema describing the valid input object for the make_branch(issue_number, branch_type, leaf='core') function.\nThe function builds a git branch name in the form <type>/<user>/<issue-number>/<leaf>.\nThis schema validates only the direct call inputs (issue_number, branch_type, leaf). User resolution is performed internally from git config.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["issue_number", "branch_type"],
+  "properties": {
+    "issue_number": {
+      "description": "Positive issue / ticket number. The function accepts either an integer or a string that can be losslessly coerced to a positive integer.",
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$"
+        }
+      ],
+      "examples": [42, "101"]
+    },
+    "branch_type": {
+      "description": "Conventional commit style type or accepted alias. Aliases are normalized internally (feature→feat, bugfix→fix).",
+      "type": "string",
+      "enum": [
+        "feat",
+        "feature",
+        "fix",
+        "bugfix",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test",
+        "build",
+        "ci",
+        "chore",
+        "revert"
+      ],
+      "examples": ["feature", "fix", "refactor"]
+    },
+    "leaf": {
+      "description": "Optional final path segment. If omitted or empty the function defaults to 'core'. Will be sanitized to lowercase with only [a-z0-9-_].",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._\\-/ ]*[A-Za-z0-9]$",
+      "examples": ["core", "add-login", "improve parser", "parser/refine"],
+      "default": "core"
+    }
+  },
+  "examples": [
+    {
+      "issue_number": 123,
+      "branch_type": "feature"
+    },
+    {
+      "issue_number": "456",
+      "branch_type": "bugfix",
+      "leaf": "fix-null-edge"
+    },
+    {
+      "issue_number": 789,
+      "branch_type": "refactor",
+      "leaf": "parser/refine"
+    }
+  ]
+}

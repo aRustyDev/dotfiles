@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/nix/git/schemas/make_branch-output.schema.json",
+  "title": "make_branch output",
+  "description": "A normalized git branch name produced by the make_branch function. Format: <type>/<user>/<issue-number>/<leaf>. The function normalizes type aliases (feature→feat, bugfix→fix), sanitizes the user segment (removing disallowed characters, collapsing repeated '.' or '-' and trimming leading/trailing '.' or '-'), and lowercases & slugifies the leaf (defaulting to 'core' when omitted or sanitized empty).",
+  "type": "string",
+  "pattern": "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)/[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9])?/([1-9][0-9]*)/[a-z0-9]+(?:[-_][a-z0-9]+)*$",
+  "examples": [
+    "feat/JohnSnow/123/core",
+    "fix/JaneDoe/202/improve-parser",
+    "refactor/Alice.Smith/9/parser-refine",
+    "chore/dev-ops/77/deps",
+    "perf/CIUser/42/core",
+    "docs/TechWriter/5/api-overview"
+  ],
+  "x-segments": {
+    "type": {
+      "description": "First path segment; one of the canonical conventional commit types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert."
+    },
+    "user": {
+      "description": "Second segment; derived from git config user.username or user.name. Allowed chars: A-Za-z0-9_.-. No leading/trailing '.' or '-'. No consecutive identical '.' or '-' after normalization."
+    },
+    "issue-number": {
+      "description": "Third segment; decimal positive integer (no leading zero requirements beyond natural numeric formatting)."
+    },
+    "leaf": {
+      "description": "Final segment; lowercase slug of tokens separated by single '-' or '_'. Starts and ends with [a-z0-9]. Default is 'core' when no leaf specified."
+    }
+  }
+}
