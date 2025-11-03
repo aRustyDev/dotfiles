@@ -6,7 +6,7 @@
 
 # Standard Configs
 export LANG='en_US.UTF-8'
-export SSH_AUTH_SOCK="$HOME/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 export GPG_TTY=$(tty)
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -63,11 +63,13 @@ export HISTFILE=${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/history              #
 # --- [ Zsh ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 export ANTIDOTE_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins"
 export ZCOMPDUMP="${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/compdump"
-export ZCOMPLETE="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/completions"
-export ZDOTDIR=${XDG_CONFIG_HOME:-$HOME/.config}/zsh                           # Set ZSH Config Dir
-export ZENV="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zshenv"
-export ZFUNCS="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/functions"
-export ZPLUGINS="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"                         # Set ZSH Config Dir
+export ZSH_COMPDUMP="$ZCOMPDUMP"
+export ZSH_DOTDIR="$ZDOTDIR"                                                   # Set ZSH Config Dir
+export ZSH_COMPLETE="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/completions"
+export ZSH_ENV="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zshenv"
+export ZSH_FUNCS="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/functions"
+export ZSH_PLUGINS="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins"
 export ZSH_DISABLE_COMPFIX='true'
 export ZSH_EVALCACHE_DIR="${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/evalcache"
 export SHELL_SESSION_DIR="${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/sessions"  # Set Session Storage Location for Zsh
