@@ -9,14 +9,15 @@ list-targets target="*":
 
 [doc('Hydrate env vars in ssh config templates')]
 build +targets=profile:
-    @echo "[SSH Config] | Building"
-    @for cfg in {{targets}}; do \
-        just template {{ if cfg == "cfs" { "engagement" } else { "" } }}; \
+    #!/usr/bin/env bash
+    echo "[SSH Config] | Building"
+    for cfg in {{targets}}; do
+        just template $cfg;
     done
-    @for cfg in `lsd -U {{ ssh + "/configs/{includes/orb," + replace(targets, " ", "/*,") + "/*" + ",default}" }}`; do \
-        DOTSSH={{ dotssh }} \
-        envsubst < "$cfg"; \
-        echo ""; \
+    for cfg in `lsd -U {{ ssh + "/configs/{includes/orb," + replace(targets, " ", "/*,") + "/*" + ",default}" }}`; do
+        DOTSSH={{ dotssh }}
+        envsubst < "$cfg";
+        echo "";
     done > {{ output_file }}
 
 [doc('Build, op inject, and install ssh configs')]
@@ -39,7 +40,7 @@ template target="":
         name=$(echo "${item}" | jq -r '.vault.name | ascii_downcase')
         vault=$(echo "${item}" | jq -r '.vault.id')
         uuid=$(echo "${item}" | jq -r '.id')
-        echo "{shortname: ${name}, vault: ${vault}, uuid: ${uuid}}" | mustache templates/{{outpath}}-config.mustache > {{ssh}}/configs/{{outpath}}-${name}
+        echo "{shortname: ${name}, vault: ${vault}, uuid: ${uuid}}" | mustache templates/$outpath-config.mustache > "{{ssh}}/configs/$outpath-${name}"
     done
 
 test:
