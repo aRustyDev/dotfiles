@@ -48,6 +48,7 @@
   "file_types": {
     "Diff": ["dif"],
     "C": ["C", "H"],
+    "Markdown": ["*.md", "*.mdc", "*.rules"],
     "Tide": ["*.tide", "*.td"],
     "Sieve": ["sieve", "sv", "*.sieve", "*.sv"],
     "Git Config": [
