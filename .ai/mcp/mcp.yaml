@@ -1,0 +1,27 @@
+---
+kicad:
+  command: "$MCP_ROOT/kicad-mcp/.venv/bin/python"
+  args:
+    - "$MCP_ROOT/kicad-mcp/main.py"
+surrealdb:
+  command: "npx"
+  args:
+    - "-y"
+    - "surrealdb-mcp-server"
+  env:
+    - "SURREALDB_URL=op://Developer/surrealdb/websocket" # ws://127.0.0.1:8000
+    - "SURREALDB_NS=op://Developer/surrealdb/claude-desktop/namespace"
+    - "SURREALDB_DB=op://Developer/surrealdb/claude-desktop/db"
+    - "SURREALDB_USER=op://Developer/surrealdb/claude-desktop/user"
+    - "SURREALDB_PASS=op://Developer/surrealdb/claude-desktop/password"
+  disabled: false
+  autoApprove: []
+docling:
+  command: "uvx"
+  args:
+    - "--from=docling-mcp"
+    - "docling-mcp-server"
+freecad:
+  command: "python"
+  args:
+    - "$HOME/Library/Preferences/FreeCAD/Mod/freecad_mcp/src/freecad_bridge.py"
