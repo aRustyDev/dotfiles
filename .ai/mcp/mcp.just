@@ -3,6 +3,8 @@ mcp_root := env("HOME") + "/repos" + "/mcp"
 dot_mcp := root + "/.ai/mcp"
 root := `git rev-parse --show-toplevel`
 claude_desktop_config := env("HOME") + "/Library/Application Support/Claude/claude_desktop_config.json"
+zed_global_config := env("HOME") + "/.config/zed/settings.json"
+zed_project_config := root + "/.zed/settings.json"
 free_cad_mods_dir := env("HOME") + "/Library/Preferences/FreeCAD/Mod"
 
 config-all-ai-tools mcptool: (config-claude-desktop mcptool)
@@ -13,6 +15,13 @@ config-claude-desktop key:
     #!/usr/bin/env bash
     json=$(export MCP_ROOT="{{ mcp_root }}" && yq --output-format json '.{{ key }}' "{{ dot_mcp }}/mcp.yaml" | envsubst)
     jq --argjson mcp "{\"{{ key }}\": $json}" '.mcpServers += $mcp' "{{ claude_desktop_config }}" | sponge "{{ claude_desktop_config }}"
+
+config-zed key scope="global":
+    #!/usr/bin/env bash
+    echo "TODO"
+    json=$(export MCP_ROOT="{{ mcp_root }}" && yq --output-format json '.{{ key }}' "{{ dot_mcp }}/mcp.yaml" | envsubst)
+    jq --argjson mcp "{\"{{ key }}\": $json}" '.context_servers += $mcp' "{{ claude_desktop_config }}" | sponge "{{ claude_desktop_config }}"
+    # settings.json
 
 kicad: (config-all-ai-tools "kicad")
     #!/usr/bin/env bash
@@ -72,3 +81,41 @@ freecad: (pyenv "3.12" "docling") (config-all-ai-tools "docling")
     mkdir -p "{{ free_cad_mods_dir }}"
     cd "{{ free_cad_mods_dir }}"
     git clone https://github.com/bonninr/freecad_mcp.git "freecad-mcp"
+
+gitlab-ci-local:
+    #!/usr/bin/env bash
+    volta install gitlab-ci-local
+    echo "TODO"
+
+github:
+    #!/usr/bin/env bash
+    echo "TODO"
+
+gitlab:
+    #!/usr/bin/env bash
+    echo "TODO"
+
+
+gitea:
+    #!/usr/bin/env bash
+    echo "TODO"
+
+gitea:
+    #!/usr/bin/env bash
+    echo "TODO"
+
+bitbucket:
+    #!/usr/bin/env bash
+    echo "TODO"
+
+jira:
+    #!/usr/bin/env bash
+    echo "TODO"
+
+confluence:
+    #!/usr/bin/env bash
+    echo "TODO"
+
+gitea:
+    #!/usr/bin/env bash
+    echo "TODO"
