@@ -6,12 +6,12 @@ templates := justfile_directory() + "/templates"
 
 # Target
 
-id := shell("jq '.id' " + skilldir + "/meta.json || uuidgen")
+id := shell("jq '.id' " + skilldir / "meta.json || uuidgen")
 name := env("NAME")
 description := env("DESC", "")
-scope := if env("SCOPE", "") == "personal" { env("HOME") + "/.claude/skills" } else { root + ".claude/skills" }
-skilldir := scope + `echo "/{{ name }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]'`
-brewery := env("XDG_CONFIG_HOME", env("HOME") + "/.config") + "/brew/files/"
+scope := if env("SCOPE", "") == "personal" { env("HOME") / ".claude/skills" } else { root / ".claude/skills" }
+skilldir := scope / `echo "{{ name }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]'`
+brewery := env("XDG_CONFIG_HOME", env("HOME") / ".config") / "brew/files/"
 
 # Create a new Claude skill
 init: mktree meta templates files
