@@ -1,10 +1,10 @@
 ---
-name: sans-course-extraction
-description: Extract data from files related to SANS courses.
+name: template-new-skill
+description: Generate a skeleton template for a new Claude Code Skill.
 allowed-tools: Read, Grep, Glob,
 ---
 
-# SANS Course Extraction
+# Template New Skill
 
 This Skill provides read-only file access.
 
@@ -19,5 +19,8 @@ This Skill provides read-only file access.
 Packages must be installed in your environment:
 
 ```bash
-just
+NAME="skill name here" \
+SCOPE="personal||project" \
+DESC="Some description of the skill here" \
+just init
 ```
