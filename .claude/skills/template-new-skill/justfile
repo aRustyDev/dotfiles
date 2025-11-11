@@ -26,7 +26,7 @@ templates:
 
 template target json="":
     #!/usr/bin/env bash
-    echo "{{ json }}" | mustache "{{ templates }}/{{ target }}.mustache" > "{{ skilldir }}/{{ target }}"
+    echo "{{ json }}" | mustache "{{ templates / target }}.mustache" > "{{ skilldir }}/{{ target }}"
 
 # Create a new skill directory
 mktree:
