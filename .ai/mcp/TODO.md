@@ -47,3 +47,25 @@
   - [ ] SurrealDB
   - [ ] QDrant
 - [ ] [Resend](https://resend.com/pricing)
+
+## Hooks
+
+### Notifications
+
+> Customize how you get notified when Claude Code is awaiting your input or permission to run something.
+
+### Automatic formatting
+
+> Run prettier on .ts files, gofmt on .go files, etc. after every file edit.
+
+### Logging
+
+> Track and count all executed commands for compliance or debugging.
+
+### Feedback
+
+> Provide automated feedback when Claude Code produces code that does not follow your codebase conventions.
+
+### Custom permissions
+
+> Block modifications to production files or sensitive directories.
