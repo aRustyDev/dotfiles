@@ -239,7 +239,15 @@ canva:
 # postmancer: https://github.com/hijaz/postmancer
 # gopls: https://github.com/hloiseaufcms/mcp-gopls
 # bruno: https://github.com/hungthai1401/bruno-mcp
-# just: https://github.com/promptexecution/just-mcp
+just: # https://github.com/promptexecution/just-mcp
+  command: just-mcp
+  args:
+    - --watch-dir
+    - $HOME/repos/
+    - --watch-dir
+    - $HOME/.config/
+  transport:
+    type: stdio
 # ios-sim: https://github.com/InditexTech/mcp-server-simulator-ios-idb
 # ios-sim: https://github.com/joshuayoes/ios-simulator-mcp
 # ios-sim: https://github.com/JoshuaRileyDev/simulator-mcp-server

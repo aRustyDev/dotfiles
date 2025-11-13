@@ -69,3 +69,30 @@
 ### Custom permissions
 
 > Block modifications to production files or sensitive directories.
+
+## MCP Servers
+
+### Justfile MCP Server
+
+> Currently using https://github.com/toolprint/just-mcp
+
+- [ ] Review alternatives and create a comparison matrix.
+- [ ] Identify features implemented
+- [ ] Determine how possible it is to extend `just` itself to include native MCP.
+- [ ] Identify gaps in `just-mcp` implementation / missing features.
+
+#### Target Capabilities
+
+- Justfile Linting + Fixing
+- Justfile Best Practices
+- Recipe Capability Analysis (Gap detection)
+- Pattern Alignment for Recipe Development
+- Recipe Security Scanning
+- Recipe Modularization
+- Recipe Testing
+- Recipe AST Analysis
+- Recipe Documentation
+- Justfile LSP Integration
+- Version Pinned Justfile Docs Referncing
+
+### Mustache MCP Server
