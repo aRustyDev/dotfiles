@@ -46,6 +46,8 @@ _clean:
         > $CLEANED/$this; \
     done
 
+extensions:
+    gh release download --repo aclap-dev/vdhcoapp --pattern '*-mac-arm64*'
 
 # test:
 #     for target in {{ setting_files }}; do \
