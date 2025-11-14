@@ -1,3 +1,9 @@
+root := `git rev-parse --show-toplevel`
+mcp_domain := "domain: 'mba.blvd',"
+mcp_share := "data: '" + env("HOME") / ".local/share/mcp',"
+mcp_path := "path: '" + root + "',"
+mcp_json := "{" + mcp_share + mcp_path + mcp_domain + "}"
+
 # Install local development tools
 [macos]
 setup-dev:
@@ -21,3 +27,14 @@ format-settings:
     sed -i 's|/path/to/brew|{{ require("brew") }}|g' .zed/settings.json
     sed -i 's|GH_PAT|{{ require("brew") }}|g' .zed/settings.json
     op inject -i .zed/settings.json -o .zed/settings.json
+
+hydrate:
+    #!/usr/bin/env bash
+    op inject -i "{{ root }}/.zed/settings.json.example" | envsubst > "{{ root }}/.zed/settings.local.json"
+    echo "{{ mcp_json }}" | mustache "{{ root }}/.zed/docker-compose.mustache" | op inject | envsubst > "{{ root }}/.zed/docker-compose.yaml"
+
+init: hydrate
+    docker compose up -d
+
+clean:
+    docker compose down

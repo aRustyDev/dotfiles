@@ -1,0 +1,264 @@
+---
+services:
+  surreal:
+    image: surrealdb/surrealdb:latest
+    restart: always
+    container_name: surrealdb
+    command:
+      - start
+      - --log
+      - debug
+      - --user
+      - op://Developer/surrealdb/user
+      - --pass
+      - op://Developer/surrealdb/pass
+      - rocksdb:/var/data/mydatabase.db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.surreal.rule=HostSNI(`surreal.db.{{domain}}`)"
+      - "traefik.tcp.routers.surreal.service=surreal"
+      - "traefik.tcp.routers.surreal.priority=10"
+      - "traefik.tcp.routers.surreal.middlewares=tcp-ipallowlist"
+      - "traefik.tcp.services.surreal.loadBalancer.servers[0].address=:8000"
+      {{!- "traefik.http.routers.www-router.service=www-service"}}
+      {{!- "traefik.http.services.www-service.loadbalancer.server.port=8000"}}
+      {{!- "traefik.tcp.services.surreal.loadBalancer.servers[0].address=xx.xx.xx.xx:xx"}}
+      {{!- "traefik.tcp.services.surreal.loadBalancer.servers[1].address=xx.xx.xx.xx:xx"}}
+      {{!- "traefik.tcp.services.surreal.loadBalancer.healthCheck.send=PING"}}
+      {{!- "traefik.tcp.services.surreal.loadBalancer.healthCheck.expect=PONG"}}
+      {{!- "traefik.tcp.services.surreal.loadBalancer.healthCheck.interval=10s"}}
+      {{!- "traefik.tcp.services.surreal.loadBalancer.healthCheck.timeout=3s"}}
+      {{!- "traefik.tcp.services.surreal.loadBalancer.serversTransport=customTransport@file"}}
+    {{!healthCheck:}}
+      {{!send: "PING"}}
+      {{!expect: "PONG"}}
+      {{!interval: "10s"}}
+      {{!timeout: "3s"}}
+    environment:
+      - SURREAL_EXPERIMENTAL_GRAPHQL=true
+      - SURREAL_IMPORT_FILE=/path/to/file.json
+      - SURREAL_TELEMETRY_NAMESPACE
+      - SURREAL_TELEMETRY_PROVIDER
+      - SURREAL_TEMPORARY_DIRECTORY
+      - SURREAL_LOG_FILE_ENABLED
+      - SURREAL_LOG_FILE_FORMAT=json
+      - SURREAL_LOG_FILE_LEVEL
+      - SURREAL_LOG_FILE_NAME
+      - SURREAL_LOG_FILE_PATH
+      - SURREAL_LOG_FORMAT
+      - SURREAL_LOG_OTEL_LEVEL
+      - SURREAL_PASS=op://Developer/surrealdb/password
+      - SURREAL_PATH
+      - SURREAL_USER=op://Developer/surrealdb/username
+      - SURREAL_WEB_CRT
+      - SURREAL_WEB_KEY
+      - SURREAL_ROCKSDB_STORAGE_LOG_LEVEL
+      - SURREAL_NO_IDENTIFICATION_HEADERS
+      - SURREAL_NO_BANNER
+    volumes:
+      - {{data}}/surreal:/var/data
+  mongo:
+    image: mongo:latest
+    restart: always
+    container_name: mongo
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.mongo.rule=HostSNI(`mongo.db.{{domain}}`)"
+      - "traefik.tcp.routers.mongo.service=mongo"
+      - "traefik.tcp.routers.mongo.priority=10"
+      - "traefik.tcp.routers.mongo.middlewares=tcp-ipallowlist"
+      - "traefik.tcp.services.mongo.loadBalancer.servers[0].address=:27017"
+      {{!- "traefik.tcp.services.mongo.loadBalancer.servers[1].address=xx.xx.xx.xx:xx"}}
+      {{!- "traefik.tcp.services.mongo.loadBalancer.healthCheck.send=PING"}}
+      {{!- "traefik.tcp.services.mongo.loadBalancer.healthCheck.expect=PONG"}}
+      {{!- "traefik.tcp.services.mongo.loadBalancer.healthCheck.interval=10s"}}
+      {{!- "traefik.tcp.services.mongo.loadBalancer.healthCheck.timeout=3s"}}
+      {{!- "traefik.tcp.services.mongo.loadBalancer.serversTransport=customTransport@file"}}
+    {{!healthCheck:}}
+      {{!send: "PING"}}
+      {{!expect: "PONG"}}
+      {{!interval: "10s"}}
+      {{!timeout: "3s"}}
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=op://Developer/mongodb/root/username
+      - MONGO_INITDB_ROOT_PASSWORD=op://Developer/mongodb/root/password
+      - MONGO_INITDB_DATABASE=development
+      - MONGO_INITDB_USER=op://Developer/mongodb/username
+      - MONGO_INITDB_PWD=op://Developer/mongodb/password
+    volumes:
+      - {{data}}/mongo:/data/db/
+      - {{config}}/mongo/mongod.conf:/etc/mongod.conf
+      - {{config}}/mongo/initdb.d/:/docker-entrypoint-initdb.d/
+  postgres:
+    image: postgres:alpine
+    restart: always
+    container_name: postgres
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.postgres.rule=HostSNI(`pg.db.{{domain}}`)"
+      - "traefik.tcp.routers.postgres.service=postgres"
+      - "traefik.tcp.routers.postgres.priority=10"
+      - "traefik.tcp.routers.postgres.middlewares=tcp-ipallowlist"
+      - "traefik.tcp.services.pg.loadBalancer.servers[0].address=:5432"
+      {{!- "traefik.tcp.services.pg.loadBalancer.servers[1].address=xx.xx.xx.xx:xx"}}
+      {{!- "traefik.tcp.services.pg.loadBalancer.healthCheck.send=PING"}}
+      {{!- "traefik.tcp.services.pg.loadBalancer.healthCheck.expect=PONG"}}
+      {{!- "traefik.tcp.services.pg.loadBalancer.healthCheck.interval=10s"}}
+      {{!- "traefik.tcp.services.pg.loadBalancer.healthCheck.timeout=3s"}}
+      {{!- "traefik.tcp.services.pg.loadBalancer.serversTransport=customTransport@file"}}
+    environment:
+      - POSTGRES_USER=op://Developer/postgres/username
+      - POSTGRES_PASSWORD=op://Developer/postgres/password
+      - POSTGRES_DB={{name}}
+    {{!healthCheck:}}
+      {{!send: "PING"}}
+      {{!expect: "PONG"}}
+      {{!interval: "10s"}}
+      {{!timeout: "3s"}}
+    volumes:
+      - {{data}}/postgres:/var/data
+  traefik:
+    image: traefik
+    restart: always
+    container_name: traefik
+    command:
+      # Providers
+      - "--providers.docker=true"
+      - "--providers.docker.network=proxy"
+      - "--providers.docker.exposedbydefault=false"
+
+      # EntryPoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      {{!- "--entrypoints.websecure.http.tls=true"}}
+
+      {{!# Attach the static configuration tls.yaml file that contains the tls configuration settings}}
+      {{!- "--providers.file.filename=/dynamic/tls.yaml"}}
+
+      # API & Dashboard
+      - "--api.dashboard=true"
+      - "--api.insecure=false"
+
+      # Observability
+      # Observability (Logs)
+      - "--accesslog=true" # Enable access logs to stdout
+      - "--accesslog.format=json"
+      - "--accesslog.filepath=/var/log/access.log"
+      - "--accesslog.filters.statuscodes=400-599"
+      - "--log.level=INFO"
+      - "--log.format=json"
+      - "--log.filePath=/var/log/traefik.log"
+      {{!# Observability (Metrics)}}
+      {{!- "--entrypoints.metrics.address=:8082"}}
+      {{!- "--metrics.prometheus=true"}}
+      {{!- "--metrics.prometheus.entrypoint=metrics" # change the entry point metrics are exposed on (defaults to 'traefik')}}
+      {{!# Add labels to metrics for routers/services (can increase cardinality)}}
+      {{!- "--metrics.prometheus.addrouterslabels=true"}}
+      {{!- "--metrics.prometheus.addserviceslabels=true"}}
+      {{!# Observability (Tracing)}}
+      {{!- "--tracing=true"}}
+      {{!- "--tracing.otel.grpcendpoint=otel-collector:4317" # Adjust endpoint as needed}}
+      {{!- "--tracing.otel.httpendpoint=otel-collector.observability:4318" # Adjust endpoint as needed}}
+
+      # TLS Certificate Management
+      - "--certificatesresolvers.le.acme.email=op://Developer/letsencrypt/username"
+      - "--certificatesresolvers.le.acme.caServer=op://Developer/letsencrypt/username"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json" # Path inside container volume
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.le.acme.tlschallenge=true"
+      {{!- "--certificatesresolvers.le.acme.dnschallenge.provider=your-dns-provider" # Needs provider setup}}
+      {{!- "--entrypoints.websecure.http.tls.certresolver=le" # Make 'le' the default resolver for TLS-enabled routers}}
+    ports:
+      # Web (HTTP)
+      - 80:80
+      # WebSecure (HTTPS)
+      - 443:443
+      # PostgreSQL
+      - 5432:5432
+      # N8N
+      - 5678:5678
+      # SurrealDB
+      - 8000:8000
+      # MongoDB
+      - 27017:27017
+    labels:
+      # Enable self‑routing
+      - "traefik.enable=true"
+
+      # Dashboard router
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.{{domain}}`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      {{!- "traefik.http.routers.dashboard.tls=true"}}
+      {{!- "traefik.http.routers.dashboard.middlewares=auth"}}
+      {{!}}
+      {{!# Basic‑auth middleware}}
+      {{!- "traefik.http.middlewares.dashboard-auth.basicauth.users=<PASTE_HASH_HERE>"}}
+      {{!- "traefik.http.routers.dashboard.middlewares=dashboard-auth@docker"}}
+
+      {{!- "traefik.tcp.routers.postgres.tls.certresolver=letsencrypt"}}
+      {{!- "traefik.tcp.routers.postgres.tls.passthrough=true"}}
+      {{!- "traefik.tcp.routers.postgres.tls.options=modern-tls"}}
+      {{!- "traefik.tcp.routers.postgres.tls.domains[0].main=example.com"}}
+      {{!- "traefik.tcp.routers.postgres.tls.domains[0].sans=www.example.com"}}
+      {{!- "traefik.tcp.services.my-service.loadBalancer.servers[0].address=xx.xx.xx.xx:xx"}}
+      {{!- "traefik.tcp.services.my-service.loadBalancer.servers[1].address=xx.xx.xx.xx:xx"}}
+      {{!- "traefik.tcp.services.my-service.loadBalancer.healthCheck.send=PING"}}
+      {{!- "traefik.tcp.services.my-service.loadBalancer.healthCheck.expect=PONG"}}
+      {{!- "traefik.tcp.services.my-service.loadBalancer.healthCheck.interval=10s"}}
+      {{!- "traefik.tcp.services.my-service.loadBalancer.healthCheck.timeout=3s"}}
+      {{!- "traefik.tcp.services.my-service.loadBalancer.serversTransport=customTransport@file"}}
+      {{!- "traefik.http.middlewares.auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/,test2:$$apr1$$d9hr9HBB$$4HxwgUir3HP4EsggP/QNo0"}}
+    {{!healthCheck:}}
+      {{!send: "PING"}}
+      {{!expect: "PONG"}}
+      {{!interval: "10s"}}
+      {{!timeout: "3s"}}
+    volumes:
+      - {{data}}/traefik/log:/var/log
+      - {{data}}/traefik:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    restart: always
+    container_name: n8n
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.n8n.rule=Host(`n8n.{{domain}}`)
+      - traefik.http.routers.n8n.entrypoints=web,websecure
+      - traefik.http.routers.n8n.middlewares=n8n@docker
+
+      # TLS Config
+      - traefik.http.routers.n8n.tls=true
+      - traefik.http.routers.n8n.tls.certresolver=le
+
+      # Middleware
+      - traefik.http.middlewares.n8n.headers.SSLRedirect=true
+      - traefik.http.middlewares.n8n.headers.STSSeconds=315360000
+      - traefik.http.middlewares.n8n.headers.browserXSSFilter=true
+      - traefik.http.middlewares.n8n.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.n8n.headers.forceSTSHeader=true
+      - traefik.http.middlewares.n8n.headers.SSLHost={{domain}}
+      - traefik.http.middlewares.n8n.headers.STSIncludeSubdomains=true
+      - traefik.http.middlewares.n8n.headers.STSPreload=true
+    environment:
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_HOST=n8n.{{domain}}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - N8N_RUNNERS_ENABLED=true
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://n8n.{{domain}}/
+      - GENERIC_TIMEZONE=America/New_York
+      - TZ=America/New_York
+    healthCheck:
+      send: "PING"
+      expect: "PONG"
+      interval: "10s"
+      timeout: "3s"
+    volumes:
+      - {{data}}/n8n:/home/node/.n8n
+      - {{path}}:/{{name}}
