@@ -2,10 +2,8 @@ set unstable := true
 
 root := `git rev-parse --show-toplevel`
 just_dir := justfile_directory()
-
 xdg_config := env("XDG_CONFIG_HOME", env("HOME") + "/.config")
 mcp_root := env("HOME") + "/repos" + "/mcp"
-
 claude_desktop_config := env("HOME") + "/Library/Application Support/Claude/claude_desktop_config.json"
 claude_code_global_config := env("HOME") + "/.claude/settings.json"
 claude_code_project_config := root + "/.claude/settings.json"
@@ -35,7 +33,7 @@ hydrate file:
 
 zed key scope="global":
     #!/usr/bin/env bash
-    if [[ "{{which("zed")}}" != "" ]]; then
+    if [[ "{{ which("zed") }}" != "" ]]; then
         cfg="{{ if scope == 'global' { zed_global_config } else { zed_project_config } }}" # Pick Config File
         json=$(just hydrate "mcp.yaml" | jq --arg key "{{ key }}" '{{ mcp }}') # Extract Map from YAML
         mcp_json="{\"{{ key }}\": $json}" # JSON Object to add to Zed Config
@@ -45,7 +43,7 @@ zed key scope="global":
 
 claude-desktop key:
     #!/usr/bin/env bash
-    if [[ -f "{{claude_desktop_config}}" ]]; then
+    if [[ -f "{{ claude_desktop_config }}" ]]; then
         manifest="$(just hydrate "mcp.yaml")"
         json=$(jq -r -n --arg key "{{ key }}" --argjson json "$manifest" '$json | to_entries[] | select(.key == $key) | .value | del(.transport) | del(.repo) | if (. | keys != []) then { {{ key }}: .} else "null" end')
         if [[ "$json" != "null" ]]; then
@@ -55,14 +53,14 @@ claude-desktop key:
 
 docker-mcp-toolkit key:
     #!/usr/bin/env bash
-    if [[ "{{which("docker-desktop")}}" != "" ]]; then
+    if [[ "{{ which("docker-desktop") }}" != "" ]]; then
         docker mcp secret set GITHUB.PERSONAL_ACCESS_TOKEN=op://developer/github/docker-mcp-toolkit/token
         echo "TODO"
     fi
 
 claude-code key:
     #!/usr/bin/env bash
-    if [[ "{{which("claude")}}" != "" ]]; then
+    if [[ "{{ which("claude") }}" != "" ]]; then
         manifest="$(just hydrate "mcp.yaml")"
         json="$(jq -n --arg key "{{ key }}" --argjson json "$manifest" '$json | to_entries[] | select(.key == $key) | .value')"
         transport="$(jq -n --argjson json "$json" '$json | if .transport != null then .transport else "null" end')"
@@ -86,15 +84,19 @@ claude-code key:
 
 gemini-cli key:
     #!/usr/bin/env bash
-    if [[ "{{which("gemini")}}" != "" ]]; then
+    if [[ "{{ which("gemini") }}" != "" ]]; then
         json=$(just hydrate "mcp.yaml" | jq '{{ gemini }}')
         gemini extensions install https://github.com/huggingface/hf-mcp-server
     fi
 
 claud-hook key scope="global":
     #!/usr/bin/env bash
-    if [[ "{{which("claude")}}" != "" ]]; then
+    if [[ "{{ which("claude") }}" != "" ]]; then
         cfg="{{ if scope == 'global' { claude_code_global_config } else { claude_code_project_config } }}" # Pick Config File
         json=$(just hydrate "mcp.yaml" | jq --arg key "{{ key }}" '{{ mcp }}') # Extract Map from YAML
-        claude mcp add --transport http "{{key}}" https://huggingface.co/mcp
+        claude mcp add --transport http "{{ key }}" https://huggingface.co/mcp
     fi
+    volta install tdd-guard
+    # cargo install tdd-guard-rust
+    # go install github.com/nizos/tdd-guard/reporters/go/cmd/tdd-guard-go@latest
+    # pip install tdd-guard-pytest

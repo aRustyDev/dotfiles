@@ -162,6 +162,7 @@ docker:
     #!/usr/bin/env bash
     echo "TODO"
     docker mcp secret set GITHUB.PERSONAL_ACCESS_TOKEN=github_pat_YOUR_TOKEN_HERE
+    docker compose up -d
 
 just:
     #!/usr/bin/env bash
