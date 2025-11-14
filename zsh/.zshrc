@@ -167,6 +167,7 @@ echo "Shell ready: $(date +%s.%N)" >&2
 
 eval "$(atuin init zsh)"
 eval "$(starship init zsh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 source ${XDG_CONFIG_HOME:-$HOME/.config}/op/plugins.sh
 
