@@ -1,0 +1,11 @@
+Memory (Default): Semantic Memory
+- Use the **Graphiti** MCP Server for all persistent memory:
+  - Namespace: `{PROJECT_ID}::` from `git config --get project.id`
+  - Store preferences/configs as entity attributes
+  - Store decisions/architecture as entities with relationships
+  - Embed document content for semantic search
+  - Create temporal relationships (when decisions were made)
+  - Search with hybrid mode: `search(query, project_filter)`
+  - Session start: Query `{PROJECT_ID}::*` entities for context
+  - Session end: Add new decisions/learnings as entities
+  - NEVER access entities outside current project namespace
