@@ -1,0 +1,12 @@
+Tool Use (ast-grep): Code Search and Pattern Matching - Packer
+## Code Search and Pattern Matching
+
+### General Code Search Guidelines
+
+- Use the `{{project_id}}-ast-grep` MCP tool for structural code searches across:
+  - **Packer HCL files** (`*.pkr.hcl`, `*.pkrvars.hcl`):
+    - Finding provisioner blocks: `provisioner "$_" { $$$ }`
+    - Locating source definitions: `source "$_" { $$$ }`
+    - Searching variable declarations: `variable "$_" { $$$ }`
+    - Finding build configurations: `build { $$$ }`
+    - Locating specific configuration patterns like `execute_command`, `inline` scripts
