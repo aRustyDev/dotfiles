@@ -1,19 +1,15 @@
 Search - Code (Default): How to Search Code
-## Code Search and Pattern Matching
-
-### General Code Search Guidelines
-
-- Use the `{{project_id}}-ast-grep` MCP tool for structural code searches across:
-  - **Bash scripts** (`*.sh`, `*.bash`):
+- Use the AST-Grep MCP Server for structural code searches across:
+  - Bash scripts (`*.sh`, `*.bash`):
     - Finding function definitions
     - Locating specific command patterns
     - Searching for environment variable usage
-  - **GitLab CI YAML** (`.gitlab-ci.yml`, `.ci/workflows/*.yml`):
+  - GitLab CI YAML (`.gitlab-ci.yml`, `.ci/workflows/*.yml`):
     - Finding job definitions
     - Locating specific CI patterns (rules, scripts, artifacts)
     - Searching for variable usage across pipeline files
-- When searching for patterns across multiple files, prefer `{{project_id}}-ast-grep` over `grep` for:
+- Prefer AST-Grep MCP Server over `grep` for:
   - Syntax-aware searches in HCL and bash
   - Structural patterns (blocks, functions, declarations)
   - Multi-line pattern matching
-- Use `grep` for simple text searches and when `{{project_id}}-ast-grep` language support is unavailable
+- Use `grep` for simple text searches and when AST-Grep MCP Server is unavailable

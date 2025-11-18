@@ -1,55 +1,17 @@
 Tool Use (ast-grep): Code Search and Pattern Matching - justfiles
-## Code Search and Pattern Matching
+- Use the Just MCP Server for:
+  - Running justfile recipes and tasks
+  - Listing available recipes, their descriptions, and groups
+  - Understanding recipe parameters, defaults, attributes, and groups
+  - Justfile variable inspection
+  - Justfile Import Analysis
+  - Recipe Dependency analysis
+  - Semantic operations on justfiles
 
-### Tool Selection for Justfile Operations
-
-> **Note**: MCP tool names in this project follow the pattern `{{project_id}}-<tool_name>`.
-> Replace `{{project_id}}` with the actual Project ID defined above (currently: `ami_eks`).
-
-**Use `{{project_id}}-just` for:**
-- **Recipe execution**: Running justfile recipes and tasks
-- **Recipe discovery**: Listing available recipes, their descriptions, and groups
-- **Recipe metadata queries**: Understanding recipe parameters, defaults, attributes (`[no-cd, private]`), and groups (`[group('core')]`)
-- **Variable inspection**: Querying justfile variables and their resolved values
-- **Import resolution**: Understanding which justfiles are imported (e.g., `scripts/just/*.just`)
-- **Dependency analysis**: Understanding recipe dependencies and execution order
-- **Live monitoring**: Watching justfile changes (uses `--watch-dir` functionality)
-- **Semantic operations**: Any task requiring understanding of justfile semantics, not just syntax
-
-**Use `{{project_id}}-ast-grep` for:**
-- **Structural pattern searches**: Finding recipes matching specific AST patterns
-- **Cross-file pattern analysis**: Searching for syntax patterns across multiple justfiles
-- **Recipe refactoring**: Finding all occurrences of a specific recipe structure to modify
-- **Code quality checks**: Identifying recipes that don't follow project conventions (e.g., missing description comments)
-- **Template matching**: Finding recipes with specific script block patterns (`#!/usr/bin/env bash`)
-- **Low-level syntax inspection**: When you need to match exact AST nodes rather than semantic meaning
-
-**Rule of thumb**: Use `{{project_id}}-just` for **operational and semantic tasks** (running, understanding what exists, inspecting metadata), and `{{project_id}}-ast-grep` for **structural analysis and pattern-based code searches** (finding specific syntax patterns, refactoring assistance).
-
-### General Code Search Guidelines
-
-- Use the `{{project_id}}-ast-grep` MCP tool for structural code searches across:
-  - **Packer HCL files** (`*.pkr.hcl`, `*.pkrvars.hcl`):
-    - Finding provisioner blocks: `provisioner "$_" { $$$ }`
-    - Locating source definitions: `source "$_" { $$$ }`
-    - Searching variable declarations: `variable "$_" { $$$ }`
-    - Finding build configurations: `build { $$$ }`
-    - Locating specific configuration patterns like `execute_command`, `inline` scripts
-  - **Bash scripts** (`*.sh`, `*.bash`):
-    - Finding function definitions
-    - Locating specific command patterns
-    - Searching for environment variable usage
-  - **GitLab CI YAML** (`.gitlab-ci.yml`, `.ci/workflows/*.yml`):
-    - Finding job definitions
-    - Locating specific CI patterns (rules, scripts, artifacts)
-    - Searching for variable usage across pipeline files
-  - **Justfiles** (`justfile`, `scripts/just/*.just`):
-    - Finding recipe definitions: `recipe-name: dependencies`
-    - Locating recipe dependencies
-    - Searching for specific command patterns within recipes
-    - Identifying recipes with specific attributes or structures
-- When searching for patterns across multiple files, prefer `{{project_id}}-ast-grep` over `grep` for:
-  - Syntax-aware searches in HCL and bash
-  - Structural patterns (blocks, functions, declarations)
-  - Multi-line pattern matching
-- Use `grep` for simple text searches and when `{{project_id}}-ast-grep` language support is unavailable
+- Use the AST-Grep MCP Server for:
+  - Structural pattern searches: Finding recipes matching specific AST patterns
+  - Cross-file pattern analysis: Searching for syntax patterns across multiple justfiles
+  - Recipe refactoring: Finding all occurrences of a specific recipe structure to modify
+  - Code quality checks: Identifying recipes that don't follow project conventions (e.g., missing description comments)
+  - Template matching
+  - Low-level syntax inspection: When you need to match exact AST nodes rather than semantic meaning
