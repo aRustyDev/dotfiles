@@ -16,6 +16,7 @@ export GPG_TTY=$(tty)
 #     export EDITOR="nvim"
 #     export VISUAL="/Applications/Zed.app/Contents/MacOS/cli -n --wait"
 # fi
+export EDITOR="nvim"
 export PAGER="most"
 export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
 export TERM="xterm-256color"
@@ -219,6 +220,7 @@ export KREW_NO_UPGRADE_CHECK=0
 
 export VOLTA_HOME=$XDG_CONFIG_HOME/volta
 export VOLTA_FEATURE_PNPM=1
+export PATH=$VOLTA_HOME:$PATH
 
 # --- [ PyEnv ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
