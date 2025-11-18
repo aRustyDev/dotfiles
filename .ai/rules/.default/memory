@@ -6,6 +6,10 @@ Memory (Default): Persistent Memory
   - Embed document content for semantic search
   - Create temporal relationships (when decisions were made)
   - Search with hybrid mode: `search(query, project_filter)`
-  - Session start: Query `{PROJECT_ID}::*` entities for context
+  - Session start:
+    - Query `{PROJECT_ID}::*` entities for context
+    - Use `whoami` to identify the current user
+       - Create or retrieve user profile from the knowledge graph
   - Session end: Add new decisions/learnings as entities
   - NEVER access entities outside current project namespace
+  - Always refer to your knowledge graph as your "memory"
