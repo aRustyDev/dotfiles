@@ -141,6 +141,26 @@ export CARGO_STATE="${XDG_STATE_HOME:-$HOME/.local/state}/cargo"
 # export RUSTUP_TERM_COLOR
 # export RUSTUP_AUTO_INSTALL=1
 
+# --- [ Claude Code ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+# Console debugging (1-second intervals)
+export CLAUDE_CODE_ENABLE_TELEMETRY=1
+
+# Logs
+export OTEL_LOGS_EXPORTER=otlp
+# export OTEL_EXPORTER_OTLP_LOGS_PROTOCOL=grpc
+# export OTEL_EXPORTER_OTLP_LOGS_ENDPOINT=http://logs.company.com:4317
+
+# Metrics
+export OTEL_METRICS_EXPORTER=otlp
+export OTEL_METRIC_EXPORT_INTERVAL=1000
+# export OTEL_EXPORTER_OTLP_METRICS_PROTOCOL=http/protobuf
+# export OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://metrics.company.com:4318
+
+# Traces
+# export OTEL_EXPORTER_OTLP_PROTOCOL=otlp
+# export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+
 # --- [ Cloud: AWS ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 export AWS_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/cloud/aws/config"
