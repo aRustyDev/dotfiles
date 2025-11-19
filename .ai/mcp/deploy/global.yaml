@@ -28,11 +28,17 @@ services:
       traefik.enable: true
       traefik.http.routers.dockerhub.rule: PathPrefix(`/dockerhub`)
       traefik.http.routers.dockerhub.loadbalancer.server.port: 3000
-  # github:
-  #   image: ghcr.io/github/github-mcp-server
-  #   labels:
-  #     traefik.enable: true
-  #     traefik.http.routers.github.rule: PathPrefix(`/github`)
+  github:
+    image: ghcr.io/github/github-mcp-server
+    container_name: github
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    labels:
+      traefik.enable: true
+      traefik.http.routers.github.rule: PathPrefix(`/github`)
+    environment:
+      GITLAB_API_URL: https://gitlab.com/api/v4
+      GITHUB_PERSONAL_ACCESS_TOKEN: "op://Developer/zed-github-mcp/token"
   falkordb:
     image: falkordb/falkordb:latest
     container_name: graphdb
@@ -103,11 +109,27 @@ services:
       traefik.http.routers.duckduckgo.rule: PathPrefix(`/search/ddg`)
     annotations:
       com.example.foo: bar
-  # gitlab:
-  #   image: mcp/gitlab
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.gitlab.rule=PathPrefix(`/gitlab`)"
+  gitlab:
+    image: mcp/gitlab
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    container_name: gitlab
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitlab.rule=PathPrefix(`/gitlab`)"
+    environment:
+      GITLAB_PERSONAL_ACCESS_TOKEN: "op://Developer/zed-mcp-gitlab/credential"
+  gitlab-sscm:
+    image: mcp/gitlab
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    container_name: SSCM
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitlab.rule=PathPrefix(`/cisco/sscm`)"
+    environment:
+      GITLAB_API_URL: https://sscm.gus.cisco.com/api/v4
+      GITLAB_PERSONAL_ACCESS_TOKEN: "op://Cisco/2aesy5on3cb6z6opqieeautagi/token"
   # terraform:
   #   image: hashicorp/terraform-mcp-server
   #   labels:
@@ -131,15 +153,24 @@ services:
   #   labels:
   #     - "traefik.enable=true"
   #     - "traefik.http.routers.github.rule=PathPrefix(`/github`)"
-  # simplechecklist:
-  #   image: mayurkakade/mcp-server
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.github.rule=PathPrefix(`/plan/checklist`)"
-  #   # commands:
-  #   #   - "--mode=backend"
-  #   volumes:
-  #     - "$HOME/.local/share/mcp/checklist/global:/data"
+  simplechecklist:
+    # https://github.com/DevMayur/SimpleCheckList
+    image: mayurkakade/mcp-server:latest
+    container_name: checklists
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    restart: unless-stopped
+    ports:
+      - "8355:8355"
+      - "8180:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.github.rule=PathPrefix(`/plan/checklist`)"
+    volumes:
+      - "$HOME/.local/share/mcp/checklist/global:/data"
+    environment:
+      API_BASE_URL: http://localhost:8355/
+      DATABASE_PATH: /data/checklist.db
   # aws-core:
   #   image: mcp/aws-core-mcp-server
   #   labels:
