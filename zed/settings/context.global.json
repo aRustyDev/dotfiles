@@ -1,0 +1,136 @@
+{
+  "context_servers": {
+    "memory": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/graphiti",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "task-orchestrator": {
+      // "ghcr.io/jpicklyk/task-orchestrator"
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/plan/tasks",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "just": {
+      // Need to figure out how to 'watchdir' here.
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "time": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.localhost/calc/time"]
+    },
+    "math": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    },
+    "sequential-thinking": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "chain-of-thought": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "openref": {
+      // TODO: Re-implement 'ref' MCP here, (indexed and semantic docs across repos).
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "context7": {
+      // TODO: Cache queries locally for efficiency.
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "duckduckgo": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "brave": {
+      // TODO: Cache queries locally for efficiency.
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    }
+  }
+}

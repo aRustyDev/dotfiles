@@ -1,16 +1,11 @@
 {
   "context_servers": {
-    "docker-memory-global": {
+    "memory": {
       "source": "custom",
       "command": "docker",
       "args": [
-        "run",
+        "exec",
         "-i",
-        "--name",
-        "mcp-memory",
-        "--annotation",
-        "scope:global",
-        "--rm",
         "-v",
         "$HOME/.local/share/mcp/memory/global:/data",
         "mcp/memory"

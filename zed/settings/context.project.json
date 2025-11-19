@@ -1,0 +1,16 @@
+{
+  "context_servers": {
+    "ast-grep": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-v",
+        "{{TARGET_DIR}}:/data",
+        "mcp/ast-grep"
+      ]
+    }
+  }
+}
