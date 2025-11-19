@@ -51,6 +51,31 @@
       "command": "npx",
       "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
     },
+    "fetch": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    },
+    "dockerhub": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    },
+    "github": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    },
+    "gitlab": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    },
+    "airtable": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    },
     "sequential-thinking": {
       "source": "custom",
       "command": "npx",
@@ -119,6 +144,20 @@
       }
     },
     "brave": {
+      // TODO: Cache queries locally for efficiency.
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "perplexity": {
       // TODO: Cache queries locally for efficiency.
       "source": "custom",
       "command": "npx",
