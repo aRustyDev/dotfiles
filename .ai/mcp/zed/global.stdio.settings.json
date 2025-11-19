@@ -1,25 +1,10 @@
 {
   "context_servers": {
-    "memory": {
-      "source": "custom",
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "http://mcp.localhost/memory/mcp",
-        "--allow-http"
-      ]
-    },
     "sequentialthinking": {
       "source": "custom",
       "command": "docker",
       "args": ["exec", "-i", "thinking", "node", "dist/index.js"]
     },
-    // "thinking-http": {
-    //   "source": "custom",
-    //   "command": "npx",
-    //   "args": ["-y", "mcp-remote", "http://localhost:9001/mcp", "--allow-http"]
-    // },
     "duckduckgo": {
       "source": "custom",
       "command": "docker",
@@ -62,11 +47,6 @@
       "source": "custom",
       "command": "docker",
       "args": ["exec", "-i", "tool-time", "mcp-server-time"]
-    },
-    "simplechecklist": {
-      "source": "custom",
-      "command": "docker",
-      "args": ["exec", "-i", "checklists", "node", "/app/mcp-server/index.js"]
     }
   }
 }

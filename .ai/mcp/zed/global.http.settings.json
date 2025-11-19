@@ -1,0 +1,24 @@
+{
+  "context_servers": {
+    "memory": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "http://mcp.localhost/memory/mcp",
+        "--allow-http"
+      ]
+    },
+    "simplechecklist": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://localhost:8355", "--allow-http"]
+    }
+    // "thinking-http": { # MCP-Proxy; used for wrapping HTTP->STDIO connections
+    //   "source": "custom",
+    //   "command": "npx",
+    //   "args": ["-y", "mcp-remote", "http://localhost:9001/mcp", "--allow-http"]
+    // }
+  }
+}

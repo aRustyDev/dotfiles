@@ -124,61 +124,47 @@ services:
     # NOTE: Sequential Thinking runs on stdio, not HTTP
     # Access via thinking-http wrapper service below for HTTP/Traefik routing
     # Or use: docker exec -i thinking node dist/index.js
-    healthcheck:
-      test: ["CMD-SHELL", "ps aux | grep -q '[n]ode dist/index.js' || exit 1"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
 
-  # thinking-http:
-  #   image: node:20-alpine
-  #   container_name: thinking-http
-  #   restart: unless-stopped
-  #   command:
-  #     - sh
-  #     - -c
-  #     - |
-  #       apk add --no-cache docker-cli &&
-  #       npm install -g mcp-proxy &&
-  #       echo '#!/bin/sh' > /tmp/mcp-wrapper.sh &&
-  #       echo 'exec docker exec -i thinking node dist/index.js' >> /tmp/mcp-wrapper.sh &&
-  #       chmod +x /tmp/mcp-wrapper.sh &&
-  #       exec mcp-proxy \
-  #         --host=0.0.0.0 \
-  #         --port=8080 \
-  #         --stateless \
-  #         --allow-origin "*" \
-  #         /tmp/mcp-wrapper.sh
-  #   ports:
-  #     - "9001:8080"
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   healthcheck:
-  #     test:
-  #       [
-  #         "CMD-SHELL",
-  #         "wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1",
-  #       ]
-  #     interval: 15s
-  #     timeout: 10s
-  #     retries: 3
-  #     start_period: 30s
-  #   labels:
-  #     traefik.enable: true
-  #     traefik.http.services.thinking-http.loadbalancer.server.port: 9001
-  #     traefik.http.routers.thinking-http.rule: Host(`mcp.localhost`) && PathPrefix(`/mcp`)
-  #     # traefik.http.routers.thinking-http.rule: Host(`thinking.localhost`)
-  #     # traefik.http.routers.thinking-http.service: thinking-http
-  #     # traefik.http.routers.thinking-http.entrypoints: web
-  #     # traefik.http.routers.thinking-http.rule: Host(`mcp.localhost`) && PathPrefix(`/plan/seq`)
-  #     traefik.http.routers.thinking-http.service: thinking-http
-  #     traefik.http.routers.thinking-http.entrypoints: web
-  #     # traefik.http.middlewares.strip-planseq.stripprefix.prefixes: /plan/seq
-  #     # traefik.http.routers.thinking-http.middlewares: strip-planseq
-  #   depends_on:
-  #     sequentialthinking:
-  #       condition: service_healthy
+  thinking-http:
+    image: node:20-alpine
+    container_name: thinking-http
+    restart: unless-stopped
+    command: >
+      sh -c "npm install -g mcp-proxy &&
+             mcp-proxy
+               --host 0.0.0.0
+               --port 8080
+               --stateless
+               docker exec -i thinking node dist/index.js"
+    ports:
+      - "9001:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      traefik.enable: true
+      traefik.http.services.thinking.loadbalancer.server.port: 8080
+      traefik.http.routers.thinking.rule: Host(`thinking.localhost`)
+      traefik.http.routers.thinking.service: thinking
+      traefik.http.routers.thinking.entrypoints: web
+      traefik.http.services.thinking-http.loadbalancer.server.port: 8080
+      traefik.http.routers.thinking-http.rule: Host(`mcp.localhost`) && PathPrefix(`/plan/seq`)
+      traefik.http.routers.thinking-http.service: thinking-http
+      traefik.http.routers.thinking-http.entrypoints: web
+      traefik.http.middlewares.strip-planseq.stripprefix.prefixes: /plan/seq
+      traefik.http.routers.thinking-http.middlewares: strip-planseq
+    depends_on:
+      sequentialthinking:
+        condition: service_healthy
+    #   traefik.http.routers.sequentialthinking.service: sequentialthinking
+    #   traefik.http.routers.sequentialthinking.entrypoints: web
+    #   traefik.http.middlewares.strip-plan.stripprefix.prefixes: /plan
+    #   traefik.http.middlewares.strip-seq.stripprefix.prefixes: /seq
+    #   traefik.http.routers.memory-mcp.middlewares: strip-plan,strip-seq
+    # NOTE: Sequential Thinking runs on stdio, not HTTP
+    # It cannot be accessed via Traefik - use stdio transport instead
+    # labels:
+    #   traefik.enable: true
+    #   traefik.http.routers.sequentialthinking.rule: PathPrefix(`/plan/seq`)
   duckduckgo:
     image: mcp/duckduckgo
     container_name: websearch
@@ -195,8 +181,8 @@ services:
     tty: true # docker run -t
     container_name: gitlab
     labels:
-      traefik.enable: true
-      traefik.http.routers.gitlab.rule: PathPrefix(`/gitlab`)
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitlab.rule=PathPrefix(`/gitlab`)"
     environment:
       GITLAB_PERSONAL_ACCESS_TOKEN: "op://Developer/zed-mcp-gitlab/credential"
   gitlab-sscm:
@@ -205,8 +191,8 @@ services:
     tty: true # docker run -t
     container_name: SSCM
     labels:
-      traefik.enable: true
-      traefik.http.routers.gitlab-sscm.rule: PathPrefix(`/cisco/sscm`)
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitlab.rule=PathPrefix(`/cisco/sscm`)"
     environment:
       GITLAB_API_URL: https://sscm.gus.cisco.com/api/v4
       GITLAB_PERSONAL_ACCESS_TOKEN: "op://Cisco/2aesy5on3cb6z6opqieeautagi/token"
@@ -254,8 +240,8 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     labels:
-      traefik.enable: true
-      traefik.http.routers.time.rule: PathPrefix(`/time`)
+      - "traefik.enable=true"
+      - "traefik.http.routers.time.rule=PathPrefix(`/time`)"
   simplechecklist:
     # https://github.com/DevMayur/SimpleCheckList
     image: mayurkakade/mcp-server:latest
@@ -267,30 +253,13 @@ services:
       - "8355:8355"
       - "8180:80"
     labels:
-      traefik.enable: true
-      # SimpleCheckList UI Access
-      traefik.http.services.checklistui.loadbalancer.server.port: 80
-      traefik.http.routers.checklistui.rule: Host(`ui.localhost`)
-      traefik.http.routers.checklistui.service: checklistui
-      traefik.http.routers.checklistui.entrypoints: web
-      # SimpleCheckList REST API Access (not MCP)
-      traefik.http.services.checklist-api.loadbalancer.server.port: 8355
-      traefik.http.routers.checklist-api.rule: Host(`mcp.localhost`) && PathPrefix(`/api`)
-      traefik.http.routers.checklist-api.service: checklist-api
-      traefik.http.routers.checklist-api.entrypoints: web
-    extra_hosts:
-      host.docker.internal: host-gateway
+      - "traefik.enable=true"
+      - "traefik.http.routers.github.rule=PathPrefix(`/plan/checklist`)"
     volumes:
-      - "$HOME/.local/share/mcp/checklist/global:/app/data"
+      - "$HOME/.local/share/mcp/checklist/global:/data"
     environment:
-      API_BASE_URL: http://host.docker.internal:8355/api
+      API_BASE_URL: http://localhost:8355/
       DATABASE_PATH: /data/checklist.db
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8355/api/health || exit 1"]
-      interval: 15s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
   # aws-core:
   #   image: mcp/aws-core-mcp-server
   #   labels:
