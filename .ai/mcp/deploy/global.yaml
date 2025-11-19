@@ -1,29 +1,41 @@
 ---
 # docker-compose.yml
+name: mcp-global
 services:
   traefik:
-    image: traefik:v2.10
+    image: traefik:latest
+    container_name: ingress
     command:
+      - "--api.insecure=true"
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
+      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  # dockerhub:
-  #   image: your-dockerhub-mcp
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.dockerhub.rule=PathPrefix(`/dockerhub`)"
-  #     - "traefik.http.services.dockerhub.loadbalancer.server.port=3000"
+  dockerhub:
+    image: mcp/dockerhub
+    container_name: dockerhub
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    command:
+      - "--transport=stdio"
+      - "--username=op://Cisco/koclujb733w4wcgafe4whlurwa/username"
+    environment:
+      HUB_PAT_TOKEN: "op://Cisco/koclujb733w4wcgafe4whlurwa/credential"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.dockerhub.rule: PathPrefix(`/dockerhub`)
+      traefik.http.routers.dockerhub.loadbalancer.server.port: 3000
   # github:
   #   image: ghcr.io/github/github-mcp-server
   #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.github.rule=PathPrefix(`/github`)"
-
+  #     traefik.enable: true
+  #     traefik.http.routers.github.rule: PathPrefix(`/github`)
   falkordb:
     image: falkordb/falkordb:latest
+    container_name: graphdb
     ports:
       - "6379:6379" # Redis/FalkorDB port
       - "3000:3000" # FalkorDB web UI
@@ -31,61 +43,29 @@ services:
       - FALKORDB_PASSWORD=${FALKORDB_PASSWORD:-}
       - BROWSER=${BROWSER:-1} # Enable FalkorDB Browser UI (set to 0 to disable)
     volumes:
-      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/memory:/data
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/memory:/data # Persist FalkorDB data
     healthcheck:
       test: ["CMD", "redis-cli", "-p", "6379", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
-  graphiti-falkordb:
-    build:
-      args:
-        INSTALL_FALKORDB: "true"
-        GRAPHITI_VERSION: ${GRAPHITI_VERSION:-0.23.1}
-      context: ../build
-      dockerfile: graphiti.Dockerfile
-    ports:
-      - "8001:8001"
-    depends_on:
-      falkordb:
-        condition: service_healthy
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "python",
-          "-c",
-          "import urllib.request; urllib.request.urlopen('http://localhost:8001/healthcheck')",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - FALKORDB_HOST=falkordb
-      - FALKORDB_PORT=6379
-      - FALKORDB_DATABASE=default_db
-      - GRAPHITI_BACKEND=falkordb
-      - PORT=8001
-      - db_backend=falkordb
-  graphiti-mcp:
+    labels:
+      traefik.enable: true
+      traefik.http.routers.falkordb.rule: PathPrefix(`/graph`)
+  memory:
     image: zepai/knowledge-graph-mcp:standalone
+    container_name: memory
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
     # For specific versions, replace 'standalone' with a version tag:
     #   image: zepai/knowledge-graph-mcp:1.0.0-standalone
     # When building locally, the build section below will be used.
-    build:
-      context: ../build
-      dockerfile: graphiti.mcp.Dockerfile
-      args:
-        GRAPHITI_CORE_VERSION: ${GRAPHITI_VERSION:-0.23.1}
     env_file:
-      - path: ../build/graphiti.mcp.env
+      - path: ./config/graphiti.env
         required: false
     depends_on:
       falkordb:
-        condition: service_healthy
-      graphiti-falkordb:
         condition: service_healthy
     environment:
       # Database configuration
@@ -98,69 +78,68 @@ services:
       - CONFIG_PATH=/app/mcp/config/config.yaml
       - PATH=/root/.local/bin:${PATH}
     volumes:
-      - ../build/config/falkordb.yaml:/app/mcp/config/config.yaml:ro
-      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/memory:/app/mcp/config/config.yaml:ro
+      - ./config/graphiti.yaml:/app/mcp/config/config.yaml:ro
     ports:
       - "8000:8000" # Expose the MCP server via HTTP transport
     command: ["uv", "run", "main.py"]
-  memory:
-    image: graphiti
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.github.rule=PathPrefix(`/memory`)"
-    environment:
-      - KUZU_DB=/path/to/graphiti.kuzu
-      - MODEL_NAME=gpt-4o-mini
-      - GRAPHITI_TELEMETRY_ENABLED=false
+      traefik.enable: true
+      traefik.http.routers.memory.rule: PathPrefix(`/memory`)
   sequentialthinking:
     image: mcp/sequentialthinking
+    container_name: thinking
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.github.rule=PathPrefix(`/plan/seq`)"
+      traefik.enable: true
+      traefik.http.routers.sequentialthinking.rule: PathPrefix(`/plan/seq`)
   duckduckgo:
     image: mcp/duckduckgo
+    container_name: websearch
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.github.rule=PathPrefix(`/search/ddg`)"
+      traefik.enable: true
+      traefik.http.routers.duckduckgo.rule: PathPrefix(`/search/ddg`)
+    annotations:
+      com.example.foo: bar
   # gitlab:
   #   image: mcp/gitlab
   #   labels:
   #     - "traefik.enable=true"
-  #     - "traefik.http.routers.github.rule=PathPrefix(`/github`)"
+  #     - "traefik.http.routers.gitlab.rule=PathPrefix(`/gitlab`)"
   # terraform:
   #   image: hashicorp/terraform-mcp-server
   #   labels:
   #     - "traefik.enable=true"
-  #     - "traefik.http.routers.github.rule=PathPrefix(`/github`)"
+  #     - "traefik.http.routers.terraform.rule=PathPrefix(`/terraform`)"
   time:
     image: mcp/time
+    container_name: tool-time
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.github.rule=PathPrefix(`/time`)"
+      - "traefik.http.routers.time.rule=PathPrefix(`/time`)"
   # python-refactoring:
   #   image: mcp/mcp-python-refactoring
   #   labels:
   #     - "traefik.enable=true"
-  #     - "traefik.http.routers.github.rule=PathPrefix(`/github`)"
-  curl:
-    image: alpine/curl
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.github.rule=PathPrefix(`/curl`)"
+  #     - "traefik.http.routers.pyref.rule=PathPrefix(`/py/refactor`)"
   # prometheus:
   #   image: ghcr.io/pab1it0/prometheus-mcp-server
   #   labels:
   #     - "traefik.enable=true"
   #     - "traefik.http.routers.github.rule=PathPrefix(`/github`)"
-  simplechecklist:
-    image: mayurkakade/mcp-server
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.github.rule=PathPrefix(`/plan/checklist`)"
-    commands:
-      - "--mode=backend"
-    volumes:
-      - "$HOME/.local/share/mcp/checklist/global:/data"
+  # simplechecklist:
+  #   image: mayurkakade/mcp-server
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.github.rule=PathPrefix(`/plan/checklist`)"
+  #   # commands:
+  #   #   - "--mode=backend"
+  #   volumes:
+  #     - "$HOME/.local/share/mcp/checklist/global:/data"
   # aws-core:
   #   image: mcp/aws-core-mcp-server
   #   labels:

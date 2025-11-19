@@ -1,6 +1,11 @@
 import "./mcp.just"
 
 free_cad_mods_dir := env("HOME") + "/Library/Preferences/FreeCAD/Mod"
+global_compose := justfile_directory() / "deploy/global.yaml"
+
+# Deploy all global MCP services
+global action="":
+    cd "{{justfile_directory() / "deploy"}}" && op inject -i "{{global_compose}}" | docker-compose -f - {{ if action == "" { "up -d" } else { "down" } }}
 
 kicad: (config-all-ai-tools "kicad")
     #!/usr/bin/env bash
