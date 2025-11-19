@@ -1,6 +1,6 @@
 {
   "context_servers": {
-    "docker-memory-global": {
+    "memory": {
       "source": "custom",
       "command": "docker",
       "args": [
@@ -16,110 +16,47 @@
         "mcp/memory"
       ]
     },
-    "docker-mongodb": {
+    "duckduckgo": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-mongodb",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "MDB_MCP_CONNECTION_STRING",
-        "-v",
-        "$HOME/.local/share/mcp/mongo/global:/data",
-        "mcp/mongodb"
-      ],
-      "env": {
-        "MDB_MCP_CONNECTION_STRING": "mongodb+srv://$MONGO_USER:$MONGO_PASS@localhost:27017/global"
-      }
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/search/ddg"]
     },
-    "docker-search-duckduckgo": {
+    "sequentialthinking": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-duckduckgo",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/duckduckgo"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/plan/seq"]
     },
-    "docker-sequentialthinking": {
+    "github": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-sequential-thinking",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/sequentialthinking"
-      ]
-    },
-    "docker-github": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-github",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "ghcr.io/github/github-mcp-server"
-      ],
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/git/hub"],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
       }
     },
-    "docker-gitlab": {
+    "gitlab": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-gitlab",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "GITLAB_API_URL",
-        "-e",
-        "GITLAB_PERSONAL_ACCESS_TOKEN",
-        "mcp/gitlab"
-      ],
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/git/lab"],
       "env": {
-        "GITLAB_API_URL": "https://sccm.govus.cisco.com/api/v4",
+        "GITLAB_API_URL": "https://gitlab.com/api/v4",
         "GITLAB_PERSONAL_ACCESS_TOKEN": "op://employee/gitlab/mcp-global/token"
       }
     },
-    "just-search": {
-      "source": "custom",
-      "command": "just-mcp",
-      "args": [
-        "search",
-        "--database",
-        "$HOME/.local/share/mcp/just/global_vector_search.db"
-      ],
-      "env": {
-        "RUST_LOG": "info",
-        "JUST_MCP_VECTOR_SEARCH": "true",
-        "JUST_MCP_EMBEDDING_PROVIDER": "local"
-      }
-    },
+    // "just-search": {
+    //   "source": "custom",
+    //   "command": "just-mcp",
+    //   "args": [
+    //     "search",
+    //     "--database",
+    //     "$HOME/.local/share/mcp/just/global_vector_search.db"
+    //   ],
+    //   "env": {
+    //     "RUST_LOG": "info",
+    //     "JUST_MCP_VECTOR_SEARCH": "true",
+    //     "JUST_MCP_EMBEDDING_PROVIDER": "local"
+    //   }
+    // },
     "docker-cli": {
       "source": "custom",
       "command": "docker",
@@ -134,114 +71,23 @@
         "docker:cli"
       ]
     },
-    "docker-dockerhub": {
+    "dockerhub": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-dockerhub",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "HUB_PAT_TOKEN",
-        "mcp/dockerhub",
-        "--transport=stdio",
-        "--username={{dockerhub.username}}"
-      ],
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/docker/hub"],
       "env": {
         "HUB_PAT_TOKEN": "op://employee/docker/mcp-global/token"
       }
     },
-    "docker-terraform": {
+    "terraform": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-terraform",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "hashicorp/terraform-mcp-server"
-      ]
-    },
-    "docker-postgres": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-postgres",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "POSTGRES_URL",
-        "-v",
-        "$HOME/.local/share/mcp/postgres/global:/data",
-        "mcp/postgres"
-      ],
-      "env": {
-        "POSTGRES_URL": "postgresql://localhost:5432/global"
-      }
-    },
-    "docker-grafana": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-grafana",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "GRAFANA_URL",
-        "-e",
-        "GRAFANA_API_KEY",
-        "mcp/grafana",
-        "--transport=stdio"
-      ],
-      "env": {
-        "GRAFANA_URL": "http://localhost:3000",
-        "GRAFANA_API_KEY": "op://employee/grafana/mcp-global/token"
-      }
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/hashicorps/tf"]
     },
     "docker-atlassian": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-atlassian",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "CONFLUENCE_URL",
-        "-e",
-        "CONFLUENCE_USERNAME",
-        "-e",
-        "JIRA_URL",
-        "-e",
-        "JIRA_USERNAME",
-        "-e",
-        "CONFLUENCE_API_TOKEN",
-        "-e",
-        "CONFLUENCE_PERSONAL_TOKEN",
-        "-e",
-        "JIRA_API_TOKEN",
-        "-e",
-        "JIRA_PERSONAL_TOKEN",
-        "mcp/atlassian"
-      ],
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/atlassian"],
       "env": {
         "CONFLUENCE_URL": "op://employee/confluence/url",
         "CONFLUENCE_USERNAME": "op://employee/confluence/email",
@@ -253,213 +99,63 @@
         "JIRA_PERSONAL_TOKEN": "op://employee/jira/mcp-global/token"
       }
     },
-    "docker-aws-documentation": {
+    "docs-aws": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-aws-docs",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/aws-documentation"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/docs/aws"]
     },
     "kubernetes": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-kubernetes",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-v",
-        "/local-directory:/local-directory",
-        "mcp/kubernetes"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/kube"]
     },
-    "kubectl-mcp-server": {
+    "python-refactoring": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-kubectl",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-v",
-        "/local-directory:/local-directory",
-        "mcp/kubectl-mcp-server"
-      ]
-    },
-    "context7": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-context7",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/context7"
-      ]
-    },
-    "time": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-time",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/time"
-      ]
-    },
-    "mcp-python-refactoring": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-python-refactoring",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/mcp-python-refactoring"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/py/refactor"]
     },
     "curl": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-curl",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "alpine/curl"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/curl"]
     },
     "prometheus": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-prometheus",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "PROMETHEUS_URL",
-        "ghcr.io/pab1it0/prometheus-mcp-server"
-      ],
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/prometheus"],
       "env": {
         "PROMETHEUS_URL": "http://host.docker.internal:9090"
       }
     },
     "simplechecklist": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-checklist-global",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-v",
-        "$HOME/.local/share/mcp/checklist/global:/data",
-        "mayurkakade/mcp-server:latest",
-        "--mode=backend"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/search/ddg"]
     },
-    "aws-core-mcp-server": {
+    "aws-core": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-aws-core",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/aws-core-mcp-server"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/aws/core"]
     },
     "aws-diagram": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-aws-diagram",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/aws-diagram"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/aws/diagram"]
     },
     "aws-terraform": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-aws-terraform",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/aws-terraform"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/aws/tf"]
     },
     "aws-api": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-aws-api",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/aws-api-mcp-server"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/aws/api"]
     },
-    "awslabs-cloudtrail": {
+    "aws-cloudtrail": {
       "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-aws-cloudtrail",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/cloudtrail-mcp-server"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:80/aws/logs"]
     }
   }
 }

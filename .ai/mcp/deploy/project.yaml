@@ -1,0 +1,8 @@
+---
+# docker-compose.yml
+services:
+  ast-grep:
+    image: mcp/ast-grep
+    volumes:
+      - /path/to/project1:/workspaces/project1:ro
+      - /path/to/project2:/workspaces/project2:ro
