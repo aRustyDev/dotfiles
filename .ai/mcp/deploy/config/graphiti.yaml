@@ -1,22 +1,30 @@
-# Graphiti MCP Server Configuration for Docker with FalkorDB
-# This configuration is optimized for running with docker-compose-falkordb.yml
+# id: 7f3e9b2c-4d1a-4e5f-8c9a-2b7f6e3d1c8a
+# Graphiti MCP Server Configuration
+# - FalkorDB as the database backend
+# - Ollama for local LLM and embeddings
 
 server:
   transport: "http" # HTTP transport (SSE is deprecated)
   host: "0.0.0.0"
   port: 8000
 
+# LLM Configuration - Using Ollama as OpenAI-compatible endpoint
 llm: # Using Ollama for Local LLM
   provider: "openai" # Options: openai, azure_openai, anthropic, gemini, groq
-  model: "gpt-oss:120b" # or your preferred Ollama model
+  # `llm.model`: Extracts entities and relationships from text
+  model: "llama3.2"
+  # model: "gpt-oss:120b" # or your preferred Ollama model
+  # - **Changeability**: ✅ Easy - swap anytime, no data loss
   api_base: "http://localhost:11434/v1"
   api_key: "ollama" # dummy key required
+  temperature: 0.1
   max_tokens: 4096
 
   providers:
     openai:
       api_key: ${OPENAI_API_KEY}
-      api_url: ${OPENAI_API_URL:https://api.openai.com/v1}
+      api_base: ${OPENAI_API_URL_BASE:http://ollama:11434/v1}
+      api_url: ${OPENAI_API_URL:http://ollama:11434/v1}
       organization_id: ${OPENAI_ORGANIZATION_ID:}
 
     azure_openai:
@@ -40,11 +48,29 @@ llm: # Using Ollama for Local LLM
       api_key: ${GROQ_API_KEY}
       api_url: ${GROQ_API_URL:https://api.groq.com/openai/v1}
 
+# Cross-Encoder Configuration - Using Ollama for reranking
+cross_encoder:
+  provider: "openai"
+  # `cross_encoder.model`: Reranks search results
+  # - **Changeability**: ✅ Easy - swap anytime, no data loss
+  model: "llama3.2"
+
+  providers:
+    openai:
+      api_key: ${OPENAI_API_KEY}
+      api_base: "http://ollama:11434/v1"
+
+# Embedder Configuration - Using Ollama embeddings
 embedder:
   # recommended for local setup
-  provider: "sentence_transformers" # Options: openai, azure_openai, gemini, voyage
-  model: "all-MiniLM-L6-v2"
-  # dimensions: 1536
+  provider: "openai"
+  # `embedder.model`: Converts text to vector numbers for semantic search
+  # - **Changeability**: ⚠️ **HARD** - requires rebuilding entire graph!
+  model: "nomic-embed-text" # Options: openai, azure_openai, gemini, voyage
+  # (model-alternatives): "mxbai-embed-large", "bge-m3", "all-minilm"
+  # provider: "sentence_transformers"
+  # model: "all-MiniLM-L6-v2"
+  dimensions: 768
 
   providers:
     openai:
@@ -69,18 +95,21 @@ embedder:
       api_url: ${VOYAGE_API_URL:https://api.voyageai.com/v1}
       model: "voyage-3"
 
+# Database Configuration - FalkorDB (Redis-based graph database)
 database:
   provider: "falkordb" # Using FalkorDB for this configuration
 
   providers:
     falkordb:
       # Use environment variable if set, otherwise use Docker service hostname
-      uri: ${FALKORDB_URI:redis://falkordb:6379}
+      uri: ${FALKORDB_URI:redis://graphdb:6379}
       password: ${FALKORDB_PASSWORD:}
       database: ${FALKORDB_DATABASE:default_db}
 
+# Graphiti Processing Configuration
 graphiti:
-  group_id: ${GRAPHITI_GROUP_ID:main}
+  group_id: ${GRAPHITI_GROUP_ID:-main}
+  semaphore_limit: 10
   episode_id_prefix: ${EPISODE_ID_PREFIX:}
   user_id: ${USER_ID:mcp_user}
   entity_types:
@@ -102,3 +131,8 @@ graphiti:
       description: "Subject of conversation, interest, or knowledge domain (use as last resort)"
     - name: "Object"
       description: "Physical items, tools, devices, or possessions (use as last resort)"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

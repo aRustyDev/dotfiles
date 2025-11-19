@@ -1,0 +1,37 @@
+[
+  {
+    "Model": "nomic-embed-text",
+    "Dimensions": "768",
+    "Size": "274 MB",
+    "Context": "8192",
+    "Best For": "excellent balance"
+  },
+  {
+    "Model": "mxbai-embed-large",
+    "Dimensions": "1024",
+    "Size": "669 MB",
+    "Context": "512",
+    "Best For": "Maximum accuracy"
+  },
+  {
+    "Model": "all-minilm",
+    "Dimensions": "384",
+    "Size": "45 MB",
+    "Context": "512",
+    "Best For": "Speed & efficiency"
+  },
+  {
+    "Model": "bge-m3",
+    "Dimensions": "1024",
+    "Size": "1.1 GB",
+    "Context": "8192",
+    "Best For": "Multilingual support"
+  },
+  {
+    "Model": "",
+    "Dimensions": "",
+    "Size": "",
+    "Context": "",
+    "Best For": ""
+  }
+]

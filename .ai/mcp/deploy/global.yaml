@@ -1,6 +1,7 @@
 ---
 # docker-compose.yml
 name: mcp-global
+
 services:
   traefik:
     image: traefik:latest
@@ -58,10 +59,20 @@ services:
       start_period: 10s
     labels:
       traefik.enable: true
-      traefik.http.routers.falkordb.rule: PathPrefix(`/graph`)
+      # FalkorDB UI Access - Use subdomain to avoid path prefix issues with Next.js assets
+      traefik.http.services.falkorui.loadbalancer.server.port: 3000
+      traefik.http.routers.falkorui.rule: Host(`falkor.ui.localhost`)
+      traefik.http.routers.falkorui.service: falkorui
+      traefik.http.routers.falkorui.entrypoints: web
+      # FalkorDB Access
+      traefik.http.services.falkordb.loadbalancer.server.port: 6379
+      traefik.http.routers.falkordb.rule: Host(`db.localhost`) && PathPrefix(`/graph`)
+      traefik.http.routers.falkordb.service: falkordb
+      traefik.http.routers.falkordb.entrypoints: web
   memory:
     image: zepai/knowledge-graph-mcp:standalone
     container_name: memory
+    restart: unless-stopped
     stdin_open: true # docker run -i
     tty: true # docker run -t
     # For specific versions, replace 'standalone' with a version tag:
@@ -73,6 +84,10 @@ services:
     depends_on:
       falkordb:
         condition: service_healthy
+      ollama-cpu:
+        condition: service_healthy
+      ollama-pull-models:
+        condition: service_completed_successfully
     environment:
       # Database configuration
       - FALKORDB_URI=${FALKORDB_URI:-redis://falkordb:6379}
@@ -83,14 +98,24 @@ services:
       - SEMAPHORE_LIMIT=${SEMAPHORE_LIMIT:-10}
       - CONFIG_PATH=/app/mcp/config/config.yaml
       - PATH=/root/.local/bin:${PATH}
-    volumes:
-      - ./config/graphiti.yaml:/app/mcp/config/config.yaml:ro
+      # Workaround for cross-encoder initialization
+      - OPENAI_API_KEY=ollama
+      - OPENAI_API_BASE=http://ollama:11434/v1
+    configs:
+      - source: graphiti
+        target: /app/mcp/config/config.yaml
     ports:
       - "8000:8000" # Expose the MCP server via HTTP transport
     command: ["uv", "run", "main.py"]
     labels:
       traefik.enable: true
-      traefik.http.routers.memory.rule: PathPrefix(`/memory`)
+      traefik.http.services.memory.loadbalancer.server.port: 8000
+      traefik.http.routers.memory-mcp.rule: Host(`mcp.localhost`) && PathPrefix(`/memory`)
+      traefik.http.routers.memory-mcp.service: memory
+      traefik.http.routers.memory-mcp.entrypoints: web
+      traefik.http.middlewares.strip-memory.stripprefix.prefixes: /memory
+      traefik.http.routers.memory-mcp.middlewares: strip-memory
+
   sequentialthinking:
     image: mcp/sequentialthinking
     container_name: thinking
@@ -99,6 +124,12 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.sequentialthinking.rule: PathPrefix(`/plan/seq`)
+      # traefik.http.services.falkordb.loadbalancer.server.port: 6379
+      # traefik.http.services.falkorui.loadbalancer.server.port: 3000
+      # traefik.http.routers.falkordb.service: falkordb
+      # traefik.http.routers.falkorui.service: falkorui
+      # traefik.http.routers.falkordb.rule: Host(`db.localhost`) && PathPrefix(`/graph`)
+      # traefik.http.routers.falkorui.rule: Host(`db.localhost`) && PathPrefix(`/ui/falkor`)
   duckduckgo:
     image: mcp/duckduckgo
     container_name: websearch
@@ -130,11 +161,44 @@ services:
     environment:
       GITLAB_API_URL: https://sscm.gus.cisco.com/api/v4
       GITLAB_PERSONAL_ACCESS_TOKEN: "op://Cisco/2aesy5on3cb6z6opqieeautagi/token"
-  # terraform:
-  #   image: hashicorp/terraform-mcp-server
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.terraform.rule=PathPrefix(`/terraform`)"
+  ollama-cpu:
+    image: ollama/ollama:latest
+    container_name: ollama
+    networks: ["global"]
+    restart: unless-stopped
+    ports:
+      - 11434:11434
+    volumes:
+      - $HOME/.local/share/mcp/ollama:/root/.ollama
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "bash",
+          "-c",
+          "'cat < /dev/null > /dev/tcp/localhost/11434'",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+  ollama-pull-models:
+    image: ollama/ollama:latest
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    networks: ["global"]
+    container_name: ollama-pull-models
+    volumes:
+      - $HOME/.local/share/mcp/ollama:/root/.ollama
+    entrypoint: /bin/sh
+    environment:
+      - OLLAMA_HOST=ollama:11434
+    command:
+      - "-c"
+      - "sleep 3; ollama pull llama3.2 && ollama pull nomic-embed-text"
+    depends_on:
+      ollama-cpu:
+        condition: service_healthy
   time:
     image: mcp/time
     container_name: tool-time
@@ -143,16 +207,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.time.rule=PathPrefix(`/time`)"
-  # python-refactoring:
-  #   image: mcp/mcp-python-refactoring
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.pyref.rule=PathPrefix(`/py/refactor`)"
-  # prometheus:
-  #   image: ghcr.io/pab1it0/prometheus-mcp-server
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.github.rule=PathPrefix(`/github`)"
   simplechecklist:
     # https://github.com/DevMayur/SimpleCheckList
     image: mayurkakade/mcp-server:latest
@@ -201,3 +255,25 @@ services:
   #   labels:
   #     - "traefik.enable=true"
   #     - "traefik.http.routers.github.rule=PathPrefix(`/github`)"
+  # python-refactoring:
+  #   image: mcp/mcp-python-refactoring
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.pyref.rule=PathPrefix(`/py/refactor`)"
+  # prometheus:
+  #   image: ghcr.io/pab1it0/prometheus-mcp-server
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.github.rule=PathPrefix(`/github`)"
+  # terraform:
+  #   image: hashicorp/terraform-mcp-server
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.terraform.rule=PathPrefix(`/terraform`)"
+
+networks:
+  global:
+
+configs:
+  graphiti:
+    file: ./config/graphiti.yaml
