@@ -7,6 +7,14 @@ services:
     # NOTE: Sequential Thinking runs on stdio, not HTTP
     # Access via thinking-http wrapper service below for HTTP/Traefik routing
     # Or use: docker exec -i thinking node dist/index.js
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
     healthcheck:
       test: ["CMD-SHELL", "ps aux | grep -q '[n]ode dist/index.js' || exit 1"]
       interval: 30s

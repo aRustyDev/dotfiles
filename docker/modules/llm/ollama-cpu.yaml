@@ -13,6 +13,14 @@ services:
       traefik.enable: true
       traefik.http.services.ollama.loadbalancer.server.port: 11434
       traefik.http.routers.ollama.rule: Host(`llm.${DOMAIN:-localhost}`)
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: 8G
+        reservations:
+          cpus: "1.0"
+          memory: 2G
     healthcheck:
       test:
         [

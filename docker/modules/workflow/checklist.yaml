@@ -29,6 +29,14 @@ services:
     environment:
       API_BASE_URL: http://host.docker.internal:8355/api
       DATABASE_PATH: /data/checklist.db
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8355/api/health || exit 1"]
       interval: 15s

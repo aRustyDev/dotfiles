@@ -50,3 +50,17 @@ services:
       traefik.http.routers.memory-mcp.entrypoints: web
       traefik.http.middlewares.strip-memory.stripprefix.prefixes: /memory
       traefik.http.routers.memory-mcp.middlewares: strip-memory
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 30s

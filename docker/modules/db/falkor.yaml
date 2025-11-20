@@ -10,6 +10,14 @@ services:
       - BROWSER=${BROWSER:-1} # Enable FalkorDB Browser UI (set to 0 to disable)
     volumes:
       - ${XDG_DATA_HOME:-${XDG_DATA_HOME:?err_xdg_data_home}}/mcp/memory:/data # Persist FalkorDB data
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2G
+        reservations:
+          cpus: "0.25"
+          memory: 512M
     healthcheck:
       test: ["CMD", "redis-cli", "-p", "6379", "ping"]
       interval: 10s

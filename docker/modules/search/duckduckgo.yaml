@@ -10,3 +10,17 @@ services:
       traefik.enable: true
       # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/search/ddg`)
       traefik.http.routers.duckduckgo.rule: PathPrefix(`/search/ddg`)
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -q '[n]ode' || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
