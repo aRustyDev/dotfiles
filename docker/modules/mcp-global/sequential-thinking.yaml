@@ -1,0 +1,15 @@
+services:
+  sequentialthinking:
+    image: mcp/sequentialthinking
+    container_name: thinking
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    # NOTE: Sequential Thinking runs on stdio, not HTTP
+    # Access via thinking-http wrapper service below for HTTP/Traefik routing
+    # Or use: docker exec -i thinking node dist/index.js
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -q '[n]ode dist/index.js' || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

@@ -1,0 +1,30 @@
+services:
+  falkordb:
+    image: falkordb/falkordb:latest
+    container_name: graphdb
+    ports:
+      - "6379:6379" # Redis/FalkorDB port
+      - "3000:3000" # FalkorDB web UI
+    environment:
+      - FALKORDB_PASSWORD=${FALKORDB_PASSWORD:-}
+      - BROWSER=${BROWSER:-1} # Enable FalkorDB Browser UI (set to 0 to disable)
+    volumes:
+      - ${XDG_DATA_HOME:-${XDG_DATA_HOME:?err_xdg_data_home}}/mcp/memory:/data # Persist FalkorDB data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "6379", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    labels:
+      traefik.enable: true
+      # FalkorDB UI Access - Use subdomain to avoid path prefix issues with Next.js assets
+      traefik.http.services.falkorui.loadbalancer.server.port: 3000
+      traefik.http.routers.falkorui.rule: Host(`falkor.ui.${DOMAIN:-localhost}`)
+      traefik.http.routers.falkorui.service: falkorui
+      traefik.http.routers.falkorui.entrypoints: web
+      # FalkorDB Access
+      traefik.http.services.falkordb.loadbalancer.server.port: 6379
+      traefik.http.routers.falkordb.rule: Host(`db.${DOMAIN:-localhost}`) && PathPrefix(`/graph`)
+      traefik.http.routers.falkordb.service: falkordb
+      traefik.http.routers.falkordb.entrypoints: web

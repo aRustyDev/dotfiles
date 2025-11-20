@@ -1,0 +1,9 @@
+---
+# docker-compose.yml
+name: mcp-${PROJECT_NAME:?need_project_name}
+
+include:
+  - path: mcp/project/ast-grep.yaml
+
+networks:
+  global:

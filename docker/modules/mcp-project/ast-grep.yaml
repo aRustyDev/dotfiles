@@ -1,0 +1,7 @@
+services:
+  ast-grep:
+    image: mcp/ast-grep
+    profiles: ["project"]
+    volumes:
+      - /path/to/project1:/workspaces/project1:ro
+      - /path/to/project2:/workspaces/project2:ro

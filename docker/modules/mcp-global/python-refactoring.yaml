@@ -1,0 +1,7 @@
+services:
+  pyref:
+    image: mcp/mcp-python-refactoring
+    profiles: ["python"]
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pyref.rule: PathPrefix(`/py/refactor`)

@@ -1,0 +1,7 @@
+services:
+  aws-diagrams:
+    image: mcp/aws-diagram
+    profiles: ["aws"]
+    labels:
+      traefik.enable: true
+      traefik.http.routers.aws-diagrams.rule: PathPrefix(`/aws/diagrams`)

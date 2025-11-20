@@ -1,0 +1,8 @@
+services:
+  aws-api:
+    image: mcp/aws-api-mcp-server
+    profiles: ["aws"]
+    domainname: aws-api.mcp.${DOMAIN:-localhost}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.aws-api.rule: PathPrefix(`/aws/api`)

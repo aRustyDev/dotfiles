@@ -1,0 +1,52 @@
+include:
+  - path: ../db/falkor.yaml
+  - path: ../llm/ollama-${OLLAMA_PROCESSOR_KIND:?err_ollama_processor_kind}.yaml
+
+services:
+  graphiti:
+    image: zepai/knowledge-graph-mcp:standalone
+    profiles: ["core", "graphiti"]
+    container_name: memory
+    restart: unless-stopped
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    # For specific versions, replace 'standalone' with a version tag:
+    #   image: zepai/knowledge-graph-mcp:1.0.0-standalone
+    # When building locally, the build section below will be used.
+    env_file:
+      - path: ./config/graphiti.env
+        required: false
+    depends_on:
+      falkordb:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+      pull-models:
+        condition: service_completed_successfully
+    environment:
+      # Database configuration
+      - FALKORDB_URI=${FALKORDB_URI:-redis://falkordb:6379}
+      - FALKORDB_PASSWORD=${FALKORDB_PASSWORD:-}
+      - FALKORDB_DATABASE=${FALKORDB_DATABASE:-default_db}
+      # Application configuration
+      - GRAPHITI_GROUP_ID=${GRAPHITI_GROUP_ID:-main}
+      - SEMAPHORE_LIMIT=${SEMAPHORE_LIMIT:-10}
+      - CONFIG_PATH=/app/graphiti.yaml
+      - PATH=/root/.local/bin:${PATH}
+      # Workaround for cross-encoder initialization
+      - OPENAI_API_KEY=ollama
+      - OPENAI_API_BASE=http://ollama:${OLLAMA_PORT:-11434}/v1
+    configs:
+      - source: graphiti
+        target: /app/graphiti.yaml
+    ports:
+      - "${GRAPHITI_PORT:-8000}:8000" # Expose the MCP server via HTTP transport
+    command: ["uv", "run", "main.py"]
+    labels:
+      traefik.enable: true
+      traefik.http.services.memory.loadbalancer.server.port: 8000
+      traefik.http.routers.memory-mcp.rule: Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/memory`)
+      traefik.http.routers.memory-mcp.service: memory
+      traefik.http.routers.memory-mcp.entrypoints: web
+      traefik.http.middlewares.strip-memory.stripprefix.prefixes: /memory
+      traefik.http.routers.memory-mcp.middlewares: strip-memory

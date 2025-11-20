@@ -1,0 +1,7 @@
+services:
+  terraform:
+    image: hashicorp/terraform-mcp-server
+    profiles: ["terraform"]
+    labels:
+      traefik.enable: true
+      traefik.http.routers.terraform.rule: PathPrefix(`/terraform`)

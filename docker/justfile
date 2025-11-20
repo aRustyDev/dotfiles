@@ -1,0 +1,17 @@
+dot_docker := env("XDG_CONFIG_HOME", env("HOME") / ".config") / "docker"
+src_docker := justfile_directory()
+
+install: mktree
+    cp -r "{{ src_docker }}" "{{ dot_docker }}"
+
+mktree:
+    mkdir -p "{{ dot_docker }}"dot_docker
+
+clean:
+    rm -rf "{{ dot_docker }}"
+
+test profile out="docker-compose":
+    just template "{{ out }}" | docker-compose -f "{{ dot_docker / out }}.yaml" up -d
+
+template name:
+    docker-compose -f "{{ src_docker / name }}.yaml" config | op inject

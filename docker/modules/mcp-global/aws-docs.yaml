@@ -1,0 +1,7 @@
+services:
+  aws-docs:
+    image: mcp/aws-documentation
+    profiles: ["aws", "docs"]
+    labels:
+      traefik.enable: true
+      traefik.http.routers.aws-docs.rule: PathPrefix(`/aws/docs`)

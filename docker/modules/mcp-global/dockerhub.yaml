@@ -1,0 +1,17 @@
+services:
+  dockerhub:
+    image: mcp/dockerhub
+    container_name: dockerhub
+    profiles: ["docker"]
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    command:
+      - "--transport=stdio"
+      - "--username=op://Developer/Docker-Hub-MCP/username"
+    environment:
+      HUB_PAT_TOKEN: "op://Developer/Docker-Hub-MCP/credential"
+    labels:
+      traefik.enable: true
+      # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/dockerhub`)
+      traefik.http.routers.dockerhub.rule: PathPrefix(`/dockerhub`)
+      traefik.http.routers.dockerhub.loadbalancer.server.port: 3000

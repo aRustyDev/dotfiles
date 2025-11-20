@@ -1,0 +1,7 @@
+services:
+  aws-core:
+    image: mcp/aws-core-mcp-server
+    profiles: ["aws"]
+    labels:
+      traefik.enable: true
+      traefik.http.routers.aws-core.rule: PathPrefix(`/aws/core`)

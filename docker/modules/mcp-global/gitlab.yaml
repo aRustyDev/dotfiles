@@ -1,0 +1,14 @@
+---
+services:
+  gitlab:
+    image: mcp/gitlab
+    profiles: ["git", "gitlab", "repo"]
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    container_name: gitlab
+    labels:
+      traefik.enable: true
+      # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/gitlab`)
+      traefik.http.routers.gitlab.rule: PathPrefix(`/gitlab`)
+    environment:
+      GITLAB_PERSONAL_ACCESS_TOKEN: "op://Developer/zed-mcp-gitlab/credential"

@@ -1,0 +1,49 @@
+services:
+  mcp-proxy:
+    image: node:20-alpine
+    container_name: thinking-http
+    restart: unless-stopped
+    command:
+      - sh
+      - -c
+      - |
+        apk add --no-cache docker-cli &&
+        npm install -g mcp-proxy &&
+        echo '#!/bin/sh' > /tmp/mcp-wrapper.sh &&
+        echo 'exec docker exec -i thinking node dist/index.js' >> /tmp/mcp-wrapper.sh &&
+        chmod +x /tmp/mcp-wrapper.sh &&
+        exec mcp-proxy \
+          --host=0.0.0.0 \
+          --port=8080 \
+          --stateless \
+          --allow-origin "*" \
+          /tmp/mcp-wrapper.sh
+    ports:
+      - "9001:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1",
+        ]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      traefik.enable: true
+      traefik.http.services.thinking-http.loadbalancer.server.port: 9001
+      traefik.http.routers.thinking-http.rule: Host(`proxy.mcp.${DOMAIN:-localhost}`)
+      # traefik.http.routers.thinking-http.rule: Host(`thinking.${DOMAIN:-localhost}`)
+      # traefik.http.routers.thinking-http.service: thinking-http
+      # traefik.http.routers.thinking-http.entrypoints: web
+      # traefik.http.routers.thinking-http.rule: Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/plan/seq`)
+      traefik.http.routers.thinking-http.service: thinking-http
+      traefik.http.routers.thinking-http.entrypoints: web
+      # traefik.http.middlewares.strip-planseq.stripprefix.prefixes: /plan/seq
+      # traefik.http.routers.thinking-http.middlewares: strip-planseq
+    depends_on:
+      sequentialthinking:
+        condition: service_healthy

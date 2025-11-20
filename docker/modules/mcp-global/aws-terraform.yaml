@@ -1,0 +1,7 @@
+services:
+  aws-tf:
+    image: mcp/aws-terraform
+    profiles: ["aws"]
+    labels:
+      traefik.enable: true
+      traefik.http.routers.aws-terraform.rule: PathPrefix(`/aws/tf`)

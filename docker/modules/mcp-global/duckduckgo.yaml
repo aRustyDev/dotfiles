@@ -1,0 +1,12 @@
+services:
+  duckduckgo:
+    image: mcp/duckduckgo
+    container_name: search-www
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    labels:
+      mcp: true
+      mcp.search: web
+      traefik.enable: true
+      # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/search/ddg`)
+      traefik.http.routers.duckduckgo.rule: PathPrefix(`/search/ddg`)

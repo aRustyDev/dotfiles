@@ -1,0 +1,24 @@
+---
+# docker-compose.yml
+name: mcp-global
+
+include:
+  - path: modules/ingress/traefik.yaml
+  - path: modules/mcp-global/dockerhub.yaml
+  - path: modules/mcp-global/github.yaml
+  - path: modules/mcp-global/graphiti.yaml
+  - path: modules/mcp-global/sequential-thinking.yaml
+  - path: modules/mcp-global/duckduckgo.yaml
+  - path: modules/mcp-global/gitlab.yaml
+  - path: modules/mcp-global/time.yaml
+  - path: modules/db/falkor.yaml
+  - path: modules/llm/ollama-cpu.yaml
+  - path: modules/llm/ollama-pull.yaml
+  - path: modules/workflow/checklist.yaml
+
+networks:
+  global:
+
+configs:
+  graphiti:
+    file: ./config/graphiti.yaml

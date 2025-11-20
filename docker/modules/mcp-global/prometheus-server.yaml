@@ -1,0 +1,7 @@
+services:
+  prometheus:
+    image: ghcr.io/pab1it0/prometheus-mcp-server
+    profiles: ["metrics"]
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prometheus.rule: PathPrefix(`/prometheus`)

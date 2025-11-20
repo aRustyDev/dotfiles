@@ -1,0 +1,7 @@
+services:
+  aws-logs:
+    image: mcp/cloudtrail-mcp-server
+    profiles: ["aws"]
+    labels:
+      traefik.enable: true
+      traefik.http.routers.aws-logs.rule: PathPrefix(`/aws/logs`)

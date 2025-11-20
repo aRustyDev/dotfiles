@@ -1,0 +1,25 @@
+include:
+  - path: ollama-${OLLAMA_PROCESSOR_KIND:?err_ollama_processor_kind}.yaml
+
+services:
+  pull-models:
+    image: ollama/ollama:latest
+    profiles: ["ollama"]
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    networks: ["global"]
+    container_name: pull-models
+    volumes:
+      - ${XDG_DATA_HOME:?err_xdg_data_home}/mcp/ollama:/root/.ollama
+    entrypoint: /bin/sh
+    environment:
+      - OLLAMA_HOST=ollama:11434
+      - MODELS=${OLLAMA_MODELS:?err_ollama_models}
+    command:
+      - "-c"
+      - "sleep 3"
+      - "ollama pull llama3.2"
+      - "ollama pull nomic-embed-text"
+    depends_on:
+      ollama:
+        condition: service_healthy

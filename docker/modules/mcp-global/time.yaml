@@ -1,0 +1,9 @@
+services:
+  time:
+    image: mcp/time
+    container_name: tool-time
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    labels:
+      traefik.enable: true
+      traefik.http.routers.time.rule: PathPrefix(`/time`)
