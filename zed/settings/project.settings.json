@@ -55,6 +55,35 @@
       "source": "custom",
       "command": "just-mcp",
       "args": ["--watch-dir", "/Users/adamsm/code/images/ami-eks"]
+    },
+    "mkdocs": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@serverless-dna/mkdocs-mcp",
+        "$DOCS_SITE",
+        "$MKDOCS_MCP_PROMPT"
+      ],
+      "env": {
+        "DOCS_SITE": "http://localhost:8000",
+        "MKDOCS_MCP_PROMPT": "You are a documentation assistant that helps users improve their documentation by suggesting enhancements, identifying gaps, and providing clear explanations. Analyze the provided documentation site and offer actionable recommendations to enhance its clarity, completeness, and overall quality."
+      }
+    },
+    "mkdocs-serve": {
+      "source": "custom",
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "$PROJECT_DIR",
+        "mkdocs-mcp",
+        "-mt",
+        "stdio"
+      ],
+      "env": {
+        "PROJECT_DIR": "/Users/adamsm/code/docs/internal"
+      }
     }
   }
 }
