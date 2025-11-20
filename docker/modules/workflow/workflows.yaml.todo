@@ -1,3 +1,4 @@
+# https://github.com/cyanheads/workflows-mcp-server
 services:
   # 1. Workflows MCP - YAML-based orchestration
   workflows-mcp:

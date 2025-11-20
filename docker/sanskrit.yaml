@@ -11,3 +11,4 @@ services:
   ytdownloader: Downloading YouTube videos
   jupyter: interact with jupyter notebooks, generate alternate lessons
   meilisearch: Full-text search of documents
+  n8n: workflow management
