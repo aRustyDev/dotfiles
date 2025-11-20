@@ -1,0 +1,87 @@
+---
+# heroku:
+# neon:
+
+# azure:
+# buildkite:
+
+# inspektor-gadget:
+# kubectl:
+
+# pref-editor
+
+# firecrawl:
+
+# mcp-lsp: https://github.com/isaacphi/mcp-language-server
+# sql-analyzer: https://github.com/j4c0bs/mcp-server-sql-analyzer
+# csv: https://github.com/JordanDalton/RestCsvMcpServer
+# open-api-schema: https://github.com/kadykov/mcp-openapi-schema-explorer
+# open-api: https://github.com/ReAPI-com/mcp-openapi
+# open-api-swagger: https://github.com/zaizaizhao/mcp-swagger-server
+# langfuse: https://github.com/langfuse/mcp-server-langfuse
+# nvim: https://github.com/linw1995/nvim-mcp
+# ros: https://github.com/lpigeon/ros-mcp-server
+# ros: https://github.com/wise-vision/mcp_server_ros_2
+# ros: https://github.com/Yutarop/ros-mcp
+
+# macos-mon: https://github.com/Pratyay/mac-monitor-mcp
+# website-downloader: https://github.com/pskill9/website-downloader
+# xcode: https://github.com/r-huijts/xcode-mcp-server
+# xcode: https://github.com/ShenghaiWang/xcodebuild
+# lldb: https://github.com/stass/lldb-mcp
+# ui: https://github.com/storybookjs/addon-mcp
+# pandoc: https://github.com/vivekVells/mcp-pandoc
+# typescript: https://github.com/yWorks/mcp-typescribe
+# fetch: https://github.com/zcaceres/fetch-mcp
+# zenml: https://github.com/zenml-io/mcp-zenml
+# calculator: https://github.com/avisangle/calculator-server
+
+# esp: https://github.com/horw/esp-mcp
+# modbus: https://github.com/kukapay/modbus-mcp
+# gnuradio: https://github.com/yoelbassin/gnuradioMCP
+# OPC UA: https://github.com/kukapay/opcua-mcp
+# file-tree: https://github.com/8b-is/smart-tree
+# summarizer: https://github.com/0xshellming/mcp-summarizer
+
+# rag: https://github.com/apecloud/ApeRAG
+# rag-docs: https://github.com/hannesrudolph/mcp-ragdocs
+# rag: https://github.com/shinpr/mcp-local-rag
+
+# mindmap: https://github.com/jinzcdev/markmap-mcp-server
+# mindmap: https://github.com/YuChenSSR/mindmap-mcp-server
+# mindmap: https://github.com/abrinsmead/mindpilot-mcp
+
+# memory: https://github.com/CheMiguel23/MemoryMesh
+# memory: https://github.com/modelcontextprotocol/servers/tree/main/src/memory
+# memory: https://github.com/pi22by7/In-Memoria
+# memory: https://github.com/topoteretes/cognee/tree/dev/cognee-mcp
+# memory: https://github.com/JamesANZ/cross-llm-mcp
+
+# gif: https://github.com/ananddtyagi/gif-creator-mcp/tree/main
+# exif: https://github.com/stass/exif-mcp
+
+# ai-sec: https://github.com/AIM-Intelligence/AIM-MCP
+# 1password: https://github.com/dkvdm/onepassword-mcp-server
+
+# plantuml: https://github.com/2niuhe/plantuml_web
+
+# gif: https://github.com/magarcia/mcp-server-giphy
+
+# thinking: https://github.com/Rai220/think-mcp
+
+# dbt: https://github.com/dbt-labs/dbt-mcp
+
+# ui: https://github.com/freema/mcp-design-system-extractor
+# diff: https://github.com/gorosun/unified-diff-mcp
+# mermaid: https://github.com/hustcc/mcp-mermaid
+# antv: https://github.com/antvis/mcp-server-chart
+
+# ast: https://github.com/micl2e2/code-to-tree
+# rubberduck: https://github.com/nesquikm/mcp-rubber-duck
+# books: https://github.com/VmLia/books-mcp-server
+# cert-mgr: https://github.com/pibblokto/cert-manager-mcp-server
+
+# mermaid: https://github.com/Narasimhaponnada/mermaid-mcp
+# manim: https://github.com/abhiemj/manim-mcp-server
+# books: https://github.com/8enSmith/mcp-open-library
+#

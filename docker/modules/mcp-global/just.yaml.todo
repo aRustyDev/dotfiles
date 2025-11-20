@@ -1,0 +1,9 @@
+just: # https://github.com/promptexecution/just-mcp
+  command: just-mcp
+  args:
+    - --watch-dir
+    - $HOME/repos/
+    - --watch-dir
+    - $HOME/.config/
+  transport:
+    type: stdio

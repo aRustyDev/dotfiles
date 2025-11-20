@@ -1,0 +1,9 @@
+airtable:
+  env:
+    - "AIRTABLE_API_KEY=YOUR_KEY"
+  command: "npx"
+  args:
+    - "-y"
+    - "airtable-mcp-server"
+  transport:
+    type: stdio

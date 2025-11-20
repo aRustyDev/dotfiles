@@ -1,0 +1,4 @@
+asana:
+  transport:
+    type: sse
+    url: https://mcp.asana.com/sse

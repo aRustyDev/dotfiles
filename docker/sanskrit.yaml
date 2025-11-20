@@ -1,0 +1,13 @@
+services:
+  graphiti: Creating graph relationships
+  falkordb: Storing graph objects
+  zettelkasten: Taking atomic notes
+  pandoc: Converting PDFs to Markdown
+  browser-tools: Scraping web pages
+  mongodb: Storing text objects
+  download-helper-sidecar: Downloading files from URLs
+  docling: meaning extractions from text + audio + video
+  duckduckgo: Searching the web (ie following links)
+  ytdownloader: Downloading YouTube videos
+  jupyter: interact with jupyter notebooks, generate alternate lessons
+  meilisearch: Full-text search of documents

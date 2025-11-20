@@ -1,3 +1,4 @@
+# docker-hub: https://github.com/docker/hub-mcp
 services:
   dockerhub:
     image: mcp/dockerhub

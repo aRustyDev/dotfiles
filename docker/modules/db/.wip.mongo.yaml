@@ -1,0 +1,9 @@
+---
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 443:27017
+    volumes:
+      - ~/.local/share/mcp/mongo:/var/data

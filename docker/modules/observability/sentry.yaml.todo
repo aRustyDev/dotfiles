@@ -1,0 +1,5 @@
+# sentry: https://github.com/getsentry/sentry-mcp
+sentry:
+  transport:
+    type: http
+    url: https://mcp.sentry.dev/mcp

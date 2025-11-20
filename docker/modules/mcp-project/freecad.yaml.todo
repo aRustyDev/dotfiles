@@ -1,0 +1,4 @@
+freecad:
+  command: "python3"
+  args:
+    - "$HOME/Library/Preferences/FreeCAD/Mod/freecad_mcp/src/freecad_bridge.py"

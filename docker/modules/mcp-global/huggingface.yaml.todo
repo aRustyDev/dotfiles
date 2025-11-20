@@ -1,0 +1,12 @@
+hugging-face:
+  # repo: https://github.com/huggingface/hf-mcp-server
+  command: "npx"
+  headers:
+    Authorization: "Bearer op://Developer/psddv34n2utcr2fudt4qovvk6q/credential"
+  args:
+    - -y
+    - mcp-remote
+    - https://huggingface.co/mcp?login
+  transport:
+    type: http
+    url: https://huggingface.co/mcp?login

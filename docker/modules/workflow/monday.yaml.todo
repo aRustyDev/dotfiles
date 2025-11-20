@@ -1,0 +1,4 @@
+monday:
+  transport:
+    type: http
+    url: https://mcp.monday.com/mcp

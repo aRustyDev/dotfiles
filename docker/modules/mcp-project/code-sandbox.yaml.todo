@@ -1,0 +1,15 @@
+node:
+  command: docker
+  args:
+    - run
+    - -i
+    - --rm
+    - -v
+    - /var/run/docker.sock:/var/run/docker.sock
+    - -v
+    - /Users/YOUR_USERNAME/Desktop/sandbox-output:/root
+    - mcp/node-code-sandbox
+  env:
+    - FILES_DIR=root
+    - SANDBOX_MEMORY_LIMIT=512m
+    - SANDBOX_CPU_LIMIT=0.75

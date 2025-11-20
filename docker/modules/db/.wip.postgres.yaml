@@ -1,0 +1,20 @@
+---
+services:
+  postgres:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=gitea
+      - POSTGRES_DB=gitea
+    restart: always
+    volumes:
+      - ~/.local/share/mcp/postgres:/var/lib/postgresql/data
+    ports:
+      - 443:5432
+# postgres:
+#   command: npx
+#   args:
+#     - "-y"
+#     - "@modelcontextprotocol/server-postgres"
+#   env:
+#     - POSTGRES_CONNECTION_STRING=postgresql://user:password@localhost:5432/dbname

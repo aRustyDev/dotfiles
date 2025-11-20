@@ -1,0 +1,5 @@
+services:
+  kicad:
+    command: "$MCP_ROOT/kicad-mcp/.venv/bin/python"
+    args:
+      - "$MCP_ROOT/kicad-mcp/main.py"

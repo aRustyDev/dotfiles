@@ -1,0 +1,32 @@
+---
+services:
+  surreal:
+    image: surrealdb/surrealdb:latest
+    restart: always
+    command:
+      - start
+      - --log
+      - debug
+      - --user
+      - root
+      - --pass
+      - secret
+      - rocksdb:/var/data/mydatabase.db
+      # docker run --rm --pull always -p 8000:8000 --user $(id -u)  start rocksdb:/mydata/mydatabase.db
+    volumes:
+      - ~/.local/share/mcp/surreal:/var/data
+    ports:
+      - 8000:8000
+# surrealdb:
+#   command: "npx"
+#   args:
+#     - "-y"
+#     - "surrealdb-mcp-server"
+#   env:
+#     - "SURREALDB_URL=op://Developer/surrealdb/websocket" # ws://127.0.0.1:8000
+#     - "SURREALDB_NS=op://Developer/surrealdb/claude-desktop/namespace"
+#     - "SURREALDB_DB=op://Developer/surrealdb/claude-desktop/db"
+#     - "SURREALDB_USER=op://Developer/surrealdb/claude-desktop/user"
+#     - "SURREALDB_PASS=op://Developer/surrealdb/claude-desktop/password"
+#   disabled: false
+#   autoApprove: []

@@ -1,0 +1,4 @@
+sketch:
+  transport:
+    type: http
+    url: http://localhost:31126/mcp
