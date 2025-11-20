@@ -1,10 +1,18 @@
-install:
-    mv *.just {{ xdg_data }}/just/
-    mv main.justfile {{ xdg_config }}/just/justfile
+import? "~/.config/just/lib/std.just"
+
+user := `whoami`
+
+fetch:
+    curl "https://just.arusty.dev/lib/std.just" > "{{ xdg_config }}/just/lib/std.just"
+    curl "https://just.arusty.dev/global/{{ user }}.just" > "{{ xdg_config }}/just/justfile"
+
+install: mktree fetch
+    mv *.just "{{ xdg_data }}/just/"
+    mv main.justfile "{{ xdg_config }}/just/justfile"
 
 mktree:
-    mkdir -p {{ xdg_data }}/just
-    mkdir -p {{ xdg_config }}/just
-    mkdir -p {{ xdg_cache }}/just
-    mkdir -p {{ xdg_state }}/just
-    mkdir -p {{ xdg_bin }}
+    mkdir -p "{{ xdg_data }}/just"
+    mkdir -p "{{ xdg_config }}/just/lib"
+    mkdir -p "{{ xdg_cache }}/just"
+    mkdir -p "{{ xdg_state }}/just"
+    mkdir -p "{{ xdg_bin }}"
