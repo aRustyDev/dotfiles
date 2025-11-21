@@ -1,11 +1,3 @@
-
-# "command": "/absolute/path/to/zettelkasten-mcp/.venv/bin/python",
-# "args": ["-m", "zettelkasten_mcp.main"],
-# "env": {
-#   "ZETTELKASTEN_NOTES_DIR": "/absolute/path/to/zettelkasten-mcp/data/notes",
-#   "ZETTELKASTEN_DATABASE_PATH": "/absolute/path/to/zettelkasten-mcp/data/db/zettelkasten.db",
-#   "ZETTELKASTEN_LOG_LEVEL": "INFO"
-# }
 FROM python:3.12-slim
 
 SHELL ["/bin/bash", "-c"]
