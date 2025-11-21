@@ -22,7 +22,26 @@
         "mcp/time"
       ]
     },
-    "docker-memory-global": {
+    "zettelkasten": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "zettelkasten",
+        "--rm",
+        "-v",
+        "$XDG_DATA_HOME/mcp/zettelkasten/notes:/var/data/notes",
+        "-v",
+        "$XDG_DATA_HOME/mcp/zettelkasten/db:/var/data/db",
+        "ghcr.io/arustydev/mcp:zettelkasten"
+      ],
+      "env": {
+        "ZETTELKASTEN_LOG_LEVEL": "INFO"
+      }
+    },
+    "memory": {
       "source": "custom",
       "command": "docker",
       "args": [

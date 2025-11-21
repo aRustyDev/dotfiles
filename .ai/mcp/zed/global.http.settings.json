@@ -10,6 +10,11 @@
         "--allow-http"
       ]
     },
+    "zettelkasten": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://mcp.localhost/notes/sse"]
+    },
     "simplechecklist": {
       "source": "custom",
       "command": "npx",

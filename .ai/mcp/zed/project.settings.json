@@ -23,11 +23,6 @@
         "PROJECT_DIR": "$PWD"
       }
     },
-    "zettelkasten": {
-      "source": "custom",
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "http://mcp.localhost/notes/sse"]
-    },
     "just": {
       "source": "custom",
       "command": "just-mcp",
