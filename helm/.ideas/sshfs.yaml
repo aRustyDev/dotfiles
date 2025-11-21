@@ -1,0 +1,34 @@
+# Use this to support remote hosted but project local MCP Servers
+# Ex: Pre-commit MCP that runs against local project files via SSHFS
+# RoadBlock: Need dynamic Cert management for SSHFS to work securely
+# - Can i use authorized_keys to scope to specific directories/commands only?
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pre-commit-mcp
+spec:
+  initContainers:
+    - name: mount-sshfs
+      image: alpine:latest
+      command:
+        - sh
+        - -c
+        - |
+          apk add sshfs openssh-client
+          mkdir -p /workspace
+          sshfs user@your-machine:/path/to/project /workspace -o allow_other
+      volumeMounts:
+        - name: project-volume
+          mountPath: /workspace
+          mountPropagation: Bidirectional
+      securityContext:
+        privileged: true
+  containers:
+    - name: pre-commit-mcp
+      image: pre-commit-mcp:latest
+      volumeMounts:
+        - name: project-volume
+          mountPath: /workspace
+  volumes:
+    - name: project-volume
+      emptyDir: {}
