@@ -1,20 +1,28 @@
 ghcr := "ghcr.io/arustydev/mcp"
 dckr := "docker.io/arustydev/mcp"
 
-[parallel]
-build-all: auth
-    just build zettelkasten
+# Show available recipes
+default:
+    @just --list
 
+# Build a specific tool (must match dockerfile prefix)
 build tag:
-    docker build --sbom=true --provenance=true --pull --no-cache --platform linux/amd64,linux/arm64 -t "{{ ghcr }}:{{ tag }}" -t "{{ dckr }}:{{ tag }}" -f "{{ justfile_directory() / tag }}.dockerfile" .
+    @docker build --sbom=true --provenance=true --pull --no-cache --platform linux/amd64,linux/arm64 -t "{{ ghcr }}:{{ tag }}" -t "{{ dckr }}:{{ tag }}" -f "{{ justfile_directory() / tag }}.dockerfile" .
 
+# Publish ALL tools at the most recent tag
 [parallel]
-publish tag: auth (build tag)
-    docker push "{{ ghcr }}:{{ tag }}"
-    docker push "{{ dckr }}:{{ tag }}"
+publish-all: auth
+    @just publish zettelkasten
 
+# Publish a specific tool (must match dockerfile prefix)
+[parallel]
+publish tag: (build tag)
+    @docker push "{{ ghcr }}:{{ tag }}"
+    @docker push "{{ dckr }}:{{ tag }}"
+
+# Authenticate to all Registries
 [parallel]
 auth:
-    echo $(op read op://Developer/ghcr.io/mcp/password) | docker login ghcr.io -u $(op read op://Developer/ghcr.io/mcp/username) --password-stdin
-    docker login -u "$(op read op://Developer/Docker-Hub-MCP/username)" -p "$(op read op://Developer/Docker-Hub-MCP/credential)"
-    rename 's/Dockerfile/dockerfile/g; s/DockerFile/dockerfile/g' -f *
+    @echo $(op read op://Developer/ghcr.io/mcp/password) | docker login ghcr.io -u $(op read op://Developer/ghcr.io/mcp/username) --password-stdin
+    @docker login -u "$(op read op://Developer/Docker-Hub-MCP/username)" -p "$(op read op://Developer/Docker-Hub-MCP/credential)"
+    @rename 's/Dockerfile/dockerfile/g; s/DockerFile/dockerfile/g' -f *
