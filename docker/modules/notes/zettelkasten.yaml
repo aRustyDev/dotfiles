@@ -3,10 +3,36 @@
 services:
   zettelkasten:
     image: ghcr.io/arustydev/mcp:zettelkasten
+    container_name: zettelkasten
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
     ports:
-      - "8000:8000"
+      - "8200:8000"
     volumes:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/zettelkasten/notes:/var/data/notes
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/zettelkasten/database:/var/data/db
+    command:
+      - "--transport"
+      - "http"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8000"
+      - "--notes-dir"
+      - "/var/data/notes"
+      - "--database-path"
+      - "/var/data/db/zettelkasten.db"
     environment:
-      - ZETTELKASTEN_LOG_LEVEL=INFO
+      ZETTELKASTEN_LOG_LEVEL: INFO
+      ZETTELKASTEN_HTTP_HOST: 0.0.0.0
+      ZETTELKASTEN_HTTP_PORT: 8000
+      ZETTELKASTEN_HTTP_CORS: false
+      ZETTELKASTEN_JSON_RESPONSE: true
+    labels:
+      traefik.enable: true
+      traefik.http.services.zettelkasten.loadbalancer.server.port: 8000
+      traefik.http.routers.zettelkasten.rule: Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/notes`)
+      traefik.http.routers.zettelkasten.service: zettelkasten
+      traefik.http.routers.zettelkasten.entrypoints: web
+      traefik.http.routers.zettelkasten.middlewares: strip-notes
+      traefik.http.middlewares.strip-notes.stripprefix.prefixes: /notes
