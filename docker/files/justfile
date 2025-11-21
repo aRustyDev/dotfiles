@@ -19,6 +19,12 @@ publish-all: auth
 publish tag: (build tag)
     @docker push "{{ ghcr }}:{{ tag }}"
     @docker push "{{ dckr }}:{{ tag }}"
+    @docker push "{{ ghcr }}:$(just semver "{{ tag }}")"
+    @docker push "{{ dckr }}:$(just semver "{{ tag }}")"
+
+# Gets the SemVer of the target tag
+semver tag:
+    @echo "{{ tag }}"
 
 # Authenticate to all Registries
 [parallel]

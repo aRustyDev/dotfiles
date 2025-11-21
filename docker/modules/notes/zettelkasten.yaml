@@ -1,0 +1,12 @@
+---
+# NOTE: Server is not HTTP capable yet; requires extension
+services:
+  zettelkasten:
+    image: ghcr.io/arustydev/mcp:zettelkasten
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/zettelkasten/notes:/var/data/notes
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/zettelkasten/database:/var/data/db
+    environment:
+      - ZETTELKASTEN_LOG_LEVEL=INFO
