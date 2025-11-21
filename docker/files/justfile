@@ -1,0 +1,20 @@
+ghcr := "ghcr.io/arustydev/mcp"
+dckr := "docker.io/arustydev/mcp"
+
+[parallel]
+build-all: auth
+    just build zettelkasten
+
+build tag:
+    docker build --sbom=true --provenance=true --pull --no-cache --platform linux/amd64,linux/arm64 -t "{{ ghcr }}:{{ tag }}" -t "{{ dckr }}:{{ tag }}" -f "{{ justfile_directory() / tag }}.dockerfile" .
+
+[parallel]
+publish tag: auth (build tag)
+    docker push "{{ ghcr }}:{{ tag }}"
+    docker push "{{ dckr }}:{{ tag }}"
+
+[parallel]
+auth:
+    echo $(op read op://Developer/ghcr.io/mcp/password) | docker login ghcr.io -u $(op read op://Developer/ghcr.io/mcp/username) --password-stdin
+    docker login -u "$(op read op://Developer/Docker-Hub-MCP/username)" -p "$(op read op://Developer/Docker-Hub-MCP/credential)"
+    rename 's/Dockerfile/dockerfile/g; s/DockerFile/dockerfile/g' -f *
