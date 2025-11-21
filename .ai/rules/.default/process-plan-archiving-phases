@@ -1,0 +1,3 @@
+- When a phase of a plan is complete
+  - Move the phase content to `.ai/plans/completed/<plan_name>.phase-<phase_number>.md`
+  - Update the INDEX.md to reflect the completed phase

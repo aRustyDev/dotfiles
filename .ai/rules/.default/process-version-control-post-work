@@ -1,0 +1,5 @@
+- after finishing a set work defined in a plan, always do the following
+    - first, update the plan to reflect your progress
+    - second, update the CHANGELOG.md to include the work just done
+    - third, create a commit for the last phase
+    - fourth, review the plan before continuing to the next phase

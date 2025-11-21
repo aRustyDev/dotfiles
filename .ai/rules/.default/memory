@@ -1,5 +1,5 @@
 Memory (Default): Persistent Memory
-- Use the **Graphiti** MCP Server for all persistent memory:
+- Use the Graphiti MCP Server for all persistent memory:
   - Namespace: `{PROJECT_ID}::` from `git config --get project.id`
   - Store preferences/configs as entity attributes
   - Store decisions/architecture as entities with relationships

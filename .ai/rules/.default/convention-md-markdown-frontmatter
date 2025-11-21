@@ -1,0 +1,9 @@
+- all markdown documents must have YAML frontmatter
+    - required fields: id, title, status, date, author
+    - id format: UUID v4 (uppercase with hyphens)
+    - status format: emoji prefix + status text (e.g., "✅ Completed")
+    - date format: YYYY-MM-DD
+    - optional fields:
+      - related (array of UUIDs)
+      - children (array of UUIDs)
+    - see adr-frontmatter-standard.md for complete specification
