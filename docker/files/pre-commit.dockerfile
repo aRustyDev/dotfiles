@@ -1,17 +1,32 @@
 FROM python:3.12-slim
 
+ARG REPO=sjswerdloff/pre-commit-mcp
+
 SHELL ["/bin/bash", "-c"]
 
-# VOLUME [$ZETTELKASTEN_NOTES_DIR, $ZETTELKASTEN_DATABASE_DIR]
+# Install system dependencies
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y git
+# Install uv
 RUN pip install uv
 
-RUN git clone https://github.com/sjswerdloff/pre-commit-mcp
+# Install pre-commit globally
+RUN pip install pre-commit
 
-WORKDIR /pre-commit-mcp
+# Clone and set up the MCP server
+RUN git clone https://github.com/$REPO /opt/pre-commit-mcp
 
-RUN uv venv && source .venv/bin/activate
-RUN uv sync
+WORKDIR /opt/pre-commit-mcp
 
-ENTRYPOINT ["uv", "--directory", "/pre-commit-mcp", "run", "pre_commit_mcp"]
+# Set up the MCP server environment
+RUN uv venv && uv sync
+
+# The actual project workspace where .pre-commit-config.yaml lives
+VOLUME [ "/workspace" ]
+
+# Set the working directory to the mounted project
+WORKDIR /workspace
+
+# Run the MCP server
+# The server will look for .pre-commit-config.yaml in /workspace
+ENTRYPOINT ["uv", "--directory", "/opt/pre-commit-mcp", "run", "pre_commit_mcp"]
