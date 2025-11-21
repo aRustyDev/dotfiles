@@ -3,14 +3,30 @@
     "ast-grep": {
       "source": "custom",
       "command": "docker",
+      "args": ["run", "-i", "--rm", "-v", "$PROJECT_DIR:/data", "mcp/ast-grep"],
+      "env": {
+        "PROJECT_DIR": "$PWD"
+      }
+    },
+    "pre-commit": {
+      "source": "custom",
+      "command": "docker",
       "args": [
         "run",
         "-i",
         "--rm",
         "-v",
-        "/Users/adamsm/code/images/ami-eks:/data",
-        "mcp/ast-grep"
-      ]
+        "$PROJECT_DIR:/workspace",
+        "ghcr.io/arustydev/mcp:pre-commit"
+      ],
+      "env": {
+        "PROJECT_DIR": "$PWD"
+      }
+    },
+    "zettelkasten": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://mcp.localhost/notes/sse"]
     },
     "just": {
       "source": "custom",
