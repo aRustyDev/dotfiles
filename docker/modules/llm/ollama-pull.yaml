@@ -1,10 +1,10 @@
 include:
-  - path: ollama-${OLLAMA_PROCESSOR_KIND:?err_ollama_processor_kind}.yaml
+  - path: ollama-${OLLAMA_PROCESSOR_KIND:-cpu}.yaml
 
 services:
   pull-models:
     image: ollama/ollama:latest
-    profiles: ["ollama"]
+    profiles: ["core", "ollama"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     networks: ["global"]
@@ -14,7 +14,7 @@ services:
     entrypoint: /bin/sh
     environment:
       - OLLAMA_HOST=ollama:11434
-      - MODELS=${OLLAMA_MODELS:?err_ollama_models}
+      - MODELS=${OLLAMA_MODELS:-llama3.2,nomic-embed-text}
     command:
       - "-c"
       - "sleep 3"

@@ -1,0 +1,194 @@
+## Dynamic configuration
+http:
+  routers:
+    # Parent router with authentication
+    api:
+      rule: "Host(`api.localhost`)"
+      middlewares:
+        - authn
+        - authz
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: "letsencrypt"
+        options: "modern"
+        domains:
+          - main: "example.com"
+            sans:
+              - "www.example.com"
+      # Note: No service defined - this is a parent router
+
+    # Parent router with authentication
+    authn:
+      rule: "Host(`id.localhost`)"
+      middlewares:
+        - authn
+        - authz
+      entryPoints:
+        - websecure
+      tls: {}
+      # Note: No service defined - this is a parent router
+
+    # Parent router with authentication
+    authz:
+      rule: "Host(`authz.localhost`)"
+      middlewares:
+        - authn
+        - authz
+      entryPoints:
+        - websecure
+      tls: {}
+      # Note: No service defined - this is a parent router
+
+    # Parent router with authentication
+    notes:
+      rule: "Host(`notes.localhost`)"
+      middlewares:
+        - authn
+        - authz
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # Parent router with authentication
+    memory:
+      rule: "Host(`memory.localhost`)"
+      middlewares:
+        - authn
+        - authz
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # Parent router with authentication
+    docs:
+      rule: "Host(`doc.localhost`)"
+      middlewares:
+        - authn
+        - authz
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # Parent router with authentication
+    tools:
+      rule: "Host(`tool.localhost`)"
+      middlewares:
+        - authn
+        - authz
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # Child router for admin users
+    api-admin:
+      rule: "HeadersRegexp(`X-User-Role`, `admin`)"
+      service: admin-service
+      parentRefs:
+        - api
+
+    # Child router for regular users
+    api-user:
+      rule: "HeadersRegexp(`X-User-Role`, `user`)"
+      service: user-service
+      parentRefs:
+        - api
+
+    # Child router for regular users
+    tool-time:
+      rule: "Headers(`service`, `time`)"
+      service: user-service
+      middlewares:
+        - mcp
+      parentRefs:
+        - api
+
+  middlewares:
+    authn:
+      forwardAuth:
+        address: "http://id.localhost"
+        authResponseHeaders:
+          - X-User-Role
+          - X-User-Name
+    mcp:
+      replacePath:
+        path: "/mcp"
+    test-errors:
+      errors:
+        status:
+          - "500"
+          - "501"
+          - "503"
+          - "505-599"
+        service: serviceError
+        query: "/{status}.html"
+
+  services:
+    admin-service:
+      loadBalancer:
+        servers:
+          - url: "http://admin-backend:8080"
+
+    user-service:
+      loadBalancer:
+        servers:
+          - url: "http://user-backend:8080"
+tls:
+  stores:
+    default: {}
+  options:
+    default:
+      minVersion: VersionTLS12
+      cipherSuites:
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+      curvePreferences:
+        - CurveP521
+        - CurveP384
+      sniStrict: true
+      alpnProtocols:
+        - http/1.1
+        - h2
+      clientAuth:
+        # in PEM format. each file can contain multiple CAs.
+        caFiles:
+          - tests/clientca1.crt
+          - tests/clientca2.crt
+        clientAuthType: RequireAndVerifyClientCert
+    mintls13:
+      minVersion: VersionTLS13
+  certificates:
+    - certFile: /path/to/api.cert
+      keyFile: /path/to/api.key
+      stores:
+        - default
+        - api
+    - certFile: /path/to/notes.cert
+      keyFile: /path/to/notes.key
+      stores:
+        - default
+        - notes
+    - certFile: /path/to/authz.cert
+      keyFile: /path/to/authz.key
+      stores:
+        - default
+        - authz
+    - certFile: /path/to/authn.cert
+      keyFile: /path/to/authn.key
+      stores:
+        - default
+        - authn
+    - certFile: /path/to/memory.cert
+      keyFile: /path/to/memory.key
+      stores:
+        - default
+        - memory
+    - certFile: /path/to/docs.cert
+      keyFile: /path/to/docs.key
+      stores:
+        - default
+        - docs
+    - certFile: /path/to/tools.cert
+      keyFile: /path/to/tools.key
+      stores:
+        - tools
+        - tools

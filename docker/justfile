@@ -1,17 +1,33 @@
 dot_docker := env("XDG_CONFIG_HOME", env("HOME") / ".config") / "docker"
+docker_state := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "docker"
 src_docker := justfile_directory()
 
+# Install the Docker dotfiles
 install: mktree
-    cp -r "{{ src_docker }}" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/config" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/modules" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/files" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/docs" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/mcp-global.yaml" "{{ dot_docker }}/docker-compose.yaml"
+    cp -r "{{ src_docker }}/justfile" "{{ dot_docker }}/justfile"
+    cp -r "{{ src_docker }}/.env" "{{ dot_docker }}/.env"
 
+# Create necessary directories
 mktree:
-    mkdir -p "{{ dot_docker }}"dot_docker
+    mkdir -p "{{ docker_state }}" "{{ dot_docker }}"
 
+# Clean up the Docker dotfiles
 clean:
     rm -rf "{{ dot_docker }}"
 
-test profile out="docker-compose":
-    just template "{{ out }}" | docker-compose -f "{{ dot_docker / out }}.yaml" up -d
+# Deploy Docker profile="core": mktree
+deploy profile="core": mktree
+    just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
+    docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" up -d
 
-template name:
-    docker-compose -f "{{ src_docker / name }}.yaml" config | op inject
+# Hydrate Docker-compose for profile
+docker-template profile="core":
+    docker-compose --profile "{{ profile }}" -f "{{ dot_docker }}/docker-compose.yaml" config | op inject
+
+test profile="core":
+    just -f "{{ justfile() }}" docker-template "{{ profile }}"

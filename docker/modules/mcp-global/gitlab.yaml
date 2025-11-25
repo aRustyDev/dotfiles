@@ -1,17 +1,17 @@
+---
 services:
-  github:
-    image: ghcr.io/github/github-mcp-server
-    profiles: ["core", "git", "github", "repo"]
-    container_name: github
+  gitlab:
+    image: mcp/gitlab
+    profiles: ["git", "gitlab", "repo"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
+    container_name: gitlab
     labels:
       traefik.enable: true
-      # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/github`)
-      traefik.http.routers.github.rule: PathPrefix(`/github`)
+      # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/gitlab`)
+      traefik.http.routers.gitlab.rule: PathPrefix(`/gitlab`)
     environment:
-      GITLAB_API_URL: https://gitlab.com/api/v4
-      GITHUB_PERSONAL_ACCESS_TOKEN: "op://Developer/zed-github-mcp/token"
+      GITLAB_PERSONAL_ACCESS_TOKEN: "op://Developer/zed-mcp-gitlab/credential"
     deploy:
       resources:
         limits:

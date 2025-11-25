@@ -4,17 +4,26 @@ name: mcp-global
 
 include:
   - path: modules/ingress/traefik.yaml
+
   - path: modules/mcp-global/dockerhub.yaml
   - path: modules/mcp-global/graphiti.yaml
   - path: modules/mcp-global/sequential-thinking.yaml
+
   - path: modules/search/duckduckgo.yaml
+
   - path: modules/mcp-global/time.yaml
+
   - path: modules/db/falkor.yaml
+
   - path: modules/git/gitlab.yaml
   - path: modules/git/github.yaml
+
   - path: modules/llm/ollama-cpu.yaml
   - path: modules/llm/ollama-pull.yaml
+
   - path: modules/workflow/checklist.yaml
+  - path: modules/workflow/n8n.yaml
+
   - path: modules/notes/zettelkasten.yaml
 
 networks:

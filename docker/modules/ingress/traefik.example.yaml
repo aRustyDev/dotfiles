@@ -1,0 +1,45 @@
+## Dynamic configuration
+http:
+  routers:
+    # Parent router with authentication
+    api-parent:
+      rule: "PathPrefix(`/api`)"
+      middlewares:
+        - auth-middleware
+      entryPoints:
+        - websecure
+      tls: {}
+      # Note: No service defined - this is a parent router
+
+    # Child router for admin users
+    api-admin:
+      rule: "HeadersRegexp(`X-User-Role`, `admin`)"
+      service: admin-service
+      parentRefs:
+        - api-parent
+
+    # Child router for regular users
+    api-user:
+      rule: "HeadersRegexp(`X-User-Role`, `user`)"
+      service: user-service
+      parentRefs:
+        - api-parent
+
+  middlewares:
+    auth-middleware:
+      forwardAuth:
+        address: "http://auth-service:8080/auth"
+        authResponseHeaders:
+          - X-User-Role
+          - X-User-Name
+
+  services:
+    admin-service:
+      loadBalancer:
+        servers:
+          - url: "http://admin-backend:8080"
+
+    user-service:
+      loadBalancer:
+        servers:
+          - url: "http://user-backend:8080"

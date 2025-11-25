@@ -2,7 +2,7 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
-    profiles: ["ollama"]
+    profiles: ["core", "ollama"]
     networks: ["global"]
     restart: unless-stopped
     ports:

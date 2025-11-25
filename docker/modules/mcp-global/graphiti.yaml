@@ -1,6 +1,6 @@
 include:
   - path: ../db/falkor.yaml
-  - path: ../llm/ollama-${OLLAMA_PROCESSOR_KIND:?err_ollama_processor_kind}.yaml
+  - path: ../llm/ollama-${OLLAMA_PROCESSOR_KIND:-cpu}.yaml
 
 services:
   graphiti:

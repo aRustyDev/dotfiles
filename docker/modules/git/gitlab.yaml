@@ -2,7 +2,7 @@
 services:
   gitlab:
     image: mcp/gitlab
-    profiles: ["git", "gitlab", "repo"]
+    profiles: ["core", "git", "gitlab", "repo"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     container_name: gitlab
