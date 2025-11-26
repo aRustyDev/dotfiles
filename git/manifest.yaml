@@ -61,3 +61,22 @@ ai:
 dotfiles:
   - url: github.com/aRustyDev/dotfiles
     name: .
+mcp:
+  - url: github.com/aRustyDev/zettlekasten-mcp
+    name: .
+  - url: github.com/aRustyDev/pre-commit-mcp
+    name: .
+  - url: github.com/aRustyDev/seqential-thinking-mcp
+    name: .
+  - url: github.com/aRustyDev/chain-of-thought-mcp
+    name: .
+  - url: github.com/aRustyDev/agent-mcp
+    name: .
+  - url: github.com/aRustyDev/time-mcp
+    name: .
+  - url: github.com/aRustyDev/calculator-mcp
+    name: .
+  - url: github.com/aRustyDev/just-mcp
+    name: .
+  - url: github.com/aRustyDev/smarttree-mcp
+    name: .
