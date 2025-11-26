@@ -1,0 +1,170 @@
+# Agent-MCP Docker Compose Configuration
+# This file orchestrates the Agent-MCP services including Python server, Node server, and Dashboard
+#
+# Usage:
+#   docker-compose -f agent-mcp.yaml up <service-name>
+#   docker-compose -f agent-mcp.yaml up combined  # Run both Node server + Dashboard
+#
+# Services:
+#   - python-server: Python-based MCP server
+#   - node-server: Node/TypeScript-based MCP server
+#   - dashboard: Next.js dashboard UI
+#   - combined: Node server + Dashboard in single container
+
+version: "3.8"
+
+services:
+  # Python MCP Server
+  agent-mcp-python:
+    profiles: ["agent-mcp-python"]
+    build:
+      context: ../../files
+      dockerfile: agent-mcp.dockerfile
+      target: python
+    container_name: agent-mcp-python
+    ports:
+      - "8080:8080" # MCP Server API
+      - "8000:8000" # Agent MCP internal port
+    volumes:
+      # Mount your project directory here
+      - ${PROJECT_DIR:-./workspace}:/workspace
+      # Persistent data for agent state
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/agent-mcp/data:/app/data
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/agent-mcp/workspace:/workspace
+    environment:
+      # Required secrets (set in .env file or pass at runtime)
+      - OPENAI_API_KEY=${OPENAI_API_KEY:?OPENAI_API_KEY is required}
+      - MCP_ADMIN_TOKEN=${MCP_ADMIN_TOKEN:-}
+
+      # Server configuration
+      - PORT=8080
+      - AGENT_MCP_HOST=0.0.0.0
+      - AGENT_MCP_PORT=8000
+      - MCP_PROJECT_DIR=/workspace
+      - AGENT_MCP_LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - AGENT_MCP_MAX_AGENTS=${MAX_AGENTS:-10}
+      - AGENT_MCP_SKIP_TUI=true
+      - AGENT_MCP_ENABLE_RAG=${ENABLE_RAG:-true}
+      - AGENT_MCP_ENABLE_AGENTS=${ENABLE_AGENTS:-true}
+      - MCP_DEBUG=${DEBUG:-false}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - agent-mcp-network
+
+  # Node MCP Server
+  agent-mcp-node:
+    profiles: ["agent-mcp-node"]
+    build:
+      context: ../../files
+      dockerfile: agent-mcp.dockerfile
+      target: node
+    container_name: agent-mcp-node
+    ports:
+      - "8081:8080" # MCP Server API (mapped to 8081 to avoid conflict)
+    volumes:
+      # Mount your project directory here
+      - ${PROJECT_DIR:-./workspace}:/workspace
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/agent-mcp/workspace:/workspace
+    environment:
+      # Required secrets
+      - OPENAI_API_KEY=${OPENAI_API_KEY:?OPENAI_API_KEY is required}
+      - MCP_ADMIN_TOKEN=${MCP_ADMIN_TOKEN:-}
+
+      # Server configuration
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - agent-mcp-network
+
+  # Next.js Dashboard
+  agent-mcp-dashboard:
+    profiles: ["agent-mcp-dashboard"]
+    build:
+      context: ../../files
+      dockerfile: agent-mcp.dockerfile
+      target: dashboard
+    container_name: agent-mcp-dashboard
+    ports:
+      - "3000:3000" # Dashboard UI
+    environment:
+      - NODE_ENV=production
+      # Dashboard can connect to either Python or Node server
+      - NEXT_PUBLIC_MCP_SERVER_URL=${MCP_SERVER_URL:-http://python-server:8080}
+      - MCP_SERVER_URL=${MCP_SERVER_URL:-http://python-server:8080/messages/}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - agent-mcp-network
+    depends_on:
+      python-server:
+        condition: service_healthy
+
+  # Combined: Node Server + Dashboard
+  agent-mcp:
+    profiles: ["agent-mcp"]
+    build:
+      context: ../../files
+      dockerfile: agent-mcp.dockerfile
+      target: combined
+    container_name: agent-mcp-combined
+    ports:
+      - "8082:8080" # Node MCP Server (mapped to 8082 to avoid conflict)
+      - "3001:3000" # Dashboard UI (mapped to 3001 to avoid conflict)
+    volumes:
+      # Mount your project directory here
+      - ${PROJECT_DIR:-./workspace}:/workspace
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/agent-mcp/workspace:/workspace
+    environment:
+      # Required secrets
+      - OPENAI_API_KEY=${OPENAI_API_KEY:?OPENAI_API_KEY is required}
+      - MCP_ADMIN_TOKEN=${MCP_ADMIN_TOKEN:-}
+
+      # Server configuration
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "sh",
+          "-c",
+          "curl -f http://localhost:8080/health && curl -f http://localhost:3000/",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - agent-mcp-network
+
+networks:
+  agent-mcp-network:
+    driver: bridge
+    name: agent-mcp-network
+# Example .env file contents:
+# OPENAI_API_KEY=sk-your-openai-api-key-here
+# MCP_ADMIN_TOKEN=your-admin-token-here
+# PROJECT_DIR=/path/to/your/project
+# LOG_LEVEL=INFO
+# MAX_AGENTS=10
+# ENABLE_RAG=true
+# ENABLE_AGENTS=true
+# DEBUG=false
+# MCP_SERVER_URL=http://python-server:8080
