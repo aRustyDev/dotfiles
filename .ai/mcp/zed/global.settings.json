@@ -84,6 +84,11 @@
       "source": "custom",
       "command": "docker",
       "args": ["exec", "-i", "checklists", "node", "/app/mcp-server/index.js"]
+    },
+    "atlassian": {
+      // https://support.atlassian.com/atlassian-rovo-mcp-server/docs/getting-started-with-the-atlassian-remote-mcp-server/
+      "enabled": true,
+      "url": "https://mcp.atlassian.com/v1/sse"
     }
   }
 }
