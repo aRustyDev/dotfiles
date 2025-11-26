@@ -1,0 +1,52 @@
+---
+templates:
+  - url: github.com/aRustyDev/tmpl-rust
+    name: rust
+  - url: github.com/aRustyDev/tmpl-go
+    name: go
+  - url: github.com/aRustyDev/tmpl-swift
+    name: swift
+  - url: github.com/aRustyDev/tmpl-helm
+    name: helm
+  - url: github.com/aRustyDev/tmpl-nix
+    name: nix
+  - url: github.com/aRustyDev/tmpl-mdbook-plugin
+    name: mdbook-plugin
+  - url: github.com/aRustyDev/tmpl-zed-extension
+    name: zed-extension
+  - url: github.com/aRustyDev/tmpl-gha
+    name: gha
+  - url: github.com/aRustyDev/tmpl-talks
+    name: talks
+  - url: github.com/aRustyDev/tmpl-roc
+    name: roc
+  - url: github.com/aRustyDev/tmpl-editor-extension-obsidian
+    name: editor-extension-obsidian
+  - url: github.com/aRustyDev/tmpl-editor-extension-nvim
+    name: editor-extension-nvim
+  - url: github.com/aRustyDev/tmpl-editor-extension-jetbrains
+    name: editor-extension-jetbrains
+  - url: github.com/aRustyDev/tmpl-editor-extension-zed
+    name: editor-extension-zed
+  - url: github.com/aRustyDev/tmpl-editor-extension-vscode
+    name: editor-extension-vscode
+  - url: github.com/aRustyDev/tmpl-ctf.rs
+    name: ctf.rs
+  - url: github.com/aRustyDev/tmpl-python
+    name: python
+  - url: github.com/aRustyDev/tmpl-zig
+    name: zig
+  - url: github.com/aRustyDev/tmpl-kotlin
+    name: kotlin
+  - url: github.com/aRustyDev/tmpl-ts
+    name: ts
+  - url: github.com/aRustyDev/tmpl-c-cpp
+    name: c-cpp
+  - url: github.com/aRustyDev/tmpl-quizl.rs
+    name: quizl.rs
+  - url: github.com/aRustyDev/tmpl-precommit-hook
+    name: precommit-hook
+cicd:
+  - github.com/aRustyDev/gha-
+  - github.com/aRustyDev/gitlab-component-
+  - github.com/aRustyDev/gitlab-component-
