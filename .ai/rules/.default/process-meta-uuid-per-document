@@ -1,3 +1,0 @@
-- Every document SHOULD have a UUIDv4 identifier:
-  - Markdown: frontmatter `id: <uuid>`
-  - Code: First-line comment `<comment-char> id:<uuid>` using language syntax
