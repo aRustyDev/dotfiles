@@ -41,3 +41,28 @@
   - Retrieve both user-specific and project-specific context
 - SessionEnd:
   - Add new decisions/learnings as entities to `{PROJECT_ID}::*` for context
+
+## Actions
+
+- RuleReview:
+  - Review current rules for
+    - internal conflicts
+    - opacity
+    - redundancy
+    - clarity
+    - relevance to project
+    - gaps in coverage
+    - gaps in relevance (lots of justfiles but no justfile rules)
+    - alignment with CONTEXT docs
+- ContextReview:
+  - Review current CONTEXT docs for
+    - relevance to project
+    - gaps in coverage
+    - alignment with RULES
+- SemanticRelease
+  - Automate [`semantic-release`](https://github.com/semantic-release/semantic-release) usage.
+- TddGuard
+  - Automate [`tdd-guard`]() usage.
+- ChangeLog
+  - Automate changelog generation.
+  - Use
