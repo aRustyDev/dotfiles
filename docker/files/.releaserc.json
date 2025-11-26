@@ -1,0 +1,28 @@
+{
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "semantic-release-commits-lint",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/github",
+      {
+        "assets": ["dist/**"]
+      }
+    ],
+    "@semantic-release/git",
+    "@semantic-release/exec",
+    "semantic-release-docker",
+    "@semantic-release-plus/docker",
+    "semantic-release-kaniko",
+    "semantic-release-skopeo",
+    "semantic-release-gcr",
+    "semantic-release-github-pullrequest",
+    "semantic-release-pull-request-analyzer",
+    "@saithodev/semantic-release-gitea",
+    "semantic-release-replace-plugin",
+    "semantic-release-license",
+    "semantic-release-github-milestones",
+    "sr-uv-plugin"
+  ],
+  "preset": "angular"
+}

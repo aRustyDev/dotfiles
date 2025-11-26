@@ -73,7 +73,6 @@
 
 # ui: https://github.com/freema/mcp-design-system-extractor
 # diff: https://github.com/gorosun/unified-diff-mcp
-# mermaid: https://github.com/hustcc/mcp-mermaid
 # antv: https://github.com/antvis/mcp-server-chart
 
 # ast: https://github.com/micl2e2/code-to-tree
@@ -82,6 +81,7 @@
 # cert-mgr: https://github.com/pibblokto/cert-manager-mcp-server
 
 # mermaid: https://github.com/Narasimhaponnada/mermaid-mcp
+# mermaid: https://github.com/hustcc/mcp-mermaid
 # manim: https://github.com/abhiemj/manim-mcp-server
 # books: https://github.com/8enSmith/mcp-open-library
 #
