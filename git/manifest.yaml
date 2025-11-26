@@ -44,9 +44,20 @@ templates:
     name: c-cpp
   - url: github.com/aRustyDev/tmpl-quizl.rs
     name: quizl.rs
+  # - url: github.com/aRustyDev/tmpl-carbon
+  #   name: carbon
   - url: github.com/aRustyDev/tmpl-precommit-hook
     name: precommit-hook
 cicd:
-  - github.com/aRustyDev/gha-
-  - github.com/aRustyDev/gitlab-component-
-  - github.com/aRustyDev/gitlab-component-
+  - url: github.com/aRustyDev/gha-
+    name: component/gha-
+  - url: github.com/aRustyDev/gitlab-component-
+    name: component/gitlab-component-
+  - url: github.com/aRustyDev/pre-commit-hooks
+    name: hooks/pre-commit
+ai:
+  - url: github.com/aRustyDev/ai
+    name: .
+dotfiles:
+  - url: github.com/aRustyDev/dotfiles
+    name: .
