@@ -1,0 +1,49 @@
+# gitlab-jirea: # https://github.com/HainanZhao/mcp-gitlab-jira
+services:
+  gitlab-jirea:
+    # https://github.com/DevMayur/SimpleCheckList
+    image: hainanzhao/mcp-gitlab-jira:latest
+    container_name: mcp-gitlab-jira-container
+    profiles: ["core", "global"]
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    restart: unless-stopped
+    ports:
+      - "${CHECKLISTS_API_PORT:-8355}:8355"
+      - "${CHECKLISTS_UI_PORT:-8180}:80"
+    labels:
+      traefik.enable: true
+      # SimpleCheckList UI Access
+      traefik.http.services.checklistui.loadbalancer.server.port: 80
+      traefik.http.routers.checklistui.rule: Host(`ui.${DOMAIN:-localhost}`)
+      traefik.http.routers.checklistui.service: checklistui
+      traefik.http.routers.checklistui.entrypoints: web
+      # SimpleCheckList REST API Access (not MCP)
+      traefik.http.services.checklist-api.loadbalancer.server.port: 8355
+      traefik.http.routers.checklist-api.rule: Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/api`)
+      traefik.http.routers.checklist-api.service: checklist-api
+      traefik.http.routers.checklist-api.entrypoints: web
+    extra_hosts:
+      host.docker.internal: host-gateway
+    volumes:
+      - "${XDG_DATA_HOME:?err_xdg_data_home}/mcp/checklist:/app/data"
+    environment:
+      GITLAB_URL: "https://your-gitlab-instance.com"
+      GITLAB_ACCESS_TOKEN: "your-personal-access-token"
+      ATLASSIAN_SITE_NAME: "your-atlassian-site-name"
+      ATLASSIAN_USER_EMAIL: "your-email@example.com"
+      ATLASSIAN_API_TOKEN: "your-jira-api-token"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8355/api/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
