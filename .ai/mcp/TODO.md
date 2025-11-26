@@ -37,6 +37,7 @@
   - [x] Brave
   - [ ] Perplexity
   - [x] Exa
+  - [ ] Meilisearch
 - [x] Slack
 - [ ] Sketch
 - [ ] Inkpot
@@ -46,6 +47,10 @@
   - [x] Postgres
   - [ ] SurrealDB
   - [ ] QDrant
+  - [ ] FalkorDB
+  - [ ] Kuzu
+  - [ ] SQLite
+  - [ ] DuckDB
 - [ ] [Resend](https://resend.com/pricing)
 
 ## Hooks

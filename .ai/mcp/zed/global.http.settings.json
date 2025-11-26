@@ -19,7 +19,12 @@
       "source": "custom",
       "command": "npx",
       "args": ["-y", "mcp-remote", "http://localhost:8355", "--allow-http"]
+    },
+    "fastmcp": {
+      "source": "http",
+      "url": "https://gofastmcp.com/mcp"
     }
+    //
     // "thinking-http": { # MCP-Proxy; used for wrapping HTTP->STDIO connections
     //   "source": "custom",
     //   "command": "npx",

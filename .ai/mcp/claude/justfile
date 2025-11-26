@@ -1,0 +1,24 @@
+filesystem:
+    claude mcp add github -s user --transport http https://api.githubcopilot.com/mcp -H "Authorization: Bearer $(op read op://Developer/zed-github-mcp/token)"
+    claude mcp add fetch -s user -- npx -y @kazuph/mcp-fetch
+    claude mcp add sequential-thinking -s user -- npx -y @modelcontextprotocol/server-sequential-thinking
+    claude mcp add context7 -s user -- npx -y @upstash/context7-mcp@latest
+    claude mcp add firecrawl -s user -e FIRECRAWL_API_KEY="$(op read op://Developer/Firecrawl/credential)" -- npx -y firecrawl-mcp
+    claude mcp add perplexity -s user -- node /path/to/perplexity-mcp/build/index.js
+    # "env": {
+    #     "PERPLEXITY_API_KEY": "pplx_xxxxxxxxxxxx",
+    #     "PERPLEXITY_MODEL": "sonar"
+    # }
+    claude mcp add filesystem -s user -e PROJECT_DIR=$PWD -- npx -y @modelcontextprotocol/server-filesystem $PROJECT_DIR
+    claude mcp add puppeteer -s user -- npx -y @modelcontextprotocol/server-puppeteer
+    claude mcp add sqlite -- npx @modelcontextprotocol/server-sqlite
+    claude mcp add postgres -s user -e DATABASE_URL=your-db-url -- npx -y @modelcontextprotocol/server-postgres
+    claude mcp add search -s user -e BRAVE_API_KEY=your-key -- npx -y @modelcontextprotocol/server-brave-search
+    claude mcp add slack -s user -e SLACK_TOKEN=your-token -- npx -y @modelcontextprotocol/server-slack
+    claude mcp add time -s user -- npx -y @modelcontextprotocol/server-time
+    claude mcp add git -s user -- npx -y @modelcontextprotocol/server-git
+    claude mcp add container-use -s user -- container-use stdio
+    # obsidian
+    # playwright
+    # claudflare
+    #

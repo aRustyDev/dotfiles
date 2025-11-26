@@ -1,0 +1,24 @@
+- Plans
+  - Status:
+    - `✅ Completed` - Work finished, document archived
+    - `⏳ In Progress` - Actively being worked on
+    - `📝 Draft` - Initial draft, not reviewed
+    - `🗄️ Archived` - Historical, no longer maintained
+    - `🔄 Under Review` - Awaiting review/approval
+    - `❌ Deprecated` - Superseded by newer document
+    - `🎯 Proposed` - Proposed but not approved
+  - Locations:
+    - Plans: `.ai/plans/<plan_name>.md`
+    - Phases: `.ai/plans/phases/<plan_name>.phase-<phase_number>.md`
+  - Plan phases exist as individual markdown documents.
+  - Plan Lifecycle
+    - Draft: The Exploratory / Pre-Planning phase
+    - Proposal: The plan has been selected from options, and is not finalized
+    - Creation:
+      - Determine if the work should extend an existing plan or start a new one
+      - Update the INDEX.md to include the Plan, and component phases
+  - Phase Lifecycle
+    - Start
+      - Update the status in the phase & plan documents
+    - Complete
+      - Update the status in the phase & plan documents
