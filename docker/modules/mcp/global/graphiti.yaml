@@ -1,6 +1,6 @@
 include:
-  - path: ../db/falkor.yaml
-  - path: ../llm/ollama-${OLLAMA_PROCESSOR_KIND:-cpu}.yaml
+  - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/modules/db/falkor.yaml
+  - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/modules/llm/ollama-${OLLAMA_PROCESSOR_KIND:-cpu}.yaml
 
 services:
   graphiti:

@@ -34,7 +34,22 @@ services:
     entrypoint: /bin/sh
     command:
       - "-c"
-      - "n8n import:credentials --separate --input=/data/credentials && n8n import:workflow --separate --input=/data/workflows"
+      - |
+        # Install postgresql client if not present
+        apk add --no-cache postgresql-client 2>/dev/null || true
+
+        # Initialize database (idempotent)
+        export PGPASSWORD="${DB_POSTGRESDB_PASSWORD}"
+
+        # Create database if it doesn't exist
+        psql -h postgres -U "${DB_POSTGRESDB_USER}" -d postgres -tc \
+          "SELECT 1 FROM pg_database WHERE datname = 'n8n'" | grep -q 1 || \
+          psql -h postgres -U "${DB_POSTGRESDB_USER}" -d postgres -c \
+          "CREATE DATABASE n8n OWNER ${DB_POSTGRESDB_USER};"
+
+        # Import credentials and workflows
+        n8n import:credentials --separate --input=/data/credentials || true
+        n8n import:workflow --separate --input=/data/workflows || true
     volumes:
       - ${XDG_CONFIG_HOME:-$HOME/.config}/mcp/n8n/data:/data
     depends_on:
