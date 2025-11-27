@@ -68,7 +68,6 @@ services:
 
 networks:
   traefik-public:
-    external: true
 
 configs:
   traefik:

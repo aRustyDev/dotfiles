@@ -6,6 +6,7 @@ resolver_dir := "/etc/resolver"
 dns_ip := "127.0.0.2"
 docker_workspace := if env("DOCKER_WORKSPACE", "") == "" { "docker-compose" } else { "workspaces" / lowercase(env("DOCKER_WORKSPACE", "")) }
 profile := if docker_workspace == "docker-compose" { "core" } else { lowercase(env("DOCKER_WORKSPACE", "")) }
+domain := env("DOMAIN", "localhost")
 
 # Install the Docker dotfiles
 install: mktree
@@ -23,12 +24,19 @@ install: mktree
 # Create certificate files for localhost
 mkcerts:
     #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p "{{ dot_docker }}/data/certs"
     cd "{{ dot_docker }}/data/certs"
-    mkcert "*.localhost" "localhost"
+
+    # Install local CA first
     mkcert -install
-    mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1 ::1
-    mv _wildcard.localhost+*.pem cert.pem
-    mv _wildcard.localhost+*-key.pem key.pem
+    echo "{{ domain }}" >> "{{ docker_state }}/domains"
+    cat "{{ docker_state }}/domains" | sort -u > "{{ docker_state }}/domains"
+
+    # Generate wildcard cert for *.localhost
+    mkcert -cert-file cert.pem -key-file key.pem "*.{{ domain }}" "{{ domain }}" 127.0.0.1 ::1
+
+    echo "✓ TLS certificates created in {{ dot_docker }}/data/certs/"
 
 # Create necessary directories
 mktree:
@@ -41,7 +49,7 @@ clean:
 init: mktree mkcerts dns-init
 
 # Deploy Docker profile="core": mktree
-deploy profile=profile: mktree mkcerts dns-init
+deploy profile=profile: mktree
     just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
     docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" up -d
 
@@ -78,12 +86,13 @@ dns-add tld ip="127.0.0.1":
         echo "✓ Added {{ tld }} → {{ ip }}"
     fi
 
-    # Add macOS resolver
+    # Add macOS resolver (create directory if needed)
+    sudo mkdir -p "{{ resolver_dir }}"
     echo "nameserver {{ dns_ip }}" | sudo tee "{{ resolver_dir }}/{{ tld }}" >/dev/null
     echo "✓ Created /etc/resolver/{{ tld }}"
 
 # Remove docker zone (leaves volta zones intact)
-dns-remove tld:
+dns-remove tld=domain:
     #!/usr/bin/env bash
     set +e
     sudo sed -i.bak "/^local-zone: \"{{ tld }}\" static/d; /^local-data: \"{{ tld }} A /d" "{{ unbound_conf }}" 2>/dev/null
