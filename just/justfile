@@ -1,0 +1,30 @@
+import? "~/.config/just/lib/std.just"
+
+user := `whoami`
+xdg_config_home := env("XDG_CONFIG_HOME", env("HOME") / ".config")
+xdg_data_home := env("XDG_CONFIG_HOME", env("HOME") / ".local/share")
+xdg_state_home := env("XDG_CONFIG_HOME", env("HOME") / ".local/state")
+xdg_cache_home := env("XDG_CONFIG_HOME", env("HOME") / ".local/cache")
+dot_docker := xdg_config_home / "docker"
+
+fetch:
+    curl "https://just.arusty.dev/lib/std.just" > "{{ xdg_config_home }}/just/lib/std.just"
+    curl "https://just.arusty.dev/global/{{ user }}.just" > "{{ xdg_config_home }}/just/justfile"
+
+install: mktree fetch
+    # cp *.just "{{ xdg_data_home }}/just/" 2> /dev/null
+    cp justfile "{{ xdg_config_home }}/just/justfile"
+
+# Deploy docker config for profile (DOCKER_WORKSPACE targets application)
+deploy-docker profile="core":
+    just -f "{{ dot_docker }}/justfile" deploy "{{ profile }}"
+
+# Create certificates & DNS records
+init-docker:
+    just -f "{{ dot_docker }}/justfile" init
+
+mktree:
+    mkdir -p "{{ xdg_data_home }}/just"
+    mkdir -p "{{ xdg_config_home }}/just/lib"
+    mkdir -p "{{ xdg_cache_home }}/just"
+    mkdir -p "{{ xdg_state_home }}/just"
