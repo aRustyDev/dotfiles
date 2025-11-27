@@ -1,9 +1,13 @@
 networks:
   n8n:
+  traefik-public:
+    external: true
 
 x-n8n: &service-n8n
   image: n8nio/n8n:latest
-  networks: ["n8n"]
+  networks:
+    - n8n
+    - traefik-public
   environment:
     - DB_TYPE=postgresdb
     - DB_POSTGRESDB_HOST=postgres
@@ -14,33 +18,15 @@ x-n8n: &service-n8n
     - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY:-op://Developer/n8n/encryption_key}
     - N8N_USER_MANAGEMENT_JWT_SECRET=${N8N_USER_MANAGEMENT_JWT_SECRET:-op://Developer/n8n/jwt_secret}
     - OLLAMA_HOST=${OLLAMA_HOST:-ollama:11434}
+    # HTTPS Configuration
+    - N8N_PROTOCOL=https
+    - N8N_HOST=notes.localhost
+    - WEBHOOK_URL=https://notes.localhost
   env_file:
-    - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/n8n.env
+    - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/n8n/.env
       required: false
 
 services:
-  postgres:
-    image: postgres:16-alpine
-    hostname: postgres
-    profiles: ["core", "n8n"]
-    networks: ["n8n"]
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER:-op://Developer/postgres/username}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-op://Developer/postgres/password}
-      - POSTGRES_DB=${POSTGRES_DB:-op://Developer/postgres/database}
-    volumes:
-      - ${XDG_DATA_HOME:-$HOME/.local/share}/postgres/n8n:/var/lib/postgresql/data
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}",
-        ]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
   n8n-import:
     <<: *service-n8n
     hostname: n8n-import
@@ -61,6 +47,8 @@ services:
     hostname: n8n
     container_name: n8n
     profiles: ["core", "n8n"]
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
     restart: unless-stopped
     ports:
       - 5678:5678
@@ -73,15 +61,26 @@ services:
         condition: service_healthy
       n8n-import:
         condition: service_completed_successfully
+    labels:
+      # Enable Traefik
+      traefik.enable: true
+      # Services
+      traefik.http.services.n8n.loadbalancer.server.port: 5678
+      # Primary route: /mcp endpoint (Streamable HTTP)
+      traefik.http.routers.n8n.rule: Header(`X-Service`, `n8n`)
+      traefik.http.routers.n8n.service: n8n
+      traefik.http.routers.n8n.entrypoints: websecure
+      traefik.http.routers.n8n.tls: true
+      traefik.http.routers.n8n.parentRefs[0]: mcp@file
+      # Health check endpoint
+      traefik.http.routers.n8n-health.rule: Header(`X-Service`, `n8n`)
+      traefik.http.routers.n8n-health.service: n8n
+      traefik.http.routers.n8n-health.entrypoints: websecure
+      traefik.http.routers.n8n-health.tls: true
+      traefik.http.routers.n8n-health.parentRefs[0]: health@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public
 
-  qdrant:
-    image: qdrant/qdrant
-    hostname: qdrant
-    container_name: qdrant
-    profiles: ["core", "n8n"]
-    networks: ["n8n"]
-    restart: unless-stopped
-    ports:
-      - 6333:6333
-    volumes:
-      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/qdrant/n8n:/qdrant/storage
+configs:
+  n8n:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/n8n

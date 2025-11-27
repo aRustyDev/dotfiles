@@ -1,0 +1,60 @@
+---
+# =============================================================================
+# PostgreSQL Docker Compose Configuration
+# =============================================================================
+#
+# Initialization Scripts:
+#   - All *.sql, *.sh, and *.sql.gz files in ../../config/postgres/ are
+#     automatically executed on first container startup
+#   - Scripts run in alphabetical order (use numeric prefixes to control order)
+#   - Scripts only run if data directory is empty (first initialization)
+#
+# Available Init Scripts:
+#   - init.n8n.sql - Sets up N8N database, user, and permissions
+#
+# Environment Variables:
+#   POSTGRES_USER     - Superuser username (default: postgres)
+#   POSTGRES_PASSWORD - Superuser password (required)
+#   POSTGRES_DB       - Default database name (default: postgres)
+#
+# Data Persistence:
+#   - Database data: ${XDG_DATA_HOME}/postgres/n8n/
+#   - To reset and re-run init scripts, delete the data directory
+#
+# Usage:
+#   docker-compose -f postgres.yaml up
+#   docker-compose -f postgres.yaml --profile n8n up
+#
+# =============================================================================
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    hostname: postgres
+    container_name: postgres
+    profiles: ["core", "n8n"]
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    networks: ["n8n"]
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-"op://Developer/postgres/username"}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-"op://Developer/postgres/password"}
+      POSTGRES_DB: ${POSTGRES_DB:-"op://Developer/postgres/database"}
+    volumes:
+      # PostgreSQL data directory
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/postgres/n8n:/var/lib/postgresql/data
+      # Initialization scripts (*.sql, *.sh, *.sql.gz files run on first startup)
+      # Scripts are executed in alphabetical order
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/postgres/initdb.d:/docker-entrypoint-initdb.d:ro
+    ports:
+      - 5432:5432
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10

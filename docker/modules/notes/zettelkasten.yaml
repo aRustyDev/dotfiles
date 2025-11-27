@@ -8,6 +8,8 @@ services:
     restart: unless-stopped
     stdin_open: true # docker run -i
     tty: true # docker run -t
+    networks:
+      - traefik-public
     ports:
       - "${ZETTELKASTEN_HTTP_PORT:-8200}:8000"
     volumes:
@@ -46,15 +48,22 @@ services:
       ZETTELKASTEN_JSON_RESPONSE: true
     labels:
       # Streamable HTTP routing for MCP
+      # Enable Traefik
       traefik.enable: true
       traefik.http.services.zettelkasten.loadbalancer.server.port: 8000
       # Primary route: /mcp endpoint (Streamable HTTP)
-      traefik.http.routers.zettelkasten.rule: Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/notes`)
+      traefik.http.routers.zettelkasten.rule: Header(`X-Service`, `zettelkasten`)
       traefik.http.routers.zettelkasten.service: zettelkasten
-      traefik.http.routers.zettelkasten.entrypoints: web,websecure
-      traefik.http.routers.zettelkasten.middlewares: strip-notes
-      traefik.http.middlewares.strip-notes.stripprefix.prefixes: /notes
+      traefik.http.routers.zettelkasten.entrypoints: websecure
+      traefik.http.routers.zettelkasten.tls: true
+      traefik.http.routers.zettelkasten.parentRefs[0]: notes@file
+      traefik.http.routers.zettelkasten.parentRefs[1]: mcp@file
       # Health check endpoint
-      traefik.http.routers.zettelkasten-health.rule: Host(`mcp.localhost`) && Path(`/health`)
+      traefik.http.routers.zettelkasten-health.rule: Header(`X-Service`, `zettelkasten`)
       traefik.http.routers.zettelkasten-health.service: zettelkasten
-      traefik.http.routers.zettelkasten-health.entrypoints: web,websecure
+      traefik.http.routers.zettelkasten-health.entrypoints: websecure
+      traefik.http.routers.zettelkasten-health.tls: true
+      traefik.http.routers.zettelkasten-health.parentRefs[0]: notes@file
+      traefik.http.routers.zettelkasten-health.parentRefs[1]: health@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public

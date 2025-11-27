@@ -1,0 +1,8 @@
+brew unbound
+brew docker-desktop
+brew docker
+brew orbstack
+brew jq
+brew doggo
+brew golang
+brew just

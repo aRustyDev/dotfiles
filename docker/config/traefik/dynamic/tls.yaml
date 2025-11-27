@@ -1,0 +1,45 @@
+# =============================================================================
+# TLS Configuration for Traefik
+# =============================================================================
+# This file configures TLS certificates and options
+#
+# For local development:
+#   1. Install mkcert: brew install mkcert
+#   2. Initialize: mkcert -install
+#   3. Generate certs:
+#      cd ${XDG_DATA_HOME:-$HOME/.local/share}/traefik/certs
+#      mkcert "*.localhost" "localhost"
+#      mv _wildcard.localhost+*.pem cert.pem
+#      mv _wildcard.localhost+*-key.pem key.pem
+#
+# For production:
+#   - Use Let's Encrypt (configure certificatesResolvers in traefik.yaml)
+#   - Remove/comment the certificates section below
+# =============================================================================
+
+tls:
+  certificates:
+    # Local development certificates (mkcert)
+    - certFile: /etc/traefik/certs/cert.pem
+      keyFile: /etc/traefik/certs/key.pem
+      stores:
+        - default
+
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/certs/cert.pem
+        keyFile: /etc/traefik/certs/key.pem
+
+  options:
+    default:
+      minVersion: VersionTLS12
+      sniStrict: false
+      cipherSuites:
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+
+    modern:
+      minVersion: VersionTLS13
+      sniStrict: true

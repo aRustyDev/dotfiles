@@ -1,18 +1,56 @@
 services:
   ingress:
-    image: traefik:latest
+    image: traefik:v3.2
     container_name: ingress
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - traefik-public
     command:
-      - "--api.insecure=true"
+      - "--api.insecure=false"
       - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.filename=/etc/traefik/config.yaml"
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+      - "--ping.entrypoint=web"
     ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
+      - "80:80" # HTTP
+      - "443:443" # HTTPS
+    configs:
+      - source: traefik
+        target: /etc/traefik/config.yaml
+        mode: 0440
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      # Docker socket (read-only for security)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+      # Dynamic configurations (file provider)
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/traefik/dynamic:/etc/traefik/dynamic:ro
+
+      # TLS certificates (mkcert)
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/traefik/certs:/etc/traefik/certs:ro
+
+      # Certificate storage (Let's Encrypt)
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/traefik/acme:/etc/traefik/acme
+
+      # Logs
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/traefik/logs:/var/log/traefik
+    environment:
+      - TZ=America/New_York
+    labels:
+      # Enable Traefik
+      traefik.enable: true
+      # Dashboard Access via HTTPS
+      traefik.http.routers.dashboard.rule: Host(`traefik.localhost`)
+      traefik.http.routers.dashboard.service: api@internal
+      traefik.http.routers.dashboard.entrypoints: websecure
+      traefik.http.routers.dashboard.tls: true
+      traefik.http.routers.dashboard.parentRefs[0]: api@file
+      # Apply middleware to dashboard
+      # traefik.http.routers.dashboard.middlewares: auth-basic@file,secure-headers@file
     deploy:
       resources:
         limits:
@@ -27,3 +65,11 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
+networks:
+  traefik-public:
+    external: true
+
+configs:
+  traefik:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/traefik.yaml

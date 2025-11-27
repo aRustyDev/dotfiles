@@ -1,6 +1,11 @@
 dot_docker := env("XDG_CONFIG_HOME", env("HOME") / ".config") / "docker"
 docker_state := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "docker"
 src_docker := justfile_directory()
+unbound_conf := `brew --prefix` / "etc/unbound/unbound.conf"
+resolver_dir := "/etc/resolver"
+dns_ip := "127.0.0.2"
+docker_workspace := if env("DOCKER_WORKSPACE", "") == "" { "docker-compose" } else { "workspaces" / lowercase(env("DOCKER_WORKSPACE", "")) }
+profile := if docker_workspace == "docker-compose" { "core" } else { lowercase(env("DOCKER_WORKSPACE", "")) }
 
 # Install the Docker dotfiles
 install: mktree
@@ -8,9 +13,22 @@ install: mktree
     cp -r "{{ src_docker }}/modules" "{{ dot_docker }}"
     cp -r "{{ src_docker }}/files" "{{ dot_docker }}"
     cp -r "{{ src_docker }}/docs" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/mcp-global.yaml" "{{ dot_docker }}/docker-compose.yaml"
+    cp -r "{{ src_docker }}/workspaces" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/data" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/docker-compose.yaml" "{{ dot_docker }}/docker-compose.yaml"
+    cp -r "{{ src_docker }}/brewfile" "{{ dot_docker }}/brewfile"
     cp -r "{{ src_docker }}/justfile" "{{ dot_docker }}/justfile"
     cp -r "{{ src_docker }}/.env" "{{ dot_docker }}/.env"
+
+# Create certificate files for localhost
+mkcerts:
+    #!/usr/bin/env bash
+    cd "{{ dot_docker }}/data/certs"
+    mkcert "*.localhost" "localhost"
+    mkcert -install
+    mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1 ::1
+    mv _wildcard.localhost+*.pem cert.pem
+    mv _wildcard.localhost+*-key.pem key.pem
 
 # Create necessary directories
 mktree:
@@ -20,14 +38,69 @@ mktree:
 clean:
     rm -rf "{{ dot_docker }}"
 
+init: mktree mkcerts dns-init
+
 # Deploy Docker profile="core": mktree
-deploy profile="core": mktree
+deploy profile=profile: mktree mkcerts dns-init
     just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
     docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" up -d
 
 # Hydrate Docker-compose for profile
-docker-template profile="core":
-    docker-compose --profile "{{ profile }}" -f "{{ dot_docker }}/docker-compose.yaml" config | op inject
+docker-template profile=profile:
+    docker-compose --profile "{{ profile }}" -f "{{ dot_docker / docker_workspace }}.yaml" config | op inject
 
-test profile="core":
+# Test Docker-compose config is valid for profile
+docker-test profile=profile:
     just -f "{{ justfile() }}" docker-template "{{ profile }}"
+
+# =============================================================================
+# DNS Management (extends volta unbound - doesn't stomp)
+# =============================================================================
+# Docker zones to add: space-separated TLDs
+
+docker_zones := "docker test local host"
+
+# Add docker zones to existing unbound config (idempotent, extends volta)
+dns-add tld ip="127.0.0.1":
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Check if zone exists
+    if grep -q "^local-zone: \"{{ tld }}\" static" "{{ unbound_conf }}" 2>/dev/null; then
+        echo "✓ {{ tld }} already in unbound config"
+    else
+        # Insert before forward-zone section (preserves volta zones)
+        sudo awk -v z="{{ tld }}" -v ip="{{ ip }}" \
+            '/^forward-zone:/{print "local-zone: \"" z "\" static"; print "local-data: \"" z " A " ip "\""; print ""} {print}' \
+            "{{ unbound_conf }}" > /tmp/unbound.tmp
+        sudo mv /tmp/unbound.tmp "{{ unbound_conf }}"
+        sudo brew services restart unbound
+        echo "✓ Added {{ tld }} → {{ ip }}"
+    fi
+
+    # Add macOS resolver
+    echo "nameserver {{ dns_ip }}" | sudo tee "{{ resolver_dir }}/{{ tld }}" >/dev/null
+    echo "✓ Created /etc/resolver/{{ tld }}"
+
+# Remove docker zone (leaves volta zones intact)
+dns-remove tld:
+    #!/usr/bin/env bash
+    set +e
+    sudo sed -i.bak "/^local-zone: \"{{ tld }}\" static/d; /^local-data: \"{{ tld }} A /d" "{{ unbound_conf }}" 2>/dev/null
+    sudo rm -f "{{ resolver_dir }}/{{ tld }}" 2>/dev/null
+    sudo brew services restart unbound 2>/dev/null || true
+    echo "✓ Removed {{ tld }}"
+
+# Initialize all docker zones
+dns-init:
+    #!/usr/bin/env bash
+    for zone in {{ docker_zones }}; do just dns-add "$zone"; done
+    echo "✓ Docker DNS zones initialized"
+
+# Clean up all docker zones (leaves volta intact)
+dns-clean:
+    #!/usr/bin/env bash
+    for zone in {{ docker_zones }}; do just dns-remove "$zone"; done
+    sudo dscacheutil -flushcache 2>/dev/null || true
+    sudo killall -HUP mDNSResponder 2>/dev/null || true
+    echo "✓ Docker DNS zones cleaned"

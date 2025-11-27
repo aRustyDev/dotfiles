@@ -1,0 +1,36 @@
+# # === === === === === === === === === ===
+# #  Intermediate Routers
+# #  NOTE: Will implement later
+# # === === === === === === === === === ===
+# http:
+#   routers:
+#     # Parent router for admin/dashboard access
+#     admin:
+#       rule: "PathPrefix(`/admin`)"
+#       parentRefs:
+#         - api@file
+#         - authn@file
+#         - authz@file
+#         - notes@file
+#         - docs@file
+#         - tools@file
+#         - memory@file
+#         - db@file
+#       middlewares:
+#         - auth-basic
+#         - secure-headers
+#       priority: 110
+
+#     # Child router for admin users
+#     api-admin:
+#       rule: "HeadersRegexp(`X-User-Role`, `admin`)"
+#       service: admin-service
+#       parentRefs:
+#         - api
+
+#     # Child router for regular users
+#     api-user:
+#       rule: "HeadersRegexp(`X-User-Role`, `user`)"
+#       service: user-service
+#       parentRefs:
+#         - api

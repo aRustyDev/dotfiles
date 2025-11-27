@@ -1,0 +1,14 @@
+---
+# docker-compose.yml
+name: mcp-global
+
+include:
+  - path: modules/ingress/traefik.yaml
+  - path: modules/db/postgres.yaml
+
+networks:
+  global:
+
+configs:
+  graphiti:
+    file: ./config/graphiti.yaml

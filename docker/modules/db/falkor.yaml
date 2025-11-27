@@ -25,14 +25,18 @@ services:
       retries: 5
       start_period: 10s
     labels:
+      # Enable Traefik
       traefik.enable: true
-      # FalkorDB UI Access - Use subdomain to avoid path prefix issues with Next.js assets
+      # Services
       traefik.http.services.falkorui.loadbalancer.server.port: 3000
-      traefik.http.routers.falkorui.rule: Host(`falkor.ui.${DOMAIN:-localhost}`)
-      traefik.http.routers.falkorui.service: falkorui
-      traefik.http.routers.falkorui.entrypoints: web
-      # FalkorDB Access
       traefik.http.services.falkordb.loadbalancer.server.port: 6379
-      traefik.http.routers.falkordb.rule: Host(`db.${DOMAIN:-localhost}`) && PathPrefix(`/graph`)
+      # FalkorDB UI Access - Use subdomain to avoid path prefix issues with Next.js assets
+      traefik.http.routers.falkorui.rule: Header(`X-Service`, `falkorui`)
+      traefik.http.routers.falkorui.service: falkorui
+      traefik.http.routers.falkorui.parentRefs: ui@file
+      # FalkorDB Access
+      traefik.http.routers.falkordb.rule: Header(`X-Service`, `falkordb`)
       traefik.http.routers.falkordb.service: falkordb
-      traefik.http.routers.falkordb.entrypoints: web
+      traefik.http.routers.falkordb.parentRefs: db@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public

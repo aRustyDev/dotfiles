@@ -1,0 +1,94 @@
+http:
+  middlewares:
+    # Security headers (HTTPS enabled)
+    secure-headers:
+      headers:
+        frameDeny: true
+        sslRedirect: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+        customFrameOptionsValue: "SAMEORIGIN"
+        # Additional security headers
+        contentSecurityPolicy: "default-src 'self'"
+        referrerPolicy: "strict-origin-when-cross-origin"
+
+    # HTTPS redirect middleware
+    https-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    # Rate limiting
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 50
+        period: 1s
+
+    # Basic auth (generate password with: htpasswd -nb user password)
+    auth-basic:
+      basicAuth:
+        users:
+          - "admin:$apr1$xyz$hashgoeshere"
+
+    # Compress responses
+    compression:
+      compress: true
+
+    # Add custom header
+    api-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+
+    mcp-strip-prefix:
+      stripPrefix:
+        prefixes:
+          - "/mcp"
+        forceSlash: false
+
+    # MCP CORS (updated for HTTPS)
+    mcp-cors:
+      headers:
+        accessControlAllowOriginList:
+          - "https://notes.localhost"
+          - "https://api.localhost"
+          - "https://traefik.localhost"
+        accessControlAllowMethods:
+          - "GET"
+          - "POST"
+          - "OPTIONS"
+        accessControlAllowHeaders:
+          - "Content-Type"
+          - "X-Service"
+        accessControlAllowCredentials: true
+    # Auth middleware (HTTPS)
+    authn:
+      forwardAuth:
+        address: "https://id.localhost"
+        authResponseHeaders:
+          - X-User-Role
+          - X-User-Name
+        trustForwardHeader: true
+    mcp:
+      replacePath:
+        path: "/mcp"
+
+    test-errors:
+      errors:
+        status:
+          - "500"
+          - "501"
+          - "503"
+          - "505-599"
+        service: serviceError
+        query: "/{status}.html"
+
+    health-headers:
+      headers:
+        customResponseHeaders:
+          X-Health-Check: "true"

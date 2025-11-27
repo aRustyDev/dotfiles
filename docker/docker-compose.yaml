@@ -14,6 +14,8 @@ include:
   - path: modules/mcp-global/time.yaml
 
   - path: modules/db/falkor.yaml
+  - path: modules/db/postgres.yaml
+  - path: modules/db/qdrant.yaml
 
   - path: modules/git/gitlab.yaml
   - path: modules/git/github.yaml

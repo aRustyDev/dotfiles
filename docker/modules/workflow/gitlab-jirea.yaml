@@ -12,17 +12,25 @@ services:
       - "${CHECKLISTS_API_PORT:-8355}:8355"
       - "${CHECKLISTS_UI_PORT:-8180}:80"
     labels:
+      # Enable Traefik
       traefik.enable: true
-      # SimpleCheckList UI Access
+      # Services
       traefik.http.services.checklistui.loadbalancer.server.port: 80
-      traefik.http.routers.checklistui.rule: Host(`ui.${DOMAIN:-localhost}`)
-      traefik.http.routers.checklistui.service: checklistui
-      traefik.http.routers.checklistui.entrypoints: web
-      # SimpleCheckList REST API Access (not MCP)
       traefik.http.services.checklist-api.loadbalancer.server.port: 8355
-      traefik.http.routers.checklist-api.rule: Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/api`)
+      # Primary route: /mcp endpoint (Streamable HTTP)
+      traefik.http.routers.checklist-ui.rule: Header(`X-Service`, `checklist-ui`)
+      traefik.http.routers.checklist-ui.service: checklist-ui
+      traefik.http.routers.checklist-ui.parentRefs[0]: ui@file
+      # Primary route: /mcp endpoint (Streamable HTTP)
+      traefik.http.routers.checklist-api.rule: Header(`X-Service`, `checklist-api`)
       traefik.http.routers.checklist-api.service: checklist-api
-      traefik.http.routers.checklist-api.entrypoints: web
+      traefik.http.routers.checklist-api.parentRefs[0]: mcp@file,api@file
+      # Health check endpoint
+      traefik.http.routers.checklist-health.rule: Header(`X-Service`, `checklist-health`)
+      traefik.http.routers.checklist-health.service: checklist-health
+      traefik.http.routers.checklist-health.parentRefs[0]: health@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public
     extra_hosts:
       host.docker.internal: host-gateway
     volumes:

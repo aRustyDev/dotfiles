@@ -14,7 +14,7 @@ services:
     #   image: zepai/knowledge-graph-mcp:1.0.0-standalone
     # When building locally, the build section below will be used.
     env_file:
-      - path: ./config/graphiti.env
+      - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/.env
         required: false
     depends_on:
       falkordb:
@@ -43,13 +43,18 @@ services:
       - "${GRAPHITI_PORT:-8000}:8000" # Expose the MCP server via HTTP transport
     command: ["uv", "run", "main.py"]
     labels:
+      # Enable Traefik
       traefik.enable: true
+      # Services
       traefik.http.services.memory.loadbalancer.server.port: 8000
-      traefik.http.routers.memory-mcp.rule: Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/memory`)
-      traefik.http.routers.memory-mcp.service: memory
-      traefik.http.routers.memory-mcp.entrypoints: web
-      traefik.http.middlewares.strip-memory.stripprefix.prefixes: /memory
-      traefik.http.routers.memory-mcp.middlewares: strip-memory
+      # Primary route: /mcp endpoint (Streamable HTTP)
+      traefik.http.routers.memory.rule: Header(`X-Service`, `memory`)
+      traefik.http.routers.memory.service: memory
+      traefik.http.routers.memory.parentRefs[0]: mcp@file
+      # Health check endpoint
+      traefik.http.routers.memory-health.rule: Header(`X-Service`, `memory`)
+      traefik.http.routers.memory-health.service: memory
+      traefik.http.routers.memory-health.parentRefs[0]: health@file
     deploy:
       resources:
         limits:
@@ -64,3 +69,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+
+configs:
+  graphiti:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/graphiti/config.yaml

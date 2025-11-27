@@ -17,6 +17,22 @@ services:
       - ~/.local/share/mcp/surreal:/var/data
     ports:
       - 8000:8000
+    labels:
+      # Enable Traefik
+      traefik.enable: true
+      # Services
+      traefik.http.services.surrealui.loadbalancer.server.port: 8000
+      traefik.http.services.surrealdb.loadbalancer.server.port: 8000
+      # FalkorDB UI Access - Use subdomain to avoid path prefix issues with Next.js assets
+      traefik.http.routers.surrealui.rule: Header(`X-Service`, `surrealui`)
+      traefik.http.routers.surrealui.service: surrealui
+      traefik.http.routers.surrealui.parentRefs[0]: ui@file
+      # FalkorDB Access
+      traefik.http.routers.surrealdb.rule: Header(`X-Service`, `surrealdb`)
+      traefik.http.routers.surrealdb.service: surrealdb
+      traefik.http.routers.surrealdb.parentRefs: db@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public
 # surrealdb:
 #   command: "npx"
 #   args:
