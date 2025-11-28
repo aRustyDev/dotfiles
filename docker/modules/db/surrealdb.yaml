@@ -1,0 +1,56 @@
+---
+services:
+  surreal:
+    image: surrealdb/surrealdb:latest
+    profiles: ["surreal"]
+    restart: unless-stopped
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    command:
+      - start
+      - --log
+      - debug
+      - --user
+      - root
+      - --pass
+      - secret
+      - rocksdb:/var/data/mcp.db
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/surreal:/var/data
+    ports:
+      - 8100:8000
+    labels:
+      # Enable Traefik
+      traefik.enable: true
+      # Services
+      traefik.http.services.surreal-ui.loadbalancer.server.port: 8080
+      traefik.http.services.surreal-db.loadbalancer.server.port: 8000
+      # FalkorDB UI Access - Use subdomain to avoid path prefix issues with Next.js assets
+      traefik.http.routers.surreal-ui.rule: Header(`X-Service`, `surrealui`)
+      traefik.http.routers.surreal-ui.service: surreal-ui
+      traefik.http.routers.surreal-ui.parentRefs[0]: ui@file
+      # FalkorDB Access
+      traefik.http.routers.surreal-db.rule: Header(`X-Service`, `surrealdb`)
+      traefik.http.routers.surreal-db.service: surreal-db
+      traefik.http.routers.surreal-db.parentRefs[0]: db@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public
+    environment:
+      SURREAL_EXPERIMENTAL_GRAPHQL: true
+      # SURREALDB_URL: "op://Developer/surrealdb/server" # ws://127.0.0.1:8000
+      SURREALDB_NS: "op://Developer/surrealdb/namespace"
+      SURREALDB_DB: "op://Developer/surrealdb/database"
+      SURREALDB_USER: "op://Developer/surrealdb/username"
+      SURREALDB_PASS: "op://Developer/surrealdb/password"
+      # SURREAL_IMPORT_FILE: ""
+      # SURREAL_TELEMETRY_NAMESPACE
+      # SURREAL_TELEMETRY_PROVIDER
+      # SURREAL_TEMPORARY_DIRECTORY
+      # SURREAL_TOKIO_CONSOLE_ENABLED: true
+      # SURREAL_TOKIO_CONSOLE_RETENTION: 60
+      # SURREAL_TOKIO_CONSOLE_SOCKET_ADDR: false # 127.0.0.1:65535
+      # SURREAL_WEBSOCKET_MAX_CONCURRENT_REQUEST
+      # SURREAL_WEBSOCKET_MAX_MESSAGE_SIZE
+      # SURREAL_WEBSOCKET_RESPONSE_BUFFER_SIZE
+      # SURREAL_WEBSOCKET_RESPONSE_CHANNEL_SIZE
+      # SURREAL_WEBSOCKET_RESPONSE_FLUSH_PERIOD

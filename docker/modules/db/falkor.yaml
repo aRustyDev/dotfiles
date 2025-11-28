@@ -2,6 +2,8 @@ services:
   falkordb:
     image: falkordb/falkordb:latest
     container_name: graphdb
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
     ports:
       - "6379:6379" # Redis/FalkorDB port
       - "3000:3000" # FalkorDB web UI

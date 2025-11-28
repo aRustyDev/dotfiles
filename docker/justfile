@@ -53,6 +53,11 @@ deploy profile=profile: mktree
     just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
     docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" up -d
 
+# Deploy Docker profile="core": mktree
+destroy profile=profile: mktree
+    just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
+    docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" down
+
 # Hydrate Docker-compose for profile
 docker-template profile=profile:
     docker-compose --profile "{{ profile }}" -f "{{ dot_docker / docker_workspace }}.yaml" config | op inject

@@ -8,6 +8,7 @@ include:
   - path: modules/db/falkor.yaml
   - path: modules/db/postgres.yaml
   - path: modules/db/qdrant.yaml
+  - path: modules/db/surrealdb.yaml
 
   - path: modules/llm/ollama-cpu.yaml
   - path: modules/llm/ollama-pull.yaml
