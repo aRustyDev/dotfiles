@@ -89,6 +89,18 @@
       // https://support.atlassian.com/atlassian-rovo-mcp-server/docs/getting-started-with-the-atlassian-remote-mcp-server/
       "enabled": true,
       "url": "https://mcp.atlassian.com/v1/sse"
+    },
+    "markitdown": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-it",
+        "--rm",
+        "-v",
+        "/home/user/data:/workdir",
+        "markitdown-mcp:latest"
+      ]
     }
   }
 }
