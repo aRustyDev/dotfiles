@@ -62,6 +62,22 @@ dotfiles:
   - url: github.com/aRustyDev/dotfiles
     name: .
 mcp:
+  # https://mcplane.com/mcp_servers/everything
+  # https://mcplane.com/mcp_servers/youtube-5
+  # https://mcplane.com/mcp_servers/report-generation
+  # https://mcplane.com/mcp_servers/deep-code-reasoning
+  # https://mcplane.com/mcp_servers/openapiserver
+  # https://mcplane.com/mcp_servers/mcp-language
+  # https://mcplane.com/mcp_servers/mcphub-nvim
+  # https://mcplane.com/mcp_servers/codemcp
+  # https://mcplane.com/mcp_servers/rust-docsserver
+  # https://mcplane.com/mcp_servers/mcp-gopls
+  # https://mcplane.com/mcp_servers/solana-dev
+  # https://mcplane.com/mcp_servers/cratedocs
+  # https://mcplane.com/mcp_servers/nvimserver
+  # https://mcplane.com/mcp_servers/mcpdoc
+  # https://mcplane.com/mcp_servers/github-graphql-api
+  # https://mcplane.com/mcp_servers/mcp-feature-discussion
   - url: github.com/aRustyDev/zettlekasten-mcp
     name: .
   - url: github.com/aRustyDev/pre-commit-mcp
@@ -79,4 +95,8 @@ mcp:
   - url: github.com/aRustyDev/just-mcp
     name: .
   - url: github.com/aRustyDev/smarttree-mcp
+    name: .
+  - url: github.com/tadata-org/fastapi_mcp
+    name: .
+  - url: github.com/tadata-org/markitdown-mcp
     name: .
