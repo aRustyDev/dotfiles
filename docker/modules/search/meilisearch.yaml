@@ -1,0 +1,50 @@
+---
+services:
+  surreal:
+    image: getmeili/meilisearch:latest
+    profiles: ["surreal"]
+    restart: unless-stopped
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/meili_data:/meili_data
+    ports:
+      - 7700:7700
+    labels:
+      # Enable Traefik
+      traefik.enable: true
+      # Services
+      traefik.http.services.meilisearch.loadbalancer.server.port: 7700
+      # meilisearch Access
+      traefik.http.routers.meilisearch.rule: Header(`X-Service`, `meilisearch`)
+      traefik.http.routers.meilisearch.service: meilisearch
+      traefik.http.routers.meilisearch.parentRefs[0]: search@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public
+    environment:
+      MEILI_MASTER_KEY: MASTER_KEY
+      MEILI_CONFIG_FILE_PATH: "./config.toml"
+      MEILI_DB_PATH: "data.ms/"
+      MEILI_ENV: "development"
+      MEILI_HTTP_ADDR: "localhost:7700"
+      MEILI_DUMP_DIR: "dumps/"
+      # MEILI_IMPORT_DUMP: ""
+      # MEILI_IGNORE_MISSING_DUMP: ""
+      # MEILI_IGNORE_DUMP_IF_DB_EXISTS: ""
+      MEILI_LOG_LEVEL: "INFO"
+      MEILI_EXPERIMENTAL_LOGS_MODE: "json"
+      MEILI_SCHEDULE_SNAPSHOT: 86400
+      MEILI_SNAPSHOT_DIR: "snapshots/"
+      # MEILI_IMPORT_SNAPSHOT: ""
+      # MEILI_IGNORE_MISSING_SNAPSHOT: ""
+      # MEILI_IGNORE_SNAPSHOT_IF_DB_EXISTS: ""
+      # MEILI_TASK_WEBHOOK_URL: ""
+      # MEILI_TASK_WEBHOOK_AUTHORIZATION_HEADER: ""
+      # MEILI_EXPERIMENTAL_PERSONALIZATION_API_KEY: ""
+      # MEILI_SSL_AUTH_PATH: ""
+      # MEILI_SSL_CERT_PATH: ""
+      # MEILI_SSL_KEY_PATH: ""
+      # MEILI_SSL_OCSP_PATH: ""
+      # MEILI_SSL_REQUIRE_AUTH: ""
+      # MEILI_SSL_RESUMPTION: ""
+      # MEILI_SSL_TICKETS: ""
