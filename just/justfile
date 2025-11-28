@@ -19,6 +19,10 @@ install: mktree fetch
 deploy-docker profile="core":
     just -f "{{ dot_docker }}/justfile" deploy "{{ profile }}"
 
+# Destroy docker config for profile (DOCKER_WORKSPACE targets application)
+destroy-docker profile="core":
+    just -f "{{ dot_docker }}/justfile" destroy "{{ profile }}"
+
 # Create certificates & DNS records
 init-docker:
     just -f "{{ dot_docker }}/justfile" init
