@@ -1,0 +1,17 @@
+- Use Context7 MCP tool for external library documentation lookups.
+    - When to Use
+        - Learning unfamiliar libraries
+        - API reference and function signatures
+        - Version-specific features and changelogs
+        - Library-recommended patterns and best practices
+    - When Not Needed
+        - General language syntax
+        - Standard library APIs
+        - Project-specific code questions
+        - Debugging application logic
+    - Workflow
+        1. Query current documentation before making assumptions
+        2. Prefer official examples over guessing API usage
+        3. Check for version-specific behavior when relevant
+    - Common Libraries
+        - Rust: tokio, serde, clap, anyhow, thiserror, tracing

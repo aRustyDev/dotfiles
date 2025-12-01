@@ -1,0 +1,5 @@
+tokio, serde, clap, anyhow, thiserror, tracing
+https://libs.tech/project/37724576/qlty
+figment
+ratatui
+criterion
