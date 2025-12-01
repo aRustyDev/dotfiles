@@ -77,6 +77,22 @@
 
 ## MCP Servers
 
+- https://github.com/mindsdb/mindsdb
+- https://github.com/mediar-ai/screenpipe
+- https://github.com/antvis/mcp-server-chart
+- https://www.augmentcode.com/mcp/mcp-searxng
+- https://www.augmentcode.com/mcp/vibe-check-mcp-server
+- https://www.augmentcode.com/mcp/mcp-server-deep-research
+- https://www.augmentcode.com/mcp/mcp-nixos
+- https://www.augmentcode.com/mcp/mcp-graphql
+- https://www.augmentcode.com/mcp/mcp-hfspace
+- https://www.augmentcode.com/mcp/kubernetes-mcp-server
+- https://www.augmentcode.com/mcp/mcp-youtube
+- https://www.augmentcode.com/mcp/kubectl-mcp-server
+- https://www.augmentcode.com/mcp/mcp-server-kubernetes
+- https://www.augmentcode.com/mcp/arxiv-mcp-server
+- https://www.augmentcode.com/mcp/mcp-obsidian
+
 ### Justfile MCP Server
 
 > Currently using https://github.com/toolprint/just-mcp
