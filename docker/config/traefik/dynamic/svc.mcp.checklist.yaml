@@ -1,0 +1,58 @@
+# =============================================================================
+# Checklist MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   docs@file (root)     → Host(`docs.localhost`) || Host(`doc.localhost`)
+#     ├── api@file       → PathPrefix(`/api`)
+#     │     └── checklist-api → Header(`X-Service`, `checklist`) [THIS FILE]
+#     ├── ui@file        → PathPrefix(`/ui`)
+#     │     └── checklist-ui  → Header(`X-Service`, `checklist`) [THIS FILE]
+#     └── health@file    → PathPrefix(`/health`)
+#           └── checklist-health → Header(`X-Service`, `checklist`) [THIS FILE]
+#
+# Container: checklists (mayurkakade/mcp-server)
+#   - API: port 8355
+#   - UI: port 80
+# =============================================================================
+
+http:
+  routers:
+    # API router for checklist MCP server
+    # Matches: Host(docs.localhost) && PathPrefix(/api) && Header(X-Service: checklist)
+    checklist-api:
+      rule: "Header(`X-Service`, `checklist`)"
+      service: checklist-api
+      parentRefs:
+        - api@file
+        - docs@file
+
+    # UI router for checklist web interface
+    # Matches: Host(docs.localhost) && PathPrefix(/ui) && Header(X-Service: checklist)
+    checklist-ui:
+      rule: "Header(`X-Service`, `checklist`)"
+      service: checklist-ui
+      parentRefs:
+        - ui@file
+        - docs@file
+
+    # Health check router
+    # Matches: Host(docs.localhost) && PathPrefix(/health) && Header(X-Service: checklist)
+    checklist-health:
+      rule: "Header(`X-Service`, `checklist`)"
+      service: checklist-api
+      parentRefs:
+        - health@file
+        - docs@file
+
+  services:
+    checklist-api:
+      loadBalancer:
+        servers:
+          - url: "http://checklists:8355"
+
+    checklist-ui:
+      loadBalancer:
+        servers:
+          - url: "http://checklists:80"
