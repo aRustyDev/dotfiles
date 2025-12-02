@@ -1,14 +1,15 @@
 # =============================================================================
-# Docker Hub MCP Server
+# Docker Hub MCP Server - Native Streamable HTTP
 # =============================================================================
-# Provides Docker Hub API integration for LLMs and AI editors.
+# Docker Hub API integration for searching images, viewing tags, and managing
+# repositories. This server natively supports Streamable HTTP transport.
 #
-# Image: mcp/dockerhub (Docker MCP Catalog)
+# Image: mcp/dockerhub (no wrapper needed - native HTTP support)
 #
 # Usage in MCP clients (e.g., Zed):
 #   {
 #     "dockerhub": {
-#       "url": "https://tools.localhost/mcp",
+#       "url": "https://tool.localhost/mcp",
 #       "headers": {
 #         "X-Service": "dockerhub"
 #       }
@@ -16,9 +17,23 @@
 #   }
 #
 # Tools provided:
-#   - Search Docker Hub for images
-#   - Get image details, tags, and metadata
-#   - Manage repositories and organizations
+#   - search: Search Docker Hub for images
+#   - listRepositoriesByNamespace: List repositories in a namespace
+#   - createRepository: Create a new repository
+#   - getRepositoryInfo: Get repository information
+#   - updateRepositoryInfo: Update repository details
+#   - checkRepository: Check if a repository exists
+#   - listRepositoryTags: List available tags for a repository
+#   - getRepositoryTag: Get details about a specific tag
+#   - checkRepositoryTag: Check if a tag exists
+#   - listNamespaces: List available namespaces
+#   - getPersonalNamespace: Get personal namespace info
+#   - listAllNamespacesMemberOf: List namespaces user is member of
+#   - dockerHardenedImages: Get Docker hardened images info
+#
+# Required environment:
+#   - HUB_PAT_TOKEN: Docker Hub Personal Access Token
+#   - --username: Docker Hub username (passed via command)
 #
 # Source: https://github.com/docker/hub-mcp
 # Docker Hub: https://hub.docker.com/r/mcp/dockerhub
@@ -32,6 +47,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
+    ports:
+      - "${DOCKERHUB_HTTP_PORT:-8215}:3000"
     command:
       - "--transport=http"
       - "--port=3000"
@@ -47,31 +64,23 @@ services:
           cpus: "0.1"
           memory: 64M
     healthcheck:
-      test: ["CMD-SHELL", "ps aux | grep -q '[n]ode' || exit 1"]
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(3000, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 10s
-    expose:
-      - 3000
     labels:
-      # Streamable HTTP routing for MCP
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration - Native Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.dockerhub.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
       traefik.enable: true
-      traefik.http.services.dockerhub.loadbalancer.server.port: 3000
-      # Primary route: /mcp endpoint (Streamable HTTP)
-      traefik.http.routers.dockerhub.rule: Header(`X-Service`, `dockerhub`)
-      traefik.http.routers.dockerhub.service: dockerhub
-      traefik.http.routers.dockerhub.entrypoints: websecure
-      traefik.http.routers.dockerhub.tls: true
-      traefik.http.routers.dockerhub.parentRefs[0]: tools@file
-      traefik.http.routers.dockerhub.parentRefs[1]: mcp@file
-      # Health check endpoint
-      traefik.http.routers.dockerhub-health.rule: Header(`X-Service`, `dockerhub`)
-      traefik.http.routers.dockerhub-health.service: dockerhub
-      traefik.http.routers.dockerhub-health.entrypoints: websecure
-      traefik.http.routers.dockerhub-health.tls: true
-      traefik.http.routers.dockerhub-health.parentRefs[0]: tools@file
-      traefik.http.routers.dockerhub-health.parentRefs[1]: health@file
-      # Specify network (if container is on multiple networks)
       traefik.docker.network: traefik-public

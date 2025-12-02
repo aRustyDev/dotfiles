@@ -196,22 +196,11 @@
     //   ]
     // },
     "duckduckgo": {
-      // "url": "https://search.localhost/mcp",
-      // "headers": {
-      //   "X-Service": "duckduckgo"
-      // }
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-duckduckgo",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/duckduckgo"
-      ]
+      // TODO: Not connecting in Zed
+      "url": "https://tools.localhost/mcp",
+      "headers": {
+        "X-Service": "duckduckgo"
+      }
     },
     "sequential-thinking": {
       // modelcontextprotocol/server-sequential-thinking
@@ -278,28 +267,9 @@
       ]
     },
     "dockerhub": {
-      // "url": "https://tool.localhost/mcp",
-      // "headers": {
-      //   "X-Service": "dockerhub"
-      // }
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-dockerhub",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "HUB_PAT_TOKEN",
-        "mcp/dockerhub",
-        "--transport=stdio",
-        "--username={{dockerhub.username}}"
-      ],
-      "env": {
-        "HUB_PAT_TOKEN": "op://employee/docker/mcp-global/token"
+      "url": "https://tool.localhost/mcp",
+      "headers": {
+        "X-Service": "dockerhub"
       }
     },
     "terraform": {
