@@ -52,7 +52,118 @@ A **stdio-to-HTTP wrapper** is a bridge service that:
 
 ## Existing Projects
 
-### 1. **mcp-proxy** (Official, TypeScript)
+### 1. **supergateway** (Recommended, Node.js)
+
+**Repository**: https://github.com/supercorp-ai/supergateway
+**Maintainer**: Supercorp AI
+**Language**: Node.js/TypeScript
+**License**: MIT
+
+**Features**:
+- ✅ Streamable HTTP transport (MCP spec 2025-03-26)
+- ✅ SSE (Server-Sent Events) support
+- ✅ WebSocket support
+- ✅ Stateful and stateless modes
+- ✅ Session management with configurable timeout
+- ✅ Custom headers support
+- ✅ OAuth2 Bearer token authentication
+- ✅ Zero-config for most use cases
+
+**Why supergateway**:
+- Most actively maintained wrapper
+- Full support for latest MCP Streamable HTTP spec
+- Simple CLI interface
+- Works with any stdio MCP server
+- Production-ready with session management
+
+**Usage**:
+```bash
+# Install globally
+npm install -g supergateway
+
+# Basic usage - wraps any stdio MCP server
+supergateway --stdio "mcp-server-time" --outputTransport streamableHttp --port 8080
+
+# Stateful mode with session timeout
+supergateway \
+  --stdio "npx -y @modelcontextprotocol/server-filesystem /data" \
+  --outputTransport streamableHttp \
+  --stateful \
+  --sessionTimeout 60000 \
+  --port 8080
+
+# Custom endpoint path
+supergateway \
+  --stdio "mcp-server-time" \
+  --outputTransport streamableHttp \
+  --streamableHttpPath /mcp \
+  --port 8080
+```
+
+**Dockerfile Example** (time MCP server):
+```dockerfile
+FROM node:22-slim
+
+# Install Python and the MCP server
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 python3-pip python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --no-cache-dir mcp-server-time
+
+# Install supergateway
+RUN npm install -g supergateway
+
+EXPOSE 8080
+
+# Health check - verify supergateway is listening
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD node -e "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))"
+
+# Run supergateway wrapping the stdio server
+CMD supergateway \
+    --stdio "mcp-server-time" \
+    --outputTransport streamableHttp \
+    --port 8080 \
+    --streamableHttpPath /mcp \
+    --stateful \
+    --sessionTimeout 60000
+```
+
+**Docker Compose Example**:
+```yaml
+services:
+  time:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: time.dockerfile
+    image: time-mcp:http
+    container_name: tool-time
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "8211:8080"
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 60000
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+```
+
+---
+
+### 2. **mcp-proxy** (TypeScript)
 
 **Repository**: https://www.npmjs.com/package/mcp-proxy  
 **Maintainer**: punkpeye (Glama AI)  
@@ -114,7 +225,7 @@ sequentialthinking-http:
 
 ---
 
-### 2. **mcp-wrapper-http** (Python/Flask)
+### 3. **mcp-wrapper-http** (Python/Flask)
 
 **Repository**: https://github.com/DougBourban/mcp-wrapper-http  
 **Author**: Doug Bourban  
@@ -205,7 +316,7 @@ thinking-wrapper:
 
 ---
 
-### 3. **mcp-http-wrapper** (i-dream-of-ai)
+### 4. **mcp-http-wrapper** (i-dream-of-ai)
 
 **Repository**: https://github.com/i-dream-of-ai/mcp-http-wrapper  
 **Author**: i-dream-of-ai  
@@ -222,7 +333,7 @@ thinking-wrapper:
 
 ---
 
-### 4. **Custom Stdio-to-HTTP Bridges**
+### 5. **Custom Stdio-to-HTTP Bridges**
 
 Several other implementations exist:
 - **netadx1ai/mcp-stdio-wrapper** - Claude Desktop integration focus
