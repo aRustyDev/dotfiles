@@ -506,22 +506,10 @@
       }
     },
     "time": {
-      // "url": "https://tool.localhost/mcp",
-      // "headers": {
-      //   "X-Service": "time"
-      // }
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-time",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/time"
-      ]
+      "url": "https://tool.localhost/mcp",
+      "headers": {
+        "X-Service": "time"
+      }
     },
     "mcp-python-refactoring": {
       // "url": "https://tool.localhost/mcp",

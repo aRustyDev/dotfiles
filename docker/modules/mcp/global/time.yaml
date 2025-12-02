@@ -9,7 +9,7 @@
 # Usage in MCP clients (e.g., Zed):
 #   {
 #     "time": {
-#       "url": "https://doc.localhost/mcp",
+#       "url": "https://tool.localhost/mcp",
 #       "headers": {
 #         "X-Service": "time"
 #       }
@@ -49,7 +49,13 @@ services:
           cpus: "0.1"
           memory: 64M
     healthcheck:
-      test: ["CMD", "node", "-e", "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))"]
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
       interval: 30s
       timeout: 5s
       retries: 3
