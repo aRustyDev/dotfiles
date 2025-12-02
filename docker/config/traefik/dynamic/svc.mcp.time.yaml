@@ -1,0 +1,39 @@
+# =============================================================================
+# Time MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   docs@file (root)     → Host(`docs.localhost`) || Host(`doc.localhost`)
+#     └── mcp@file       → PathPrefix(`/mcp`)
+#           └── time     → Header(`X-Service`, `time`) [THIS FILE]
+#
+# Container: tool-time (mcp/time)
+#   - MCP endpoint: port 8080 (default)
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Time MCP server
+    # Matches: Host(docs.localhost) && PathPrefix(/mcp) && Header(X-Service: time)
+    time:
+      rule: "Header(`X-Service`, `time`)"
+      service: time
+      parentRefs:
+        - mcp@file
+        - docs@file
+
+    # Health check router
+    # Matches: Host(docs.localhost) && PathPrefix(/health) && Header(X-Service: time)
+    time-health:
+      rule: "Header(`X-Service`, `time`)"
+      service: time
+      parentRefs:
+        - health@file
+        - docs@file
+
+  services:
+    time:
+      loadBalancer:
+        servers:
+          - url: "http://tool-time:8080"
