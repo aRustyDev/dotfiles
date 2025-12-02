@@ -52,6 +52,8 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    expose:
+      - 3000
     labels:
       # Streamable HTTP routing for MCP
       # Enable Traefik
