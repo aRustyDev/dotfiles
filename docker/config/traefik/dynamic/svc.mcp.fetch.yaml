@@ -1,0 +1,39 @@
+# =============================================================================
+# Fetch MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── fetch    -> Header(`X-Service`, `fetch`) [THIS FILE]
+#
+# Container: fetch (fetch-mcp:http)
+#   - MCP endpoint: port 8080 (supergateway wrapped)
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Fetch MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: fetch)
+    fetch:
+      rule: "Header(`X-Service`, `fetch`)"
+      service: fetch
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: fetch)
+    fetch-health:
+      rule: "Header(`X-Service`, `fetch`)"
+      service: fetch
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    fetch:
+      loadBalancer:
+        servers:
+          - url: "http://fetch:8080"

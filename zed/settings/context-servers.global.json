@@ -87,11 +87,12 @@
     //   "command": "npx",
     //   "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
     // },
-    // "fetch": {
-    //   "source": "custom",
-    //   "command": "npx",
-    //   "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
-    // },
+    "fetch": {
+      "url": "https://tool.localhost/mcp",
+      "headers": {
+        "X-Service": "fetch"
+      }
+    },
     // "airtable": {
     //   "source": "custom",
     //   "command": "npx",
@@ -228,6 +229,15 @@
       }
     },
     "gitlab": {
+      // "url": "https://gitlab.com/api/v4/mcp"
+      "url": "https://tool.localhost/mcp",
+      "headers": {
+        "X-Service": "gitlab"
+      }
+    },
+    "glab": {
+      // TODO: implement glab mcp server
+      // TODO: compare glab mcp server vs gitlab.com/../mcp
       // "url": "https://gitlab.com/api/v4/mcp"
       "url": "https://tool.localhost/mcp",
       "headers": {
