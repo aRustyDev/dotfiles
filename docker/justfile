@@ -8,24 +8,30 @@ docker_workspace := if env("DOCKER_WORKSPACE", "") == "" { "docker-compose" } el
 profile := if docker_workspace == "docker-compose" { "core" } else { lowercase(env("DOCKER_WORKSPACE", "")) }
 domain := env("DOMAIN", "localhost")
 
+# Setup DNS, certificates, & necessary dirs
+init: mktree mkcerts dns-init loopback-alias
+
 # Install the Docker dotfiles
 install: mktree
+    cp -r "{{ src_docker }}/.env" "{{ dot_docker }}/.env"
+    cp -r "{{ src_docker }}/docs" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/data" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/files" "{{ dot_docker }}"
     cp -r "{{ src_docker }}/config" "{{ dot_docker }}"
     cp -r "{{ src_docker }}/modules" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/files" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/docs" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/workspaces" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/data" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/docker-compose.yaml" "{{ dot_docker }}/docker-compose.yaml"
     cp -r "{{ src_docker }}/brewfile" "{{ dot_docker }}/brewfile"
     cp -r "{{ src_docker }}/justfile" "{{ dot_docker }}/justfile"
-    cp -r "{{ src_docker }}/.env" "{{ dot_docker }}/.env"
+    cp -r "{{ src_docker }}/workspaces" "{{ dot_docker }}"
+    cp -r "{{ src_docker }}/docker-compose.yaml" "{{ dot_docker }}/docker-compose.yaml"
+
+# Subdomains to include in certificate (Node.js doesn't match wildcards)
+cert_subdomains := "docs doc traefik id authz notes db memory tool search api"
 
 # Create certificate files for localhost
+[group("dns")]
 mkcerts:
     #!/usr/bin/env bash
     set -euo pipefail
-    mkdir -p "{{ dot_docker }}/data/certs"
     cd "{{ dot_docker }}/data/certs"
 
     # Install local CA first
@@ -33,25 +39,39 @@ mkcerts:
     echo "{{ domain }}" >> "{{ docker_state }}/domains"
     cat "{{ docker_state }}/domains" | sort -u > "{{ docker_state }}/domains"
 
-    # Generate wildcard cert for *.localhost
-    mkcert -cert-file cert.pem -key-file key.pem "*.{{ domain }}" "{{ domain }}" 127.0.0.1 ::1
+    # Build subdomain list for explicit SANs (Node.js doesn't match *.localhost)
+    subdomains="{{ cert_subdomains }}"
+    san_args=""
+    for sub in $subdomains; do
+        san_args="$san_args ${sub}.{{ domain }}"
+    done
+
+    # Generate cert with wildcard AND explicit subdomains for Node.js compatibility
+    mkcert -cert-file cert.pem -key-file key.pem \
+        "*.{{ domain }}" "{{ domain }}" \
+        $san_args \
+        127.0.0.1 ::1
 
     echo "✓ TLS certificates created in {{ dot_docker }}/data/certs/"
 
 # Create necessary directories
 mktree:
     mkdir -p "{{ docker_state }}" "{{ dot_docker }}"
+    mkdir -p "{{ dot_docker }}/data/certs"
 
 # Clean up the Docker dotfiles
 clean:
     rm -rf "{{ dot_docker }}"
 
-init: mktree mkcerts dns-init
-
 # Deploy Docker profile="core": mktree
-deploy profile=profile: mktree
+deploy profile=profile: mktree (build profile)
     just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
     docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" up -d
+
+# Build Docker images for profile
+build profile=profile: mktree
+    just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
+    docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" build
 
 # Deploy Docker profile="core": mktree
 destroy profile=profile: mktree
@@ -71,21 +91,41 @@ docker-test profile=profile:
 # =============================================================================
 # Docker zones to add: space-separated TLDs
 
-docker_zones := "docker test local host"
+docker_zones := "docker test local host localhost"
 
 # Add docker zones to existing unbound config (idempotent, extends volta)
+[group("dns")]
 dns-add tld ip="127.0.0.1":
     #!/usr/bin/env bash
     set -euo pipefail
 
-    # Check if zone exists
-    if grep -q "^local-zone: \"{{ tld }}\" static" "{{ unbound_conf }}" 2>/dev/null; then
+    # Check if zone exists in unbound config
+    if grep -q "^local-zone: \"{{ tld }}\"" "{{ unbound_conf }}" 2>/dev/null; then
         echo "✓ {{ tld }} already in unbound config"
     else
-        # Insert before forward-zone section (preserves volta zones)
-        sudo awk -v z="{{ tld }}" -v ip="{{ ip }}" \
-            '/^forward-zone:/{print "local-zone: \"" z "\" static"; print "local-data: \"" z " A " ip "\""; print ""} {print}' \
-            "{{ unbound_conf }}" > /tmp/unbound.tmp
+        # Append local-zone entries at the end of the server: section
+        # Find the line number of the next section after server: (python:, dynlib:, remote-control:, etc.)
+        # or append at end if no other sections exist
+        sudo awk -v z="{{ tld }}" -v ip="{{ ip }}" '
+        BEGIN { added = 0; in_server = 0 }
+        /^server:/ { in_server = 1 }
+        /^(python|dynlib|remote-control|stub-zone|forward-zone|auth-zone):/ {
+            if (in_server && !added) {
+                print "local-zone: \"" z "\" redirect"
+                print "local-data: \"" z " A " ip "\""
+                print ""
+                added = 1
+            }
+            in_server = 0
+        }
+        { print }
+        END {
+            if (!added) {
+                print "local-zone: \"" z "\" redirect"
+                print "local-data: \"" z " A " ip "\""
+            }
+        }
+        ' "{{ unbound_conf }}" > /tmp/unbound.tmp
         sudo mv /tmp/unbound.tmp "{{ unbound_conf }}"
         sudo brew services restart unbound
         echo "✓ Added {{ tld }} → {{ ip }}"
@@ -97,24 +137,39 @@ dns-add tld ip="127.0.0.1":
     echo "✓ Created /etc/resolver/{{ tld }}"
 
 # Remove docker zone (leaves volta zones intact)
+[group("dns")]
 dns-remove tld=domain:
     #!/usr/bin/env bash
     set +e
-    sudo sed -i.bak "/^local-zone: \"{{ tld }}\" static/d; /^local-data: \"{{ tld }} A /d" "{{ unbound_conf }}" 2>/dev/null
+    sudo sed -i.bak "/^local-zone: \"{{ tld }}\"/d; /^local-data: \"{{ tld }} A /d" "{{ unbound_conf }}" 2>/dev/null
     sudo rm -f "{{ resolver_dir }}/{{ tld }}" 2>/dev/null
     sudo brew services restart unbound 2>/dev/null || true
     echo "✓ Removed {{ tld }}"
 
 # Initialize all docker zones
+[group("dns")]
 dns-init:
     #!/usr/bin/env bash
     for zone in {{ docker_zones }}; do just dns-add "$zone"; done
     echo "✓ Docker DNS zones initialized"
 
 # Clean up all docker zones (leaves volta intact)
+[group("dns")]
 dns-clean:
     #!/usr/bin/env bash
     for zone in {{ docker_zones }}; do just dns-remove "$zone"; done
     sudo dscacheutil -flushcache 2>/dev/null || true
     sudo killall -HUP mDNSResponder 2>/dev/null || true
     echo "✓ Docker DNS zones cleaned"
+
+# Add loopback alias for unbound DNS (required for 127.0.0.2)
+[group("dns")]
+loopback-alias:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if ifconfig lo0 | grep -q "{{ dns_ip }}"; then
+        echo "✓ Loopback alias {{ dns_ip }} already configured"
+    else
+        sudo ifconfig lo0 alias {{ dns_ip }} up
+        echo "✓ Added loopback alias {{ dns_ip }}"
+    fi

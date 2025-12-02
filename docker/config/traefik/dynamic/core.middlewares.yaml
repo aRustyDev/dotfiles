@@ -56,6 +56,14 @@ http:
       headers:
         accessControlAllowOriginList:
           - "https://notes.localhost"
+          - "https://doc.localhost"
+          - "https://docs.localhost"
+          - "https://id.localhost"
+          - "https://authz.localhost"
+          - "https://memory.localhost"
+          - "https://tool.localhost"
+          - "https://search.localhost"
+          - "https://db.localhost"
           - "https://api.localhost"
           - "https://traefik.localhost"
         accessControlAllowMethods:

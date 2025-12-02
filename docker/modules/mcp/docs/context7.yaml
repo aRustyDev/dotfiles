@@ -50,25 +50,9 @@ services:
       # =======================================================================
       # Traefik Configuration - Streamable HTTP MCP
       # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.context7.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # See: https://doc.traefik.io/traefik/reference/routing-configuration/http/routing/multi-layer-routing/
+      # =======================================================================
       traefik.enable: true
-      traefik.http.services.context7.loadbalancer.server.port: 8080
-
-      # Route requests with X-Service: context7 header
-      traefik.http.routers.context7.rule: Header(`X-Service`, `context7`)
-      traefik.http.routers.context7.service: context7
-      traefik.http.routers.context7.entrypoints: websecure
-      traefik.http.routers.context7.tls: true
-      traefik.http.routers.context7.parentRefs[0]: docs@file
-      traefik.http.routers.context7.parentRefs[1]: mcp@file
-
-      # Health check route
-      traefik.http.routers.context7-health.rule: Header(`X-Service`, `context7`)
-      traefik.http.routers.context7-health.service: context7
-      traefik.http.routers.context7-health.entrypoints: websecure
-      traefik.http.routers.context7-health.tls: true
-      traefik.http.routers.context7-health.parentRefs[0]: docs@file
-      traefik.http.routers.context7-health.parentRefs[1]: health@file
-      # Health check endpoint
-
-      # Network specification
       traefik.docker.network: traefik-public

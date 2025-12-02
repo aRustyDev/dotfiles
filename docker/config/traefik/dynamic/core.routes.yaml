@@ -1,0 +1,101 @@
+# =============================================================================
+# Multi-Layer Routing Configuration (Traefik v3.6+)
+# =============================================================================
+# Router Hierarchy:
+#   Root Routers     - Have entryPoints, tls; NO parentRefs, NO service
+#   Intermediate     - Have parentRefs, have children; NO service, NO entryPoints/tls
+#   Leaf Routers     - Have parentRefs, MUST have service; NO entryPoints/tls
+#
+# See: https://doc.traefik.io/traefik/reference/routing-configuration/http/routing/multi-layer-routing/
+# =============================================================================
+
+http:
+  routers:
+    # =========================================================================
+    # ROOT ROUTERS (Layer 1) - Host-based routing
+    # =========================================================================
+    # These are entry points for each domain. Child routers inherit their
+    # entryPoints and TLS configuration.
+
+    authn:
+      rule: "Host(`id.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
+    authz:
+      rule: "Host(`authz.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
+    notes:
+      rule: "Host(`notes.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
+    db:
+      rule: "Host(`db.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
+    memory:
+      rule: "Host(`memory.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
+    docs:
+      rule: "Host(`docs.localhost`) || Host(`doc.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
+    tools:
+      rule: "Host(`tool.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
+    search:
+      rule: "Host(`search.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # =========================================================================
+    # INTERMEDIATE ROUTERS (Layer 2) - Path-based routing
+    # =========================================================================
+    # These add path matching on top of host matching. They reference parent
+    # routers and can apply shared middleware.
+
+    # MCP endpoint router (intermediate)
+    # Children will match on X-Service header to route to specific MCP servers
+    mcp:
+      rule: "PathPrefix(`/mcp`)"
+      middlewares:
+        - mcp-cors@file
+      parentRefs:
+        - docs@file
+
+    # Health check router (intermediate)
+    health:
+      rule: "PathPrefix(`/health`)"
+      middlewares:
+        - mcp@file
+      parentRefs:
+        - docs@file
+
+    # UI router (intermediate)
+    ui:
+      rule: "PathPrefix(`/ui`)"
+      parentRefs:
+        - docs@file
+
+    # API router (intermediate)
+    api:
+      rule: "PathPrefix(`/api`)"
+      parentRefs:
+        - docs@file

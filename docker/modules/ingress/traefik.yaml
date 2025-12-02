@@ -1,6 +1,6 @@
 services:
   ingress:
-    image: traefik:v3.2
+    image: traefik:v3.6
     container_name: ingress
     security_opt:
       - no-new-privileges:true
@@ -31,7 +31,7 @@ services:
       - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/traefik/dynamic:/etc/traefik/dynamic:ro
 
       # TLS certificates (mkcert)
-      - ${XDG_DATA_HOME:-$HOME/.local/share}/traefik/certs:/etc/traefik/certs:ro
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/data/certs:/etc/traefik/certs:ro
 
       # Certificate storage (Let's Encrypt)
       - ${XDG_DATA_HOME:-$HOME/.local/share}/traefik/acme:/etc/traefik/acme

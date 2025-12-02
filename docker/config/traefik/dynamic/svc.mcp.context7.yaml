@@ -1,0 +1,38 @@
+# =============================================================================
+# Context7 MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   docs@file (root)     → Host(`docs.localhost`) || Host(`doc.localhost`)
+#     └── mcp@file       → PathPrefix(`/mcp`)
+#           └── context7 → Header(`X-Service`, `context7`) [THIS FILE]
+#
+# Request flow: TLS termination → Host match → Path match → Header match → Service
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Context7 MCP server
+    # Inherits: Host matching from docs@file, PathPrefix from mcp@file
+    # Adds: Header-based service selection
+    context7:
+      rule: "Header(`X-Service`, `context7`)"
+      service: context7
+      parentRefs:
+        - mcp@file
+        - docs@file
+
+    # Health check endpoint for Context7
+    context7-health:
+      rule: "Header(`X-Service`, `context7`)"
+      service: context7
+      parentRefs:
+        - health@file
+        - docs@file
+
+  services:
+    context7:
+      loadBalancer:
+        servers:
+          - url: "http://context7:8080"
