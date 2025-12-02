@@ -1,0 +1,39 @@
+# =============================================================================
+# GitHub MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── github   -> Header(`X-Service`, `github`) [THIS FILE]
+#
+# Container: github (github-mcp:http)
+#   - MCP endpoint: port 8080 (default)
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for GitHub MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: github)
+    github:
+      rule: "Header(`X-Service`, `github`)"
+      service: github
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: github)
+    github-health:
+      rule: "Header(`X-Service`, `github`)"
+      service: github
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    github:
+      loadBalancer:
+        servers:
+          - url: "http://github:8080"

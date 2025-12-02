@@ -1,28 +1,92 @@
+# =============================================================================
+# GitHub MCP Server - Streamable HTTP
+# =============================================================================
+# Official GitHub MCP server for repository operations, issues, PRs, and more.
+#
+# Build: docker build -f files/github.dockerfile -t github-mcp:http .
+# Image: github-mcp:http (local build, wraps ghcr.io/github/github-mcp-server with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "github": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "github"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - search_repositories: Find repositories by name/description
+#   - search_code: Search code across repositories
+#   - search_issues: Search issues and PRs
+#   - search_users: Find GitHub users
+#   - get_file_contents: Read file/directory contents
+#   - create_or_update_file: Create or update a file
+#   - push_files: Push multiple files in a single commit
+#   - create_repository: Create a new repository
+#   - fork_repository: Fork a repository
+#   - create_branch: Create a new branch
+#   - list_commits: List commits in a repository
+#   - create_pull_request: Create a new PR
+#   - list_pull_requests: List PRs in a repository
+#   - merge_pull_request: Merge a PR
+#   - get_pull_request_diff: Get PR diff
+#   - create_issue: Create a new issue
+#   - list_issues: List issues in a repository
+#   - update_issue: Update an existing issue
+#   - add_issue_comment: Add comment to an issue
+#
+# Required environment:
+#   - GITHUB_PERSONAL_ACCESS_TOKEN: GitHub PAT with repo scope
+#
+# Source: https://github.com/github/github-mcp-server
+# =============================================================================
+---
 services:
   github:
-    image: ghcr.io/github/github-mcp-server
-    profiles: ["core", "git", "github", "repo"]
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: github.dockerfile
+    image: github-mcp:http
     container_name: github
-    stdin_open: true # docker run -i
-    tty: true # docker run -t
-    labels:
-      traefik.enable: true
-      # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/github`)
-      traefik.http.routers.github.rule: PathPrefix(`/github`)
+    profiles: ["core", "git", "github", "repo"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${GITHUB_HTTP_PORT:-8213}:8080"
     environment:
-      GITLAB_API_URL: https://gitlab.com/api/v4
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 60000
       GITHUB_PERSONAL_ACCESS_TOKEN: "op://Developer/zed-github-mcp/token"
     deploy:
       resources:
         limits:
-          cpus: "0.25"
-          memory: 128M
+          cpus: "0.5"
+          memory: 256M
         reservations:
           cpus: "0.1"
           memory: 64M
     healthcheck:
-      test: ["CMD-SHELL", "ps aux | grep -q '[n]ode' || exit 1"]
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
       interval: 30s
       timeout: 5s
       retries: 3
-      start_period: 10s
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.github.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
