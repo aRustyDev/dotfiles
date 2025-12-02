@@ -180,50 +180,15 @@
     "pyrefly": true,
     "crates-lsp": true,
     "css-modules-kit": false, // Frontend stuff
-    "just-ls": true,
-    "ast-grep": true,
+    // "just-ls": true,
+    // "ast-grep": true,
     "air": true, // R Formatter
     "design-tokens": true, // Frontend stuff
     "markdownlint": true,
-    "postgres-context-server": false,
-    "mcp-server-github": true,
-    "mcp-server-sequential-thinking": false,
-    "browser-tools-context-server": false,
-    "mcp-server-gitlab": false,
-    "mcp-server-figma": false,
-    "mcp-server-supabase": false,
-    "mcp-server-buildkite": false,
-    "mcp-server-container-use": true,
-    "terraform-context-server": false,
     "go-snippets": false,
     "python-snippets": false,
     "rust-snippets": false,
     "sqlc-snippets": false
-  },
-  "context_servers": {
-    "terraform-context-server": {
-      "source": "extension",
-      "enabled": true,
-      "settings": {}
-    },
-    "container-use-mcp": {
-      "source": "extension",
-      "enabled": true,
-      "settings": {}
-    },
-    "surrealdb": {
-      "source": "custom",
-      "enabled": true,
-      "command": "npx",
-      "args": ["-y", "surrealdb-mcp-server"],
-      "env": {
-        "SURREALDB_NS": "git-setup-rs",
-        "SURREALDB_DB": "git-setup-rs",
-        "SURREALDB_USER": "root",
-        "SURREALDB_URL": "https://surrealdb-tikv.default.svc.cluster.local:8000",
-        "SURREALDB_PASS": "StrongSecretPassword!"
-      }
-    }
   },
   "icon_theme": "Catppuccin Latte",
   "theme": {

@@ -1,6 +1,16 @@
 {
   "context_servers": {
+    // postgres-context-server: {}
+    // mcp-server-github: {}
+    // mcp-server-gitlab: {}
+    // mcp-server-figma: {}
+    // mcp-server-supabase: {}
+    // terraform-context-server: {}
     "memory": {
+      // "url": "https://memory.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "graphiti"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -11,7 +21,11 @@
         "mcp/memory"
       ]
     },
-    "docker-mongodb": {
+    "mongo-mcp": {
+      // "url": "https://db.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "mongo"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -29,10 +43,128 @@
         "mcp/mongodb"
       ],
       "env": {
-        "MDB_MCP_CONNECTION_STRING": "mongodb+srv://$MONGO_USER:$MONGO_PASS@localhost:27017/global"
+        // "MDB_MCP_CONNECTION_STRING": "mongodb+srv://$MONGO_USER:$MONGO_PASS@localhost:27017/global"
+        "MDB_MCP_CONNECTION_STRING": "mongodb://localhost:27017/ami-eks"
       }
     },
-    "docker-search-duckduckgo": {
+    // "math": {
+    //   "source": "custom",
+    //   "command": "npx",
+    //   "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    // },
+    // "fetch": {
+    //   "source": "custom",
+    //   "command": "npx",
+    //   "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    // },
+    // "airtable": {
+    //   "source": "custom",
+    //   "command": "npx",
+    //   "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    // },
+    // "chain-of-thought": {
+    //   "source": "custom",
+    //   "command": "npx",
+    //   "args": [
+    //     "mcp-remote",
+    //     "https://mcp.localhost/ctx/just",
+    //     "--header",
+    //     "Authorization: Bearer ${AUTH_TOKEN}"
+    //   ],
+    //   "env": {
+    //     "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+    //   }
+    // },
+    // "openref": {
+    //   // TODO: Re-implement 'ref' MCP here, (indexed and semantic docs across repos).
+    //   "source": "custom",
+    //   "command": "npx",
+    //   "args": [
+    //     "mcp-remote",
+    //     "https://mcp.localhost/ctx/just",
+    //     "--header",
+    //     "Authorization: Bearer ${AUTH_TOKEN}"
+    //   ],
+    //   "env": {
+    //     "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+    //   }
+    // },
+    // "brave": {
+    //   // TODO: Cache queries locally for efficiency.
+    //   "source": "custom",
+    //   "command": "npx",
+    //   "args": [
+    //     "mcp-remote",
+    //     "https://mcp.localhost/ctx/just",
+    //     "--header",
+    //     "Authorization: Bearer ${AUTH_TOKEN}"
+    //   ],
+    //   "env": {
+    //     "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+    //   }
+    // },
+    // "perplexity": {
+    //   // TODO: Cache queries locally for efficiency.
+    //   "source": "custom",
+    //   "command": "npx",
+    //   "args": [
+    //     "mcp-remote",
+    //     "https://mcp.localhost/ctx/just",
+    //     "--header",
+    //     "Authorization: Bearer ${AUTH_TOKEN}"
+    //   ],
+    //   "env": {
+    //     "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+    //   }
+    // }
+    // "surrealdb": {
+    //   // "url": "https://db.localhost/mcp",
+    //   // "headers": {
+    //   //   "X-Service": "surreal"
+    //   // }
+    //   // "source": "custom",
+    //   // "command": "docker",
+    //   // "args": [
+    //   //   "run",
+    //   //   "-i",
+    //   //   "--name",
+    //   //   "mcp-duckduckgo",
+    //   //   "--annotation",
+    //   //   "scope:global",
+    //   //   "--rm",
+    //   //   "mcp/duckduckgo"
+    //   // ],
+    //   // "env": {
+    //   //   "SURREALDB_NS": "git-setup-rs",
+    //   //   "SURREALDB_DB": "git-setup-rs",
+    //   //   "SURREALDB_USER": "root",
+    //   //   "SURREALDB_URL": "https://surrealdb-tikv.default.svc.cluster.local:8000",
+    //   //   "SURREALDB_PASS": "StrongSecretPassword!"
+    //   // }
+    // },
+    // "container-use": {
+    //   // "url": "https://tool.localhost/mcp",
+    //   // "headers": {
+    //   //   "X-Service": "container-use"
+    //   // }
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": [
+    //     "run",
+    //     "-i",
+    //     "--name",
+    //     "mcp-duckduckgo",
+    //     "--annotation",
+    //     "scope:global",
+    //     "--rm",
+    //     "mcp/duckduckgo"
+    //   ]
+    // },
+    "duckduckgo": {
+      // "url": "https://search.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "duckduckgo"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -46,7 +178,11 @@
         "mcp/duckduckgo"
       ]
     },
-    "docker-sequentialthinking": {
+    "sequential-thinking": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "think"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -60,7 +196,11 @@
         "mcp/sequentialthinking"
       ]
     },
-    "docker-github": {
+    "github": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "github"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -79,7 +219,11 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
       }
     },
-    "docker-gitlab": {
+    "gitlab": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "gitlab"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -102,6 +246,10 @@
       }
     },
     "just-search": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "just"
+      // }
       "source": "custom",
       "command": "just-mcp",
       "args": [
@@ -115,7 +263,11 @@
         "JUST_MCP_EMBEDDING_PROVIDER": "local"
       }
     },
-    "docker-cli": {
+    "docker": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "docker"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -129,7 +281,11 @@
         "docker:cli"
       ]
     },
-    "docker-dockerhub": {
+    "dockerhub": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "dockerhub"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -150,7 +306,11 @@
         "HUB_PAT_TOKEN": "op://employee/docker/mcp-global/token"
       }
     },
-    "docker-terraform": {
+    "terraform": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "terraform"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -164,7 +324,11 @@
         "hashicorp/terraform-mcp-server"
       ]
     },
-    "docker-postgres": {
+    "postgres-mcp": {
+      // "url": "https://db.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "postgres"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -185,7 +349,11 @@
         "POSTGRES_URL": "postgresql://localhost:5432/global"
       }
     },
-    "docker-grafana": {
+    "grafana": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "grafana"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -208,7 +376,11 @@
         "GRAFANA_API_KEY": "op://employee/grafana/mcp-global/token"
       }
     },
-    "docker-atlassian": {
+    "atlassian": {
+      // "url": "https://workflow.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "atlassian"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -248,7 +420,12 @@
         "JIRA_PERSONAL_TOKEN": "op://employee/jira/mcp-global/token"
       }
     },
-    "docker-aws-documentation": {
+    "aws-documentation": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "aws"
+      //   "AWS-Service": "documentation"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -263,6 +440,10 @@
       ]
     },
     "kubernetes": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "kube"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -295,20 +476,16 @@
       ]
     },
     "context7": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-context7",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/context7"
-      ]
+      "url": "https://doc.localhost/mcp",
+      "headers": {
+        "X-Service": "context7"
+      }
     },
     "time": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "time"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -323,6 +500,10 @@
       ]
     },
     "mcp-python-refactoring": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "python-refactoring"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -336,21 +517,11 @@
         "mcp/mcp-python-refactoring"
       ]
     },
-    "curl": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-curl",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "alpine/curl"
-      ]
-    },
     "prometheus": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "prometheus"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -369,7 +540,11 @@
         "PROMETHEUS_URL": "http://host.docker.internal:9090"
       }
     },
-    "simplechecklist": {
+    "simple-checklist": {
+      // "url": "https://workflow.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "checklist"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -387,6 +562,11 @@
       ]
     },
     "aws-core-mcp-server": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "aws"
+      //   "AWS-Service": "core"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -401,6 +581,11 @@
       ]
     },
     "aws-diagram": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "aws"
+      //   "AWS-Service": "diagram"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -415,6 +600,11 @@
       ]
     },
     "aws-terraform": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "aws"
+      //   "AWS-Service": "terraform"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -429,6 +619,11 @@
       ]
     },
     "aws-api": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "aws"
+      //   "AWS-Service": "api"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -442,7 +637,12 @@
         "mcp/aws-api-mcp-server"
       ]
     },
-    "awslabs-cloudtrail": {
+    "aws-cloudtrail": {
+      // "url": "https://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "aws"
+      //   "AWS-Service": "cloudtrail"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [

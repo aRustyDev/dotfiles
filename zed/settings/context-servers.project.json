@@ -1,6 +1,10 @@
 {
   "context_servers": {
-    "ast-grep-ami-eks": {
+    "ast-grep": {
+      // "url": "http://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "ast-grep"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -12,34 +16,11 @@
         "mcp/ast-grep"
       ]
     },
-    "docker-memory-ami-eks": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "/Users/adamsm/code/images/ami-eks:/data",
-        "mcp/memory"
-      ]
-    },
-    "docker-mongodb-ami-eks": {
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "/Users/adamsm/code/images/ami-eks:/data",
-        "mcp/mongodb"
-      ],
-      "env": {
-        "MDB_MCP_CONNECTION_STRING": "mongodb://localhost:27017/ami-eks"
-      }
-    },
-    "task-orchestrator-ami-eks": {
+    "task-orchestrator": {
+      // "url": "http://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "tasks"
+      // }
       "source": "custom",
       "command": "docker",
       "args": [
@@ -51,12 +32,16 @@
         "ghcr.io/jpicklyk/task-orchestrator"
       ]
     },
-    "just-ami-eks": {
+    "justfile": {
       "source": "custom",
       "command": "just-mcp",
       "args": ["--watch-dir", "/Users/adamsm/code/images/ami-eks"]
     },
     "mkdocs": {
+      // "url": "http://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "mkdocs"
+      // }
       "source": "custom",
       "command": "npx",
       "args": [
@@ -84,6 +69,13 @@
       "env": {
         "PROJECT_DIR": "/Users/adamsm/code/docs/internal"
       }
+    },
+    "sketch": {
+      // "url": "http://tool.localhost/mcp",
+      // "headers": {
+      //   "X-Service": "sketch"
+      // }
+      "url": "http://localhost:31126/mcp"
     }
   }
 }
