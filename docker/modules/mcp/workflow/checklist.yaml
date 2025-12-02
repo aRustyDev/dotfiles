@@ -1,6 +1,38 @@
+# =============================================================================
+# SimpleCheckList MCP Server - HTTP Native
+# =============================================================================
+# Task and checklist management with persistent storage and web UI.
+#
+# Image: mayurkakade/mcp-server:latest (HTTP-native, no wrapper needed)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "checklist": {
+#       "url": "https://tool.localhost/api",
+#       "headers": {
+#         "X-Service": "checklist"
+#       }
+#     }
+#   }
+#
+# Web UI: https://tool.localhost/ui with header X-Service: checklist
+#
+# Tools provided:
+#   - create_checklist: Create a new checklist
+#   - get_checklists: List all checklists
+#   - add_item: Add item to a checklist
+#   - toggle_item: Mark item complete/incomplete
+#   - delete_item: Remove item from checklist
+#   - delete_checklist: Delete entire checklist
+#
+# Endpoints:
+#   - API: port 8355 (/api)
+#   - UI: port 80 (/ui)
+#
+# Source: https://github.com/DevMayur/SimpleCheckList
+# =============================================================================
 services:
   checklists:
-    # https://github.com/DevMayur/SimpleCheckList
     image: mayurkakade/mcp-server:latest
     container_name: checklists
     profiles: ["core", "global"]

@@ -26,7 +26,7 @@ http:
       service: checklist-api
       parentRefs:
         - api@file
-        - docs@file
+        - tools@file
 
     # UI router for checklist web interface
     # Matches: Host(docs.localhost) && PathPrefix(/ui) && Header(X-Service: checklist)
@@ -35,7 +35,7 @@ http:
       service: checklist-ui
       parentRefs:
         - ui@file
-        - docs@file
+        - tools@file
       middlewares:
         - strip-prefix
 
@@ -46,7 +46,7 @@ http:
       service: checklist-api
       parentRefs:
         - health@file
-        - docs@file
+        - tools@file
 
   services:
     checklist-api:
