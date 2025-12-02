@@ -559,25 +559,10 @@
       }
     },
     "simple-checklist": {
-      // "url": "https://workflow.localhost/mcp",
-      // "headers": {
-      //   "X-Service": "checklist"
-      // }
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-checklist-global",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-v",
-        "$HOME/.local/share/mcp/checklist/global:/data",
-        "mayurkakade/mcp-server:latest",
-        "--mode=backend"
-      ]
+      "url": "https://tool.localhost/mcp",
+      "headers": {
+        "X-Service": "checklist"
+      }
     },
     "aws-core-mcp-server": {
       // "url": "https://tool.localhost/mcp",
