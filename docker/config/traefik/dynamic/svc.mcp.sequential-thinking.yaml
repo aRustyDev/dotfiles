@@ -21,7 +21,7 @@ http:
       service: thinking
       parentRefs:
         - mcp@file
-        - docs@file
+        - tools@file
 
     # Health check router
     # Matches: Host(docs.localhost) && PathPrefix(/health) && Header(X-Service: thinking)
@@ -30,7 +30,7 @@ http:
       service: thinking
       parentRefs:
         - health@file
-        - docs@file
+        - tools@file
 
   services:
     thinking:
