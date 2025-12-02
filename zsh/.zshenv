@@ -221,6 +221,7 @@ export KREW_NO_UPGRADE_CHECK=0
 export VOLTA_HOME=$XDG_CONFIG_HOME/volta
 export VOLTA_FEATURE_PNPM=1
 export PATH=$VOLTA_HOME:$PATH
+export NODE_EXTRA_CA_CERTS="$XDG_DATA_HOME/mkcert/rootCA.pem"
 
 # --- [ PyEnv ] --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
