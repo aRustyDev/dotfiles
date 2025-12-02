@@ -5,37 +5,37 @@
     // mcp-server-gitlab: {}
     // mcp-server-figma: {}
     // mcp-server-supabase: {}
-    "terraform": {
-      // https://developer.hashicorp.com/terraform/docs/tools/mcp-server/reference#environment-variables
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "${input:tfe_token}",
-        "-e",
-        "${input:tfe_address}",
-        "hashicorp/terraform-mcp-server:0.3.0"
-      ],
-      "env": {
-        "TFE_TOKEN": "",
-        "TFE_ADDRESS": "https://app.terraform.io",
-        "TFE_SKIP_TLS_VERIFY": "false",
-        "TRANSPORT_MODE": "streamable-http",
-        "TRANSPORT_HOST": "127.0.0.1",
-        "TRANSPORT_PORT": "8080",
-        "MCP_ENDPOINT": "/mcp",
-        "MCP_SESSION_MODE": "stateful",
-        "MCP_ALLOWED_ORIGINS": "",
-        "MCP_CORS_MODE": "strict",
-        "MCP_TLS_CERT_FILE": "",
-        "MCP_TLS_KEY_FILE": "",
-        "MCP_RATE_LIMIT_GLOBAL": "10:20",
-        "MCP_RATE_LIMIT_SESSION": "5:10",
-        "ENABLE_TF_OPERATIONS": "false"
-      }
-    },
+    // "terraform": {
+    //   // https://developer.hashicorp.com/terraform/docs/tools/mcp-server/reference#environment-variables
+    //   "command": "docker",
+    //   "args": [
+    //     "run",
+    //     "-i",
+    //     "--rm",
+    //     "-e",
+    //     "${input:tfe_token}",
+    //     "-e",
+    //     "${input:tfe_address}",
+    //     "hashicorp/terraform-mcp-server:0.3.0"
+    //   ],
+    //   "env": {
+    //     "TFE_TOKEN": "",
+    //     "TFE_ADDRESS": "https://app.terraform.io",
+    //     "TFE_SKIP_TLS_VERIFY": "false",
+    //     "TRANSPORT_MODE": "streamable-http",
+    //     "TRANSPORT_HOST": "127.0.0.1",
+    //     "TRANSPORT_PORT": "8080",
+    //     "MCP_ENDPOINT": "/mcp",
+    //     "MCP_SESSION_MODE": "stateful",
+    //     "MCP_ALLOWED_ORIGINS": "",
+    //     "MCP_CORS_MODE": "strict",
+    //     "MCP_TLS_CERT_FILE": "",
+    //     "MCP_TLS_KEY_FILE": "",
+    //     "MCP_RATE_LIMIT_GLOBAL": "10:20",
+    //     "MCP_RATE_LIMIT_SESSION": "5:10",
+    //     "ENABLE_TF_OPERATIONS": "false"
+    //   }
+    // },
     "memory": {
       // "url": "https://memory.localhost/mcp",
       // "headers": {
@@ -76,6 +76,11 @@
         // "MDB_MCP_CONNECTION_STRING": "mongodb+srv://$MONGO_USER:$MONGO_PASS@localhost:27017/global"
         "MDB_MCP_CONNECTION_STRING": "mongodb://localhost:27017/ami-eks"
       }
+    },
+    "homebrew": {
+      "source": "custom",
+      "command": "brew",
+      "args": ["mcp-server"]
     },
     // "math": {
     //   "source": "custom",
@@ -210,22 +215,10 @@
     },
     "sequential-thinking": {
       // modelcontextprotocol/server-sequential-thinking
-      // "url": "https://tool.localhost/mcp",
-      // "headers": {
-      //   "X-Service": "think"
-      // }
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-sequential-thinking",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "mcp/sequentialthinking"
-      ]
+      "url": "https://tool.localhost/mcp",
+      "headers": {
+        "X-Service": "thinking"
+      }
     },
     "github": {
       // "url": "https://tool.localhost/mcp",
