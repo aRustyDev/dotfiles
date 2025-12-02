@@ -226,27 +226,16 @@
     "mermaid-mcp": {
       "url": "https://mcp.mermaidchart.com/mcp"
     },
+    "github-server": {
+      "url": "https://tool.localhost/mcp",
+      "headers": {
+        "X-Service": "github"
+      }
+    },
     "github": {
-      // "url": "https://tool.localhost/mcp",
-      // "headers": {
-      //   "X-Service": "github"
-      // }
-      "source": "custom",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--name",
-        "mcp-github",
-        "--annotation",
-        "scope:global",
-        "--rm",
-        "-e",
-        "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "ghcr.io/github/github-mcp-server"
-      ],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer op://Developer/zed-mcp-github/credential"
       }
     },
     "gitlab": {
