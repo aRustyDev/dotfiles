@@ -1,21 +1,43 @@
-# docker-hub: https://github.com/docker/hub-mcp
+# =============================================================================
+# Docker Hub MCP Server
+# =============================================================================
+# Provides Docker Hub API integration for LLMs and AI editors.
+#
+# Image: mcp/dockerhub (Docker MCP Catalog)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "dockerhub": {
+#       "url": "https://tools.localhost/mcp",
+#       "headers": {
+#         "X-Service": "dockerhub"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - Search Docker Hub for images
+#   - Get image details, tags, and metadata
+#   - Manage repositories and organizations
+#
+# Source: https://github.com/docker/hub-mcp
+# Docker Hub: https://hub.docker.com/r/mcp/dockerhub
+# =============================================================================
+---
 services:
   dockerhub:
     image: mcp/dockerhub
     container_name: dockerhub
     profiles: ["core", "docker"]
-    stdin_open: true # docker run -i
-    tty: true # docker run -t
+    restart: unless-stopped
+    networks:
+      - traefik-public
     command:
-      - "--transport=stdio"
+      - "--transport=http"
+      - "--port=3000"
       - "--username=op://Developer/Docker-Hub-MCP/username"
     environment:
       HUB_PAT_TOKEN: "op://Developer/Docker-Hub-MCP/credential"
-    labels:
-      traefik.enable: true
-      # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/dockerhub`)
-      traefik.http.routers.dockerhub.rule: PathPrefix(`/dockerhub`)
-      traefik.http.routers.dockerhub.loadbalancer.server.port: 3000
     deploy:
       resources:
         limits:
@@ -30,3 +52,24 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    labels:
+      # Streamable HTTP routing for MCP
+      # Enable Traefik
+      traefik.enable: true
+      traefik.http.services.dockerhub.loadbalancer.server.port: 3000
+      # Primary route: /mcp endpoint (Streamable HTTP)
+      traefik.http.routers.dockerhub.rule: Header(`X-Service`, `dockerhub`)
+      traefik.http.routers.dockerhub.service: dockerhub
+      traefik.http.routers.dockerhub.entrypoints: websecure
+      traefik.http.routers.dockerhub.tls: true
+      traefik.http.routers.dockerhub.parentRefs[0]: tools@file
+      traefik.http.routers.dockerhub.parentRefs[1]: mcp@file
+      # Health check endpoint
+      traefik.http.routers.dockerhub-health.rule: Header(`X-Service`, `dockerhub`)
+      traefik.http.routers.dockerhub-health.service: dockerhub
+      traefik.http.routers.dockerhub-health.entrypoints: websecure
+      traefik.http.routers.dockerhub-health.tls: true
+      traefik.http.routers.dockerhub-health.parentRefs[0]: tools@file
+      traefik.http.routers.dockerhub-health.parentRefs[1]: health@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public
