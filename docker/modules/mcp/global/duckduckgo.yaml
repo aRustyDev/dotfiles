@@ -1,13 +1,43 @@
+# =============================================================================
+# DuckDuckGo MCP Server - Streamable HTTP
+# =============================================================================
+# Provides DuckDuckGo search integration for LLMs and AI editors.
+#
+# Image: Custom build from mcp/duckduckgo with HTTP transport support
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "duckduckgo": {
+#       "url": "https://tools.localhost/mcp",
+#       "headers": {
+#         "X-Service": "duckduckgo"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - search: Search DuckDuckGo and return formatted results
+#   - fetch_content: Fetch and parse content from a webpage URL
+#
+# Source: https://github.com/nickclyde/duckduckgo-mcp-server
+# =============================================================================
+---
 services:
   duckduckgo:
-    image: mcp/duckduckgo
-    container_name: search
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: duckduckgo.dockerfile
+      args:
+        TRANSPORT: http
+        HOST: 0.0.0.0
+        PORT: 3000
+        LOG_LEVEL: INFO
+    image: duckduckgo-mcp:http
+    container_name: duckduckgo
     profiles: ["core", "search", "web"]
-    stdin_open: true # docker run -i
-    tty: true # docker run -t
-    labels:
-      traefik.enable: true
-      traefik.http.routers.duckduckgo.rule: PathPrefix(`/search`)
+    restart: unless-stopped
+    networks:
+      - traefik-public
     deploy:
       resources:
         limits:
@@ -22,3 +52,24 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    labels:
+      # Streamable HTTP routing for MCP
+      # Enable Traefik
+      traefik.enable: true
+      traefik.http.services.duckduckgo.loadbalancer.server.port: 3000
+      # Primary route: /mcp endpoint (Streamable HTTP)
+      traefik.http.routers.duckduckgo.rule: Header(`X-Service`, `duckduckgo`)
+      traefik.http.routers.duckduckgo.service: duckduckgo
+      traefik.http.routers.duckduckgo.entrypoints: websecure
+      traefik.http.routers.duckduckgo.tls: true
+      traefik.http.routers.duckduckgo.parentRefs[0]: tools@file
+      traefik.http.routers.duckduckgo.parentRefs[1]: mcp@file
+      # Health check endpoint
+      traefik.http.routers.duckduckgo-health.rule: Header(`X-Service`, `duckduckgo`)
+      traefik.http.routers.duckduckgo-health.service: duckduckgo
+      traefik.http.routers.duckduckgo-health.entrypoints: websecure
+      traefik.http.routers.duckduckgo-health.tls: true
+      traefik.http.routers.duckduckgo-health.parentRefs[0]: tools@file
+      traefik.http.routers.duckduckgo-health.parentRefs[1]: health@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public
