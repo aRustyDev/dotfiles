@@ -22,6 +22,8 @@ include:
 
   - path: modules/mcp/notes/zettelkasten.yaml
 
+  - path: modules/mcp/docs/context7.yaml
+
   - path: modules/mcp/git/gitlab.yaml
   - path: modules/mcp/git/github.yaml
 

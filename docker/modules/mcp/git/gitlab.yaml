@@ -1,3 +1,28 @@
+# =============================================================================
+# GitLab MCP Server
+# =============================================================================
+# Provides GitLab API integration for LLMs and AI editors.
+#
+# Image: mcp/gitlab (Docker MCP Catalog)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "gitlab": {
+#       "url": "https://tools.localhost/mcp",
+#       "headers": {
+#         "X-Service": "gitlab"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - Manage GitLab repositories, issues, merge requests, pipelines
+#   - Access project files and commit history
+#   - Interact with GitLab CI/CD
+#
+# Source: https://github.com/modelcontextprotocol/servers/tree/main/src/gitlab
+# Docker Hub: https://hub.docker.com/r/mcp/gitlab
+# =============================================================================
 ---
 services:
   gitlab:
@@ -6,10 +31,6 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     container_name: gitlab
-    labels:
-      traefik.enable: true
-      # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/gitlab`)
-      traefik.http.routers.gitlab.rule: PathPrefix(`/gitlab`)
     environment:
       GITLAB_PERSONAL_ACCESS_TOKEN: "op://Developer/zed-mcp-gitlab/credential"
     deploy:
@@ -26,3 +47,24 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    labels:
+      # Streamable HTTP routing for MCP
+      # Enable Traefik
+      traefik.enable: true
+      traefik.http.services.gitlab.loadbalancer.server.port: 8000
+      # Primary route: /mcp endpoint (Streamable HTTP)
+      traefik.http.routers.gitlab.rule: Header(`X-Service`, `gitlab`)
+      traefik.http.routers.gitlab.service: gitlab
+      traefik.http.routers.gitlab.entrypoints: websecure
+      traefik.http.routers.gitlab.tls: true
+      traefik.http.routers.gitlab.parentRefs[0]: tools@file
+      traefik.http.routers.gitlab.parentRefs[1]: mcp@file
+      # Health check endpoint
+      traefik.http.routers.gitlab-health.rule: Header(`X-Service`, `gitlab`)
+      traefik.http.routers.gitlab-health.service: gitlab
+      traefik.http.routers.gitlab-health.entrypoints: websecure
+      traefik.http.routers.gitlab-health.tls: true
+      traefik.http.routers.gitlab-health.parentRefs[0]: tools@file
+      traefik.http.routers.gitlab-health.parentRefs[1]: health@file
+      # Specify network (if container is on multiple networks)
+      traefik.docker.network: traefik-public
