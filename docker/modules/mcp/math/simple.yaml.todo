@@ -1,0 +1,19 @@
+https://github.com/EthanHenrickson/math-mcp
+https://github.com/111-test-111/math-mcp-server
+https://github.com/ArjunKrish7356/MathMCP.git
+https://github.com/SHSharkar/MCP-Mathematics.git
+https://github.com/avanishd-3/math-mcp.git
+
+
+```json
+"math-calculator": {
+    "command": "uvx",
+    "args": [
+    "math-mcp"
+    ],
+    "env": {
+    "OUTPUT_PATH": "path/to/plot_output",
+    "FONT_PATH": "/path/to/font"
+    }
+}
+```
