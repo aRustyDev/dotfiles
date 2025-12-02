@@ -228,7 +228,11 @@
       }
     },
     "gitlab": {
-      "url": "https://gitlab.com/api/v4/mcp"
+      // "url": "https://gitlab.com/api/v4/mcp"
+      "url": "https://tool.localhost/mcp",
+      "headers": {
+        "X-Service": "gitlab"
+      }
     },
     "just-search": {
       // "url": "https://tool.localhost/mcp",
