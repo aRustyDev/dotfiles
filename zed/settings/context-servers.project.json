@@ -76,6 +76,22 @@
       //   "X-Service": "sketch"
       // }
       "url": "http://localhost:31126/mcp"
+    },
+    "filesystem": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--mount",
+        "type=bind,src=/Users/username/Desktop,dst=/projects/Desktop",
+        "mcp/filesystem",
+        "/projects"
+      ],
+      "git": {
+        "command": "uvx",
+        "args": ["mcp-server-git", "--repository", "/path/to/repo"]
+      }
     }
   }
 }

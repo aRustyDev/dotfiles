@@ -5,7 +5,37 @@
     // mcp-server-gitlab: {}
     // mcp-server-figma: {}
     // mcp-server-supabase: {}
-    // terraform-context-server: {}
+    "terraform": {
+      // https://developer.hashicorp.com/terraform/docs/tools/mcp-server/reference#environment-variables
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "${input:tfe_token}",
+        "-e",
+        "${input:tfe_address}",
+        "hashicorp/terraform-mcp-server:0.3.0"
+      ],
+      "env": {
+        "TFE_TOKEN": "",
+        "TFE_ADDRESS": "https://app.terraform.io",
+        "TFE_SKIP_TLS_VERIFY": "false",
+        "TRANSPORT_MODE": "streamable-http",
+        "TRANSPORT_HOST": "127.0.0.1",
+        "TRANSPORT_PORT": "8080",
+        "MCP_ENDPOINT": "/mcp",
+        "MCP_SESSION_MODE": "stateful",
+        "MCP_ALLOWED_ORIGINS": "",
+        "MCP_CORS_MODE": "strict",
+        "MCP_TLS_CERT_FILE": "",
+        "MCP_TLS_KEY_FILE": "",
+        "MCP_RATE_LIMIT_GLOBAL": "10:20",
+        "MCP_RATE_LIMIT_SESSION": "5:10",
+        "ENABLE_TF_OPERATIONS": "false"
+      }
+    },
     "memory": {
       // "url": "https://memory.localhost/mcp",
       // "headers": {
@@ -179,6 +209,7 @@
       ]
     },
     "sequential-thinking": {
+      // modelcontextprotocol/server-sequential-thinking
       // "url": "https://tool.localhost/mcp",
       // "headers": {
       //   "X-Service": "think"
