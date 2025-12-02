@@ -36,6 +36,8 @@ http:
       parentRefs:
         - ui@file
         - docs@file
+      middlewares:
+        - strip-prefix
 
     # Health check router
     # Matches: Host(docs.localhost) && PathPrefix(/health) && Header(X-Service: checklist)

@@ -45,10 +45,12 @@ http:
         customRequestHeaders:
           X-Forwarded-Proto: "https"
 
-    mcp-strip-prefix:
+    strip-prefix:
       stripPrefix:
         prefixes:
           - "/mcp"
+          - "/ui"
+          - "/health"
         forceSlash: false
 
     # MCP CORS (updated for HTTPS)
