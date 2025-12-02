@@ -1,0 +1,74 @@
+# =============================================================================
+# Context7 MCP Server - Streamable HTTP
+# =============================================================================
+# Provides up-to-date, version-specific documentation for LLMs and AI editors.
+#
+# Image: mcp/context7 (Docker MCP Catalog - wraps @upstash/context7-mcp)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "context7": {
+#       "url": "https://doc.localhost/mcp",
+#       "headers": {
+#         "X-Service": "context7"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - resolve-library-id: Get Context7-compatible library ID
+#   - get-library-docs: Fetch documentation for a library
+#
+# Source: https://github.com/upstash/context7
+# Docker Hub: https://hub.docker.com/r/mcp/context7
+# =============================================================================
+---
+services:
+  context7:
+    image: mcp/context7:latest
+    container_name: context7
+    profiles: ["core"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${CONTEXT7_HTTP_PORT:-8210}:8080"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/mcp"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    environment:
+      # Transport mode: http (default), stdio
+      MCP_TRANSPORT: http
+      # Server port (default: 8080)
+      PORT: 8080
+      # API key for higher rate limits (60 req/hr without key)
+      CONTEXT7_API_KEY: "op://Developer/context7/credential"
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      traefik.enable: true
+      traefik.http.services.context7.loadbalancer.server.port: 8080
+
+      # Route requests with X-Service: context7 header
+      traefik.http.routers.context7.rule: Header(`X-Service`, `context7`)
+      traefik.http.routers.context7.service: context7
+      traefik.http.routers.context7.entrypoints: websecure
+      traefik.http.routers.context7.tls: true
+      traefik.http.routers.context7.parentRefs[0]: docs@file
+      traefik.http.routers.context7.parentRefs[1]: mcp@file
+
+      # Health check route
+      traefik.http.routers.context7-health.rule: Header(`X-Service`, `context7`)
+      traefik.http.routers.context7-health.service: context7
+      traefik.http.routers.context7-health.entrypoints: websecure
+      traefik.http.routers.context7-health.tls: true
+      traefik.http.routers.context7-health.parentRefs[0]: docs@file
+      traefik.http.routers.context7-health.parentRefs[1]: health@file
+      # Health check endpoint
+
+      # Network specification
+      traefik.docker.network: traefik-public
