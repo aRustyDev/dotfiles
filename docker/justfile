@@ -57,6 +57,10 @@ mkcerts:
 # Create necessary directories
 mktree:
     mkdir -p "{{ docker_state }}" "{{ dot_docker }}"
+    mkdir -p "{{ dot_docker }}/config"
+    mkdir -p "{{ dot_docker }}/modules"
+    mkdir -p "{{ dot_docker }}/files"
+    mkdir -p "{{ dot_docker }}/docs"
     mkdir -p "{{ dot_docker }}/data/certs"
 
 # Clean up the Docker dotfiles
