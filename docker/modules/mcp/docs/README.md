@@ -1,0 +1,3 @@
+- [RAG for LLMs](https://www.promptingguide.ai/research/rag)
+- [RAG Faithfulness](https://www.promptingguide.ai/research/rag-faithfulness)
+- [RAG Reduces Hallucination](https://www.promptingguide.ai/research/rag_hallucinations)
