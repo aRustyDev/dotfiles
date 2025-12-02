@@ -178,24 +178,11 @@
     //   //   "SURREALDB_PASS": "StrongSecretPassword!"
     //   // }
     // },
-    // "container-use": {
-    //   // "url": "https://tool.localhost/mcp",
-    //   // "headers": {
-    //   //   "X-Service": "container-use"
-    //   // }
-    //   "source": "custom",
-    //   "command": "docker",
-    //   "args": [
-    //     "run",
-    //     "-i",
-    //     "--name",
-    //     "mcp-duckduckgo",
-    //     "--annotation",
-    //     "scope:global",
-    //     "--rm",
-    //     "mcp/duckduckgo"
-    //   ]
-    // },
+    "container-use": {
+      "source": "custom",
+      "command": "container-use",
+      "args": ["stdio", "--single-tenant"]
+    },
     "duckduckgo": {
       // TODO: Not connecting in Zed
       "url": "https://tools.localhost/mcp",
