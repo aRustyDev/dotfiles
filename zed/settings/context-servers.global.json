@@ -220,6 +220,12 @@
         "X-Service": "thinking"
       }
     },
+    "fastmcp": {
+      "url": "https://gofastmcp.com/mcp"
+    },
+    "mermaid-mcp": {
+      "url": "https://mcp.mermaidchart.com/mcp"
+    },
     "github": {
       // "url": "https://tool.localhost/mcp",
       // "headers": {
