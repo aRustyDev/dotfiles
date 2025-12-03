@@ -1,12 +1,5 @@
 - Plans
-  - Status:
-    - `✅ Completed` - Work finished, document archived
-    - `⏳ In Progress` - Actively being worked on
-    - `📝 Draft` - Initial draft, not reviewed
-    - `🗄️ Archived` - Historical, no longer maintained
-    - `🔄 Under Review` - Awaiting review/approval
-    - `❌ Deprecated` - Superseded by newer document
-    - `🎯 Proposed` - Proposed but not approved
+  - Status: Valid "Status Enum Value"
   - Locations:
     - Plans: `.ai/plans/<plan_name>.md`
     - Phases: `.ai/plans/phases/<plan_name>.phase-<phase_number>.md`

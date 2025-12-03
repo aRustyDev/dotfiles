@@ -1,3 +1,6 @@
 Tool Use (Global): GitLab MCP
-- Use GitLab MCP Server for GitLab API and repo operations
-    - or when a url like https://sscm.gus.cisco.com/ is provided
+- For all Gitlab Interactions
+    - Must use glab MCP Server > GitLab MCP Server > glab cli > gitlab API
+- These are all Gitlab URLs
+    - https://gitlab.com/
+    - https://sscm.gus.cisco.com/

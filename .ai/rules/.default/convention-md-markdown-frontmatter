@@ -1,9 +1,12 @@
 - all markdown documents must have YAML frontmatter
     - required fields: id, title, status, date, author
     - id format: UUID v4 (uppercase with hyphens)
-    - status format: emoji prefix + status text (e.g., "✅ Completed")
+    - status: Valid "Status Enum Value"
     - date format: YYYY-MM-DD
     - optional fields:
       - related (array of UUIDs)
       - children (array of UUIDs)
-    - see adr-frontmatter-standard.md for complete specification
+    - see 528D3D34-4750-408B-85F7-EF910ED87DA2 for complete specification
+    - author: must be a list
+        - ex: <git config user.name> (<git config user.email>)
+        - ex: AI Assistant (<Model Used>)
