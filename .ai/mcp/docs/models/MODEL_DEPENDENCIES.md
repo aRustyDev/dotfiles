@@ -1,13 +1,15 @@
 # id: 3f8e7d6c-5a4b-9e2f-1c3d-8a9b7f6e4d2c
+
 # Model Dependencies in Graphiti MCP Server
 
 This document explains the relationships and dependencies between the three model types used in Graphiti: LLM, Embedder, and Cross-Encoder (Reranker).
 
 ## TL;DR - Quick Answer
 
-**No, your choices are functionally independent!** 
+**No, your choices are functionally independent!**
 
 You can mix and match models freely:
+
 - ✅ `llama3.2` for LLM + `nomic-embed-text` for embeddings + `llama3.2` for cross-encoder
 - ✅ `mistral` for LLM + `mxbai-embed-large` for embeddings + `qwen` for cross-encoder
 - ✅ Any combination that works via OpenAI-compatible API
@@ -19,10 +21,12 @@ You can mix and match models freely:
 ## The Three Model Types Explained
 
 ### 1. LLM (Language Model)
+
 **Configuration**: `llm.model`  
 **Current**: `llama3.2`
 
 **Purpose**:
+
 - Extract entities from conversations/documents
 - Identify relationships between entities
 - Generate entity summaries and descriptions
@@ -31,10 +35,12 @@ You can mix and match models freely:
 - Answer questions about the knowledge graph
 
 **Input/Output**:
+
 - Input: Text prompts with instructions
 - Output: Structured text (JSON, descriptions, etc.)
 
 **Examples of Tasks**:
+
 ```
 Prompt: "Extract entities from: John works at Acme Corp in Seattle"
 Output: {
@@ -53,20 +59,24 @@ Output: {
 ---
 
 ### 2. Embedder (Embedding Model)
+
 **Configuration**: `embedder.model`  
 **Current**: `nomic-embed-text` (768 dimensions)
 
 **Purpose**:
+
 - Convert text to numerical vectors (embeddings)
 - Enable semantic similarity search
 - Support "find similar entities" queries
 - Power vector-based retrieval
 
 **Input/Output**:
+
 - Input: Text string
 - Output: Fixed-dimension vector (e.g., 768 floats)
 
 **Example**:
+
 ```
 Input: "artificial intelligence"
 Output: [0.234, -0.567, 0.123, ..., 0.456]  (768 numbers)
@@ -79,19 +89,23 @@ Output: [0.245, -0.543, 0.134, ..., 0.467]  (768 numbers)
 ---
 
 ### 3. Cross-Encoder / Reranker
+
 **Configuration**: `cross_encoder.model`  
 **Current**: `llama3.2`
 
 **Purpose**:
+
 - Rerank search results for better relevance
 - Score pairs of (query, candidate) for relevance
 - Improve retrieval quality beyond vector similarity
 
 **Input/Output**:
+
 - Input: Pair of texts (query + candidate)
 - Output: Relevance score (0.0 to 1.0)
 
 **Example**:
+
 ```
 Query: "What is John's job?"
 Candidates after vector search:
@@ -109,13 +123,14 @@ Cross-encoder scores:
 
 ## Model Independence Matrix
 
-| From ↓ To → | LLM | Embedder | Cross-Encoder |
-|-------------|-----|----------|---------------|
-| **LLM** | — | ✅ Independent | ✅ Independent |
-| **Embedder** | ✅ Independent | — | ✅ Independent |
-| **Cross-Encoder** | ✅ Independent | ✅ Independent | — |
+| From ↓ To →       | LLM            | Embedder       | Cross-Encoder  |
+| ----------------- | -------------- | -------------- | -------------- |
+| **LLM**           | —              | ✅ Independent | ✅ Independent |
+| **Embedder**      | ✅ Independent | —              | ✅ Independent |
+| **Cross-Encoder** | ✅ Independent | ✅ Independent | —              |
 
 **Legend**:
+
 - ✅ Independent = Can change one without changing the other
 - ❌ Dependent = Changing one requires changing the other
 - ⚠️ Caution = Technically independent but has implications
@@ -149,11 +164,11 @@ cross_encoder:
 ```yaml
 # Example 3: Specialized models
 llm:
-  model: "llama3.2"           # Good at instruction following
+  model: "llama3.2" # Good at instruction following
 embedder:
-  model: "nomic-embed-text"   # Excellent embeddings
+  model: "nomic-embed-text" # Excellent embeddings
 cross_encoder:
-  model: "bge-reranker"       # Specialized reranker
+  model: "bge-reranker" # Specialized reranker
 ```
 
 ---
@@ -163,6 +178,7 @@ cross_encoder:
 ### ⚠️ The Embedder is "Sticky"
 
 Once you create a knowledge graph with a specific embedder:
+
 - **All vectors are stored in that dimension** (e.g., 768)
 - **Changing embedders breaks existing data**
 - **You must clear and rebuild the graph**
@@ -231,6 +247,7 @@ docker restart memory
 ```
 
 **Why?**
+
 - LLM only processes text → text (no stored state)
 - Cross-encoder only scores pairs (no stored state)
 - Embedder creates persistent vectors (stored in database)
@@ -244,36 +261,44 @@ While models are functionally independent, some combinations work better togethe
 ### Model Family Coherence
 
 **Option A: Same Model Family**
+
 ```yaml
 llm:
   model: "llama3.2"
 cross_encoder:
   model: "llama3.2"
 embedder:
-  model: "nomic-embed-text"  # Different is fine
+  model: "nomic-embed-text" # Different is fine
 ```
-**Pros**: 
+
+**Pros**:
+
 - Consistent "understanding" of concepts
 - Single model loaded in memory (if LLM = cross-encoder)
 - Less disk space
 
 **Cons**:
+
 - Limited optimization per task
 
 **Option B: Specialized Models**
+
 ```yaml
 llm:
-  model: "qwen:32b"              # Large, smart for extraction
+  model: "qwen:32b" # Large, smart for extraction
 cross_encoder:
-  model: "bge-reranker-large"    # Purpose-built reranker
+  model: "bge-reranker-large" # Purpose-built reranker
 embedder:
-  model: "mxbai-embed-large"     # State-of-art embeddings
+  model: "mxbai-embed-large" # State-of-art embeddings
 ```
+
 **Pros**:
+
 - Best quality for each task
 - Optimized performance
 
 **Cons**:
+
 - More disk space
 - Longer startup time
 - Higher memory usage
@@ -283,60 +308,68 @@ embedder:
 ## Recommended Configurations
 
 ### 1. Balanced (Current Setup) ⭐
+
 ```yaml
 llm:
-  model: "llama3.2"              # 2GB, fast, good quality
+  model: "llama3.2" # 2GB, fast, good quality
 embedder:
-  model: "nomic-embed-text"      # 274MB, 768D, 8K context
+  model: "nomic-embed-text" # 274MB, 768D, 8K context
   dimensions: 768
 cross_encoder:
-  model: "llama3.2"              # Reuse LLM
+  model: "llama3.2" # Reuse LLM
 ```
+
 **Use Case**: General purpose, resource-efficient
 **Total Size**: ~2.3 GB
 
 ---
 
 ### 2. High Performance
+
 ```yaml
 llm:
-  model: "qwen:32b"              # Best reasoning
+  model: "qwen:32b" # Best reasoning
 embedder:
-  model: "mxbai-embed-large"     # Best embeddings
+  model: "mxbai-embed-large" # Best embeddings
   dimensions: 1024
 cross_encoder:
-  model: "qwen:32b"              # Reuse LLM
+  model: "qwen:32b" # Reuse LLM
 ```
+
 **Use Case**: Maximum accuracy, ample resources
 **Total Size**: ~20 GB
 
 ---
 
 ### 3. Lightweight
+
 ```yaml
 llm:
-  model: "phi"                   # Small, fast
+  model: "phi" # Small, fast
 embedder:
-  model: "all-minilm"            # Tiny embeddings
+  model: "all-minilm" # Tiny embeddings
   dimensions: 384
 cross_encoder:
-  model: "phi"                   # Reuse LLM
+  model: "phi" # Reuse LLM
 ```
+
 **Use Case**: Raspberry Pi, edge devices
 **Total Size**: ~500 MB
 
 ---
 
 ### 4. Multilingual
+
 ```yaml
 llm:
-  model: "aya"                   # Multilingual LLM
+  model: "aya" # Multilingual LLM
 embedder:
-  model: "bge-m3"                # Multilingual embeddings
+  model: "bge-m3" # Multilingual embeddings
   dimensions: 1024
 cross_encoder:
-  model: "aya"                   # Reuse LLM
+  model: "aya" # Reuse LLM
 ```
+
 **Use Case**: Non-English or mixed-language content
 **Total Size**: ~10 GB
 
@@ -347,13 +380,15 @@ cross_encoder:
 ### Safe Testing Approach
 
 1. **Use a separate group_id** for testing:
+
 ```yaml
 # Test configuration
 graphiti:
-  group_id: "test-new-model"  # Isolated from main graph
+  group_id: "test-new-model" # Isolated from main graph
 ```
 
 2. **Test LLM change**:
+
 ```bash
 # Edit graphiti.yaml, change llm.model
 docker exec ollama ollama pull new-llm-model
@@ -362,6 +397,7 @@ docker restart memory
 ```
 
 3. **Test embedder change** (requires caution):
+
 ```bash
 # Create new test environment or clear test group
 # Change embedder.model and dimensions
@@ -375,7 +411,9 @@ docker restart memory
 ## Common Questions
 
 ### Q: Can I use GPT-4 for LLM and Ollama for embeddings?
+
 **A**: Yes! Mix cloud and local models:
+
 ```yaml
 llm:
   provider: "openai"
@@ -386,7 +424,7 @@ llm:
       api_base: "https://api.openai.com/v1"
 
 embedder:
-  provider: "openai"  # Via Ollama's OpenAI-compatible API
+  provider: "openai" # Via Ollama's OpenAI-compatible API
   model: "nomic-embed-text"
   providers:
     openai:
@@ -395,34 +433,40 @@ embedder:
 ```
 
 ### Q: Should I use the same model for LLM and cross-encoder?
+
 **A**: It's efficient (saves memory) but not required. If you have a specialized reranker model, use it!
 
 ### Q: What happens if I change LLM after building a graph?
+
 **A**: Nothing breaks! The graph stores:
+
 - ✅ Extracted entities (text, not model-dependent)
 - ✅ Relationships (text, not model-dependent)
 - ✅ Embeddings (tied to embedder, not LLM)
 
 The new LLM will:
+
 - Process new episodes differently (potentially better/worse)
 - But won't affect existing graph data
 
 ### Q: Can I change embedding dimensions without changing the model?
+
 **A**: No. Dimensions are a property of the model itself. `nomic-embed-text` always produces 768-dimensional vectors.
 
 ---
 
 ## Decision Matrix
 
-| Scenario | LLM | Embedder | Cross-Encoder | Action |
-|----------|-----|----------|---------------|--------|
-| Want better entity extraction | Change ✅ | Keep | Keep | Safe, instant |
-| Want better search results | Keep | Change ⚠️ | Keep | Requires rebuild |
-| Want better reranking | Keep | Keep | Change ✅ | Safe, instant |
-| Want to reduce memory | Change ✅ | Change ⚠️ | Change ✅ | Embedder needs rebuild |
-| Switch to multilingual | Change ✅ | Change ⚠️ | Change ✅ | Embedder needs rebuild |
+| Scenario                      | LLM       | Embedder  | Cross-Encoder | Action                 |
+| ----------------------------- | --------- | --------- | ------------- | ---------------------- |
+| Want better entity extraction | Change ✅ | Keep      | Keep          | Safe, instant          |
+| Want better search results    | Keep      | Change ⚠️ | Keep          | Requires rebuild       |
+| Want better reranking         | Keep      | Keep      | Change ✅     | Safe, instant          |
+| Want to reduce memory         | Change ✅ | Change ⚠️ | Change ✅     | Embedder needs rebuild |
+| Switch to multilingual        | Change ✅ | Change ⚠️ | Change ✅     | Embedder needs rebuild |
 
 **Legend**:
+
 - ✅ = Safe, no data migration
 - ⚠️ = Requires clearing graph and re-ingesting data
 
@@ -458,18 +502,20 @@ The new LLM will:
 ```yaml
 # Your current configuration (working well!)
 llm:
-  model: "llama3.2"              # ✅ Good instruction following
-  
+  model: "llama3.2" # ✅ Good instruction following
+
 embedder:
-  model: "nomic-embed-text"      # ✅ Excellent choice
-  dimensions: 768                #    - 8K context window
-                                 #    - Balanced quality/size
-                                 
+  model: "nomic-embed-text" # ✅ Excellent choice
+  dimensions:
+    768 #    - 8K context window
+    #    - Balanced quality/size
+
 cross_encoder:
-  model: "llama3.2"              # ✅ Reuses LLM efficiently
+  model: "llama3.2" # ✅ Reuses LLM efficiently
 ```
 
 **Recommendation**: This is a solid, balanced configuration. Only change if:
+
 - You need multilingual support → Switch all three
 - You need more accuracy → Upgrade to larger models
 - You need less resources → Downgrade to smaller models
@@ -477,6 +523,7 @@ cross_encoder:
 ---
 
 **Last Updated**: 2025-11-19
-**Related Docs**: 
+**Related Docs**:
+
 - `OLLAMA_EMBEDDINGS.md` - Embedder model reference
 - `graphiti.yaml` - Active configuration
