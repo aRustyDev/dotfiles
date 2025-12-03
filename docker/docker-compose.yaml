@@ -15,8 +15,9 @@ include:
 
   - path: modules/mcp/global/dockerhub.yaml
   - path: modules/mcp/global/graphiti.yaml
-  - path: modules/mcp/global/sequential-thinking.yaml
   - path: modules/mcp/global/time.yaml
+
+  - path: modules/mcp/thinking/sequential-thinking.yaml
 
   - path: modules/mcp/search/duckduckgo.yaml
 

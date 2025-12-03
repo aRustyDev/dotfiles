@@ -38,9 +38,9 @@ services:
     networks: ["n8n"]
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-"op://Developer/postgres/username"}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-"op://Developer/postgres/password"}
-      POSTGRES_DB: ${POSTGRES_DB:-"op://Developer/postgres/database"}
+      POSTGRES_USER: "${POSTGRES_USER:-op://Developer/postgres/username}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-op://Developer/postgres/password}"
+      POSTGRES_DB: "${POSTGRES_DB:-op://Developer/postgres/database}"
     volumes:
       # PostgreSQL data directory
       - ${XDG_DATA_HOME:-$HOME/.local/share}/postgres/n8n:/var/lib/postgresql/data
