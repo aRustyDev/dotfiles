@@ -91,3 +91,436 @@
     "args": ["mcp", "gateway", "run"]
   }
 }
+{
+  "context_servers": {
+    "memory": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "http://mcp.localhost/memory/mcp",
+        "--allow-http"
+      ]
+    },
+    "homebrew": {
+      "source": "custom",
+      "command": "brew",
+      "args": ["mcp-server"]
+    },
+    "terraform-context-server": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {}
+    },
+    "math": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.localhost/calc/math"]
+    },
+    "chain-of-thought": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "openref": {
+      // TODO: Re-implement 'ref' MCP here, (indexed and semantic docs across repos).
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.localhost/ctx/just",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <auth-token>" // spaces OK in env vars
+      }
+    },
+    "zettelkasten": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://mcp.localhost/notes/sse"]
+    },
+    // "brave-search": {
+    //   "source": "custom",
+    //   "command": "docker",
+    //   "args": ["run", "-i", "--rm", "-e", "BRAVE_API_KEY", "brave-search"],
+    //   "env": {
+    //     "BRAVE_API_KEY": "YOUR-KEY-HERE"
+    //   }
+    // },
+    "container-use-mcp": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {}
+    },
+    "docker-surreal": {
+      "source": "custom",
+      "enabled": true,
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-surrealdb",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "--pull",
+        "always",
+        "surrealdb/surrealmcp:latest",
+        "start"
+      ],
+      "env": {
+        "SURREALDB_NS": "git-setup-rs",
+        "SURREALDB_DB": "git-setup-rs",
+        "SURREALDB_USER": "root",
+        // "SURREALDB_URL": "https://surrealdb-tikv.default.svc.cluster.local:8000",
+        "SURREALDB_PASS": "StrongSecretPassword!",
+        "SURREALDB_URL": "ws://localhost:8000/rpc",
+        "SURREAL_MCP_BIND_ADDRESS": "127.0.0.1:8000",
+        "SURREAL_MCP_SERVER_URL": "https://mcp.arusty.dev",
+        "SURREAL_MCP_EXPECTED_AUDIENCE": "https://custom.audience.com/",
+        "SURREAL_MCP_RATE_LIMIT_RPS": "100",
+        "SURREAL_MCP_RATE_LIMIT_BURST": "200",
+        "SURREAL_MCP_AUTH_REQUIRED": "false"
+      }
+    },
+    "task-orchestrator": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-v",
+        "$PWD:/data",
+        "ghcr.io/jpicklyk/task-orchestrator"
+      ]
+    },
+    "duckduckgo": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-duckduckgo",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/duckduckgo"
+      ]
+    },
+    "sequentialthinking": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-sequential-thinking",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/sequentialthinking"
+      ]
+    },
+    "github": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-github",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
+      }
+    },
+    "gitlab": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-gitlab",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "-e",
+        "GITLAB_API_URL",
+        "-e",
+        "GITLAB_PERSONAL_ACCESS_TOKEN",
+        "mcp/gitlab"
+      ],
+      "env": {
+        "GITLAB_API_URL": "https://sccm.govus.cisco.com/api/v4",
+        "GITLAB_PERSONAL_ACCESS_TOKEN": "op://employee/gitlab/mcp-global/token"
+      }
+    },
+    "mkdocs": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@serverless-dna/mkdocs-mcp",
+        "$DOCS_SITE",
+        "$MKDOCS_MCP_PROMPT"
+      ],
+      "env": {
+        "DOCS_SITE": "http://localhost:8000",
+        "MKDOCS_MCP_PROMPT": "You are a documentation assistant that helps users improve their documentation by suggesting enhancements, identifying gaps, and providing clear explanations. Analyze the provided documentation site and offer actionable recommendations to enhance its clarity, completeness, and overall quality."
+      }
+    },
+    "just-search": {
+      "source": "custom",
+      "command": "just-mcp",
+      "args": [
+        "search",
+        "--database",
+        "$HOME/.local/share/mcp/just/global_vector_search.db"
+      ],
+      "env": {
+        "RUST_LOG": "info",
+        "JUST_MCP_VECTOR_SEARCH": "true",
+        "JUST_MCP_EMBEDDING_PROVIDER": "local"
+      }
+    },
+    "dockerhub": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-dockerhub",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "-e",
+        "HUB_PAT_TOKEN",
+        "mcp/dockerhub",
+        "--transport=stdio",
+        "--username={{dockerhub.username}}"
+      ],
+      "env": {
+        "HUB_PAT_TOKEN": "op://employee/docker/mcp-global/token"
+      }
+    },
+    "terraform": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-terraform",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "hashicorp/terraform-mcp-server"
+      ]
+    },
+    "jira": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-atlassian",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "-e",
+        "CONFLUENCE_URL",
+        "-e",
+        "CONFLUENCE_USERNAME",
+        "-e",
+        "JIRA_URL",
+        "-e",
+        "JIRA_USERNAME",
+        "-e",
+        "CONFLUENCE_API_TOKEN",
+        "-e",
+        "CONFLUENCE_PERSONAL_TOKEN",
+        "-e",
+        "JIRA_API_TOKEN",
+        "-e",
+        "JIRA_PERSONAL_TOKEN",
+        "mcp/atlassian"
+      ],
+      "env": {
+        "CONFLUENCE_URL": "op://employee/confluence/url",
+        "CONFLUENCE_USERNAME": "op://employee/confluence/email",
+        "JIRA_URL": "op://employee/jira/url",
+        "JIRA_USERNAME": "op://employee/jira/email",
+        "CONFLUENCE_API_TOKEN": "op://employee/confluence/mcp-global/token",
+        "CONFLUENCE_PERSONAL_TOKEN": "op://employee/confluence/mcp-global/token",
+        "JIRA_API_TOKEN": "op://employee/jira/mcp-global/token",
+        "JIRA_PERSONAL_TOKEN": "op://employee/jira/mcp-global/token"
+      }
+    },
+    "aws-documentation": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-aws-docs",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/aws-documentation"
+      ]
+    },
+    "context7": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-context7",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/context7"
+      ]
+    },
+    "time": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-time",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/time"
+      ]
+    },
+    "python-refactoring": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-python-refactoring",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/mcp-python-refactoring"
+      ]
+    },
+    "simplechecklist": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-checklist-global",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "-v",
+        "$HOME/.local/share/mcp/checklist/global:/data",
+        "mayurkakade/mcp-server:latest",
+        "--mode=backend"
+      ]
+    },
+    "aws-core": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-aws-core",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/aws-core-mcp-server"
+      ]
+    },
+    "aws-diagram": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-aws-diagram",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/aws-diagram"
+      ]
+    },
+    "aws-terraform": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-aws-terraform",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/aws-terraform"
+      ]
+    },
+    "aws-api": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-aws-api",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/aws-api-mcp-server"
+      ]
+    },
+    "awslabs-cloudtrail": {
+      "source": "custom",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--name",
+        "mcp-aws-cloudtrail",
+        "--annotation",
+        "scope:global",
+        "--rm",
+        "mcp/cloudtrail-mcp-server"
+      ]
+    }
+  }
+}
