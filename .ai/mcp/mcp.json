@@ -1,0 +1,93 @@
+{
+  "mermaid": {
+    "enabled": true,
+    "command": "npx",
+    "args": ["-y", "mermaid-mcp-server"]
+  },
+  "3p-fastmcp": {
+    "enabled": true,
+    "settings": {},
+    "url": "https://gofastmcp.com/mcp"
+  },
+  "3p-mermaid": {
+    "enabled": true,
+    "settings": {},
+    "url": "https://mcp.mermaidchart.com/mcp"
+  },
+  "container-use": {
+    "enabled": true,
+    "command": "container-use",
+    "args": ["stdio", "--single-tenant"]
+  },
+  "github": {
+    "enabled": true,
+    "settings": {},
+    "url": "https://api.githubcopilot.com/mcp/",
+    "headers": {
+      "Authorization": "Bearer <CHANGE_ME>"
+    }
+  },
+  "gitmcp": {
+    "url": "https://gitmcp.io/{owner}/{repo}"
+  },
+  "git": {
+    "command": "uvx",
+    "args": ["mcp-server-git"]
+  },
+  "filesystem": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-filesystem",
+      "/Users/adamsm/code"
+    ]
+  },
+  "context7": {
+    "enabled": true,
+    "url": "https://mcp.context7.com/mcp",
+    "headers": {
+      "CONTEXT7_API_KEY": "<CHANGE_ME>"
+    }
+  },
+  "aws-knowledge-mcp-server": {
+    "enabled": true,
+    "url": "https://knowledge-mcp.global.api.aws"
+  },
+  "internal-docs": {
+    "enabled": true,
+    "command": "npx",
+    "args": ["-y", "@serverless-dna/mkdocs-mcp", "https://docs.map.cisco/"]
+  },
+  "gitlab": {
+    "enabled": true,
+    "command": "docker",
+    "args": [
+      "run",
+      "-i",
+      "--rm",
+      "-e",
+      "GITLAB_API_URL",
+      "-e",
+      "GITLAB_PERSONAL_ACCESS_TOKEN",
+      "mcp/gitlab"
+    ],
+    "env": {
+      "GITLAB_API_URL": "https://sscm.gus.cisco.com/api/v4",
+      "GITLAB_PERSONAL_ACCESS_TOKEN": "<CHANGE_ME>"
+    }
+  },
+  "glab": {
+    "enabled": true,
+    "command": "glab",
+    "args": ["mcp", "serve"],
+    "env": {
+      "GITLAB_HOST": "https://sscm.gus.cisco.com",
+      "GITLAB_TOKEN": "<CHANGE_ME>"
+    }
+  },
+  "docker-gateway": {
+    "enabled": true,
+    "command": "docker",
+    "args": ["mcp", "gateway", "run"]
+  }
+}
