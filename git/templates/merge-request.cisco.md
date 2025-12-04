@@ -1,3 +1,15 @@
+---
+id: <uuid>
+title: "<Short Descriptive Title>"
+status: "📝 Draft"
+date: 2025-12-03
+authors:
+  - john doe (jdoe@example.com)
+related:
+  - <related-uuid>
+  - <related-url>
+---
+
 ## Summary
 
 {{brief statement of the change}}
@@ -60,6 +72,8 @@
 ## Fixes
 
 ## Deprecations
+
+## Security
 
 ## TODOs
 
