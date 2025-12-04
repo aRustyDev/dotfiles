@@ -1,0 +1,19 @@
+All sections of a merge request should be collapsible
+All collapsible sections must have an empty line after the summary line
+All collapsible sections may be nested within other collapsible sections
+collapsible sections should only be used for H3 or H4 headings, or H5 with significantly large content
+Code blocks in Summary Headers must use `<code>` tags
+All <summary> tags must include the appropriate heading level tags
+All <summary> tags must include `<h6>(Click to expand)</h6>` to indicate they are collapsible
+
+<details>
+<summary><h3>Foo Summary</h3><h6>(Click to expand)</h6></summary>
+
+Your hidden content goes here.
+
+- Can include lists
+- Code blocks
+- Tables
+- etc.
+
+</details>
