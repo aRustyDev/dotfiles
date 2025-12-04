@@ -1,0 +1,54 @@
+[package]
+name = "mcp-observability-proxy"
+version = "0.1.0"
+edition = "2021"
+description = "A reverse proxy for MCP servers with observability features"
+license = "MIT"
+authors = ["adamsm"]
+
+[[bin]]
+name = "mcp-observability-proxy"
+path = "src/main.rs"
+
+[[bin]]
+name = "mcp-stdio-wrapper"
+path = "src/bin/mcp-stdio-wrapper.rs"
+
+[dependencies]
+# Web framework
+axum = { version = "0.7", features = ["macros"] }
+# Utilities
+bytes = "1"
+chrono = { version = "0.4", features = ["serde"] }
+http-body-util = "0.1"
+# HTTP client
+hyper = { version = "1", features = ["full"] }
+hyper-util = { version = "0.1", features = [
+  "client",
+  "client-legacy",
+  "http1",
+  "tokio"
+] }
+# Observability
+opentelemetry = { version = "0.24", features = ["trace"] }
+opentelemetry-otlp = { version = "0.17", features = [
+  "http-proto",
+  "reqwest-client"
+] }
+opentelemetry_sdk = { version = "0.24", features = ["rt-tokio", "trace"] }
+prometheus = "0.13"
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+# Additional dependencies for stdio wrapper
+ureq = { version = "2", features = ["json"] }
+uuid = { version = "1", features = ["v4"] }
+
+[profile.release]
+strip = true
+lto = true
+panic = "abort"
+codegen-units = 1

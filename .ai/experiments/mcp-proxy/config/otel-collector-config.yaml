@@ -1,0 +1,148 @@
+# OpenTelemetry Collector Configuration
+#
+# This configuration receives traces and metrics from the MCP proxy
+# and exports them to Jaeger (traces), Prometheus (metrics), and optionally Langfuse.
+
+receivers:
+  # OTLP receiver for traces and metrics from the MCP proxy
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - "*"
+
+processors:
+  # Batch processor for better performance
+  batch:
+    timeout: 5s
+    send_batch_size: 512
+    send_batch_max_size: 1024
+
+  # Memory limiter to prevent OOM
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+    spike_limit_mib: 128
+
+  # Resource processor to add common attributes
+  resource:
+    attributes:
+      - key: deployment.environment
+        value: ${DEPLOYMENT_ENV:-development}
+        action: upsert
+      - key: collector.name
+        value: mcp-observability-collector
+        action: upsert
+
+  # Attributes processor for MCP-specific enrichment
+  attributes:
+    actions:
+      # Ensure service.name is set
+      - key: service.name
+        value: mcp-observability-proxy
+        action: insert
+
+  # Filter processor to drop noisy health check spans
+  filter/health:
+    error_mode: ignore
+    traces:
+      span:
+        - 'attributes["http.target"] == "/health"'
+        - 'attributes["http.target"] == "/metrics"'
+
+extensions:
+  # Health check extension
+  health_check:
+    endpoint: 0.0.0.0:13133
+    path: /health
+
+  # Performance profiler
+  pprof:
+    endpoint: 0.0.0.0:1777
+
+  # zPages for debugging
+  zpages:
+    endpoint: 0.0.0.0:55679
+
+exporters:
+  # Debug exporter for local development
+  debug:
+    verbosity: basic
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+  # Jaeger exporter for distributed tracing
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+
+  # Prometheus exporter for metrics
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    namespace: mcp
+    const_labels:
+      service: mcp-observability-proxy
+    enable_open_metrics: true
+
+  # OTLP HTTP exporter for Langfuse (if configured)
+  # Uncomment and configure if using Langfuse
+  # otlphttp/langfuse:
+  #   endpoint: ${LANGFUSE_OTLP_ENDPOINT:-https://cloud.langfuse.com}
+  #   headers:
+  #     Authorization: Bearer ${LANGFUSE_SECRET_KEY}
+
+  # Loki exporter for logs (optional)
+  # loki:
+  #   endpoint: http://loki:3100/loki/api/v1/push
+  #   labels:
+  #     attributes:
+  #       service.name: "service"
+  #       mcp.client: "client"
+  #       mcp.tool.name: "tool"
+
+service:
+  extensions:
+    - health_check
+    - pprof
+    - zpages
+
+  pipelines:
+    # Traces pipeline
+    traces:
+      receivers:
+        - otlp
+      processors:
+        - memory_limiter
+        - filter/health
+        - resource
+        - attributes
+        - batch
+      exporters:
+        - debug
+        - otlp/jaeger
+        # - otlphttp/langfuse  # Uncomment for Langfuse
+
+    # Metrics pipeline
+    metrics:
+      receivers:
+        - otlp
+      processors:
+        - memory_limiter
+        - resource
+        - batch
+      exporters:
+        - debug
+        - prometheus
+
+  telemetry:
+    logs:
+      level: info
+      encoding: json
+    metrics:
+      level: detailed
+      address: 0.0.0.0:8888
