@@ -1,0 +1,39 @@
+# =============================================================================
+# Python Refactoring MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)              -> Host(`tool.localhost`)
+#     └── mcp@file                 -> PathPrefix(`/mcp`)
+#           └── python-refactoring -> Header(`X-Service`, `python-refactoring`) [THIS FILE]
+#
+# Container: python-refactoring (python-refactoring-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Python Refactoring MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: python-refactoring)
+    python-refactoring:
+      rule: "Header(`X-Service`, `python-refactoring`)"
+      service: python-refactoring
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: python-refactoring)
+    python-refactoring-health:
+      rule: "Header(`X-Service`, `python-refactoring`)"
+      service: python-refactoring
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    python-refactoring:
+      loadBalancer:
+        servers:
+          - url: "http://python-refactoring:8080"
