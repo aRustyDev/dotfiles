@@ -1,0 +1,99 @@
+# =============================================================================
+# char-index MCP Server - Streamable HTTP
+# =============================================================================
+# MCP server for character-level index-based string manipulation.
+# Provides 12 tools for precise character positioning - perfect for test code
+# generation where exact character counts and positions matter.
+#
+# Build: docker build -f files/char-index.dockerfile -t char-index-mcp:http .
+# Image: char-index-mcp:http (local build, wraps char-index-mcp with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "char-index": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "char-index"
+#       }
+#     }
+#   }
+#
+# Tools provided (12 total):
+#
+#   Character & Substring Finding (4 tools):
+#     - find_nth_char: Find nth occurrence of a character
+#     - find_all_char_indices: Find all indices of a character
+#     - find_nth_substring: Find nth occurrence of a substring
+#     - find_all_substring_indices: Find all occurrences of a substring
+#
+#   Splitting (1 tool):
+#     - split_at_indices: Split string at multiple positions
+#
+#   String Modification (3 tools):
+#     - insert_at_index: Insert text at specific position
+#     - delete_range: Delete characters in range
+#     - replace_range: Replace range with new text
+#
+#   Utilities (3 tools):
+#     - find_regex_matches: Find regex pattern matches with positions
+#     - extract_between_markers: Extract text between two markers
+#     - count_chars: Character statistics (total, letters, digits, etc.)
+#
+#   Batch Processing (1 tool):
+#     - extract_substrings: Extract one or more substrings
+#
+# Example usage:
+#   find_nth_char("hello world", "l", 3)  # Returns: 9
+#   split_at_indices("hello world", [2, 5, 8])  # Returns: ["he", "llo", " wo", "rld"]
+#   insert_at_index("hello world", 5, ",")  # Returns: "hello, world"
+#
+# Source: https://github.com/agent-hanju/char-index-mcp
+# PyPI: https://pypi.org/project/char-index-mcp/
+# =============================================================================
+---
+services:
+  char-index:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: char-index.dockerfile
+    image: char-index-mcp:http
+    container_name: char-index
+    profiles: ["core", "project", "text"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${CHAR_INDEX_MCP_HTTP_PORT:-8222}:8080"
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 60000
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.char-index.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public

@@ -1,0 +1,39 @@
+# =============================================================================
+# char-index MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── char-index -> Header(`X-Service`, `char-index`) [THIS FILE]
+#
+# Container: char-index (char-index-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for char-index MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: char-index)
+    char-index:
+      rule: "Header(`X-Service`, `char-index`)"
+      service: char-index
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: char-index)
+    char-index-health:
+      rule: "Header(`X-Service`, `char-index`)"
+      service: char-index
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    char-index:
+      loadBalancer:
+        servers:
+          - url: "http://char-index:8080"
