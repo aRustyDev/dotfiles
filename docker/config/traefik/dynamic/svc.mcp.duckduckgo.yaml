@@ -1,0 +1,39 @@
+# =============================================================================
+# DuckDuckGo MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── duckduckgo   -> Header(`X-Service`, `duckduckgo`) [THIS FILE]
+#
+# Container: duckduckgo (duckduckgo-mcp:http)
+#   - MCP endpoint: port 3000
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for DuckDuckGo MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: duckduckgo)
+    duckduckgo:
+      rule: "Header(`X-Service`, `duckduckgo`)"
+      service: duckduckgo
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: duckduckgo)
+    duckduckgo-health:
+      rule: "Header(`X-Service`, `duckduckgo`)"
+      service: duckduckgo
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    duckduckgo:
+      loadBalancer:
+        servers:
+          - url: "http://duckduckgo:3000"

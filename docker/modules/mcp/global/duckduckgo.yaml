@@ -53,23 +53,11 @@ services:
       retries: 3
       start_period: 10s
     labels:
-      # Streamable HTTP routing for MCP
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.duckduckgo.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
       traefik.enable: true
-      traefik.http.services.duckduckgo.loadbalancer.server.port: 3000
-      # Primary route: /mcp endpoint (Streamable HTTP)
-      traefik.http.routers.duckduckgo.rule: Header(`X-Service`, `duckduckgo`)
-      traefik.http.routers.duckduckgo.service: duckduckgo
-      traefik.http.routers.duckduckgo.entrypoints: websecure
-      traefik.http.routers.duckduckgo.tls: true
-      traefik.http.routers.duckduckgo.parentRefs[0]: tools@file
-      traefik.http.routers.duckduckgo.parentRefs[1]: mcp@file
-      # Health check endpoint
-      traefik.http.routers.duckduckgo-health.rule: Header(`X-Service`, `duckduckgo`)
-      traefik.http.routers.duckduckgo-health.service: duckduckgo
-      traefik.http.routers.duckduckgo-health.entrypoints: websecure
-      traefik.http.routers.duckduckgo-health.tls: true
-      traefik.http.routers.duckduckgo-health.parentRefs[0]: tools@file
-      traefik.http.routers.duckduckgo-health.parentRefs[1]: health@file
-      # Specify network (if container is on multiple networks)
       traefik.docker.network: traefik-public
