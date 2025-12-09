@@ -35,7 +35,9 @@ services:
     profiles: ["core", "n8n"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
-    networks: ["n8n"]
+    networks:
+      - n8n
+      - traefik-public
     restart: unless-stopped
     environment:
       POSTGRES_USER: "${POSTGRES_USER:-op://Developer/postgres/username}"
@@ -58,3 +60,15 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    labels:
+      # =======================================================================
+      # Traefik Configuration - PostgreSQL Database
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.db.postgres.yaml)
+      # because TCP routing requires file-based configuration.
+      #
+      # Endpoint:
+      #   - Database: port 5432 (via postgres entrypoint)
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public

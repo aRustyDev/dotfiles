@@ -1,0 +1,29 @@
+# =============================================================================
+# PostgreSQL Database - Traefik Routing Configuration
+# =============================================================================
+# TCP routing for PostgreSQL database connections (Traefik v3.6+)
+#
+# Routing:
+#   TCP entrypoint (postgres) -> PostgreSQL service
+#
+# Container: postgres (postgres:16-alpine)
+#   - Database: port 5432
+#
+# Note: PostgreSQL uses TCP protocol, not HTTP. This config routes raw TCP
+# connections to the PostgreSQL container.
+# =============================================================================
+
+tcp:
+  routers:
+    # Router for PostgreSQL database connections
+    postgres:
+      rule: "HostSNI(`*`)"
+      service: postgres
+      entryPoints:
+        - postgres
+
+  services:
+    postgres:
+      loadBalancer:
+        servers:
+          - address: "postgres:5432"
