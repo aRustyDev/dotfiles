@@ -1,0 +1,95 @@
+# =============================================================================
+# Supabase Database Stack - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   db@file (root)           -> Host(`db.localhost`)
+#     └── supabase           -> Header(`X-Service`, `supabase`) [Kong API]
+#     └── supabase-pooler    -> Header(`X-Service`, `supabase-pooler`) [Connection Pooler]
+#
+#   ui@file (root)           -> Host(`ui.localhost`)
+#     └── supabase-studio    -> Header(`X-Service`, `supabase-studio`) [Dashboard]
+#
+# Kong handles internal routing to all Supabase services:
+#   - /auth/v1/*     -> GoTrue (authentication)
+#   - /rest/v1/*     -> PostgREST (REST API)
+#   - /graphql/v1/*  -> PostgREST (GraphQL)
+#   - /realtime/v1/* -> Realtime (WebSocket subscriptions)
+#   - /storage/v1/*  -> Storage API
+#   - /functions/v1/* -> Edge Functions
+#   - /analytics/v1/* -> Logflare
+#   - /pg/*          -> Postgres Meta
+#   - /*             -> Studio Dashboard (catch-all)
+#
+# Containers:
+#   - supabase-kong (kong:2.8.1)           - API Gateway, port 8000/8443
+#   - supabase-studio (supabase/studio)    - Dashboard, port 3000
+#   - supabase-pooler (supabase/supavisor) - Connection pooler, port 5432/6543
+# =============================================================================
+
+http:
+  routers:
+    # Router for Supabase Kong API Gateway
+    # Matches: Host(db.localhost) && Header(X-Service: supabase)
+    supabase:
+      rule: "Header(`X-Service`, `supabase`)"
+      service: supabase-kong
+      parentRefs:
+        - db@file
+
+    # Router for Supabase Studio Dashboard
+    # Matches: Host(ui.localhost) && Header(X-Service: supabase-studio)
+    supabase-studio:
+      rule: "Header(`X-Service`, `supabase-studio`)"
+      service: supabase-studio
+      parentRefs:
+        - ui@file
+
+    # Health check router for Kong
+    # Matches: Host(db.localhost) && PathPrefix(/health) && Header(X-Service: supabase)
+    supabase-health:
+      rule: "Header(`X-Service`, `supabase`)"
+      service: supabase-kong
+      parentRefs:
+        - health@file
+        - db@file
+
+  services:
+    supabase-kong:
+      loadBalancer:
+        servers:
+          - url: "http://supabase-kong:8000"
+
+    supabase-studio:
+      loadBalancer:
+        servers:
+          - url: "http://supabase-studio:3000"
+
+# TCP routing for direct PostgreSQL connections via Supavisor pooler
+tcp:
+  routers:
+    # Direct PostgreSQL connection (port 5432)
+    supabase-postgres:
+      rule: "HostSNI(`*`)"
+      service: supabase-pooler-direct
+      entryPoints:
+        - supabase-pg
+
+    # Transaction pooler connection (port 6543)
+    supabase-pooler:
+      rule: "HostSNI(`*`)"
+      service: supabase-pooler-transaction
+      entryPoints:
+        - supabase-pooler
+
+  services:
+    supabase-pooler-direct:
+      loadBalancer:
+        servers:
+          - address: "supabase-pooler:5432"
+
+    supabase-pooler-transaction:
+      loadBalancer:
+        servers:
+          - address: "supabase-pooler:6543"

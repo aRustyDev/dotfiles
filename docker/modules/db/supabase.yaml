@@ -1,0 +1,587 @@
+# =============================================================================
+# Supabase Self-Hosted Database Stack
+# =============================================================================
+# Full Supabase platform including PostgreSQL, Kong API Gateway, GoTrue Auth,
+# PostgREST, Realtime, Storage, Edge Functions, Studio Dashboard, and Analytics.
+#
+# Services:
+#   - db (PostgreSQL 15)      - Core database with realtime & webhooks
+#   - kong (API Gateway)      - Routes and authenticates API requests
+#   - auth (GoTrue)           - Authentication and user management
+#   - rest (PostgREST)        - Auto-generated REST API
+#   - realtime                - Real-time subscriptions via WebSocket
+#   - storage                 - S3-compatible file storage
+#   - imgproxy                - On-the-fly image transformations
+#   - meta (postgres-meta)    - Database management API
+#   - functions (Edge Runtime)- Deno-based serverless functions
+#   - analytics (Logflare)    - Query and log analytics
+#   - vector                  - Log collection and routing
+#   - supavisor               - Connection pooling
+#   - studio                  - Web dashboard UI
+#
+# Volume locations:
+#   ${XDG_DATA_HOME}/supabase/db       - PostgreSQL data
+#   ${XDG_DATA_HOME}/supabase/storage  - File storage
+#   ${XDG_DATA_HOME}/supabase/functions- Edge functions
+#
+# Config locations:
+#   ${XDG_CONFIG_HOME}/docker/config/supabase/
+# =============================================================================
+
+services:
+  # ===========================================================================
+  # PostgreSQL Database (Core)
+  # ===========================================================================
+  supabase-db:
+    image: supabase/postgres:15.8.1.085
+    container_name: supabase-db
+    hostname: supabase-db
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+      - traefik-public
+    volumes:
+      # Init scripts
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:ro,z
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/db/webhooks.sql:/docker-entrypoint-initdb.d/init-scripts/98-webhooks.sql:ro,z
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:ro,z
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/db/jwt.sql:/docker-entrypoint-initdb.d/init-scripts/99-jwt.sql:ro,z
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/db/_supabase.sql:/docker-entrypoint-initdb.d/migrations/97-_supabase.sql:ro,z
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/db/logs.sql:/docker-entrypoint-initdb.d/migrations/99-logs.sql:ro,z
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/db/pooler.sql:/docker-entrypoint-initdb.d/migrations/99-pooler.sql:ro,z
+      # Persistent data
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/supabase/db:/var/lib/postgresql/data:z
+      - supabase-db-config:/etc/postgresql-custom
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      supabase-vector:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: /var/run/postgresql
+      PGPORT: ${SUPABASE_POSTGRES_PORT:-5432}
+      POSTGRES_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
+      PGPASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      POSTGRES_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      PGDATABASE: ${SUPABASE_POSTGRES_DB:-postgres}
+      POSTGRES_DB: ${SUPABASE_POSTGRES_DB:-postgres}
+      JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      JWT_EXP: ${SUPABASE_JWT_EXPIRY:-3600}
+    command:
+      - postgres
+      - -c
+      - config_file=/etc/postgresql/postgresql.conf
+      - -c
+      - log_min_messages=fatal
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+  # ===========================================================================
+  # Vector (Log Collection)
+  # ===========================================================================
+  supabase-vector:
+    image: timberio/vector:0.28.1-alpine
+    container_name: supabase-vector
+    hostname: supabase-vector
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/vector.yml:/etc/vector/vector.yml:ro,z
+      - ${DOCKER_SOCKET_LOCATION:-/var/run/docker.sock}:/var/run/docker.sock:ro,z
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://supabase-vector:9001/health"]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    environment:
+      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare-public-token}
+    command: ["--config", "/etc/vector/vector.yml"]
+    security_opt:
+      - "label=disable"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  # ===========================================================================
+  # Analytics (Logflare)
+  # ===========================================================================
+  supabase-analytics:
+    image: supabase/logflare:1.26.13
+    container_name: supabase-analytics
+    hostname: supabase-analytics
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+    ports:
+      - "${SUPABASE_ANALYTICS_PORT:-4000}:4000"
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:4000/health"]
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    environment:
+      LOGFLARE_NODE_HOST: 127.0.0.1
+      DB_USERNAME: supabase_admin
+      DB_DATABASE: _supabase
+      DB_HOSTNAME: supabase-db
+      DB_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
+      DB_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      DB_SCHEMA: _analytics
+      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare-public-token}
+      LOGFLARE_PRIVATE_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PRIVATE_TOKEN:-op://Developer/Supabase/logflare-private-token}
+      LOGFLARE_SINGLE_TENANT: true
+      LOGFLARE_SUPABASE_MODE: true
+      POSTGRES_BACKEND_URL: postgresql://supabase_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/_supabase
+      POSTGRES_BACKEND_SCHEMA: _analytics
+      LOGFLARE_FEATURE_FLAG_OVERRIDE: multibackend=true
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  # ===========================================================================
+  # Kong API Gateway
+  # ===========================================================================
+  supabase-kong:
+    image: kong:2.8.1
+    container_name: supabase-kong
+    hostname: supabase-kong
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+      - traefik-public
+    ports:
+      - "${SUPABASE_KONG_HTTP_PORT:-8000}:8000"
+      - "${SUPABASE_KONG_HTTPS_PORT:-8443}:8443"
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/kong.yml:/home/kong/temp.yml:ro,z
+    depends_on:
+      supabase-analytics:
+        condition: service_healthy
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /home/kong/kong.yml
+      KONG_DNS_ORDER: LAST,A,CNAME
+      KONG_PLUGINS: request-transformer,cors,key-auth,acl,basic-auth,request-termination,ip-restriction
+      KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: 160k
+      KONG_NGINX_PROXY_PROXY_BUFFERS: 64 160k
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-op://Developer/Supabase/anon-key}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-op://Developer/Supabase/service-role-key}
+      DASHBOARD_USERNAME: ${SUPABASE_DASHBOARD_USERNAME:-supabase}
+      DASHBOARD_PASSWORD: ${SUPABASE_DASHBOARD_PASSWORD:-op://Developer/Supabase/dashboard-password}
+    entrypoint: bash -c 'eval "echo \"$$(cat ~/temp.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+  # ===========================================================================
+  # GoTrue Authentication
+  # ===========================================================================
+  supabase-auth:
+    image: supabase/gotrue:v2.183.0
+    container_name: supabase-auth
+    hostname: supabase-auth
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9999/health"]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      supabase-analytics:
+        condition: service_healthy
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      API_EXTERNAL_URL: ${SUPABASE_API_EXTERNAL_URL:-http://localhost:8000}
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
+      GOTRUE_SITE_URL: ${SUPABASE_SITE_URL:-http://localhost:3000}
+      GOTRUE_URI_ALLOW_LIST: ${SUPABASE_ADDITIONAL_REDIRECT_URLS:-}
+      GOTRUE_DISABLE_SIGNUP: ${SUPABASE_DISABLE_SIGNUP:-false}
+      GOTRUE_JWT_ADMIN_ROLES: service_role
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      GOTRUE_JWT_EXP: ${SUPABASE_JWT_EXPIRY:-3600}
+      GOTRUE_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: ${SUPABASE_ENABLE_EMAIL_SIGNUP:-true}
+      GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED: ${SUPABASE_ENABLE_ANONYMOUS_USERS:-false}
+      GOTRUE_MAILER_AUTOCONFIRM: ${SUPABASE_ENABLE_EMAIL_AUTOCONFIRM:-false}
+      GOTRUE_SMTP_ADMIN_EMAIL: ${SUPABASE_SMTP_ADMIN_EMAIL:-admin@example.com}
+      GOTRUE_SMTP_HOST: ${SUPABASE_SMTP_HOST:-}
+      GOTRUE_SMTP_PORT: ${SUPABASE_SMTP_PORT:-587}
+      GOTRUE_SMTP_USER: ${SUPABASE_SMTP_USER:-}
+      GOTRUE_SMTP_PASS: ${SUPABASE_SMTP_PASS:-}
+      GOTRUE_SMTP_SENDER_NAME: ${SUPABASE_SMTP_SENDER_NAME:-Supabase}
+      GOTRUE_MAILER_URLPATHS_INVITE: "/auth/v1/verify"
+      GOTRUE_MAILER_URLPATHS_CONFIRMATION: "/auth/v1/verify"
+      GOTRUE_MAILER_URLPATHS_RECOVERY: "/auth/v1/verify"
+      GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE: "/auth/v1/verify"
+      GOTRUE_EXTERNAL_PHONE_ENABLED: ${SUPABASE_ENABLE_PHONE_SIGNUP:-true}
+      GOTRUE_SMS_AUTOCONFIRM: ${SUPABASE_ENABLE_PHONE_AUTOCONFIRM:-true}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  # ===========================================================================
+  # PostgREST (REST API)
+  # ===========================================================================
+  supabase-rest:
+    image: postgrest/postgrest:v13.0.7
+    container_name: supabase-rest
+    hostname: supabase-rest
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      supabase-analytics:
+        condition: service_healthy
+    environment:
+      PGRST_DB_URI: postgres://authenticator:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
+      PGRST_DB_SCHEMAS: ${SUPABASE_DB_SCHEMAS:-public,storage,graphql_public}
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      PGRST_DB_USE_LEGACY_GUCS: "false"
+      PGRST_APP_SETTINGS_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      PGRST_APP_SETTINGS_JWT_EXP: ${SUPABASE_JWT_EXPIRY:-3600}
+    command: ["postgrest"]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  # ===========================================================================
+  # Realtime (WebSocket Subscriptions)
+  # ===========================================================================
+  supabase-realtime:
+    image: supabase/realtime:v2.65.3
+    container_name: realtime-dev.supabase-realtime
+    hostname: supabase-realtime
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sSfL --head -o /dev/null -H \"Authorization: Bearer ${SUPABASE_ANON_KEY}\" http://localhost:4000/api/tenants/realtime-dev/health"]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      supabase-analytics:
+        condition: service_healthy
+    environment:
+      PORT: 4000
+      DB_HOST: supabase-db
+      DB_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
+      DB_USER: supabase_admin
+      DB_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      DB_NAME: ${SUPABASE_POSTGRES_DB:-postgres}
+      DB_AFTER_CONNECT_QUERY: "SET search_path TO _realtime"
+      DB_ENC_KEY: supabaserealtime
+      API_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      SECRET_KEY_BASE: ${SUPABASE_SECRET_KEY_BASE:-op://Developer/Supabase/secret-key-base}
+      ERL_AFLAGS: -proto_dist inet_tcp
+      DNS_NODES: "''"
+      RLIMIT_NOFILE: "10000"
+      APP_NAME: realtime
+      SEED_SELF_HOST: "true"
+      RUN_JANITOR: "true"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  # ===========================================================================
+  # Storage API
+  # ===========================================================================
+  supabase-storage:
+    image: supabase/storage-api:v1.32.0
+    container_name: supabase-storage
+    hostname: supabase-storage
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/supabase/storage:/var/lib/storage:z
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://supabase-storage:5000/status"]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      supabase-rest:
+        condition: service_started
+      supabase-imgproxy:
+        condition: service_started
+    environment:
+      ANON_KEY: ${SUPABASE_ANON_KEY:-op://Developer/Supabase/anon-key}
+      SERVICE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-op://Developer/Supabase/service-role-key}
+      POSTGREST_URL: http://supabase-rest:3000
+      PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      DATABASE_URL: postgres://supabase_storage_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
+      REQUEST_ALLOW_X_FORWARDED_PATH: "true"
+      FILE_SIZE_LIMIT: 52428800
+      STORAGE_BACKEND: file
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      TENANT_ID: stub
+      REGION: stub
+      GLOBAL_S3_BUCKET: stub
+      ENABLE_IMAGE_TRANSFORMATION: "true"
+      IMGPROXY_URL: http://supabase-imgproxy:5001
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+
+  # ===========================================================================
+  # Image Proxy
+  # ===========================================================================
+  supabase-imgproxy:
+    image: darthsim/imgproxy:v3.8.0
+    container_name: supabase-imgproxy
+    hostname: supabase-imgproxy
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/supabase/storage:/var/lib/storage:z
+    healthcheck:
+      test: ["CMD", "imgproxy", "health"]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    environment:
+      IMGPROXY_BIND: ":5001"
+      IMGPROXY_LOCAL_FILESYSTEM_ROOT: /
+      IMGPROXY_USE_ETAG: "true"
+      IMGPROXY_ENABLE_WEBP_DETECTION: ${SUPABASE_IMGPROXY_ENABLE_WEBP:-true}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  # ===========================================================================
+  # Postgres Meta (Database Management API)
+  # ===========================================================================
+  supabase-meta:
+    image: supabase/postgres-meta:v0.93.1
+    container_name: supabase-meta
+    hostname: supabase-meta
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      supabase-analytics:
+        condition: service_healthy
+    environment:
+      PG_META_PORT: 8080
+      PG_META_DB_HOST: supabase-db
+      PG_META_DB_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
+      PG_META_DB_NAME: ${SUPABASE_POSTGRES_DB:-postgres}
+      PG_META_DB_USER: supabase_admin
+      PG_META_DB_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      CRYPTO_KEY: ${SUPABASE_PG_META_CRYPTO_KEY:-op://Developer/Supabase/pg-meta-crypto-key}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+
+  # ===========================================================================
+  # Edge Functions (Deno Runtime)
+  # ===========================================================================
+  supabase-functions:
+    image: supabase/edge-runtime:v1.69.25
+    container_name: supabase-functions
+    hostname: supabase-functions
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/supabase/functions:/home/deno/functions:Z
+    depends_on:
+      supabase-analytics:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      SUPABASE_URL: http://supabase-kong:8000
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-op://Developer/Supabase/anon-key}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-op://Developer/Supabase/service-role-key}
+      SUPABASE_DB_URL: postgresql://postgres:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
+      VERIFY_JWT: "${SUPABASE_FUNCTIONS_VERIFY_JWT:-false}"
+    command: ["start", "--main-service", "/home/deno/functions/main"]
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  # ===========================================================================
+  # Supavisor (Connection Pooler)
+  # ===========================================================================
+  supabase-pooler:
+    image: supabase/supavisor:2.7.4
+    container_name: supabase-pooler
+    hostname: supabase-pooler
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+      - traefik-public
+    ports:
+      - "${SUPABASE_POSTGRES_PORT:-5432}:5432"
+      - "${SUPABASE_POOLER_PORT:-6543}:6543"
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/pooler.exs:/etc/pooler/pooler.exs:ro,z
+    healthcheck:
+      test: ["CMD", "curl", "-sSfL", "--head", "-o", "/dev/null", "http://127.0.0.1:4000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      supabase-analytics:
+        condition: service_healthy
+    environment:
+      PORT: 4000
+      POSTGRES_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
+      POSTGRES_DB: ${SUPABASE_POSTGRES_DB:-postgres}
+      POSTGRES_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      DATABASE_URL: ecto://supabase_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/_supabase
+      CLUSTER_POSTGRES: true
+      SECRET_KEY_BASE: ${SUPABASE_SECRET_KEY_BASE:-op://Developer/Supabase/secret-key-base}
+      VAULT_ENC_KEY: ${SUPABASE_VAULT_ENC_KEY:-op://Developer/Supabase/vault-enc-key}
+      API_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      METRICS_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      REGION: local
+      ERL_AFLAGS: -proto_dist inet_tcp
+      POOLER_TENANT_ID: ${SUPABASE_POOLER_TENANT_ID:-default-tenant}
+      POOLER_DEFAULT_POOL_SIZE: ${SUPABASE_POOLER_POOL_SIZE:-20}
+      POOLER_MAX_CLIENT_CONN: ${SUPABASE_POOLER_MAX_CONN:-100}
+      POOLER_POOL_MODE: transaction
+      DB_POOL_SIZE: ${SUPABASE_POOLER_DB_POOL_SIZE:-5}
+    command:
+      - /bin/sh
+      - -c
+      - /app/bin/migrate && /app/bin/supavisor eval "$$(cat /etc/pooler/pooler.exs)" && /app/bin/server
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+  # ===========================================================================
+  # Studio Dashboard
+  # ===========================================================================
+  supabase-studio:
+    image: supabase/studio:2025.11.26-sha-8f096b5
+    container_name: supabase-studio
+    hostname: supabase-studio
+    profiles: ["supabase"]
+    restart: unless-stopped
+    networks:
+      - supabase-internal
+      - traefik-public
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://supabase-studio:3000/api/platform/profile').then((r) => {if (r.status !== 200) throw new Error(r.status)})"]
+      timeout: 10s
+      interval: 5s
+      retries: 3
+    depends_on:
+      supabase-analytics:
+        condition: service_healthy
+    environment:
+      HOSTNAME: "::"
+      STUDIO_PG_META_URL: http://supabase-meta:8080
+      POSTGRES_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
+      POSTGRES_HOST: supabase-db
+      POSTGRES_DB: ${SUPABASE_POSTGRES_DB:-postgres}
+      POSTGRES_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      PG_META_CRYPTO_KEY: ${SUPABASE_PG_META_CRYPTO_KEY:-op://Developer/Supabase/pg-meta-crypto-key}
+      DEFAULT_ORGANIZATION_NAME: ${SUPABASE_DEFAULT_ORG:-Default Organization}
+      DEFAULT_PROJECT_NAME: ${SUPABASE_DEFAULT_PROJECT:-Default Project}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      SUPABASE_URL: http://supabase-kong:8000
+      SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL:-http://localhost:8000}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-op://Developer/Supabase/anon-key}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-op://Developer/Supabase/service-role-key}
+      AUTH_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
+      LOGFLARE_API_KEY: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare-public-token}
+      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare-public-token}
+      LOGFLARE_PRIVATE_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PRIVATE_TOKEN:-op://Developer/Supabase/logflare-private-token}
+      LOGFLARE_URL: http://supabase-analytics:4000
+      NEXT_PUBLIC_ENABLE_LOGS: true
+      NEXT_ANALYTICS_BACKEND_PROVIDER: postgres
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+networks:
+  supabase-internal:
+    driver: bridge
+  traefik-public:
+    external: true
+
+volumes:
+  supabase-db-config:
