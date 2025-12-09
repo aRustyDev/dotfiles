@@ -1,0 +1,39 @@
+# =============================================================================
+# Zettelkasten MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   notes@file (root)    -> Host(`notes.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── zettelkasten   -> Header(`X-Service`, `zettelkasten`) [THIS FILE]
+#
+# Container: zettelkasten (ghcr.io/arustydev/zettelkasten-mcp:latest)
+#   - MCP endpoint: port 8000
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Zettelkasten MCP server
+    # Matches: Host(notes.localhost) && PathPrefix(/mcp) && Header(X-Service: zettelkasten)
+    zettelkasten:
+      rule: "Header(`X-Service`, `zettelkasten`)"
+      service: zettelkasten
+      parentRefs:
+        - mcp@file
+        - notes@file
+
+    # Health check router
+    # Matches: Host(notes.localhost) && PathPrefix(/health) && Header(X-Service: zettelkasten)
+    zettelkasten-health:
+      rule: "Header(`X-Service`, `zettelkasten`)"
+      service: zettelkasten
+      parentRefs:
+        - health@file
+        - notes@file
+
+  services:
+    zettelkasten:
+      loadBalancer:
+        servers:
+          - url: "http://zettelkasten:8000"

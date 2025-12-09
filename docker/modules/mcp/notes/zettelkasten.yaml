@@ -47,23 +47,11 @@ services:
       ZETTELKASTEN_HTTP_CORS_ORIGINS: "*"
       ZETTELKASTEN_JSON_RESPONSE: true
     labels:
-      # Streamable HTTP routing for MCP
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.zettelkasten.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
       traefik.enable: true
-      traefik.http.services.zettelkasten.loadbalancer.server.port: 8000
-      # Primary route: /mcp endpoint (Streamable HTTP)
-      traefik.http.routers.zettelkasten.rule: Header(`X-Service`, `zettelkasten`)
-      traefik.http.routers.zettelkasten.service: zettelkasten
-      traefik.http.routers.zettelkasten.entrypoints: websecure
-      traefik.http.routers.zettelkasten.tls: true
-      traefik.http.routers.zettelkasten.parentRefs[0]: notes@file
-      traefik.http.routers.zettelkasten.parentRefs[1]: mcp@file
-      # Health check endpoint
-      traefik.http.routers.zettelkasten-health.rule: Header(`X-Service`, `zettelkasten`)
-      traefik.http.routers.zettelkasten-health.service: zettelkasten
-      traefik.http.routers.zettelkasten-health.entrypoints: websecure
-      traefik.http.routers.zettelkasten-health.tls: true
-      traefik.http.routers.zettelkasten-health.parentRefs[0]: notes@file
-      traefik.http.routers.zettelkasten-health.parentRefs[1]: health@file
-      # Specify network (if container is on multiple networks)
       traefik.docker.network: traefik-public
