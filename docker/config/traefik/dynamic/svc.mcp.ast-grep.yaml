@@ -1,0 +1,39 @@
+# =============================================================================
+# ast-grep MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── ast-grep -> Header(`X-Service`, `ast-grep`) [THIS FILE]
+#
+# Container: ast-grep (ast-grep-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for ast-grep MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: ast-grep)
+    ast-grep:
+      rule: "Header(`X-Service`, `ast-grep`)"
+      service: ast-grep
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: ast-grep)
+    ast-grep-health:
+      rule: "Header(`X-Service`, `ast-grep`)"
+      service: ast-grep
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    ast-grep:
+      loadBalancer:
+        servers:
+          - url: "http://ast-grep:8080"

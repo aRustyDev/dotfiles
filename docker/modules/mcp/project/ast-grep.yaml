@@ -1,7 +1,93 @@
+# =============================================================================
+# ast-grep MCP Server - Streamable HTTP
+# =============================================================================
+# MCP server for structural code search using ast-grep patterns.
+# Provides AST-based code search capabilities for AI assistants.
+#
+# Build: docker build -f files/ast-grep.dockerfile -t ast-grep-mcp:http .
+# Image: ast-grep-mcp:http (local build, wraps mcp-ast-grep with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "ast-grep": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "ast-grep"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - ast-grep: Search codebases using ast-grep patterns for structural matches
+#     Parameters:
+#       - pattern (required): The ast-grep pattern to search for
+#       - lang (optional): Language of the code (auto-detected if not specified)
+#       - dir (optional): Directory to search in (defaults to /workspaces)
+#
+# Example patterns:
+#   - 'const $NAME = $VAL'         - Find const declarations
+#   - 'function $NAME($ARGS) {}'   - Find function declarations
+#   - 'console.log($MSG)'          - Find console.log calls
+#   - 'import $_ from "$MOD"'      - Find ES6 imports
+#
+# Workspace mounting:
+#   Mount your project directories under /workspaces for searching:
+#   - /workspaces/project1
+#   - /workspaces/project2
+#
+# Source: https://github.com/dgageot/mcp-ast-grep
+# ast-grep: https://github.com/ast-grep/ast-grep
+# =============================================================================
+---
 services:
   ast-grep:
-    image: mcp/ast-grep
-    profiles: ["project"]
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: ast-grep.dockerfile
+    image: ast-grep-mcp:http
+    container_name: ast-grep
+    profiles: ["core", "project", "dev"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${AST_GREP_MCP_HTTP_PORT:-8220}:8080"
     volumes:
-      - /path/to/project1:/workspaces/project1:ro
-      - /path/to/project2:/workspaces/project2:ro
+      # Mount project directories for code search (read-only for safety)
+      # Add your project paths here:
+      # - /path/to/project1:/workspaces/project1:ro
+      # - /path/to/project2:/workspaces/project2:ro
+      - ${HOME}/repos:/workspaces/repos:ro
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 60000
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.ast-grep.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
