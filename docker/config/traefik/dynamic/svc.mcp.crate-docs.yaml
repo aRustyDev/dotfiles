@@ -1,0 +1,39 @@
+# =============================================================================
+# Crate Docs MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── crate-docs  -> Header(`X-Service`, `crate-docs`) [THIS FILE]
+#
+# Container: crate-docs (ghcr.io/promptexecution/rust-cargo-docs-rag-mcp:latest)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Crate Docs MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: crate-docs)
+    crate-docs:
+      rule: "Header(`X-Service`, `crate-docs`)"
+      service: crate-docs
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: crate-docs)
+    crate-docs-health:
+      rule: "Header(`X-Service`, `crate-docs`)"
+      service: crate-docs
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    crate-docs:
+      loadBalancer:
+        servers:
+          - url: "http://crate-docs:8080"

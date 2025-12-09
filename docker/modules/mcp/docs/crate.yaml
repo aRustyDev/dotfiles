@@ -1,0 +1,76 @@
+# =============================================================================
+# Crate Docs MCP Server - Native HTTP
+# =============================================================================
+# MCP server providing access to Rust crate documentation from docs.rs and
+# crates.io. Enables LLMs to lookup crate docs, search for packages, and
+# explore crate items (structs, traits, functions, etc.).
+#
+# Image: ghcr.io/promptexecution/rust-cargo-docs-rag-mcp:latest (official)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "crate-docs": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "crate-docs"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - lookup_crate: Get documentation for a specific crate (with optional version)
+#   - search_crates: Search crates.io by keywords (limit: 1-100, default: 10)
+#   - lookup_item: Get docs for specific items (e.g., "serde::Deserialize")
+#   - list_crate_items: List crate contents with filtering by type/visibility/module
+#
+# Features:
+#   - Caching to prevent redundant API calls
+#   - Interfaces with docs.rs for documentation
+#   - Interfaces with crates.io for package search
+#   - Returns plain text/HTML parseable by LLMs
+#
+# Source: https://github.com/promptexecution/cratedocs-mcp
+# =============================================================================
+---
+services:
+  crate-docs:
+    image: ghcr.io/promptexecution/rust-cargo-docs-rag-mcp:latest
+    container_name: crate-docs
+    profiles: ["core", "docs", "rust"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${CRATE_DOCS_MCP_HTTP_PORT:-8226}:8080"
+    environment:
+      # Run in HTTP mode (not stdio)
+      CRATEDOCS_MODE: http
+      # Bind address inside container
+      CRATEDOCS_ADDRESS: "0.0.0.0:8080"
+      # Optional: Enable debug logging
+      # CRATEDOCS_DEBUG: "true"
+    # Override default command to run HTTP server
+    command: ["http", "--address", "0.0.0.0:8080"]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Native HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.crate-docs.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
