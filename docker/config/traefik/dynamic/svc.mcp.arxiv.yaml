@@ -1,0 +1,39 @@
+# =============================================================================
+# ArXiv MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── arxiv    -> Header(`X-Service`, `arxiv`) [THIS FILE]
+#
+# Container: arxiv (arxiv-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for ArXiv MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: arxiv)
+    arxiv:
+      rule: "Header(`X-Service`, `arxiv`)"
+      service: arxiv
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: arxiv)
+    arxiv-health:
+      rule: "Header(`X-Service`, `arxiv`)"
+      service: arxiv
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    arxiv:
+      loadBalancer:
+        servers:
+          - url: "http://arxiv:8080"
