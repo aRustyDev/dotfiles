@@ -1,0 +1,699 @@
+{
+  "metadata": {
+    "generated": "2025-12-09",
+    "source": "https://www.pulsemcp.com/servers/anthropic-sequential-thinking",
+    "total_servers_on_page": 63,
+    "total_unique_servers": 32,
+    "note": "Page lists 63+ servers; ~32 have unique approaches, rest are clones/simple wrappers"
+  },
+  "servers": [
+    {
+      "name": "Sequential Thinking",
+      "author": "Anthropic",
+      "repo_url": "https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking",
+      "npm_package": "@anthropic-ai/mcp-sequential-thinking",
+      "self_description": "Implements a structured sequential thinking process for breaking down complex problems, iteratively refining solutions, and exploring multiple reasoning paths.",
+      "your_description": "The official reference implementation from Anthropic. Provides core sequential thinking with thought branching, revision capabilities, and flexible thought count adjustment. Foundation that many other servers build upon or fork.",
+      "classification": {
+        "primary": "core-sequential",
+        "secondary": ["reference-implementation", "general-purpose"],
+        "approach": "structured-iteration"
+      },
+      "language": "TypeScript",
+      "stars": 15000,
+      "features": ["thought-branching", "thought-revision", "flexible-thought-count", "hypothesis-verification"],
+      "token_usage": "low",
+      "complexity": "simple"
+    },
+    {
+      "name": "Code Reasoning",
+      "author": "Matt Westgate",
+      "repo_url": "https://github.com/mettamatt/code-reasoning",
+      "npm_package": "@mettamatt/code-reasoning",
+      "self_description": "Enhanced MCP server for code reasoning using sequential thinking methodology, optimized for programming tasks.",
+      "your_description": "Fork of Anthropic's sequential-thinking optimized for programming. Adds prompt templates for coding contexts. Same core architecture with programming-specific system prompts. Includes ready-to-use prompts for common development tasks. Safety limit of 20 thought steps.",
+      "classification": {
+        "primary": "core-sequential",
+        "secondary": ["programming-focus", "code-analysis"],
+        "approach": "programming-optimized"
+      },
+      "language": "TypeScript",
+      "stars": 244,
+      "features": ["programming-focus", "prompt-templates", "thought-branching", "thought-revision", "safety-limits"],
+      "token_usage": "low",
+      "complexity": "simple"
+    },
+    {
+      "name": "Sequential Thinking (Enhanced)",
+      "author": "Arben Ademi",
+      "repo_url": "https://github.com/arben-adm/mcp-sequential-thinking",
+      "npm_package": null,
+      "self_description": "A Model Context Protocol (MCP) server that facilitates structured, progressive thinking through defined stages.",
+      "your_description": "Python implementation with cognitive stages (Problem Definition, Research, Analysis, Synthesis, Conclusion). Adds persistent storage, thread-safe file access, summary generation, thought relationship analysis, and data import/export. More structured than the original with explicit stage progression.",
+      "classification": {
+        "primary": "core-sequential",
+        "secondary": ["persistence", "cognitive-framework"],
+        "approach": "stage-based-progression"
+      },
+      "language": "Python",
+      "stars": 85,
+      "features": ["cognitive-stages", "persistent-storage", "summary-generation", "related-thought-analysis", "data-export-import", "thread-safety"],
+      "token_usage": "low",
+      "complexity": "medium"
+    },
+    {
+      "name": "Structured Thinking",
+      "author": "Promptly Technologies LLC",
+      "repo_url": "https://github.com/promptly-technologies-llc/mcp-structured-thinking",
+      "npm_package": null,
+      "self_description": "Enables reasoning through defined thought stages while maintaining a history of thoughts with associated metadata.",
+      "your_description": "Stage-based reasoning with comprehensive thought history and metadata tracking. Facilitates transparent, step-by-step problem solving and decision making. Similar to Sequential Enhanced but with different stage organization.",
+      "classification": {
+        "primary": "core-sequential",
+        "secondary": ["thought-history", "metadata-tracking"],
+        "approach": "stage-based-progression"
+      },
+      "language": "TypeScript",
+      "stars": 24,
+      "features": ["thought-stages", "thought-history", "metadata-tracking", "transparent-reasoning"],
+      "token_usage": "low",
+      "complexity": "simple"
+    },
+    {
+      "name": "Deliberate Thinking",
+      "author": "kljensen",
+      "repo_url": "https://github.com/kljensen/deliberate-thinking",
+      "npm_package": null,
+      "self_description": "Structured problem-solving capabilities through sequential, revisable thoughts that can branch and evolve.",
+      "your_description": "Focus on revisable, branching thoughts that adapt as understanding deepens. Enables complex analysis tasks and multi-step planning with dynamic course correction. Good for problems where initial assumptions may need revision.",
+      "classification": {
+        "primary": "core-sequential",
+        "secondary": ["revisable-thoughts", "dynamic-correction"],
+        "approach": "adaptive-sequential"
+      },
+      "language": "TypeScript",
+      "stars": 4,
+      "features": ["revisable-thoughts", "branching-paths", "dynamic-correction", "multi-step-planning"],
+      "token_usage": "low",
+      "complexity": "simple"
+    },
+    {
+      "name": "Thoughtbox",
+      "author": "glassBead / Kastalien Research",
+      "repo_url": "https://github.com/kastalien-research/thoughtbox",
+      "npm_package": null,
+      "self_description": "Structured step-by-step reasoning capabilities through clear_thought tool that breaks down complex problems into manageable thoughts.",
+      "your_description": "Provides clear_thought tool for systematic problem decomposition with support for revision, branching, and dynamic adjustment of reasoning paths. Clean API for structured thought organization.",
+      "classification": {
+        "primary": "core-sequential",
+        "secondary": ["clear-thought-tool", "problem-decomposition"],
+        "approach": "tool-based-sequential"
+      },
+      "language": "TypeScript",
+      "stars": 24,
+      "features": ["clear-thought-tool", "problem-decomposition", "revision-support", "branching-support", "dynamic-adjustment"],
+      "token_usage": "low",
+      "complexity": "simple"
+    },
+    {
+      "name": "MCP Reasoner",
+      "author": "Jacck",
+      "repo_url": "https://github.com/Jacck/mcp-reasoner",
+      "npm_package": null,
+      "self_description": "A systematic reasoning MCP server implementation for Claude Desktop with beam search and thought evaluation.",
+      "your_description": "Advanced reasoning server implementing multiple search algorithms: Beam Search for straightforward problems and Monte Carlo Tree Search (MCTS) for complex scenarios. Includes experimental alpha versions with A* search and bidirectional search. Tracks reasoning path quality and maps different thinking approaches.",
+      "classification": {
+        "primary": "search-algorithms",
+        "secondary": ["advanced-reasoning", "path-optimization"],
+        "approach": "algorithmic-search"
+      },
+      "language": "TypeScript",
+      "stars": 264,
+      "features": ["beam-search", "mcts", "a-star-search", "bidirectional-search", "path-quality-tracking", "thought-evaluation"],
+      "token_usage": "medium",
+      "complexity": "complex"
+    },
+    {
+      "name": "Clear Thought",
+      "author": "Waldzell AI",
+      "repo_url": "https://github.com/waldzellai/clearthought-onepointfive",
+      "npm_package": null,
+      "self_description": "38 structured reasoning operations across core thinking patterns, collaborative reasoning, and advanced patterns.",
+      "your_description": "Comprehensive reasoning toolkit with 38 operations including Tree-of-Thought and MCTS. Session-based state management for persistent problem-solving workflows. Designed for both systematic analysis and educational applications. Most feature-rich search/reasoning server.",
+      "classification": {
+        "primary": "search-algorithms",
+        "secondary": ["tree-of-thought", "mcts", "comprehensive-toolkit"],
+        "approach": "multi-pattern-reasoning"
+      },
+      "language": "TypeScript",
+      "stars": 42,
+      "features": ["38-reasoning-operations", "tree-of-thought", "mcts", "session-state", "collaborative-reasoning", "educational-focus"],
+      "token_usage": "medium",
+      "complexity": "complex"
+    },
+    {
+      "name": "Adaptive Graph of Thoughts",
+      "author": "Sapta Dey",
+      "repo_url": "https://github.com/saptadey/adaptive-graph-of-thoughts-mcp-server",
+      "npm_package": null,
+      "self_description": "Tackles intricate scientific inquiries by implementing an 8-stage Graph-of-Thoughts methodology.",
+      "your_description": "8-stage pipeline for scientific reasoning: decomposes questions into hypotheses, gathers evidence, builds knowledge graphs in Neo4j, provides confidence-scored conclusions with bias detection and falsifiability assessment. Best for research and scientific analysis.",
+      "classification": {
+        "primary": "search-algorithms",
+        "secondary": ["graph-of-thoughts", "scientific-reasoning", "neo4j"],
+        "approach": "graph-based-scientific"
+      },
+      "language": "Python",
+      "stars": 22,
+      "features": ["8-stage-pipeline", "hypothesis-decomposition", "neo4j-integration", "confidence-scoring", "bias-detection", "falsifiability-assessment"],
+      "token_usage": "high",
+      "complexity": "complex"
+    },
+    {
+      "name": "Atom of Thoughts",
+      "author": "Byungsoo Kang",
+      "repo_url": "https://github.com/kbsooo/mcp_atom_of_thoughts",
+      "npm_package": null,
+      "self_description": "Structured problem-solving by breaking down complex tasks into atomic thought units for step-by-step reasoning.",
+      "your_description": "Decomposes complex problems into atomic thought units - the smallest meaningful reasoning steps. Enables systematic solution development through granular decomposition. Good for problems that benefit from fine-grained breakdown.",
+      "classification": {
+        "primary": "atomic-decomposition",
+        "secondary": ["granular-reasoning", "systematic-breakdown"],
+        "approach": "atomic-units"
+      },
+      "language": "Python",
+      "stars": 49,
+      "features": ["atomic-thought-units", "systematic-decomposition", "step-by-step-reasoning", "solution-development"],
+      "token_usage": "low",
+      "complexity": "medium"
+    },
+    {
+      "name": "Shannon Thinking",
+      "author": "olaservo",
+      "repo_url": "https://github.com/olaservo/shannon-thinking",
+      "npm_package": "server-shannon-thinking",
+      "self_description": "An MCP server demonstrating Claude Shannon's systematic problem-solving methodology.",
+      "your_description": "Implements Claude Shannon's 5-stage methodology: Problem Definition, Constraints, Model, Proof/Validation, Implementation. Includes uncertainty quantification, dependency tracking, assumption management, and support for both formal proofs and experimental validation. Best for engineering and information theory problems.",
+      "classification": {
+        "primary": "methodology-specific",
+        "secondary": ["engineering-focus", "formal-methods"],
+        "approach": "shannon-methodology"
+      },
+      "language": "TypeScript",
+      "stars": 49,
+      "features": ["5-stage-methodology", "uncertainty-quantification", "dependency-tracking", "assumption-management", "experimental-validation", "recheck-capability"],
+      "token_usage": "low",
+      "complexity": "medium"
+    },
+    {
+      "name": "Tractatus Thinking",
+      "author": "Alexander Warth",
+      "repo_url": "https://gitlab.com/CochainComplex/tractatus-thinking",
+      "npm_package": null,
+      "self_description": "Applies Wittgenstein's Tractatus method to break down complex concepts into logical structures.",
+      "your_description": "Philosophical approach using Wittgenstein's Tractatus Logico-Philosophicus to reveal hidden dependencies and multiplicative requirements that sequential thinking typically misses. Best for conceptual clarity in complex domains where logical structure matters.",
+      "classification": {
+        "primary": "methodology-specific",
+        "secondary": ["philosophical", "logical-structure"],
+        "approach": "wittgenstein-methodology"
+      },
+      "language": "TypeScript",
+      "stars": null,
+      "features": ["logical-decomposition", "hidden-dependency-detection", "conceptual-clarity", "multiplicative-requirements"],
+      "token_usage": "low",
+      "complexity": "medium"
+    },
+    {
+      "name": "Branch Thinking",
+      "author": "quanticsoul4772",
+      "repo_url": "https://github.com/quanticsoul4772/branch-thinking",
+      "npm_package": "branch-thinking-mcp",
+      "self_description": "An MCP server for multi-path reasoning with semantic analysis, contradiction detection, and persistence capabilities.",
+      "your_description": "Sophisticated multi-branch reasoning with 384-dimensional semantic embeddings (MiniLM), Bloom filters for O(1) contradiction detection, circular reasoning detection, and graph-based thought navigation. Includes auto-evaluation with quality metrics (coherence, contradiction, information gain, goal alignment). Docker support included.",
+      "classification": {
+        "primary": "multi-path-reasoning",
+        "secondary": ["semantic-analysis", "contradiction-detection"],
+        "approach": "graph-based-exploration"
+      },
+      "language": "TypeScript",
+      "stars": 1,
+      "features": ["semantic-embeddings", "bloom-filters", "contradiction-detection", "circular-reasoning-detection", "auto-evaluation", "persistence", "docker-support"],
+      "token_usage": "medium",
+      "complexity": "complex"
+    },
+    {
+      "name": "Smart Thinking",
+      "author": "Leghis",
+      "repo_url": "https://github.com/leghis/smart-thinking",
+      "npm_package": null,
+      "self_description": "Enables intelligent decision-making through semantic embeddings and thought graphs with built-in verification states.",
+      "your_description": "Combines semantic embeddings with thought graph construction for intelligent analysis. Built-in verification state tracking and memory-based reasoning capabilities. Bridges semantic analysis with structured problem-solving.",
+      "classification": {
+        "primary": "multi-path-reasoning",
+        "secondary": ["semantic-embeddings", "thought-graphs"],
+        "approach": "semantic-graph-reasoning"
+      },
+      "language": "TypeScript",
+      "stars": 29,
+      "features": ["semantic-embeddings", "thought-graphs", "verification-states", "memory-reasoning"],
+      "token_usage": "medium",
+      "complexity": "medium"
+    },
+    {
+      "name": "Chain-of-Recursive-Thoughts",
+      "author": "Kunihiro Setogawa",
+      "repo_url": "https://github.com/kunihiros/cort-mcp",
+      "npm_package": null,
+      "self_description": "Models argue with themselves across multiple rounds, using multi-LLM inference for deeper problem-solving.",
+      "your_description": "Implements self-debate methodology where the model argues with itself across multiple rounds. Multi-LLM inference support for enhanced reasoning depth. Best for problems that benefit from adversarial examination of ideas.",
+      "classification": {
+        "primary": "recursive-debate",
+        "secondary": ["self-argumentation", "multi-llm"],
+        "approach": "recursive-self-debate"
+      },
+      "language": "TypeScript",
+      "stars": 7,
+      "features": ["self-debate", "multiple-rounds", "multi-llm-inference", "adversarial-reasoning"],
+      "token_usage": "high",
+      "complexity": "medium"
+    },
+    {
+      "name": "Chain of Thought Task Manager",
+      "author": "Lior Franko",
+      "repo_url": "https://github.com/liorfranko/mcp-chain-of-thought",
+      "npm_package": null,
+      "self_description": "Converts natural language into organized development tasks with dependency tracking, implementation guides, and verification criteria.",
+      "your_description": "Bridges thinking and task management. Converts natural language requirements into structured development tasks with dependency graphs, implementation guidance, and verification criteria. Good for project planning and breaking down complex requirements.",
+      "classification": {
+        "primary": "task-management",
+        "secondary": ["dependency-tracking", "project-planning"],
+        "approach": "thought-to-task"
+      },
+      "language": "TypeScript",
+      "stars": 19,
+      "features": ["natural-language-to-tasks", "dependency-tracking", "implementation-guides", "verification-criteria", "structured-reasoning"],
+      "token_usage": "medium",
+      "complexity": "medium"
+    },
+    {
+      "name": "Chain of Draft",
+      "author": "Brian W. Smith",
+      "repo_url": "https://github.com/bsmi021/mcp-chain-of-draft-server",
+      "npm_package": null,
+      "self_description": "Iterative reasoning through structured drafts with explicit reasoning chains, allowing for focused critiques and targeted revisions.",
+      "your_description": "Draft-based iterative refinement approach. Creates explicit reasoning chains through structured drafts, enabling focused critique and targeted revision. Best for problems that benefit from iterative improvement cycles.",
+      "classification": {
+        "primary": "iterative-refinement",
+        "secondary": ["draft-based", "critique-revision"],
+        "approach": "draft-refine-cycle"
+      },
+      "language": "TypeScript",
+      "stars": 26,
+      "features": ["structured-drafts", "explicit-reasoning-chains", "focused-critiques", "targeted-revisions", "iterative-refinement"],
+      "token_usage": "medium",
+      "complexity": "medium"
+    },
+    {
+      "name": "Think Tank",
+      "author": "flight505",
+      "repo_url": "https://github.com/flight505/mcp-think-tank",
+      "npm_package": null,
+      "self_description": "Provides structured reasoning and persistent knowledge graph capabilities for complex problem-solving.",
+      "your_description": "Knowledge graph-based reasoning with persistent memory across conversations. Transparent thinking processes with memory management. Best for problems requiring accumulated knowledge over multiple sessions.",
+      "classification": {
+        "primary": "knowledge-graph",
+        "secondary": ["persistent-memory", "cross-session"],
+        "approach": "knowledge-graph-reasoning"
+      },
+      "language": "TypeScript",
+      "stars": 57,
+      "features": ["knowledge-graph", "persistent-memory", "cross-conversation", "transparent-reasoning"],
+      "token_usage": "medium",
+      "complexity": "medium"
+    },
+    {
+      "name": "Brain Memory System",
+      "author": "DDguan",
+      "repo_url": "https://github.com/ddguan2010/brain-mcp",
+      "npm_package": null,
+      "self_description": "Persistent memory and structured reasoning through dual-layer memory systems with FIFO cache and graph-based storage.",
+      "your_description": "Dual-layer memory architecture combining FIFO cache for recent context with graph-based storage for long-term knowledge. Cognitive mode switching, thought chain management, and association-based retrieval. Most sophisticated memory system.",
+      "classification": {
+        "primary": "knowledge-graph",
+        "secondary": ["dual-layer-memory", "cognitive-modes"],
+        "approach": "brain-inspired-memory"
+      },
+      "language": "Python",
+      "stars": 1,
+      "features": ["dual-layer-memory", "fifo-cache", "graph-storage", "cognitive-mode-switching", "thought-chain-management", "association-retrieval"],
+      "token_usage": "medium",
+      "complexity": "complex"
+    },
+    {
+      "name": "Sequential Thinking Ultra",
+      "author": "hyokunkwak",
+      "repo_url": "https://github.com/hyokunkwak/sequential-thinking-ultra-mcp",
+      "npm_package": null,
+      "self_description": "Sequential Thinking Ultra system with quality metrics, bias detection, and multi-mode analysis patterns.",
+      "your_description": "Extended sequential thinking with multiple analysis modes: serial, parallel, and hybrid thinking patterns. Includes quality metrics and bias detection for analytical workflows. Good for problems requiring different thinking approaches.",
+      "classification": {
+        "primary": "multi-mode",
+        "secondary": ["bias-detection", "quality-metrics"],
+        "approach": "multi-mode-analysis"
+      },
+      "language": "TypeScript",
+      "stars": 3,
+      "features": ["serial-mode", "parallel-mode", "hybrid-mode", "quality-metrics", "bias-detection"],
+      "token_usage": "medium",
+      "complexity": "medium"
+    },
+    {
+      "name": "Sequential Thinking Tools",
+      "author": "Scott Spence",
+      "repo_url": "https://github.com/spences10/mcp-sequentialthinking-tools",
+      "npm_package": "mcp-sequentialthinking-tools",
+      "self_description": "An adaptation of the MCP Sequential Thinking Server designed to guide tool usage in problem-solving.",
+      "your_description": "Meta-layer for tool orchestration during chain-of-thought. Provides confidence-scored recommendations for which MCP tools to use at each step. Includes priority levels, rationale explanations, and suggested input parameters. Useful when you have many MCP tools and want structured tool selection.",
+      "classification": {
+        "primary": "tool-orchestration",
+        "secondary": ["meta-reasoning", "tool-recommendation"],
+        "approach": "tool-guided-thinking"
+      },
+      "language": "TypeScript",
+      "stars": 526,
+      "features": ["tool-recommendations", "confidence-scoring", "priority-levels", "rationale-explanations", "memory-management", "thought-branching"],
+      "token_usage": "medium",
+      "complexity": "medium"
+    },
+    {
+      "name": "Unconventional Thinking",
+      "author": "Stag",
+      "repo_url": "https://github.com/stagsz/Unconventional-thinking",
+      "npm_package": null,
+      "self_description": "An MCP server for unconventional and boundary-breaking problem-solving through an advanced note-taking system.",
+      "your_description": "Context-efficient server for creative, boundary-breaking ideation. Uses Resources API for on-demand content loading (98.7% context savings claimed). Supports rebellious thoughts that challenge assumptions, branching into extreme/opposite/tangential directions. Best for brainstorming and creative problem-solving.",
+      "classification": {
+        "primary": "creative-ideation",
+        "secondary": ["context-efficient", "unconventional"],
+        "approach": "creative-divergent"
+      },
+      "language": "TypeScript",
+      "stars": 25,
+      "features": ["context-efficiency", "resources-api", "rebellious-thoughts", "assumption-challenging", "direction-branching", "server-side-filtering"],
+      "token_usage": "very-low",
+      "complexity": "simple"
+    },
+    {
+      "name": "Retrieval-Augmented Thinking (RAT)",
+      "author": "stat-guy",
+      "repo_url": "https://github.com/stat-guy/retrieval-augmented-thinking",
+      "npm_package": "mcp-server-rat-node",
+      "self_description": "Retrieval Augmented Thinking MCP Server - A reasoning tool that processes structured thoughts with metrics, branching, and revision capabilities.",
+      "your_description": "Processes structured thoughts with quality metrics (complexity, depth, quality, impact, confidence). Provides analytics on thinking chains including average quality and chain effectiveness. Includes visual output formatting. Focuses on measurable reasoning quality.",
+      "classification": {
+        "primary": "metrics-focused",
+        "secondary": ["quality-assessment", "analytics"],
+        "approach": "measured-reasoning"
+      },
+      "language": "JavaScript",
+      "stars": 16,
+      "features": ["quality-metrics", "chain-analytics", "visual-output", "thought-branching", "revision-support"],
+      "token_usage": "low",
+      "complexity": "simple"
+    },
+    {
+      "name": "Analytical",
+      "author": "Quantic Soul AI Research",
+      "repo_url": "https://github.com/quanticsoul4772/analytical-mcp",
+      "npm_package": null,
+      "self_description": "Enhances structured problem-solving with tools for research verification, statistical analysis, logical reasoning, and multi-perspective generation.",
+      "your_description": "Domain-specific server for data analysts, researchers, and decision-makers. Includes research verification tools, statistical analysis capabilities, logical reasoning support, and multi-perspective generation. Good for data-driven analysis tasks.",
+      "classification": {
+        "primary": "domain-specific",
+        "secondary": ["statistical-analysis", "research-verification"],
+        "approach": "analytical-reasoning"
+      },
+      "language": "TypeScript",
+      "stars": 4,
+      "features": ["research-verification", "statistical-analysis", "logical-reasoning", "multi-perspective-generation"],
+      "token_usage": "low",
+      "complexity": "medium"
+    },
+    {
+      "name": "Game Thinking",
+      "author": "Mahe",
+      "repo_url": "https://github.com/mahecode/gamethinking-mcp-server",
+      "npm_package": null,
+      "self_description": "Structured tool for dynamic game design problem-solving with Three.js game engine integration.",
+      "your_description": "Domain-specific for game development. Sequential thinking process tailored for exploring and iterating game mechanics with Three.js integration for 3D visualization. Niche but useful for game design workflows.",
+      "classification": {
+        "primary": "domain-specific",
+        "secondary": ["game-design", "3d-visualization"],
+        "approach": "game-design-iteration"
+      },
+      "language": "TypeScript",
+      "stars": 6,
+      "features": ["game-mechanics-iteration", "three-js-integration", "sequential-thinking", "game-design-focus"],
+      "token_usage": "medium",
+      "complexity": "medium"
+    },
+    {
+      "name": "Sequential Thinking LP Solver",
+      "author": "myownipgit",
+      "repo_url": "https://github.com/myownipgit/sequential-thinking-lp-solver",
+      "npm_package": null,
+      "self_description": "Solving Linear Programming Problems using the Sequential Thinking Model Context Protocol (MCP).",
+      "your_description": "Domain-specific application of sequential thinking for Linear Programming (LP) and Non-Linear Programming (NLP) optimization problems. Provides templates and methodology for breaking down optimization problems systematically. More of a methodology guide than a standalone server.",
+      "classification": {
+        "primary": "domain-specific",
+        "secondary": ["optimization", "mathematical"],
+        "approach": "optimization-focused"
+      },
+      "language": "Documentation",
+      "stars": 5,
+      "features": ["lp-problem-templates", "nlp-support", "methodology-documentation", "example-problems"],
+      "token_usage": "low",
+      "complexity": "simple"
+    },
+    {
+      "name": "Semantic Prompt",
+      "author": "hyunjae-labs",
+      "repo_url": "https://github.com/hyunjae-labs/semantic-prompt-mcp",
+      "npm_package": null,
+      "self_description": "Structured chain-of-thought reasoning through a configurable 3-step thinking process with mandatory command selection.",
+      "your_description": "Configurable 3-step thinking process with mandatory command selection at each step. Flexible prompt configuration and branching support. Good for workflows requiring explicit step-by-step command chains.",
+      "classification": {
+        "primary": "configurable",
+        "secondary": ["3-step-process", "command-selection"],
+        "approach": "configurable-workflow"
+      },
+      "language": "TypeScript",
+      "stars": 1,
+      "features": ["3-step-process", "command-selection", "flexible-configuration", "branching-support"],
+      "token_usage": "low",
+      "complexity": "simple"
+    },
+    {
+      "name": "MAS Sequential Thinking",
+      "author": "Frad LEE",
+      "repo_url": "https://github.com/FradSer/mcp-server-mas-sequential-thinking",
+      "npm_package": null,
+      "self_description": "MCP Agent Implementation for Sequential Thinking with Multi-Agent System.",
+      "your_description": "Multi-Agent System with 6 specialized agents (Factual, Emotional, Critical, Optimistic, Creative, Synthesis) based on Six Thinking Hats methodology. Supports multiple LLM providers (DeepSeek, Groq, OpenRouter, GitHub, Ollama). Includes adaptive routing, cost optimization, and persistent memory. Highest complexity but most comprehensive.",
+      "classification": {
+        "primary": "multi-agent",
+        "secondary": ["six-thinking-hats", "multi-provider"],
+        "approach": "parallel-multi-perspective"
+      },
+      "language": "Python",
+      "stars": 272,
+      "features": ["6-specialized-agents", "multi-llm-providers", "adaptive-routing", "cost-optimization", "persistent-memory", "quality-threshold"],
+      "token_usage": "very-high",
+      "complexity": "complex"
+    },
+    {
+      "name": "Thoughtful Claude",
+      "author": "Martin Bowling",
+      "repo_url": "https://github.com/martinbowling/thoughtful-claude",
+      "npm_package": null,
+      "self_description": "An MCP server that enhances Claude's reasoning capabilities by integrating DeepSeek R1's advanced reasoning engine.",
+      "your_description": "Integrates DeepSeek R1's reasoning engine with Claude. Sends queries to DeepSeek for advanced reasoning, wraps results in thinking tags, then Claude incorporates the reasoning. Good for mathematical comparisons, logic puzzles, and complex analysis where external reasoning helps.",
+      "classification": {
+        "primary": "external-reasoning",
+        "secondary": ["deepseek-integration", "reasoning-augmentation"],
+        "approach": "llm-augmented-reasoning"
+      },
+      "language": "Python",
+      "stars": 55,
+      "features": ["deepseek-r1-integration", "streaming-responses", "secure-api-handling", "reasoning-injection"],
+      "token_usage": "high",
+      "complexity": "simple"
+    },
+    {
+      "name": "DeepSeek Thinker",
+      "author": "Ruixing Shi",
+      "repo_url": "https://github.com/ruixingshi/deepseek-thinker-mcp",
+      "npm_package": "deepseek-thinker-mcp",
+      "self_description": "A MCP provider of Deepseek reasoning content to MCP-enabled AI Clients. Supports Deepseek API or local Ollama.",
+      "your_description": "Provides DeepSeek's reasoning capabilities to Claude. Supports both OpenAI API mode and local Ollama mode. Captures DeepSeek's thinking process and returns structured reasoning output. Simpler than Thoughtful Claude - just exposes DeepSeek reasoning as a tool.",
+      "classification": {
+        "primary": "external-reasoning",
+        "secondary": ["deepseek-integration", "ollama-support"],
+        "approach": "llm-augmented-reasoning"
+      },
+      "language": "TypeScript",
+      "stars": 45,
+      "features": ["deepseek-integration", "ollama-support", "dual-mode", "reasoning-extraction"],
+      "token_usage": "high",
+      "complexity": "simple"
+    },
+    {
+      "name": "DeepSeek-Thinking-Claude (RAT)",
+      "author": "newideas99",
+      "repo_url": "https://github.com/newideas99/Deepseek-Thinking-Claude-3.5-Sonnet-CLINE-MCP",
+      "npm_package": "@newideas99/Deepseek-Thinking-Claude-3.5-Sonnet-CLINE-MCP",
+      "self_description": "Combines DeepSeek R1's reasoning capabilities with Claude 3.5 Sonnet's response generation through OpenRouter.",
+      "your_description": "Two-stage RAT implementation: DeepSeek R1 for reasoning (50k context), Claude 3.5 Sonnet for response (600k context). Uses OpenRouter API. Injects DeepSeek's reasoning tokens into Claude's context. Supports conversation history and context management. Most sophisticated DeepSeek integration.",
+      "classification": {
+        "primary": "external-reasoning",
+        "secondary": ["multi-model", "rat-implementation"],
+        "approach": "two-stage-reasoning"
+      },
+      "language": "JavaScript",
+      "stars": 110,
+      "features": ["two-stage-processing", "openrouter-integration", "conversation-management", "reasoning-injection", "context-limits"],
+      "token_usage": "very-high",
+      "complexity": "medium"
+    },
+    {
+      "name": "DeepSeek Reasoner",
+      "author": "ygboy1986",
+      "repo_url": "https://github.com/ygboy1986/aiclaude",
+      "npm_package": null,
+      "self_description": "Integrates DeepSeek's R1 reasoning engine with Claude, processing queries and formatting reasoning output.",
+      "your_description": "Simple DeepSeek R1 integration that formats reasoning output within ant_thinking tags. Less sophisticated than other DeepSeek integrations but functional for basic use cases.",
+      "classification": {
+        "primary": "external-reasoning",
+        "secondary": ["deepseek-integration", "basic"],
+        "approach": "llm-augmented-reasoning"
+      },
+      "language": "Python",
+      "stars": 0,
+      "features": ["deepseek-r1-integration", "thinking-tags", "basic-integration"],
+      "token_usage": "high",
+      "complexity": "simple"
+    }
+  ],
+  "groups": {
+    "core-sequential": {
+      "description": "Core sequential thinking implementations with step-by-step reasoning. Choose ONE based on needs.",
+      "servers": ["Sequential Thinking", "Code Reasoning", "Sequential Thinking (Enhanced)", "Structured Thinking", "Deliberate Thinking", "Thoughtbox"],
+      "guidance": "Sequential Thinking for general; Code Reasoning for programming; Enhanced for persistence/stages"
+    },
+    "search-algorithms": {
+      "description": "Advanced algorithmic approaches: beam search, MCTS, tree-of-thought, graph-of-thought",
+      "servers": ["MCP Reasoner", "Clear Thought", "Adaptive Graph of Thoughts"],
+      "guidance": "MCP Reasoner for general search; Clear Thought for comprehensive toolkit; Adaptive GoT for scientific/research"
+    },
+    "atomic-decomposition": {
+      "description": "Break problems into smallest meaningful units",
+      "servers": ["Atom of Thoughts", "Shannon Thinking"],
+      "guidance": "Atom for general decomposition; Shannon for engineering methodology"
+    },
+    "multi-path-reasoning": {
+      "description": "Explore multiple reasoning paths with semantic analysis",
+      "servers": ["Branch Thinking", "Smart Thinking"],
+      "guidance": "Branch for contradiction detection; Smart for semantic embeddings + graphs"
+    },
+    "recursive-debate": {
+      "description": "Self-argumentation and multi-round reasoning",
+      "servers": ["Chain-of-Recursive-Thoughts"],
+      "guidance": "Unique approach - use for adversarial examination of ideas"
+    },
+    "task-management": {
+      "description": "Bridge thinking and project/task organization",
+      "servers": ["Chain of Thought Task Manager", "Chain of Draft"],
+      "guidance": "Task Manager for requirements → tasks; Draft for iterative refinement"
+    },
+    "knowledge-graph": {
+      "description": "Persistent memory and knowledge graph reasoning",
+      "servers": ["Think Tank", "Brain Memory System"],
+      "guidance": "Think Tank for simpler KG; Brain Memory for sophisticated dual-layer architecture"
+    },
+    "multi-mode": {
+      "description": "Multiple analysis modes (serial, parallel, hybrid)",
+      "servers": ["Sequential Thinking Ultra"],
+      "guidance": "Use when problems require switching between thinking modes"
+    },
+    "methodology-specific": {
+      "description": "Implement specific problem-solving methodologies",
+      "servers": ["Shannon Thinking", "Tractatus Thinking"],
+      "guidance": "Shannon for engineering; Tractatus for philosophical/logical structure"
+    },
+    "domain-specific": {
+      "description": "Optimized for specific domains",
+      "servers": ["Code Reasoning", "Analytical", "Game Thinking", "Sequential Thinking LP Solver"],
+      "guidance": "Code for programming; Analytical for research; Game for game design; LP for optimization"
+    },
+    "tool-orchestration": {
+      "description": "Guide tool selection during reasoning",
+      "servers": ["Sequential Thinking Tools"],
+      "guidance": "Use when coordinating many MCP tools"
+    },
+    "creative-ideation": {
+      "description": "Creative, unconventional thinking",
+      "servers": ["Unconventional Thinking"],
+      "guidance": "Best for brainstorming and challenging assumptions"
+    },
+    "metrics-focused": {
+      "description": "Measure and analyze reasoning quality",
+      "servers": ["Retrieval-Augmented Thinking (RAT)"],
+      "guidance": "Use when you need quality metrics on reasoning chains"
+    },
+    "multi-agent": {
+      "description": "Multiple specialized agents for parallel reasoning",
+      "servers": ["MAS Sequential Thinking"],
+      "guidance": "Use for important decisions requiring multiple perspectives"
+    },
+    "external-reasoning": {
+      "description": "Integrate external LLM reasoning (DeepSeek). Choose ONE.",
+      "servers": ["Thoughtful Claude", "DeepSeek Thinker", "DeepSeek-Thinking-Claude (RAT)", "DeepSeek Reasoner"],
+      "guidance": "Thinker for Ollama local; Thoughtful for simple; DeepSeek-RAT for sophisticated pipelines"
+    },
+    "configurable": {
+      "description": "Configurable reasoning workflows",
+      "servers": ["Semantic Prompt"],
+      "guidance": "Use for explicit step-by-step command chains"
+    }
+  },
+  "skipped_servers": {
+    "reason": "Clones, simple wrappers, or no unique value over existing servers",
+    "count": 31,
+    "examples": [
+      "beverm2391-chain-of-thought",
+      "bartoszkula9898-sequential-thinking",
+      "anthropic-sequential-thinking1234",
+      "bartosz997xd-sequential-thinking",
+      "azdeltaqq-reasoning",
+      "dannymac180-think-tool",
+      "marcopesani-think",
+      "dhkts1-sequential-story",
+      "philliprt-think",
+      "think-tool",
+      "kuon-dev-advanced-reason",
+      "claude-think",
+      "cursor-claude-think",
+      "abhinav-mangla-think-tool",
+      "palolxx-sequential-thinking",
+      "iamwavecut-think",
+      "technavii-think",
+      "thinking-tool",
+      "think",
+      "fourcolors-think-tool",
+      "sequential-thinking-tools (duplicate)",
+      "sequential-story",
+      "philogicae-sequential-thinking",
+      "chirag127-clear-thought (fork of waldzellai)"
+    ]
+  }
+}
