@@ -13,6 +13,8 @@ services:
     # For specific versions, replace 'standalone' with a version tag:
     #   image: zepai/knowledge-graph-mcp:1.0.0-standalone
     # When building locally, the build section below will be used.
+    networks:
+      - traefik-public
     env_file:
       - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/.env
         required: false
@@ -43,18 +45,14 @@ services:
       - "${GRAPHITI_PORT:-8000}:8000" # Expose the MCP server via HTTP transport
     command: ["uv", "run", "main.py"]
     labels:
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.graphiti.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
       traefik.enable: true
-      # Services
-      traefik.http.services.memory.loadbalancer.server.port: 8000
-      # Primary route: /mcp endpoint (Streamable HTTP)
-      traefik.http.routers.memory.rule: Header(`X-Service`, `memory`)
-      traefik.http.routers.memory.service: memory
-      traefik.http.routers.memory.parentRefs[0]: mcp@file
-      # Health check endpoint
-      traefik.http.routers.memory-health.rule: Header(`X-Service`, `memory`)
-      traefik.http.routers.memory-health.service: memory
-      traefik.http.routers.memory-health.parentRefs[0]: health@file
+      traefik.docker.network: traefik-public
     deploy:
       resources:
         limits:

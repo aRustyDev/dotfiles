@@ -1,0 +1,39 @@
+# =============================================================================
+# Graphiti MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── memory   -> Header(`X-Service`, `memory`) [THIS FILE]
+#
+# Container: memory (zepai/knowledge-graph-mcp:standalone)
+#   - MCP endpoint: port 8000
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Graphiti MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: memory)
+    memory:
+      rule: "Header(`X-Service`, `memory`)"
+      service: memory
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: memory)
+    memory-health:
+      rule: "Header(`X-Service`, `memory`)"
+      service: memory
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    memory:
+      loadBalancer:
+        servers:
+          - url: "http://memory:8000"
