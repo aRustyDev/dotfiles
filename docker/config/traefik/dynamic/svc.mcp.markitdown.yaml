@@ -1,0 +1,39 @@
+# =============================================================================
+# MarkItDown MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── markitdown -> Header(`X-Service`, `markitdown`) [THIS FILE]
+#
+# Container: markitdown (markitdown-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for MarkItDown MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: markitdown)
+    markitdown:
+      rule: "Header(`X-Service`, `markitdown`)"
+      service: markitdown
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: markitdown)
+    markitdown-health:
+      rule: "Header(`X-Service`, `markitdown`)"
+      service: markitdown
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    markitdown:
+      loadBalancer:
+        servers:
+          - url: "http://markitdown:8080"

@@ -1,0 +1,98 @@
+# =============================================================================
+# MarkItDown MCP Server - Streamable HTTP
+# =============================================================================
+# MCP server for converting various file formats to Markdown using Microsoft's
+# MarkItDown utility. Supports 10+ formats including documents, images, and audio.
+#
+# Build: docker build -f files/markitdown.dockerfile -t markitdown-mcp:http .
+# Image: markitdown-mcp:http (local build, wraps markitdown_mcp_server with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "markitdown": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "markitdown"
+#       }
+#     }
+#   }
+#
+# Supported Formats:
+#   - PDF documents
+#   - Microsoft Office (Word, PowerPoint, Excel)
+#   - Images (with EXIF metadata and OCR)
+#   - Audio (with EXIF metadata and speech transcription)
+#   - HTML pages
+#   - Text formats (CSV, JSON, XML)
+#   - ZIP archives (iterates over contents)
+#
+# Tools provided:
+#   - /md <file>: Convert the specified file to Markdown
+#
+# Example usage:
+#   /md /workdir/document.pdf
+#   /md /workdir/presentation.pptx
+#   /md /workdir/image.png
+#
+# File mounting:
+#   Mount files to convert under /workdir:
+#   - /workdir/documents
+#   - /workdir/images
+#
+# Source: https://github.com/KorigamiK/markitdown_mcp_server
+# MarkItDown: https://github.com/microsoft/markitdown
+# =============================================================================
+---
+services:
+  markitdown:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: markitdown.dockerfile
+    image: markitdown-mcp:http
+    container_name: markitdown
+    profiles: ["core", "global", "documents"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${MARKITDOWN_MCP_HTTP_PORT:-8223}:8080"
+    volumes:
+      # Mount directories containing files to convert (read-only for safety)
+      # Add your document paths here:
+      # - /path/to/documents:/workdir/documents:ro
+      # - /path/to/images:/workdir/images:ro
+      - ${HOME}/Documents:/workdir/documents:ro
+      - ${HOME}/Downloads:/workdir/downloads:ro
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 120000  # 2 min - longer for large document processing
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.markitdown.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
