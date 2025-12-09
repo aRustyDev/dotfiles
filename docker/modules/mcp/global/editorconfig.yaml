@@ -1,0 +1,92 @@
+# =============================================================================
+# EditorConfig MCP Server - Native HTTP
+# =============================================================================
+# MCP server that applies .editorconfig formatting rules to files.
+# Prevents AI coding agents from generating files with formatting issues
+# like trailing whitespace, incorrect indentation, or wrong line endings.
+#
+# Build: docker build -f files/editorconfig.dockerfile -t editorconfig-mcp:http .
+# Image: editorconfig-mcp:http (local build)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "editorconfig": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "editorconfig"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - format_file: Format a single file using .editorconfig rules
+#     POST /v1/tools/format_file
+#     Input: { "file_path": "/path/to/file" }
+#
+#   - format_files: Format multiple files matching glob patterns
+#     POST /v1/tools/format_files
+#     Input: { "pattern": "src/**/*.js" }
+#
+# Additional endpoints:
+#   - GET /health: Health check
+#   - GET /openapi.json: OpenAPI specification
+#   - GET /.well-known/mcp/servers.json: MCP server manifest
+#
+# Features:
+#   - JSON Schema validation for all inputs
+#   - Built-in rate limiting (100 requests/minute)
+#   - Path traversal attack prevention
+#   - Ignores sensitive directories (node_modules, .git)
+#
+# Source: https://github.com/neilberkman/editorconfig_mcp
+# =============================================================================
+---
+services:
+  editorconfig:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: editorconfig.dockerfile
+    image: editorconfig-mcp:http
+    container_name: editorconfig
+    profiles: ["core", "dev", "formatting"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${EDITORCONFIG_MCP_HTTP_PORT:-8222}:8432"
+    volumes:
+      # Mount workspace for file access
+      # Note: Adjust this to your project root or use multiple mounts
+      - ${HOME}/repos:/workspace:rw
+    environment:
+      PORT: 8432
+      NODE_ENV: production
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:8432/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Native HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.editorconfig.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public

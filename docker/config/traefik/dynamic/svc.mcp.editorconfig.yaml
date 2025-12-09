@@ -1,0 +1,39 @@
+# =============================================================================
+# EditorConfig MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── editorconfig  -> Header(`X-Service`, `editorconfig`) [THIS FILE]
+#
+# Container: editorconfig (editorconfig-mcp:http)
+#   - HTTP API endpoint: port 8432
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for EditorConfig MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: editorconfig)
+    editorconfig:
+      rule: "Header(`X-Service`, `editorconfig`)"
+      service: editorconfig
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: editorconfig)
+    editorconfig-health:
+      rule: "Header(`X-Service`, `editorconfig`)"
+      service: editorconfig
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    editorconfig:
+      loadBalancer:
+        servers:
+          - url: "http://editorconfig:8432"
