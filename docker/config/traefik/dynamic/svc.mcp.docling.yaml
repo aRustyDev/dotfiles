@@ -1,0 +1,39 @@
+# =============================================================================
+# Docling MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── docling  -> Header(`X-Service`, `docling`) [THIS FILE]
+#
+# Container: docling (docling-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Docling MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: docling)
+    docling:
+      rule: "Header(`X-Service`, `docling`)"
+      service: docling
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: docling)
+    docling-health:
+      rule: "Header(`X-Service`, `docling`)"
+      service: docling
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    docling:
+      loadBalancer:
+        servers:
+          - url: "http://docling:8080"
