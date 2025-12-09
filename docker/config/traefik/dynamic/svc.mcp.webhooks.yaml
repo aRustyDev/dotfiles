@@ -1,0 +1,39 @@
+# =============================================================================
+# Webhook Tester MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     +-- mcp@file       -> PathPrefix(`/mcp`)
+#           +-- webhooks -> Header(`X-Service`, `webhooks`) [THIS FILE]
+#
+# Container: webhooks (webhooks-mcp:http)
+#   - MCP endpoint: port 8080 (Streamable HTTP via supergateway)
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Webhook Tester MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: webhooks)
+    webhooks:
+      rule: "Header(`X-Service`, `webhooks`)"
+      service: webhooks
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: webhooks)
+    webhooks-health:
+      rule: "Header(`X-Service`, `webhooks`)"
+      service: webhooks
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    webhooks:
+      loadBalancer:
+        servers:
+          - url: "http://webhooks:8080"

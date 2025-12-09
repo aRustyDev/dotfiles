@@ -1,0 +1,102 @@
+# =============================================================================
+# Webhook Tester MCP Server - Streamable HTTP
+# =============================================================================
+# AI-powered webhook management through webhook-test.com integration. Enables
+# AI assistants to create, list, inspect, and delete webhooks for testing and
+# debugging webhook integrations without writing custom API code.
+#
+# Build: docker build -f files/webhooks.dockerfile -t webhooks-mcp:http .
+# Image: webhooks-mcp:http (wraps webhook-tester-mcp with supergateway)
+#
+# Prerequisites:
+#   1. Create account at https://webhook-test.com
+#   2. Generate API key from your account settings
+#   3. Set WEBHOOK_TESTER_API_KEY environment variable
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "webhooks": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "webhooks"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   Webhook Management:
+#     - create_new_webhook: Create webhook with custom response settings
+#       Parameters: title, response_code (default: 200), content_type,
+#                   payload (JSON string), response_delay (ms)
+#     - list_all_webhooks: List all webhooks in your account
+#     - get_webhook_details: Get detailed info for a specific webhook
+#     - delete_webhook: Delete a webhook by ID
+#
+# Resources provided:
+#   - get_webhook_payloads/{webhook_id}: Retrieve all payloads received by webhook
+#
+# Use Cases:
+#   - Test webhook integrations during development
+#   - Debug incoming webhook payloads
+#   - Mock webhook responses for testing
+#   - Monitor webhook activity
+#
+# Source: https://github.com/alimo7amed93/webhook-tester-mcp
+# =============================================================================
+---
+services:
+  webhooks:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: webhooks.dockerfile
+    image: webhooks-mcp:http
+    container_name: webhooks
+    profiles: ["core", "global", "dev", "testing"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${WEBHOOKS_MCP_HTTP_PORT:-8233}:8080"
+    environment:
+      # Supergateway settings
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 120000
+
+      # Webhook Tester API Configuration
+      # Get your API key from https://webhook-test.com
+      WEBHOOK_TESTER_API_KEY: "${WEBHOOK_TESTER_API_KEY}"
+      WEBHOOK_TESTER_BASE_URL: "${WEBHOOK_TESTER_BASE_URL:-https://api.webhook-test.com}"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.webhooks.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+networks:
+  traefik-public:
+    external: true
