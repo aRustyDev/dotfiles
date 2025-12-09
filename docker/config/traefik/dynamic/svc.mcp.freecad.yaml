@@ -1,0 +1,39 @@
+# =============================================================================
+# FreeCAD MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     +-- mcp@file       -> PathPrefix(`/mcp`)
+#           +-- freecad  -> Header(`X-Service`, `freecad`) [THIS FILE]
+#
+# Container: freecad (freecad-mcp:http)
+#   - MCP endpoint: port 8080 (Streamable HTTP via supergateway)
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for FreeCAD MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: freecad)
+    freecad:
+      rule: "Header(`X-Service`, `freecad`)"
+      service: freecad
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: freecad)
+    freecad-health:
+      rule: "Header(`X-Service`, `freecad`)"
+      service: freecad
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    freecad:
+      loadBalancer:
+        servers:
+          - url: "http://freecad:8080"

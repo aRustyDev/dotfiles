@@ -1,0 +1,119 @@
+# =============================================================================
+# FreeCAD MCP Server - Streamable HTTP
+# =============================================================================
+# AI-powered 3D CAD modeling through FreeCAD integration. Enables AI assistants
+# to create, edit, and manipulate 3D models, execute Python scripts in FreeCAD,
+# and capture screenshots of designs.
+#
+# IMPORTANT: Requires FreeCAD running on the host with the MCP addon installed.
+# 1. Install addon: Copy addon/FreeCADMCP to FreeCAD's Mod directory
+# 2. Restart FreeCAD and select "MCP Addon" workbench
+# 3. Click "Start RPC Server" in the toolbar
+#
+# Build: docker build -f files/freecad.dockerfile -t freecad-mcp:http .
+# Image: freecad-mcp:http (wraps freecad-mcp with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "freecad": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "freecad"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   Document Management:
+#     - create_document: Create a new FreeCAD document
+#
+#   Object Operations:
+#     - create_object: Create Part::, Draft::, PartDesign::, or Fem:: objects
+#     - edit_object: Modify object properties (position, scale, rotation, etc.)
+#     - delete_object: Remove an object from a document
+#     - get_objects: List all objects in a document
+#     - get_object: Get detailed properties of a specific object
+#
+#   Parts Library:
+#     - insert_part_from_library: Insert parts from FreeCAD parts library
+#     - get_parts_list: List available parts in the library
+#
+#   Advanced:
+#     - execute_code: Run arbitrary Python code in FreeCAD
+#     - get_view: Capture screenshot from different view angles
+#       (Isometric, Front, Top, Right, Back, Left, Bottom, Dimetric, Trimetric)
+#
+# FreeCAD Addon Directory:
+#   - Windows: %APPDATA%\FreeCAD\Mod\
+#   - macOS: ~/Library/Application Support/FreeCAD/Mod/
+#   - Linux (Ubuntu): ~/.FreeCAD/Mod/ or ~/snap/freecad/common/Mod/
+#   - Linux (Debian): ~/.local/share/FreeCAD/Mod/
+#
+# Source: https://github.com/neka-nat/freecad-mcp
+# =============================================================================
+---
+services:
+  freecad:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: freecad.dockerfile
+    image: freecad-mcp:http
+    container_name: freecad
+    profiles: ["core", "project", "cad"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${FREECAD_MCP_HTTP_PORT:-8230}:8080"
+    extra_hosts:
+      # Allow container to reach FreeCAD RPC server on Docker host
+      # For Linux without Docker Desktop, use: host-gateway
+      - "host.docker.internal:host-gateway"
+    environment:
+      # Supergateway settings
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 120000
+
+      # FreeCAD RPC Server Connection
+      # Default: host.docker.internal (Docker Desktop on macOS/Windows)
+      # For Linux: Use host's IP address or configure host.docker.internal
+      FREECAD_RPC_HOST: "${FREECAD_RPC_HOST:-host.docker.internal}"
+      FREECAD_RPC_PORT: "${FREECAD_RPC_PORT:-9875}"
+
+      # Optional: Only return text feedback (no screenshots)
+      # Useful to reduce token usage
+      # ONLY_TEXT_FEEDBACK: "false"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.freecad.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+networks:
+  traefik-public:
+    external: true
