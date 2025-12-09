@@ -1,0 +1,58 @@
+# =============================================================================
+# Valkey - Traefik TCP Routing Configuration
+# =============================================================================
+# TCP routing for Valkey/Redis wire protocol (Traefik v3.x)
+#
+# Note: Valkey uses TCP (Redis protocol), not HTTP. This configuration provides:
+#   - TCP routing on port 6379
+#   - Optional TLS termination
+#   - Host-based routing via HostSNI (requires TLS)
+#
+# Connection methods:
+#   1. Direct port: redis://:<password>@localhost:6379
+#   2. Via Traefik: redis://:<password>@db.localhost:6379 (requires TLS/SNI)
+#
+# Container: valkey (valkey/valkey:8)
+#   - Redis-compatible wire protocol: port 6379
+# =============================================================================
+
+tcp:
+  routers:
+    # TCP router for Valkey
+    # Note: HostSNI(`*`) matches all SNI or non-TLS connections
+    valkey:
+      rule: "HostSNI(`*`)"
+      service: valkey
+      entryPoints:
+        - valkey
+
+    # Optional: TLS-enabled router with SNI matching
+    # Uncomment if you want TLS termination at Traefik
+    # valkey-tls:
+    #   rule: "HostSNI(`valkey.localhost`)"
+    #   service: valkey
+    #   entryPoints:
+    #     - valkey
+    #   tls:
+    #     passthrough: true
+
+  services:
+    valkey:
+      loadBalancer:
+        servers:
+          - address: "valkey:6379"
+
+# =============================================================================
+# IMPORTANT: Requires Traefik entrypoint configuration
+# =============================================================================
+# Add to your Traefik static configuration (traefik.yaml):
+#
+# entryPoints:
+#   valkey:
+#     address: ":6379"
+#
+# Or via command line:
+#   --entrypoints.valkey.address=:6379
+#
+# Note: If running both Valkey and Redis, use different entrypoint ports
+# =============================================================================

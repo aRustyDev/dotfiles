@@ -1,0 +1,78 @@
+# =============================================================================
+# Valkey Database Server
+# =============================================================================
+# High-performance key/value data structure server (Redis-compatible fork).
+# Used for caching, session storage, message queues, and real-time data.
+#
+# Image: valkey/valkey:8 (official)
+#
+# Connection:
+#   valkey-cli -h localhost -p 6379 -a <password>
+#   redis://:<password>@valkey:6379 (container-to-container)
+#   redis://:<password>@localhost:6379 (via port mapping)
+#
+# Data persistence:
+#   - Data: ~/.local/share/db/valkey/data
+#   - Config: ~/.config/docker/config/valkey/valkey.conf (optional)
+#
+# Ports:
+#   - 6379: Valkey wire protocol (Redis-compatible)
+#
+# Documentation:
+#   - https://valkey.io/
+#   - https://hub.docker.com/r/valkey/valkey
+#   - https://github.com/valkey-io/valkey
+# =============================================================================
+---
+services:
+  valkey:
+    image: valkey/valkey:8
+    container_name: valkey
+    profiles: ["core", "db", "cache", "valkey"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${VALKEY_PORT:-6379}:6379"
+    volumes:
+      # Data persistence (for AOF/RDB snapshots)
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/db/valkey/data:/data
+      # Optional: Custom configuration file
+      # - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/valkey/valkey.conf:/etc/valkey/valkey.conf:ro
+    # Command with password authentication
+    # Note: Official image uses config file or CLI args (limited env var support)
+    command:
+      - valkey-server
+      - --appendonly yes
+      - --requirepass ${VALKEY_PASSWORD:-op://Developer/Valkey/password}
+      # Optional: Memory limit for cache usage
+      # - --maxmemory 256mb
+      # - --maxmemory-policy allkeys-lru
+    environment:
+      # Note: Official valkey image has limited env var support
+      # Configuration is primarily done via command args or config file
+      # These are for documentation/reference:
+      VALKEY_PASSWORD: "op://Developer/Valkey/password"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "valkey-cli", "-a", "${VALKEY_PASSWORD:-password}", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - TCP Routing
+      # =======================================================================
+      # NOTE: Valkey uses TCP protocol (Redis-compatible), not HTTP.
+      # Routing is defined in file provider (svc.db.valkey.yaml)
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
