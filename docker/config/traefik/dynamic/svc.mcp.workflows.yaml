@@ -1,0 +1,39 @@
+# =============================================================================
+# Workflows MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── workflows -> Header(`X-Service`, `workflows`) [THIS FILE]
+#
+# Container: workflows (node:20-alpine with workflows-mcp-server)
+#   - MCP endpoint: port 3010
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Workflows MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: workflows)
+    workflows:
+      rule: "Header(`X-Service`, `workflows`)"
+      service: workflows
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: workflows)
+    workflows-health:
+      rule: "Header(`X-Service`, `workflows`)"
+      service: workflows
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    workflows:
+      loadBalancer:
+        servers:
+          - url: "http://workflows:3010"
