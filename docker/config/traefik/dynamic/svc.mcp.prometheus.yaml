@@ -1,0 +1,39 @@
+# =============================================================================
+# Prometheus MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── prometheus -> Header(`X-Service`, `prometheus`) [THIS FILE]
+#
+# Container: prometheus (ghcr.io/pab1it0/prometheus-mcp-server)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Prometheus MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: prometheus)
+    prometheus:
+      rule: "Header(`X-Service`, `prometheus`)"
+      service: prometheus
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: prometheus)
+    prometheus-health:
+      rule: "Header(`X-Service`, `prometheus`)"
+      service: prometheus
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    prometheus:
+      loadBalancer:
+        servers:
+          - url: "http://prometheus:8080"
