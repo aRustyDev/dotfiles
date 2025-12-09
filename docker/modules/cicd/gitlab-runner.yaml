@@ -1,0 +1,115 @@
+---
+# =============================================================================
+# GitLab Runner Docker Compose Configuration
+# =============================================================================
+#
+# Purpose:
+#   Self-hosted GitLab Runner for CI/CD pipelines on sscm.gus.cisco.com
+#
+# Registration:
+#   Before starting, register the runner with your GitLab instance:
+#
+#   1. Get the registration token from:
+#      https://sscm.gus.cisco.com/<namespace>/<project>/-/settings/ci_cd#js-runners-settings
+#
+#   2. Register the runner:
+#      docker compose -f gitlab-runner.yaml run --rm gitlab-runner register \
+#        --non-interactive \
+#        --url "https://sscm.gus.cisco.com" \
+#        --token "<REGISTRATION_TOKEN>" \
+#        --executor "docker" \
+#        --docker-image "ubuntu:22.04" \
+#        --description "docker-runner" \
+#        --docker-privileged=false \
+#        --docker-network-mode "bridge"
+#
+#   Or interactively:
+#      docker compose -f gitlab-runner.yaml run --rm gitlab-runner register
+#
+# Usage:
+#   docker compose -f gitlab-runner.yaml up -d
+#   docker compose -f gitlab-runner.yaml logs -f
+#   docker compose -f gitlab-runner.yaml down
+#
+# Configuration:
+#   - Config file: ${XDG_CONFIG_HOME}/docker/config/gitlab-runner/config.toml
+#   - The config.toml is created automatically during registration
+#
+# Environment Variables:
+#   GITLAB_RUNNER_CONCURRENT - Number of concurrent jobs (default: 2)
+#   GITLAB_RUNNER_CHECK_INTERVAL - Job check interval in seconds (default: 3)
+#
+# =============================================================================
+
+services:
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    hostname: gitlab-runner
+    container_name: gitlab-runner
+    profiles: ["cicd", "gitlab", "map"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    environment:
+      # Runner configuration
+      CONCURRENT: "${GITLAB_RUNNER_CONCURRENT:-2}"
+      CHECK_INTERVAL: "${GITLAB_RUNNER_CHECK_INTERVAL:-3}"
+      # Timezone
+      TZ: "America/New_York"
+    volumes:
+      # Runner configuration (created during registration)
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/gitlab-runner:/etc/gitlab-runner
+      # Docker socket for Docker executor
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Cache directory for build artifacts
+      - ${XDG_CACHE_HOME:-$HOME/.cache}/gitlab-runner:/cache
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "gitlab-runner", "verify"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      # Metadata labels
+      com.gitlab.runner: "true"
+      com.gitlab.runner.type: "docker"
+
+  # Optional: DinD (Docker-in-Docker) service for isolated builds
+  # Uncomment if you need fully isolated Docker builds
+  # gitlab-runner-dind:
+  #   image: docker:24-dind
+  #   hostname: gitlab-runner-dind
+  #   container_name: gitlab-runner-dind
+  #   profiles: ["cicd-dind"]
+  #   privileged: true
+  #   restart: unless-stopped
+  #   networks:
+  #     - gitlab-runner
+  #   environment:
+  #     DOCKER_TLS_CERTDIR: "/certs"
+  #   volumes:
+  #     - gitlab-runner-dind-certs:/certs/client
+  #     - gitlab-runner-dind-data:/var/lib/docker
+  #   healthcheck:
+  #     test: ["CMD", "docker", "info"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+
+networks:
+  traefik-public:
+    external: true
+  # gitlab-runner:
+  #   driver: bridge
+
+# volumes:
+#   gitlab-runner-dind-certs:
+#   gitlab-runner-dind-data:
