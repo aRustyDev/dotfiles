@@ -1,0 +1,111 @@
+# =============================================================================
+# Task Manager MCP Server - SSE Transport
+# =============================================================================
+# MCP server for AI-powered task management with PRD parsing. Enables AI agents
+# to manage tasks, track project progress, and break down requirements into
+# actionable tasks automatically.
+#
+# Build: docker build -t task-manager-mcp:latest https://github.com/tradesdontlie/task-manager-mcp.git
+# Image: task-manager-mcp:latest (built from source with SSE transport)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "task-manager": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "task-manager"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#
+#   Task Management:
+#     - create_task_file: Create new project task files
+#     - add_task: Add tasks with descriptions and subtasks
+#     - update_task_status: Update task/subtask status
+#     - get_next_task: Get next uncompleted task from project
+#
+#   Project Planning:
+#     - parse_prd: Convert PRDs into structured tasks automatically
+#     - expand_task: Break down tasks into smaller subtasks
+#     - estimate_task_complexity: Estimate complexity and time requirements
+#     - get_task_dependencies: Track task dependencies
+#
+#   Development Support:
+#     - generate_task_file: Generate file templates based on task descriptions
+#     - suggest_next_actions: Get AI-powered suggestions for next steps
+#
+# LLM Providers Supported:
+#   - openai (default)
+#   - openrouter
+#   - ollama (local)
+#
+# Source: https://github.com/tradesdontlie/task-manager-mcp
+# =============================================================================
+---
+services:
+  task-manager:
+    build:
+      context: https://github.com/tradesdontlie/task-manager-mcp.git
+    image: task-manager-mcp:latest
+    container_name: task-manager
+    profiles: ["core", "workflow", "planning"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${TASK_MANAGER_MCP_HTTP_PORT:-8228}:8050"
+    volumes:
+      # Persistent task storage
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/task-manager/tasks:/app/tasks
+    environment:
+      # Transport configuration (SSE for HTTP access)
+      TRANSPORT: sse
+      HOST: 0.0.0.0
+      PORT: 8050
+
+      # LLM Provider Configuration
+      # Options: openai, openrouter, ollama
+      LLM_PROVIDER: "${TASK_MANAGER_LLM_PROVIDER:-openai}"
+      LLM_CHOICE: "${TASK_MANAGER_LLM_MODEL:-gpt-4}"
+
+      # API Key (use 1Password reference or env var)
+      LLM_API_KEY: "${TASK_MANAGER_LLM_API_KEY:-${OPENAI_API_KEY:-op://Developer/OpenAI/api-key}}"
+
+      # For local Ollama (optional)
+      # OPENAI_API_BASE: "http://ollama:11434/v1"
+
+      # Python settings
+      PYTHONUNBUFFERED: "1"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:8050/health || wget --no-verbose --tries=1 --spider http://localhost:8050/sse || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - SSE MCP Transport
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.task-manager.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+networks:
+  traefik-public:
+    external: true

@@ -1,0 +1,39 @@
+# =============================================================================
+# Task Manager MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── task-manager -> Header(`X-Service`, `task-manager`) [THIS FILE]
+#
+# Container: task-manager (task-manager-mcp:latest)
+#   - MCP endpoint: port 8050 (SSE transport)
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Task Manager MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: task-manager)
+    task-manager:
+      rule: "Header(`X-Service`, `task-manager`)"
+      service: task-manager
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: task-manager)
+    task-manager-health:
+      rule: "Header(`X-Service`, `task-manager`)"
+      service: task-manager
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    task-manager:
+      loadBalancer:
+        servers:
+          - url: "http://task-manager:8050"
