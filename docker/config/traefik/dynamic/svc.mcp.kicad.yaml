@@ -1,0 +1,39 @@
+# =============================================================================
+# KiCad MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     +-- mcp@file       -> PathPrefix(`/mcp`)
+#           +-- kicad    -> Header(`X-Service`, `kicad`) [THIS FILE]
+#
+# Container: kicad (kicad-mcp:http)
+#   - MCP endpoint: port 8080 (Streamable HTTP via supergateway)
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for KiCad MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: kicad)
+    kicad:
+      rule: "Header(`X-Service`, `kicad`)"
+      service: kicad
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: kicad)
+    kicad-health:
+      rule: "Header(`X-Service`, `kicad`)"
+      service: kicad
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    kicad:
+      loadBalancer:
+        servers:
+          - url: "http://kicad:8080"

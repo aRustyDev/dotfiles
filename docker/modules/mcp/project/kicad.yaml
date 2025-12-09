@@ -1,5 +1,133 @@
+# =============================================================================
+# KiCad MCP Server - Streamable HTTP
+# =============================================================================
+# AI-powered electronic design automation through KiCad integration. Enables
+# AI assistants to manage KiCad projects, analyze PCB designs, extract netlists,
+# generate BOMs, run design rule checks, and recognize circuit patterns.
+#
+# Build: docker build -f files/kicad.dockerfile -t kicad-mcp:http .
+# Image: kicad-mcp:http (wraps kicad-mcp with supergateway)
+#
+# Prerequisites:
+#   - KiCad projects in a directory accessible to the container
+#   - For full functionality, KiCad CLI is included in the container
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "kicad": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "kicad"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   Project Management:
+#     - List, examine, and open KiCad projects
+#     - Natural language queries: "Show me all my recent KiCad projects"
+#
+#   PCB Design Analysis:
+#     - Analyze component density, spacing, and layout
+#     - Query: "Analyze the component density of my sensor board"
+#
+#   Netlist Extraction:
+#     - Extract and analyze component connections from schematics
+#     - Query: "What components are connected to the MCU?"
+#
+#   BOM Management:
+#     - Generate and analyze Bills of Materials
+#     - Query: "Generate a BOM for my smart watch project"
+#
+#   Design Rule Checking (DRC):
+#     - Run DRC checks using KiCad CLI
+#     - Track progress over time
+#     - Query: "Run DRC on my power supply board"
+#
+#   PCB Visualization:
+#     - Generate visual representations of PCB layouts
+#     - Query: "Show me a thumbnail of my audio amplifier PCB"
+#
+#   Circuit Pattern Recognition:
+#     - Identify common circuit patterns (buck, boost, linear regulators)
+#     - Query: "What power supply topologies am I using?"
+#
+# Resources provided:
+#   - kicad://projects - List of all KiCad projects
+#
+# Prompts provided:
+#   - debug_pcb_issues - Help troubleshoot PCB problems
+#
+# Source: https://github.com/lamaalrajih/kicad-mcp
+# =============================================================================
+---
 services:
   kicad:
-    command: "$MCP_ROOT/kicad-mcp/.venv/bin/python"
-    args:
-      - "$MCP_ROOT/kicad-mcp/main.py"
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: kicad.dockerfile
+    image: kicad-mcp:http
+    container_name: kicad
+    profiles: ["core", "project", "eda", "electronics"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${KICAD_MCP_HTTP_PORT:-8234}:8080"
+    volumes:
+      # Mount your KiCad projects directory
+      # Change this to where your KiCad projects are stored
+      - ${KICAD_PROJECTS_DIR:-${HOME}/KiCad}:/workspace:ro
+
+      # Optional: Mount specific project directories
+      # - ${HOME}/Electronics:/workspace/electronics:ro
+      # - ${HOME}/PCB:/workspace/pcb:ro
+    environment:
+      # Supergateway settings
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 120000
+
+      # KiCad MCP Configuration
+      # Directories to search for KiCad projects (comma-separated, inside container)
+      KICAD_SEARCH_PATHS: "${KICAD_SEARCH_PATHS:-/workspace}"
+
+      # Override KiCad user directory
+      KICAD_USER_DIR: "${KICAD_USER_DIR:-/workspace}"
+
+      # KiCad application path (for CLI tools inside container)
+      # Default Debian/Ubuntu path is used in the container
+      # KICAD_APP_PATH: /usr/share/kicad
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.kicad.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+networks:
+  traefik-public:
+    external: true
