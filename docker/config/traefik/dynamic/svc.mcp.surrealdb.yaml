@@ -1,0 +1,39 @@
+# =============================================================================
+# SurrealDB MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)        -> Host(`tool.localhost`)
+#     └── mcp@file           -> PathPrefix(`/mcp`)
+#           └── surrealdb-mcp -> Header(`X-Service`, `surrealdb-mcp`) [THIS FILE]
+#
+# Container: surrealdb-mcp (surrealdb/surrealmcp:latest)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for SurrealDB MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: surrealdb-mcp)
+    surrealdb-mcp:
+      rule: "Header(`X-Service`, `surrealdb-mcp`)"
+      service: surrealdb-mcp
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: surrealdb-mcp)
+    surrealdb-mcp-health:
+      rule: "Header(`X-Service`, `surrealdb-mcp`)"
+      service: surrealdb-mcp
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    surrealdb-mcp:
+      loadBalancer:
+        servers:
+          - url: "http://surrealdb-mcp:8080"

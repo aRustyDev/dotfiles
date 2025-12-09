@@ -1,0 +1,102 @@
+# =============================================================================
+# SurrealDB MCP Server - Native HTTP
+# =============================================================================
+# Official MCP server for SurrealDB and SurrealDB Cloud. Enables AI assistants
+# to interact with SurrealDB databases using SurrealQL queries.
+#
+# Image: surrealdb/surrealmcp:latest (official, native HTTP support)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "surrealdb": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "surrealdb-mcp"
+#       }
+#     }
+#   }
+#
+# Database Operations:
+#   - query: Execute raw SurrealQL queries with parameters
+#   - select: Query records with filtering, sorting, pagination
+#   - insert: Insert new records into tables
+#   - create: Create single records with specific IDs
+#   - upsert: Create or update records based on conditions
+#   - update: Modify existing records with patch operations
+#   - delete: Remove records from the database
+#   - relate: Create relationships between records
+#
+# Connection Management:
+#   - connect_endpoint: Connect to SurrealDB endpoints
+#     (memory, file:/path, ws://host:port, http://host:port, cloud:instance_id)
+#   - use_namespace: Switch between namespaces
+#   - use_database: Switch between databases
+#   - list_namespaces: List defined namespaces
+#   - list_databases: List defined databases
+#   - disconnect_endpoint: Close current connection
+#
+# SurrealDB Cloud Operations:
+#   - list_cloud_organizations: Get available organizations
+#   - list_cloud_instances: Get instances for an organization
+#   - create_cloud_instance: Create new cloud instances
+#   - pause_cloud_instance / resume_cloud_instance: Manage lifecycle
+#   - get_cloud_instance_status: Check instance health
+#
+# Source: https://github.com/surrealdb/surrealmcp
+# =============================================================================
+---
+services:
+  surrealdb-mcp:
+    image: surrealdb/surrealmcp:latest
+    container_name: surrealdb-mcp
+    profiles: ["core", "db", "surrealdb"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${SURREALDB_MCP_HTTP_PORT:-8221}:8080"
+    environment:
+      # Server configuration
+      SURREAL_MCP_BIND_ADDRESS: "0.0.0.0:8080"
+      SURREAL_MCP_SERVER_URL: "${SURREALDB_MCP_SERVER_URL:-http://localhost:8080}"
+      # Disable auth for local development (enable in production)
+      SURREAL_MCP_AUTH_REQUIRED: "${SURREALDB_MCP_AUTH_REQUIRED:-false}"
+      # Default database connection (optional - can connect dynamically)
+      SURREALDB_URL: "${SURREALDB_URL:-ws://surrealdb:8000/rpc}"
+      SURREALDB_NS: "${SURREALDB_NS:-}"
+      SURREALDB_DB: "${SURREALDB_DB:-}"
+      SURREALDB_USER: "${SURREALDB_USER:-}"
+      SURREALDB_PASS: "${SURREALDB_PASS:-}"
+      # Rate limiting (optional)
+      SURREAL_MCP_RATE_LIMIT_RPS: "${SURREALDB_MCP_RATE_LIMIT_RPS:-100}"
+      SURREAL_MCP_RATE_LIMIT_BURST: "${SURREALDB_MCP_RATE_LIMIT_BURST:-200}"
+      # Cloud authentication (optional - for SurrealDB Cloud)
+      SURREAL_MCP_CLOUD_ACCESS_TOKEN: "${SURREALDB_CLOUD_ACCESS_TOKEN:-}"
+      SURREAL_MCP_CLOUD_REFRESH_TOKEN: "${SURREALDB_CLOUD_REFRESH_TOKEN:-}"
+    command:
+      - start
+      - --bind-address
+      - "0.0.0.0:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Native HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.surrealdb.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
