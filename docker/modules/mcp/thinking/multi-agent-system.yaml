@@ -1,0 +1,135 @@
+# =============================================================================
+# MAS Sequential Thinking MCP Server - Streamable HTTP
+# =============================================================================
+# Multi-Agent System with 6 specialized agents for parallel problem-solving.
+# Each agent provides a unique perspective on the problem.
+#
+# Build: docker build -f files/multi-agent-system.dockerfile -t multi-agent-system-mcp:http .
+# Image: multi-agent-system-mcp:http (local build with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "multi-agent-system": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "multi-agent-system"
+#       }
+#     }
+#   }
+#
+# Agents (Six Thinking Hats methodology):
+#   - Factual: Information retrieval and fact-based analysis
+#   - Emotional: Sentiment analysis and human impact assessment
+#   - Critical: Flaw detection and risk analysis
+#   - Optimistic: Opportunity identification and positive outcomes
+#   - Creative: Novel solutions and innovative approaches
+#   - Synthesis: Combines all perspectives into cohesive recommendations
+#
+# LLM Providers Supported:
+#   - deepseek (default)
+#   - groq
+#   - openrouter
+#   - github (GitHub Models)
+#   - ollama (local)
+#
+# Team Modes:
+#   - standard: Traditional agent setup (backward compatible)
+#   - enhanced: Agno 1.8+ features (memory, reasoning, structured outputs)
+#   - hybrid: Mix of standard and enhanced agents
+#   - multi_thinking: Multi-Thinking methodology for balanced thinking
+#
+# Source: https://github.com/FradSer/mcp-server-mas-sequential-thinking
+# =============================================================================
+---
+services:
+  multi-agent-system:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: multi-agent-system.dockerfile
+    image: multi-agent-system-mcp:http
+    container_name: multi-agent-system
+    hostname: multi-agent-system
+    profiles: ["thinking", "agents"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${MAS_MCP_HTTP_PORT:-8232}:8080"
+    volumes:
+      # Persistent storage for session memory
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/multi-agent-system:/data/mas_sequential_thinking
+    environment:
+      # Supergateway settings
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 120000  # 2 min - longer for multi-agent processing
+
+      # LLM Provider Configuration
+      # Options: deepseek, groq, openrouter, github, ollama
+      LLM_PROVIDER: "${MAS_LLM_PROVIDER:-deepseek}"
+
+      # API Keys (use 1Password references or env vars)
+      DEEPSEEK_API_KEY: "${DEEPSEEK_API_KEY:-op://Developer/DeepSeek/api-key}"
+      GROQ_API_KEY: "${GROQ_API_KEY:-}"
+      OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:-}"
+      GITHUB_TOKEN: "${GITHUB_TOKEN:-}"
+      EXA_API_KEY: "${EXA_API_KEY:-}"  # Optional: web search
+
+      # Agent Configuration
+      USE_ENHANCED_AGENTS: "${MAS_USE_ENHANCED_AGENTS:-true}"
+      TEAM_MODE: "${MAS_TEAM_MODE:-standard}"  # standard, enhanced, hybrid, multi_thinking
+
+      # Adaptive Routing
+      ENABLE_ADAPTIVE_ROUTING: "${MAS_ENABLE_ADAPTIVE_ROUTING:-true}"
+      ENABLE_MULTI_THINKING: "${MAS_ENABLE_MULTI_THINKING:-true}"
+
+      # Cost Optimization (optional)
+      DAILY_BUDGET_LIMIT: "${MAS_DAILY_BUDGET_LIMIT:-}"
+      QUALITY_THRESHOLD: "${MAS_QUALITY_THRESHOLD:-0.7}"
+
+      # Response Settings
+      RESPONSE_STYLE: "${MAS_RESPONSE_STYLE:-practical}"  # practical, academic, balanced
+      MAX_RESPONSE_LENGTH: "${MAS_MAX_RESPONSE_LENGTH:-800}"
+      ENFORCE_SIMPLICITY: "true"
+
+      # Persistent Memory
+      DATABASE_URL: "sqlite:///data/mas_sequential_thinking/sessions.db"
+      MEMORY_PRUNING_DAYS: "30"
+      MEMORY_KEEP_RECENT: "100"
+
+      # Logging
+      LOG_LEVEL: "${MAS_LOG_LEVEL:-INFO}"
+      SMART_LOGGING: "true"
+
+      # Performance
+      MAX_RETRIES: "3"
+      TIMEOUT: "30.0"
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.multi-agent-system.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public

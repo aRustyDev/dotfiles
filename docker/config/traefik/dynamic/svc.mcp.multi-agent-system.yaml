@@ -1,0 +1,39 @@
+# =============================================================================
+# MAS Sequential Thinking MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)              -> Host(`tool.localhost`)
+#     └── mcp@file                 -> PathPrefix(`/mcp`)
+#           └── multi-agent-system -> Header(`X-Service`, `multi-agent-system`) [THIS FILE]
+#
+# Container: multi-agent-system (multi-agent-system-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Multi-Agent System MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: multi-agent-system)
+    multi-agent-system:
+      rule: "Header(`X-Service`, `multi-agent-system`)"
+      service: multi-agent-system
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: multi-agent-system)
+    multi-agent-system-health:
+      rule: "Header(`X-Service`, `multi-agent-system`)"
+      service: multi-agent-system
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    multi-agent-system:
+      loadBalancer:
+        servers:
+          - url: "http://multi-agent-system:8080"
