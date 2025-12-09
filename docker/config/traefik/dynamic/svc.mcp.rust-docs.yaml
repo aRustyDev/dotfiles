@@ -1,0 +1,39 @@
+# =============================================================================
+# Rust Docs MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── rust-docs  -> Header(`X-Service`, `rust-docs`) [THIS FILE]
+#
+# Container: rust-docs (rust-docs-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Rust Docs MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: rust-docs)
+    rust-docs:
+      rule: "Header(`X-Service`, `rust-docs`)"
+      service: rust-docs
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: rust-docs)
+    rust-docs-health:
+      rule: "Header(`X-Service`, `rust-docs`)"
+      service: rust-docs
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    rust-docs:
+      loadBalancer:
+        servers:
+          - url: "http://rust-docs:8080"

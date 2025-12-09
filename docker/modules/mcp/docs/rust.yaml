@@ -1,0 +1,104 @@
+# =============================================================================
+# Rust Docs MCP Server - Streamable HTTP
+# =============================================================================
+# Provides real-time access to specific Rust crate documentation with semantic
+# search and LLM-powered summarization. Prevents outdated API suggestions by
+# querying current documentation directly.
+#
+# Build: docker build -f files/rust-docs.dockerfile -t rust-docs-mcp:http .
+# Image: rust-docs-mcp:http (local build)
+#
+# IMPORTANT: Each instance serves ONE specific crate. Configure via RUST_CRATE.
+# For multiple crates, deploy multiple instances with different configurations.
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "rust-docs": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "rust-docs"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - query_rust_docs: Ask questions about the configured crate
+#     Returns documentation-grounded answers prefixed with "From <crate> docs:"
+#
+# Resources provided:
+#   - crate://<crate_name>: The configured crate identifier
+#
+# How it works:
+#   1. Creates temporary Rust project with target crate dependency
+#   2. Runs `cargo doc` to generate HTML documentation
+#   3. Extracts text and generates embeddings via OpenAI API
+#   4. Uses semantic search + LLM summarization for answers
+#   5. Caches processed data for subsequent queries
+#
+# Required environment:
+#   - OPENAI_API_KEY: For embeddings (text-embedding-3-small) and
+#                     summarization (gpt-4o-mini-2024-07-18)
+#   - RUST_CRATE: Crate to serve (e.g., "tokio@1.0", "serde@^1.0")
+#
+# Optional environment:
+#   - RUST_CRATE_FEATURES: Comma-separated features (e.g., "full,rt-multi-thread")
+#
+# Source: https://github.com/Govcraft/rust-docs-mcp-server
+# =============================================================================
+---
+services:
+  rust-docs:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: rust-docs.dockerfile
+    image: rust-docs-mcp:http
+    container_name: rust-docs
+    profiles: ["docs", "rust", "ai"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${RUST_DOCS_MCP_HTTP_PORT:-8227}:8080"
+    volumes:
+      # Persistent cache for documentation and embeddings
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/rust-docs:/root/.local/share/rustdocs-mcp-server
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 120000
+      # OpenAI API key for embeddings and summarization
+      OPENAI_API_KEY: "op://Developer/OpenAI/api-key"
+      # Crate to serve documentation for
+      # Examples: "tokio@1.0", "serde@^1.0", "reqwest@0.12.0"
+      RUST_CRATE: "tokio@1.0"
+      # Optional: Crate features (comma-separated)
+      # RUST_CRATE_FEATURES: "full,rt-multi-thread"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.rust-docs.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
