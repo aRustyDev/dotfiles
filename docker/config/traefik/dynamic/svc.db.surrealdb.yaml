@@ -1,0 +1,45 @@
+# =============================================================================
+# SurrealDB - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   db@file (root)       -> Host(`db.localhost`)
+#     └── surrealdb      -> Header(`X-Service`, `surrealdb`) [THIS FILE]
+#
+#   ui@file (root)       -> Host(`ui.localhost`)
+#     └── surrealui      -> Header(`X-Service`, `surrealui`) [THIS FILE]
+#
+# Container: surreal (surrealdb/surrealdb:latest)
+#   - Database endpoint: port 8000
+#   - UI endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Router for SurrealDB database API
+    # Matches: Host(db.localhost) && Header(X-Service: surrealdb)
+    surrealdb:
+      rule: "Header(`X-Service`, `surrealdb`)"
+      service: surreal-db
+      parentRefs:
+        - db@file
+
+    # Router for SurrealDB UI
+    # Matches: Host(ui.localhost) && Header(X-Service: surrealui)
+    surrealui:
+      rule: "Header(`X-Service`, `surrealui`)"
+      service: surreal-ui
+      parentRefs:
+        - ui@file
+
+  services:
+    surreal-db:
+      loadBalancer:
+        servers:
+          - url: "http://surreal:8000"
+
+    surreal-ui:
+      loadBalancer:
+        servers:
+          - url: "http://surreal:8080"

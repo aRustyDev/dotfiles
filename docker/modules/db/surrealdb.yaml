@@ -19,21 +19,20 @@ services:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/surreal:/var/data
     ports:
       - 8100:8000
+    networks:
+      - traefik-public
     labels:
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration - SurrealDB
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.db.surrealdb.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      #
+      # Endpoints:
+      #   - Database API: port 8000 (via db@file -> surrealdb)
+      #   - Web UI: port 8080 (via ui@file -> surrealui)
+      # =======================================================================
       traefik.enable: true
-      # Services
-      traefik.http.services.surreal-ui.loadbalancer.server.port: 8080
-      traefik.http.services.surreal-db.loadbalancer.server.port: 8000
-      # FalkorDB UI Access - Use subdomain to avoid path prefix issues with Next.js assets
-      traefik.http.routers.surreal-ui.rule: Header(`X-Service`, `surrealui`)
-      traefik.http.routers.surreal-ui.service: surreal-ui
-      traefik.http.routers.surreal-ui.parentRefs[0]: ui@file
-      # FalkorDB Access
-      traefik.http.routers.surreal-db.rule: Header(`X-Service`, `surrealdb`)
-      traefik.http.routers.surreal-db.service: surreal-db
-      traefik.http.routers.surreal-db.parentRefs[0]: db@file
-      # Specify network (if container is on multiple networks)
       traefik.docker.network: traefik-public
     environment:
       SURREAL_EXPERIMENTAL_GRAPHQL: true
