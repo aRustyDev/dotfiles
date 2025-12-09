@@ -1,0 +1,116 @@
+# =============================================================================
+# Supabase MCP Server - Streamable HTTP
+# =============================================================================
+# MCP server for interacting with self-hosted Supabase instances.
+# Enables AI assistants to query databases, manage auth, storage, and more.
+#
+# Build: docker build -f files/supabase-mcp.dockerfile -t supabase-mcp:http .
+# Image: supabase-mcp:http (local build, wraps selfhosted-supabase-mcp)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "supabase": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "supabase"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   Database & Schema:
+#     - list_tables: List all tables in the database
+#     - list_extensions: List PostgreSQL extensions
+#     - list_migrations: List applied migrations
+#     - apply_migration: Apply SQL migration scripts
+#     - execute_sql: Execute arbitrary SQL queries
+#     - get_database_stats: Retrieve database statistics
+#     - get_active_connections: Get active DB connections
+#
+#   Configuration:
+#     - get_project_url: Get the Supabase project URL
+#     - get_anon_key: Get the anonymous key
+#     - get_service_role_key: Get the service role key
+#     - verify_jwt_secret: Verify JWT secret configuration
+#
+#   Authentication:
+#     - list_auth_users: List users from auth.users
+#     - get_auth_user: Get specific user details
+#     - create_auth_user: Create new user
+#     - update_auth_user: Update user details
+#     - delete_auth_user: Delete user
+#
+#   Storage:
+#     - list_storage_buckets: List storage buckets
+#     - list_storage_objects: List objects in a bucket
+#
+#   Development:
+#     - generate_typescript_types: Generate types from schema
+#     - list_realtime_publications: List realtime publications
+#
+# Required environment:
+#   - SUPABASE_URL: Supabase HTTP endpoint (e.g., http://supabase-kong:8000)
+#   - SUPABASE_ANON_KEY: Anonymous key for public access
+#
+# Optional environment:
+#   - SUPABASE_SERVICE_ROLE_KEY: Service role key for elevated access
+#   - DATABASE_URL: Direct PostgreSQL connection string
+#   - SUPABASE_AUTH_JWT_SECRET: JWT secret for validation
+#
+# Source: https://github.com/HenkDz/selfhosted-supabase-mcp
+# Official hosted: https://mcp.supabase.com/mcp (OAuth required)
+# =============================================================================
+---
+services:
+  supabase-mcp:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: supabase-mcp.dockerfile
+    image: supabase-mcp:http
+    container_name: supabase-mcp
+    profiles: ["db", "supabase", "mcp"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${SUPABASE_MCP_HTTP_PORT:-8228}:8080"
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 60000
+      # Required: Supabase connection
+      SUPABASE_URL: "op://Developer/Supabase/url"
+      SUPABASE_ANON_KEY: "op://Developer/Supabase/anon-key"
+      # Optional: Elevated access (uncomment as needed)
+      SUPABASE_SERVICE_ROLE_KEY: "op://Developer/Supabase/service-role-key"
+      # DATABASE_URL: "op://Developer/Supabase/database-url"
+      # SUPABASE_AUTH_JWT_SECRET: "op://Developer/Supabase/jwt-secret"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.supabase.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
