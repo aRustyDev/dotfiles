@@ -1,0 +1,39 @@
+# =============================================================================
+# Code Reasoning MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)        -> Host(`tool.localhost`)
+#     └── mcp@file           -> PathPrefix(`/mcp`)
+#           └── code-reasoning -> Header(`X-Service`, `code-reasoning`) [THIS FILE]
+#
+# Container: code-reasoning (code-reasoning-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Code Reasoning MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: code-reasoning)
+    code-reasoning:
+      rule: "Header(`X-Service`, `code-reasoning`)"
+      service: code-reasoning
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: code-reasoning)
+    code-reasoning-health:
+      rule: "Header(`X-Service`, `code-reasoning`)"
+      service: code-reasoning
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    code-reasoning:
+      loadBalancer:
+        servers:
+          - url: "http://code-reasoning:8080"
