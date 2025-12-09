@@ -1,0 +1,38 @@
+# =============================================================================
+# Qdrant Vector Database - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   db@file (root)       -> Host(`db.localhost`)
+#     └── qdrant         -> Header(`X-Service`, `qdrant`) [THIS FILE]
+#
+# Container: qdrant (qdrant/qdrant)
+#   - REST API: port 6333
+#   - gRPC: port 6334 (not routed via Traefik)
+# =============================================================================
+
+http:
+  routers:
+    # Router for Qdrant REST API
+    # Matches: Host(db.localhost) && Header(X-Service: qdrant)
+    qdrant:
+      rule: "Header(`X-Service`, `qdrant`)"
+      service: qdrant
+      parentRefs:
+        - db@file
+
+    # Health check router
+    # Matches: Host(db.localhost) && PathPrefix(/health) && Header(X-Service: qdrant)
+    qdrant-health:
+      rule: "Header(`X-Service`, `qdrant`)"
+      service: qdrant
+      parentRefs:
+        - health@file
+        - db@file
+
+  services:
+    qdrant:
+      loadBalancer:
+        servers:
+          - url: "http://qdrant:6333"

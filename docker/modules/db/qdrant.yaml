@@ -6,24 +6,24 @@ services:
     profiles: ["core", "n8n"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
-    networks: ["n8n"]
+    networks:
+      - n8n
+      - traefik-public
     restart: unless-stopped
     ports:
       - 6333:6333
     volumes:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/qdrant:/qdrant/storage
     labels:
-      # Streamable HTTP routing for MCP
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration - Qdrant Vector Database
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.db.qdrant.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      #
+      # Endpoints:
+      #   - REST API: port 6333 (via db@file -> qdrant)
+      #   - gRPC: port 6334 (direct, not via Traefik)
+      # =======================================================================
       traefik.enable: true
-      traefik.http.services.qdrant.loadbalancer.server.port: 6333
-      # Primary route: /mcp endpoint (Streamable HTTP)
-      traefik.http.routers.qdrant.rule: Header(`X-Service`, `qdrant`)
-      traefik.http.routers.qdrant.service: qdrant
-      traefik.http.routers.qdrant.parentRefs: mcp@file
-      # Health check endpoint
-      traefik.http.routers.qdrant-health.rule: Header(`X-Service`, `qdrant`)
-      traefik.http.routers.qdrant-health.service: qdrant
-      traefik.http.routers.qdrant-health.parentRefs: health@file
-      # Specify network (if container is on multiple networks)
       traefik.docker.network: traefik-public
