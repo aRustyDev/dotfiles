@@ -1,0 +1,39 @@
+# =============================================================================
+# Cloudflare Docs MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── cloudflare-docs  -> Header(`X-Service`, `cloudflare-docs`) [THIS FILE]
+#
+# Container: cloudflare-docs (cloudflare-docs-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Cloudflare Docs MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: cloudflare-docs)
+    cloudflare-docs:
+      rule: "Header(`X-Service`, `cloudflare-docs`)"
+      service: cloudflare-docs
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: cloudflare-docs)
+    cloudflare-docs-health:
+      rule: "Header(`X-Service`, `cloudflare-docs`)"
+      service: cloudflare-docs
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    cloudflare-docs:
+      loadBalancer:
+        servers:
+          - url: "http://cloudflare-docs:8080"

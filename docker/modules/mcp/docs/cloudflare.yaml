@@ -1,0 +1,97 @@
+# =============================================================================
+# Cloudflare Docs MCP Server - HTTP Proxy
+# =============================================================================
+# Local proxy to Cloudflare's remote MCP servers. Default: Documentation server
+# for accessing Cloudflare reference information and guides.
+#
+# Build: docker build -f files/cloudflare-docs.dockerfile -t cloudflare-docs-mcp:http .
+# Image: cloudflare-docs-mcp:http (local build, proxies remote server)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "cloudflare-docs": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "cloudflare-docs"
+#       }
+#     }
+#   }
+#
+# Available Cloudflare MCP endpoints (configurable via CLOUDFLARE_MCP_URL):
+#   - https://docs.mcp.cloudflare.com/mcp          (Documentation) [DEFAULT]
+#   - https://bindings.mcp.cloudflare.com/mcp     (Workers Bindings: KV, R2, D1, AI)
+#   - https://builds.mcp.cloudflare.com/mcp       (Workers Builds insights)
+#   - https://observability.mcp.cloudflare.com/mcp (Logs and analytics)
+#   - https://radar.mcp.cloudflare.com/mcp        (Internet traffic insights)
+#   - https://browser.mcp.cloudflare.com/mcp      (Browser rendering, screenshots)
+#   - https://containers.mcp.cloudflare.com/mcp   (Sandbox environments)
+#   - https://logs.mcp.cloudflare.com/mcp         (Logpush job health)
+#   - https://ai-gateway.mcp.cloudflare.com/mcp   (AI Gateway logs)
+#   - https://autorag.mcp.cloudflare.com/mcp      (AutoRAG documents)
+#   - https://auditlogs.mcp.cloudflare.com/mcp    (Audit logs)
+#   - https://dns-analytics.mcp.cloudflare.com/mcp (DNS analytics)
+#   - https://graphql.mcp.cloudflare.com/mcp      (GraphQL analytics)
+#
+# Resources provided (docs server):
+#   - Cloudflare Workers documentation
+#   - API references
+#   - Configuration guides
+#   - Best practices
+#
+# Note: Some servers require Cloudflare API tokens with appropriate scopes.
+#       Create tokens at: https://dash.cloudflare.com/profile/api-tokens
+#
+# Source: https://github.com/cloudflare/mcp-server-cloudflare
+# Docs: https://developers.cloudflare.com/agents/model-context-protocol/
+# =============================================================================
+---
+services:
+  cloudflare-docs:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: cloudflare-docs.dockerfile
+    image: cloudflare-docs-mcp:http
+    container_name: cloudflare-docs
+    profiles: ["core", "docs", "cloudflare"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${CLOUDFLARE_DOCS_MCP_HTTP_PORT:-8225}:8080"
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 60000
+      # Default to documentation server; change to use other CF services
+      CLOUDFLARE_MCP_URL: "https://docs.mcp.cloudflare.com/mcp"
+      # Optional: For authenticated endpoints, set API token
+      # CLOUDFLARE_API_TOKEN: "op://Developer/Cloudflare/api-token"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - HTTP Proxy MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.cloudflare-docs.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
