@@ -1,0 +1,83 @@
+# =============================================================================
+# Astro Docs MCP Server - HTTP Proxy
+# =============================================================================
+# Local proxy to the remote Astro Docs MCP server. Provides AI tools access
+# to current Astro documentation for answering questions about features,
+# APIs, and best practices.
+#
+# Build: docker build -f files/astro-docs.dockerfile -t astro-docs-mcp:http .
+# Image: astro-docs-mcp:http (local build, proxies remote server)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "astro-docs": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "astro-docs"
+#       }
+#     }
+#   }
+#
+# Resources provided:
+#   - Astro framework documentation
+#   - API references
+#   - Best practices and guides
+#   - Integration documentation
+#   - Component patterns
+#
+# Tools provided:
+#   - search_docs: Search Astro documentation
+#   - get_doc: Retrieve specific documentation pages
+#   - list_topics: List available documentation topics
+#
+# Remote server: https://mcp.docs.astro.build/mcp
+# Source: https://github.com/withastro/docs-mcp
+# =============================================================================
+---
+services:
+  astro-docs:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: astro-docs.dockerfile
+    image: astro-docs-mcp:http
+    container_name: astro-docs
+    profiles: ["core", "docs", "web"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${ASTRO_DOCS_MCP_HTTP_PORT:-8224}:8080"
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 60000
+      ASTRO_DOCS_MCP_URL: "https://mcp.docs.astro.build/mcp"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - HTTP Proxy MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.astro-docs.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public

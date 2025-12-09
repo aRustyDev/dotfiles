@@ -1,0 +1,39 @@
+# =============================================================================
+# Astro Docs MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── astro-docs  -> Header(`X-Service`, `astro-docs`) [THIS FILE]
+#
+# Container: astro-docs (astro-docs-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Astro Docs MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: astro-docs)
+    astro-docs:
+      rule: "Header(`X-Service`, `astro-docs`)"
+      service: astro-docs
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: astro-docs)
+    astro-docs-health:
+      rule: "Header(`X-Service`, `astro-docs`)"
+      service: astro-docs
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    astro-docs:
+      loadBalancer:
+        servers:
+          - url: "http://astro-docs:8080"
