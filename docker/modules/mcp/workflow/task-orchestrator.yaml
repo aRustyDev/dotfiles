@@ -1,0 +1,109 @@
+# =============================================================================
+# Task Orchestrator MCP Server - Streamable HTTP
+# =============================================================================
+# Orchestration framework for AI coding assistants that solves context pollution
+# and token exhaustion. Provides persistent memory, hierarchical task management,
+# and sub-agent orchestration for complex projects.
+#
+# Build: docker build -f files/task-orchestrator.dockerfile -t task-orchestrator-mcp:http .
+# Image: task-orchestrator-mcp:http (wraps ghcr.io/jpicklyk/task-orchestrator with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "task-orchestrator": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "task-orchestrator"
+#       }
+#     }
+#   }
+#
+# Key Features:
+#   - Persistent Memory: AI remembers project state across sessions (SQLite)
+#   - Token Efficiency: Up to 90% reduction via summary-based context passing
+#   - Hierarchical Tasks: Projects -> Features -> Tasks with dependencies
+#   - Template System: 9 built-in workflow templates with decision frameworks
+#   - Event-Driven Workflows: Automatic status progression
+#   - Sub-Agent Orchestration: Specialist routing for complex work
+#
+# Core Tools:
+#   - create_project / get_project / update_project / delete_project
+#   - create_feature / get_feature / update_feature / delete_feature
+#   - create_task / get_task / update_task / delete_task
+#   - list_projects / list_features / list_tasks
+#   - get_task_dependencies / add_task_dependency
+#   - get_template / list_templates
+#   - trigger_workflow_event / get_workflow_status
+#
+# Workflow Pattern:
+#   1. Plan: Create markdown/text file with feature requirements
+#   2. Orchestrate: Use coordinate_feature_development workflow
+#   3. Execute: AI routes tasks to specialists based on dependencies
+#
+# Source: https://github.com/jpicklyk/task-orchestrator
+# =============================================================================
+---
+services:
+  task-orchestrator:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: task-orchestrator.dockerfile
+    image: task-orchestrator-mcp:http
+    container_name: task-orchestrator
+    profiles: ["core", "workflow", "orchestration"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${TASK_ORCHESTRATOR_MCP_HTTP_PORT:-8224}:8080"
+    volumes:
+      # Persistent SQLite database for task memory
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/task-orchestrator:/app/data
+      # Mount project directory for agent config access
+      - ${HOME}/repos:/project:ro
+    environment:
+      # Supergateway settings
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 180000  # 3 min - longer for complex orchestration
+
+      # Task Orchestrator settings
+      DATABASE_PATH: /app/data/tasks.db
+      MCP_TRANSPORT: stdio
+      LOG_LEVEL: "${TASK_ORCHESTRATOR_LOG_LEVEL:-info}"
+      USE_FLYWAY: "true"
+
+      # Java settings
+      JAVA_TOOL_OPTIONS: "-Dfile.encoding=UTF-8 -Djava.awt.headless=true"
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.task-orchestrator.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+      # MCP discovery label (for Claude Desktop compatibility)
+      mcp.client: claude-desktop

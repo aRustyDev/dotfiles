@@ -1,0 +1,39 @@
+# =============================================================================
+# Task Orchestrator MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── task-orchestrator -> Header(`X-Service`, `task-orchestrator`) [THIS FILE]
+#
+# Container: task-orchestrator (task-orchestrator-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Task Orchestrator MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: task-orchestrator)
+    task-orchestrator:
+      rule: "Header(`X-Service`, `task-orchestrator`)"
+      service: task-orchestrator
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: task-orchestrator)
+    task-orchestrator-health:
+      rule: "Header(`X-Service`, `task-orchestrator`)"
+      service: task-orchestrator
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    task-orchestrator:
+      loadBalancer:
+        servers:
+          - url: "http://task-orchestrator:8080"
