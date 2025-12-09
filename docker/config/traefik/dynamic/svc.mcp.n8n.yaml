@@ -1,0 +1,39 @@
+# =============================================================================
+# n8n Workflow Automation - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── n8n      -> Header(`X-Service`, `n8n`) [THIS FILE]
+#
+# Container: n8n (n8nio/n8n:latest)
+#   - MCP endpoint: port 5678
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for n8n MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: n8n)
+    n8n:
+      rule: "Header(`X-Service`, `n8n`)"
+      service: n8n
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: n8n)
+    n8n-health:
+      rule: "Header(`X-Service`, `n8n`)"
+      service: n8n
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    n8n:
+      loadBalancer:
+        servers:
+          - url: "http://n8n:5678"
