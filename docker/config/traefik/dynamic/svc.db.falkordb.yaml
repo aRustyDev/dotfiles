@@ -1,0 +1,46 @@
+# =============================================================================
+# FalkorDB Graph Database - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   db@file (root)       -> Host(`db.localhost`)
+#     └── falkordb       -> Header(`X-Service`, `falkordb`) [THIS FILE]
+#
+#   ui@file (root)       -> Host(`ui.localhost`)
+#     └── falkorui       -> Header(`X-Service`, `falkorui`) [THIS FILE]
+#
+# Container: graphdb (falkordb/falkordb:latest)
+#   - Database (Redis protocol): port 6379
+#   - Web UI: port 3000
+# =============================================================================
+
+http:
+  routers:
+    # Router for FalkorDB database API
+    # Note: FalkorDB uses Redis protocol on 6379, HTTP routing is limited
+    # Matches: Host(db.localhost) && Header(X-Service: falkordb)
+    falkordb:
+      rule: "Header(`X-Service`, `falkordb`)"
+      service: falkordb
+      parentRefs:
+        - db@file
+
+    # Router for FalkorDB Web UI
+    # Matches: Host(ui.localhost) && Header(X-Service: falkorui)
+    falkorui:
+      rule: "Header(`X-Service`, `falkorui`)"
+      service: falkorui
+      parentRefs:
+        - ui@file
+
+  services:
+    falkordb:
+      loadBalancer:
+        servers:
+          - url: "http://graphdb:6379"
+
+    falkorui:
+      loadBalancer:
+        servers:
+          - url: "http://graphdb:3000"
