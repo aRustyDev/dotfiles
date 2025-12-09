@@ -1,0 +1,39 @@
+# =============================================================================
+# Sequential Thinking Tools MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)                  -> Host(`tool.localhost`)
+#     └── mcp@file                     -> PathPrefix(`/mcp`)
+#           └── sequentialthinking-tools -> Header(`X-Service`, `sequentialthinking-tools`) [THIS FILE]
+#
+# Container: sequentialthinking-tools (sequentialthinking-tools-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Sequential Thinking Tools MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: sequentialthinking-tools)
+    sequentialthinking-tools:
+      rule: "Header(`X-Service`, `sequentialthinking-tools`)"
+      service: sequentialthinking-tools
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: sequentialthinking-tools)
+    sequentialthinking-tools-health:
+      rule: "Header(`X-Service`, `sequentialthinking-tools`)"
+      service: sequentialthinking-tools
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    sequentialthinking-tools:
+      loadBalancer:
+        servers:
+          - url: "http://sequentialthinking-tools:8080"
