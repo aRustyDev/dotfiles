@@ -1,0 +1,95 @@
+# =============================================================================
+# Sequential Thinking Tools MCP Server - Streamable HTTP
+# =============================================================================
+# MCP server that guides tool usage in problem-solving. Helps LLMs decide
+# which MCP tools to call at each step during chain-of-thought reasoning.
+#
+# Build: docker build -f files/sequentialthinking-tools.dockerfile -t sequentialthinking-tools-mcp:http .
+# Image: sequentialthinking-tools-mcp:http (local build with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "sequentialthinking-tools": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "sequentialthinking-tools"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - sequentialthinking_tools: Sequential thinking with tool recommendations
+#     Parameters:
+#       - available_mcp_tools (required): Array of MCP tool names available
+#       - thought (required): Current thinking step
+#       - next_thought_needed (required): Whether another step is needed
+#       - thought_number (required): Current thought number
+#       - total_thoughts (required): Estimated total thoughts needed
+#       - is_revision (optional): Whether revising previous thinking
+#       - revises_thought (optional): Which thought is being reconsidered
+#       - branch_from_thought (optional): Branching point thought number
+#       - branch_id (optional): Branch identifier
+#       - current_step (optional): Step recommendation with tool suggestions
+#       - previous_steps (optional): Steps already recommended
+#       - remaining_steps (optional): High-level upcoming steps
+#
+# Key Features:
+#   - LLM-driven intelligent tool recommendations for each step
+#   - Confidence scoring (0-1) for tool suggestions
+#   - Priority levels for tool execution order
+#   - Support for thought branching and revision
+#   - Memory management with configurable history limits
+#
+# Source: https://github.com/spences10/mcp-sequentialthinking-tools
+# =============================================================================
+---
+services:
+  sequentialthinking-tools:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: sequentialthinking-tools.dockerfile
+    image: sequentialthinking-tools-mcp:http
+    container_name: sequentialthinking-tools
+    hostname: sequentialthinking-tools
+    profiles: ["core", "thinking", "dev"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${SEQUENTIALTHINKING_TOOLS_MCP_HTTP_PORT:-8231}:8080"
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 60000
+      NODE_ENV: production
+      # Memory management - max thoughts to retain in history
+      MAX_HISTORY_SIZE: "${MAX_HISTORY_SIZE:-1000}"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.sequentialthinking-tools.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
