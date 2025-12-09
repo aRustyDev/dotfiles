@@ -1,0 +1,39 @@
+# =============================================================================
+# Obsidian MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   notes@file (root)    -> Host(`notes.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── obsidian   -> Header(`X-Service`, `obsidian`) [THIS FILE]
+#
+# Container: obsidian (obsidian-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Obsidian MCP server
+    # Matches: Host(notes.localhost) && PathPrefix(/mcp) && Header(X-Service: obsidian)
+    obsidian:
+      rule: "Header(`X-Service`, `obsidian`)"
+      service: obsidian
+      parentRefs:
+        - mcp@file
+        - notes@file
+
+    # Health check router
+    # Matches: Host(notes.localhost) && PathPrefix(/health) && Header(X-Service: obsidian)
+    obsidian-health:
+      rule: "Header(`X-Service`, `obsidian`)"
+      service: obsidian
+      parentRefs:
+        - health@file
+        - notes@file
+
+  services:
+    obsidian:
+      loadBalancer:
+        servers:
+          - url: "http://obsidian:8080"
