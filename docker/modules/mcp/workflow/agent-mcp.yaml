@@ -153,32 +153,23 @@ services:
       start_period: 15s
     networks:
       - agent-mcp-network
+      - traefik-public
     labels:
-      # Streamable HTTP routing for MCP
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.agent-mcp.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
       traefik.enable: true
-      traefik.http.services.agent-mcp.loadbalancer.server.port: 8000
-      # Primary route: /mcp endpoint (Streamable HTTP)
-      traefik.http.routers.agent-mcp.rule: Header(`X-Service`, `agent-mcp`)
-      traefik.http.routers.agent-mcp.service: agent-mcp
-      traefik.http.routers.agent-mcp.parentRefs[0]: mcp@file
-      # Primary route: Dashboard
-      traefik.http.routers.agent-mcp-ui.rule: Header(`X-Service`, `agent-mcp`)
-      traefik.http.routers.agent-mcp-ui.service: agent-mcp
-      traefik.http.routers.agent-mcp-ui.parentRefs[0]: mcp@file
-      traefik.http.routers.agent-mcp-ui.parentRefs[1]: ui@file
-      # Health check endpoint
-      traefik.http.routers.agent-mcp-health.rule: Header(`X-Service`, `agent-mcp`)
-      traefik.http.routers.agent-mcp-health.service: agent-mcp
-      traefik.http.routers.agent-mcp-health.parentRefs[0]: mcp@file
-      traefik.http.routers.agent-mcp-health.parentRefs[1]: health@file
-      # Specify network (if container is on multiple networks)
       traefik.docker.network: traefik-public
 
 networks:
   agent-mcp-network:
     driver: bridge
     name: agent-mcp-network
+  traefik-public:
+    external: true
 # Example .env file contents:
 # OPENAI_API_KEY=sk-your-openai-api-key-here
 # MCP_ADMIN_TOKEN=your-admin-token-here

@@ -1,0 +1,54 @@
+# =============================================================================
+# Agent-MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── agent-mcp -> Header(`X-Service`, `agent-mcp`) [THIS FILE]
+#
+# Container: agent-mcp-combined (agent-mcp:combined)
+#   - MCP endpoint: port 8000
+#   - Dashboard UI: port 3000
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Agent-MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: agent-mcp)
+    agent-mcp:
+      rule: "Header(`X-Service`, `agent-mcp`)"
+      service: agent-mcp
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Dashboard UI router
+    # Matches: Host(tool.localhost) && PathPrefix(/ui) && Header(X-Service: agent-mcp)
+    agent-mcp-ui:
+      rule: "Header(`X-Service`, `agent-mcp`)"
+      service: agent-mcp-dashboard
+      parentRefs:
+        - ui@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: agent-mcp)
+    agent-mcp-health:
+      rule: "Header(`X-Service`, `agent-mcp`)"
+      service: agent-mcp
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    agent-mcp:
+      loadBalancer:
+        servers:
+          - url: "http://agent-mcp-combined:8000"
+
+    agent-mcp-dashboard:
+      loadBalancer:
+        servers:
+          - url: "http://agent-mcp-combined:3000"
