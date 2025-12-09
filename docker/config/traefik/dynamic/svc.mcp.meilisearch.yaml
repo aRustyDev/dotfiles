@@ -1,0 +1,39 @@
+# =============================================================================
+# Meilisearch MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── meilisearch-mcp   -> Header(`X-Service`, `meilisearch-mcp`) [THIS FILE]
+#
+# Container: meilisearch-mcp (meilisearch-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Meilisearch MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: meilisearch-mcp)
+    meilisearch-mcp:
+      rule: "Header(`X-Service`, `meilisearch-mcp`)"
+      service: meilisearch-mcp
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: meilisearch-mcp)
+    meilisearch-mcp-health:
+      rule: "Header(`X-Service`, `meilisearch-mcp`)"
+      service: meilisearch-mcp
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    meilisearch-mcp:
+      loadBalancer:
+        servers:
+          - url: "http://meilisearch-mcp:8080"
