@@ -1,0 +1,39 @@
+# =============================================================================
+# Typst MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     +-- mcp@file       -> PathPrefix(`/mcp`)
+#           +-- typst    -> Header(`X-Service`, `typst`) [THIS FILE]
+#
+# Container: typst (typst-mcp:http)
+#   - MCP endpoint: port 8080 (Streamable HTTP via supergateway)
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Typst MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: typst)
+    typst:
+      rule: "Header(`X-Service`, `typst`)"
+      service: typst
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: typst)
+    typst-health:
+      rule: "Header(`X-Service`, `typst`)"
+      service: typst
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    typst:
+      loadBalancer:
+        servers:
+          - url: "http://typst:8080"
