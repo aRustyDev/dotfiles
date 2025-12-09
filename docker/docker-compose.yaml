@@ -14,8 +14,9 @@ include:
   - path: modules/llm/ollama-pull.yaml
 
   - path: modules/mcp/global/dockerhub.yaml
-  - path: modules/mcp/global/graphiti.yaml
   - path: modules/mcp/global/time.yaml
+
+  - path: modules/mcp/memory/graphiti.yaml
 
   - path: modules/mcp/thinking/sequential-thinking.yaml
 
