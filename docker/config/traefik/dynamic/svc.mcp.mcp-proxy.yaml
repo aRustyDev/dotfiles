@@ -1,0 +1,39 @@
+# =============================================================================
+# MCP Proxy Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── mcp-proxy -> Header(`X-Service`, `mcp-proxy`) [THIS FILE]
+#
+# Container: thinking-http (node:20-alpine with mcp-proxy)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for MCP Proxy server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: mcp-proxy)
+    mcp-proxy:
+      rule: "Header(`X-Service`, `mcp-proxy`)"
+      service: mcp-proxy
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: mcp-proxy)
+    mcp-proxy-health:
+      rule: "Header(`X-Service`, `mcp-proxy`)"
+      service: mcp-proxy
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    mcp-proxy:
+      loadBalancer:
+        servers:
+          - url: "http://thinking-http:8080"

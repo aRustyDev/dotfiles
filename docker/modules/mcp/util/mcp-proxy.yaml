@@ -32,18 +32,21 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+    networks:
+      - traefik-public
     labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.mcp-proxy.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
       traefik.enable: true
-      traefik.http.services.thinking-http.loadbalancer.server.port: 9001
-      traefik.http.routers.thinking-http.rule: Host(`proxy.mcp.${DOMAIN:-localhost}`)
-      # traefik.http.routers.thinking-http.rule: Host(`thinking.${DOMAIN:-localhost}`)
-      # traefik.http.routers.thinking-http.service: thinking-http
-      # traefik.http.routers.thinking-http.entrypoints: web
-      # traefik.http.routers.thinking-http.rule: Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/plan/seq`)
-      traefik.http.routers.thinking-http.service: thinking-http
-      traefik.http.routers.thinking-http.entrypoints: web
-      # traefik.http.middlewares.strip-planseq.stripprefix.prefixes: /plan/seq
-      # traefik.http.routers.thinking-http.middlewares: strip-planseq
+      traefik.docker.network: traefik-public
     depends_on:
       sequentialthinking:
         condition: service_healthy
+
+networks:
+  traefik-public:
+    external: true
