@@ -26,19 +26,18 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+    networks:
+      - traefik-public
     labels:
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration - FalkorDB Graph Database
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.db.falkordb.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      #
+      # Endpoints:
+      #   - Database (Redis protocol): port 6379 (via db@file -> falkordb)
+      #   - Web UI: port 3000 (via ui@file -> falkorui)
+      # =======================================================================
       traefik.enable: true
-      # Services
-      traefik.http.services.falkorui.loadbalancer.server.port: 3000
-      traefik.http.services.falkordb.loadbalancer.server.port: 6379
-      # FalkorDB UI Access - Use subdomain to avoid path prefix issues with Next.js assets
-      traefik.http.routers.falkorui.rule: Header(`X-Service`, `falkorui`)
-      traefik.http.routers.falkorui.service: falkorui
-      traefik.http.routers.falkorui.parentRefs: ui@file
-      # FalkorDB Access
-      traefik.http.routers.falkordb.rule: Header(`X-Service`, `falkordb`)
-      traefik.http.routers.falkordb.service: falkordb
-      traefik.http.routers.falkordb.parentRefs: db@file
-      # Specify network (if container is on multiple networks)
       traefik.docker.network: traefik-public
