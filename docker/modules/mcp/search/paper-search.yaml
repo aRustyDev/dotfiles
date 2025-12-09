@@ -1,0 +1,87 @@
+# =============================================================================
+# Paper Search MCP Server - Streamable HTTP
+# =============================================================================
+# MCP server for searching and downloading academic papers from multiple
+# platforms. Provides unified access to major academic databases.
+#
+# Build: docker build -f files/paper-search.dockerfile -t paper-search-mcp:http .
+# Image: paper-search-mcp:http (local build, wraps paper-search-mcp with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "paper-search": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "paper-search"
+#       }
+#     }
+#   }
+#
+# Supported academic sources:
+#   - arXiv (preprints - physics, math, CS, etc.)
+#   - PubMed (biomedical literature)
+#   - bioRxiv (biology preprints)
+#   - medRxiv (medical preprints)
+#   - Google Scholar (multi-disciplinary)
+#   - IACR ePrint Archive (cryptography)
+#   - Semantic Scholar (AI-powered academic search)
+#
+# Tools provided:
+#   - search_papers: Search across all supported platforms
+#   - download_paper: Download paper content/metadata
+#   - get_paper_details: Get detailed paper information
+#
+# Optional environment:
+#   - SEMANTIC_SCHOLAR_API_KEY: API key for enhanced Semantic Scholar access
+#
+# Source: https://github.com/openags/paper-search-mcp
+# =============================================================================
+---
+services:
+  paper-search:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: paper-search.dockerfile
+    image: paper-search-mcp:http
+    container_name: paper-search
+    profiles: ["core", "search", "research"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${PAPER_SEARCH_MCP_HTTP_PORT:-8221}:8080"
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 60000
+      # Optional: Semantic Scholar API key for enhanced functionality
+      SEMANTIC_SCHOLAR_API_KEY: "op://Developer/Semantic-Scholar/credential"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.paper-search.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public

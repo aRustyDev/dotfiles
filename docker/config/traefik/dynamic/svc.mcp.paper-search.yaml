@@ -1,0 +1,39 @@
+# =============================================================================
+# Paper Search MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── paper-search  -> Header(`X-Service`, `paper-search`) [THIS FILE]
+#
+# Container: paper-search (paper-search-mcp:http)
+#   - MCP endpoint: port 8080
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Paper Search MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: paper-search)
+    paper-search:
+      rule: "Header(`X-Service`, `paper-search`)"
+      service: paper-search
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: paper-search)
+    paper-search-health:
+      rule: "Header(`X-Service`, `paper-search`)"
+      service: paper-search
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    paper-search:
+      loadBalancer:
+        servers:
+          - url: "http://paper-search:8080"
