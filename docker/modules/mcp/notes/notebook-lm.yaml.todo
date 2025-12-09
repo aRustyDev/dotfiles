@@ -1,0 +1,5 @@
+"notebook-lm": {
+      "source": "custom",
+      "command": "uvx",
+      "args": ["notebooklm-mcp", "--config", "notebooklm-config.json", "server"]
+    },
