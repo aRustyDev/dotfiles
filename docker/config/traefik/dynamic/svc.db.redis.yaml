@@ -1,0 +1,58 @@
+# =============================================================================
+# Redis - Traefik TCP Routing Configuration
+# =============================================================================
+# TCP routing for Redis wire protocol (Traefik v3.x)
+#
+# Note: Redis uses TCP protocol, not HTTP. This configuration provides:
+#   - TCP routing on port 6380 (to avoid conflict with Valkey on 6379)
+#   - Optional TLS termination
+#   - Host-based routing via HostSNI (requires TLS)
+#
+# Connection methods:
+#   1. Direct port: redis://:<password>@localhost:6380
+#   2. Via Traefik: redis://:<password>@db.localhost:6380 (requires TLS/SNI)
+#
+# Container: redis (redis:7-alpine)
+#   - Redis wire protocol: port 6379 (internal)
+# =============================================================================
+
+tcp:
+  routers:
+    # TCP router for Redis
+    # Note: HostSNI(`*`) matches all SNI or non-TLS connections
+    redis:
+      rule: "HostSNI(`*`)"
+      service: redis
+      entryPoints:
+        - redis
+
+    # Optional: TLS-enabled router with SNI matching
+    # Uncomment if you want TLS termination at Traefik
+    # redis-tls:
+    #   rule: "HostSNI(`redis.localhost`)"
+    #   service: redis
+    #   entryPoints:
+    #     - redis
+    #   tls:
+    #     passthrough: true
+
+  services:
+    redis:
+      loadBalancer:
+        servers:
+          - address: "redis:6379"
+
+# =============================================================================
+# IMPORTANT: Requires Traefik entrypoint configuration
+# =============================================================================
+# Add to your Traefik static configuration (traefik.yaml):
+#
+# entryPoints:
+#   redis:
+#     address: ":6380"
+#
+# Or via command line:
+#   --entrypoints.redis.address=:6380
+#
+# Note: Port 6380 is used to avoid conflict with Valkey entrypoint (6379)
+# =============================================================================

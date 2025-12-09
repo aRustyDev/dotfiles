@@ -1,0 +1,83 @@
+# =============================================================================
+# Redis Database Server
+# =============================================================================
+# High-performance in-memory key/value data structure server.
+# Used for caching, session storage, message queues, and real-time data.
+#
+# Image: redis:7-alpine (official)
+#
+# Connection:
+#   redis-cli -h localhost -p 6380 -a <password>
+#   redis://:<password>@redis:6379 (container-to-container)
+#   redis://:<password>@localhost:6380 (via port mapping)
+#
+# Data persistence:
+#   - Data: ~/.local/share/db/redis/data
+#   - Config: ~/.config/docker/config/redis/redis.conf (optional)
+#
+# Ports:
+#   - 6380: Redis wire protocol (host mapping, avoids conflict with Valkey)
+#   - 6379: Internal container port
+#
+# Note: Port 6380 is used for host mapping to avoid conflict with Valkey (6379).
+#       If not running Valkey, change REDIS_PORT to 6379.
+#
+# Documentation:
+#   - https://redis.io/docs/
+#   - https://hub.docker.com/_/redis
+#   - https://github.com/redis/redis
+# =============================================================================
+---
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    hostname: redis
+    profiles: ["db", "cache", "redis"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      # Port 6380 to avoid conflict with Valkey (6379)
+      - "${REDIS_PORT:-6380}:6379"
+    volumes:
+      # Data persistence (for AOF/RDB snapshots)
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/db/redis/data:/data
+      # Optional: Custom configuration file
+      # - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    # Command with password authentication and persistence
+    command:
+      - redis-server
+      - --appendonly yes
+      - --requirepass ${REDIS_PASSWORD:-op://Developer/Redis/password}
+      # Optional: Memory limit for cache usage
+      # - --maxmemory 256mb
+      # - --maxmemory-policy allkeys-lru
+    environment:
+      # Note: Official Redis image has limited env var support
+      # Configuration is primarily done via command args or config file
+      # These are for documentation/reference:
+      REDIS_PASSWORD: "op://Developer/Redis/password"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-password}", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - TCP Routing
+      # =======================================================================
+      # NOTE: Redis uses TCP protocol, not HTTP.
+      # Routing is defined in file provider (svc.db.redis.yaml)
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
