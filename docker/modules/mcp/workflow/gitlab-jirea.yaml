@@ -11,25 +11,16 @@ services:
     ports:
       - "${CHECKLISTS_API_PORT:-8355}:8355"
       - "${CHECKLISTS_UI_PORT:-8180}:80"
+    networks:
+      - traefik-public
     labels:
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.gitlab-jira.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
       traefik.enable: true
-      # Services
-      traefik.http.services.checklistui.loadbalancer.server.port: 80
-      traefik.http.services.checklist-api.loadbalancer.server.port: 8355
-      # Primary route: /mcp endpoint (Streamable HTTP)
-      traefik.http.routers.checklist-ui.rule: Header(`X-Service`, `checklist-ui`)
-      traefik.http.routers.checklist-ui.service: checklist-ui
-      traefik.http.routers.checklist-ui.parentRefs[0]: ui@file
-      # Primary route: /mcp endpoint (Streamable HTTP)
-      traefik.http.routers.checklist-api.rule: Header(`X-Service`, `checklist-api`)
-      traefik.http.routers.checklist-api.service: checklist-api
-      traefik.http.routers.checklist-api.parentRefs[0]: mcp@file,api@file
-      # Health check endpoint
-      traefik.http.routers.checklist-health.rule: Header(`X-Service`, `checklist-health`)
-      traefik.http.routers.checklist-health.service: checklist-health
-      traefik.http.routers.checklist-health.parentRefs[0]: health@file
-      # Specify network (if container is on multiple networks)
       traefik.docker.network: traefik-public
     extra_hosts:
       host.docker.internal: host-gateway
@@ -55,3 +46,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+
+networks:
+  traefik-public:
+    external: true

@@ -1,0 +1,54 @@
+# =============================================================================
+# GitLab-Jira MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── gitlab-jira -> Header(`X-Service`, `gitlab-jira`) [THIS FILE]
+#
+# Container: mcp-gitlab-jira-container (hainanzhao/mcp-gitlab-jira:latest)
+#   - API endpoint: port 8355
+#   - UI endpoint: port 80
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for GitLab-Jira MCP API
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: gitlab-jira)
+    gitlab-jira:
+      rule: "Header(`X-Service`, `gitlab-jira`)"
+      service: gitlab-jira-api
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # UI router for GitLab-Jira dashboard
+    # Matches: Host(tool.localhost) && PathPrefix(/ui) && Header(X-Service: gitlab-jira)
+    gitlab-jira-ui:
+      rule: "Header(`X-Service`, `gitlab-jira`)"
+      service: gitlab-jira-ui
+      parentRefs:
+        - ui@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: gitlab-jira)
+    gitlab-jira-health:
+      rule: "Header(`X-Service`, `gitlab-jira`)"
+      service: gitlab-jira-api
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    gitlab-jira-api:
+      loadBalancer:
+        servers:
+          - url: "http://mcp-gitlab-jira-container:8355"
+
+    gitlab-jira-ui:
+      loadBalancer:
+        servers:
+          - url: "http://mcp-gitlab-jira-container:80"
