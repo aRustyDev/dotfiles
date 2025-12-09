@@ -10,16 +10,16 @@ services:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/meili_data:/meili_data
     ports:
       - 7700:7700
+    networks:
+      - traefik-public
     labels:
-      # Enable Traefik
+      # =======================================================================
+      # Traefik Configuration
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.search.meilisearch.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
       traefik.enable: true
-      # Services
-      traefik.http.services.meilisearch.loadbalancer.server.port: 7700
-      # meilisearch Access
-      traefik.http.routers.meilisearch.rule: Header(`X-Service`, `meilisearch`)
-      traefik.http.routers.meilisearch.service: meilisearch
-      traefik.http.routers.meilisearch.parentRefs[0]: search@file
-      # Specify network (if container is on multiple networks)
       traefik.docker.network: traefik-public
     environment:
       MEILI_MASTER_KEY: MASTER_KEY

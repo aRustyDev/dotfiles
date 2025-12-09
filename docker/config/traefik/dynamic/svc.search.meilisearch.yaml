@@ -1,0 +1,28 @@
+# =============================================================================
+# Meilisearch - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   search@file (root)   -> Host(`search.localhost`)
+#     └── meilisearch    -> Header(`X-Service`, `meilisearch`) [THIS FILE]
+#
+# Container: surreal (getmeili/meilisearch:latest)
+#   - API endpoint: port 7700
+# =============================================================================
+
+http:
+  routers:
+    # Router for Meilisearch
+    # Matches: Host(search.localhost) && Header(X-Service: meilisearch)
+    meilisearch:
+      rule: "Header(`X-Service`, `meilisearch`)"
+      service: meilisearch
+      parentRefs:
+        - search@file
+
+  services:
+    meilisearch:
+      loadBalancer:
+        servers:
+          - url: "http://surreal:7700"
