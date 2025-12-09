@@ -1,7 +1,26 @@
 services:
   prometheus:
     image: ghcr.io/pab1it0/prometheus-mcp-server
-    profiles: ["metrics"]
+    container_name: prometheus
+    profiles: ["metrics", "observability"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${PROMETHEUS_MCP_HTTP_PORT:-8225}:8080"
+    environment:
+      PORT: 8080
+      MCP_PATH: /mcp
     labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.prometheus.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
       traefik.enable: true
-      traefik.http.routers.prometheus.rule: PathPrefix(`/prometheus`)
+      traefik.docker.network: traefik-public
+
+networks:
+  traefik-public:
+    external: true
