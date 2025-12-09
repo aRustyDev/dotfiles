@@ -1,0 +1,91 @@
+# =============================================================================
+# Hugging Face MCP Server - Native HTTP
+# =============================================================================
+# MCP server connecting LLMs to Hugging Face Hub and thousands of Gradio AI
+# applications. Enables access to ML models, datasets, and AI tools.
+#
+# Image: ghcr.io/evalstate/hf-mcp-server:latest (official)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "huggingface": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "huggingface"
+#       }
+#     }
+#   }
+#
+# Tools provided:
+#   - Hub API integration for model discovery
+#   - Search endpoints for documentation and resources
+#   - Gradio application connectivity
+#   - OAuth authentication support
+#
+# Web dashboard:
+#   - Available at container root (port 3000)
+#   - Configure enabled/disabled tools
+#   - View connection status
+#
+# Required environment:
+#   - HF_TOKEN: Hugging Face API token (from 1Password)
+#
+# Transport modes supported:
+#   - StreamableHTTP (stateful, default for browser)
+#   - StreamableHTTPJson (stateless, default for Docker)
+#   - STDIO (for local CLI integration)
+#   - SSE (deprecated)
+#
+# Source: https://github.com/huggingface/hf-mcp-server
+# =============================================================================
+---
+services:
+  huggingface:
+    image: ghcr.io/evalstate/hf-mcp-server:latest
+    container_name: huggingface
+    profiles: ["core", "ai", "ml"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${HUGGINGFACE_MCP_HTTP_PORT:-8223}:3000"
+    environment:
+      # Transport mode (StreamableHTTPJson is stateless, good for containers)
+      TRANSPORT: StreamableHTTPJson
+      # API timeout in milliseconds (default: 12500)
+      HF_API_TIMEOUT: 30000
+      # Hugging Face API token
+      HF_TOKEN: "op://Developer/Hugging-Face/credential"
+      # Optional: Enable strict MCP compliance
+      # MCP_STRICT_COMPLIANCE: "true"
+      # Optional: Auto-enable fetch when search is enabled
+      # SEARCH_ENABLES_FETCH: "true"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:3000/', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Native HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.huggingface.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public

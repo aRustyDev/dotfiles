@@ -1,0 +1,40 @@
+# =============================================================================
+# Hugging Face MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     └── mcp@file       -> PathPrefix(`/mcp`)
+#           └── huggingface  -> Header(`X-Service`, `huggingface`) [THIS FILE]
+#
+# Container: huggingface (ghcr.io/evalstate/hf-mcp-server:latest)
+#   - MCP endpoint: port 3000, path /mcp
+#   - Web dashboard: port 3000, path /
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Hugging Face MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: huggingface)
+    huggingface:
+      rule: "Header(`X-Service`, `huggingface`)"
+      service: huggingface
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: huggingface)
+    huggingface-health:
+      rule: "Header(`X-Service`, `huggingface`)"
+      service: huggingface
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    huggingface:
+      loadBalancer:
+        servers:
+          - url: "http://huggingface:3000"
