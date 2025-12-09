@@ -1,0 +1,39 @@
+# =============================================================================
+# Task Master AI MCP Server - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   tools@file (root)    -> Host(`tool.localhost`)
+#     +-- mcp@file       -> PathPrefix(`/mcp`)
+#           +-- task-master -> Header(`X-Service`, `task-master`) [THIS FILE]
+#
+# Container: task-master (task-master-ai:http)
+#   - MCP endpoint: port 8080 (Streamable HTTP via supergateway)
+# =============================================================================
+
+http:
+  routers:
+    # Leaf router for Task Master AI MCP server
+    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: task-master)
+    task-master:
+      rule: "Header(`X-Service`, `task-master`)"
+      service: task-master
+      parentRefs:
+        - mcp@file
+        - tools@file
+
+    # Health check router
+    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: task-master)
+    task-master-health:
+      rule: "Header(`X-Service`, `task-master`)"
+      service: task-master
+      parentRefs:
+        - health@file
+        - tools@file
+
+  services:
+    task-master:
+      loadBalancer:
+        servers:
+          - url: "http://task-master:8080"

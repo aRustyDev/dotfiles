@@ -1,0 +1,137 @@
+# =============================================================================
+# Task Master AI MCP Server - Streamable HTTP
+# =============================================================================
+# AI-driven task management system for development workflows. Parses PRDs,
+# manages tasks with dependencies, analyzes complexity, and supports multiple
+# LLM providers (Anthropic, OpenAI, Google, Perplexity, etc.).
+#
+# Build: docker build -f files/task-master.dockerfile -t task-master-ai:http .
+# Image: task-master-ai:http (wraps task-master-ai with supergateway)
+#
+# Usage in MCP clients (e.g., Zed):
+#   {
+#     "task-master": {
+#       "url": "https://tool.localhost/mcp",
+#       "headers": {
+#         "X-Service": "task-master"
+#       }
+#     }
+#   }
+#
+# Tools provided (36 total, configurable via TASK_MASTER_TOOLS):
+#
+#   Core Tools:
+#     - get_tasks: List all tasks with filtering options
+#     - get_task: Get details of a specific task
+#     - next_task: Get the next task to work on
+#     - set_task_status: Update task status (pending/in-progress/done)
+#     - update_subtask: Update subtask details and status
+#     - parse_prd: Parse PRD documents into structured tasks
+#     - expand_task: Break down a task into subtasks
+#
+#   Standard Tools (includes core):
+#     - initialize_project: Set up Task Master in a project
+#     - analyze_project_complexity: Analyze project complexity metrics
+#     - expand_all: Expand all pending tasks
+#     - add_subtask: Add a subtask to an existing task
+#     - remove_task: Remove a task from the list
+#     - generate: Generate task files and reports
+#     - add_task: Add a new task manually
+#     - complexity_report: Generate complexity analysis report
+#
+#   Additional Tools (all mode):
+#     - Research tools, tag management, dependency management
+#     - Project setup, configuration, and more
+#
+# LLM Providers Supported:
+#   - Anthropic (Claude)
+#   - OpenAI (GPT-4, etc.)
+#   - Google (Gemini)
+#   - Perplexity (research model)
+#   - Mistral, Groq, xAI, OpenRouter, Azure, Ollama
+#
+# Source: https://github.com/eyaltoledano/claude-task-master
+# Docs: https://docs.task-master.dev
+# =============================================================================
+---
+services:
+  task-master:
+    build:
+      context: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/files
+      dockerfile: task-master.dockerfile
+    image: task-master-ai:http
+    container_name: task-master
+    profiles: ["core", "workflow", "planning"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${TASK_MASTER_MCP_HTTP_PORT:-8229}:8080"
+    volumes:
+      # Persistent task storage
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/task-master:/app/.taskmaster
+      # Project files (optional - mount specific projects as needed)
+      # - ${HOME}/projects:/app/projects
+    environment:
+      # Supergateway settings
+      PORT: 8080
+      MCP_PATH: /mcp
+      SESSION_TIMEOUT: 120000
+
+      # Tool loading configuration
+      # Options: "all" (36 tools), "standard" (15 tools), "core" (7 tools)
+      # Or comma-separated list of specific tools
+      TASK_MASTER_TOOLS: "${TASK_MASTER_TOOLS:-standard}"
+
+      # LLM Provider API Keys
+      # At least one is required for AI-powered features
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-op://Developer/Anthropic/api-key}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-op://Developer/OpenAI/api-key}"
+      PERPLEXITY_API_KEY: "${PERPLEXITY_API_KEY:-op://Developer/Perplexity/api-key}"
+      GOOGLE_API_KEY: "${GOOGLE_API_KEY:-}"
+      MISTRAL_API_KEY: "${MISTRAL_API_KEY:-}"
+      GROQ_API_KEY: "${GROQ_API_KEY:-}"
+      OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:-}"
+      XAI_API_KEY: "${XAI_API_KEY:-}"
+      AZURE_OPENAI_API_KEY: "${AZURE_OPENAI_API_KEY:-}"
+      OLLAMA_API_KEY: "${OLLAMA_API_KEY:-}"
+
+      # Optional: Google Vertex AI Configuration
+      # VERTEX_PROJECT_ID: "${VERTEX_PROJECT_ID:-}"
+      # VERTEX_LOCATION: "${VERTEX_LOCATION:-us-central1}"
+
+      # Optional: Proxy Configuration
+      # TASKMASTER_ENABLE_PROXY: "false"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('net').connect(8080, 'localhost').on('error', () => process.exit(1)).on('connect', () => process.exit(0))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - Streamable HTTP MCP
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.mcp.task-master.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+
+networks:
+  traefik-public:
+    external: true
