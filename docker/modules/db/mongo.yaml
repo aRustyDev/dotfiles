@@ -1,0 +1,72 @@
+# =============================================================================
+# MongoDB Database Server
+# =============================================================================
+# NoSQL document database for storing unstructured/semi-structured data.
+# Used by various MCP servers and applications for data persistence.
+#
+# Image: mongo:8 (official)
+#
+# Connection string:
+#   mongodb://root:<password>@mongo:27017/?authSource=admin
+#   mongodb://root:<password>@db.localhost:27017/?authSource=admin (via Traefik)
+#
+# Default credentials (override via environment):
+#   - Username: root
+#   - Password: from 1Password (MONGO_INITDB_ROOT_PASSWORD)
+#   - Auth database: admin
+#
+# Data persistence:
+#   - Data: ~/.local/share/db/mongo/data
+#   - Config: ~/.config/docker/config/mongo (optional mongod.conf)
+#
+# Ports:
+#   - 27017: MongoDB wire protocol (internal)
+#   - Traefik TCP routing available at db.localhost:27017
+#
+# Documentation: https://hub.docker.com/_/mongo
+# =============================================================================
+---
+services:
+  mongo:
+    image: mongo:8
+    container_name: mongo
+    profiles: ["core", "db", "mongo"]
+    restart: unless-stopped
+    networks:
+      - traefik-public
+    ports:
+      - "${MONGO_PORT:-27017}:27017"
+    volumes:
+      # Data persistence
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/db/mongo/data:/data/db
+      # Optional: Custom mongod configuration
+      # - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/mongo/mongod.conf:/etc/mongod.conf:ro
+    environment:
+      # Root user credentials
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "op://Developer/MongoDB/password"
+      # Optional: Initial database to create
+      # MONGO_INITDB_DATABASE: myapp
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "--quiet"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    labels:
+      # =======================================================================
+      # Traefik Configuration - TCP Routing
+      # =======================================================================
+      # NOTE: MongoDB uses TCP protocol, not HTTP.
+      # Routing is defined in file provider (svc.db.mongo.yaml)
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public

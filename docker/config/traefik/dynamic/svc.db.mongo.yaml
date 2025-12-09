@@ -1,0 +1,56 @@
+# =============================================================================
+# MongoDB - Traefik TCP Routing Configuration
+# =============================================================================
+# TCP routing for MongoDB wire protocol (Traefik v3.x)
+#
+# Note: MongoDB uses TCP, not HTTP. This configuration provides:
+#   - TCP routing on port 27017
+#   - Optional TLS termination
+#   - Host-based routing via HostSNI (requires TLS)
+#
+# Connection methods:
+#   1. Direct port: mongodb://root:pass@localhost:27017
+#   2. Via Traefik: mongodb://root:pass@db.localhost:27017 (requires TLS/SNI)
+#
+# Container: mongo (mongo:8)
+#   - MongoDB wire protocol: port 27017
+# =============================================================================
+
+tcp:
+  routers:
+    # TCP router for MongoDB
+    # Note: HostSNI(`*`) matches all SNI or non-TLS connections
+    mongo:
+      rule: "HostSNI(`*`)"
+      service: mongo
+      entryPoints:
+        - mongo
+
+    # Optional: TLS-enabled router with SNI matching
+    # Uncomment if you want TLS termination at Traefik
+    # mongo-tls:
+    #   rule: "HostSNI(`mongo.localhost`)"
+    #   service: mongo
+    #   entryPoints:
+    #     - mongo
+    #   tls:
+    #     passthrough: true
+
+  services:
+    mongo:
+      loadBalancer:
+        servers:
+          - address: "mongo:27017"
+
+# =============================================================================
+# IMPORTANT: Requires Traefik entrypoint configuration
+# =============================================================================
+# Add to your Traefik static configuration (traefik.yaml):
+#
+# entryPoints:
+#   mongo:
+#     address: ":27017"
+#
+# Or via command line:
+#   --entrypoints.mongo.address=:27017
+# =============================================================================
