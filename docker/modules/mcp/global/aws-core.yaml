@@ -4,7 +4,6 @@ services:
     profiles: ["aws"]
     networks:
       - backend        # MCP backend services network
-      - traefik-public # Legacy compatibility
     labels:
       traefik.enable: true
       traefik.docker.network: backend
@@ -12,6 +11,4 @@ services:
 
 networks:
   backend:
-    external: true
-  traefik-public:
     external: true

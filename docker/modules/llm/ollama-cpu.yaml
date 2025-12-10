@@ -6,7 +6,6 @@ services:
     profiles: ["core", "ollama"]
     networks:
       - backend        # Backend services network
-      - traefik-public # Legacy compatibility
     restart: unless-stopped
     expose:
       - "11434"
@@ -40,6 +39,4 @@ services:
 
 networks:
   backend:
-    external: true
-  traefik-public:
     external: true

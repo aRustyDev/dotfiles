@@ -10,7 +10,6 @@ services:
     tty: true # docker run -t
     networks:
       - backend        # MCP backend services network
-      - traefik-public # Legacy compatibility
     expose:
       - "8000"
     volumes:
@@ -59,6 +58,4 @@ services:
 
 networks:
   backend:
-    external: true
-  traefik-public:
     external: true

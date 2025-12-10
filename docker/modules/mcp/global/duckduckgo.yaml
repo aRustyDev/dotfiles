@@ -38,7 +38,6 @@ services:
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network
-      - traefik-public # Legacy compatibility
     deploy:
       resources:
         limits:
@@ -65,6 +64,4 @@ services:
 
 networks:
   backend:
-    external: true
-  traefik-public:
     external: true

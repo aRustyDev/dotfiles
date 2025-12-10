@@ -34,7 +34,6 @@ services:
       start_period: 30s
     networks:
       - backend        # MCP backend services network
-      - traefik-public # Legacy compatibility
     labels:
       # =======================================================================
       # Traefik Configuration - Streamable HTTP MCP
@@ -50,6 +49,4 @@ services:
 
 networks:
   backend:
-    external: true
-  traefik-public:
     external: true

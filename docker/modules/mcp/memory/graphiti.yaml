@@ -16,7 +16,6 @@ services:
     networks:
       - backend        # MCP backend services network
       - data-tier      # Access to FalkorDB
-      - traefik-public # Legacy compatibility
     env_file:
       - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/.env
         required: false
@@ -78,6 +77,4 @@ networks:
   backend:
     external: true
   data-tier:
-    external: true
-  traefik-public:
     external: true

@@ -14,7 +14,6 @@ services:
       - "7700"
     networks:
       - data-tier       # Search/data services network
-      - traefik-public  # Legacy compatibility
     labels:
       # =======================================================================
       # Traefik Configuration
@@ -54,6 +53,4 @@ services:
 
 networks:
   data-tier:
-    external: true
-  traefik-public:
     external: true

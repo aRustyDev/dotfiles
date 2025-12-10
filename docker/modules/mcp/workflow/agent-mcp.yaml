@@ -154,7 +154,6 @@ services:
     networks:
       - agent-mcp-network
       - backend        # MCP backend services network
-      - traefik-public # Legacy compatibility
     labels:
       # =======================================================================
       # Traefik Configuration - Streamable HTTP MCP
@@ -170,8 +169,6 @@ networks:
     driver: bridge
     name: agent-mcp-network
   backend:
-    external: true
-  traefik-public:
     external: true
 # Example .env file contents:
 # OPENAI_API_KEY=sk-your-openai-api-key-here

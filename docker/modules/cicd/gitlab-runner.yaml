@@ -50,7 +50,6 @@ services:
     restart: unless-stopped
     networks:
       - backend        # Backend services network
-      - traefik-public # Legacy compatibility
     environment:
       # Runner configuration
       CONCURRENT: "${GITLAB_RUNNER_CONCURRENT:-2}"
@@ -107,8 +106,6 @@ services:
 
 networks:
   backend:
-    external: true
-  traefik-public:
     external: true
   # gitlab-runner:
   #   driver: bridge

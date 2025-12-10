@@ -155,16 +155,9 @@ networks:
       description: "Authorization - Permissions and access control"
 
   # ===========================================================================
-  # Legacy / Compatibility Networks
+  # Application-Specific Networks
   # ===========================================================================
-  # Keep traefik-public for backwards compatibility during migration.
-  # Services can gradually migrate to the new tiered networks.
-  traefik-public:
-    name: traefik-public
-    driver: bridge
-    labels:
-      tier: "legacy"
-      description: "Legacy network - migrate to tiered networks"
+  # Networks for specific application stacks that need internal isolation.
 
   # N8N specific network (for postgres/n8n communication)
   n8n:

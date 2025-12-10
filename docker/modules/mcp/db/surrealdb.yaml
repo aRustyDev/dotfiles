@@ -54,7 +54,6 @@ services:
     networks:
       - backend        # MCP backend services network
       - data-tier      # Access to SurrealDB database
-      - traefik-public # Legacy compatibility
     expose:
       - "8080"
     environment:
@@ -107,6 +106,4 @@ networks:
   backend:
     external: true
   data-tier:
-    external: true
-  traefik-public:
     external: true

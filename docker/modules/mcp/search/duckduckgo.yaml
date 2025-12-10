@@ -6,7 +6,6 @@ services:
     tty: true # docker run -t
     networks:
       - backend        # MCP backend services network
-      - traefik-public # Legacy compatibility
     labels:
       mcp: true
       mcp.search: web
@@ -31,6 +30,4 @@ services:
 
 networks:
   backend:
-    external: true
-  traefik-public:
     external: true

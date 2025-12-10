@@ -33,7 +33,6 @@ services:
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network
-      - traefik-public # Legacy compatibility
     expose:
       - "8080"
     environment:
@@ -72,6 +71,4 @@ services:
 
 networks:
   backend:
-    external: true
-  traefik-public:
     external: true

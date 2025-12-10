@@ -13,7 +13,6 @@ services:
       - "80"
     networks:
       - backend        # MCP backend services network
-      - traefik-public # Legacy compatibility
     labels:
       # =======================================================================
       # Traefik Configuration - Streamable HTTP MCP
@@ -49,5 +48,3 @@ services:
       start_period: 30s
 
 networks:
-  traefik-public:
-    external: true

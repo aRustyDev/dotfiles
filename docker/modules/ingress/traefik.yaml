@@ -13,7 +13,6 @@ services:
       - data-tier      # Route to database UIs (optional)
       - authn          # Route to authentication services
       - authz          # Route to authorization services
-      - traefik-public # Legacy - for backward compatibility
     command:
       - "--configFile=/etc/traefik/traefik.yaml"
     ports:
@@ -81,8 +80,6 @@ networks:
   authn:
     external: true
   authz:
-    external: true
-  traefik-public:
     external: true
 
 configs:

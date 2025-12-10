@@ -5,8 +5,6 @@ networks:
     external: true
   data-tier:
     external: true
-  traefik-public:
-    external: true
 
 x-n8n: &service-n8n
   image: n8nio/n8n:latest
@@ -14,7 +12,6 @@ x-n8n: &service-n8n
     - n8n
     - backend        # MCP backend services network
     - data-tier      # Access to PostgreSQL
-    - traefik-public # Legacy compatibility
   environment:
     - DB_TYPE=postgresdb
     - DB_POSTGRESDB_HOST=postgres
