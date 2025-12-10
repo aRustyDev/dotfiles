@@ -51,6 +51,3 @@ services:
       # MEILI_SSL_RESUMPTION: ""
       # MEILI_SSL_TICKETS: ""
 
-networks:
-  data-tier:
-    external: true

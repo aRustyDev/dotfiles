@@ -77,6 +77,3 @@ services:
       traefik.enable: true
       traefik.docker.network: data-tier
 
-networks:
-  data-tier:
-    external: true

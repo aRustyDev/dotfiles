@@ -73,8 +73,3 @@ configs:
   graphiti:
     file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/graphiti/config.yaml
 
-networks:
-  backend:
-    external: true
-  data-tier:
-    external: true

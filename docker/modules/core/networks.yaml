@@ -1,6 +1,11 @@
 # =============================================================================
 # Core Network Definitions - Defense-in-Depth Architecture
 # =============================================================================
+#
+# IMPORTANT: The network-init service ensures all networks are created
+# regardless of which profile is active. Without it, networks only referenced
+# by services NOT in the active profile would be marked as external and fail.
+# =============================================================================
 # Centralized network definitions for tiered security model.
 # Include this file in docker-compose.yaml to define all networks.
 #
@@ -176,3 +181,26 @@ networks:
     labels:
       tier: "app-specific"
       description: "Supabase stack internal network"
+
+# =============================================================================
+# Network Initialization Service
+# =============================================================================
+# This ephemeral service ensures all networks are created regardless of which
+# profile is active. It exits immediately after starting.
+# =============================================================================
+services:
+  network-init:
+    image: busybox:latest
+    command: ["true"]
+    restart: "no"
+    # No profiles = always included, ensuring networks are never marked external
+    networks:
+      - dmz
+      - frontend
+      - backend
+      - admin
+      - data-tier
+      - authn
+      - authz
+      - n8n
+      - supabase-internal

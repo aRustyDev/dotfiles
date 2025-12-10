@@ -141,11 +141,6 @@ services:
       traefik.http.routers.spicedb-playground.tls: true
       traefik.http.services.spicedb-playground.loadbalancer.server.port: 8080
 
-networks:
-  authz:
-    external: true
-  data-tier:
-    external: true
 
 configs:
   spicedb-schema:

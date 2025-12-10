@@ -164,12 +164,6 @@ services:
       traefik.enable: true
       traefik.docker.network: backend
 
-networks:
-  agent-mcp-network:
-    driver: bridge
-    name: agent-mcp-network
-  backend:
-    external: true
 # Example .env file contents:
 # OPENAI_API_KEY=sk-your-openai-api-key-here
 # MCP_ADMIN_TOKEN=your-admin-token-here

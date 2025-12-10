@@ -64,23 +64,6 @@ services:
       retries: 3
       start_period: 10s
 
-networks:
-  # Networks are defined in modules/core/networks.yaml
-  # Reference them as external here
-  dmz:
-    external: true
-  frontend:
-    external: true
-  backend:
-    external: true
-  admin:
-    external: true
-  data-tier:
-    external: true
-  authn:
-    external: true
-  authz:
-    external: true
 
 configs:
   traefik:

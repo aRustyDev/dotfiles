@@ -85,6 +85,3 @@ services:
       traefik.enable: true
       traefik.docker.network: backend
 
-networks:
-  backend:
-    external: true

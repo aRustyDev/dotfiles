@@ -9,6 +9,3 @@ services:
       traefik.docker.network: backend
       traefik.http.routers.aws-diagrams.rule: PathPrefix(`/aws/diagrams`)
 
-networks:
-  backend:
-    external: true

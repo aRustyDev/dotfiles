@@ -47,6 +47,3 @@ services:
       sequentialthinking:
         condition: service_healthy
 
-networks:
-  backend:
-    external: true

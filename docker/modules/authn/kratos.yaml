@@ -134,11 +134,6 @@ services:
       traefik.http.routers.mailslurper.tls: true
       traefik.http.services.mailslurper.loadbalancer.server.port: 4437
 
-networks:
-  authn:
-    external: true
-  data-tier:
-    external: true
 
 configs:
   kratos:

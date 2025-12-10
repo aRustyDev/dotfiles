@@ -9,6 +9,3 @@ services:
       traefik.docker.network: backend
       traefik.http.routers.aws-core.rule: PathPrefix(`/aws/core`)
 
-networks:
-  backend:
-    external: true

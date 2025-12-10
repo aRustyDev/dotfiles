@@ -1,11 +1,3 @@
-networks:
-  n8n:
-    external: true
-  backend:
-    external: true
-  data-tier:
-    external: true
-
 x-n8n: &service-n8n
   image: n8nio/n8n:latest
   networks:

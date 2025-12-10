@@ -577,15 +577,6 @@ services:
       traefik.enable: true
       traefik.docker.network: frontend
 
-networks:
-  supabase-internal:
-    driver: bridge
-  backend:
-    external: true
-  data-tier:
-    external: true
-  frontend:
-    external: true
 
 volumes:
   supabase-db-config:

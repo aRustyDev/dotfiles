@@ -7,7 +7,7 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false # Only expose containers with traefik.enable=true
-    network: "traefik-public" # Default network to use
+    network: "backend" # Default network for service discovery
     watch: true # Watch for container changes
 
   # File provider - reads from config files
@@ -19,6 +19,7 @@ ping:
   entryPoint: web
 
 entryPoints:
+  # HTTP entrypoints
   web:
     address: :80
     http:
@@ -32,6 +33,25 @@ entryPoints:
     address: :443
     http:
       tls: {}
+
+  # TCP entrypoints for database proxying
+  postgres:
+    address: :5432
+
+  redis:
+    address: :6379
+
+  valkey:
+    address: :6380
+
+  mongo:
+    address: :27017
+
+  supabase-pg:
+    address: :5433
+
+  supabase-pooler:
+    address: :6543
 
 # For production with Let's Encrypt (uncomment when ready)
 # certificatesResolvers:

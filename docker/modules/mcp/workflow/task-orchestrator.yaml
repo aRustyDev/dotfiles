@@ -108,6 +108,3 @@ services:
       # MCP discovery label (for Claude Desktop compatibility)
       mcp.client: claude-desktop
 
-networks:
-  backend:
-    external: true

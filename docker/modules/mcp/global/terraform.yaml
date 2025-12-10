@@ -9,6 +9,3 @@ services:
       traefik.docker.network: backend
       traefik.http.routers.terraform.rule: PathPrefix(`/terraform`)
 
-networks:
-  backend:
-    external: true

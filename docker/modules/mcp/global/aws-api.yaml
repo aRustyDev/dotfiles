@@ -10,6 +10,3 @@ services:
       traefik.docker.network: backend
       traefik.http.routers.aws-api.rule: PathPrefix(`/aws/api`)
 
-networks:
-  backend:
-    external: true

@@ -9,6 +9,3 @@ services:
       traefik.docker.network: backend
       traefik.http.routers.aws-terraform.rule: PathPrefix(`/aws/tf`)
 
-networks:
-  backend:
-    external: true

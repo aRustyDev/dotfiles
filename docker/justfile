@@ -5,7 +5,7 @@ unbound_conf := `brew --prefix` / "etc/unbound/unbound.conf"
 resolver_dir := "/etc/resolver"
 dns_ip := "127.0.0.2"
 docker_workspace := if env("DOCKER_WORKSPACE", "") == "" { "docker-compose" } else { "workspaces" / lowercase(env("DOCKER_WORKSPACE", "")) }
-profile := if docker_workspace == "docker-compose" { "core" } else { lowercase(env("DOCKER_WORKSPACE", "")) }
+profiles := if docker_workspace == "docker-compose" { "core" } else { lowercase(env("DOCKER_WORKSPACE", "")) }
 domain := env("DOMAIN", "localhost")
 docker_networks := "dmz frontend backend admin data-tier authn authz"
 
@@ -69,28 +69,28 @@ mktree:
 clean:
     rm -rf "{{ dot_docker }}"
 
-# Deploy Docker profile="core": mktree
-deploy profile=profile: mktree (build profile)
-    just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
-    COMPOSE_PROFILES="{{ profile }}" docker-compose -f "{{ docker_state }}/{{ profile }}.yaml" up -d
+# Deploy Docker profiles="core": mktree
+deploy profiles=profiles: mktree (build profiles)
+    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ profiles }}.yaml"
+    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ profiles }}.yaml" up -d
 
-# Build Docker images for profile
-build profile=profile: mktree
-    just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
-    COMPOSE_PROFILES="{{ profile }}" docker-compose -f "{{ docker_state }}/{{ profile }}.yaml" build
+# Build Docker images for profiles
+build profiles=profiles: mktree
+    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ profiles }}.yaml"
+    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ profiles }}.yaml" build
 
-# Deploy Docker profile="core": mktree
-destroy profile=profile: mktree
-    just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
-    COMPOSE_PROFILES="{{ profile }}" docker-compose -f "{{ docker_state }}/{{ profile }}.yaml" down
+# Deploy Docker profiles="core": mktree
+destroy profiles=profiles: mktree
+    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ profiles }}.yaml"
+    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ profiles }}.yaml" down
 
-# Hydrate Docker-compose for profile
-docker-template profile=profile:
-    COMPOSE_PROFILES="{{ profile }}" docker-compose -f "{{ dot_docker / docker_workspace }}.yaml" config | op inject
+# Hydrate Docker-compose for profiles
+docker-template profiles=profiles:
+    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ dot_docker / docker_workspace }}.yaml" config | op inject
 
-# Test Docker-compose config is valid for profile
-docker-test profile=profile:
-    just -f "{{ justfile() }}" docker-template "{{ profile }}"
+# Test Docker-compose config is valid for profiles
+docker-test profiles=profiles:
+    just -f "{{ justfile() }}" docker-template "{{ profiles }}"
 
 # =============================================================================
 # DNS Management (extends volta unbound - doesn't stomp)

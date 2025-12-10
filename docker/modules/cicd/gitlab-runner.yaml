@@ -104,11 +104,6 @@ services:
   #     timeout: 10s
   #     retries: 3
 
-networks:
-  backend:
-    external: true
-  # gitlab-runner:
-  #   driver: bridge
 
 # volumes:
 #   gitlab-runner-dind-certs:

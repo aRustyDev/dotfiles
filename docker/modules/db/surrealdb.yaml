@@ -54,6 +54,3 @@ services:
       # SURREAL_WEBSOCKET_RESPONSE_CHANNEL_SIZE
       # SURREAL_WEBSOCKET_RESPONSE_FLUSH_PERIOD
 
-networks:
-  data-tier:
-    external: true
