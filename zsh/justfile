@@ -9,44 +9,41 @@ test:
     docker run --rm -it --device /dev/kvm -v /tmp/.X11-unix:/tmp/.X11-unix zshrc:latest
     echo "Testing Complete"
 
-install: _etc zenv zrc zprofile zlogin zplugins zinit zcomp zfuncs dot_helper
+install: zshenv zshrc zprofile zlogin zplugins zinit zcomp zfuncs dot_helper
     @echo " ::: source {{dotdir}}/.zshenv"
     @echo " ::: source {{dotdir}}/.zshrc"
 
-_etc:
-    @sudo cp {{zsh}}/etc/.zshenv /etc/zshenv
-
 zplugins: mktree
-    @cp -r {{zsh}}/plugins "{{ dotdir }}"
+    @cp -r "{{ justfile_directory() }}/plugins" "{{ dotdir }}"
 
 zinit: mktree
-    @cp -r {{zsh}}/init "{{ dotdir }}"
+    @cp -r "{{ justfile_directory() }}/init" "{{ dotdir }}"
 
 zfuncs: mktree
-    @cp -r {{zsh}}/functions "{{ dotdir }}"
+    @cp -r "{{ justfile_directory() }}/functions" "{{ dotdir }}"
 
 zcomp: mktree
-    @cp -r {{zsh}}/completions "{{ dotdir }}"
+    @cp -r "{{ justfile_directory() }}/completions" "{{ dotdir }}"
 
 dot_helper: mktree
-    @cp -r {{root}}/dot_helper/ {{xdg_config}}
+    @cp -r "{{root}}/dot_helper/" "{{xdg_config}}"
 
 zlogin: mktree
-    #@cp {{zsh}}/.zlogin {{dotdir}}/.zlogin
+    @cp "{{ justfile_directory() }}/.zlogin" "{{dotdir}}/.zlogin"
     @echo "Copied .zlogin -> {{dotdir}}/.zlogin"
 
 zprofile: mktree
-    #@cp {{zsh}}/.zprofile {{dotdir}}/.zprofile
+    @cp "{{ justfile_directory() }}/.zprofile" "{{dotdir}}/.zprofile"
     @echo "Copied .zprofile -> {{dotdir}}/.zprofile"
 
-zrc: mktree
-    @cp {{zsh}}/.zshrc {{dotdir}}/.zshrc
+zshrc: mktree
+    @cp "{{ justfile_directory() }}/.zshrc" "{{dotdir}}/.zshrc"
     @echo "Copied .zshrc -> {{dotdir}}/.zshrc"
 
-zenv: mktree
-    @cp {{zsh}}/.zshenv {{dotdir}}/.zshenv
+zshenv: mktree
+    @cp "{{ justfile_directory() }}/.zshenv" "{{dotdir}}/.zshenv"
     @echo "Copied .zshenv -> {{dotdir}}/.zshenv"
-    @sudo cp {{zsh}}/etc/.zshenv /etc/zshenv
+    @sudo cp "{{ justfile_directory() }}/etc/.zshenv" /etc/zshenv
     @echo "Copied ./etc/.zshenv -> /etc/zshenv"
 
 mktree:

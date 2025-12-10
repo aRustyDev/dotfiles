@@ -2,7 +2,9 @@
   {
     "version": "0.1.0",
     "category": "TODO",
-    "tags": ["TODO"],
+    "tags": [
+      "TODO"
+    ],
     "description": "TODO",
     "completions": null,
     "keybindings": null,
@@ -14,29 +16,34 @@
     "loc": 0,
     "xdg": {
       "bin": null,
-      "data": "just",
-      "cache": "just",
-      "state": "just",
-      "config": "just"
+      "data": null,
+      "cache": null,
+      "state": null,
+      "config": null
     },
     "paths": null,
     "functions": null,
     "dependencies": [
       {
-        "kind": "binary|env|file|arch|platform",
+        "kind": "binary",
         "var": "TODO"
       }
     ],
     "url": {
-      "contribute": "TODO",
-      "bugz": "TODO",
-      "docs": "TODO"
+      "contribute": "https://TODO/",
+      "bugz": "https://TODO/",
+      "docs": "https://TODO/"
     },
-    "templates": ["TODO"],
-    "health_checks": ["TODO"],
-    "generates": ["TODO"],
+    "templates": [
+      "TODO"
+    ],
+    "health_checks": [
+      "TODO"
+    ],
+    "generates": [
+      "TODO"
+    ],
     "platform_overrides": {},
-    "id": "6A07C24E-1308-4406-B094-3F83491D5E29",
-    "path": "jira/"
+    "path": "just/"
   }
 ]
