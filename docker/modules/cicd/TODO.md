@@ -1,0 +1,21 @@
+# CICD Tooling
+
+- ArgoCD
+- Flux
+- Tekton
+- Terramate
+- HelmWave
+- OpenKruise
+- Flagger
+- Razee
+- Ortelius
+- HyScale
+- DevTron
+- Jenkins
+- ByteBase
+- Liquibase
+- Werf
+- Testkube
+- Keploy
+- OpenGitOps
+- Agola
