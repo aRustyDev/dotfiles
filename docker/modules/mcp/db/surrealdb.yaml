@@ -49,7 +49,7 @@ services:
   surrealdb-mcp:
     image: surrealdb/surrealmcp:latest
     container_name: surrealdb-mcp
-    profiles: ["core", "db", "surrealdb"]
+    profiles: ["project-data", "mcp-project", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

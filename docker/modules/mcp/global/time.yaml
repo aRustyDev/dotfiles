@@ -30,7 +30,7 @@ services:
       dockerfile: time.dockerfile
     image: time-mcp:http
     container_name: tool-time
-    profiles: ["core", "global"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

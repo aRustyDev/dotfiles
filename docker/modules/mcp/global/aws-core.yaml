@@ -1,7 +1,7 @@
 services:
   aws-core:
     image: mcp/aws-core-mcp-server
-    profiles: ["aws"]
+    profiles: ["project-iac", "mcp-project", "mcp"]
     networks:
       - backend        # MCP backend services network
     labels:

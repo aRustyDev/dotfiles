@@ -4,7 +4,7 @@ services:
   zettelkasten:
     image: ghcr.io/arustydev/zettelkasten-mcp:latest
     container_name: zettelkasten
-    profiles: ["core"]
+    profiles: ["mcp-memory", "mcp"]
     restart: unless-stopped
     stdin_open: true # docker run -i
     tty: true # docker run -t

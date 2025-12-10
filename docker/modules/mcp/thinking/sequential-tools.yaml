@@ -51,7 +51,7 @@ services:
     image: sequentialthinking-tools-mcp:http
     container_name: sequentialthinking-tools
     hostname: sequentialthinking-tools
-    profiles: ["core", "thinking", "dev"]
+    profiles: ["mcp-thinking", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

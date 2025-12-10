@@ -68,7 +68,7 @@ services:
       dockerfile: kicad.dockerfile
     image: kicad-mcp:http
     container_name: kicad
-    profiles: ["core", "project", "eda", "electronics"]
+    profiles: ["project-cad", "mcp-project", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

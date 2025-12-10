@@ -58,7 +58,7 @@ services:
       dockerfile: char-index.dockerfile
     image: char-index-mcp:http
     container_name: char-index
-    profiles: ["core", "project", "text"]
+    profiles: ["mcp-project", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

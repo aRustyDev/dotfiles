@@ -52,7 +52,7 @@ services:
       dockerfile: cloudflare-docs.dockerfile
     image: cloudflare-docs-mcp:http
     container_name: cloudflare-docs
-    profiles: ["core", "docs", "cloudflare"]
+    profiles: ["mcp-docs", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

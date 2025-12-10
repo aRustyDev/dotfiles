@@ -43,7 +43,7 @@ services:
     image: python-refactoring-mcp:http
     container_name: python-refactoring
     hostname: python-refactoring
-    profiles: ["core", "global", "python", "dev"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

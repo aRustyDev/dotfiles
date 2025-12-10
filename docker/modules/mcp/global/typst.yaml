@@ -48,7 +48,7 @@ services:
       dockerfile: typst.dockerfile
     image: typst-mcp:http
     container_name: typst
-    profiles: ["core", "global", "docs", "writing"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

@@ -42,7 +42,7 @@ services:
     image: otel/opentelemetry-collector-contrib:0.102.0
     hostname: otel-collector
     container_name: otel-collector
-    profiles: ["observability", "otel", "collector"]
+    profiles: ["o11y-collector", "o11y"]
     networks:
       - backend       # For receiving telemetry
       - data-tier     # For sending to backends

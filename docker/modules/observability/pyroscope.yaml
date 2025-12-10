@@ -40,7 +40,7 @@ services:
     image: grafana/pyroscope:1.6.0
     hostname: pyroscope
     container_name: pyroscope
-    profiles: ["observability", "profiling", "performance"]
+    profiles: ["o11y-profiling", "o11y"]
     user: "10001:10001"
     networks:
       - backend       # For receiving profiles

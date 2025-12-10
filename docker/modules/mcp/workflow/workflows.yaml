@@ -41,7 +41,7 @@ services:
   workflows:
     image: node:20-alpine
     container_name: workflows
-    profiles: ["core", "workflow", "orchestration"]
+    profiles: ["mcp-workflow", "mcp"]
     restart: unless-stopped
     working_dir: /app
     command:

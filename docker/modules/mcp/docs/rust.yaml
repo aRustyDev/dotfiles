@@ -53,7 +53,7 @@ services:
       dockerfile: rust-docs.dockerfile
     image: rust-docs-mcp:http
     container_name: rust-docs
-    profiles: ["docs", "rust", "ai"]
+    profiles: ["mcp-docs", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

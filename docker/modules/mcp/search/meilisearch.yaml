@@ -51,7 +51,7 @@ services:
       dockerfile: meilisearch-mcp.dockerfile
     image: meilisearch-mcp:http
     container_name: meilisearch-mcp
-    profiles: ["core", "search"]
+    profiles: ["mcp-search", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

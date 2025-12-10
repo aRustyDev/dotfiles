@@ -49,7 +49,7 @@ services:
     image: multi-agent-system-mcp:http
     container_name: multi-agent-system
     hostname: multi-agent-system
-    profiles: ["thinking", "agents"]
+    profiles: ["mcp-thinking", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

@@ -33,7 +33,7 @@ services:
     image: grafana/mimir:2.12.0
     hostname: mimir
     container_name: mimir
-    profiles: ["observability", "lgtm", "metrics"]
+    profiles: ["core", "o11y"]
     user: "10001:10001"
     networks:
       - backend       # For service access

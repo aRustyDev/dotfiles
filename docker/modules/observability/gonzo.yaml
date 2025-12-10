@@ -35,7 +35,7 @@ services:
     image: ghcr.io/control-theory/gonzo:latest
     hostname: gonzo
     container_name: gonzo
-    profiles: ["observability", "optimization", "gonzo"]
+    profiles: ["o11y-apm", "o11y"]
     networks:
       - backend       # For Prometheus access
     restart: unless-stopped

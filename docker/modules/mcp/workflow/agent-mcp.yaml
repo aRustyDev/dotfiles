@@ -14,7 +14,7 @@
 services:
   # Python MCP Server
   agent-mcp-python:
-    profiles: ["agent-mcp-python"]
+    profiles: ["mcp-workflow", "mcp"]
     build:
       context: ../../files
       dockerfile: agent-mcp.dockerfile
@@ -53,11 +53,11 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      - agent-mcp-network
+      - backend
 
   # Node MCP Server
   agent-mcp-node:
-    profiles: ["agent-mcp-node"]
+    profiles: ["mcp-workflow", "mcp"]
     build:
       context: ../../files
       dockerfile: agent-mcp.dockerfile
@@ -84,11 +84,11 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      - agent-mcp-network
+      - backend
 
   # Next.js Dashboard
   agent-mcp-dashboard:
-    profiles: ["agent-mcp-dashboard"]
+    profiles: ["mcp-workflow", "mcp"]
     build:
       context: ../../files
       dockerfile: agent-mcp.dockerfile
@@ -109,14 +109,14 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      - agent-mcp-network
+      - backend
     depends_on:
-      python-server:
+      agent-mcp-python:
         condition: service_healthy
 
   # Combined: Node Server + Dashboard
   agent-mcp:
-    profiles: ["agent-mcp"]
+    profiles: ["mcp-workflow", "mcp"]
     build:
       context: ../../files
       dockerfile: agent-mcp.dockerfile
@@ -150,7 +150,6 @@ services:
       retries: 3
       start_period: 15s
     networks:
-      - agent-mcp-network
       - backend        # MCP backend services network
     labels:
       # =======================================================================

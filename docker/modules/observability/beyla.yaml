@@ -41,7 +41,7 @@ services:
     image: grafana/beyla:1.6.0
     hostname: beyla
     container_name: beyla
-    profiles: ["observability", "ebpf", "auto-instrumentation"]
+    profiles: ["o11y-profiling", "o11y"]
     privileged: true  # Required for eBPF
     pid: "host"       # Required to see other processes
     networks:

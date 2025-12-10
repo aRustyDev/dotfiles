@@ -39,7 +39,7 @@ services:
     image: us-central1-docker.pkg.dev/keephq/keep/keep-api:latest
     hostname: keep-backend
     container_name: keep-backend
-    profiles: ["observability", "alerting", "keep"]
+    profiles: ["o11y-apm", "o11y"]
     networks:
       - frontend      # Web UI
       - backend       # API access
@@ -81,7 +81,7 @@ services:
     image: us-central1-docker.pkg.dev/keephq/keep/keep-ui:latest
     hostname: keep-frontend
     container_name: keep-frontend
-    profiles: ["observability", "alerting", "keep"]
+    profiles: ["o11y-apm", "o11y"]
     networks:
       - frontend
     restart: unless-stopped
@@ -115,7 +115,7 @@ services:
     image: us-central1-docker.pkg.dev/keephq/keep/keep-websocket:latest
     hostname: keep-websocket
     container_name: keep-websocket
-    profiles: ["observability", "alerting", "keep", "keep-realtime"]
+    profiles: ["o11y-apm", "o11y"]
     networks:
       - frontend
       - backend

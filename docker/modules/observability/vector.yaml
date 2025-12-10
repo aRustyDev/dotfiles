@@ -50,7 +50,7 @@ services:
     image: timberio/vector:0.38.0-alpine
     hostname: vector-agent
     container_name: vector-agent
-    profiles: ["observability", "pipeline", "vector", "vector-agent"]
+    profiles: ["o11y-logging", "o11y"]
     networks:
       - backend       # For collecting from services
     restart: unless-stopped
@@ -87,7 +87,7 @@ services:
     image: timberio/vector:0.38.0-alpine
     hostname: vector-aggregator
     container_name: vector-aggregator
-    profiles: ["observability", "pipeline", "vector", "vector-aggregator"]
+    profiles: ["o11y-logging", "o11y"]
     networks:
       - frontend      # For API access
       - backend       # For receiving from agents

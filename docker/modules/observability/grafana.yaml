@@ -36,7 +36,7 @@ services:
     image: grafana/grafana:11.0.0
     hostname: grafana
     container_name: grafana
-    profiles: ["observability", "lgtm", "dashboards"]
+    profiles: ["core", "o11y"]
     user: "472:472"
     networks:
       - frontend      # Web UI access

@@ -40,7 +40,7 @@ services:
       dockerfile: arxiv.dockerfile
     image: arxiv-mcp:http
     container_name: arxiv
-    profiles: ["core", "search", "research"]
+    profiles: ["mcp-search", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

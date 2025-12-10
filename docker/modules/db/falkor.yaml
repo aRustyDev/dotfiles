@@ -2,6 +2,7 @@ services:
   falkordb:
     image: falkordb/falkordb:latest
     container_name: graphdb
+    profiles: ["db-graph"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     expose:

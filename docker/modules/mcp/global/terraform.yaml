@@ -1,7 +1,7 @@
 services:
   terraform:
     image: hashicorp/terraform-mcp-server
-    profiles: ["terraform"]
+    profiles: ["project-iac", "mcp-project", "mcp"]
     networks:
       - backend        # MCP backend services network
     labels:

@@ -59,7 +59,7 @@ services:
       dockerfile: freecad.dockerfile
     image: freecad-mcp:http
     container_name: freecad
-    profiles: ["core", "project", "cad"]
+    profiles: ["project-cad", "mcp-project", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

@@ -2,7 +2,7 @@
 services:
   surreal:
     image: surrealdb/surrealdb:latest
-    profiles: ["surreal"]
+    profiles: ["db-surreal"]
     restart: unless-stopped
     stdin_open: true # docker run -i
     tty: true # docker run -t

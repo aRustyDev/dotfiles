@@ -36,7 +36,7 @@ services:
     image: supabase/postgres:15.8.1.085
     container_name: supabase-db
     hostname: supabase-db
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal  # Supabase internal communication
@@ -93,7 +93,7 @@ services:
     image: timberio/vector:0.28.1-alpine
     container_name: supabase-vector
     hostname: supabase-vector
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -123,7 +123,7 @@ services:
     image: supabase/logflare:1.26.13
     container_name: supabase-analytics
     hostname: supabase-analytics
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -165,7 +165,7 @@ services:
     image: kong:2.8.1
     container_name: supabase-kong
     hostname: supabase-kong
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal  # Supabase internal communication
@@ -203,7 +203,7 @@ services:
     image: supabase/gotrue:v2.183.0
     container_name: supabase-auth
     hostname: supabase-auth
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -259,7 +259,7 @@ services:
     image: postgrest/postgrest:v13.0.7
     container_name: supabase-rest
     hostname: supabase-rest
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -290,7 +290,7 @@ services:
     image: supabase/realtime:v2.65.3
     container_name: realtime-dev.supabase-realtime
     hostname: supabase-realtime
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -334,7 +334,7 @@ services:
     image: supabase/storage-api:v1.32.0
     container_name: supabase-storage
     hostname: supabase-storage
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -380,7 +380,7 @@ services:
     image: darthsim/imgproxy:v3.8.0
     container_name: supabase-imgproxy
     hostname: supabase-imgproxy
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -409,7 +409,7 @@ services:
     image: supabase/postgres-meta:v0.93.1
     container_name: supabase-meta
     hostname: supabase-meta
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -439,7 +439,7 @@ services:
     image: supabase/edge-runtime:v1.69.25
     container_name: supabase-functions
     hostname: supabase-functions
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -469,7 +469,7 @@ services:
     image: supabase/supavisor:2.7.4
     container_name: supabase-pooler
     hostname: supabase-pooler
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal  # Supabase internal communication
@@ -524,7 +524,7 @@ services:
     image: supabase/studio:2025.11.26-sha-8f096b5
     container_name: supabase-studio
     hostname: supabase-studio
-    profiles: ["supabase"]
+    profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
       - supabase-internal  # Supabase internal communication

@@ -43,7 +43,7 @@ services:
     image: quay.io/thanos/thanos:v0.35.0
     hostname: thanos-sidecar
     container_name: thanos-sidecar
-    profiles: ["observability", "metrics", "thanos"]
+    profiles: ["o11y-metrics", "o11y"]
     networks:
       - backend
       - data-tier
@@ -83,7 +83,7 @@ services:
     image: quay.io/thanos/thanos:v0.35.0
     hostname: thanos-query
     container_name: thanos-query
-    profiles: ["observability", "metrics", "thanos"]
+    profiles: ["o11y-metrics", "o11y"]
     networks:
       - frontend
       - backend
@@ -120,7 +120,7 @@ services:
     image: quay.io/thanos/thanos:v0.35.0
     hostname: thanos-store
     container_name: thanos-store
-    profiles: ["observability", "metrics", "thanos"]
+    profiles: ["o11y-metrics", "o11y"]
     networks:
       - backend
       - data-tier
@@ -157,7 +157,7 @@ services:
     image: quay.io/thanos/thanos:v0.35.0
     hostname: thanos-compactor
     container_name: thanos-compactor
-    profiles: ["observability", "metrics", "thanos"]
+    profiles: ["o11y-metrics", "o11y"]
     networks:
       - data-tier
     restart: unless-stopped

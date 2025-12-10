@@ -68,7 +68,7 @@ services:
       dockerfile: supabase-mcp.dockerfile
     image: supabase-mcp:http
     container_name: supabase-mcp
-    profiles: ["db", "supabase", "mcp"]
+    profiles: ["project-data", "mcp-project", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

@@ -41,7 +41,7 @@ services:
       dockerfile: fetch.dockerfile
     image: fetch-mcp:http
     container_name: fetch
-    profiles: ["core", "web", "fetch"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

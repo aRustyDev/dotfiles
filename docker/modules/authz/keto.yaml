@@ -36,7 +36,7 @@ services:
   keto-migrate:
     image: oryd/keto:v0.14.0
     container_name: keto-migrate
-    profiles: ["core", "authz"]
+    profiles: ["core"]
     networks:
       - authz
       - data-tier      # Access to PostgreSQL
@@ -57,7 +57,7 @@ services:
     image: oryd/keto:v0.14.0
     container_name: keto
     hostname: keto
-    profiles: ["core", "authz"]
+    profiles: ["core"]
     restart: unless-stopped
     stdin_open: true
     tty: true

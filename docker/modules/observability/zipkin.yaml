@@ -36,7 +36,7 @@ services:
     image: openzipkin/zipkin:3.3
     hostname: zipkin
     container_name: zipkin
-    profiles: ["observability", "tracing", "zipkin"]
+    profiles: ["o11y-tracing", "o11y"]
     networks:
       - frontend      # Web UI
       - backend       # For receiving traces

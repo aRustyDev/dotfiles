@@ -34,7 +34,7 @@ services:
         LOG_LEVEL: INFO
     image: duckduckgo-mcp:http
     container_name: duckduckgo
-    profiles: ["core", "search", "web"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

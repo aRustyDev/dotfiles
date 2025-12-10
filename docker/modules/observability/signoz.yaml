@@ -34,7 +34,7 @@ services:
     image: signoz/signoz-otel-collector:0.88.11
     hostname: signoz-otel-collector
     container_name: signoz-otel-collector
-    profiles: ["observability", "apm", "signoz"]
+    profiles: ["o11y-apm", "o11y"]
     networks:
       - backend       # For receiving telemetry
       - data-tier     # For ClickHouse
@@ -64,7 +64,7 @@ services:
     image: clickhouse/clickhouse-server:24.1.2-alpine
     hostname: signoz-clickhouse
     container_name: signoz-clickhouse
-    profiles: ["observability", "apm", "signoz"]
+    profiles: ["o11y-apm", "o11y"]
     networks:
       - data-tier
     restart: unless-stopped
@@ -97,7 +97,7 @@ services:
     image: signoz/query-service:0.45.0
     hostname: signoz-query-service
     container_name: signoz-query-service
-    profiles: ["observability", "apm", "signoz"]
+    profiles: ["o11y-apm", "o11y"]
     networks:
       - frontend      # Web UI
       - backend       # API
@@ -131,7 +131,7 @@ services:
     image: signoz/frontend:0.45.0
     hostname: signoz-frontend
     container_name: signoz-frontend
-    profiles: ["observability", "apm", "signoz"]
+    profiles: ["o11y-apm", "o11y"]
     networks:
       - frontend
     restart: unless-stopped

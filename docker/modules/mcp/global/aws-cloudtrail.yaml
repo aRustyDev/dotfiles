@@ -1,7 +1,7 @@
 services:
   aws-logs:
     image: mcp/cloudtrail-mcp-server
-    profiles: ["aws"]
+    profiles: ["project-iac", "mcp-project", "mcp"]
     networks:
       - backend        # MCP backend services network
     labels:

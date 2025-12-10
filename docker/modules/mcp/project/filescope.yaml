@@ -61,7 +61,7 @@ services:
       dockerfile: filescope.dockerfile
     image: filescope-mcp:http
     container_name: filescope
-    profiles: ["core", "project", "analysis"]
+    profiles: ["mcp-project", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

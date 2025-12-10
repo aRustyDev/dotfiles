@@ -39,7 +39,7 @@ services:
     image: jaegertracing/all-in-one:1.57
     hostname: jaeger
     container_name: jaeger
-    profiles: ["observability", "tracing", "jaeger"]
+    profiles: ["o11y-tracing", "o11y"]
     networks:
       - frontend      # Web UI
       - backend       # For receiving traces

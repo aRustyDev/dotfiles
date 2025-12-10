@@ -31,7 +31,7 @@ services:
     image: docker.elastic.co/logstash/logstash:8.13.0
     hostname: logstash
     container_name: logstash
-    profiles: ["observability", "elk", "logging"]
+    profiles: ["o11y-logging", "o11y"]
     networks:
       - backend       # For receiving logs
       - data-tier     # For Elasticsearch

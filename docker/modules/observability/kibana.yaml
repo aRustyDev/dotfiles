@@ -30,7 +30,7 @@ services:
     image: docker.elastic.co/kibana/kibana:8.13.0
     hostname: kibana
     container_name: kibana
-    profiles: ["observability", "elk", "dashboards"]
+    profiles: ["o11y-elastic", "o11y"]
     networks:
       - frontend      # Web UI
       - data-tier     # For Elasticsearch

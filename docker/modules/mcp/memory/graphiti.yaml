@@ -1,11 +1,14 @@
-include:
-  - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/modules/db/falkor.yaml
-  - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/modules/llm/ollama-${OLLAMA_PROCESSOR_KIND:-cpu}.yaml
+# NOTE: Requires falkordb and ollama services - start with:
+#   COMPOSE_PROFILES=mcp-memory,db-graph,research-ml docker compose up -d graphiti
+#
+# Dependencies (must be running before graphiti):
+#   - falkordb (db-graph profile)
+#   - ollama + pull-models (research-ml profile)
 
 services:
   graphiti:
     image: zepai/knowledge-graph-mcp:standalone
-    profiles: ["core", "graphiti"]
+    profiles: ["mcp-memory", "mcp"]
     container_name: memory
     restart: unless-stopped
     stdin_open: true # docker run -i
@@ -19,13 +22,6 @@ services:
     env_file:
       - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/.env
         required: false
-    depends_on:
-      falkordb:
-        condition: service_healthy
-      ollama:
-        condition: service_healthy
-      pull-models:
-        condition: service_completed_successfully
     environment:
       # Database configuration
       - FALKORDB_URI=${FALKORDB_URI:-redis://falkordb:6379}

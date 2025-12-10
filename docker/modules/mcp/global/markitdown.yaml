@@ -50,7 +50,7 @@ services:
       dockerfile: markitdown.dockerfile
     image: markitdown-mcp:http
     container_name: markitdown
-    profiles: ["core", "global", "documents"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

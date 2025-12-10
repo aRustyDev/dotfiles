@@ -43,7 +43,7 @@ services:
     image: ghcr.io/go-graphite/go-carbon:latest
     hostname: go-carbon
     container_name: go-carbon
-    profiles: ["observability", "metrics", "graphite"]
+    profiles: ["db-graphite"]
     networks:
       - data-tier     # For metric storage
       - backend       # For receiving metrics from services
@@ -79,7 +79,7 @@ services:
     image: ghcr.io/go-graphite/carbonapi:latest
     hostname: carbonapi
     container_name: carbonapi
-    profiles: ["observability", "metrics", "graphite"]
+    profiles: ["db-graphite"]
     networks:
       - data-tier     # Connect to go-carbon
       - backend       # For API access

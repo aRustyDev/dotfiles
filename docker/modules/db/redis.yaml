@@ -33,7 +33,7 @@ services:
     image: redis:7-alpine
     container_name: redis
     hostname: redis
-    profiles: ["db", "cache", "redis"]
+    profiles: ["core"]
     restart: unless-stopped
     networks:
       - data-tier      # Primary database network

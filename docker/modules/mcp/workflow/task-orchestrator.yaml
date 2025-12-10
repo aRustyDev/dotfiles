@@ -50,7 +50,7 @@ services:
       dockerfile: task-orchestrator.dockerfile
     image: task-orchestrator-mcp:http
     container_name: task-orchestrator
-    profiles: ["core", "workflow", "orchestration"]
+    profiles: ["mcp-workflow", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

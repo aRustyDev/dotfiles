@@ -43,7 +43,7 @@ services:
     image: grafana/alloy:v1.1.0
     hostname: alloy
     container_name: alloy
-    profiles: ["observability", "collector", "telemetry"]
+    profiles: ["o11y-collector", "o11y"]
     networks:
       - backend       # For collecting from services
       - data-tier     # For sending to backends

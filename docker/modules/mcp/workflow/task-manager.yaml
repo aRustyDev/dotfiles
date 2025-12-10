@@ -50,7 +50,7 @@ services:
       context: https://github.com/tradesdontlie/task-manager-mcp.git
     image: task-manager-mcp:latest
     container_name: task-manager
-    profiles: ["core", "workflow", "planning"]
+    profiles: ["mcp-workflow", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

@@ -4,7 +4,7 @@ services:
     # https://github.com/DevMayur/SimpleCheckList
     image: hainanzhao/mcp-gitlab-jira:latest
     container_name: mcp-gitlab-jira-container
-    profiles: ["core", "global"]
+    profiles: ["mcp-workflow", "mcp"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     restart: unless-stopped

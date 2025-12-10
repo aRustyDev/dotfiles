@@ -35,7 +35,7 @@ services:
     image: prom/alertmanager:v0.27.0
     hostname: alertmanager
     container_name: alertmanager
-    profiles: ["observability", "alerting", "prometheus"]
+    profiles: ["o11y-metrics", "o11y"]
     networks:
       - backend       # For Prometheus
       - admin         # Admin UI

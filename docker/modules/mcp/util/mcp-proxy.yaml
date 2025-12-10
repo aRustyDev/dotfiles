@@ -34,7 +34,7 @@ services:
       start_period: 30s
     networks:
       - backend        # MCP backend services network
-    profiles: ["mcp", "mcp-util"]
+    profiles: ["mcp-util", "mcp"]
     labels:
       # =======================================================================
       # Traefik Configuration - Streamable HTTP MCP

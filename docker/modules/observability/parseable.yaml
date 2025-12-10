@@ -44,7 +44,7 @@ services:
     image: parseable/parseable:v1.3.0
     hostname: parseable
     container_name: parseable
-    profiles: ["observability", "logging", "parseable"]
+    profiles: ["o11y-logging", "o11y"]
     networks:
       - frontend      # Web UI
       - backend       # API

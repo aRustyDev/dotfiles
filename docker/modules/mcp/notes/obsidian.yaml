@@ -46,7 +46,7 @@ services:
       dockerfile: obsidian.dockerfile
     image: obsidian-mcp:http
     container_name: obsidian
-    profiles: ["core", "notes"]
+    profiles: ["mcp-memory", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

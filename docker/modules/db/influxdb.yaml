@@ -45,7 +45,7 @@ services:
     image: influxdb:2.7-alpine
     hostname: influxdb
     container_name: influxdb
-    profiles: ["observability", "db", "timeseries", "influxdb"]
+    profiles: ["db-influx"]
     networks:
       - frontend      # Web UI
       - backend       # API access
@@ -90,7 +90,7 @@ services:
     image: telegraf:1.30-alpine
     hostname: telegraf
     container_name: telegraf
-    profiles: ["observability", "timeseries", "telegraf"]
+    profiles: ["db-influx"]
     networks:
       - backend       # For collecting metrics
       - data-tier     # For writing to InfluxDB
@@ -135,7 +135,7 @@ services:
     image: chronograf:1.10-alpine
     hostname: chronograf
     container_name: chronograf
-    profiles: ["influxdb-legacy", "chronograf"]
+    profiles: ["db-influx"]
     networks:
       - frontend
       - data-tier

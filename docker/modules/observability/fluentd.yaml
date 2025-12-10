@@ -38,7 +38,7 @@ services:
     image: fluent/fluentd:v1.16-debian
     hostname: fluentd
     container_name: fluentd
-    profiles: ["observability", "logging", "fluentd"]
+    profiles: ["o11y-logging", "o11y"]
     networks:
       - backend       # For receiving logs
       - data-tier     # For storage backends

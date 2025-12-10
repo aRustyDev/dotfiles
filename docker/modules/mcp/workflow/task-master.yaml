@@ -61,7 +61,7 @@ services:
       dockerfile: task-master.dockerfile
     image: task-master-ai:http
     container_name: task-master
-    profiles: ["core", "workflow", "planning"]
+    profiles: ["mcp-workflow", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

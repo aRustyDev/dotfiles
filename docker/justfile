@@ -1,13 +1,34 @@
+# =============================================================================
+# Docker Compose Profile Management
+# =============================================================================
+# Directory configuration
+
 dot_docker := env("XDG_CONFIG_HOME", env("HOME") / ".config") / "docker"
 docker_state := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "docker"
 src_docker := justfile_directory()
 unbound_conf := `brew --prefix` / "etc/unbound/unbound.conf"
 resolver_dir := "/etc/resolver"
 dns_ip := "127.0.0.2"
-docker_workspace := if env("DOCKER_WORKSPACE", "") == "" { "docker-compose" } else { "workspaces" / lowercase(env("DOCKER_WORKSPACE", "")) }
-profiles := if docker_workspace == "docker-compose" { "core" } else { lowercase(env("DOCKER_WORKSPACE", "")) }
 domain := env("DOMAIN", "localhost")
-docker_networks := "dmz frontend backend admin data-tier authn authz"
+
+# Manifest tracking file for project deployments
+
+docker_manifests_file := docker_state / "manifests.json"
+
+# Project-scoped profiles (generate <project_id>.yaml)
+
+project_id := `git config project.id 2>/dev/null || echo ""`
+project_file := project_id + ".yaml"
+project_state := docker_state / "projects" / project_file
+project_path := invocation_directory()
+
+# Timestamp for manifest entries
+
+timestamp := datetime_utc("%Y-%m-%dT%H:%M:%SZ")
+
+# Required tools
+
+sponge := require("sponge")
 
 # Setup DNS, certificates, & necessary dirs
 init: mktree mkcerts dns-init loopback-alias
@@ -59,38 +80,200 @@ mkcerts:
 # Create necessary directories
 mktree:
     mkdir -p "{{ docker_state }}" "{{ dot_docker }}"
+    mkdir -p "{{ docker_state }}/projects"
     mkdir -p "{{ dot_docker }}/config"
     mkdir -p "{{ dot_docker }}/modules"
     mkdir -p "{{ dot_docker }}/files"
     mkdir -p "{{ dot_docker }}/docs"
     mkdir -p "{{ dot_docker }}/data/certs"
+    [ -f "{{ docker_manifests_file }}" ] || echo '{"projects":{}}' > "{{ docker_manifests_file }}"
 
 # Clean up the Docker dotfiles
 clean:
     rm -rf "{{ dot_docker }}"
 
-# Deploy Docker profiles="core": mktree
-deploy profiles=profiles: mktree (build profiles)
-    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml"
-    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml" up -d
+# =============================================================================
+# Docker Compose Deployment Commands
+# =============================================================================
+
+# Categorize profiles into infra and project groups
+[private]
+categorize-profiles profiles:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    infra=""
+    project=""
+    for p in $(echo "{{ profiles }}" | tr ',' ' '); do
+        case "$p" in
+            core|mcp|o11y|research|work|db-*)
+                infra="$infra,$p"
+                ;;
+            project-*|mcp-project)
+                project="$project,$p"
+                ;;
+            *)
+                # Default to infra for unknown profiles
+                infra="$infra,$p"
+                ;;
+        esac
+    done
+    echo "INFRA=${infra#,}"
+    echo "PROJECT=${project#,}"
+
+# Generate compose file for infrastructure profiles
+
+# Templates are stored with op:// URLs intact, env vars expanded via envsubst
+[private]
+gen-infra-compose profiles:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    for p in $(echo "{{ profiles }}" | tr ',' ' '); do
+        [[ -z "$p" ]] && continue
+        outfile="{{ docker_state }}/${p}.yaml"
+        echo "Generating $outfile..."
+        COMPOSE_PROFILES="$p" docker compose -f "{{ dot_docker }}/docker-compose.yaml" config | envsubst > "$outfile"
+    done
+
+# Generate compose file for project-scoped profiles
+
+# Templates are stored with op:// URLs intact, env vars expanded via envsubst
+[private]
+gen-project-compose profiles:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo "Generating {{ project_file }}..."
+    COMPOSE_PROFILES="{{ profiles }}" docker compose -f "{{ dot_docker }}/docker-compose.yaml" config | envsubst > "{{ project_state }}"
+
+# =============================================================================
+# Main Deploy/Destroy Commands
+# =============================================================================
+# Deploy Docker services by profile
+
+# Usage: just deploy core,mcp,project-iac
+[group("docker")]
+deploy profiles="core": mktree (categorize-profiles profiles)
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Generate and deploy infrastructure profiles
+    if [[ -n "$INFRA" ]]; then
+        just -f "{{ justfile() }}" gen-infra-compose "$INFRA"
+        for p in $(echo "$INFRA" | tr ',' ' '); do
+            [[ -z "$p" ]] && continue
+            echo "Deploying infrastructure profile: $p"
+            op inject -i "{{ docker_state }}/${p}.yaml" | docker compose -f - up -d
+        done
+    fi
+
+    # Generate and deploy project-scoped profiles
+    if [[ -n "$PROJECT" ]]; then
+        just -f "{{ justfile() }}" gen-project-compose "$PROJECT"
+        echo "Deploying project profile: {{ project_id }}"
+        op inject -i "{{ project_state }}" | docker compose -f - up -d
+        jq '.projects["{{ project_id }}"] = {
+               "profiles": "{{ profiles }}",
+               "path": "{{ project_path }}",
+               "deployed_at": "{{ timestamp }}",
+               "compose_file": "{{ project_state }}"
+           }' "{{ docker_manifests_file }}" | {{ sponge }} "{{ docker_manifests_file }}"
+    fi
+
+    echo "✓ Deployment complete"
 
 # Build Docker images for profiles
-build profiles=profiles: mktree
-    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml"
-    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml" build
+[group("docker")]
+build profiles="core": mktree (categorize-profiles profiles)
+    #!/usr/bin/env bash
+    set -euo pipefail
 
-# Deploy Docker profiles="core": mktree
-destroy profiles=profiles: mktree
-    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml"
-    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml" down
+    # Build infrastructure profiles
+    if [[ -n "$INFRA" ]]; then
+        just -f "{{ justfile() }}" gen-infra-compose "$INFRA"
+        for p in $(echo "$INFRA" | tr ',' ' '); do
+            [[ -z "$p" ]] && continue
+            echo "Building infrastructure profile: $p"
+            docker compose -f "{{ docker_state }}/${p}.yaml" build
+        done
+    fi
 
-# Hydrate Docker-compose for profiles
-docker-template profiles=profiles:
-    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ dot_docker / docker_workspace }}.yaml" config | op inject
+    # Build project-scoped profiles
+    if [[ -n "$PROJECT" ]]; then
+        just -f "{{ justfile() }}" gen-project-compose "$PROJECT"
+        echo "Building project profile: {{ project_id }}"
+        docker compose -f "{{ project_state }}" build
+    fi
+
+    echo "✓ Build complete"
+
+# Destroy Docker services by profile
+
+# Usage: just destroy core,mcp,project-iac
+[group("docker")]
+destroy profiles="core": (categorize-profiles profiles)
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Destroy project-scoped services first
+    if [[ -n "$PROJECT" ]]; then
+        if [[ -n "{{ project_id }}" ]] && [[ -f "{{ project_state }}" ]]; then
+            echo "Destroying project services: {{ project_id }}"
+            op inject -i "{{ project_state }}" | docker compose -f - down
+            jq 'del(.projects["{{ project_id }}"])' "{{ docker_manifests_file }}" | {{ sponge }} "{{ docker_manifests_file }}"
+        else
+            echo "WARN: No project compose file found for current directory"
+        fi
+    fi
+
+    # Destroy infrastructure services
+    if [[ -n "$INFRA" ]]; then
+        for p in $(echo "$INFRA" | tr ',' ' '); do
+            [[ -z "$p" ]] && continue
+            if [[ -f "{{ docker_state }}/${p}.yaml" ]]; then
+                echo "Destroying infrastructure profile: $p"
+                op inject -i "{{ docker_state }}/${p}.yaml" | docker compose -f - down
+            else
+                echo "WARN: No compose file found for profile: $p"
+            fi
+        done
+    fi
+
+    echo "✓ Destroy complete"
+
+# Destroy all services for current project
+[group("docker")]
+destroy-project:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    if [[ -f "{{ project_state }}" ]]; then
+        echo "Destroying all services for project: {{ project_id }}"
+        op inject -i "{{ project_state }}" | docker compose -f - down
+        jq 'del(.projects["{{ project_id }}"])' "{{ docker_manifests_file }}" | {{ sponge }} "{{ docker_manifests_file }}"
+        rm -f "{{ project_state }}"
+        echo "✓ Project services destroyed"
+    else
+        echo "No services deployed for this project"
+    fi
+
+# List all deployed projects
+[group("docker")]
+list-projects:
+    @jq -r '.projects | to_entries[] | "\(.key): \(.value.path // "unknown") [\(.value.profiles)]"' "{{ docker_manifests_file }}" || echo "No projects deployed"
+
+# List all deployed projects
+[group("docker")]
+list-docker-profiles: docker-test
+    @docker compose -f "{{ dot_docker }}/docker-compose.yaml" config --profiles 2>/dev/null
+
+# Hydrate Docker-compose for profiles (for debugging)
+[group("docker")]
+docker-template profiles="core":
+    COMPOSE_PROFILES="{{ profiles }}" docker compose -f "{{ dot_docker }}/docker-compose.yaml" config | envsubst
 
 # Test Docker-compose config is valid for profiles
-docker-test profiles=profiles:
-    just -f "{{ justfile() }}" docker-template "{{ profiles }}"
+[group("docker")]
+docker-test profiles="":
+    {{ if profiles != "" { 'COMPOSE_PROFILES=' + profiles } else { "" } }} docker compose -f "{{ dot_docker }}/docker-compose.yaml" config --quiet 2>/dev/null && echo "✓ Config valid {{ if profiles != "" { "for: " + profiles } else { "" } }}"
 
 # =============================================================================
 # DNS Management (extends volta unbound - doesn't stomp)

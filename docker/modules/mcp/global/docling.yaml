@@ -46,7 +46,7 @@ services:
       dockerfile: docling.dockerfile
     image: docling-mcp:http
     container_name: docling
-    profiles: ["core", "documents", "pdf"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

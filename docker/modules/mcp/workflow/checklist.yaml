@@ -35,7 +35,7 @@ services:
   checklists:
     image: mayurkakade/mcp-server:latest
     container_name: checklists
-    profiles: ["core", "global"]
+    profiles: ["mcp-workflow", "mcp"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     restart: unless-stopped

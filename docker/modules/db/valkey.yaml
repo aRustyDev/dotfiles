@@ -28,7 +28,7 @@ services:
   valkey:
     image: valkey/valkey:8
     container_name: valkey
-    profiles: ["core", "db", "cache", "valkey"]
+    profiles: ["core"]
     restart: unless-stopped
     networks:
       - data-tier      # Primary database network

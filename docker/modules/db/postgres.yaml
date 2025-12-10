@@ -32,7 +32,7 @@ services:
     image: postgres:16-alpine
     hostname: postgres
     container_name: postgres
-    profiles: ["core", "n8n"]
+    profiles: ["core"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     networks:

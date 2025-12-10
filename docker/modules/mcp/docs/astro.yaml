@@ -41,7 +41,7 @@ services:
       dockerfile: astro-docs.dockerfile
     image: astro-docs-mcp:http
     container_name: astro-docs
-    profiles: ["core", "docs", "web"]
+    profiles: ["mcp-docs", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

@@ -30,7 +30,7 @@ services:
   mongo:
     image: mongo:8
     container_name: mongo
-    profiles: ["core", "db", "mongo"]
+    profiles: ["db-mongo"]
     restart: unless-stopped
     networks:
       - data-tier      # Primary database network

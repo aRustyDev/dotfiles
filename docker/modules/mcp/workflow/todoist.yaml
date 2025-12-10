@@ -48,7 +48,7 @@ services:
       dockerfile: todoist.dockerfile
     image: todoist-mcp:http
     container_name: todoist
-    profiles: ["core", "workflow", "productivity"]
+    profiles: ["mcp-workflow", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

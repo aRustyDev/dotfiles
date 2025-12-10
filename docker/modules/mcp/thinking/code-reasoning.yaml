@@ -48,7 +48,7 @@ services:
     image: code-reasoning-mcp:http
     container_name: code-reasoning
     hostname: code-reasoning
-    profiles: ["core", "thinking", "dev"]
+    profiles: ["mcp-thinking", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

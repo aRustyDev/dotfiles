@@ -1,7 +1,7 @@
 services:
   aws-docs:
     image: mcp/aws-documentation
-    profiles: ["aws", "docs"]
+    profiles: ["mcp-docs", "mcp"]
     networks:
       - backend        # MCP backend services network
     labels:

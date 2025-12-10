@@ -4,7 +4,7 @@ include:
 services:
   pull-models:
     image: ollama/ollama:latest
-    profiles: ["core", "ollama"]
+    profiles: ["research-ml", "research"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     networks: ["global"]

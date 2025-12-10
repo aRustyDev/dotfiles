@@ -26,7 +26,7 @@ services:
   mcp-filesystem:
     image: node:22-alpine
     container_name: mcp-filesystem
-    profiles: ["mcp", "mcp-project"]
+    profiles: ["mcp-project", "mcp"]
     restart: unless-stopped
     networks:
       - backend

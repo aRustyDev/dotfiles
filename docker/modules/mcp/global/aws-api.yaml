@@ -1,7 +1,7 @@
 services:
   aws-api:
     image: mcp/aws-api-mcp-server
-    profiles: ["aws"]
+    profiles: ["project-iac", "mcp-project", "mcp"]
     domainname: aws-api.mcp.${DOMAIN:-localhost}
     networks:
       - backend        # MCP backend services network

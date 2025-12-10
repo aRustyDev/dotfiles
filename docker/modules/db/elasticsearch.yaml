@@ -35,7 +35,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
     hostname: elasticsearch
     container_name: elasticsearch
-    profiles: ["observability", "elk", "search"]
+    profiles: ["db-elastic"]
     networks:
       - data-tier     # For data storage
       - backend       # For API access

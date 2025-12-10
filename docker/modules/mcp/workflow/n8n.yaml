@@ -1,3 +1,7 @@
+# NOTE: Requires postgres service from core profile
+# Dependencies (must be running before n8n):
+#   - postgres (core profile)
+
 x-n8n: &service-n8n
   image: n8nio/n8n:latest
   networks:
@@ -27,7 +31,7 @@ services:
     <<: *service-n8n
     hostname: n8n-import
     container_name: n8n-import
-    profiles: ["core", "n8n"]
+    profiles: ["mcp-workflow", "mcp"]
     entrypoint: /bin/sh
     command:
       - "-c"
@@ -49,15 +53,12 @@ services:
         n8n import:workflow --separate --input=/data/workflows || true
     volumes:
       - ${XDG_CONFIG_HOME:-$HOME/.config}/mcp/n8n/data:/data
-    depends_on:
-      postgres:
-        condition: service_healthy
 
   n8n:
     <<: *service-n8n
     hostname: n8n
     container_name: n8n
-    profiles: ["core", "n8n"]
+    profiles: ["mcp-workflow", "mcp"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     restart: unless-stopped
@@ -68,8 +69,6 @@ services:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/n8n/data:/data
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/n8n/data/shared:/data/shared
     depends_on:
-      postgres:
-        condition: service_healthy
       n8n-import:
         condition: service_completed_successfully
     labels:

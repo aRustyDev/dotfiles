@@ -45,7 +45,7 @@ services:
     image: openzipkin/zipkin:3.4
     hostname: sofa-zipkin
     container_name: sofa-zipkin
-    profiles: ["observability", "tracing", "sofa-tracer"]
+    profiles: ["o11y-tracing", "o11y"]
     networks:
       - frontend      # Web UI
       - backend       # Trace collection

@@ -31,7 +31,7 @@ services:
     image: grafana/loki:3.0.0
     hostname: loki
     container_name: loki
-    profiles: ["observability", "lgtm", "logging"]
+    profiles: ["core", "o11y"]
     user: "10001:10001"
     networks:
       - backend        # For service access

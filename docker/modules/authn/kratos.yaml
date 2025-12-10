@@ -35,7 +35,7 @@ services:
   kratos-migrate:
     image: oryd/kratos:v1.3.1
     container_name: kratos-migrate
-    profiles: ["core", "authn"]
+    profiles: ["core"]
     networks:
       - authn
       - data-tier      # Access to PostgreSQL
@@ -52,7 +52,7 @@ services:
     image: oryd/kratos:v1.3.1
     container_name: kratos
     hostname: kratos
-    profiles: ["core", "authn"]
+    profiles: ["core"]
     restart: unless-stopped
     stdin_open: true
     tty: true
@@ -119,7 +119,7 @@ services:
   mailslurper:
     image: oryd/mailslurper:latest-smtps
     container_name: mailslurper
-    profiles: ["dev"]
+    profiles: ["core"]
     networks:
       - authn          # Authentication network
     expose:

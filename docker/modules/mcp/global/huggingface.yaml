@@ -43,7 +43,7 @@ services:
   huggingface:
     image: ghcr.io/evalstate/hf-mcp-server:latest
     container_name: huggingface
-    profiles: ["core", "ai", "ml"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

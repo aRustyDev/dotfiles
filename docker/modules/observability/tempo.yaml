@@ -36,7 +36,7 @@ services:
     image: grafana/tempo:2.5.0
     hostname: tempo
     container_name: tempo
-    profiles: ["observability", "lgtm", "tracing"]
+    profiles: ["o11y-tracing", "o11y"]
     user: "10001:10001"
     networks:
       - backend       # For service access

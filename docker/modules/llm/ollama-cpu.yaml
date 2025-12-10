@@ -3,7 +3,7 @@ services:
     image: ollama/ollama:latest
     container_name: ollama
     hostname: ollama
-    profiles: ["core", "ollama"]
+    profiles: ["research-ml", "research"]
     networks:
       - backend        # Backend services network
     restart: unless-stopped

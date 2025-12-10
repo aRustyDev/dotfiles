@@ -36,7 +36,7 @@ services:
   crate-docs:
     image: ghcr.io/promptexecution/rust-cargo-docs-rag-mcp:latest
     container_name: crate-docs
-    profiles: ["core", "docs", "rust"]
+    profiles: ["mcp-docs", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

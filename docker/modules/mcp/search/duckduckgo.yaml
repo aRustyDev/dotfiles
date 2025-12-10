@@ -2,6 +2,7 @@ services:
   mcp-duckduckgo-search:
     image: mcp/duckduckgo
     container_name: mcp-duckduckgo-search
+    profiles: ["mcp-search", "mcp"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     networks:

@@ -46,7 +46,7 @@ services:
       dockerfile: ast-grep.dockerfile
     image: ast-grep-mcp:http
     container_name: ast-grep
-    profiles: ["core", "project", "dev"]
+    profiles: ["mcp-project", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

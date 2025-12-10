@@ -48,7 +48,7 @@ services:
       dockerfile: editorconfig.dockerfile
     image: editorconfig-mcp:http
     container_name: editorconfig
-    profiles: ["core", "dev", "formatting"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

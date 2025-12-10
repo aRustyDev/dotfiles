@@ -27,7 +27,7 @@ services:
   context7:
     image: mcp/context7:latest
     container_name: context7
-    profiles: ["core"]
+    profiles: ["mcp-docs", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

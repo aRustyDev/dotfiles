@@ -40,7 +40,7 @@ services:
     image: gcr.io/pixie-oss/pixie-prod/cloud/api_server:latest
     hostname: pixie-cloud
     container_name: pixie-cloud
-    profiles: ["observability", "ebpf", "pixie"]
+    profiles: ["o11y-ebpf", "o11y"]
     networks:
       - frontend      # Web UI
       - backend       # API

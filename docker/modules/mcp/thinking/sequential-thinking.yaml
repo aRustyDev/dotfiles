@@ -29,7 +29,7 @@ services:
       dockerfile: sequential-thinking.dockerfile
     image: sequential-thinking-mcp:http
     container_name: thinking
-    profiles: ["core", "global"]
+    profiles: ["mcp-thinking", "mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

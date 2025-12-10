@@ -51,7 +51,7 @@ services:
       dockerfile: webhooks.dockerfile
     image: webhooks-mcp:http
     container_name: webhooks
-    profiles: ["core", "global", "dev", "testing"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

@@ -34,7 +34,7 @@ services:
     image: opensearchproject/opensearch:2.13.0
     hostname: opensearch
     container_name: opensearch
-    profiles: ["observability", "opensearch", "search"]
+    profiles: ["o11y-opensearch", "o11y"]
     networks:
       - data-tier     # For data storage
       - backend       # For API access
@@ -80,7 +80,7 @@ services:
     image: opensearchproject/opensearch-dashboards:2.13.0
     hostname: opensearch-dashboards
     container_name: opensearch-dashboards
-    profiles: ["observability", "opensearch", "dashboards"]
+    profiles: ["o11y-opensearch", "o11y"]
     networks:
       - frontend      # Web UI
       - data-tier     # For OpenSearch

@@ -38,7 +38,7 @@ services:
   spicedb-migrate:
     image: authzed/spicedb:v1.40.0
     container_name: spicedb-migrate
-    profiles: ["core", "authz"]
+    profiles: ["core"]
     networks:
       - authz
       - data-tier      # Access to PostgreSQL
@@ -57,7 +57,7 @@ services:
     image: authzed/spicedb:v1.40.0
     container_name: spicedb
     hostname: spicedb
-    profiles: ["core", "authz"]
+    profiles: ["core"]
     restart: unless-stopped
     stdin_open: true
     tty: true
@@ -121,7 +121,7 @@ services:
   spicedb-playground:
     image: authzed/playground:latest
     container_name: spicedb-playground
-    profiles: ["dev"]
+    profiles: ["core"]
     restart: unless-stopped
     networks:
       - authz          # Authorization network

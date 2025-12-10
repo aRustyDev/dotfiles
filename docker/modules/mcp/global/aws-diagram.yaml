@@ -1,7 +1,7 @@
 services:
   aws-diagrams:
     image: mcp/aws-diagram
-    profiles: ["aws"]
+    profiles: ["project-iac", "mcp-project", "mcp"]
     networks:
       - backend        # MCP backend services network
     labels:

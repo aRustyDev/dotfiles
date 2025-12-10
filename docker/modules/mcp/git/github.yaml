@@ -50,7 +50,7 @@ services:
       dockerfile: github.dockerfile
     image: github-mcp:http
     container_name: github
-    profiles: ["core", "git", "github", "repo"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

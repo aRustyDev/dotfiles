@@ -3,7 +3,7 @@ services:
     image: qdrant/qdrant
     hostname: qdrant
     container_name: qdrant
-    profiles: ["core", "n8n"]
+    profiles: ["db-vector"]
     stdin_open: true # docker run -i
     tty: true # docker run -t
     networks:

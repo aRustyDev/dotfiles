@@ -46,7 +46,7 @@ services:
     image: gitlab/gitlab-runner:latest
     hostname: gitlab-runner
     container_name: gitlab-runner
-    profiles: ["cicd", "gitlab", "map"]
+    profiles: ["dev-cicd", "dev"]
     restart: unless-stopped
     networks:
       - backend        # Backend services network

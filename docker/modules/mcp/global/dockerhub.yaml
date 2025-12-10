@@ -43,7 +43,7 @@ services:
   dockerhub:
     image: mcp/dockerhub
     container_name: dockerhub
-    profiles: ["core", "docker"]
+    profiles: ["mcp"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network
