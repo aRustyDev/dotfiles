@@ -63,8 +63,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${FREECAD_MCP_HTTP_PORT:-8230}:8080"
+    expose:
+      - "8080"
     extra_hosts:
       # Allow container to reach FreeCAD RPC server on Docker host
       # For Linux without Docker Desktop, use: host-gateway

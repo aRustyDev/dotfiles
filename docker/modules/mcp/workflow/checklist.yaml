@@ -41,9 +41,9 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${CHECKLISTS_API_PORT:-8355}:8355"
-      - "${CHECKLISTS_UI_PORT:-8180}:80"
+    expose:
+      - "8355"
+      - "80"
     extra_hosts:
       host.docker.internal: host-gateway
     volumes:

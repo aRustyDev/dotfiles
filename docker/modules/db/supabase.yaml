@@ -130,8 +130,8 @@ services:
     restart: unless-stopped
     networks:
       - supabase-internal
-    ports:
-      - "${SUPABASE_ANALYTICS_PORT:-4000}:4000"
+    expose:
+      - "4000"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:4000/health"]
       timeout: 5s
@@ -173,9 +173,9 @@ services:
     networks:
       - supabase-internal
       - traefik-public
-    ports:
-      - "${SUPABASE_KONG_HTTP_PORT:-8000}:8000"
-      - "${SUPABASE_KONG_HTTPS_PORT:-8443}:8443"
+    expose:
+      - "8000"
+      - "8443"
     volumes:
       - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/kong.yml:/home/kong/temp.yml:ro,z
     depends_on:
@@ -480,9 +480,9 @@ services:
     networks:
       - supabase-internal
       - traefik-public
-    ports:
-      - "${SUPABASE_POSTGRES_PORT:-5432}:5432"
-      - "${SUPABASE_POOLER_PORT:-6543}:6543"
+    expose:
+      - "5432"
+      - "6543"
     volumes:
       - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/pooler.exs:/etc/pooler/pooler.exs:ro,z
     healthcheck:

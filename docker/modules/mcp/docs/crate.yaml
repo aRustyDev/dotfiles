@@ -40,8 +40,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${CRATE_DOCS_MCP_HTTP_PORT:-8226}:8080"
+    expose:
+      - "8080"
     environment:
       # Run in HTTP mode (not stdio)
       CRATEDOCS_MODE: http

@@ -53,8 +53,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${MAS_MCP_HTTP_PORT:-8232}:8080"
+    expose:
+      - "8080"
     volumes:
       # Persistent storage for session memory
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/multi-agent-system:/data/mas_sequential_thinking

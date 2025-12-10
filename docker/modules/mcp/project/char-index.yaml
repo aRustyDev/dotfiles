@@ -62,8 +62,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${CHAR_INDEX_MCP_HTTP_PORT:-8222}:8080"
+    expose:
+      - "8080"
     environment:
       PORT: 8080
       MCP_PATH: /mcp

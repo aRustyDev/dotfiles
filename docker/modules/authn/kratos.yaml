@@ -83,9 +83,9 @@ services:
       # Logging
       LOG_LEVEL: "${KRATOS_LOG_LEVEL:-info}"
       LOG_FORMAT: "json"
-    ports:
-      - "${KRATOS_PUBLIC_PORT:-4433}:4433"  # Public API
-      - "${KRATOS_ADMIN_PORT:-4434}:4434"   # Admin API
+    expose:
+      - "4433"  # Public API
+      - "4434"  # Admin API
     labels:
       # =======================================================================
       # Traefik Configuration - ORY Kratos Identity
@@ -122,10 +122,10 @@ services:
     networks:
       - authn
       - traefik-public
-    ports:
-      - "${MAILSLURPER_SMTP_PORT:-1025}:1025"  # SMTP
-      - "${MAILSLURPER_API_PORT:-4436}:4436"   # API
-      - "${MAILSLURPER_UI_PORT:-4437}:4437"    # Web UI
+    expose:
+      - "1025"  # SMTP
+      - "4436"  # API
+      - "4437"  # Web UI
     labels:
       traefik.enable: true
       traefik.docker.network: traefik-public

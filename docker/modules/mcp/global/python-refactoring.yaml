@@ -47,8 +47,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${PYTHON_REFACTORING_MCP_HTTP_PORT:-8221}:8080"
+    expose:
+      - "8080"
     volumes:
       # Mount Python project directories for refactoring
       # NOTE: Read-write access required for refactoring operations

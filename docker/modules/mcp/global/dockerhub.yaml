@@ -47,8 +47,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${DOCKERHUB_HTTP_PORT:-8215}:3000"
+    expose:
+      - "3000"
     command:
       - "--transport=http"
       - "--port=3000"

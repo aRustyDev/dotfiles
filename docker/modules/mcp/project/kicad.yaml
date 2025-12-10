@@ -72,8 +72,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${KICAD_MCP_HTTP_PORT:-8234}:8080"
+    expose:
+      - "8080"
     volumes:
       # Mount your KiCad projects directory
       # Change this to where your KiCad projects are stored

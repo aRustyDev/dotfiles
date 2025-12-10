@@ -41,8 +41,8 @@ services:
     configs:
       - source: graphiti
         target: /app/graphiti.yaml
-    ports:
-      - "${GRAPHITI_PORT:-8000}:8000" # Expose the MCP server via HTTP transport
+    expose:
+      - "8000"  # MCP server via HTTP transport - accessed via Traefik
     command: ["uv", "run", "main.py"]
     labels:
       # =======================================================================

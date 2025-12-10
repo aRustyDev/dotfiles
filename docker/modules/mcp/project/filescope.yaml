@@ -65,8 +65,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${FILESCOPE_MCP_HTTP_PORT:-8231}:8080"
+    expose:
+      - "8080"
     volumes:
       # Mount your project/workspace directory for analysis
       # Change this to the directory you want to analyze

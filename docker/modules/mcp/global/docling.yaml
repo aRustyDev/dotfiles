@@ -50,8 +50,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${DOCLING_MCP_HTTP_PORT:-8220}:8080"
+    expose:
+      - "8080"
     volumes:
       # Document storage and cache
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/docling/documents:/data/documents

@@ -10,8 +10,8 @@ services:
     tty: true # docker run -t
     networks:
       - traefik-public
-    ports:
-      - "${ZETTELKASTEN_HTTP_PORT:-8200}:8000"
+    expose:
+      - "8000"
     volumes:
       # Persistent storage for notes and database
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/zettelkasten/notes:/var/data/notes

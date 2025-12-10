@@ -8,9 +8,9 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     restart: unless-stopped
-    ports:
-      - "${CHECKLISTS_API_PORT:-8355}:8355"
-      - "${CHECKLISTS_UI_PORT:-8180}:80"
+    expose:
+      - "8355"
+      - "80"
     networks:
       - traefik-public
     labels:

@@ -34,8 +34,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${MONGO_PORT:-27017}:27017"
+    expose:
+      - "27017"
     volumes:
       # Data persistence
       - ${XDG_DATA_HOME:-$HOME/.local/share}/db/mongo/data:/data/db

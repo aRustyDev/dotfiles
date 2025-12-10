@@ -50,8 +50,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${AST_GREP_MCP_HTTP_PORT:-8220}:8080"
+    expose:
+      - "8080"
     volumes:
       # Mount project directories for code search (read-only for safety)
       # Add your project paths here:

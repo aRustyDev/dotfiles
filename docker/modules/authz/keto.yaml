@@ -80,11 +80,11 @@ services:
       # Logging
       LOG_LEVEL: "${KETO_LOG_LEVEL:-info}"
       LOG_FORMAT: "json"
-    ports:
-      - "${KETO_READ_PORT:-4466}:4466"   # Read API (HTTP)
-      - "${KETO_WRITE_PORT:-4467}:4467"  # Write API (HTTP)
-      - "${KETO_GRPC_READ_PORT:-4468}:4468"   # Read API (gRPC)
-      - "${KETO_GRPC_WRITE_PORT:-4469}:4469"  # Write API (gRPC)
+    expose:
+      - "4466"  # Read API (HTTP)
+      - "4467"  # Write API (HTTP)
+      - "4468"  # Read API (gRPC)
+      - "4469"  # Write API (gRPC)
     labels:
       # =======================================================================
       # Traefik Configuration - ORY Keto Permissions

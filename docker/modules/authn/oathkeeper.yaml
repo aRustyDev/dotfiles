@@ -56,9 +56,9 @@ services:
       # URLs for authenticators/authorizers
       AUTHENTICATORS_COOKIE_SESSION_CHECK_SESSION_URL: "http://kratos:4433/sessions/whoami"
       AUTHORIZERS_REMOTE_JSON_REMOTE: "http://keto:4466/relation-tuples/check"
-    ports:
-      - "${OATHKEEPER_PROXY_PORT:-4455}:4455"  # Proxy
-      - "${OATHKEEPER_API_PORT:-4456}:4456"    # API
+    expose:
+      - "4455"  # Proxy
+      - "4456"  # API
     labels:
       # =======================================================================
       # Traefik Configuration - ORY Oathkeeper IAP

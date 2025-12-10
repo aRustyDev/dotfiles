@@ -8,8 +8,8 @@ services:
     tty: true # docker run -t
     volumes:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/meili_data:/meili_data
-    ports:
-      - 7700:7700
+    expose:
+      - "7700"
     networks:
       - traefik-public
     labels:

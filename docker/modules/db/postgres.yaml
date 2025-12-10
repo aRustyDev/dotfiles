@@ -49,8 +49,8 @@ services:
       # Initialization scripts (*.sql, *.sh, *.sql.gz files run on first startup)
       # Scripts are executed in alphabetical order
       - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/postgres/initdb.d:/docker-entrypoint-initdb.d:ro
-    ports:
-      - 5432:5432
+    expose:
+      - "5432"
     healthcheck:
       test:
         [

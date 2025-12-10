@@ -57,8 +57,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${RUST_DOCS_MCP_HTTP_PORT:-8227}:8080"
+    expose:
+      - "8080"
     volumes:
       # Persistent cache for documentation and embeddings
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/rust-docs:/root/.local/share/rustdocs-mcp-server

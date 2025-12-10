@@ -52,8 +52,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${EDITORCONFIG_MCP_HTTP_PORT:-8222}:8432"
+    expose:
+      - "8432"
     volumes:
       # Mount workspace for file access
       # Note: Adjust this to your project root or use multiple mounts

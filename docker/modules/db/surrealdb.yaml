@@ -17,8 +17,8 @@ services:
       - rocksdb:/var/data/mcp.db
     volumes:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/surreal:/var/data
-    ports:
-      - 8100:8000
+    expose:
+      - "8000"
     networks:
       - traefik-public
     labels:

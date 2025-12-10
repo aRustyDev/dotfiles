@@ -49,8 +49,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${BRUNO_MCP_HTTP_PORT:-8221}:8080"
+    expose:
+      - "8080"
     volumes:
       # Mount Bruno collections (read-only for safety during tests)
       # Add your collection paths here:

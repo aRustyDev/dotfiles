@@ -22,9 +22,9 @@ services:
       dockerfile: agent-mcp.dockerfile
       target: python
     container_name: agent-mcp-python
-    ports:
-      - "8080:8080" # MCP Server API
-      - "8000:8000" # Agent MCP internal port
+    expose:
+      - "8080" # MCP Server API
+      - "8000" # Agent MCP internal port
     volumes:
       # Mount your project directory here
       - ${PROJECT_DIR:-./workspace}:/workspace
@@ -65,8 +65,8 @@ services:
       dockerfile: agent-mcp.dockerfile
       target: node
     container_name: agent-mcp-node
-    ports:
-      - "8081:8080" # MCP Server API (mapped to 8081 to avoid conflict)
+    expose:
+      - "8080" # MCP Server API
     volumes:
       # Mount your project directory here
       - ${PROJECT_DIR:-./workspace}:/workspace
@@ -96,8 +96,8 @@ services:
       dockerfile: agent-mcp.dockerfile
       target: dashboard
     container_name: agent-mcp-dashboard
-    ports:
-      - "3000:3000" # Dashboard UI
+    expose:
+      - "3000" # Dashboard UI
     environment:
       - NODE_ENV=production
       # Dashboard can connect to either Python or Node server
@@ -124,9 +124,9 @@ services:
       dockerfile: agent-mcp.dockerfile
       target: combined
     container_name: agent-mcp-combined
-    ports:
-      - "8082:8080" # Node MCP Server (mapped to 8082 to avoid conflict)
-      - "3001:3000" # Dashboard UI (mapped to 3001 to avoid conflict)
+    expose:
+      - "8080" # Node MCP Server
+      - "3000" # Dashboard UI
     volumes:
       # Mount your project directory here
       - ${PROJECT_DIR:-./workspace}:/workspace

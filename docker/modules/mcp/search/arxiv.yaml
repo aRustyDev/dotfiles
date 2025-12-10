@@ -44,8 +44,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${ARXIV_MCP_HTTP_PORT:-8219}:8080"
+    expose:
+      - "8080"
     volumes:
       # Persistent storage for downloaded papers
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/arxiv/papers:/data/papers

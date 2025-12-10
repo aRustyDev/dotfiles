@@ -65,8 +65,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${TASK_MASTER_MCP_HTTP_PORT:-8229}:8080"
+    expose:
+      - "8080"
     volumes:
       # Persistent task storage
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/task-master:/app/.taskmaster

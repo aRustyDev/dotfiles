@@ -4,9 +4,9 @@ services:
     container_name: graphdb
     stdin_open: true # docker run -i
     tty: true # docker run -t
-    ports:
-      - "6379:6379" # Redis/FalkorDB port
-      - "3000:3000" # FalkorDB web UI
+    expose:
+      - "6379" # Redis/FalkorDB port
+      - "3000" # FalkorDB web UI
     environment:
       - FALKORDB_PASSWORD=${FALKORDB_PASSWORD:-}
       - BROWSER=${BROWSER:-1} # Enable FalkorDB Browser UI (set to 0 to disable)

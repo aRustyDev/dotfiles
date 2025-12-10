@@ -52,8 +52,8 @@ services:
         exec workflows-mcp-server
     networks:
       - traefik-public
-    ports:
-      - "${WORKFLOWS_MCP_HTTP_PORT:-8226}:3010"
+    expose:
+      - "3010"
     volumes:
       # Workflow YAML definitions
       - ${XDG_CONFIG_HOME:-$HOME/.config}/mcp/workflows:/workflows

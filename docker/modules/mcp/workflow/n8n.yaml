@@ -64,8 +64,8 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     restart: unless-stopped
-    ports:
-      - 5678:5678
+    expose:
+      - "5678"
     volumes:
       - ${XDG_CONFIG_HOME:-$HOME/.config}/mcp/n8n:/home/node/.n8n
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/n8n/data:/data

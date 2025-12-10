@@ -47,8 +47,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik-public
-    ports:
-      - "${HUGGINGFACE_MCP_HTTP_PORT:-8223}:3000"
+    expose:
+      - "3000"
     environment:
       # Transport mode (StreamableHTTPJson is stateless, good for containers)
       TRANSPORT: StreamableHTTPJson
