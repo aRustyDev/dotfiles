@@ -13,19 +13,23 @@ fetch:
 
 install: mktree fetch
     # cp *.just "{{ xdg_data_home }}/just/" 2> /dev/null
-    cp justfile "{{ xdg_config_home }}/just/justfile"
+    cp "{{ justfile() }}" "{{ xdg_config_home }}/just/justfile"
 
 # Deploy docker config for profile (DOCKER_WORKSPACE targets application)
-deploy-docker profile="core":
+docker-deploy profile="core":
     just -f "{{ dot_docker }}/justfile" deploy "{{ profile }}"
 
 # Build docker images for profile (DOCKER_WORKSPACE targets application)
-build-docker profile="core":
+docker-build profile="core":
     just -f "{{ dot_docker }}/justfile" build "{{ profile }}"
 
 # Destroy docker config for profile (DOCKER_WORKSPACE targets application)
-destroy-docker profile="core":
+docker-destroy profile="core":
     just -f "{{ dot_docker }}/justfile" destroy "{{ profile }}"
+
+# Destroy docker config for profile (DOCKER_WORKSPACE targets application)
+docker-ls kind="projects":
+    just -f "{{ dot_docker }}/justfile" "list-docker-{{ kind }}"
 
 # Create certificates & DNS records
 init-docker:

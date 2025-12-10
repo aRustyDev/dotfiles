@@ -268,7 +268,7 @@ destroy-project:
 
 # List all deployed projects
 [group("docker")]
-list-projects:
+list-docker-projects:
     @jq -r '.projects | to_entries[] | "\(.key): \(.value.path // "unknown") [\(.value.profiles)]"' "{{ docker_manifests_file }}" || echo "No projects deployed"
 
 # List all deployed projects
