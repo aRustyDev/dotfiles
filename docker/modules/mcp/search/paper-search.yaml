@@ -47,7 +47,7 @@ services:
     profiles: ["mcp-search", "mcp"]
     restart: unless-stopped
     networks:
-      - backend        # MCP backend services network
+      - backend # MCP backend services network
     expose:
       - "8080"
     environment:
@@ -55,7 +55,7 @@ services:
       MCP_PATH: /mcp
       SESSION_TIMEOUT: 60000
       # Optional: Semantic Scholar API key for enhanced functionality
-      SEMANTIC_SCHOLAR_API_KEY: "op://Developer/Semantic-Scholar/credential"
+      SEMANTIC_SCHOLAR_API_KEY: "op://Developer/Semantic-Scholar/token"
     deploy:
       resources:
         limits:
@@ -85,4 +85,3 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
-

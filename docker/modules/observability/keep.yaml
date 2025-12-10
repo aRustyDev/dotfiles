@@ -41,13 +41,13 @@ services:
     container_name: keep-backend
     profiles: ["o11y-apm", "o11y"]
     networks:
-      - frontend      # Web UI
-      - backend       # API access
-      - data-tier     # Database
+      - frontend # Web UI
+      - backend # API access
+      - data-tier # Database
     restart: unless-stopped
     environment:
       # Database
-      DATABASE_CONNECTION_STRING: "postgresql://${KEEP_DB_USER:-keep}:${KEEP_DB_PASSWORD:-op://Developer/keep/db_password}@postgres:5432/keep"
+      DATABASE_CONNECTION_STRING: "postgresql://${KEEP_DB_USER:-keep}:${KEEP_DB_PASSWORD:-op://Developer/keep/postgres/password}@postgres:5432/keep"
       # Secret key
       SECRET_MANAGER_TYPE: "FILE"
       SECRET_MANAGER_DIRECTORY: "/app/secrets"
@@ -58,9 +58,13 @@ services:
     volumes:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/keep/secrets:/app/secrets
     expose:
-      - "8080"   # API
+      - "8080" # API
     healthcheck:
-      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/healthcheck || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --spider -q http://localhost:8080/healthcheck || exit 1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -89,7 +93,7 @@ services:
       API_URL: "http://keep-backend:8080"
       AUTH_TYPE: "${KEEP_AUTH_TYPE:-NO_AUTH}"
     expose:
-      - "3000"   # Web UI
+      - "3000" # Web UI
     depends_on:
       keep-backend:
         condition: service_healthy
@@ -123,7 +127,7 @@ services:
     environment:
       API_URL: "http://keep-backend:8080"
     expose:
-      - "6001"   # WebSocket
+      - "6001" # WebSocket
     depends_on:
       keep-backend:
         condition: service_healthy
@@ -135,4 +139,3 @@ services:
         reservations:
           cpus: "0.05"
           memory: 64M
-

@@ -35,7 +35,7 @@ services:
     profiles: ["core"]
     networks:
       - authn
-      - data-tier      # Access to PostgreSQL
+      - data-tier # Access to PostgreSQL
     depends_on:
       postgres:
         condition: service_healthy
@@ -54,8 +54,8 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - authn          # Authentication network
-      - data-tier      # Access to PostgreSQL
+      - authn # Authentication network
+      - data-tier # Access to PostgreSQL
     depends_on:
       hydra-migrate:
         condition: service_completed_successfully
@@ -68,8 +68,8 @@ services:
       # Database configuration
       DSN: "${HYDRA_DSN:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${HYDRA_DB:-hydra}?sslmode=disable}"
       # Secrets (generate with: openssl rand -hex 32)
-      SECRETS_SYSTEM: "${HYDRA_SECRETS_SYSTEM:-op://Developer/hydra/secrets-system}"
-      SECRETS_COOKIE: "${HYDRA_SECRETS_COOKIE:-op://Developer/hydra/secrets-cookie}"
+      SECRETS_SYSTEM: "${HYDRA_SECRETS_SYSTEM:-op://Developer/ORY/hydra/secrets-system}"
+      SECRETS_COOKIE: "${HYDRA_SECRETS_COOKIE:-op://Developer/ORY/hydra/secrets-cookie}"
       # URLs
       URLS_SELF_ISSUER: "${HYDRA_URLS_SELF_ISSUER:-https://id.localhost}"
       URLS_CONSENT: "${HYDRA_URLS_CONSENT:-https://id.localhost/consent}"
@@ -83,8 +83,8 @@ services:
       LOG_LEVEL: "${HYDRA_LOG_LEVEL:-info}"
       LOG_FORMAT: "json"
     expose:
-      - "4444"  # Public API
-      - "4445"  # Admin API
+      - "4444" # Public API
+      - "4445" # Admin API
     labels:
       # =======================================================================
       # Traefik Configuration - ORY Hydra OAuth 2.0 / OIDC
@@ -107,12 +107,19 @@ services:
           cpus: "0.1"
           memory: 128M
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4444/health/ready"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:4444/health/ready",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
-
 
 configs:
   hydra:

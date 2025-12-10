@@ -71,7 +71,7 @@ services:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/agent-mcp/workspace:/workspace
     environment:
       # Required secrets
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-op://Developer/openai/credential}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-op://Developer/OpenAI/credential}
       - MCP_ADMIN_TOKEN=${MCP_ADMIN_TOKEN:-}
 
       # Server configuration
@@ -131,7 +131,7 @@ services:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/agent-mcp/workspace:/workspace
     environment:
       # Required secrets
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-op://Developer/openai/credential}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-op://Developer/OpenAI/credential}
       - MCP_ADMIN_TOKEN=${MCP_ADMIN_TOKEN:-}
 
       # Server configuration
@@ -150,7 +150,7 @@ services:
       retries: 3
       start_period: 15s
     networks:
-      - backend        # MCP backend services network
+      - backend # MCP backend services network
     labels:
       # =======================================================================
       # Traefik Configuration - Streamable HTTP MCP
@@ -160,7 +160,6 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
-
 # Example .env file contents:
 # OPENAI_API_KEY=sk-your-openai-api-key-here
 # MCP_ADMIN_TOKEN=your-admin-token-here

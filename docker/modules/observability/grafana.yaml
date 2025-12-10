@@ -39,13 +39,13 @@ services:
     profiles: ["core", "o11y"]
     user: "472:472"
     networks:
-      - frontend      # Web UI access
-      - backend       # Connect to data sources
+      - frontend # Web UI access
+      - backend # Connect to data sources
     restart: unless-stopped
     environment:
       # Security
-      GF_SECURITY_ADMIN_USER: "${GRAFANA_ADMIN_USER:-admin}"
-      GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASSWORD:-op://Developer/grafana/password}"
+      GF_SECURITY_ADMIN_USER: "${GRAFANA_ADMIN_USER:-op://Developer/Grafana/Admin/user}"
+      GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASSWORD:-op://Developer/Grafana/Admin/password}"
       GF_USERS_ALLOW_SIGN_UP: "false"
       # Server
       GF_SERVER_ROOT_URL: "https://grafana.localhost"
@@ -64,7 +64,11 @@ services:
     expose:
       - "3000"
     healthcheck:
-      test: ["CMD-SHELL", "wget --spider -q http://localhost:3000/api/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --spider -q http://localhost:3000/api/health || exit 1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3

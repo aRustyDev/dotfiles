@@ -42,19 +42,23 @@ services:
     container_name: pixie-cloud
     profiles: ["o11y-ebpf", "o11y"]
     networks:
-      - frontend      # Web UI
-      - backend       # API
+      - frontend # Web UI
+      - backend # API
     restart: unless-stopped
     environment:
       PL_POSTGRES_HOSTNAME: postgres
       PL_POSTGRES_PORT: "5432"
       PL_POSTGRES_DB: pixie
       PL_POSTGRES_USERNAME: "${POSTGRES_USER:-pixie}"
-      PL_POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-op://Developer/pixie/password}"
+      PL_POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-op://Developer/pixie/postgres/password}"
     expose:
-      - "8080"   # API
+      - "8080" # API
     healthcheck:
-      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/healthz || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --spider -q http://localhost:8080/healthz || exit 1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3

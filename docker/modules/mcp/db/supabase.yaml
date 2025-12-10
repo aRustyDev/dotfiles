@@ -71,8 +71,8 @@ services:
     profiles: ["project-data", "mcp-project", "mcp"]
     restart: unless-stopped
     networks:
-      - backend        # MCP backend services network
-      - data-tier      # Access to Supabase database
+      - backend # MCP backend services network
+      - data-tier # Access to Supabase database
     expose:
       - "8080"
     environment:
@@ -84,7 +84,7 @@ services:
       SUPABASE_ANON_KEY: "op://Developer/Supabase/anon-key"
       # Optional: Elevated access (uncomment as needed)
       SUPABASE_SERVICE_ROLE_KEY: "op://Developer/Supabase/service-role-key"
-      # DATABASE_URL: "op://Developer/Supabase/database-url"
+      # DATABASE_URL: "op://Developer/Supabase/postgres/url"
       # SUPABASE_AUTH_JWT_SECRET: "op://Developer/Supabase/jwt-secret"
     deploy:
       resources:
@@ -115,4 +115,3 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
-

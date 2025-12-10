@@ -52,7 +52,7 @@ services:
     profiles: ["mcp-thinking", "mcp"]
     restart: unless-stopped
     networks:
-      - backend        # MCP backend services network
+      - backend # MCP backend services network
     expose:
       - "8080"
     volumes:
@@ -62,22 +62,22 @@ services:
       # Supergateway settings
       PORT: 8080
       MCP_PATH: /mcp
-      SESSION_TIMEOUT: 120000  # 2 min - longer for multi-agent processing
+      SESSION_TIMEOUT: 120000 # 2 min - longer for multi-agent processing
 
       # LLM Provider Configuration
       # Options: deepseek, groq, openrouter, github, ollama
       LLM_PROVIDER: "${MAS_LLM_PROVIDER:-deepseek}"
 
       # API Keys (use 1Password references or env vars)
-      DEEPSEEK_API_KEY: "${DEEPSEEK_API_KEY:-op://Developer/DeepSeek/api-key}"
-      GROQ_API_KEY: "${GROQ_API_KEY:-}"
-      OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:-}"
+      DEEPSEEK_API_KEY: "${DEEPSEEK_API_KEY:-op://Developer/DeepSeek/credential}"
+      GROQ_API_KEY: "${GROQ_API_KEY:-op://Developer/Groq/credential}"
+      OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:-op://Developer/OpenRouter/credential}"
       GITHUB_TOKEN: "${GITHUB_TOKEN:-}"
-      EXA_API_KEY: "${EXA_API_KEY:-}"  # Optional: web search
+      EXA_API_KEY: "${EXA_API_KEY:-}" # Optional: web search
 
       # Agent Configuration
       USE_ENHANCED_AGENTS: "${MAS_USE_ENHANCED_AGENTS:-true}"
-      TEAM_MODE: "${MAS_TEAM_MODE:-standard}"  # standard, enhanced, hybrid, multi_thinking
+      TEAM_MODE: "${MAS_TEAM_MODE:-standard}" # standard, enhanced, hybrid, multi_thinking
 
       # Adaptive Routing
       ENABLE_ADAPTIVE_ROUTING: "${MAS_ENABLE_ADAPTIVE_ROUTING:-true}"
@@ -88,7 +88,7 @@ services:
       QUALITY_THRESHOLD: "${MAS_QUALITY_THRESHOLD:-0.7}"
 
       # Response Settings
-      RESPONSE_STYLE: "${MAS_RESPONSE_STYLE:-practical}"  # practical, academic, balanced
+      RESPONSE_STYLE: "${MAS_RESPONSE_STYLE:-practical}" # practical, academic, balanced
       MAX_RESPONSE_LENGTH: "${MAS_MAX_RESPONSE_LENGTH:-800}"
       ENFORCE_SIMPLICITY: "true"
 
@@ -133,4 +133,3 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
-

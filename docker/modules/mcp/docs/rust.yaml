@@ -56,7 +56,7 @@ services:
     profiles: ["mcp-docs", "mcp"]
     restart: unless-stopped
     networks:
-      - backend        # MCP backend services network
+      - backend # MCP backend services network
     expose:
       - "8080"
     volumes:
@@ -67,7 +67,7 @@ services:
       MCP_PATH: /mcp
       SESSION_TIMEOUT: 120000
       # OpenAI API key for embeddings and summarization
-      OPENAI_API_KEY: "op://Developer/OpenAI/api-key"
+      OPENAI_API_KEY: ""
       # Crate to serve documentation for
       # Examples: "tokio@1.0", "serde@^1.0", "reqwest@0.12.0"
       RUST_CRATE: "tokio@1.0"
@@ -102,4 +102,3 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
-

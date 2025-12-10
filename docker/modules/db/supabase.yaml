@@ -39,8 +39,8 @@ services:
     profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
-      - supabase-internal  # Supabase internal communication
-      - data-tier          # Data tier network
+      - supabase-internal # Supabase internal communication
+      - data-tier # Data tier network
     volumes:
       # Init scripts
       - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:ro,z
@@ -65,8 +65,8 @@ services:
       POSTGRES_HOST: /var/run/postgresql
       PGPORT: ${SUPABASE_POSTGRES_PORT:-5432}
       POSTGRES_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
-      PGPASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
-      POSTGRES_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      PGPASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}
+      POSTGRES_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}
       PGDATABASE: ${SUPABASE_POSTGRES_DB:-postgres}
       POSTGRES_DB: ${SUPABASE_POSTGRES_DB:-postgres}
       JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
@@ -101,12 +101,20 @@ services:
       - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/vector.yml:/etc/vector/vector.yml:ro,z
       - ${DOCKER_SOCKET_LOCATION:-/var/run/docker.sock}:/var/run/docker.sock:ro,z
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://supabase-vector:9001/health"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://supabase-vector:9001/health",
+        ]
       timeout: 5s
       interval: 5s
       retries: 3
     environment:
-      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare-public-token}
+      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare/public-token}
     command: ["--config", "/etc/vector/vector.yml"]
     security_opt:
       - "label=disable"
@@ -143,13 +151,13 @@ services:
       DB_DATABASE: _supabase
       DB_HOSTNAME: supabase-db
       DB_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
-      DB_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      DB_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}
       DB_SCHEMA: _analytics
-      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare-public-token}
-      LOGFLARE_PRIVATE_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PRIVATE_TOKEN:-op://Developer/Supabase/logflare-private-token}
+      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare/public-token}
+      LOGFLARE_PRIVATE_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PRIVATE_TOKEN:-op://Developer/Supabase/logflare/private-token}
       LOGFLARE_SINGLE_TENANT: true
       LOGFLARE_SUPABASE_MODE: true
-      POSTGRES_BACKEND_URL: postgresql://supabase_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/_supabase
+      POSTGRES_BACKEND_URL: postgresql://supabase_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/_supabase
       POSTGRES_BACKEND_SCHEMA: _analytics
       LOGFLARE_FEATURE_FLAG_OVERRIDE: multibackend=true
     deploy:
@@ -168,8 +176,8 @@ services:
     profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
-      - supabase-internal  # Supabase internal communication
-      - backend            # Backend services network
+      - supabase-internal # Supabase internal communication
+      - backend # Backend services network
     expose:
       - "8000"
       - "8443"
@@ -208,7 +216,15 @@ services:
     networks:
       - supabase-internal
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9999/health"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:9999/health",
+        ]
       timeout: 5s
       interval: 5s
       retries: 3
@@ -222,7 +238,7 @@ services:
       GOTRUE_API_PORT: 9999
       API_EXTERNAL_URL: ${SUPABASE_API_EXTERNAL_URL:-http://localhost:8000}
       GOTRUE_DB_DRIVER: postgres
-      GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
+      GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
       GOTRUE_SITE_URL: ${SUPABASE_SITE_URL:-http://localhost:3000}
       GOTRUE_URI_ALLOW_LIST: ${SUPABASE_ADDITIONAL_REDIRECT_URLS:-}
       GOTRUE_DISABLE_SIGNUP: ${SUPABASE_DISABLE_SIGNUP:-false}
@@ -269,7 +285,7 @@ services:
       supabase-analytics:
         condition: service_healthy
     environment:
-      PGRST_DB_URI: postgres://authenticator:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
+      PGRST_DB_URI: postgres://authenticator:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
       PGRST_DB_SCHEMAS: ${SUPABASE_DB_SCHEMAS:-public,storage,graphql_public}
       PGRST_DB_ANON_ROLE: anon
       PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
@@ -295,7 +311,11 @@ services:
     networks:
       - supabase-internal
     healthcheck:
-      test: ["CMD-SHELL", "curl -sSfL --head -o /dev/null -H \"Authorization: Bearer ${SUPABASE_ANON_KEY}\" http://localhost:4000/api/tenants/realtime-dev/health"]
+      test:
+        [
+          "CMD-SHELL",
+          'curl -sSfL --head -o /dev/null -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" http://localhost:4000/api/tenants/realtime-dev/health',
+        ]
       timeout: 5s
       interval: 5s
       retries: 3
@@ -309,7 +329,7 @@ services:
       DB_HOST: supabase-db
       DB_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
       DB_USER: supabase_admin
-      DB_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
+      DB_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}
       DB_NAME: ${SUPABASE_POSTGRES_DB:-postgres}
       DB_AFTER_CONNECT_QUERY: "SET search_path TO _realtime"
       DB_ENC_KEY: supabaserealtime
@@ -341,7 +361,15 @@ services:
     volumes:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/supabase/storage:/var/lib/storage:z
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://supabase-storage:5000/status"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://supabase-storage:5000/status",
+        ]
       timeout: 5s
       interval: 5s
       retries: 3
@@ -357,7 +385,7 @@ services:
       SERVICE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-op://Developer/Supabase/service-role-key}
       POSTGREST_URL: http://supabase-rest:3000
       PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
-      DATABASE_URL: postgres://supabase_storage_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
+      DATABASE_URL: postgres://supabase_storage_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
       REQUEST_ALLOW_X_FORWARDED_PATH: "true"
       FILE_SIZE_LIMIT: 52428800
       STORAGE_BACKEND: file
@@ -424,8 +452,8 @@ services:
       PG_META_DB_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
       PG_META_DB_NAME: ${SUPABASE_POSTGRES_DB:-postgres}
       PG_META_DB_USER: supabase_admin
-      PG_META_DB_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
-      CRYPTO_KEY: ${SUPABASE_PG_META_CRYPTO_KEY:-op://Developer/Supabase/pg-meta-crypto-key}
+      PG_META_DB_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}
+      CRYPTO_KEY: ${SUPABASE_PG_META_CRYPTO_KEY:-op://Developer/Supabase/postgres/meta-crypto-key}
     deploy:
       resources:
         limits:
@@ -453,7 +481,7 @@ services:
       SUPABASE_URL: http://supabase-kong:8000
       SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-op://Developer/Supabase/anon-key}
       SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-op://Developer/Supabase/service-role-key}
-      SUPABASE_DB_URL: postgresql://postgres:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
+      SUPABASE_DB_URL: postgresql://postgres:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/${SUPABASE_POSTGRES_DB:-postgres}
       VERIFY_JWT: "${SUPABASE_FUNCTIONS_VERIFY_JWT:-false}"
     command: ["start", "--main-service", "/home/deno/functions/main"]
     deploy:
@@ -472,15 +500,24 @@ services:
     profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
-      - supabase-internal  # Supabase internal communication
-      - data-tier          # Data tier network
+      - supabase-internal # Supabase internal communication
+      - data-tier # Data tier network
     expose:
       - "5432"
       - "6543"
     volumes:
       - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/pooler.exs:/etc/pooler/pooler.exs:ro,z
     healthcheck:
-      test: ["CMD", "curl", "-sSfL", "--head", "-o", "/dev/null", "http://127.0.0.1:4000/api/health"]
+      test:
+        [
+          "CMD",
+          "curl",
+          "-sSfL",
+          "--head",
+          "-o",
+          "/dev/null",
+          "http://127.0.0.1:4000/api/health",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -493,8 +530,8 @@ services:
       PORT: 4000
       POSTGRES_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
       POSTGRES_DB: ${SUPABASE_POSTGRES_DB:-postgres}
-      POSTGRES_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
-      DATABASE_URL: ecto://supabase_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/_supabase
+      POSTGRES_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}
+      DATABASE_URL: ecto://supabase_admin:${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}@supabase-db:${SUPABASE_POSTGRES_PORT:-5432}/_supabase
       CLUSTER_POSTGRES: true
       SECRET_KEY_BASE: ${SUPABASE_SECRET_KEY_BASE:-op://Developer/Supabase/secret-key-base}
       VAULT_ENC_KEY: ${SUPABASE_VAULT_ENC_KEY:-op://Developer/Supabase/vault-enc-key}
@@ -527,10 +564,16 @@ services:
     profiles: ["db-supabase"]
     restart: unless-stopped
     networks:
-      - supabase-internal  # Supabase internal communication
-      - frontend           # Frontend services network
+      - supabase-internal # Supabase internal communication
+      - frontend # Frontend services network
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://supabase-studio:3000/api/platform/profile').then((r) => {if (r.status !== 200) throw new Error(r.status)})"]
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://supabase-studio:3000/api/platform/profile').then((r) => {if (r.status !== 200) throw new Error(r.status)})",
+        ]
       timeout: 10s
       interval: 5s
       retries: 3
@@ -543,8 +586,8 @@ services:
       POSTGRES_PORT: ${SUPABASE_POSTGRES_PORT:-5432}
       POSTGRES_HOST: supabase-db
       POSTGRES_DB: ${SUPABASE_POSTGRES_DB:-postgres}
-      POSTGRES_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres-password}
-      PG_META_CRYPTO_KEY: ${SUPABASE_PG_META_CRYPTO_KEY:-op://Developer/Supabase/pg-meta-crypto-key}
+      POSTGRES_PASSWORD: ${SUPABASE_POSTGRES_PASSWORD:-op://Developer/Supabase/postgres/password}
+      PG_META_CRYPTO_KEY: ${SUPABASE_PG_META_CRYPTO_KEY:-op://Developer/Supabase/postgres/meta-crypto-key}
       DEFAULT_ORGANIZATION_NAME: ${SUPABASE_DEFAULT_ORG:-Default Organization}
       DEFAULT_PROJECT_NAME: ${SUPABASE_DEFAULT_PROJECT:-Default Project}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
@@ -553,9 +596,9 @@ services:
       SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-op://Developer/Supabase/anon-key}
       SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-op://Developer/Supabase/service-role-key}
       AUTH_JWT_SECRET: ${SUPABASE_JWT_SECRET:-op://Developer/Supabase/jwt-secret}
-      LOGFLARE_API_KEY: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare-public-token}
-      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare-public-token}
-      LOGFLARE_PRIVATE_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PRIVATE_TOKEN:-op://Developer/Supabase/logflare-private-token}
+      LOGFLARE_API_KEY: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare/public-token}
+      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PUBLIC_TOKEN:-op://Developer/Supabase/logflare/public-token}
+      LOGFLARE_PRIVATE_ACCESS_TOKEN: ${SUPABASE_LOGFLARE_PRIVATE_TOKEN:-op://Developer/Supabase/logflare/private-token}
       LOGFLARE_URL: http://supabase-analytics:4000
       NEXT_PUBLIC_ENABLE_LOGS: true
       NEXT_ANALYTICS_BACKEND_PROVIDER: postgres
@@ -564,7 +607,6 @@ services:
         limits:
           cpus: "1.0"
           memory: 512M
-
 
 volumes:
   supabase-db-config:

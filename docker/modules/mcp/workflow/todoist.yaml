@@ -51,7 +51,7 @@ services:
     profiles: ["mcp-workflow", "mcp"]
     restart: unless-stopped
     networks:
-      - backend        # MCP backend services network
+      - backend # MCP backend services network
     expose:
       - "8080"
     environment:
@@ -62,7 +62,7 @@ services:
 
       # Todoist API Token (required)
       # Get from: Todoist Settings -> Integrations -> Developer
-      TODOIST_API_TOKEN: "${TODOIST_API_TOKEN:-op://Developer/Todoist/api-token}"
+      TODOIST_API_TOKEN: "${TODOIST_API_TOKEN:-op://Developer/Todoist/credential}"
     deploy:
       resources:
         limits:
@@ -92,4 +92,3 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
-

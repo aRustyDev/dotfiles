@@ -49,7 +49,7 @@ services:
     profiles: ["mcp-memory", "mcp"]
     restart: unless-stopped
     networks:
-      - backend        # MCP backend services network
+      - backend # MCP backend services network
     expose:
       - "8080"
     extra_hosts:
@@ -59,8 +59,8 @@ services:
       MCP_PATH: /mcp
       SESSION_TIMEOUT: 60000
       # Obsidian Local REST API connection
-      OBSIDIAN_API_KEY: "op://Developer/Obsidian-Local-REST-API/credential"
-      OBSIDIAN_HOST: "host.docker.internal"
+      OBSIDIAN_API_KEY: "op://Developer/Obsidian/localhost/password"
+      OBSIDIAN_HOST: "op://Developer/Obsidian/localhost/url"
       OBSIDIAN_PORT: 27124
     deploy:
       resources:
@@ -91,4 +91,3 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
-

@@ -41,7 +41,7 @@ services:
     profiles: ["core"]
     networks:
       - authz
-      - data-tier      # Access to PostgreSQL
+      - data-tier # Access to PostgreSQL
     depends_on:
       postgres:
         condition: service_healthy
@@ -62,8 +62,8 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - authz          # Authorization network
-      - data-tier      # Access to PostgreSQL
+      - authz # Authorization network
+      - data-tier # Access to PostgreSQL
     depends_on:
       spicedb-migrate:
         condition: service_completed_successfully
@@ -74,16 +74,16 @@ services:
       SPICEDB_DATASTORE_ENGINE: "postgres"
       SPICEDB_DATASTORE_CONN_URI: "${SPICEDB_DATASTORE_CONN_URI:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${SPICEDB_DB:-spicedb}?sslmode=disable}"
       # API authentication
-      SPICEDB_GRPC_PRESHARED_KEY: "${SPICEDB_GRPC_PRESHARED_KEY:-op://Developer/spicedb/preshared-key}"
+      SPICEDB_GRPC_PRESHARED_KEY: "${SPICEDB_GRPC_PRESHARED_KEY:-op://Developer/SpiceDB/preshared-key}"
       # HTTP API configuration
       SPICEDB_HTTP_ENABLED: "true"
       # Metrics
       SPICEDB_TELEMETRY_ENDPOINT: ""
       SPICEDB_OTEL_PROVIDER: "none"
     expose:
-      - "50051"  # gRPC API
-      - "8443"   # HTTP/REST API
-      - "9090"   # Metrics
+      - "50051" # gRPC API
+      - "8443" # HTTP/REST API
+      - "9090" # Metrics
     configs:
       - source: spicedb-schema
         target: /etc/spicedb/schema.zed
@@ -124,13 +124,13 @@ services:
     profiles: ["core"]
     restart: unless-stopped
     networks:
-      - authz          # Authorization network
+      - authz # Authorization network
     depends_on:
       spicedb:
         condition: service_healthy
     environment:
       SPICEDB_URI: "spicedb:50051"
-      SPICEDB_PRESHARED_KEY: "${SPICEDB_GRPC_PRESHARED_KEY:-op://Developer/spicedb/preshared-key}"
+      SPICEDB_PRESHARED_KEY: "${SPICEDB_GRPC_PRESHARED_KEY:-op://Developer/SpiceDB/preshared-key}"
     expose:
       - "8080"
     labels:
@@ -140,7 +140,6 @@ services:
       traefik.http.routers.spicedb-playground.entrypoints: websecure
       traefik.http.routers.spicedb-playground.tls: true
       traefik.http.services.spicedb-playground.loadbalancer.server.port: 8080
-
 
 configs:
   spicedb-schema:

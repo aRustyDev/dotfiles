@@ -64,7 +64,7 @@ services:
     profiles: ["mcp-workflow", "mcp"]
     restart: unless-stopped
     networks:
-      - backend        # MCP backend services network
+      - backend # MCP backend services network
     expose:
       - "8080"
     volumes:
@@ -85,10 +85,10 @@ services:
 
       # LLM Provider API Keys
       # At least one is required for AI-powered features
-      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-op://Developer/Anthropic/api-key}"
-      OPENAI_API_KEY: "${OPENAI_API_KEY:-op://Developer/OpenAI/api-key}"
-      PERPLEXITY_API_KEY: "${PERPLEXITY_API_KEY:-op://Developer/Perplexity/api-key}"
-      GOOGLE_API_KEY: "${GOOGLE_API_KEY:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-op://Developer/Anthropic/credential}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-op://Developer/OpenAI/credential}"
+      PERPLEXITY_API_KEY: "${PERPLEXITY_API_KEY:-op://Developer/Perplexity/credential}"
+      GOOGLE_API_KEY: "${GOOGLE_API_KEY:-op://Developer/GoogleAI/credential}"
       MISTRAL_API_KEY: "${MISTRAL_API_KEY:-}"
       GROQ_API_KEY: "${GROQ_API_KEY:-}"
       OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:-}"
@@ -131,4 +131,3 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
-
