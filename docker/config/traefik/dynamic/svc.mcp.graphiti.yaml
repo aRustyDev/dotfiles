@@ -4,36 +4,39 @@
 # Multi-layer routing with parentRefs (Traefik v3.6+)
 #
 # Routing hierarchy:
-#   tools@file (root)    -> Host(`tool.localhost`)
+#   memory@file (root)   -> Host(`memory.localhost`)
 #     └── mcp@file       -> PathPrefix(`/mcp`)
-#           └── memory   -> Header(`X-Service`, `memory`) [THIS FILE]
+#           └── graphiti -> Header(`X-Service`, `graphiti`) [THIS FILE]
 #
 # Container: memory (zepai/knowledge-graph-mcp:standalone)
 #   - MCP endpoint: port 8000
+#
+# Access via:
+#   npx -y mcp-remote https://memory.localhost/mcp --header "X-Service: graphiti"
 # =============================================================================
 
 http:
   routers:
     # Leaf router for Graphiti MCP server
-    # Matches: Host(tool.localhost) && PathPrefix(/mcp) && Header(X-Service: memory)
-    memory:
-      rule: "Header(`X-Service`, `memory`)"
-      service: memory
+    # Matches: Host(memory.localhost) && PathPrefix(/mcp) && Header(X-Service: graphiti)
+    graphiti:
+      rule: "Header(`X-Service`, `graphiti`)"
+      service: graphiti-mcp
       parentRefs:
         - mcp@file
-        - tools@file
+        - memory@file
 
     # Health check router
-    # Matches: Host(tool.localhost) && PathPrefix(/health) && Header(X-Service: memory)
-    memory-health:
-      rule: "Header(`X-Service`, `memory`)"
-      service: memory
+    # Matches: Host(memory.localhost) && PathPrefix(/health) && Header(X-Service: graphiti)
+    graphiti-health:
+      rule: "Header(`X-Service`, `graphiti`)"
+      service: graphiti-mcp
       parentRefs:
         - health@file
-        - tools@file
+        - memory@file
 
   services:
-    memory:
+    graphiti-mcp:
       loadBalancer:
         servers:
           - url: "http://memory:8000"

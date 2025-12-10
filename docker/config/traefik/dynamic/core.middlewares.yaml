@@ -76,13 +76,33 @@ http:
           - "Content-Type"
           - "X-Service"
         accessControlAllowCredentials: true
-    # Auth middleware (HTTPS)
+    # Auth middleware (HTTPS) - Simple forward auth
     authn:
       forwardAuth:
         address: "https://id.localhost"
         authResponseHeaders:
           - X-User-Role
           - X-User-Name
+        trustForwardHeader: true
+
+    # ORY Oathkeeper ForwardAuth middleware
+    # Use this for comprehensive authentication/authorization via Oathkeeper
+    oathkeeper-auth:
+      forwardAuth:
+        address: "http://oathkeeper:4456/decisions"
+        authResponseHeaders:
+          - X-User-Id
+          - X-User-Email
+          - Authorization
+        trustForwardHeader: true
+
+    # Kratos Session validation middleware
+    # Validates session directly with Kratos (lighter than Oathkeeper)
+    kratos-session:
+      forwardAuth:
+        address: "http://kratos:4433/sessions/whoami"
+        authResponseHeaders:
+          - X-Kratos-Authenticated-Identity-Id
         trustForwardHeader: true
     mcp:
       replacePath:

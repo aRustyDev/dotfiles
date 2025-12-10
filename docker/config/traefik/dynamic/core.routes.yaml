@@ -73,12 +73,14 @@ http:
 
     # MCP endpoint router (intermediate)
     # Children will match on X-Service header to route to specific MCP servers
+    # Note: Multiple parentRefs allow MCP routing under different root hosts
     mcp:
       rule: "PathPrefix(`/mcp`)"
       middlewares:
         - mcp-cors@file
       parentRefs:
         - docs@file
+        - memory@file
 
     # Health check router (intermediate)
     health:
@@ -87,6 +89,7 @@ http:
         - mcp@file
       parentRefs:
         - docs@file
+        - memory@file
 
     # UI router (intermediate)
     ui:
