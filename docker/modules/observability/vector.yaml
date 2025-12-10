@@ -121,14 +121,6 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      # HTTP Source endpoint
-      traefik.http.routers.vector-http.rule: Host(`vector.localhost`) && PathPrefix(`/`)
-      traefik.http.routers.vector-http.entrypoints: websecure
-      traefik.http.routers.vector-http.tls: true
-      traefik.http.services.vector-http.loadbalancer.server.port: 8080
 
 # =============================================================================
 # Configuration Notes

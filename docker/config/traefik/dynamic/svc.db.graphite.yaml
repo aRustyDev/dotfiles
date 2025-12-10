@@ -1,0 +1,23 @@
+# =============================================================================
+# Graphite (carbonapi) - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Graphite carbonapi (Traefik v3.6+)
+#
+# Container: carbonapi (ghcr.io/go-graphite/carbonapi:latest)
+#   - HTTP API: port 8080
+# =============================================================================
+
+http:
+  routers:
+    graphite:
+      rule: "Host(`graphite.localhost`)"
+      service: graphite
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    graphite:
+      loadBalancer:
+        servers:
+          - url: "http://carbonapi:8080"

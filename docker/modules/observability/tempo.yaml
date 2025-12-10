@@ -67,10 +67,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      traefik.http.routers.tempo.rule: Host(`tempo.localhost`)
-      traefik.http.routers.tempo.entrypoints: websecure
-      traefik.http.routers.tempo.tls: true
-      traefik.http.services.tempo.loadbalancer.server.port: 3200

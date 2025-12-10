@@ -148,10 +148,3 @@ services:
         reservations:
           cpus: "0.1"
           memory: 64M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.signoz.rule: Host(`signoz.localhost`)
-      traefik.http.routers.signoz.entrypoints: websecure
-      traefik.http.routers.signoz.tls: true
-      traefik.http.services.signoz.loadbalancer.server.port: 3301

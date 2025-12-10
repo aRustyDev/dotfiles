@@ -1,0 +1,23 @@
+# =============================================================================
+# Alertmanager - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Prometheus Alertmanager (Traefik v3.6+)
+#
+# Container: alertmanager (prom/alertmanager:v0.27.0)
+#   - Web UI & API: port 9093
+# =============================================================================
+
+http:
+  routers:
+    alertmanager:
+      rule: "Host(`alertmanager.localhost`)"
+      service: alertmanager
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    alertmanager:
+      loadBalancer:
+        servers:
+          - url: "http://alertmanager:9093"

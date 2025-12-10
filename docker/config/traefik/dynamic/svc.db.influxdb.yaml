@@ -1,0 +1,36 @@
+# =============================================================================
+# InfluxDB & Chronograf - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for InfluxDB time series database (Traefik v3.6+)
+#
+# Containers:
+#   - influxdb (influxdb:2.7-alpine) - port 8086
+#   - chronograf (chronograf:1.10-alpine) - port 8888
+# =============================================================================
+
+http:
+  routers:
+    influxdb:
+      rule: "Host(`influxdb.localhost`)"
+      service: influxdb
+      entryPoints:
+        - websecure
+      tls: {}
+
+    chronograf:
+      rule: "Host(`chronograf.localhost`)"
+      service: chronograf
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    influxdb:
+      loadBalancer:
+        servers:
+          - url: "http://influxdb:8086"
+
+    chronograf:
+      loadBalancer:
+        servers:
+          - url: "http://chronograf:8888"

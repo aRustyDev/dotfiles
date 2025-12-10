@@ -21,19 +21,7 @@ services:
       - "8000"
     networks:
       - data-tier      # Primary database network
-    labels:
-      # =======================================================================
-      # Traefik Configuration - SurrealDB
-      # =======================================================================
-      # NOTE: Routing is defined in file provider (svc.db.surrealdb.yaml)
-      # because parentRefs (multi-layer routing) is not supported in Docker labels.
-      #
-      # Endpoints:
-      #   - Database API: port 8000 (via db@file -> surrealdb)
-      #   - Web UI: port 8080 (via ui@file -> surrealui)
-      # =======================================================================
-      traefik.enable: true
-      traefik.docker.network: data-tier
+    # NOTE: SurrealDB routing defined in svc.db.surrealdb.yaml (API: 8000, UI: 8080)
     environment:
       SURREAL_EXPERIMENTAL_GRAPHQL: true
       # SURREALDB_URL: "op://Developer/surrealdb/server" # ws://127.0.0.1:8000

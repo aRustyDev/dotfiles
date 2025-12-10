@@ -1,0 +1,38 @@
+# =============================================================================
+# OpenTelemetry Collector - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for OpenTelemetry Collector (Traefik v3.6+)
+#
+# Container: otel-collector (otel/opentelemetry-collector-contrib:0.102.0)
+#   - OTLP HTTP: port 4318
+#   - zpages (debug): port 55679
+# =============================================================================
+
+http:
+  routers:
+    # OTLP HTTP endpoint
+    otel-http:
+      rule: "Host(`otel.localhost`) && PathPrefix(`/v1`)"
+      service: otel-http
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # Health/Debug endpoint
+    otel-debug:
+      rule: "Host(`otel.localhost`) && PathPrefix(`/debug`)"
+      service: otel-debug
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    otel-http:
+      loadBalancer:
+        servers:
+          - url: "http://otel-collector:4318"
+
+    otel-debug:
+      loadBalancer:
+        servers:
+          - url: "http://otel-collector:55679"

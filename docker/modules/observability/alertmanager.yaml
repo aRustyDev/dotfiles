@@ -65,10 +65,3 @@ services:
         reservations:
           cpus: "0.1"
           memory: 64M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: admin
-      traefik.http.routers.alertmanager.rule: Host(`alertmanager.localhost`)
-      traefik.http.routers.alertmanager.entrypoints: websecure
-      traefik.http.routers.alertmanager.tls: true
-      traefik.http.services.alertmanager.loadbalancer.server.port: 9093

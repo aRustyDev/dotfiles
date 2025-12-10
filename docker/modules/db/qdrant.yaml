@@ -14,17 +14,5 @@ services:
       - "6333"
     volumes:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/qdrant:/qdrant/storage
-    labels:
-      # =======================================================================
-      # Traefik Configuration - Qdrant Vector Database
-      # =======================================================================
-      # NOTE: Routing is defined in file provider (svc.db.qdrant.yaml)
-      # because parentRefs (multi-layer routing) is not supported in Docker labels.
-      #
-      # Endpoints:
-      #   - REST API: port 6333 (via db@file -> qdrant)
-      #   - gRPC: port 6334 (direct, not via Traefik)
-      # =======================================================================
-      traefik.enable: true
-      traefik.docker.network: data-tier
+    # NOTE: Qdrant routing defined in svc.db.qdrant.yaml (REST: 6333, gRPC: 6334)
 

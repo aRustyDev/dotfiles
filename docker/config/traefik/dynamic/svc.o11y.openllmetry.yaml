@@ -1,0 +1,23 @@
+# =============================================================================
+# OpenLLMetry - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for OpenLLMetry LLM observability collector (Traefik v3.6+)
+#
+# Container: openllmetry-collector (otel/opentelemetry-collector-contrib:0.102.0)
+#   - OTLP HTTP: port 4318
+# =============================================================================
+
+http:
+  routers:
+    llmetry:
+      rule: "Host(`llmetry.localhost`)"
+      service: llmetry
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    llmetry:
+      loadBalancer:
+        servers:
+          - url: "http://openllmetry-collector:4318"

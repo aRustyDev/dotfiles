@@ -1,0 +1,23 @@
+# =============================================================================
+# OpenObserve - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for OpenObserve unified observability (Traefik v3.6+)
+#
+# Container: openobserve (public.ecr.aws/zinclabs/openobserve:v0.10.0)
+#   - HTTP API & UI: port 5080
+# =============================================================================
+
+http:
+  routers:
+    openobserve:
+      rule: "Host(`o2.localhost`)"
+      service: openobserve
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    openobserve:
+      loadBalancer:
+        servers:
+          - url: "http://openobserve:5080"

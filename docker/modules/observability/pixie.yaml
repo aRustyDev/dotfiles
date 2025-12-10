@@ -67,12 +67,5 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.pixie.rule: Host(`pixie.localhost`)
-      traefik.http.routers.pixie.entrypoints: websecure
-      traefik.http.routers.pixie.tls: true
-      traefik.http.services.pixie.loadbalancer.server.port: 8080
       # Note
       description: "Pixie requires Kubernetes for full eBPF functionality"

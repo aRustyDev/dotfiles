@@ -65,6 +65,13 @@ http:
         - websecure
       tls: {}
 
+    # Observability domain - metrics, logs, traces, dashboards
+    observability:
+      rule: "Host(`o11y.localhost`) || Host(`observability.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
     # =========================================================================
     # INTERMEDIATE ROUTERS (Layer 2) - Path-based routing
     # =========================================================================

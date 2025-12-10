@@ -78,18 +78,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 128M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      # OTLP HTTP endpoint
-      traefik.http.routers.otel-http.rule: Host(`otel.localhost`) && PathPrefix(`/v1`)
-      traefik.http.routers.otel-http.entrypoints: websecure
-      traefik.http.routers.otel-http.tls: true
-      traefik.http.routers.otel-http.service: otel-http
-      traefik.http.services.otel-http.loadbalancer.server.port: 4318
-      # Health/Debug endpoint
-      traefik.http.routers.otel-debug.rule: Host(`otel.localhost`) && PathPrefix(`/debug`)
-      traefik.http.routers.otel-debug.entrypoints: websecure
-      traefik.http.routers.otel-debug.tls: true
-      traefik.http.routers.otel-debug.service: otel-debug
-      traefik.http.services.otel-debug.loadbalancer.server.port: 55679

@@ -78,10 +78,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 128M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      traefik.http.routers.alloy.rule: Host(`alloy.localhost`)
-      traefik.http.routers.alloy.entrypoints: websecure
-      traefik.http.routers.alloy.tls: true
-      traefik.http.services.alloy.loadbalancer.server.port: 12345

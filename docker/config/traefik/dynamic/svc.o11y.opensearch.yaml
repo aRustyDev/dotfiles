@@ -1,0 +1,36 @@
+# =============================================================================
+# OpenSearch - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for OpenSearch and OpenSearch Dashboards (Traefik v3.6+)
+#
+# Containers:
+#   - opensearch (opensearchproject/opensearch:2.13.0) - port 9200
+#   - opensearch-dashboards (opensearchproject/opensearch-dashboards:2.13.0) - port 5601
+# =============================================================================
+
+http:
+  routers:
+    opensearch:
+      rule: "Host(`opensearch.localhost`)"
+      service: opensearch
+      entryPoints:
+        - websecure
+      tls: {}
+
+    opensearch-dashboards:
+      rule: "Host(`opensearch-ui.localhost`)"
+      service: opensearch-dashboards
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    opensearch:
+      loadBalancer:
+        servers:
+          - url: "http://opensearch:9200"
+
+    opensearch-dashboards:
+      loadBalancer:
+        servers:
+          - url: "http://opensearch-dashboards:5601"

@@ -85,9 +85,6 @@ services:
         reservations:
           cpus: "0.5"
           memory: 512M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: data-tier
 
   # ===========================================================================
   # Vector (Log Collection)
@@ -198,9 +195,6 @@ services:
         limits:
           cpus: "1.0"
           memory: 512M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
 
   # ===========================================================================
   # GoTrue Authentication
@@ -522,9 +516,6 @@ services:
         limits:
           cpus: "0.5"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: data-tier
 
   # ===========================================================================
   # Studio Dashboard
@@ -573,9 +564,6 @@ services:
         limits:
           cpus: "1.0"
           memory: 512M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
 
 
 volumes:

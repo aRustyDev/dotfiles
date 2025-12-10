@@ -1,0 +1,23 @@
+# =============================================================================
+# Kibana - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Kibana ELK visualization (Traefik v3.6+)
+#
+# Container: kibana (docker.elastic.co/kibana/kibana:8.13.0)
+#   - Web UI: port 5601
+# =============================================================================
+
+http:
+  routers:
+    kibana:
+      rule: "Host(`kibana.localhost`)"
+      service: kibana
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    kibana:
+      loadBalancer:
+        servers:
+          - url: "http://kibana:5601"

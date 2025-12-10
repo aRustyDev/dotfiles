@@ -62,10 +62,3 @@ services:
         reservations:
           cpus: "0.5"
           memory: 512M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      traefik.http.routers.mimir.rule: Host(`mimir.localhost`)
-      traefik.http.routers.mimir.entrypoints: websecure
-      traefik.http.routers.mimir.tls: true
-      traefik.http.services.mimir.loadbalancer.server.port: 9009

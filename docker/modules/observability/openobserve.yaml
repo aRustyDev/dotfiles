@@ -74,10 +74,3 @@ services:
         reservations:
           cpus: "0.5"
           memory: 512M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.openobserve.rule: Host(`o2.localhost`)
-      traefik.http.routers.openobserve.entrypoints: websecure
-      traefik.http.routers.openobserve.tls: true
-      traefik.http.services.openobserve.loadbalancer.server.port: 5080

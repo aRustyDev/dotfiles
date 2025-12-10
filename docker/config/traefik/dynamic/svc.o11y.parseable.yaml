@@ -1,0 +1,23 @@
+# =============================================================================
+# Parseable - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Parseable log analytics (Traefik v3.6+)
+#
+# Container: parseable (parseable/parseable:latest)
+#   - HTTP API & UI: port 8000
+# =============================================================================
+
+http:
+  routers:
+    parseable:
+      rule: "Host(`parseable.localhost`)"
+      service: parseable
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    parseable:
+      loadBalancer:
+        servers:
+          - url: "http://parseable:8000"

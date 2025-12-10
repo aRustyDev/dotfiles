@@ -82,10 +82,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.parseable.rule: Host(`parseable.localhost`)
-      traefik.http.routers.parseable.entrypoints: websecure
-      traefik.http.routers.parseable.tls: true
-      traefik.http.services.parseable.loadbalancer.server.port: 8000

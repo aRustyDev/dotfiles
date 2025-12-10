@@ -65,10 +65,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 512M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      traefik.http.routers.logstash.rule: Host(`logstash.localhost`)
-      traefik.http.routers.logstash.entrypoints: websecure
-      traefik.http.routers.logstash.tls: true
-      traefik.http.services.logstash.loadbalancer.server.port: 9600

@@ -66,10 +66,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.zipkin.rule: Host(`zipkin.localhost`)
-      traefik.http.routers.zipkin.entrypoints: websecure
-      traefik.http.routers.zipkin.tls: true
-      traefik.http.services.zipkin.loadbalancer.server.port: 9411

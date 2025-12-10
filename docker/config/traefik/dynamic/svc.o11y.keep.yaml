@@ -1,0 +1,23 @@
+# =============================================================================
+# Keep - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Keep alert management platform (Traefik v3.6+)
+#
+# Container: keep-frontend (us-central1-docker.pkg.dev/keephq/keep/keep-ui:latest)
+#   - Web UI: port 3000
+# =============================================================================
+
+http:
+  routers:
+    keep:
+      rule: "Host(`keep.localhost`)"
+      service: keep
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    keep:
+      loadBalancer:
+        servers:
+          - url: "http://keep-frontend:3000"

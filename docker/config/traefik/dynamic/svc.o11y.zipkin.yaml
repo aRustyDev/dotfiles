@@ -1,0 +1,23 @@
+# =============================================================================
+# Zipkin - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Zipkin distributed tracing (Traefik v3.6+)
+#
+# Container: zipkin (openzipkin/zipkin:3.3)
+#   - HTTP API & UI: port 9411
+# =============================================================================
+
+http:
+  routers:
+    zipkin:
+      rule: "Host(`zipkin.localhost`)"
+      service: zipkin
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    zipkin:
+      loadBalancer:
+        servers:
+          - url: "http://zipkin:9411"

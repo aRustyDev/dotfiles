@@ -58,10 +58,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      traefik.http.routers.loki.rule: Host(`loki.localhost`)
-      traefik.http.routers.loki.entrypoints: websecure
-      traefik.http.routers.loki.tls: true
-      traefik.http.services.loki.loadbalancer.server.port: 3100

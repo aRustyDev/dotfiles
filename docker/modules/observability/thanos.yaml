@@ -114,13 +114,6 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.thanos.rule: Host(`thanos.localhost`)
-      traefik.http.routers.thanos.entrypoints: websecure
-      traefik.http.routers.thanos.tls: true
-      traefik.http.services.thanos.loadbalancer.server.port: 9090
 
   # Thanos Store - Object storage gateway
   thanos-store:

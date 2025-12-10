@@ -1,0 +1,23 @@
+# =============================================================================
+# Loki - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Grafana Loki log aggregation (Traefik v3.6+)
+#
+# Container: loki (grafana/loki:3.0.0)
+#   - HTTP API: port 3100
+# =============================================================================
+
+http:
+  routers:
+    loki:
+      rule: "Host(`loki.localhost`)"
+      service: loki
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    loki:
+      loadBalancer:
+        servers:
+          - url: "http://loki:3100"

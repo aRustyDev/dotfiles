@@ -60,16 +60,5 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-    labels:
-      # =======================================================================
-      # Traefik Configuration - PostgreSQL Database
-      # =======================================================================
-      # NOTE: Routing is defined in file provider (svc.db.postgres.yaml)
-      # because TCP routing requires file-based configuration.
-      #
-      # Endpoint:
-      #   - Database: port 5432 (via postgres entrypoint)
-      # =======================================================================
-      traefik.enable: true
-      traefik.docker.network: data-tier
+    # NOTE: PostgreSQL uses TCP protocol - routing defined in svc.db.postgres.yaml
 

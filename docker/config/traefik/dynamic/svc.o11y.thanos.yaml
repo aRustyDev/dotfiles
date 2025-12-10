@@ -1,0 +1,23 @@
+# =============================================================================
+# Thanos - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Thanos Query (Traefik v3.6+)
+#
+# Container: thanos-query (quay.io/thanos/thanos:v0.35.0)
+#   - HTTP (Prometheus-compatible API): port 9090
+# =============================================================================
+
+http:
+  routers:
+    thanos:
+      rule: "Host(`thanos.localhost`)"
+      service: thanos
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    thanos:
+      loadBalancer:
+        servers:
+          - url: "http://thanos-query:9090"

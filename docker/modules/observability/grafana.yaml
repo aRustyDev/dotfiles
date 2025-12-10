@@ -77,10 +77,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 128M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.grafana.rule: Host(`grafana.localhost`)
-      traefik.http.routers.grafana.entrypoints: websecure
-      traefik.http.routers.grafana.tls: true
-      traefik.http.services.grafana.loadbalancer.server.port: 3000

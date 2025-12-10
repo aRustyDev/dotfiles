@@ -78,10 +78,3 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      traefik.http.routers.elasticsearch.rule: Host(`es.localhost`)
-      traefik.http.routers.elasticsearch.entrypoints: websecure
-      traefik.http.routers.elasticsearch.tls: true
-      traefik.http.services.elasticsearch.loadbalancer.server.port: 9200

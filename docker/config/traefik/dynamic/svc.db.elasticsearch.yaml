@@ -1,0 +1,23 @@
+# =============================================================================
+# Elasticsearch - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Elasticsearch search engine (Traefik v3.6+)
+#
+# Container: elasticsearch (docker.elastic.co/elasticsearch/elasticsearch:8.13.0)
+#   - HTTP API: port 9200
+# =============================================================================
+
+http:
+  routers:
+    elasticsearch:
+      rule: "Host(`es.localhost`)"
+      service: elasticsearch
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    elasticsearch:
+      loadBalancer:
+        servers:
+          - url: "http://elasticsearch:9200"

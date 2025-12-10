@@ -1,0 +1,23 @@
+# =============================================================================
+# Jaeger - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Jaeger distributed tracing (Traefik v3.6+)
+#
+# Container: jaeger (jaegertracing/all-in-one:1.57)
+#   - Query/UI: port 16686
+# =============================================================================
+
+http:
+  routers:
+    jaeger:
+      rule: "Host(`jaeger.localhost`)"
+      service: jaeger
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    jaeger:
+      loadBalancer:
+        servers:
+          - url: "http://jaeger:16686"

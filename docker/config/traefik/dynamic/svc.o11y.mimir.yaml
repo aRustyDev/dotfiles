@@ -1,0 +1,23 @@
+# =============================================================================
+# Mimir - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Grafana Mimir long-term metrics storage (Traefik v3.6+)
+#
+# Container: mimir (grafana/mimir:2.12.0)
+#   - HTTP API: port 9009
+# =============================================================================
+
+http:
+  routers:
+    mimir:
+      rule: "Host(`mimir.localhost`)"
+      service: mimir
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    mimir:
+      loadBalancer:
+        servers:
+          - url: "http://mimir:9009"

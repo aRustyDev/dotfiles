@@ -1,0 +1,23 @@
+# =============================================================================
+# Vector - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Vector aggregator (Traefik v3.6+)
+#
+# Container: vector-aggregator (timberio/vector:0.38.0-alpine)
+#   - HTTP Source: port 8080
+# =============================================================================
+
+http:
+  routers:
+    vector:
+      rule: "Host(`vector.localhost`)"
+      service: vector
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    vector:
+      loadBalancer:
+        servers:
+          - url: "http://vector-aggregator:8080"

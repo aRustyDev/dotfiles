@@ -1,0 +1,23 @@
+# =============================================================================
+# Prometheus - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Prometheus metrics server (Traefik v3.6+)
+#
+# Container: prometheus (prom/prometheus:v2.52.0)
+#   - Web UI & API: port 9090
+# =============================================================================
+
+http:
+  routers:
+    prometheus:
+      rule: "Host(`prometheus.localhost`)"
+      service: prometheus
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    prometheus:
+      loadBalancer:
+        servers:
+          - url: "http://prometheus:9090"

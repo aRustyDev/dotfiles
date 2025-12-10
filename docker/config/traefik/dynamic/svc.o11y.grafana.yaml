@@ -1,0 +1,23 @@
+# =============================================================================
+# Grafana - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Grafana observability dashboard (Traefik v3.6+)
+#
+# Container: grafana (grafana/grafana:11.0.0)
+#   - Web UI & API: port 3000
+# =============================================================================
+
+http:
+  routers:
+    grafana:
+      rule: "Host(`grafana.localhost`)"
+      service: grafana
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    grafana:
+      loadBalancer:
+        servers:
+          - url: "http://grafana:3000"

@@ -1,0 +1,23 @@
+# =============================================================================
+# Alloy - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Grafana Alloy telemetry collector (Traefik v3.6+)
+#
+# Container: alloy (grafana/alloy:v1.1.0)
+#   - HTTP UI: port 12345
+# =============================================================================
+
+http:
+  routers:
+    alloy:
+      rule: "Host(`alloy.localhost`)"
+      service: alloy
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    alloy:
+      loadBalancer:
+        servers:
+          - url: "http://alloy:12345"

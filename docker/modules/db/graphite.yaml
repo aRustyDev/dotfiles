@@ -71,8 +71,6 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: false  # No HTTP interface
 
   # ---------------------------------------------------------------------------
   # carbonapi - HTTP API Server (Query Interface)
@@ -110,10 +108,3 @@ services:
         reservations:
           cpus: "0.1"
           memory: 128M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      traefik.http.routers.graphite.rule: Host(`graphite.localhost`)
-      traefik.http.routers.graphite.entrypoints: websecure
-      traefik.http.routers.graphite.tls: true
-      traefik.http.services.graphite.loadbalancer.server.port: 8080

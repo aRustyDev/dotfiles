@@ -1,0 +1,23 @@
+# =============================================================================
+# Tempo - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Grafana Tempo distributed tracing (Traefik v3.6+)
+#
+# Container: tempo (grafana/tempo:2.5.0)
+#   - HTTP API: port 3200
+# =============================================================================
+
+http:
+  routers:
+    tempo:
+      rule: "Host(`tempo.localhost`)"
+      service: tempo
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    tempo:
+      loadBalancer:
+        servers:
+          - url: "http://tempo:3200"

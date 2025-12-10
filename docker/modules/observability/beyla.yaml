@@ -89,5 +89,3 @@ services:
         reservations:
           cpus: "0.1"
           memory: 64M
-    labels:
-      traefik.enable: false  # No web UI, just metrics endpoint

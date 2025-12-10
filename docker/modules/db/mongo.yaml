@@ -61,13 +61,5 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    labels:
-      # =======================================================================
-      # Traefik Configuration - TCP Routing
-      # =======================================================================
-      # NOTE: MongoDB uses TCP protocol, not HTTP.
-      # Routing is defined in file provider (svc.db.mongo.yaml)
-      # =======================================================================
-      traefik.enable: true
-      traefik.docker.network: data-tier
+    # NOTE: MongoDB uses TCP protocol - routing defined in svc.db.mongo.yaml
 

@@ -86,10 +86,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.jaeger.rule: Host(`jaeger.localhost`)
-      traefik.http.routers.jaeger.entrypoints: websecure
-      traefik.http.routers.jaeger.tls: true
-      traefik.http.services.jaeger.loadbalancer.server.port: 16686

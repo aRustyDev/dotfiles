@@ -67,13 +67,5 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-    labels:
-      # =======================================================================
-      # Traefik Configuration - TCP Routing
-      # =======================================================================
-      # NOTE: Valkey uses TCP protocol (Redis-compatible), not HTTP.
-      # Routing is defined in file provider (svc.db.valkey.yaml)
-      # =======================================================================
-      traefik.enable: true
-      traefik.docker.network: data-tier
+    # NOTE: Valkey uses TCP protocol - routing defined in svc.db.valkey.yaml
 

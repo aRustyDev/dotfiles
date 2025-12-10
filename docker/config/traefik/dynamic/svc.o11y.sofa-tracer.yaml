@@ -1,0 +1,23 @@
+# =============================================================================
+# SOFA Tracer - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for SOFA Tracer Zipkin backend (Traefik v3.6+)
+#
+# Container: sofa-zipkin (openzipkin/zipkin:3.4)
+#   - HTTP API & UI: port 9411
+# =============================================================================
+
+http:
+  routers:
+    sofa-tracer:
+      rule: "Host(`sofa-tracer.localhost`)"
+      service: sofa-tracer
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    sofa-tracer:
+      loadBalancer:
+        servers:
+          - url: "http://sofa-zipkin:9411"

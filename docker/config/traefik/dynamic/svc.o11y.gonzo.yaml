@@ -1,0 +1,23 @@
+# =============================================================================
+# Gonzo - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Gonzo resource optimization (Traefik v3.6+)
+#
+# Container: gonzo (controltheory/gonzo:latest)
+#   - HTTP API & UI: port 8080
+# =============================================================================
+
+http:
+  routers:
+    gonzo:
+      rule: "Host(`gonzo.localhost`)"
+      service: gonzo
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    gonzo:
+      loadBalancer:
+        servers:
+          - url: "http://gonzo:8080"

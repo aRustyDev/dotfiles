@@ -80,14 +80,6 @@ services:
         reservations:
           cpus: "0.1"
           memory: 128M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      # OTLP HTTP endpoint for LLM traces
-      traefik.http.routers.llmetry.rule: Host(`llmetry.localhost`)
-      traefik.http.routers.llmetry.entrypoints: websecure
-      traefik.http.routers.llmetry.tls: true
-      traefik.http.services.llmetry.loadbalancer.server.port: 4318
 
 # =============================================================================
 # Configuration Notes

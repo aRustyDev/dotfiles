@@ -82,13 +82,6 @@ services:
         reservations:
           cpus: "0.5"
           memory: 512M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.influxdb.rule: Host(`influxdb.localhost`)
-      traefik.http.routers.influxdb.entrypoints: websecure
-      traefik.http.routers.influxdb.tls: true
-      traefik.http.services.influxdb.loadbalancer.server.port: 8086
 
   # ---------------------------------------------------------------------------
   # Telegraf - Metrics Collection Agent (Optional)
@@ -166,13 +159,6 @@ services:
         reservations:
           cpus: "0.1"
           memory: 64M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.chronograf.rule: Host(`chronograf.localhost`)
-      traefik.http.routers.chronograf.entrypoints: websecure
-      traefik.http.routers.chronograf.tls: true
-      traefik.http.services.chronograf.loadbalancer.server.port: 8888
 
 # =============================================================================
 # Configuration Notes

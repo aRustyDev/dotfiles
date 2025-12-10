@@ -62,10 +62,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 512M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.kibana.rule: Host(`kibana.localhost`)
-      traefik.http.routers.kibana.entrypoints: websecure
-      traefik.http.routers.kibana.tls: true
-      traefik.http.services.kibana.loadbalancer.server.port: 5601

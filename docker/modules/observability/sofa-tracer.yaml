@@ -74,13 +74,6 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: frontend
-      traefik.http.routers.sofa-tracer.rule: Host(`sofa-tracer.localhost`)
-      traefik.http.routers.sofa-tracer.entrypoints: websecure
-      traefik.http.routers.sofa-tracer.tls: true
-      traefik.http.services.sofa-tracer.loadbalancer.server.port: 9411
 
 # =============================================================================
 # SOFA Tracer Integration Notes

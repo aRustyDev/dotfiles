@@ -69,10 +69,3 @@ services:
         reservations:
           cpus: "0.1"
           memory: 128M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      traefik.http.routers.fluentd.rule: Host(`fluentd.localhost`)
-      traefik.http.routers.fluentd.entrypoints: websecure
-      traefik.http.routers.fluentd.tls: true
-      traefik.http.services.fluentd.loadbalancer.server.port: 9880

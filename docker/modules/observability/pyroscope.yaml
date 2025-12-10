@@ -67,10 +67,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-    labels:
-      traefik.enable: true
-      traefik.docker.network: backend
-      traefik.http.routers.pyroscope.rule: Host(`pyroscope.localhost`)
-      traefik.http.routers.pyroscope.entrypoints: websecure
-      traefik.http.routers.pyroscope.tls: true
-      traefik.http.services.pyroscope.loadbalancer.server.port: 4040

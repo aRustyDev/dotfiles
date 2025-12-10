@@ -1,0 +1,23 @@
+# =============================================================================
+# Pyroscope - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for Grafana Pyroscope continuous profiling (Traefik v3.6+)
+#
+# Container: pyroscope (grafana/pyroscope:1.6.0)
+#   - HTTP API & UI: port 4040
+# =============================================================================
+
+http:
+  routers:
+    pyroscope:
+      rule: "Host(`pyroscope.localhost`)"
+      service: pyroscope
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    pyroscope:
+      loadBalancer:
+        servers:
+          - url: "http://pyroscope:4040"

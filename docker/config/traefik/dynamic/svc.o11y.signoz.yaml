@@ -1,0 +1,23 @@
+# =============================================================================
+# SigNoz - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for SigNoz APM frontend (Traefik v3.6+)
+#
+# Container: signoz-frontend (signoz/frontend:0.45.0)
+#   - Web UI: port 3301
+# =============================================================================
+
+http:
+  routers:
+    signoz:
+      rule: "Host(`signoz.localhost`)"
+      service: signoz
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    signoz:
+      loadBalancer:
+        servers:
+          - url: "http://signoz-frontend:3301"
