@@ -2,6 +2,9 @@
 # =============================================================================
 # Kibana - Elasticsearch Visualization Platform
 # =============================================================================
+# NOTE: Requires elasticsearch service from db-elastic profile
+# Dependencies (must be running before kibana):
+#   - elasticsearch (db-elastic profile)
 #
 # Kibana is the visualization layer of the ELK stack, providing search and
 # data visualization capabilities for data indexed in Elasticsearch.
@@ -45,9 +48,6 @@ services:
       TELEMETRY_ENABLED: "false"
     expose:
       - "5601"
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl -s http://localhost:5601/api/status | grep -q '\"overall\":{\"level\":\"available\"'"]
       interval: 30s
