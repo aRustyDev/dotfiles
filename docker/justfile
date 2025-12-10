@@ -281,10 +281,15 @@ list-docker-profiles: docker-test
 docker-template profiles="core":
     COMPOSE_PROFILES="{{ profiles }}" docker compose -f "{{ dot_docker }}/docker-compose.yaml" config | envsubst
 
-# Test Docker-compose config is valid for profiles
+# Test Docker-compose config is valid for profiles (uses installed config)
 [group("docker")]
 docker-test profiles="":
     {{ if profiles != "" { 'COMPOSE_PROFILES=' + profiles } else { "" } }} docker compose -f "{{ dot_docker }}/docker-compose.yaml" config --quiet 2>/dev/null && echo "✓ Config valid {{ if profiles != "" { "for: " + profiles } else { "" } }}"
+
+# Test Docker-compose config from source directory (for development)
+[group("docker")]
+docker-test-src profiles="":
+    {{ if profiles != "" { 'COMPOSE_PROFILES=' + profiles } else { "" } }} docker compose -f "{{ src_docker }}/docker-compose.yaml" config --quiet 2>/dev/null && echo "✓ Config valid {{ if profiles != "" { "for: " + profiles } else { "" } }}"
 
 # =============================================================================
 # DNS Management (extends volta unbound - doesn't stomp)
