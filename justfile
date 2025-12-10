@@ -1,6 +1,7 @@
 import '.build/just/lib.just'
 
-all := shell(require("fd") + " . -t d -d 1 " + root)
+# Get all immediate subdirectories (depth 1) that contain a justfile
+_subdirs := shell("find " + justfile_directory() + " -mindepth 2 -maxdepth 2 -name 'justfile' -type f -exec dirname {} \\; | xargs -I{} basename {} | sort | tr '\\n' ' '")
 
 restart target:
     @if [ {{ target }} = "zshrc" ]; then \
@@ -30,26 +31,42 @@ dependencies:
     @require("brew") update && brew upgrade
     @brew install most git-delta jq jqp yq 1password@nightly 1password-cli@beta
 
-# install dotfiles (defaults to all; specify to dirname)
+# List available install targets (subdirectories with justfiles)
 [unix]
 [group('unix')]
-install target=all:
-    #!/usr/bin/env zsh
-    str="{{target}}"
-    arr=("${(@f)str}")
-    for absroot in ${arr[@]}; do
-        echo "$dir"
-        if [ ! path_exists("$absroot") ]; then
-            echo "Directory $absroot does not exist"
-            continue
-        elif [ ! path_exists("$absroot/justfile") ]; then
-            echo "$absroot's Justfile does not exist"
-            continue
-        elif [ ! just -f "$absroot/justfile" --list | require("rg") "install" 2>&1 ]; then
-            echo "$absroot/justfile does not have an 'install' recipe"
-            continue
+list-targets:
+    @echo "Available install targets:"
+    @echo "{{ _subdirs }}" | tr ' ' '\n' | grep -v '^$' | sed 's/^/  - /'
+
+# Install dotfiles
+# - No args: install all subdirectories with justfiles
+# - Single target: just install zsh
+# - Multiple targets (comma-separated): just install zsh,git,tmux
+# - Nested paths supported: just install docker/modules/cicd
+[unix]
+[group('unix')]
+install *targets=_subdirs:
+    #!/usr/bin/env bash
+
+    # Convert to array
+    read -a targets_arr <<< "{{replace(targets, ",", " ")}}"
+
+    for target in "${targets_arr[@]}"; do
+        [[ -z "$target" ]] && continue
+
+        # Build absolute path
+        target_path="{{ justfile_directory() }}/${target}"
+        [[ -d "$target_path" ]] || echo "⚠️  Directory does not exist: ${target}"
+        [[ -f "$target_path/justfile" ]] || echo "⚠️  No justfile found in: $target"
+
+        # Check if justfile has an 'install' recipe
+        if ! "{{ just_executable() }}" -f "$target_path/justfile" --list 2>/dev/null | grep -q '^\s*install\b'; then
+            echo "⚠️  No 'install' recipe in: $target/justfile"
         else
-            echo "Installing $absroot..."
-            echo just -f "$absroot/justfile" install
+            # Run the install recipe
+            echo "📦 Installing: $target"
+            "{{ just_executable() }}" -f "$target_path/justfile" install
+            echo "✅ Completed: $target"
         fi
     done
+    echo "🎉 Install complete!"
