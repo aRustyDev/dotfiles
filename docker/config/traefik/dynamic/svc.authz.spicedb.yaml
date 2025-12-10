@@ -1,0 +1,42 @@
+# =============================================================================
+# SpiceDB Authorization - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   authz@file (root)   -> Host(`authz.localhost`)
+#     └── api@file      -> PathPrefix(`/api`) [THIS FILE]
+#
+# Container: spicedb (authzed/spicedb:v1.40.0)
+#   - HTTP API: port 8443
+#   - gRPC API: port 50051 (direct, not via Traefik)
+#   - Metrics: port 9090
+#
+# Access via:
+#   curl https://authz.localhost/api/v1/schema/read
+# =============================================================================
+
+http:
+  routers:
+    # SpiceDB HTTP API router
+    # Matches: Host(authz.localhost) && PathPrefix(/api)
+    spicedb-api:
+      rule: "PathPrefix(`/api`)"
+      service: spicedb-http
+      middlewares:
+        - secure-headers@file
+      parentRefs:
+        - authz@file
+
+    # SpiceDB Health check router
+    spicedb-health:
+      rule: "PathPrefix(`/health`)"
+      service: spicedb-http
+      parentRefs:
+        - authz@file
+
+  services:
+    spicedb-http:
+      loadBalancer:
+        servers:
+          - url: "http://spicedb:8443"

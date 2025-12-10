@@ -1,0 +1,38 @@
+// =============================================================================
+// SpiceDB Schema Definition
+// =============================================================================
+// This schema defines the authorization model for your application.
+// Edit this file to define your permission structure.
+//
+// Documentation: https://authzed.com/docs/spicedb/concepts/schema
+// =============================================================================
+
+definition user {}
+
+definition organization {
+    relation admin: user
+    relation member: user
+
+    permission administer = admin
+    permission view = admin + member
+}
+
+definition team {
+    relation organization: organization
+    relation admin: user
+    relation member: user
+
+    permission administer = admin + organization->administer
+    permission view = admin + member + organization->view
+}
+
+definition resource {
+    relation organization: organization
+    relation owner: user
+    relation editor: user
+    relation viewer: user
+
+    permission admin = owner + organization->administer
+    permission write = owner + editor + organization->administer
+    permission read = owner + editor + viewer + organization->view
+}

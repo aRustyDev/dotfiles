@@ -1,0 +1,59 @@
+# =============================================================================
+# ORY Oathkeeper IAP - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   authn@file (root)   -> Host(`id.localhost`)
+#     └── oathkeeper    -> PathPrefix(`/decisions`) [ForwardAuth endpoint]
+#
+# Container: oathkeeper (oryd/oathkeeper:v0.40.8)
+#   - Proxy: port 4455
+#   - API: port 4456
+#
+# ForwardAuth Usage:
+#   Configure middleware in core.middlewares.yaml using oathkeeper's
+#   /decisions endpoint for authentication/authorization decisions.
+#
+# Access via:
+#   curl https://id.localhost/decisions
+# =============================================================================
+
+http:
+  routers:
+    # Oathkeeper Decisions API (ForwardAuth endpoint)
+    oathkeeper-decisions:
+      rule: "PathPrefix(`/decisions`)"
+      service: oathkeeper-api
+      middlewares:
+        - secure-headers@file
+      parentRefs:
+        - authn@file
+
+    # Oathkeeper Health endpoint
+    oathkeeper-health:
+      rule: "PathPrefix(`/health`) && HeaderRegexp(`X-Service`, `oathkeeper`)"
+      service: oathkeeper-api
+      parentRefs:
+        - authn@file
+
+    # Oathkeeper Rules API
+    oathkeeper-rules:
+      rule: "PathPrefix(`/rules`)"
+      service: oathkeeper-api
+      middlewares:
+        - secure-headers@file
+        # Consider adding auth middleware
+      parentRefs:
+        - authn@file
+
+  services:
+    oathkeeper-proxy:
+      loadBalancer:
+        servers:
+          - url: "http://oathkeeper:4455"
+
+    oathkeeper-api:
+      loadBalancer:
+        servers:
+          - url: "http://oathkeeper:4456"

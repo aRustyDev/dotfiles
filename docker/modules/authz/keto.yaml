@@ -1,0 +1,126 @@
+---
+# =============================================================================
+# ORY Keto Docker Compose Configuration
+# =============================================================================
+#
+# ORY Keto is a Google Zanzibar-inspired permission server. It provides
+# fine-grained access control using relation tuples (similar to SpiceDB).
+#
+# Note: Both Keto and SpiceDB implement Zanzibar-style permissions.
+# Choose one based on your needs:
+#   - Keto: Tighter ORY ecosystem integration
+#   - SpiceDB: More feature-rich, standalone solution
+#
+# Components:
+#   - keto: Permission server
+#   - keto-migrate: Database migration job
+#
+# Endpoints:
+#   - Read API: port 4466 (check permissions)
+#   - Write API: port 4467 (manage relation tuples)
+#   - gRPC: ports 4468 (read), 4469 (write)
+#
+# Environment Variables:
+#   KETO_DSN - Database connection string
+#
+# Namespaces:
+#   - Stored in ${XDG_CONFIG_HOME}/docker/config/ory/keto/namespaces/
+#
+# Usage:
+#   docker-compose -f keto.yaml up
+#
+# =============================================================================
+
+services:
+  # Keto Migration Job
+  keto-migrate:
+    image: oryd/keto:v0.14.0
+    container_name: keto-migrate
+    profiles: ["core", "authz"]
+    networks:
+      - authz
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: migrate up --yes
+    configs:
+      - source: keto
+        target: /etc/keto/keto.yaml
+        mode: 0440
+    environment:
+      DSN: "${KETO_DSN:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${KETO_DB:-keto}?sslmode=disable}"
+    restart: on-failure
+
+  # ORY Keto Permission Server
+  keto:
+    image: oryd/keto:v0.14.0
+    container_name: keto
+    hostname: keto
+    profiles: ["core", "authz"]
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    networks:
+      - authz
+      - traefik-public
+    depends_on:
+      keto-migrate:
+        condition: service_completed_successfully
+    command: serve -c /etc/keto/keto.yaml
+    configs:
+      - source: keto
+        target: /etc/keto/keto.yaml
+        mode: 0440
+      - source: keto-namespaces
+        target: /etc/keto/namespaces/namespaces.keto.ts
+        mode: 0440
+    environment:
+      # Database configuration
+      DSN: "${KETO_DSN:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${KETO_DB:-keto}?sslmode=disable}"
+      # Logging
+      LOG_LEVEL: "${KETO_LOG_LEVEL:-info}"
+      LOG_FORMAT: "json"
+    ports:
+      - "${KETO_READ_PORT:-4466}:4466"   # Read API (HTTP)
+      - "${KETO_WRITE_PORT:-4467}:4467"  # Write API (HTTP)
+      - "${KETO_GRPC_READ_PORT:-4468}:4468"   # Read API (gRPC)
+      - "${KETO_GRPC_WRITE_PORT:-4469}:4469"  # Write API (gRPC)
+    labels:
+      # =======================================================================
+      # Traefik Configuration - ORY Keto Permissions
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.authz.keto.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      #
+      # Endpoints:
+      #   - Read API: https://authz.localhost/relation-tuples/check
+      #   - Write API: https://authz.localhost/admin/relation-tuples
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4466/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  authz:
+    name: authz
+  traefik-public:
+    external: true
+
+configs:
+  keto:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/ory/keto/keto.yaml
+  keto-namespaces:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/ory/keto/namespaces/namespaces.keto.ts

@@ -1,0 +1,229 @@
+# =============================================================================
+# ORY Oathkeeper Access Rules
+# =============================================================================
+# Define which requests require authentication/authorization and how to handle them.
+#
+# Rule structure:
+#   - id: Unique identifier
+#   - upstream: Backend service
+#   - match: URL pattern to match
+#   - authenticators: How to verify identity
+#   - authorizer: How to check permissions
+#   - mutators: How to transform request
+#
+# Documentation: https://www.ory.sh/docs/oathkeeper/pipeline
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Public Routes (No Authentication Required)
+# -----------------------------------------------------------------------------
+
+- id: public-health
+  upstream:
+    url: http://localhost:8080
+    strip_path: /health
+  match:
+    url: <https://*.localhost/health>
+    methods:
+      - GET
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: public-kratos-self-service
+  upstream:
+    url: http://kratos:4433
+  match:
+    url: <https://id.localhost/self-service/<**>>
+    methods:
+      - GET
+      - POST
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: public-kratos-schemas
+  upstream:
+    url: http://kratos:4433
+  match:
+    url: <https://id.localhost/schemas/<**>>
+    methods:
+      - GET
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: public-hydra-wellknown
+  upstream:
+    url: http://hydra:4444
+  match:
+    url: <https://id.localhost/.well-known/<**>>
+    methods:
+      - GET
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: public-hydra-oauth2-auth
+  upstream:
+    url: http://hydra:4444
+  match:
+    url: <https://id.localhost/oauth2/auth>
+    methods:
+      - GET
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+- id: public-hydra-oauth2-token
+  upstream:
+    url: http://hydra:4444
+  match:
+    url: <https://id.localhost/oauth2/token>
+    methods:
+      - POST
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
+# -----------------------------------------------------------------------------
+# Authenticated Routes (Session Required)
+# -----------------------------------------------------------------------------
+
+- id: authenticated-sessions-whoami
+  upstream:
+    url: http://kratos:4433
+  match:
+    url: <https://id.localhost/sessions/whoami>
+    methods:
+      - GET
+  authenticators:
+    - handler: cookie_session
+    - handler: bearer_token
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User-Id: "{{ .Subject }}"
+
+- id: authenticated-user-settings
+  upstream:
+    url: http://kratos:4433
+  match:
+    url: <https://id.localhost/settings>
+    methods:
+      - GET
+      - POST
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: header
+
+# -----------------------------------------------------------------------------
+# Protected API Routes (Bearer Token Required)
+# -----------------------------------------------------------------------------
+
+- id: protected-api
+  upstream:
+    url: http://api:8080
+    preserve_host: true
+  match:
+    url: <https://api.localhost/<**>>
+    methods:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+  authenticators:
+    - handler: jwt
+    - handler: bearer_token
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User-Id: "{{ .Subject }}"
+          X-User-Email: "{{ .Extra.identity.traits.email }}"
+
+# -----------------------------------------------------------------------------
+# Admin Routes (Restricted Access)
+# -----------------------------------------------------------------------------
+
+- id: admin-kratos
+  upstream:
+    url: http://kratos:4434
+  match:
+    url: <https://id.localhost/admin/<**>>
+    methods:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: http://keto:4466/relation-tuples/check
+      payload: |
+        {
+          "namespace": "admin",
+          "object": "kratos",
+          "relation": "access",
+          "subject_id": "{{ .Subject }}"
+        }
+  mutators:
+    - handler: header
+
+- id: admin-spicedb
+  upstream:
+    url: http://spicedb:8443
+  match:
+    url: <https://authz.localhost/api/<**>>
+    methods:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+  authenticators:
+    - handler: jwt
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: http://keto:4466/relation-tuples/check
+      payload: |
+        {
+          "namespace": "admin",
+          "object": "spicedb",
+          "relation": "access",
+          "subject_id": "{{ .Subject }}"
+        }
+  mutators:
+    - handler: header

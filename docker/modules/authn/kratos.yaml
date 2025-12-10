@@ -1,0 +1,147 @@
+---
+# =============================================================================
+# ORY Kratos Docker Compose Configuration
+# =============================================================================
+#
+# ORY Kratos is an identity and user management system. It handles
+# registration, login, account recovery, MFA, and user profile management.
+#
+# Components:
+#   - kratos: Identity server
+#   - kratos-migrate: Database migration job
+#   - mailslurper: Development email server (dev profile only)
+#
+# Endpoints:
+#   - Public API: port 4433 (self-service flows)
+#   - Admin API: port 4434 (identity management)
+#
+# Environment Variables:
+#   KRATOS_DSN                     - Database connection string
+#   KRATOS_SECRETS_DEFAULT         - Default encryption secret
+#   KRATOS_SECRETS_COOKIE          - Cookie encryption secret
+#   KRATOS_COURIER_SMTP_CONNECTION - SMTP connection string
+#
+# Identity Schemas:
+#   - Stored in ${XDG_CONFIG_HOME}/docker/config/ory/kratos/schemas/
+#
+# Usage:
+#   docker-compose -f kratos.yaml up
+#   docker-compose -f kratos.yaml --profile dev up  # includes mailslurper
+#
+# =============================================================================
+
+services:
+  # Kratos Migration Job
+  kratos-migrate:
+    image: oryd/kratos:v1.3.1
+    container_name: kratos-migrate
+    profiles: ["core", "authn"]
+    networks:
+      - authn
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: migrate sql -e --yes
+    environment:
+      DSN: "${KRATOS_DSN:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${KRATOS_DB:-kratos}?sslmode=disable}"
+    restart: on-failure
+
+  # ORY Kratos Identity Server
+  kratos:
+    image: oryd/kratos:v1.3.1
+    container_name: kratos
+    hostname: kratos
+    profiles: ["core", "authn"]
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    networks:
+      - authn
+      - traefik-public
+    depends_on:
+      kratos-migrate:
+        condition: service_completed_successfully
+    command: serve all -c /etc/kratos/kratos.yaml --watch-courier
+    configs:
+      - source: kratos
+        target: /etc/kratos/kratos.yaml
+        mode: 0440
+      - source: kratos-identity-schema
+        target: /etc/kratos/schemas/identity.schema.json
+        mode: 0440
+    environment:
+      # Database configuration
+      DSN: "${KRATOS_DSN:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${KRATOS_DB:-kratos}?sslmode=disable}"
+      # Secrets (generate with: openssl rand -hex 32)
+      SECRETS_DEFAULT: "${KRATOS_SECRETS_DEFAULT:-op://Developer/kratos/secrets-default}"
+      SECRETS_COOKIE: "${KRATOS_SECRETS_COOKIE:-op://Developer/kratos/secrets-cookie}"
+      # URLs
+      SERVE_PUBLIC_BASE_URL: "${KRATOS_PUBLIC_URL:-https://id.localhost}"
+      SERVE_ADMIN_BASE_URL: "${KRATOS_ADMIN_URL:-http://kratos:4434}"
+      # SMTP (for dev, use mailslurper; for prod, configure real SMTP)
+      COURIER_SMTP_CONNECTION_URI: "${KRATOS_COURIER_SMTP:-smtps://test:test@mailslurper:1025/?skip_ssl_verify=true}"
+      # Logging
+      LOG_LEVEL: "${KRATOS_LOG_LEVEL:-info}"
+      LOG_FORMAT: "json"
+    ports:
+      - "${KRATOS_PUBLIC_PORT:-4433}:4433"  # Public API
+      - "${KRATOS_ADMIN_PORT:-4434}:4434"   # Admin API
+    labels:
+      # =======================================================================
+      # Traefik Configuration - ORY Kratos Identity
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.authn.kratos.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      #
+      # Endpoints:
+      #   - Public API: https://id.localhost/self-service/...
+      #   - Admin API: Internal only
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4433/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Development Email Server
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    container_name: mailslurper
+    profiles: ["dev"]
+    networks:
+      - authn
+      - traefik-public
+    ports:
+      - "${MAILSLURPER_SMTP_PORT:-1025}:1025"  # SMTP
+      - "${MAILSLURPER_API_PORT:-4436}:4436"   # API
+      - "${MAILSLURPER_UI_PORT:-4437}:4437"    # Web UI
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+      traefik.http.routers.mailslurper.rule: Host(`mail.localhost`)
+      traefik.http.routers.mailslurper.entrypoints: websecure
+      traefik.http.routers.mailslurper.tls: true
+      traefik.http.services.mailslurper.loadbalancer.server.port: 4437
+
+networks:
+  authn:
+    name: authn
+  traefik-public:
+    external: true
+
+configs:
+  kratos:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/ory/kratos/kratos.yaml
+  kratos-identity-schema:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/ory/kratos/schemas/identity.schema.json

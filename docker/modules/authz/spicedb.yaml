@@ -1,0 +1,152 @@
+---
+# =============================================================================
+# AuthZed SpiceDB Docker Compose Configuration
+# =============================================================================
+#
+# SpiceDB is a Google Zanzibar-inspired database for fine-grained authorization.
+# It provides a centralized permission system using relationship-based access
+# control (ReBAC).
+#
+# Components:
+#   - spicedb: Main authorization database
+#   - spicedb-migrate: Schema migration job
+#
+# Endpoints:
+#   - gRPC API: port 50051
+#   - HTTP API: port 8443
+#   - Metrics: port 9090
+#   - Dashboard: port 8080 (optional dev container)
+#
+# Environment Variables:
+#   SPICEDB_GRPC_PRESHARED_KEY - API authentication key (required)
+#   SPICEDB_DATASTORE_ENGINE   - Backend storage (postgres, cockroachdb, memory)
+#   SPICEDB_DATASTORE_CONN_URI - Database connection string
+#
+# Data Persistence:
+#   - Uses PostgreSQL as datastore (requires postgres service)
+#   - Schema stored in ${XDG_CONFIG_HOME}/docker/config/spicedb/
+#
+# Usage:
+#   docker-compose -f spicedb.yaml up
+#   docker-compose -f spicedb.yaml --profile dev up  # includes playground
+#
+# =============================================================================
+
+services:
+  # SpiceDB Migration Job
+  # Runs schema migrations before SpiceDB starts
+  spicedb-migrate:
+    image: authzed/spicedb:v1.40.0
+    container_name: spicedb-migrate
+    profiles: ["core", "authz"]
+    networks:
+      - authz
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command:
+      - "migrate"
+      - "head"
+    environment:
+      SPICEDB_DATASTORE_ENGINE: "postgres"
+      SPICEDB_DATASTORE_CONN_URI: "${SPICEDB_DATASTORE_CONN_URI:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${SPICEDB_DB:-spicedb}?sslmode=disable}"
+
+  # SpiceDB Authorization Database
+  spicedb:
+    image: authzed/spicedb:v1.40.0
+    container_name: spicedb
+    hostname: spicedb
+    profiles: ["core", "authz"]
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    networks:
+      - authz
+      - traefik-public
+    depends_on:
+      spicedb-migrate:
+        condition: service_completed_successfully
+    command:
+      - "serve"
+    environment:
+      # Datastore configuration
+      SPICEDB_DATASTORE_ENGINE: "postgres"
+      SPICEDB_DATASTORE_CONN_URI: "${SPICEDB_DATASTORE_CONN_URI:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${SPICEDB_DB:-spicedb}?sslmode=disable}"
+      # API authentication
+      SPICEDB_GRPC_PRESHARED_KEY: "${SPICEDB_GRPC_PRESHARED_KEY:-op://Developer/spicedb/preshared-key}"
+      # HTTP API configuration
+      SPICEDB_HTTP_ENABLED: "true"
+      # Metrics
+      SPICEDB_TELEMETRY_ENDPOINT: ""
+      SPICEDB_OTEL_PROVIDER: "none"
+    ports:
+      - "${SPICEDB_GRPC_PORT:-50051}:50051"   # gRPC API
+      - "${SPICEDB_HTTP_PORT:-8443}:8443"     # HTTP/REST API
+      - "${SPICEDB_METRICS_PORT:-9090}:9090"  # Metrics
+    configs:
+      - source: spicedb-schema
+        target: /etc/spicedb/schema.zed
+        mode: 0440
+    labels:
+      # =======================================================================
+      # Traefik Configuration - SpiceDB Authorization
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.authz.spicedb.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      #
+      # Endpoints:
+      #   - HTTP API: https://authz.localhost/api
+      #   - gRPC: port 50051 (direct, non-Traefik)
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "grpc_health_probe", "-addr=localhost:50051"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # SpiceDB Playground (Development Only)
+  # Web UI for testing and exploring permissions
+  spicedb-playground:
+    image: authzed/playground:latest
+    container_name: spicedb-playground
+    profiles: ["dev"]
+    restart: unless-stopped
+    networks:
+      - authz
+      - traefik-public
+    depends_on:
+      spicedb:
+        condition: service_healthy
+    environment:
+      SPICEDB_URI: "spicedb:50051"
+      SPICEDB_PRESHARED_KEY: "${SPICEDB_GRPC_PRESHARED_KEY:-op://Developer/spicedb/preshared-key}"
+    ports:
+      - "${SPICEDB_PLAYGROUND_PORT:-8080}:8080"
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+      traefik.http.routers.spicedb-playground.rule: Host(`authz.localhost`) && PathPrefix(`/playground`)
+      traefik.http.routers.spicedb-playground.entrypoints: websecure
+      traefik.http.routers.spicedb-playground.tls: true
+      traefik.http.services.spicedb-playground.loadbalancer.server.port: 8080
+
+networks:
+  authz:
+    name: authz
+  traefik-public:
+    external: true
+
+configs:
+  spicedb-schema:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/spicedb/schema.zed

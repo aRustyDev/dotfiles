@@ -1,0 +1,67 @@
+# =============================================================================
+# ORY Hydra OAuth 2.0 / OIDC - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   authn@file (root)   -> Host(`id.localhost`)
+#     ├── hydra-public  -> PathPrefix(`/.well-known`) || PathPrefix(`/oauth2`)
+#     └── hydra-admin   -> PathPrefix(`/admin`) [restricted]
+#
+# Container: hydra (oryd/hydra:v2.3.0)
+#   - Public API: port 4444
+#   - Admin API: port 4445
+#
+# Access via:
+#   curl https://id.localhost/.well-known/openid-configuration
+#   curl https://id.localhost/oauth2/token
+# =============================================================================
+
+http:
+  routers:
+    # Hydra Public API - OIDC Discovery
+    hydra-wellknown:
+      rule: "PathPrefix(`/.well-known`)"
+      service: hydra-public
+      middlewares:
+        - secure-headers@file
+      parentRefs:
+        - authn@file
+
+    # Hydra Public API - OAuth2 endpoints
+    hydra-oauth2:
+      rule: "PathPrefix(`/oauth2`)"
+      service: hydra-public
+      middlewares:
+        - secure-headers@file
+      parentRefs:
+        - authn@file
+
+    # Hydra Health endpoint
+    hydra-health:
+      rule: "PathPrefix(`/health`)"
+      service: hydra-public
+      parentRefs:
+        - authn@file
+
+    # Hydra Admin API (internal only - consider restricting access)
+    hydra-admin:
+      rule: "PathPrefix(`/admin`)"
+      service: hydra-admin
+      middlewares:
+        - secure-headers@file
+        # Consider adding auth middleware for admin API
+        # - auth-basic@file
+      parentRefs:
+        - authn@file
+
+  services:
+    hydra-public:
+      loadBalancer:
+        servers:
+          - url: "http://hydra:4444"
+
+    hydra-admin:
+      loadBalancer:
+        servers:
+          - url: "http://hydra:4445"

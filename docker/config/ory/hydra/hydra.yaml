@@ -1,0 +1,110 @@
+# =============================================================================
+# ORY Hydra Configuration
+# =============================================================================
+# OAuth 2.0 and OpenID Connect Provider configuration
+#
+# Documentation: https://www.ory.sh/docs/hydra/reference/configuration
+# =============================================================================
+
+version: v2.3.0
+
+serve:
+  public:
+    cors:
+      enabled: true
+      allowed_origins:
+        - https://id.localhost
+        - https://*.localhost
+      allowed_methods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+      allowed_headers:
+        - Authorization
+        - Content-Type
+      exposed_headers:
+        - Content-Type
+      allow_credentials: true
+  admin:
+    cors:
+      enabled: false
+
+oauth2:
+  # Token lifetimes
+  access_token:
+    lifespan: 1h
+  refresh_token:
+    lifespan: 720h  # 30 days
+    rotation:
+      grace_period: 1h
+
+  # Allowed grant types
+  grant:
+    jwt:
+      iat_optional: false
+      jti_optional: true
+      max_ttl: 720h
+
+  # Session configuration
+  session:
+    encrypt_at_rest: true
+
+  # PKCE enforcement
+  pkce:
+    enforced: true
+    enforced_for_public_clients: true
+
+  # Exclude specific paths from consent
+  exclude_not_before_claim: false
+
+oidc:
+  # Enable dynamic client registration
+  dynamic_client_registration:
+    enabled: false
+
+  # Subject identifier types
+  subject_identifiers:
+    supported_types:
+      - pairwise
+      - public
+    pairwise:
+      salt: "${HYDRA_OIDC_PAIRWISE_SALT:-}"
+
+# Strategies
+strategies:
+  scope: wildcard
+  access_token: opaque
+
+# TTL for various objects
+ttl:
+  login_consent_request: 1h
+  access_token: 1h
+  refresh_token: 720h
+  id_token: 1h
+  auth_code: 10m
+
+# Logging
+log:
+  level: info
+  format: json
+  leak_sensitive_values: false
+
+# Secrets (set via environment variables)
+# secrets:
+#   system:
+#     - ${SECRETS_SYSTEM}
+#   cookie:
+#     - ${SECRETS_COOKIE}
+
+# Profiling (disabled in production)
+profiling: none
+
+# Tracing configuration (optional)
+# tracing:
+#   provider: otel
+#   providers:
+#     otlp:
+#       server_url: http://jaeger:4318
+#       insecure: true

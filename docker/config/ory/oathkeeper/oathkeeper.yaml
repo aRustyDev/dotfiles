@@ -1,0 +1,184 @@
+# =============================================================================
+# ORY Oathkeeper Configuration
+# =============================================================================
+# Identity-Aware Proxy configuration
+#
+# Documentation: https://www.ory.sh/docs/oathkeeper/reference/configuration
+# =============================================================================
+
+version: v0.40.8
+
+serve:
+  proxy:
+    port: 4455
+    cors:
+      enabled: true
+      allowed_origins:
+        - https://*.localhost
+      allowed_methods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
+      allowed_headers:
+        - Authorization
+        - Content-Type
+        - Cookie
+        - X-Session-Token
+        - X-Forwarded-For
+        - X-Forwarded-Proto
+      exposed_headers:
+        - Content-Type
+        - Set-Cookie
+      allow_credentials: true
+  api:
+    port: 4456
+
+# Access rules configuration
+access_rules:
+  matching_strategy: glob
+  repositories:
+    - file:///etc/oathkeeper/rules/access-rules.yaml
+
+# Error handlers
+errors:
+  fallback:
+    - json
+  handlers:
+    json:
+      enabled: true
+      config:
+        verbose: true
+    redirect:
+      enabled: true
+      config:
+        to: https://id.localhost/login
+        when:
+          - error:
+              - unauthorized
+              - forbidden
+            request:
+              header:
+                accept:
+                  - text/html
+    www_authenticate:
+      enabled: true
+      config:
+        realm: Protected Area
+
+# Authenticators - verify identity
+authenticators:
+  # Anonymous (no authentication required)
+  anonymous:
+    enabled: true
+    config:
+      subject: anonymous
+
+  # Cookie session (via Kratos)
+  cookie_session:
+    enabled: true
+    config:
+      check_session_url: http://kratos:4433/sessions/whoami
+      preserve_path: true
+      extra_from: "@this"
+      subject_from: "identity.id"
+      only:
+        - ory_kratos_session
+
+  # Bearer token
+  bearer_token:
+    enabled: true
+    config:
+      check_session_url: http://hydra:4445/admin/oauth2/introspect
+      preserve_path: true
+      token_from:
+        header: Authorization
+      forward_http_headers:
+        - Authorization
+
+  # JWT validation
+  jwt:
+    enabled: true
+    config:
+      jwks_urls:
+        - http://hydra:4444/.well-known/jwks.json
+      scope_strategy: hierarchic
+      required_scope: []
+      trusted_issuers:
+        - https://id.localhost
+
+  # No operation (passthrough)
+  noop:
+    enabled: true
+
+# Authorizers - check permissions
+authorizers:
+  # Allow all
+  allow:
+    enabled: true
+
+  # Deny all
+  deny:
+    enabled: true
+
+  # Keto authorization check
+  remote_json:
+    enabled: true
+    config:
+      remote: http://keto:4466/relation-tuples/check
+      forward_response_headers_to_upstream:
+        - X-Subject-Id
+      payload: |
+        {
+          "namespace": "{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
+          "object": "{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
+          "relation": "{{ printIndex .MatchContext.RegexpCaptureGroups 2 }}",
+          "subject_id": "{{ .Subject }}"
+        }
+
+# Mutators - transform requests
+mutators:
+  # No operation
+  noop:
+    enabled: true
+
+  # Add headers with user info
+  header:
+    enabled: true
+    config:
+      headers:
+        X-User-Id: "{{ .Subject }}"
+        X-User-Email: "{{ .Extra.identity.traits.email }}"
+
+  # Add cookie
+  cookie:
+    enabled: true
+
+  # Hydrator - enrich request with external data
+  hydrator:
+    enabled: true
+    config:
+      api:
+        url: http://kratos:4434/admin/identities/{{ .Subject }}
+        retry:
+          give_up_after: 2s
+          max_delay: 1s
+
+  # ID token generation
+  id_token:
+    enabled: true
+    config:
+      issuer_url: https://id.localhost
+      jwks_url: file:///etc/oathkeeper/jwks.json
+      claims: |
+        {
+          "session": {{ .Extra | toJson }}
+        }
+
+# Logging
+log:
+  level: info
+  format: json
+  leak_sensitive_values: false

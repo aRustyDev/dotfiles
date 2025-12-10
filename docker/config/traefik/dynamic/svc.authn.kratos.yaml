@@ -1,0 +1,76 @@
+# =============================================================================
+# ORY Kratos Identity - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   authn@file (root)   -> Host(`id.localhost`)
+#     ├── kratos-public -> PathPrefix(`/self-service`) || PathPrefix(`/sessions`)
+#     └── kratos-admin  -> PathPrefix(`/identities`) [restricted]
+#
+# Container: kratos (oryd/kratos:v1.3.1)
+#   - Public API: port 4433
+#   - Admin API: port 4434
+#
+# Access via:
+#   curl https://id.localhost/self-service/login/browser
+#   curl https://id.localhost/sessions/whoami
+# =============================================================================
+
+http:
+  routers:
+    # Kratos Public API - Self-service flows
+    kratos-self-service:
+      rule: "PathPrefix(`/self-service`)"
+      service: kratos-public
+      middlewares:
+        - secure-headers@file
+      parentRefs:
+        - authn@file
+
+    # Kratos Public API - Session management
+    kratos-sessions:
+      rule: "PathPrefix(`/sessions`)"
+      service: kratos-public
+      middlewares:
+        - secure-headers@file
+      parentRefs:
+        - authn@file
+
+    # Kratos Public API - Schemas
+    kratos-schemas:
+      rule: "PathPrefix(`/schemas`)"
+      service: kratos-public
+      middlewares:
+        - secure-headers@file
+      parentRefs:
+        - authn@file
+
+    # Kratos Health endpoint
+    kratos-health:
+      rule: "PathPrefix(`/health`)"
+      service: kratos-public
+      parentRefs:
+        - authn@file
+
+    # Kratos Admin API - Identity management (internal only - consider restricting access)
+    kratos-identities:
+      rule: "PathPrefix(`/identities`) || PathPrefix(`/admin`)"
+      service: kratos-admin
+      middlewares:
+        - secure-headers@file
+        # Consider adding auth middleware for admin API
+        # - auth-basic@file
+      parentRefs:
+        - authn@file
+
+  services:
+    kratos-public:
+      loadBalancer:
+        servers:
+          - url: "http://kratos:4433"
+
+    kratos-admin:
+      loadBalancer:
+        servers:
+          - url: "http://kratos:4434"

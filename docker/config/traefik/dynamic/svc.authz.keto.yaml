@@ -1,0 +1,69 @@
+# =============================================================================
+# ORY Keto Permissions - Traefik Routing Configuration
+# =============================================================================
+# Multi-layer routing with parentRefs (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   authz@file (root)   -> Host(`authz.localhost`)
+#     ├── keto-read     -> PathPrefix(`/relation-tuples`)
+#     └── keto-write    -> PathPrefix(`/admin`) [restricted]
+#
+# Container: keto (oryd/keto:v0.14.0)
+#   - Read API: port 4466
+#   - Write API: port 4467
+#   - gRPC Read: port 4468
+#   - gRPC Write: port 4469
+#
+# Access via:
+#   curl https://authz.localhost/relation-tuples/check
+#   curl -X POST https://authz.localhost/admin/relation-tuples
+# =============================================================================
+
+http:
+  routers:
+    # Keto Read API - Permission checks
+    keto-check:
+      rule: "PathPrefix(`/relation-tuples`) && Header(`X-Service`, `keto`)"
+      service: keto-read
+      middlewares:
+        - secure-headers@file
+      parentRefs:
+        - authz@file
+
+    # Keto Read API - Expand permissions
+    keto-expand:
+      rule: "PathPrefix(`/expand`) && Header(`X-Service`, `keto`)"
+      service: keto-read
+      middlewares:
+        - secure-headers@file
+      parentRefs:
+        - authz@file
+
+    # Keto Health endpoint
+    keto-health:
+      rule: "PathPrefix(`/health`) && Header(`X-Service`, `keto`)"
+      service: keto-read
+      parentRefs:
+        - authz@file
+
+    # Keto Write API - Manage relation tuples (admin only)
+    keto-admin:
+      rule: "PathPrefix(`/admin`) && Header(`X-Service`, `keto`)"
+      service: keto-write
+      middlewares:
+        - secure-headers@file
+        # Consider adding auth middleware for admin API
+        # - auth-basic@file
+      parentRefs:
+        - authz@file
+
+  services:
+    keto-read:
+      loadBalancer:
+        servers:
+          - url: "http://keto:4466"
+
+    keto-write:
+      loadBalancer:
+        servers:
+          - url: "http://keto:4467"

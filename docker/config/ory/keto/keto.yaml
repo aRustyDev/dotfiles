@@ -1,0 +1,72 @@
+# =============================================================================
+# ORY Keto Configuration
+# =============================================================================
+# Permission server configuration
+#
+# Documentation: https://www.ory.sh/docs/keto/reference/configuration
+# =============================================================================
+
+version: v0.14.0
+
+serve:
+  read:
+    host: 0.0.0.0
+    port: 4466
+    cors:
+      enabled: true
+      allowed_origins:
+        - https://*.localhost
+      allowed_methods:
+        - GET
+        - POST
+        - OPTIONS
+      allowed_headers:
+        - Authorization
+        - Content-Type
+      allow_credentials: true
+  write:
+    host: 0.0.0.0
+    port: 4467
+    cors:
+      enabled: true
+      allowed_origins:
+        - https://*.localhost
+      allowed_methods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
+      allowed_headers:
+        - Authorization
+        - Content-Type
+      allow_credentials: true
+  metrics:
+    host: 0.0.0.0
+    port: 4468
+
+# Namespace configuration
+namespaces:
+  - file:///etc/keto/namespaces/namespaces.keto.ts
+
+# Database configuration (set via DSN environment variable)
+# dsn: postgres://...
+
+# Limit configuration
+limit:
+  max_read_depth: 5
+
+# Logging
+log:
+  level: info
+  format: json
+  leak_sensitive_values: false
+
+# Tracing (optional)
+# tracing:
+#   provider: otel
+#   providers:
+#     otlp:
+#       server_url: http://jaeger:4318
+#       insecure: true

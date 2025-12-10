@@ -1,0 +1,102 @@
+---
+# =============================================================================
+# ORY Oathkeeper Docker Compose Configuration
+# =============================================================================
+#
+# ORY Oathkeeper is an Identity & Access Proxy (IAP) that authenticates,
+# authorizes, and transforms requests. It sits between your clients and
+# your services, enforcing security policies.
+#
+# Components:
+#   - oathkeeper: API Gateway / IAP
+#
+# Endpoints:
+#   - Proxy: port 4455 (incoming requests)
+#   - API: port 4456 (management)
+#
+# Environment Variables:
+#   OATHKEEPER_ACCESS_RULES_MATCH_URL - Base URL for rule matching
+#
+# Access Rules:
+#   - Stored in ${XDG_CONFIG_HOME}/docker/config/ory/oathkeeper/rules/
+#
+# Usage:
+#   docker-compose -f oathkeeper.yaml up
+#
+# =============================================================================
+
+services:
+  # ORY Oathkeeper Identity-Aware Proxy
+  oathkeeper:
+    image: oryd/oathkeeper:v0.40.8
+    container_name: oathkeeper
+    hostname: oathkeeper
+    profiles: ["core", "authn"]
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    networks:
+      - authn
+      - traefik-public
+    depends_on:
+      kratos:
+        condition: service_healthy
+    command: serve --config /etc/oathkeeper/oathkeeper.yaml
+    configs:
+      - source: oathkeeper
+        target: /etc/oathkeeper/oathkeeper.yaml
+        mode: 0440
+      - source: oathkeeper-rules
+        target: /etc/oathkeeper/rules/access-rules.yaml
+        mode: 0440
+    environment:
+      # Logging
+      LOG_LEVEL: "${OATHKEEPER_LOG_LEVEL:-info}"
+      LOG_FORMAT: "json"
+      # URLs for authenticators/authorizers
+      AUTHENTICATORS_COOKIE_SESSION_CHECK_SESSION_URL: "http://kratos:4433/sessions/whoami"
+      AUTHORIZERS_REMOTE_JSON_REMOTE: "http://keto:4466/relation-tuples/check"
+    ports:
+      - "${OATHKEEPER_PROXY_PORT:-4455}:4455"  # Proxy
+      - "${OATHKEEPER_API_PORT:-4456}:4456"    # API
+    labels:
+      # =======================================================================
+      # Traefik Configuration - ORY Oathkeeper IAP
+      # =======================================================================
+      # Oathkeeper can be used as a ForwardAuth middleware for Traefik
+      # or as a standalone proxy. This config exposes both options.
+      #
+      # As ForwardAuth middleware:
+      #   Configure in core.middlewares.yaml
+      #
+      # As Proxy:
+      #   Route all traffic through oathkeeper:4455
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4456/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  authn:
+    name: authn
+  traefik-public:
+    external: true
+
+configs:
+  oathkeeper:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/ory/oathkeeper/oathkeeper.yaml
+  oathkeeper-rules:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/ory/oathkeeper/rules/access-rules.yaml

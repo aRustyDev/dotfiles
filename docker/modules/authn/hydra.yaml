@@ -1,0 +1,123 @@
+---
+# =============================================================================
+# ORY Hydra Docker Compose Configuration
+# =============================================================================
+#
+# ORY Hydra is an OAuth 2.0 and OpenID Connect Provider. It implements
+# the OAuth 2.0 Authorization Framework and OpenID Connect Core 1.0.
+#
+# Components:
+#   - hydra: OAuth 2.0 / OIDC server
+#   - hydra-migrate: Database migration job
+#
+# Endpoints:
+#   - Public API: port 4444 (token endpoint, OIDC well-known)
+#   - Admin API: port 4445 (client management, consent management)
+#
+# Environment Variables:
+#   HYDRA_SECRETS_SYSTEM      - System secret for encryption (required)
+#   HYDRA_SECRETS_COOKIE      - Cookie secret (required)
+#   HYDRA_DSN                 - Database connection string
+#   HYDRA_URLS_SELF_ISSUER    - Public URL of the OAuth provider
+#   HYDRA_URLS_CONSENT        - URL to consent UI
+#   HYDRA_URLS_LOGIN          - URL to login UI (Kratos)
+#
+# Usage:
+#   docker-compose -f hydra.yaml up
+#
+# =============================================================================
+
+services:
+  # Hydra Migration Job
+  hydra-migrate:
+    image: oryd/hydra:v2.3.0
+    container_name: hydra-migrate
+    profiles: ["core", "authn"]
+    networks:
+      - authn
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: migrate sql -e --yes
+    environment:
+      DSN: "${HYDRA_DSN:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${HYDRA_DB:-hydra}?sslmode=disable}"
+    restart: on-failure
+
+  # ORY Hydra OAuth 2.0 / OIDC Server
+  hydra:
+    image: oryd/hydra:v2.3.0
+    container_name: hydra
+    hostname: hydra
+    profiles: ["core", "authn"]
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    networks:
+      - authn
+      - traefik-public
+    depends_on:
+      hydra-migrate:
+        condition: service_completed_successfully
+    command: serve all --dev
+    configs:
+      - source: hydra
+        target: /etc/hydra/hydra.yaml
+        mode: 0440
+    environment:
+      # Database configuration
+      DSN: "${HYDRA_DSN:-postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${HYDRA_DB:-hydra}?sslmode=disable}"
+      # Secrets (generate with: openssl rand -hex 32)
+      SECRETS_SYSTEM: "${HYDRA_SECRETS_SYSTEM:-op://Developer/hydra/secrets-system}"
+      SECRETS_COOKIE: "${HYDRA_SECRETS_COOKIE:-op://Developer/hydra/secrets-cookie}"
+      # URLs
+      URLS_SELF_ISSUER: "${HYDRA_URLS_SELF_ISSUER:-https://id.localhost}"
+      URLS_CONSENT: "${HYDRA_URLS_CONSENT:-https://id.localhost/consent}"
+      URLS_LOGIN: "${HYDRA_URLS_LOGIN:-https://id.localhost/login}"
+      URLS_LOGOUT: "${HYDRA_URLS_LOGOUT:-https://id.localhost/logout}"
+      URLS_POST_LOGOUT_REDIRECT: "${HYDRA_URLS_POST_LOGOUT_REDIRECT:-https://id.localhost/}"
+      # TLS (handled by Traefik)
+      SERVE_PUBLIC_PORT: "4444"
+      SERVE_ADMIN_PORT: "4445"
+      # Logging
+      LOG_LEVEL: "${HYDRA_LOG_LEVEL:-info}"
+      LOG_FORMAT: "json"
+    ports:
+      - "${HYDRA_PUBLIC_PORT:-4444}:4444"  # Public API
+      - "${HYDRA_ADMIN_PORT:-4445}:4445"   # Admin API
+    labels:
+      # =======================================================================
+      # Traefik Configuration - ORY Hydra OAuth 2.0 / OIDC
+      # =======================================================================
+      # NOTE: Routing is defined in file provider (svc.authn.hydra.yaml)
+      # because parentRefs (multi-layer routing) is not supported in Docker labels.
+      #
+      # Endpoints:
+      #   - Public API: https://id.localhost/oauth2/...
+      #   - Admin API: Internal only (or via admin subdomain)
+      # =======================================================================
+      traefik.enable: true
+      traefik.docker.network: traefik-public
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4444/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  authn:
+    name: authn
+  traefik-public:
+    external: true
+
+configs:
+  hydra:
+    file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/ory/hydra/hydra.yaml
