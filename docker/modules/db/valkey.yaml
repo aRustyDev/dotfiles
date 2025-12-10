@@ -31,7 +31,7 @@ services:
     profiles: ["core", "db", "cache", "valkey"]
     restart: unless-stopped
     networks:
-      - traefik-public
+      - data-tier      # Primary database network
     expose:
       - "6379"
     volumes:
@@ -75,4 +75,8 @@ services:
       # Routing is defined in file provider (svc.db.valkey.yaml)
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: data-tier
+
+networks:
+  data-tier:
+    external: true

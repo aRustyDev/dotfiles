@@ -33,7 +33,8 @@ services:
       retries: 3
       start_period: 30s
     networks:
-      - traefik-public
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     labels:
       # =======================================================================
       # Traefik Configuration - Streamable HTTP MCP
@@ -42,11 +43,13 @@ services:
       # because parentRefs (multi-layer routing) is not supported in Docker labels.
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: backend
     depends_on:
       sequentialthinking:
         condition: service_healthy
 
 networks:
+  backend:
+    external: true
   traefik-public:
     external: true

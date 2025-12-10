@@ -2,6 +2,16 @@ services:
   terraform:
     image: hashicorp/terraform-mcp-server
     profiles: ["terraform"]
+    networks:
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     labels:
       traefik.enable: true
+      traefik.docker.network: backend
       traefik.http.routers.terraform.rule: PathPrefix(`/terraform`)
+
+networks:
+  backend:
+    external: true
+  traefik-public:
+    external: true

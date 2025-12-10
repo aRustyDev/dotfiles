@@ -49,7 +49,8 @@ services:
     profiles: ["cicd", "gitlab", "map"]
     restart: unless-stopped
     networks:
-      - traefik-public
+      - backend        # Backend services network
+      - traefik-public # Legacy compatibility
     environment:
       # Runner configuration
       CONCURRENT: "${GITLAB_RUNNER_CONCURRENT:-2}"
@@ -105,6 +106,8 @@ services:
   #     retries: 3
 
 networks:
+  backend:
+    external: true
   traefik-public:
     external: true
   # gitlab-runner:

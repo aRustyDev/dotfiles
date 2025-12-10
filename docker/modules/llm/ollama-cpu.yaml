@@ -2,8 +2,11 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
+    hostname: ollama
     profiles: ["core", "ollama"]
-    networks: ["global"]
+    networks:
+      - backend        # Backend services network
+      - traefik-public # Legacy compatibility
     restart: unless-stopped
     expose:
       - "11434"
@@ -11,6 +14,7 @@ services:
       - ${XDG_DATA_HOME:?err_xdg_data_home}/mcp/ollama:/root/.ollama
     labels:
       traefik.enable: true
+      traefik.docker.network: backend
       traefik.http.services.ollama.loadbalancer.server.port: 11434
       traefik.http.routers.ollama.rule: Host(`llm.${DOMAIN:-localhost}`)
     deploy:
@@ -33,3 +37,9 @@ services:
       timeout: 5s
       retries: 10
       start_period: 60s
+
+networks:
+  backend:
+    external: true
+  traefik-public:
+    external: true

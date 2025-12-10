@@ -33,7 +33,7 @@ services:
     profiles: ["core", "db", "mongo"]
     restart: unless-stopped
     networks:
-      - traefik-public
+      - data-tier      # Primary database network
     expose:
       - "27017"
     volumes:
@@ -69,4 +69,8 @@ services:
       # Routing is defined in file provider (svc.db.mongo.yaml)
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: data-tier
+
+networks:
+  data-tier:
+    external: true

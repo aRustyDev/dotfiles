@@ -153,7 +153,8 @@ services:
       start_period: 15s
     networks:
       - agent-mcp-network
-      - traefik-public
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     labels:
       # =======================================================================
       # Traefik Configuration - Streamable HTTP MCP
@@ -162,12 +163,14 @@ services:
       # because parentRefs (multi-layer routing) is not supported in Docker labels.
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: backend
 
 networks:
   agent-mcp-network:
     driver: bridge
     name: agent-mcp-network
+  backend:
+    external: true
   traefik-public:
     external: true
 # Example .env file contents:

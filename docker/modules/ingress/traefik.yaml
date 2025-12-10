@@ -5,7 +5,15 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - traefik-public
+      # Traefik must be connected to all networks it routes to
+      - dmz            # Primary ingress network
+      - frontend       # Route to frontend services (UIs, dashboards)
+      - backend        # Route to backend services (MCP, APIs)
+      - admin          # Route to admin interfaces
+      - data-tier      # Route to database UIs (optional)
+      - authn          # Route to authentication services
+      - authz          # Route to authorization services
+      - traefik-public # Legacy - for backward compatibility
     command:
       - "--configFile=/etc/traefik/traefik.yaml"
     ports:
@@ -58,7 +66,24 @@ services:
       start_period: 10s
 
 networks:
+  # Networks are defined in modules/core/networks.yaml
+  # Reference them as external here
+  dmz:
+    external: true
+  frontend:
+    external: true
+  backend:
+    external: true
+  admin:
+    external: true
+  data-tier:
+    external: true
+  authn:
+    external: true
+  authz:
+    external: true
   traefik-public:
+    external: true
 
 configs:
   traefik:

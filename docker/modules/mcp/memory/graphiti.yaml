@@ -14,7 +14,9 @@ services:
     #   image: zepai/knowledge-graph-mcp:1.0.0-standalone
     # When building locally, the build section below will be used.
     networks:
-      - traefik-public
+      - backend        # MCP backend services network
+      - data-tier      # Access to FalkorDB
+      - traefik-public # Legacy compatibility
     env_file:
       - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/.env
         required: false
@@ -52,7 +54,7 @@ services:
       # because parentRefs (multi-layer routing) is not supported in Docker labels.
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: backend
     deploy:
       resources:
         limits:
@@ -71,3 +73,11 @@ services:
 configs:
   graphiti:
     file: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/graphiti/config.yaml
+
+networks:
+  backend:
+    external: true
+  data-tier:
+    external: true
+  traefik-public:
+    external: true

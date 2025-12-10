@@ -1,12 +1,20 @@
 networks:
   n8n:
+    external: true
+  backend:
+    external: true
+  data-tier:
+    external: true
   traefik-public:
+    external: true
 
 x-n8n: &service-n8n
   image: n8nio/n8n:latest
   networks:
     - n8n
-    - traefik-public
+    - backend        # MCP backend services network
+    - data-tier      # Access to PostgreSQL
+    - traefik-public # Legacy compatibility
   environment:
     - DB_TYPE=postgresdb
     - DB_POSTGRESDB_HOST=postgres
@@ -83,7 +91,7 @@ services:
       # because parentRefs (multi-layer routing) is not supported in Docker labels.
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: backend
 
 configs:
   n8n:

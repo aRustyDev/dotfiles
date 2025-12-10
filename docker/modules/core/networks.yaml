@@ -1,0 +1,185 @@
+# =============================================================================
+# Core Network Definitions - Defense-in-Depth Architecture
+# =============================================================================
+# Centralized network definitions for tiered security model.
+# Include this file in docker-compose.yaml to define all networks.
+#
+# Architecture:
+#
+#                            ┌──────────────┐
+#                            │   INTERNET   │
+#                            └──────┬───────┘
+#                                   │
+#                            ┌──────▼───────┐
+#                            │   Traefik    │
+#                            │     (dmz)    │
+#                            └──────┬───────┘
+#                                   │
+#        ┌──────────────────────────┼──────────────────────────┐
+#        │                          │                          │
+# ┌──────▼──────┐           ┌───────▼───────┐          ┌───────▼───────┐
+# │  frontend   │           │    backend    │          │     admin     │
+# │  (UI apps)  │           │ (MCP/API svcs)│          │  (admin UIs)  │
+# └──────┬──────┘           └───────┬───────┘          └───────┬───────┘
+#        │                          │                          │
+#        └──────────────────────────┼──────────────────────────┘
+#                                   │
+#                    ┌──────────────┼──────────────┐
+#                    │              │              │
+#            ┌───────▼───────┐ ┌───▼────┐ ┌───────▼───────┐
+#            │   data-tier   │ │ authn  │ │    authz      │
+#            │  (databases)  │ │(identity)│ │(permissions) │
+#            └───────────────┘ └────────┘ └───────────────┘
+#
+# Network Security:
+#   - dmz: External-facing, Traefik only
+#   - frontend/backend/admin: Internal, accessed via Traefik
+#   - data-tier/authn/authz: Internal, no direct external access
+#
+# Usage:
+#   In service files, reference these networks by name.
+#   Traefik must be connected to all networks it needs to route to.
+# =============================================================================
+---
+networks:
+  # ===========================================================================
+  # Tier 1: DMZ / Edge Network
+  # ===========================================================================
+  # The only network with potential external connectivity.
+  # Traefik sits here as the sole ingress point.
+  dmz:
+    name: dmz
+    driver: bridge
+    # external: false - container can reach internet for things like ACME
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.1
+    labels:
+      tier: "1"
+      description: "DMZ - Edge network for Traefik ingress"
+
+  # ===========================================================================
+  # Tier 2: Application Networks
+  # ===========================================================================
+  # Internal networks for application services. No direct internet access.
+
+  # Frontend: User-facing web UIs and dashboards
+  frontend:
+    name: frontend
+    driver: bridge
+    internal: true  # No direct internet access
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/24
+          gateway: 172.21.0.1
+    labels:
+      tier: "2"
+      description: "Frontend - User-facing web applications"
+
+  # Backend: API services, MCP servers, workers
+  backend:
+    name: backend
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/24
+          gateway: 172.22.0.1
+    labels:
+      tier: "2"
+      description: "Backend - API and MCP services"
+
+  # Admin: Administrative interfaces and monitoring
+  admin:
+    name: admin
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.23.0.0/24
+          gateway: 172.23.0.1
+    labels:
+      tier: "2"
+      description: "Admin - Administrative and monitoring services"
+
+  # ===========================================================================
+  # Tier 3: Data & Security Networks
+  # ===========================================================================
+  # Most restricted networks. Only specific services can access.
+
+  # Data Tier: Databases and persistent storage
+  data-tier:
+    name: data-tier
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.24.0.0/24
+          gateway: 172.24.0.1
+    labels:
+      tier: "3"
+      description: "Data Tier - Databases and storage"
+
+  # Authentication: Identity management (Kratos, Hydra)
+  authn:
+    name: authn
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/24
+          gateway: 172.25.0.1
+    labels:
+      tier: "3"
+      description: "Authentication - Identity management services"
+
+  # Authorization: Permissions and access control (SpiceDB, Keto)
+  authz:
+    name: authz
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.26.0.0/24
+          gateway: 172.26.0.1
+    labels:
+      tier: "3"
+      description: "Authorization - Permissions and access control"
+
+  # ===========================================================================
+  # Legacy / Compatibility Networks
+  # ===========================================================================
+  # Keep traefik-public for backwards compatibility during migration.
+  # Services can gradually migrate to the new tiered networks.
+  traefik-public:
+    name: traefik-public
+    driver: bridge
+    labels:
+      tier: "legacy"
+      description: "Legacy network - migrate to tiered networks"
+
+  # N8N specific network (for postgres/n8n communication)
+  n8n:
+    name: n8n
+    driver: bridge
+    internal: true
+    labels:
+      tier: "app-specific"
+      description: "N8N workflow engine internal network"
+
+  # Supabase internal network
+  supabase-internal:
+    name: supabase-internal
+    driver: bridge
+    internal: true
+    labels:
+      tier: "app-specific"
+      description: "Supabase stack internal network"

@@ -7,8 +7,8 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     networks:
-      - n8n
-      - traefik-public
+      - data-tier      # Primary database network
+      - n8n            # For n8n workflow access
     restart: unless-stopped
     expose:
       - "6333"
@@ -26,4 +26,10 @@ services:
       #   - gRPC: port 6334 (direct, not via Traefik)
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: data-tier
+
+networks:
+  data-tier:
+    external: true
+  n8n:
+    external: true

@@ -36,8 +36,8 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - authn
-      - traefik-public
+      - authn          # Authentication network
+      - authz          # Access to Keto for authorization
     depends_on:
       kratos:
         condition: service_healthy
@@ -73,7 +73,7 @@ services:
       #   Route all traffic through oathkeeper:4455
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: authn
     deploy:
       resources:
         limits:
@@ -91,8 +91,8 @@ services:
 
 networks:
   authn:
-    name: authn
-  traefik-public:
+    external: true
+  authz:
     external: true
 
 configs:

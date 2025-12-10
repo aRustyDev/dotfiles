@@ -2,6 +2,16 @@ services:
   aws-diagrams:
     image: mcp/aws-diagram
     profiles: ["aws"]
+    networks:
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     labels:
       traefik.enable: true
+      traefik.docker.network: backend
       traefik.http.routers.aws-diagrams.rule: PathPrefix(`/aws/diagrams`)
+
+networks:
+  backend:
+    external: true
+  traefik-public:
+    external: true

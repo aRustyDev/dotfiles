@@ -39,6 +39,7 @@ services:
     profiles: ["core", "authz"]
     networks:
       - authz
+      - data-tier      # Access to PostgreSQL
     depends_on:
       postgres:
         condition: service_healthy
@@ -61,8 +62,8 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - authz
-      - traefik-public
+      - authz          # Authorization network
+      - data-tier      # Access to PostgreSQL
     depends_on:
       keto-migrate:
         condition: service_completed_successfully
@@ -97,7 +98,7 @@ services:
       #   - Write API: https://authz.localhost/admin/relation-tuples
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: authz
     deploy:
       resources:
         limits:
@@ -115,8 +116,8 @@ services:
 
 networks:
   authz:
-    name: authz
-  traefik-public:
+    external: true
+  data-tier:
     external: true
 
 configs:

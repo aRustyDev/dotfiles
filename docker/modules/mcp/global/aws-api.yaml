@@ -3,6 +3,16 @@ services:
     image: mcp/aws-api-mcp-server
     profiles: ["aws"]
     domainname: aws-api.mcp.${DOMAIN:-localhost}
+    networks:
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     labels:
       traefik.enable: true
+      traefik.docker.network: backend
       traefik.http.routers.aws-api.rule: PathPrefix(`/aws/api`)
+
+networks:
+  backend:
+    external: true
+  traefik-public:
+    external: true

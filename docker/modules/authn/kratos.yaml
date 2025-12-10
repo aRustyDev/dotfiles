@@ -38,6 +38,7 @@ services:
     profiles: ["core", "authn"]
     networks:
       - authn
+      - data-tier      # Access to PostgreSQL
     depends_on:
       postgres:
         condition: service_healthy
@@ -56,8 +57,8 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - authn
-      - traefik-public
+      - authn          # Authentication network
+      - data-tier      # Access to PostgreSQL
     depends_on:
       kratos-migrate:
         condition: service_completed_successfully
@@ -98,7 +99,7 @@ services:
       #   - Admin API: Internal only
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: authn
     deploy:
       resources:
         limits:
@@ -120,15 +121,14 @@ services:
     container_name: mailslurper
     profiles: ["dev"]
     networks:
-      - authn
-      - traefik-public
+      - authn          # Authentication network
     expose:
       - "1025"  # SMTP
       - "4436"  # API
       - "4437"  # Web UI
     labels:
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: authn
       traefik.http.routers.mailslurper.rule: Host(`mail.localhost`)
       traefik.http.routers.mailslurper.entrypoints: websecure
       traefik.http.routers.mailslurper.tls: true
@@ -136,8 +136,8 @@ services:
 
 networks:
   authn:
-    name: authn
-  traefik-public:
+    external: true
+  data-tier:
     external: true
 
 configs:

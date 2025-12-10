@@ -1,8 +1,10 @@
 ---
 services:
-  surreal:
+  meilisearch:
     image: getmeili/meilisearch:latest
-    profiles: ["surreal"]
+    container_name: meilisearch
+    hostname: meilisearch
+    profiles: ["search"]
     restart: unless-stopped
     stdin_open: true # docker run -i
     tty: true # docker run -t
@@ -11,7 +13,8 @@ services:
     expose:
       - "7700"
     networks:
-      - traefik-public
+      - data-tier       # Search/data services network
+      - traefik-public  # Legacy compatibility
     labels:
       # =======================================================================
       # Traefik Configuration
@@ -20,7 +23,7 @@ services:
       # because parentRefs (multi-layer routing) is not supported in Docker labels.
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: data-tier
     environment:
       MEILI_MASTER_KEY: MASTER_KEY
       MEILI_CONFIG_FILE_PATH: "./config.toml"
@@ -48,3 +51,9 @@ services:
       # MEILI_SSL_REQUIRE_AUTH: ""
       # MEILI_SSL_RESUMPTION: ""
       # MEILI_SSL_TICKETS: ""
+
+networks:
+  data-tier:
+    external: true
+  traefik-public:
+    external: true

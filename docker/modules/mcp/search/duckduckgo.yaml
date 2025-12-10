@@ -4,10 +4,14 @@ services:
     container_name: search-www
     stdin_open: true # docker run -i
     tty: true # docker run -t
+    networks:
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     labels:
       mcp: true
       mcp.search: web
       traefik.enable: true
+      traefik.docker.network: backend
       # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/search/ddg`)
       traefik.http.routers.duckduckgo.rule: PathPrefix(`/search/ddg`)
     deploy:
@@ -24,3 +28,9 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
+networks:
+  backend:
+    external: true
+  traefik-public:
+    external: true

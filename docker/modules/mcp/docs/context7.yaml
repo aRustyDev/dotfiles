@@ -30,7 +30,8 @@ services:
     profiles: ["core"]
     restart: unless-stopped
     networks:
-      - traefik-public
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     expose:
       - "8080"
     healthcheck:
@@ -55,4 +56,10 @@ services:
       # See: https://doc.traefik.io/traefik/reference/routing-configuration/http/routing/multi-layer-routing/
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: backend
+
+networks:
+  backend:
+    external: true
+  traefik-public:
+    external: true

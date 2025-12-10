@@ -20,7 +20,7 @@ services:
     expose:
       - "8000"
     networks:
-      - traefik-public
+      - data-tier      # Primary database network
     labels:
       # =======================================================================
       # Traefik Configuration - SurrealDB
@@ -33,7 +33,7 @@ services:
       #   - Web UI: port 8080 (via ui@file -> surrealui)
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: data-tier
     environment:
       SURREAL_EXPERIMENTAL_GRAPHQL: true
       # SURREALDB_URL: "op://Developer/surrealdb/server" # ws://127.0.0.1:8000
@@ -53,3 +53,7 @@ services:
       # SURREAL_WEBSOCKET_RESPONSE_BUFFER_SIZE
       # SURREAL_WEBSOCKET_RESPONSE_CHANNEL_SIZE
       # SURREAL_WEBSOCKET_RESPONSE_FLUSH_PERIOD
+
+networks:
+  data-tier:
+    external: true

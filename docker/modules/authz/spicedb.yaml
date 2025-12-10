@@ -41,6 +41,7 @@ services:
     profiles: ["core", "authz"]
     networks:
       - authz
+      - data-tier      # Access to PostgreSQL
     depends_on:
       postgres:
         condition: service_healthy
@@ -61,8 +62,8 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - authz
-      - traefik-public
+      - authz          # Authorization network
+      - data-tier      # Access to PostgreSQL
     depends_on:
       spicedb-migrate:
         condition: service_completed_successfully
@@ -99,7 +100,7 @@ services:
       #   - gRPC: port 50051 (direct, non-Traefik)
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: authz
     deploy:
       resources:
         limits:
@@ -123,8 +124,7 @@ services:
     profiles: ["dev"]
     restart: unless-stopped
     networks:
-      - authz
-      - traefik-public
+      - authz          # Authorization network
     depends_on:
       spicedb:
         condition: service_healthy
@@ -135,7 +135,7 @@ services:
       - "8080"
     labels:
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: authz
       traefik.http.routers.spicedb-playground.rule: Host(`authz.localhost`) && PathPrefix(`/playground`)
       traefik.http.routers.spicedb-playground.entrypoints: websecure
       traefik.http.routers.spicedb-playground.tls: true
@@ -143,8 +143,8 @@ services:
 
 networks:
   authz:
-    name: authz
-  traefik-public:
+    external: true
+  data-tier:
     external: true
 
 configs:

@@ -46,7 +46,8 @@ services:
     profiles: ["core", "ai", "ml"]
     restart: unless-stopped
     networks:
-      - traefik-public
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     expose:
       - "3000"
     environment:
@@ -88,4 +89,10 @@ services:
       # because parentRefs (multi-layer routing) is not supported in Docker labels.
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: backend
+
+networks:
+  backend:
+    external: true
+  traefik-public:
+    external: true

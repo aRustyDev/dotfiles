@@ -2,6 +2,16 @@ services:
   aws-core:
     image: mcp/aws-core-mcp-server
     profiles: ["aws"]
+    networks:
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     labels:
       traefik.enable: true
+      traefik.docker.network: backend
       traefik.http.routers.aws-core.rule: PathPrefix(`/aws/core`)
+
+networks:
+  backend:
+    external: true
+  traefik-public:
+    external: true

@@ -2,6 +2,16 @@ services:
   aws-tf:
     image: mcp/aws-terraform
     profiles: ["aws"]
+    networks:
+      - backend        # MCP backend services network
+      - traefik-public # Legacy compatibility
     labels:
       traefik.enable: true
+      traefik.docker.network: backend
       traefik.http.routers.aws-terraform.rule: PathPrefix(`/aws/tf`)
+
+networks:
+  backend:
+    external: true
+  traefik-public:
+    external: true

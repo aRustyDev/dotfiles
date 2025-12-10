@@ -27,7 +27,7 @@ services:
       retries: 5
       start_period: 10s
     networks:
-      - traefik-public
+      - data-tier      # Primary database network
     labels:
       # =======================================================================
       # Traefik Configuration - FalkorDB Graph Database
@@ -40,4 +40,8 @@ services:
       #   - Web UI: port 3000 (via ui@file -> falkorui)
       # =======================================================================
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: data-tier
+
+networks:
+  data-tier:
+    external: true

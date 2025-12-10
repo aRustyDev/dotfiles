@@ -39,8 +39,8 @@ services:
     profiles: ["supabase"]
     restart: unless-stopped
     networks:
-      - supabase-internal
-      - traefik-public
+      - supabase-internal  # Supabase internal communication
+      - data-tier          # Data tier network
     volumes:
       # Init scripts
       - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/supabase/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:ro,z
@@ -87,7 +87,7 @@ services:
           memory: 512M
     labels:
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: data-tier
 
   # ===========================================================================
   # Vector (Log Collection)
@@ -171,8 +171,8 @@ services:
     profiles: ["supabase"]
     restart: unless-stopped
     networks:
-      - supabase-internal
-      - traefik-public
+      - supabase-internal  # Supabase internal communication
+      - backend            # Backend services network
     expose:
       - "8000"
       - "8443"
@@ -200,7 +200,7 @@ services:
           memory: 512M
     labels:
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: backend
 
   # ===========================================================================
   # GoTrue Authentication
@@ -478,8 +478,8 @@ services:
     profiles: ["supabase"]
     restart: unless-stopped
     networks:
-      - supabase-internal
-      - traefik-public
+      - supabase-internal  # Supabase internal communication
+      - data-tier          # Data tier network
     expose:
       - "5432"
       - "6543"
@@ -524,7 +524,7 @@ services:
           memory: 256M
     labels:
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: data-tier
 
   # ===========================================================================
   # Studio Dashboard
@@ -536,8 +536,8 @@ services:
     profiles: ["supabase"]
     restart: unless-stopped
     networks:
-      - supabase-internal
-      - traefik-public
+      - supabase-internal  # Supabase internal communication
+      - frontend           # Frontend services network
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://supabase-studio:3000/api/platform/profile').then((r) => {if (r.status !== 200) throw new Error(r.status)})"]
       timeout: 10s
@@ -575,12 +575,16 @@ services:
           memory: 512M
     labels:
       traefik.enable: true
-      traefik.docker.network: traefik-public
+      traefik.docker.network: frontend
 
 networks:
   supabase-internal:
     driver: bridge
-  traefik-public:
+  backend:
+    external: true
+  data-tier:
+    external: true
+  frontend:
     external: true
 
 volumes:
