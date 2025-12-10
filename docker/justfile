@@ -7,6 +7,7 @@ dns_ip := "127.0.0.2"
 docker_workspace := if env("DOCKER_WORKSPACE", "") == "" { "docker-compose" } else { "workspaces" / lowercase(env("DOCKER_WORKSPACE", "")) }
 profile := if docker_workspace == "docker-compose" { "core" } else { lowercase(env("DOCKER_WORKSPACE", "")) }
 domain := env("DOMAIN", "localhost")
+docker_networks := "dmz frontend backend admin data-tier authn authz"
 
 # Setup DNS, certificates, & necessary dirs
 init: mktree mkcerts dns-init loopback-alias
@@ -25,6 +26,7 @@ install: mktree
     cp -r "{{ src_docker }}/docker-compose.yaml" "{{ dot_docker }}/docker-compose.yaml"
 
 # Subdomains to include in certificate (Node.js doesn't match wildcards)
+
 cert_subdomains := "docs doc traefik id authz notes db memory tool search api"
 
 # Create certificate files for localhost
@@ -70,21 +72,21 @@ clean:
 # Deploy Docker profile="core": mktree
 deploy profile=profile: mktree (build profile)
     just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
-    docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" up -d
+    COMPOSE_PROFILES="{{ profile }}" docker-compose -f "{{ docker_state }}/{{ profile }}.yaml" up -d
 
 # Build Docker images for profile
 build profile=profile: mktree
     just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
-    docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" build
+    COMPOSE_PROFILES="{{ profile }}" docker-compose -f "{{ docker_state }}/{{ profile }}.yaml" build
 
 # Deploy Docker profile="core": mktree
 destroy profile=profile: mktree
     just -f "{{ justfile() }}" docker-template "{{ profile }}" > "{{ docker_state }}/{{ profile }}.yaml"
-    docker-compose --profile "{{ profile }}" -f "{{ docker_state }}/{{ profile }}.yaml" down
+    COMPOSE_PROFILES="{{ profile }}" docker-compose -f "{{ docker_state }}/{{ profile }}.yaml" down
 
 # Hydrate Docker-compose for profile
 docker-template profile=profile:
-    docker-compose --profile "{{ profile }}" -f "{{ dot_docker / docker_workspace }}.yaml" config | op inject
+    COMPOSE_PROFILES="{{ profile }}" docker-compose -f "{{ dot_docker / docker_workspace }}.yaml" config | op inject
 
 # Test Docker-compose config is valid for profile
 docker-test profile=profile:
