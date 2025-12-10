@@ -3,6 +3,9 @@
 name: mcp-${PROJECT_NAME:?need_project_name}
 
 include:
+  # Core infrastructure (networks must be first)
+  - path: modules/core/networks.yaml
+
   - path: mcp/project/ast-grep.yaml
 
 networks:
