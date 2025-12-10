@@ -1,0 +1,58 @@
+# =============================================================================
+# Grafana Datasource Provisioning - LGM Stack
+# =============================================================================
+# Automatically configure Loki and Mimir as datasources when Grafana starts.
+# This enables querying logs (Loki) and metrics (Mimir) without manual setup.
+# =============================================================================
+
+apiVersion: 1
+
+datasources:
+  # ---------------------------------------------------------------------------
+  # Loki - Log Aggregation (LogQL)
+  # ---------------------------------------------------------------------------
+  - name: Loki
+    type: loki
+    access: proxy
+    url: http://loki:3100
+    isDefault: false
+    editable: true
+    jsonData:
+      maxLines: 1000
+      # Correlate logs with traces (requires Tempo)
+      # derivedFields:
+      #   - datasourceUid: tempo
+      #     matcherRegex: "traceID=(\\w+)"
+      #     name: TraceID
+      #     url: "$${__value.raw}"
+
+  # ---------------------------------------------------------------------------
+  # Mimir - Long-term Metrics Storage (PromQL)
+  # ---------------------------------------------------------------------------
+  - name: Mimir
+    type: prometheus
+    access: proxy
+    url: http://mimir:9009/prometheus
+    isDefault: true
+    editable: true
+    jsonData:
+      httpMethod: POST
+      manageAlerts: true
+      prometheusType: Mimir
+      # Enable exemplars (requires exemplar storage)
+      # exemplarTraceIdDestinations:
+      #   - name: traceID
+      #     datasourceUid: tempo
+
+  # ---------------------------------------------------------------------------
+  # Prometheus - Direct Scraping (Optional, for short-term metrics)
+  # ---------------------------------------------------------------------------
+  # Uncomment if you want to also query Prometheus directly
+  # - name: Prometheus
+  #   type: prometheus
+  #   access: proxy
+  #   url: http://prometheus:9090
+  #   isDefault: false
+  #   editable: true
+  #   jsonData:
+  #     httpMethod: POST

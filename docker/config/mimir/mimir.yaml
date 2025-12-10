@@ -1,0 +1,88 @@
+# =============================================================================
+# Mimir Configuration - Minimal Single Instance
+# =============================================================================
+# This is a minimal Mimir configuration for local development.
+# Uses local filesystem storage (no S3/GCS required).
+#
+# For production, consider:
+#   - Object storage backend (S3, GCS, Azure)
+#   - Distributed mode with separate components
+#   - Proper retention and compaction settings
+# =============================================================================
+
+# Multi-tenancy disabled for simplicity
+multitenancy_enabled: false
+
+# Target all components in single binary
+target: all
+
+# Server configuration
+server:
+  http_listen_port: 9009
+  grpc_listen_port: 9095
+  log_level: info
+
+# Distributor configuration
+distributor:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+
+# Ingester configuration
+ingester:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+    replication_factor: 1
+
+# Block storage configuration (local filesystem)
+blocks_storage:
+  backend: filesystem
+  filesystem:
+    dir: /data/blocks
+  bucket_store:
+    sync_dir: /data/tsdb-sync
+  tsdb:
+    dir: /data/tsdb
+
+# Compactor configuration
+compactor:
+  data_dir: /data/compactor
+  sharding_ring:
+    kvstore:
+      store: memberlist
+
+# Store-gateway configuration
+store_gateway:
+  sharding_ring:
+    replication_factor: 1
+
+# Ruler configuration (disabled for minimal setup)
+ruler:
+  enable_api: false
+
+# Alertmanager configuration (disabled for minimal setup)
+alertmanager:
+  enable_api: false
+
+# Limits configuration
+limits:
+  # Ingestion limits
+  ingestion_rate: 10000
+  ingestion_burst_size: 200000
+  # Query limits
+  max_query_lookback: 31d
+  max_query_parallelism: 32
+  # Storage limits
+  max_global_series_per_user: 150000
+  max_global_series_per_metric: 20000
+
+# Memberlist configuration for single-node
+memberlist:
+  join_members: []
+
+# Usage stats disabled
+usage_stats:
+  enabled: false
