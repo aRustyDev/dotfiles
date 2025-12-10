@@ -171,6 +171,34 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 source ${XDG_CONFIG_HOME:-$HOME/.config}/op/plugins.sh
 
+# ----------------------------------------
+# === === === Key Bindings === === === ===
+# ----------------------------------------
+# Fix word navigation/deletion with Option key (Ghostty: macos-option-as-alt = true)
+# These must be set AFTER atuin/starship init to avoid being overwritten
+
+# Option + Left/Right: Jump word
+bindkey '^[[1;3D' backward-word        # Option + Left
+bindkey '^[[1;3C' forward-word         # Option + Right
+bindkey '^[b' backward-word            # Alt + b (fallback)
+bindkey '^[f' forward-word             # Alt + f (fallback)
+
+# Option + Backspace/Delete: Delete word
+bindkey '^[^?' backward-kill-word      # Option + Backspace
+bindkey '^[[3;3~' kill-word            # Option + Delete (forward)
+bindkey '^[d' kill-word                # Alt + d (fallback)
+
+# Ctrl + Left/Right: Also jump word (common expectation)
+bindkey '^[[1;5D' backward-word        # Ctrl + Left
+bindkey '^[[1;5C' forward-word         # Ctrl + Right
+
+# Force ZLE to redraw properly after widget execution (fixes ghost characters)
+function zle-line-init zle-keymap-select {
+    zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+
 # set +x
 echo "Check trace at: $ZSH_TRACE_FILE"
 # source /Users/adamsm/.config/op/plugins.sh
