@@ -1,40 +1,207 @@
 ---
-# docker-compose.yml
-name: mcp-global
+# =============================================================================
+# Docker Compose - Master Configuration
+# =============================================================================
+# This file includes all modular Docker Compose configurations.
+# Use profiles to selectively start services.
+#
+# Usage:
+#   docker compose up -d                        # Start core profile only
+#   docker compose --profile lgtm up -d         # Start LGTM stack
+#   docker compose --profile mcp up -d          # Start MCP servers
+#   COMPOSE_PROFILES=core,lgtm docker compose up -d
+#
+# =============================================================================
+name: homelab
 
 include:
-  # Core infrastructure (networks must be first)
+  # ===========================================================================
+  # Core Infrastructure (networks must be first)
+  # ===========================================================================
   - path: modules/core/networks.yaml
 
+  # ===========================================================================
+  # Ingress / Reverse Proxy
+  # ===========================================================================
   - path: modules/ingress/traefik.yaml
 
+  # ===========================================================================
+  # Authentication (Ory Stack)
+  # ===========================================================================
+  - path: modules/authn/hydra.yaml
+  - path: modules/authn/kratos.yaml
+  - path: modules/authn/oathkeeper.yaml
+
+  # ===========================================================================
+  # Authorization
+  # ===========================================================================
+  - path: modules/authz/keto.yaml
+  - path: modules/authz/spicedb.yaml
+
+  # ===========================================================================
+  # CI/CD
+  # ===========================================================================
+  - path: modules/cicd/gitlab-runner.yaml
+
+  # ===========================================================================
+  # Databases
+  # ===========================================================================
+  - path: modules/db/elasticsearch.yaml
   - path: modules/db/falkor.yaml
+  - path: modules/db/graphite.yaml
+  - path: modules/db/influxdb.yaml
+  - path: modules/db/mongo.yaml
   - path: modules/db/postgres.yaml
   - path: modules/db/qdrant.yaml
+  - path: modules/db/redis.yaml
+  - path: modules/db/supabase.yaml
   - path: modules/db/surrealdb.yaml
+  - path: modules/db/valkey.yaml
 
+  # ===========================================================================
+  # LLM / AI
+  # ===========================================================================
   - path: modules/llm/ollama-cpu.yaml
   - path: modules/llm/ollama-pull.yaml
 
-  - path: modules/mcp/global/dockerhub.yaml
-  - path: modules/mcp/global/time.yaml
-  - path: modules/mcp/search/meilisearch.yaml
+  # ===========================================================================
+  # Observability (LGTM Stack & More)
+  # ===========================================================================
+  - path: modules/observability/alertmanager.yaml
+  - path: modules/observability/alloy.yaml
+  - path: modules/observability/beyla.yaml
+  - path: modules/observability/fluentd.yaml
+  - path: modules/observability/gonzo.yaml
+  - path: modules/observability/grafana.yaml
+  - path: modules/observability/jaeger.yaml
+  - path: modules/observability/keep.yaml
+  - path: modules/observability/kibana.yaml
+  - path: modules/observability/logstash.yaml
+  - path: modules/observability/loki.yaml
+  - path: modules/observability/mimir.yaml
+  - path: modules/observability/openllmetry.yaml
+  - path: modules/observability/openobserve.yaml
+  - path: modules/observability/opensearch.yaml
+  - path: modules/observability/otel-collector.yaml
+  - path: modules/observability/parseable.yaml
+  - path: modules/observability/pixie.yaml
+  - path: modules/observability/prometheus.yaml
+  - path: modules/observability/pyroscope.yaml
+  - path: modules/observability/signoz.yaml
+  - path: modules/observability/sofa-tracer.yaml
+  - path: modules/observability/tempo.yaml
+  - path: modules/observability/thanos.yaml
+  - path: modules/observability/vector.yaml
+  - path: modules/observability/zipkin.yaml
 
+  # ===========================================================================
+  # Search
+  # ===========================================================================
+  - path: modules/search/meilisearch.yaml
+
+  # ===========================================================================
+  # MCP Servers - Database
+  # ===========================================================================
+  - path: modules/mcp/db/supabase.yaml
+  - path: modules/mcp/db/surrealdb.yaml
+
+  # ===========================================================================
+  # MCP Servers - Documentation
+  # ===========================================================================
+  - path: modules/mcp/docs/astro.yaml
+  - path: modules/mcp/docs/aws.yaml
+  - path: modules/mcp/docs/cloudflare.yaml
+  - path: modules/mcp/docs/context7.yaml
+  - path: modules/mcp/docs/crate.yaml
+  - path: modules/mcp/docs/rust.yaml
+
+  # ===========================================================================
+  # MCP Servers - Git
+  # ===========================================================================
+  - path: modules/mcp/git/github.yaml
+  - path: modules/mcp/git/gitlab.yaml
+
+  # ===========================================================================
+  # MCP Servers - Global Utilities
+  # ===========================================================================
+  - path: modules/mcp/global/aws-api.yaml
+  - path: modules/mcp/global/aws-cloudtrail.yaml
+  - path: modules/mcp/global/aws-core.yaml
+  - path: modules/mcp/global/aws-diagram.yaml
+  - path: modules/mcp/global/aws-terraform.yaml
+  - path: modules/mcp/global/dockerhub.yaml
+  - path: modules/mcp/global/docling.yaml
+  - path: modules/mcp/global/duckduckgo.yaml
+  - path: modules/mcp/global/editorconfig.yaml
+  - path: modules/mcp/global/fetch.yaml
+  - path: modules/mcp/global/huggingface.yaml
+  - path: modules/mcp/global/markitdown.yaml
+  - path: modules/mcp/global/python-refactoring.yaml
+  - path: modules/mcp/global/terraform.yaml
+  - path: modules/mcp/global/time.yaml
+  - path: modules/mcp/global/typst.yaml
+  - path: modules/mcp/global/webhooks.yaml
+
+  # ===========================================================================
+  # MCP Servers - Memory
+  # ===========================================================================
   - path: modules/mcp/memory/graphiti.yaml
 
-  - path: modules/mcp/thinking/sequential-thinking.yaml
-
-  - path: modules/mcp/search/duckduckgo.yaml
-
+  # ===========================================================================
+  # MCP Servers - Notes
+  # ===========================================================================
+  - path: modules/mcp/notes/obsidian.yaml
   - path: modules/mcp/notes/zettelkasten.yaml
 
-  - path: modules/mcp/docs/context7.yaml
+  # ===========================================================================
+  # MCP Servers - Observability
+  # ===========================================================================
+  - path: modules/mcp/observability/prometheus-server.yaml
 
-  - path: modules/mcp/git/gitlab.yaml
-  - path: modules/mcp/git/github.yaml
+  # ===========================================================================
+  # MCP Servers - Project Tools
+  # ===========================================================================
+  - path: modules/mcp/project/ast-grep.yaml
+  - path: modules/mcp/project/bruno.yaml
+  - path: modules/mcp/project/char-index.yaml
+  - path: modules/mcp/project/filescope.yaml
+  - path: modules/mcp/project/filesystem.yaml
+  - path: modules/mcp/project/freecad.yaml
+  - path: modules/mcp/project/kicad.yaml
 
+  # ===========================================================================
+  # MCP Servers - Search
+  # ===========================================================================
+  - path: modules/mcp/search/arxiv.yaml
+  - path: modules/mcp/search/duckduckgo.yaml
+  - path: modules/mcp/search/meilisearch.yaml
+  - path: modules/mcp/search/paper-search.yaml
+
+  # ===========================================================================
+  # MCP Servers - Thinking / Reasoning
+  # ===========================================================================
+  - path: modules/mcp/thinking/code-reasoning.yaml
+  - path: modules/mcp/thinking/multi-agent-system.yaml
+  - path: modules/mcp/thinking/sequential-thinking.yaml
+  - path: modules/mcp/thinking/sequential-tools.yaml
+
+  # ===========================================================================
+  # MCP Servers - Utilities
+  # ===========================================================================
+  - path: modules/mcp/util/mcp-proxy.yaml
+
+  # ===========================================================================
+  # MCP Servers - Workflow
+  # ===========================================================================
+  - path: modules/mcp/workflow/agent-mcp.yaml
   - path: modules/mcp/workflow/checklist.yaml
+  - path: modules/mcp/workflow/gitlab-jirea.yaml
   - path: modules/mcp/workflow/n8n.yaml
+  - path: modules/mcp/workflow/task-manager.yaml
+  - path: modules/mcp/workflow/task-master.yaml
+  - path: modules/mcp/workflow/task-orchestrator.yaml
+  - path: modules/mcp/workflow/todoist.yaml
+  - path: modules/mcp/workflow/workflows.yaml
 
 networks:
   # All networks are defined in modules/core/networks.yaml

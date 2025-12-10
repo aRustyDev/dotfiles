@@ -1,8 +1,8 @@
 services:
-  prometheus:
+  mcp-prometheus:
     image: ghcr.io/pab1it0/prometheus-mcp-server
-    container_name: prometheus
-    profiles: ["metrics", "observability"]
+    container_name: mcp-prometheus
+    profiles: ["mcp", "mcp-observability"]
     restart: unless-stopped
     networks:
       - backend        # MCP backend services network

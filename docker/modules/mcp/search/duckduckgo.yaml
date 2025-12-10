@@ -1,7 +1,7 @@
 services:
-  duckduckgo:
+  mcp-duckduckgo-search:
     image: mcp/duckduckgo
-    container_name: search-www
+    container_name: mcp-duckduckgo-search
     stdin_open: true # docker run -i
     tty: true # docker run -t
     networks:

@@ -34,6 +34,7 @@ services:
       start_period: 30s
     networks:
       - backend        # MCP backend services network
+    profiles: ["mcp", "mcp-util"]
     labels:
       # =======================================================================
       # Traefik Configuration - Streamable HTTP MCP
@@ -43,7 +44,6 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
-    depends_on:
-      sequentialthinking:
-        condition: service_healthy
+      # NOTE: Requires sequentialthinking service to be running
+      # Start both with: docker compose --profile mcp up mcp-proxy sequentialthinking
 

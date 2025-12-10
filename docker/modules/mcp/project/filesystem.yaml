@@ -1,6 +1,50 @@
-filesystem:
-  command: npx
-  args:
-    - "-y"
-    - "@modelcontextprotocol/server-filesystem"
-    - "/allowed/path"
+# =============================================================================
+# Filesystem MCP Server - Streamable HTTP
+# =============================================================================
+# MCP server providing filesystem access capabilities to AI assistants.
+# Allows reading, writing, and managing files within allowed paths.
+#
+# WARNING: This server provides file access - ensure allowed paths are
+# properly restricted to prevent unauthorized access.
+#
+# Documentation:
+#   https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem
+#
+# Tools provided:
+#   - read_file - Read file contents
+#   - write_file - Write content to files
+#   - list_directory - List directory contents
+#   - create_directory - Create directories
+#   - move_file - Move/rename files
+#   - delete_file - Delete files
+#   - search_files - Search for files by pattern
+#   - get_file_info - Get file metadata
+#
+# =============================================================================
+
+services:
+  mcp-filesystem:
+    image: node:22-alpine
+    container_name: mcp-filesystem
+    profiles: ["mcp", "mcp-project"]
+    restart: unless-stopped
+    networks:
+      - backend
+    working_dir: /app
+    command:
+      - npx
+      - "-y"
+      - "@modelcontextprotocol/server-filesystem"
+      - "--transport"
+      - "sse"
+      - "/workspace"
+    environment:
+      PORT: "8080"
+    expose:
+      - "8080"
+    volumes:
+      # Map workspace directory - adjust as needed
+      - "${XDG_DATA_HOME:-$HOME/.local/share}/mcp/workspace:/workspace"
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: backend

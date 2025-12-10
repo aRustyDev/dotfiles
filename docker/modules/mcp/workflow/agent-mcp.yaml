@@ -11,8 +11,6 @@
 #   - dashboard: Next.js dashboard UI
 #   - combined: Node server + Dashboard in single container
 
-version: "3.8"
-
 services:
   # Python MCP Server
   agent-mcp-python:
@@ -33,7 +31,7 @@ services:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/agent-mcp/workspace:/workspace
     environment:
       # Required secrets (set in .env file or pass at runtime)
-      - OPENAI_API_KEY=${OPENAI_API_KEY:?OPENAI_API_KEY is required}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-op://Developer/openai/credential}
       - MCP_ADMIN_TOKEN=${MCP_ADMIN_TOKEN:-}
 
       # Server configuration
@@ -73,7 +71,7 @@ services:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/agent-mcp/workspace:/workspace
     environment:
       # Required secrets
-      - OPENAI_API_KEY=${OPENAI_API_KEY:?OPENAI_API_KEY is required}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-op://Developer/openai/credential}
       - MCP_ADMIN_TOKEN=${MCP_ADMIN_TOKEN:-}
 
       # Server configuration
@@ -133,7 +131,7 @@ services:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/agent-mcp/workspace:/workspace
     environment:
       # Required secrets
-      - OPENAI_API_KEY=${OPENAI_API_KEY:?OPENAI_API_KEY is required}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-op://Developer/openai/credential}
       - MCP_ADMIN_TOKEN=${MCP_ADMIN_TOKEN:-}
 
       # Server configuration

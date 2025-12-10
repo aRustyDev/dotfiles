@@ -71,18 +71,18 @@ clean:
 
 # Deploy Docker profiles="core": mktree
 deploy profiles=profiles: mktree (build profiles)
-    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ profiles }}.yaml"
-    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ profiles }}.yaml" up -d
+    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml"
+    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml" up -d
 
 # Build Docker images for profiles
 build profiles=profiles: mktree
-    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ profiles }}.yaml"
-    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ profiles }}.yaml" build
+    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml"
+    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml" build
 
 # Deploy Docker profiles="core": mktree
 destroy profiles=profiles: mktree
-    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ profiles }}.yaml"
-    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ profiles }}.yaml" down
+    just -f "{{ justfile() }}" docker-template "{{ profiles }}" > "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml"
+    COMPOSE_PROFILES="{{ profiles }}" docker-compose -f "{{ docker_state }}/{{ replace(profiles, ",", "-") }}.yaml" down
 
 # Hydrate Docker-compose for profiles
 docker-template profiles=profiles:

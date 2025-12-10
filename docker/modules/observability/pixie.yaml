@@ -59,6 +59,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+    # Note: Pixie requires Kubernetes for full eBPF functionality
     deploy:
       resources:
         limits:
@@ -67,5 +68,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 256M
-      # Note
-      description: "Pixie requires Kubernetes for full eBPF functionality"
