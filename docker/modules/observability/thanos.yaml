@@ -1,0 +1,198 @@
+---
+# =============================================================================
+# Thanos - Highly Available Prometheus Setup
+# =============================================================================
+#
+# Thanos is a set of components that can be composed into a highly available
+# Prometheus setup with long-term storage capabilities.
+#
+# Features:
+#   - Global query view across Prometheus instances
+#   - Unlimited retention via object storage
+#   - Downsampling and compaction
+#   - High availability (deduplication)
+#   - Multi-tenancy
+#   - PromQL compatible
+#
+# Components:
+#   - Sidecar: Runs alongside Prometheus
+#   - Query: Global query layer
+#   - Store: Object storage gateway
+#   - Compactor: Downsampling and retention
+#   - Ruler: Recording/alerting rules
+#   - Receive: Remote write endpoint
+#
+# Storage Backends:
+#   - S3/MinIO
+#   - GCS
+#   - Azure Blob
+#   - Swift
+#   - Local filesystem (dev only)
+#
+# Repository: https://github.com/thanos-io/thanos
+#
+# Usage:
+#   docker-compose -f thanos.yaml up
+#   docker-compose --profile metrics up
+#
+# =============================================================================
+
+services:
+  # Thanos Sidecar - Runs alongside Prometheus
+  thanos-sidecar:
+    image: quay.io/thanos/thanos:v0.35.0
+    hostname: thanos-sidecar
+    container_name: thanos-sidecar
+    profiles: ["observability", "metrics", "thanos"]
+    networks:
+      - backend
+      - data-tier
+    restart: unless-stopped
+    command:
+      - sidecar
+      - --tsdb.path=/prometheus
+      - --prometheus.url=http://prometheus:9090
+      - --grpc-address=0.0.0.0:10901
+      - --http-address=0.0.0.0:10902
+      - --objstore.config-file=/etc/thanos/bucket.yaml
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/prometheus:/prometheus:ro
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/thanos:/etc/thanos:ro
+    expose:
+      - "10901"  # gRPC (StoreAPI)
+      - "10902"  # HTTP
+    depends_on:
+      - prometheus
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:10902/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+
+  # Thanos Query - Global query layer
+  thanos-query:
+    image: quay.io/thanos/thanos:v0.35.0
+    hostname: thanos-query
+    container_name: thanos-query
+    profiles: ["observability", "metrics", "thanos"]
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    command:
+      - query
+      - --http-address=0.0.0.0:9090
+      - --grpc-address=0.0.0.0:10901
+      - --store=thanos-sidecar:10901
+      - --store=thanos-store:10901
+      - --query.replica-label=replica
+    expose:
+      - "9090"   # HTTP (Prometheus-compatible API)
+      - "10901"  # gRPC
+    depends_on:
+      - thanos-sidecar
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:9090/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.thanos.rule: Host(`thanos.localhost`)
+      traefik.http.routers.thanos.entrypoints: websecure
+      traefik.http.routers.thanos.tls: true
+      traefik.http.services.thanos.loadbalancer.server.port: 9090
+
+  # Thanos Store - Object storage gateway
+  thanos-store:
+    image: quay.io/thanos/thanos:v0.35.0
+    hostname: thanos-store
+    container_name: thanos-store
+    profiles: ["observability", "metrics", "thanos"]
+    networks:
+      - backend
+      - data-tier
+    restart: unless-stopped
+    command:
+      - store
+      - --grpc-address=0.0.0.0:10901
+      - --http-address=0.0.0.0:10902
+      - --data-dir=/data
+      - --objstore.config-file=/etc/thanos/bucket.yaml
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/thanos/store:/data
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/thanos:/etc/thanos:ro
+    expose:
+      - "10901"  # gRPC (StoreAPI)
+      - "10902"  # HTTP
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:10902/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+
+  # Thanos Compactor - Downsampling and retention
+  thanos-compactor:
+    image: quay.io/thanos/thanos:v0.35.0
+    hostname: thanos-compactor
+    container_name: thanos-compactor
+    profiles: ["observability", "metrics", "thanos"]
+    networks:
+      - data-tier
+    restart: unless-stopped
+    command:
+      - compact
+      - --http-address=0.0.0.0:10902
+      - --data-dir=/data
+      - --objstore.config-file=/etc/thanos/bucket.yaml
+      - --retention.resolution-raw=30d
+      - --retention.resolution-5m=60d
+      - --retention.resolution-1h=1y
+      - --wait
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/thanos/compact:/data
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/thanos:/etc/thanos:ro
+    expose:
+      - "10902"  # HTTP
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:10902/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M

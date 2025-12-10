@@ -1,0 +1,236 @@
+---
+# =============================================================================
+# Vector - High-Performance Observability Data Pipeline
+# =============================================================================
+#
+# Vector is a high-performance, end-to-end (agent & aggregator) observability
+# data pipeline that puts you in control of your observability data. It
+# collects, transforms, and routes logs, metrics, and traces.
+#
+# Features:
+#   - Ultra-fast (10x faster than alternatives)
+#   - Memory-safe (written in Rust)
+#   - All data types: logs, metrics, traces
+#   - 300+ integrations
+#   - Programmable transforms (VRL - Vector Remap Language)
+#   - End-to-end acknowledgements
+#   - Adaptive concurrency
+#
+# Roles:
+#   - Agent: Deployed alongside services, collects local data
+#   - Aggregator: Central processing and routing
+#
+# Sources (Input):
+#   - File, Syslog, Journald
+#   - Docker, Kubernetes
+#   - Prometheus, StatsD
+#   - Kafka, HTTP, TCP/UDP
+#   - AWS S3, CloudWatch
+#
+# Sinks (Output):
+#   - Elasticsearch, Loki, ClickHouse
+#   - Prometheus, InfluxDB
+#   - Kafka, S3, GCS
+#   - Datadog, New Relic
+#   - Splunk, Humio
+#
+# Repository: https://github.com/vectordotdev/vector
+#
+# Usage:
+#   docker-compose -f vector.yaml up
+#   docker-compose --profile pipeline up
+#
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # Vector Agent - Local Data Collection
+  # ---------------------------------------------------------------------------
+  vector-agent:
+    image: timberio/vector:0.38.0-alpine
+    hostname: vector-agent
+    container_name: vector-agent
+    profiles: ["observability", "pipeline", "vector", "vector-agent"]
+    networks:
+      - backend       # For collecting from services
+    restart: unless-stopped
+    command:
+      - --config-dir=/etc/vector
+      - --watch-config
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/vector/agent:/etc/vector:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/log:/var/log:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/vector/agent:/var/lib/vector
+    expose:
+      - "8686"   # API & Health
+      - "9598"   # Prometheus metrics
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8686/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+
+  # ---------------------------------------------------------------------------
+  # Vector Aggregator - Central Processing & Routing
+  # ---------------------------------------------------------------------------
+  vector-aggregator:
+    image: timberio/vector:0.38.0-alpine
+    hostname: vector-aggregator
+    container_name: vector-aggregator
+    profiles: ["observability", "pipeline", "vector", "vector-aggregator"]
+    networks:
+      - frontend      # For API access
+      - backend       # For receiving from agents
+      - data-tier     # For sending to storage backends
+    restart: unless-stopped
+    command:
+      - --config-dir=/etc/vector
+      - --watch-config
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/vector/aggregator:/etc/vector:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/vector/aggregator:/var/lib/vector
+    expose:
+      # Sources (for receiving data)
+      - "9000"   # Vector source (from agents)
+      - "514"    # Syslog
+      - "8080"   # HTTP source
+      # API & Metrics
+      - "8686"   # API & Health
+      - "9598"   # Prometheus metrics
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8686/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      # HTTP Source endpoint
+      traefik.http.routers.vector-http.rule: Host(`vector.localhost`) && PathPrefix(`/`)
+      traefik.http.routers.vector-http.entrypoints: websecure
+      traefik.http.routers.vector-http.tls: true
+      traefik.http.services.vector-http.loadbalancer.server.port: 8080
+
+# =============================================================================
+# Configuration Notes
+# =============================================================================
+#
+# Agent Config Example (/etc/vector/vector.yaml):
+#
+# sources:
+#   docker_logs:
+#     type: docker_logs
+#     docker_host: unix:///var/run/docker.sock
+#
+#   host_metrics:
+#     type: host_metrics
+#     collectors:
+#       - cpu
+#       - memory
+#       - disk
+#       - network
+#
+# transforms:
+#   parse_logs:
+#     type: remap
+#     inputs: [docker_logs]
+#     source: |
+#       . = parse_json!(.message) ?? .
+#       .timestamp = now()
+#       .host = get_env_var!("HOSTNAME")
+#
+# sinks:
+#   to_aggregator:
+#     type: vector
+#     inputs: [parse_logs, host_metrics]
+#     address: vector-aggregator:9000
+#
+# Aggregator Config Example:
+#
+# sources:
+#   from_agents:
+#     type: vector
+#     address: 0.0.0.0:9000
+#
+#   http:
+#     type: http_server
+#     address: 0.0.0.0:8080
+#
+# transforms:
+#   enrich:
+#     type: remap
+#     inputs: [from_agents, http]
+#     source: |
+#       .environment = "production"
+#       .processed_at = now()
+#
+#   filter_errors:
+#     type: filter
+#     inputs: [enrich]
+#     condition: .level == "error"
+#
+#   sample:
+#     type: sample
+#     inputs: [enrich]
+#     rate: 10
+#
+# sinks:
+#   loki:
+#     type: loki
+#     inputs: [enrich]
+#     endpoint: http://loki:3100
+#     labels:
+#       source: vector
+#       environment: "{{ environment }}"
+#
+#   prometheus:
+#     type: prometheus_exporter
+#     inputs: [enrich]
+#     address: 0.0.0.0:9598
+#
+#   elasticsearch:
+#     type: elasticsearch
+#     inputs: [filter_errors]
+#     endpoints: ["http://elasticsearch:9200"]
+#     index: "errors-%Y-%m-%d"
+#
+# VRL (Vector Remap Language) Examples:
+#
+# # Parse JSON
+# . = parse_json!(.message)
+#
+# # Add field
+# .processed_by = "vector"
+#
+# # Delete field
+# del(.sensitive_field)
+#
+# # Conditional
+# if .status_code >= 400 {
+#     .level = "error"
+# }
+#
+# # Regex
+# .path = parse_regex!(.url, r'^https?://[^/]+(?P<path>.*)$').path
+#
+# =============================================================================
+

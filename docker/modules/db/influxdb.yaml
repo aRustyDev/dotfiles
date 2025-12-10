@@ -1,0 +1,264 @@
+---
+# =============================================================================
+# InfluxDB - Time Series Database
+# =============================================================================
+#
+# InfluxDB is an open-source time series database designed for high-write and
+# query loads. It's ideal for storing metrics, events, and analytics data.
+#
+# Features:
+#   - Purpose-built for time series data
+#   - High ingest rates (millions of points/sec)
+#   - SQL-like query language (InfluxQL) and Flux
+#   - Built-in HTTP API
+#   - Retention policies
+#   - Continuous queries
+#   - Telegraf integration
+#
+# InfluxDB 2.x Features:
+#   - Unified API (replaces separate components)
+#   - Built-in UI
+#   - Tasks (scheduled Flux scripts)
+#   - Organizations and buckets
+#   - Token-based authentication
+#   - Dashboards and alerting
+#
+# Write Protocols:
+#   - Line Protocol (native)
+#   - Prometheus remote_write
+#   - OpenTelemetry
+#   - Telegraf plugins
+#
+# Repository: https://github.com/influxdata/influxdb
+#
+# Usage:
+#   docker-compose -f influxdb.yaml up
+#   docker-compose --profile timeseries up
+#
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # InfluxDB 2.x - Time Series Database
+  # ---------------------------------------------------------------------------
+  influxdb:
+    image: influxdb:2.7-alpine
+    hostname: influxdb
+    container_name: influxdb
+    profiles: ["observability", "db", "timeseries", "influxdb"]
+    networks:
+      - frontend      # Web UI
+      - backend       # API access
+      - data-tier     # Data storage
+    restart: unless-stopped
+    environment:
+      # Initial Setup (only on first run)
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: "${INFLUXDB_USER:-admin}"
+      DOCKER_INFLUXDB_INIT_PASSWORD: "${INFLUXDB_PASSWORD:-op://Developer/influxdb/password}"
+      DOCKER_INFLUXDB_INIT_ORG: "${INFLUXDB_ORG:-homelab}"
+      DOCKER_INFLUXDB_INIT_BUCKET: "${INFLUXDB_BUCKET:-default}"
+      DOCKER_INFLUXDB_INIT_RETENTION: "${INFLUXDB_RETENTION:-30d}"
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: "${INFLUXDB_TOKEN:-op://Developer/influxdb/token}"
+      # Runtime settings
+      INFLUXD_REPORTING_DISABLED: "true"
+      INFLUXD_HTTP_BIND_ADDRESS: ":8086"
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/influxdb/data:/var/lib/influxdb2
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/influxdb:/etc/influxdb2
+    expose:
+      - "8086"   # HTTP API & UI
+    healthcheck:
+      test: ["CMD-SHELL", "influx ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.influxdb.rule: Host(`influxdb.localhost`)
+      traefik.http.routers.influxdb.entrypoints: websecure
+      traefik.http.routers.influxdb.tls: true
+      traefik.http.services.influxdb.loadbalancer.server.port: 8086
+
+  # ---------------------------------------------------------------------------
+  # Telegraf - Metrics Collection Agent (Optional)
+  # ---------------------------------------------------------------------------
+  telegraf:
+    image: telegraf:1.30-alpine
+    hostname: telegraf
+    container_name: telegraf
+    profiles: ["observability", "timeseries", "telegraf"]
+    networks:
+      - backend       # For collecting metrics
+      - data-tier     # For writing to InfluxDB
+    restart: unless-stopped
+    environment:
+      INFLUX_TOKEN: "${INFLUXDB_TOKEN:-op://Developer/influxdb/token}"
+      INFLUX_URL: "http://influxdb:8086"
+      INFLUX_ORG: "${INFLUXDB_ORG:-homelab}"
+      INFLUX_BUCKET: "${INFLUXDB_BUCKET:-default}"
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/telegraf:/etc/telegraf:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/hostfs:ro
+    expose:
+      - "8125"   # StatsD input
+      - "8092"   # UDP input
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "telegraf --test 2>/dev/null || exit 0"]
+      interval: 60s
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+
+  # ---------------------------------------------------------------------------
+  # Chronograf - UI for InfluxDB 1.x (Legacy, Optional)
+  # ---------------------------------------------------------------------------
+  # Note: InfluxDB 2.x has a built-in UI, so Chronograf is only needed
+  # for InfluxDB 1.x compatibility or advanced dashboarding.
+  # ---------------------------------------------------------------------------
+  chronograf:
+    image: chronograf:1.10-alpine
+    hostname: chronograf
+    container_name: chronograf
+    profiles: ["influxdb-legacy", "chronograf"]
+    networks:
+      - frontend
+      - data-tier
+    restart: unless-stopped
+    environment:
+      INFLUXDB_URL: "http://influxdb:8086"
+      INFLUXDB_TOKEN: "${INFLUXDB_TOKEN:-op://Developer/influxdb/token}"
+      INFLUXDB_ORG: "${INFLUXDB_ORG:-homelab}"
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/chronograf:/var/lib/chronograf
+    expose:
+      - "8888"   # Web UI
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.chronograf.rule: Host(`chronograf.localhost`)
+      traefik.http.routers.chronograf.entrypoints: websecure
+      traefik.http.routers.chronograf.tls: true
+      traefik.http.services.chronograf.loadbalancer.server.port: 8888
+
+# =============================================================================
+# Configuration Notes
+# =============================================================================
+#
+# InfluxDB CLI Usage:
+#
+# # Enter container
+# docker exec -it influxdb sh
+#
+# # Create bucket
+# influx bucket create -n myapp -o homelab -r 7d
+#
+# # Write data (Line Protocol)
+# influx write -b default -o homelab "cpu,host=server01 usage=42.5"
+#
+# # Query (Flux)
+# influx query 'from(bucket:"default") |> range(start:-1h) |> filter(fn:(r) => r._measurement == "cpu")'
+#
+# HTTP API Examples:
+#
+# # Write data
+# curl -X POST "http://localhost:8086/api/v2/write?org=homelab&bucket=default" \
+#   -H "Authorization: Token $INFLUX_TOKEN" \
+#   -H "Content-Type: text/plain" \
+#   -d "cpu,host=server01 usage=42.5"
+#
+# # Query data
+# curl -X POST "http://localhost:8086/api/v2/query?org=homelab" \
+#   -H "Authorization: Token $INFLUX_TOKEN" \
+#   -H "Content-Type: application/vnd.flux" \
+#   -d 'from(bucket:"default") |> range(start:-1h)'
+#
+# Telegraf Config Example (/etc/telegraf/telegraf.conf):
+#
+# [global_tags]
+#   environment = "production"
+#
+# [agent]
+#   interval = "10s"
+#   flush_interval = "10s"
+#
+# [[outputs.influxdb_v2]]
+#   urls = ["http://influxdb:8086"]
+#   token = "$INFLUX_TOKEN"
+#   organization = "homelab"
+#   bucket = "default"
+#
+# [[inputs.cpu]]
+#   percpu = true
+#   totalcpu = true
+#
+# [[inputs.mem]]
+#
+# [[inputs.disk]]
+#   ignore_fs = ["tmpfs", "devtmpfs"]
+#
+# [[inputs.docker]]
+#   endpoint = "unix:///var/run/docker.sock"
+#
+# [[inputs.statsd]]
+#   service_address = ":8125"
+#
+# Flux Query Examples:
+#
+# # Basic query
+# from(bucket: "default")
+#   |> range(start: -1h)
+#   |> filter(fn: (r) => r._measurement == "cpu")
+#
+# # Aggregation
+# from(bucket: "default")
+#   |> range(start: -24h)
+#   |> filter(fn: (r) => r._measurement == "cpu")
+#   |> aggregateWindow(every: 1h, fn: mean)
+#
+# # Join tables
+# cpu = from(bucket: "default")
+#   |> range(start: -1h)
+#   |> filter(fn: (r) => r._measurement == "cpu")
+#
+# mem = from(bucket: "default")
+#   |> range(start: -1h)
+#   |> filter(fn: (r) => r._measurement == "mem")
+#
+# join(tables: {cpu: cpu, mem: mem}, on: ["_time", "host"])
+#
+# =============================================================================
+

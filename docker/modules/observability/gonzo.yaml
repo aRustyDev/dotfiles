@@ -1,0 +1,76 @@
+---
+# =============================================================================
+# Gonzo - Kubernetes Resource Optimization
+# =============================================================================
+#
+# Gonzo (control-theory/gonzo) is an autonomous resource management system
+# for Kubernetes that uses control theory to automatically right-size
+# workloads based on actual resource usage.
+#
+# Features:
+#   - Automatic resource recommendations
+#   - Control theory-based optimization
+#   - Prometheus metrics integration
+#   - Kubernetes VPA alternative
+#   - Cost optimization
+#
+# IMPORTANT: Gonzo is primarily designed for Kubernetes.
+# This Docker config is for development/testing purposes.
+#
+# Requirements:
+#   - Kubernetes cluster (for production)
+#   - Prometheus with kube-state-metrics
+#   - Metrics Server
+#
+# Usage:
+#   For Kubernetes: kubectl apply -f gonzo.yaml
+#   For development: docker-compose -f gonzo.yaml up
+#
+# Repository: https://github.com/control-theory/gonzo
+#
+# =============================================================================
+
+services:
+  gonzo:
+    image: ghcr.io/control-theory/gonzo:latest
+    hostname: gonzo
+    container_name: gonzo
+    profiles: ["observability", "optimization", "gonzo"]
+    networks:
+      - backend       # For Prometheus access
+    restart: unless-stopped
+    environment:
+      # Prometheus configuration
+      PROMETHEUS_URL: "http://prometheus:9090"
+      # Gonzo settings
+      GONZO_LOG_LEVEL: info
+      GONZO_SYNC_INTERVAL: "30s"
+      # Kubernetes (if running in-cluster)
+      # KUBECONFIG: /root/.kube/config
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/gonzo:/etc/gonzo:ro
+      # Mount kubeconfig for Kubernetes access (optional)
+      # - ${HOME}/.kube/config:/root/.kube/config:ro
+    expose:
+      - "8080"   # Metrics/API
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.gonzo.rule: Host(`gonzo.localhost`)
+      traefik.http.routers.gonzo.entrypoints: websecure
+      traefik.http.routers.gonzo.tls: true
+      traefik.http.services.gonzo.loadbalancer.server.port: 8080

@@ -1,0 +1,87 @@
+---
+# =============================================================================
+# Elasticsearch - Distributed Search & Analytics Engine
+# =============================================================================
+#
+# Elasticsearch is a distributed, RESTful search and analytics engine capable
+# of addressing a growing number of use cases. Part of the ELK stack
+# (Elasticsearch, Logstash, Kibana).
+#
+# Features:
+#   - Full-text search with Lucene
+#   - Distributed architecture (scalable)
+#   - RESTful API
+#   - Real-time indexing
+#   - Aggregations and analytics
+#   - Machine learning (X-Pack)
+#
+# Security Note:
+#   - Default setup disables security for development
+#   - Enable xpack.security.enabled=true for production
+#
+# Cluster Configuration:
+#   - Single-node development mode by default
+#   - Set discovery.type=single-node for standalone
+#   - For clusters, configure discovery.seed_hosts
+#
+# Usage:
+#   docker-compose -f elasticsearch.yaml up
+#   docker-compose --profile elk up
+#
+# =============================================================================
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
+    hostname: elasticsearch
+    container_name: elasticsearch
+    profiles: ["observability", "elk", "search"]
+    networks:
+      - data-tier     # For data storage
+      - backend       # For API access
+    restart: unless-stopped
+    environment:
+      # Cluster settings
+      node.name: elasticsearch
+      cluster.name: docker-cluster
+      discovery.type: single-node
+      # Memory settings
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+      # Security (disabled for dev - enable for production)
+      xpack.security.enabled: "false"
+      xpack.security.enrollment.enabled: "false"
+      # License
+      xpack.license.self_generated.type: basic
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/elasticsearch:/usr/share/elasticsearch/data
+    expose:
+      - "9200"   # HTTP API
+      - "9300"   # Transport (cluster communication)
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.elasticsearch.rule: Host(`es.localhost`)
+      traefik.http.routers.elasticsearch.entrypoints: websecure
+      traefik.http.routers.elasticsearch.tls: true
+      traefik.http.services.elasticsearch.loadbalancer.server.port: 9200

@@ -1,0 +1,91 @@
+---
+# =============================================================================
+# Parseable - Cloud Native Log Analytics
+# =============================================================================
+#
+# Parseable is a cloud-native, log analytics platform built in Rust.
+# It's designed to be lightweight, fast, and cost-effective with
+# native S3-compatible storage.
+#
+# Features:
+#   - High-performance Rust engine
+#   - S3-native storage (or local)
+#   - SQL query interface
+#   - Low resource footprint
+#   - Kubernetes native
+#   - OpenTelemetry support
+#   - Vector/Fluent Bit/Logstash compatible
+#
+# Storage Modes:
+#   - Local disk (default)
+#   - S3/MinIO/GCS
+#   - Azure Blob Storage
+#
+# Ingest Methods:
+#   - HTTP API (/api/v1/ingest)
+#   - OTLP
+#   - Vector
+#   - Fluent Bit
+#
+# Default Credentials:
+#   - Username: admin
+#   - Password: admin (change via P_USERNAME/P_PASSWORD)
+#
+# Repository: https://github.com/parseablehq/parseable
+#
+# Usage:
+#   docker-compose -f parseable.yaml up
+#   docker-compose --profile logging up
+#
+# =============================================================================
+
+services:
+  parseable:
+    image: parseable/parseable:v1.3.0
+    hostname: parseable
+    container_name: parseable
+    profiles: ["observability", "logging", "parseable"]
+    networks:
+      - frontend      # Web UI
+      - backend       # API
+    restart: unless-stopped
+    command:
+      - parseable
+      - local-store
+    environment:
+      # Authentication
+      P_USERNAME: "${PARSEABLE_USER:-admin}"
+      P_PASSWORD: "${PARSEABLE_PASSWORD:-op://Developer/parseable/password}"
+      # Storage (local mode)
+      P_LOCAL_STORAGE: /parseable/data
+      P_STAGING_DIR: /parseable/staging
+      # Server settings
+      P_ADDR: "0.0.0.0:8000"
+      # OpenTelemetry
+      P_OTLP_ENDPOINT: "http://otel-collector:4317"
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/parseable/data:/parseable/data
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/parseable/staging:/parseable/staging
+    expose:
+      - "8000"   # HTTP API & UI
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8000/api/v1/liveness || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.parseable.rule: Host(`parseable.localhost`)
+      traefik.http.routers.parseable.entrypoints: websecure
+      traefik.http.routers.parseable.tls: true
+      traefik.http.services.parseable.loadbalancer.server.port: 8000

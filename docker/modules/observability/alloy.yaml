@@ -1,0 +1,87 @@
+---
+# =============================================================================
+# Grafana Alloy - Unified Telemetry Collector
+# =============================================================================
+#
+# Alloy is Grafana's distribution of the OpenTelemetry Collector, combining
+# the best of Prometheus Agent, Grafana Agent, and OTel Collector into a
+# single, unified telemetry pipeline.
+#
+# Features:
+#   - Unified collection for metrics, logs, traces, and profiles
+#   - Native support for Prometheus scraping
+#   - OpenTelemetry Protocol (OTLP) receiver
+#   - Loki log shipping
+#   - Tempo trace forwarding
+#   - Pyroscope profile forwarding
+#   - Component-based configuration (River language)
+#   - Built-in service discovery
+#
+# Supported Inputs:
+#   - Prometheus scrape targets
+#   - OTLP (gRPC/HTTP)
+#   - Loki push
+#   - Docker logs
+#   - Journal logs
+#   - File-based logs
+#
+# Supported Outputs:
+#   - Prometheus remote_write
+#   - Loki
+#   - Tempo (OTLP)
+#   - Mimir
+#   - Pyroscope
+#
+# Usage:
+#   docker-compose -f alloy.yaml up
+#   docker-compose --profile observability up
+#
+# =============================================================================
+
+services:
+  alloy:
+    image: grafana/alloy:v1.1.0
+    hostname: alloy
+    container_name: alloy
+    profiles: ["observability", "collector", "telemetry"]
+    networks:
+      - backend       # For collecting from services
+      - data-tier     # For sending to backends
+    restart: unless-stopped
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/alloy:/etc/alloy:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/alloy:/var/lib/alloy
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/log:/var/log:ro
+    expose:
+      - "12345"  # Alloy HTTP UI
+      - "4317"   # OTLP gRPC
+      - "4318"   # OTLP HTTP
+      - "9411"   # Zipkin
+      - "14268"  # Jaeger Thrift
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:12345/-/ready || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.alloy.rule: Host(`alloy.localhost`)
+      traefik.http.routers.alloy.entrypoints: websecure
+      traefik.http.routers.alloy.tls: true
+      traefik.http.services.alloy.loadbalancer.server.port: 12345

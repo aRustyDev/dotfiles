@@ -1,0 +1,78 @@
+---
+# =============================================================================
+# Pixie - Kubernetes Observability (eBPF-based)
+# =============================================================================
+#
+# Pixie is an open-source observability tool for Kubernetes applications
+# that uses eBPF to automatically capture telemetry data without code changes.
+#
+# IMPORTANT: Pixie is primarily designed for Kubernetes and requires:
+#   - Kubernetes cluster
+#   - eBPF-capable kernel (Linux 4.14+)
+#   - Pixie CLI (px) for deployment
+#
+# Features:
+#   - Auto-telemetry via eBPF (no instrumentation)
+#   - Protocol tracing (HTTP, gRPC, MySQL, Postgres, etc.)
+#   - CPU/memory profiling
+#   - Network monitoring
+#   - Service maps
+#   - PxL scripting language
+#
+# Note: This config is for the Pixie Cloud (self-hosted) components.
+# For full functionality, deploy to Kubernetes using:
+#   px deploy
+#
+# Docker Standalone Limitations:
+#   - Limited eBPF functionality outside Kubernetes
+#   - Best used for development/testing of PxL scripts
+#
+# Usage:
+#   For Kubernetes: px deploy
+#   For development: docker-compose -f pixie.yaml up
+#
+# =============================================================================
+
+services:
+  # Pixie Cloud - Self-hosted control plane (optional)
+  # For most use cases, use Pixie's managed cloud: https://work.withpixie.ai
+  pixie-cloud:
+    image: gcr.io/pixie-oss/pixie-prod/cloud/api_server:latest
+    hostname: pixie-cloud
+    container_name: pixie-cloud
+    profiles: ["observability", "ebpf", "pixie"]
+    networks:
+      - frontend      # Web UI
+      - backend       # API
+    restart: unless-stopped
+    environment:
+      PL_POSTGRES_HOSTNAME: postgres
+      PL_POSTGRES_PORT: "5432"
+      PL_POSTGRES_DB: pixie
+      PL_POSTGRES_USERNAME: "${POSTGRES_USER:-pixie}"
+      PL_POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-op://Developer/pixie/password}"
+    expose:
+      - "8080"   # API
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.pixie.rule: Host(`pixie.localhost`)
+      traefik.http.routers.pixie.entrypoints: websecure
+      traefik.http.routers.pixie.tls: true
+      traefik.http.services.pixie.loadbalancer.server.port: 8080
+      # Note
+      description: "Pixie requires Kubernetes for full eBPF functionality"

@@ -1,0 +1,71 @@
+---
+# =============================================================================
+# Kibana - Elasticsearch Visualization Platform
+# =============================================================================
+#
+# Kibana is the visualization layer of the ELK stack, providing search and
+# data visualization capabilities for data indexed in Elasticsearch.
+#
+# Features:
+#   - Interactive dashboards
+#   - Discover (log exploration)
+#   - Lens (drag-and-drop visualization)
+#   - Maps
+#   - Machine learning UI
+#   - APM UI
+#   - Alerting
+#
+# Default Credentials:
+#   - With security disabled: no auth required
+#   - With security enabled: elastic / changeme
+#
+# Usage:
+#   docker-compose -f kibana.yaml up
+#   docker-compose --profile elk up
+#
+# =============================================================================
+
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.13.0
+    hostname: kibana
+    container_name: kibana
+    profiles: ["observability", "elk", "dashboards"]
+    networks:
+      - frontend      # Web UI
+      - data-tier     # For Elasticsearch
+    restart: unless-stopped
+    environment:
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+      SERVER_NAME: kibana
+      SERVER_HOST: "0.0.0.0"
+      # Security (match Elasticsearch settings)
+      XPACK_SECURITY_ENABLED: "false"
+      # Telemetry
+      TELEMETRY_ENABLED: "false"
+    expose:
+      - "5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:5601/api/status | grep -q '\"overall\":{\"level\":\"available\"'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 512M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.kibana.rule: Host(`kibana.localhost`)
+      traefik.http.routers.kibana.entrypoints: websecure
+      traefik.http.routers.kibana.tls: true
+      traefik.http.services.kibana.loadbalancer.server.port: 5601

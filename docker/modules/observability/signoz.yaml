@@ -1,0 +1,157 @@
+---
+# =============================================================================
+# SigNoz - Open Source APM & Observability
+# =============================================================================
+#
+# SigNoz is an open-source APM that provides metrics, traces, and logs in a
+# single pane of glass. It's a full-stack alternative to Datadog/New Relic.
+#
+# Features:
+#   - Distributed tracing
+#   - Metrics monitoring
+#   - Log management
+#   - Exceptions tracking
+#   - Alerting
+#   - Service maps
+#   - OpenTelemetry native
+#
+# Architecture:
+#   - Query Service (API + UI)
+#   - OTel Collector (data ingestion)
+#   - ClickHouse (storage)
+#
+# Note: This is a simplified single-node setup. For production,
+# use the official SigNoz Helm chart or docker-compose.
+#
+# Usage:
+#   docker-compose -f signoz.yaml up
+#   docker-compose --profile apm up
+#
+# =============================================================================
+
+services:
+  signoz-otel-collector:
+    image: signoz/signoz-otel-collector:0.88.11
+    hostname: signoz-otel-collector
+    container_name: signoz-otel-collector
+    profiles: ["observability", "apm", "signoz"]
+    networks:
+      - backend       # For receiving telemetry
+      - data-tier     # For ClickHouse
+    restart: unless-stopped
+    command:
+      - --config=/etc/otel-collector-config.yaml
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/signoz/otel-collector-config.yaml:/etc/otel-collector-config.yaml:ro
+    expose:
+      - "4317"   # OTLP gRPC
+      - "4318"   # OTLP HTTP
+      - "8888"   # Prometheus metrics
+      - "8889"   # Prometheus exporter
+    depends_on:
+      signoz-clickhouse:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+
+  signoz-clickhouse:
+    image: clickhouse/clickhouse-server:24.1.2-alpine
+    hostname: signoz-clickhouse
+    container_name: signoz-clickhouse
+    profiles: ["observability", "apm", "signoz"]
+    networks:
+      - data-tier
+    restart: unless-stopped
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/signoz/clickhouse:/var/lib/clickhouse
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/signoz/clickhouse-config.xml:/etc/clickhouse-server/config.d/custom.xml:ro
+    expose:
+      - "8123"   # HTTP
+      - "9000"   # Native
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8123/ping || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 4G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  signoz-query-service:
+    image: signoz/query-service:0.45.0
+    hostname: signoz-query-service
+    container_name: signoz-query-service
+    profiles: ["observability", "apm", "signoz"]
+    networks:
+      - frontend      # Web UI
+      - backend       # API
+      - data-tier     # ClickHouse
+    restart: unless-stopped
+    environment:
+      ClickHouseUrl: tcp://signoz-clickhouse:9000
+      STORAGE: clickhouse
+      GODEBUG: netdns=go
+    expose:
+      - "8080"   # Query service
+    depends_on:
+      signoz-clickhouse:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/api/v1/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+
+  signoz-frontend:
+    image: signoz/frontend:0.45.0
+    hostname: signoz-frontend
+    container_name: signoz-frontend
+    profiles: ["observability", "apm", "signoz"]
+    networks:
+      - frontend
+    restart: unless-stopped
+    expose:
+      - "3301"
+    depends_on:
+      signoz-query-service:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.signoz.rule: Host(`signoz.localhost`)
+      traefik.http.routers.signoz.entrypoints: websecure
+      traefik.http.routers.signoz.tls: true
+      traefik.http.services.signoz.loadbalancer.server.port: 3301

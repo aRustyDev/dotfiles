@@ -1,0 +1,119 @@
+---
+# =============================================================================
+# Graphite (go-carbon + carbonapi) - Time Series Database
+# =============================================================================
+#
+# Graphite is a highly scalable real-time graphing system. This setup uses
+# go-carbon (high-performance carbon daemon in Go) and carbonapi (API server)
+# for a modern, efficient Graphite deployment.
+#
+# Components:
+#   - go-carbon: Carbon daemon for receiving and storing metrics
+#   - carbonapi: HTTP API for querying metrics (Graphite API compatible)
+#
+# Features:
+#   - High-performance metric ingestion
+#   - Whisper database storage
+#   - Graphite-compatible API
+#   - Native Grafana integration
+#   - Retention policies
+#   - Aggregation rules
+#
+# Protocols:
+#   - Carbon plaintext: 2003 (TCP/UDP)
+#   - Carbon pickle: 2004 (TCP)
+#   - Carbonlink: 7002 (TCP)
+#   - HTTP API: 8080
+#
+# Data Format (Carbon plaintext):
+#   <metric.path> <value> <timestamp>
+#   Example: servers.web01.cpu.usage 75.5 1609459200
+#
+# Usage:
+#   docker-compose -f graphite.yaml up
+#   docker-compose --profile metrics up
+#
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # go-carbon - Carbon Daemon (Metric Ingestion & Storage)
+  # ---------------------------------------------------------------------------
+  go-carbon:
+    image: ghcr.io/go-graphite/go-carbon:latest
+    hostname: go-carbon
+    container_name: go-carbon
+    profiles: ["observability", "metrics", "graphite"]
+    networks:
+      - data-tier     # For metric storage
+      - backend       # For receiving metrics from services
+    restart: unless-stopped
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/graphite/go-carbon:/etc/go-carbon:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/graphite/whisper:/var/lib/graphite/whisper
+    expose:
+      - "2003"   # Carbon plaintext (line receiver)
+      - "2003/udp"
+      - "2004"   # Carbon pickle
+      - "7002"   # Carbonlink (for carbonapi)
+      - "7007"   # Carbon internal metrics
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 2003 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: false  # No HTTP interface
+
+  # ---------------------------------------------------------------------------
+  # carbonapi - HTTP API Server (Query Interface)
+  # ---------------------------------------------------------------------------
+  carbonapi:
+    image: ghcr.io/go-graphite/carbonapi:latest
+    hostname: carbonapi
+    container_name: carbonapi
+    profiles: ["observability", "metrics", "graphite"]
+    networks:
+      - data-tier     # Connect to go-carbon
+      - backend       # For API access
+    restart: unless-stopped
+    depends_on:
+      go-carbon:
+        condition: service_healthy
+    environment:
+      # Carbonapi configuration via environment
+      CARBONAPI_CONFIG: /etc/carbonapi/carbonapi.yaml
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/graphite/carbonapi:/etc/carbonapi:ro
+    expose:
+      - "8080"   # HTTP API
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.graphite.rule: Host(`graphite.localhost`)
+      traefik.http.routers.graphite.entrypoints: websecure
+      traefik.http.routers.graphite.tls: true
+      traefik.http.services.graphite.loadbalancer.server.port: 8080

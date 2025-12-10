@@ -1,0 +1,76 @@
+---
+# =============================================================================
+# Grafana Pyroscope - Continuous Profiling
+# =============================================================================
+#
+# Pyroscope is an open-source continuous profiling platform. It helps you
+# understand resource usage (CPU, memory, etc.) at the code level, making
+# it easier to identify performance bottlenecks.
+#
+# Features:
+#   - Continuous profiling (always-on, low overhead)
+#   - Flame graphs for CPU, memory, goroutines, etc.
+#   - Multi-language support (Go, Python, Ruby, Java, .NET, Rust, Node.js)
+#   - Native Grafana integration
+#   - Exemplars linking (traces to profiles)
+#   - Diff mode for comparing profiles
+#   - Ad-hoc profiling mode
+#
+# Profile Types:
+#   - CPU profiling
+#   - Memory allocation profiling
+#   - Goroutine profiling (Go)
+#   - Mutex contention (Go)
+#   - Block profiling (Go)
+#   - Wall-clock time
+#
+# Ingest Methods:
+#   - Push API (SDK integration)
+#   - Pull/scrape (pprof endpoints)
+#   - eBPF (via Beyla/Alloy)
+#
+# Usage:
+#   docker-compose -f pyroscope.yaml up
+#   docker-compose --profile observability up
+#
+# =============================================================================
+
+services:
+  pyroscope:
+    image: grafana/pyroscope:1.6.0
+    hostname: pyroscope
+    container_name: pyroscope
+    profiles: ["observability", "profiling", "performance"]
+    user: "10001:10001"
+    networks:
+      - backend       # For receiving profiles
+      - data-tier     # For storage
+    restart: unless-stopped
+    command:
+      - -config.file=/etc/pyroscope/pyroscope.yaml
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/pyroscope:/etc/pyroscope:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/pyroscope:/data
+    expose:
+      - "4040"   # HTTP API & UI
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:4040/ready || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.pyroscope.rule: Host(`pyroscope.localhost`)
+      traefik.http.routers.pyroscope.entrypoints: websecure
+      traefik.http.routers.pyroscope.tls: true
+      traefik.http.services.pyroscope.loadbalancer.server.port: 4040

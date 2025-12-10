@@ -1,0 +1,95 @@
+---
+# =============================================================================
+# Jaeger - Distributed Tracing Platform
+# =============================================================================
+#
+# Jaeger is a distributed tracing platform created by Uber Technologies.
+# It's used for monitoring and troubleshooting microservices-based
+# distributed systems.
+#
+# Features:
+#   - Distributed context propagation
+#   - Distributed transaction monitoring
+#   - Root cause analysis
+#   - Service dependency analysis
+#   - Performance/latency optimization
+#   - OpenTelemetry native
+#
+# Components (all-in-one includes):
+#   - Agent (deprecated, use OTLP)
+#   - Collector
+#   - Query service
+#   - UI
+#
+# Ingest Protocols:
+#   - OTLP gRPC (4317)
+#   - OTLP HTTP (4318)
+#   - Jaeger Thrift (14268)
+#   - Jaeger gRPC (14250)
+#   - Zipkin (9411)
+#
+# Usage:
+#   docker-compose -f jaeger.yaml up
+#   docker-compose --profile tracing up
+#
+# =============================================================================
+
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    hostname: jaeger
+    container_name: jaeger
+    profiles: ["observability", "tracing", "jaeger"]
+    networks:
+      - frontend      # Web UI
+      - backend       # For receiving traces
+      - data-tier     # For storage backends
+    restart: unless-stopped
+    environment:
+      # Collector settings
+      COLLECTOR_OTLP_ENABLED: "true"
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+      # Storage (memory for dev, badger for persistence)
+      SPAN_STORAGE_TYPE: badger
+      BADGER_EPHEMERAL: "false"
+      BADGER_DIRECTORY_VALUE: /badger/data
+      BADGER_DIRECTORY_KEY: /badger/key
+      # Query service
+      QUERY_BASE_PATH: /
+      # Metrics
+      METRICS_STORAGE_TYPE: prometheus
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/jaeger:/badger
+    expose:
+      - "5775/udp"   # Thrift compact (deprecated)
+      - "6831/udp"   # Thrift compact
+      - "6832/udp"   # Thrift binary
+      - "5778"       # Config server
+      - "16686"      # Query/UI
+      - "4317"       # OTLP gRPC
+      - "4318"       # OTLP HTTP
+      - "14250"      # Model proto
+      - "14268"      # Thrift HTTP
+      - "14269"      # Admin/health
+      - "9411"       # Zipkin compatible
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:14269/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.jaeger.rule: Host(`jaeger.localhost`)
+      traefik.http.routers.jaeger.entrypoints: websecure
+      traefik.http.routers.jaeger.tls: true
+      traefik.http.services.jaeger.loadbalancer.server.port: 16686

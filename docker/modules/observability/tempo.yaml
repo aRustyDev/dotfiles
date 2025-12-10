@@ -1,0 +1,76 @@
+---
+# =============================================================================
+# Grafana Tempo - Distributed Tracing Backend
+# =============================================================================
+#
+# Tempo is a high-volume, minimal-dependency distributed tracing backend.
+# It only requires object storage to operate and is deeply integrated with
+# Grafana, Prometheus, and Loki.
+#
+# Features:
+#   - Cost-effective (only indexes trace IDs)
+#   - Multi-protocol ingestion (OTLP, Jaeger, Zipkin, OpenCensus)
+#   - TraceQL for advanced trace queries
+#   - Service graph generation
+#   - Span metrics (RED metrics from traces)
+#
+# Ingest Protocols:
+#   - OTLP gRPC: 4317
+#   - OTLP HTTP: 4318
+#   - Jaeger Thrift: 14268
+#   - Jaeger gRPC: 14250
+#   - Zipkin: 9411
+#
+# Query Endpoints:
+#   - HTTP API: 3200
+#   - TraceQL: 3200
+#
+# Usage:
+#   docker-compose -f tempo.yaml up
+#   docker-compose --profile observability up
+#
+# =============================================================================
+
+services:
+  tempo:
+    image: grafana/tempo:2.5.0
+    hostname: tempo
+    container_name: tempo
+    profiles: ["observability", "lgtm", "tracing"]
+    user: "10001:10001"
+    networks:
+      - backend       # For service access
+      - data-tier     # For storage backends
+    restart: unless-stopped
+    command: -config.file=/etc/tempo/tempo.yaml
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/tempo:/etc/tempo:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/tempo:/var/tempo
+    expose:
+      - "3200"   # Tempo HTTP API
+      - "4317"   # OTLP gRPC
+      - "4318"   # OTLP HTTP
+      - "9411"   # Zipkin
+      - "14268"  # Jaeger Thrift HTTP
+      - "14250"  # Jaeger gRPC
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:3200/ready || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.tempo.rule: Host(`tempo.localhost`)
+      traefik.http.routers.tempo.entrypoints: websecure
+      traefik.http.routers.tempo.tls: true
+      traefik.http.services.tempo.loadbalancer.server.port: 3200

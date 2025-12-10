@@ -1,0 +1,95 @@
+---
+# =============================================================================
+# OpenTelemetry Collector - Vendor-Agnostic Telemetry Pipeline
+# =============================================================================
+#
+# The OpenTelemetry Collector is a vendor-agnostic agent for collecting,
+# processing, and exporting telemetry data (metrics, logs, traces). It
+# supports multiple protocols and can route data to various backends.
+#
+# Features:
+#   - Vendor-agnostic (supports 50+ exporters)
+#   - Multiple receivers (OTLP, Jaeger, Zipkin, Prometheus, etc.)
+#   - Data processing (batching, filtering, sampling, etc.)
+#   - Tail-based sampling for traces
+#   - Metrics aggregation and transformation
+#   - Log parsing and enrichment
+#
+# Receivers (Inputs):
+#   - OTLP (gRPC: 4317, HTTP: 4318)
+#   - Jaeger (thrift: 14268, grpc: 14250)
+#   - Zipkin (9411)
+#   - Prometheus (scrape)
+#   - Host metrics
+#   - Docker stats
+#
+# Exporters (Outputs):
+#   - OTLP (Tempo, Grafana Cloud, etc.)
+#   - Prometheus (remote_write)
+#   - Loki
+#   - Jaeger
+#   - Zipkin
+#   - Debug/Logging
+#
+# Usage:
+#   docker-compose -f otel-collector.yaml up
+#   docker-compose --profile observability up
+#
+# =============================================================================
+
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.102.0
+    hostname: otel-collector
+    container_name: otel-collector
+    profiles: ["observability", "otel", "collector"]
+    networks:
+      - backend       # For receiving telemetry
+      - data-tier     # For sending to backends
+    restart: unless-stopped
+    command:
+      - --config=/etc/otelcol/config.yaml
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/otel-collector:/etc/otelcol:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    expose:
+      # Receivers
+      - "4317"   # OTLP gRPC
+      - "4318"   # OTLP HTTP
+      - "9411"   # Zipkin
+      - "14268"  # Jaeger Thrift HTTP
+      - "14250"  # Jaeger gRPC
+      # Internal
+      - "8888"   # Prometheus metrics (self)
+      - "8889"   # Prometheus exporter
+      - "13133"  # Health check
+      - "55679"  # zpages (debugging)
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:13133/health/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      # OTLP HTTP endpoint
+      traefik.http.routers.otel-http.rule: Host(`otel.localhost`) && PathPrefix(`/v1`)
+      traefik.http.routers.otel-http.entrypoints: websecure
+      traefik.http.routers.otel-http.tls: true
+      traefik.http.routers.otel-http.service: otel-http
+      traefik.http.services.otel-http.loadbalancer.server.port: 4318
+      # Health/Debug endpoint
+      traefik.http.routers.otel-debug.rule: Host(`otel.localhost`) && PathPrefix(`/debug`)
+      traefik.http.routers.otel-debug.entrypoints: websecure
+      traefik.http.routers.otel-debug.tls: true
+      traefik.http.routers.otel-debug.service: otel-debug
+      traefik.http.services.otel-debug.loadbalancer.server.port: 55679

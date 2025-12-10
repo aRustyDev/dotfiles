@@ -1,0 +1,67 @@
+---
+# =============================================================================
+# Grafana Loki - Log Aggregation System
+# =============================================================================
+#
+# Loki is a horizontally scalable, highly available, multi-tenant log
+# aggregation system inspired by Prometheus. It indexes metadata (labels)
+# rather than log content, making it cost-effective and efficient.
+#
+# Features:
+#   - Label-based log indexing (like Prometheus for logs)
+#   - Native Grafana integration
+#   - LogQL query language
+#   - Multi-tenant support
+#   - S3/GCS/Azure blob storage support
+#
+# Endpoints:
+#   - Push: POST /loki/api/v1/push (for log ingestion)
+#   - Query: GET /loki/api/v1/query (for log queries)
+#   - Labels: GET /loki/api/v1/labels
+#   - Ready: GET /ready
+#
+# Usage:
+#   docker-compose -f loki.yaml up
+#   docker-compose --profile observability up
+#
+# =============================================================================
+
+services:
+  loki:
+    image: grafana/loki:3.0.0
+    hostname: loki
+    container_name: loki
+    profiles: ["observability", "lgtm", "logging"]
+    user: "10001:10001"
+    networks:
+      - backend        # For service access
+      - data-tier      # For storage backends
+    restart: unless-stopped
+    command: -config.file=/etc/loki/loki.yaml
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/loki:/etc/loki:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/loki:/loki
+    expose:
+      - "3100"  # HTTP API
+      - "9096"  # gRPC (for distributed mode)
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:3100/ready || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.loki.rule: Host(`loki.localhost`)
+      traefik.http.routers.loki.entrypoints: websecure
+      traefik.http.routers.loki.tls: true
+      traefik.http.services.loki.loadbalancer.server.port: 3100

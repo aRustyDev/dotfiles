@@ -1,0 +1,145 @@
+---
+# =============================================================================
+# Keep - Open Source Alert Management Platform
+# =============================================================================
+#
+# Keep is an open-source alert management platform that allows you to
+# consolidate alerts from all your monitoring tools in one place, deduplicate,
+# correlate, and route them efficiently.
+#
+# Features:
+#   - Centralized alert management
+#   - Multi-provider integration (50+ tools)
+#   - Alert deduplication and correlation
+#   - Workflow automation
+#   - On-call scheduling
+#   - Incident management
+#   - AI-powered insights
+#
+# Integrations:
+#   - Prometheus, Alertmanager
+#   - Grafana, Datadog, PagerDuty
+#   - CloudWatch, Sentry
+#   - Zabbix, New Relic
+#   - And many more...
+#
+# Repository: https://github.com/keephq/keep
+#
+# Usage:
+#   docker-compose -f keep.yaml up
+#   docker-compose --profile alerting up
+#
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # Keep Backend - API Server
+  # ---------------------------------------------------------------------------
+  keep-backend:
+    image: us-central1-docker.pkg.dev/keephq/keep/keep-api:latest
+    hostname: keep-backend
+    container_name: keep-backend
+    profiles: ["observability", "alerting", "keep"]
+    networks:
+      - frontend      # Web UI
+      - backend       # API access
+      - data-tier     # Database
+    restart: unless-stopped
+    environment:
+      # Database
+      DATABASE_CONNECTION_STRING: "postgresql://${KEEP_DB_USER:-keep}:${KEEP_DB_PASSWORD:-op://Developer/keep/db_password}@postgres:5432/keep"
+      # Secret key
+      SECRET_MANAGER_TYPE: "FILE"
+      SECRET_MANAGER_DIRECTORY: "/app/secrets"
+      # Auth (optional, for SSO)
+      AUTH_TYPE: "${KEEP_AUTH_TYPE:-NO_AUTH}"
+      # Pusher for real-time updates (optional)
+      PUSHER_DISABLED: "true"
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/keep/secrets:/app/secrets
+    expose:
+      - "8080"   # API
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+
+  # ---------------------------------------------------------------------------
+  # Keep Frontend - Web UI
+  # ---------------------------------------------------------------------------
+  keep-frontend:
+    image: us-central1-docker.pkg.dev/keephq/keep/keep-ui:latest
+    hostname: keep-frontend
+    container_name: keep-frontend
+    profiles: ["observability", "alerting", "keep"]
+    networks:
+      - frontend
+    restart: unless-stopped
+    environment:
+      API_URL: "http://keep-backend:8080"
+      AUTH_TYPE: "${KEEP_AUTH_TYPE:-NO_AUTH}"
+    expose:
+      - "3000"   # Web UI
+    depends_on:
+      keep-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.keep.rule: Host(`keep.localhost`)
+      traefik.http.routers.keep.entrypoints: websecure
+      traefik.http.routers.keep.tls: true
+      traefik.http.services.keep.loadbalancer.server.port: 3000
+
+  # ---------------------------------------------------------------------------
+  # Keep Websocket Server (Optional - for real-time updates)
+  # ---------------------------------------------------------------------------
+  keep-websocket:
+    image: us-central1-docker.pkg.dev/keephq/keep/keep-websocket:latest
+    hostname: keep-websocket
+    container_name: keep-websocket
+    profiles: ["observability", "alerting", "keep", "keep-realtime"]
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    environment:
+      API_URL: "http://keep-backend:8080"
+    expose:
+      - "6001"   # WebSocket
+    depends_on:
+      keep-backend:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 256M
+        reservations:
+          cpus: "0.05"
+          memory: 64M
+

@@ -1,0 +1,74 @@
+---
+# =============================================================================
+# Prometheus Alertmanager - Alert Handling & Routing
+# =============================================================================
+#
+# Alertmanager handles alerts sent by Prometheus server. It takes care of
+# deduplicating, grouping, and routing alerts to the correct receiver.
+#
+# Features:
+#   - Alert grouping (reduces noise)
+#   - Alert deduplication
+#   - Silencing
+#   - Inhibition
+#   - High availability (clustering)
+#   - Multiple notification channels
+#
+# Notification Integrations:
+#   - Email (SMTP)
+#   - Slack
+#   - PagerDuty
+#   - OpsGenie
+#   - Webhook
+#   - VictorOps
+#   - Pushover
+#   - WeChat
+#
+# Usage:
+#   docker-compose -f alertmanager.yaml up
+#   docker-compose --profile alerting up
+#
+# =============================================================================
+
+services:
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    hostname: alertmanager
+    container_name: alertmanager
+    profiles: ["observability", "alerting", "prometheus"]
+    networks:
+      - backend       # For Prometheus
+      - admin         # Admin UI
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --storage.path=/alertmanager
+      - --web.external-url=https://alertmanager.localhost
+      - --cluster.listen-address=
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/alertmanager:/etc/alertmanager:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/alertmanager:/alertmanager
+    expose:
+      - "9093"   # Web UI & API
+      - "9094"   # Cluster (mesh)
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:9093/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: admin
+      traefik.http.routers.alertmanager.rule: Host(`alertmanager.localhost`)
+      traefik.http.routers.alertmanager.entrypoints: websecure
+      traefik.http.routers.alertmanager.tls: true
+      traefik.http.services.alertmanager.loadbalancer.server.port: 9093

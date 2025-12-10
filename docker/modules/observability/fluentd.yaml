@@ -1,0 +1,78 @@
+---
+# =============================================================================
+# Fluentd - Unified Logging Layer
+# =============================================================================
+#
+# Fluentd is an open-source data collector for unified logging layer.
+# It allows you to unify data collection and consumption for better use
+# and understanding of data.
+#
+# Features:
+#   - 500+ plugins
+#   - JSON structured logging
+#   - Pluggable architecture
+#   - Built-in reliability (buffering, retries)
+#   - Low resource footprint
+#
+# Input Protocols:
+#   - Forward (24224) - Fluentd/Fluent Bit
+#   - HTTP (9880)
+#   - Syslog (5140)
+#   - TCP/UDP
+#
+# Common Outputs:
+#   - Elasticsearch
+#   - S3/GCS
+#   - Kafka
+#   - Loki
+#   - stdout
+#
+# Usage:
+#   docker-compose -f fluentd.yaml up
+#   docker-compose --profile logging up
+#
+# =============================================================================
+
+services:
+  fluentd:
+    image: fluent/fluentd:v1.16-debian
+    hostname: fluentd
+    container_name: fluentd
+    profiles: ["observability", "logging", "fluentd"]
+    networks:
+      - backend       # For receiving logs
+      - data-tier     # For storage backends
+    restart: unless-stopped
+    environment:
+      FLUENTD_CONF: fluent.conf
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/fluentd:/fluentd/etc:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/fluentd:/fluentd/log
+      - /var/log:/var/log:ro
+    expose:
+      - "24224"      # Forward protocol
+      - "24224/udp"  # Forward UDP
+      - "9880"       # HTTP input
+      - "5140"       # Syslog
+      - "5140/udp"   # Syslog UDP
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9880/api/plugins.json || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.fluentd.rule: Host(`fluentd.localhost`)
+      traefik.http.routers.fluentd.entrypoints: websecure
+      traefik.http.routers.fluentd.tls: true
+      traefik.http.services.fluentd.loadbalancer.server.port: 9880

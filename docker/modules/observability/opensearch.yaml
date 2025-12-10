@@ -1,0 +1,123 @@
+---
+# =============================================================================
+# OpenSearch - Open Source Search & Analytics Suite
+# =============================================================================
+#
+# OpenSearch is a community-driven, Apache 2.0-licensed fork of Elasticsearch
+# and Kibana. It provides distributed search and analytics capabilities.
+#
+# Features:
+#   - Full-text search
+#   - Log analytics
+#   - Application monitoring
+#   - Security analytics
+#   - Anomaly detection
+#   - Alerting
+#   - SQL support
+#
+# Components:
+#   - OpenSearch (search engine)
+#   - OpenSearch Dashboards (visualization)
+#
+# Default Credentials:
+#   - Username: admin
+#   - Password: admin (change in production!)
+#
+# Usage:
+#   docker-compose -f opensearch.yaml up
+#   docker-compose --profile opensearch up
+#
+# =============================================================================
+
+services:
+  opensearch:
+    image: opensearchproject/opensearch:2.13.0
+    hostname: opensearch
+    container_name: opensearch
+    profiles: ["observability", "opensearch", "search"]
+    networks:
+      - data-tier     # For data storage
+      - backend       # For API access
+    restart: unless-stopped
+    environment:
+      cluster.name: opensearch-cluster
+      node.name: opensearch
+      discovery.type: single-node
+      bootstrap.memory_lock: "true"
+      OPENSEARCH_JAVA_OPTS: "-Xms1g -Xmx1g"
+      # Disable security for development
+      DISABLE_SECURITY_PLUGIN: "true"
+      # Or configure security
+      # OPENSEARCH_INITIAL_ADMIN_PASSWORD: "${OPENSEARCH_PASSWORD:-admin}"
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/opensearch:/usr/share/opensearch/data
+    expose:
+      - "9200"   # REST API
+      - "9600"   # Performance Analyzer
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.opensearch.rule: Host(`opensearch.localhost`)
+      traefik.http.routers.opensearch.entrypoints: websecure
+      traefik.http.routers.opensearch.tls: true
+      traefik.http.services.opensearch.loadbalancer.server.port: 9200
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.13.0
+    hostname: opensearch-dashboards
+    container_name: opensearch-dashboards
+    profiles: ["observability", "opensearch", "dashboards"]
+    networks:
+      - frontend      # Web UI
+      - data-tier     # For OpenSearch
+    restart: unless-stopped
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: "true"
+    expose:
+      - "5601"
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:5601/api/status | grep -q 'available'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 512M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.opensearch-dashboards.rule: Host(`opensearch-ui.localhost`)
+      traefik.http.routers.opensearch-dashboards.entrypoints: websecure
+      traefik.http.routers.opensearch-dashboards.tls: true
+      traefik.http.services.opensearch-dashboards.loadbalancer.server.port: 5601

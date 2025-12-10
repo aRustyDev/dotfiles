@@ -1,0 +1,83 @@
+---
+# =============================================================================
+# OpenObserve - Unified Observability Platform
+# =============================================================================
+#
+# OpenObserve is a cloud-native observability platform that provides logs,
+# metrics, and traces in a single application. It's designed to be a
+# cost-effective alternative to Elasticsearch/Datadog/Splunk.
+#
+# Features:
+#   - Unified logs, metrics, and traces
+#   - 140x lower storage cost than Elasticsearch
+#   - Built-in dashboards and alerting
+#   - SQL-based query language
+#   - S3/MinIO/GCS backend storage
+#   - Multi-tenancy support
+#   - OTLP native support
+#
+# Ingest Protocols:
+#   - OTLP (gRPC/HTTP)
+#   - Elasticsearch bulk API compatible
+#   - Prometheus remote_write
+#   - Fluent-bit/Fluentd
+#   - Vector
+#
+# Default Credentials:
+#   - Email: root@example.com (or ZO_ROOT_USER_EMAIL)
+#   - Password: Complexpass#123 (or ZO_ROOT_USER_PASSWORD)
+#
+# Usage:
+#   docker-compose -f openobserve.yaml up
+#   docker-compose --profile observability up
+#
+# =============================================================================
+
+services:
+  openobserve:
+    image: public.ecr.aws/zinclabs/openobserve:v0.10.0
+    hostname: openobserve
+    container_name: openobserve
+    profiles: ["observability", "openobserve", "unified"]
+    networks:
+      - frontend      # Web UI
+      - backend       # API access
+      - data-tier     # Storage backends
+    restart: unless-stopped
+    environment:
+      # Root user credentials
+      ZO_ROOT_USER_EMAIL: "${OPENOBSERVE_USER:-admin@localhost}"
+      ZO_ROOT_USER_PASSWORD: "${OPENOBSERVE_PASSWORD:-op://Developer/openobserve/password}"
+      # Data directory
+      ZO_DATA_DIR: /data
+      # Enable all features
+      ZO_TELEMETRY: "false"
+      # OTLP settings
+      ZO_OTLP_GRPC_ENABLE: "true"
+      ZO_OTLP_HTTP_ENABLE: "true"
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/openobserve:/data
+    expose:
+      - "5080"   # HTTP API & UI
+      - "5081"   # gRPC (OTLP)
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:5080/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.openobserve.rule: Host(`o2.localhost`)
+      traefik.http.routers.openobserve.entrypoints: websecure
+      traefik.http.routers.openobserve.tls: true
+      traefik.http.services.openobserve.loadbalancer.server.port: 5080

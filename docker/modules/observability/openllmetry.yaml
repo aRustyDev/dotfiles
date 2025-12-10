@@ -1,0 +1,156 @@
+---
+# =============================================================================
+# OpenLLMetry (Traceloop) - LLM Observability
+# =============================================================================
+#
+# OpenLLMetry is an open-source observability solution for LLM applications.
+# It provides auto-instrumentation for popular LLM frameworks and sends
+# telemetry data to any OpenTelemetry-compatible backend.
+#
+# Features:
+#   - Auto-instrumentation for LLM frameworks
+#   - Token usage tracking
+#   - Latency monitoring
+#   - Cost estimation
+#   - Prompt/response logging
+#   - Model performance metrics
+#   - OpenTelemetry native
+#
+# Supported Frameworks:
+#   - OpenAI
+#   - Anthropic
+#   - Cohere
+#   - Bedrock
+#   - LangChain
+#   - LlamaIndex
+#   - Haystack
+#   - Transformers
+#
+# Note: OpenLLMetry is primarily a SDK/library that instruments your
+# application. This config provides the Traceloop dashboard which
+# visualizes the telemetry data collected by OpenLLMetry.
+#
+# Repository: https://github.com/traceloop/openllmetry
+#
+# Usage:
+#   docker-compose -f openllmetry.yaml up
+#   docker-compose --profile llm-observability up
+#
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # Traceloop - LLM Observability Dashboard
+  # ---------------------------------------------------------------------------
+  # Note: Traceloop Cloud is the hosted version. For self-hosted, we use
+  # the OpenTelemetry collector with a visualization backend.
+  # This config sets up an OTEL collector optimized for LLM traces.
+  # ---------------------------------------------------------------------------
+  openllmetry-collector:
+    image: otel/opentelemetry-collector-contrib:0.102.0
+    hostname: openllmetry-collector
+    container_name: openllmetry-collector
+    profiles: ["observability", "llm-observability", "openllmetry"]
+    networks:
+      - backend       # For receiving telemetry
+      - data-tier     # For sending to backends
+    restart: unless-stopped
+    command:
+      - --config=/etc/otelcol/config.yaml
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/openllmetry:/etc/otelcol:ro
+    expose:
+      # OTLP Receivers (for LLM instrumentation)
+      - "4317"   # OTLP gRPC
+      - "4318"   # OTLP HTTP
+      # Internal
+      - "8888"   # Prometheus metrics (self)
+      - "13133"  # Health check
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:13133/health/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      # OTLP HTTP endpoint for LLM traces
+      traefik.http.routers.llmetry.rule: Host(`llmetry.localhost`)
+      traefik.http.routers.llmetry.entrypoints: websecure
+      traefik.http.routers.llmetry.tls: true
+      traefik.http.services.llmetry.loadbalancer.server.port: 4318
+
+# =============================================================================
+# Configuration Notes
+# =============================================================================
+#
+# OpenLLMetry SDK Configuration (in your application):
+#
+# Python:
+#   pip install traceloop-sdk
+#
+#   from traceloop.sdk import Traceloop
+#   Traceloop.init(
+#       api_endpoint="http://openllmetry-collector:4318",
+#       disable_batch=False,
+#   )
+#
+# Environment Variables:
+#   TRACELOOP_API_ENDPOINT=http://openllmetry-collector:4318
+#   TRACELOOP_HEADERS="Authorization=Bearer <token>"
+#
+# The collector config should include:
+#   - SpanProcessor for LLM-specific attributes
+#   - Exporters to your preferred backend (Jaeger, Tempo, etc.)
+#   - Processors for token counting and cost estimation
+#
+# Sample collector config (/etc/otelcol/config.yaml):
+#
+# receivers:
+#   otlp:
+#     protocols:
+#       grpc:
+#         endpoint: 0.0.0.0:4317
+#       http:
+#         endpoint: 0.0.0.0:4318
+#
+# processors:
+#   batch:
+#     timeout: 5s
+#     send_batch_size: 512
+#   attributes:
+#     actions:
+#       - key: service.type
+#         value: llm
+#         action: upsert
+#
+# exporters:
+#   otlp:
+#     endpoint: tempo:4317
+#     tls:
+#       insecure: true
+#   prometheus:
+#     endpoint: "0.0.0.0:8889"
+#
+# service:
+#   pipelines:
+#     traces:
+#       receivers: [otlp]
+#       processors: [batch, attributes]
+#       exporters: [otlp]
+#     metrics:
+#       receivers: [otlp]
+#       processors: [batch]
+#       exporters: [prometheus]
+#
+# =============================================================================
+

@@ -1,0 +1,140 @@
+---
+# =============================================================================
+# SOFA Tracer - Distributed Tracing for SOFA Architecture
+# =============================================================================
+#
+# SOFATracer is a component of the SOFA middleware stack developed by Ant Group.
+# It provides distributed tracing capabilities for microservices built on the
+# SOFA framework.
+#
+# Note: SOFATracer is primarily a Java library that integrates with Spring Boot
+# and the SOFA RPC framework. This configuration provides a Zipkin-compatible
+# collector for receiving and visualizing SOFA traces.
+#
+# Features:
+#   - Distributed tracing for SOFA RPC
+#   - Spring Cloud integration
+#   - Zipkin-compatible reporting
+#   - Log-based trace output
+#   - Sampling strategies
+#   - Flexible reporters
+#
+# Supported Components:
+#   - SOFABoot
+#   - SOFARPC
+#   - SOFAMesh
+#   - Spring Cloud
+#   - Dubbo
+#
+# Repository: https://github.com/sofastack/sofa-tracer
+#
+# Usage:
+#   docker-compose -f sofa-tracer.yaml up
+#   docker-compose --profile tracing up
+#
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # Zipkin - Trace Collection Backend for SOFA Tracer
+  # ---------------------------------------------------------------------------
+  # SOFATracer reports traces to Zipkin-compatible endpoints.
+  # This provides the collection and visualization backend.
+  # ---------------------------------------------------------------------------
+  sofa-zipkin:
+    image: openzipkin/zipkin:3.4
+    hostname: sofa-zipkin
+    container_name: sofa-zipkin
+    profiles: ["observability", "tracing", "sofa-tracer"]
+    networks:
+      - frontend      # Web UI
+      - backend       # Trace collection
+      - data-tier     # Storage
+    restart: unless-stopped
+    environment:
+      # Storage (in-memory for dev, use Elasticsearch for prod)
+      STORAGE_TYPE: "${SOFA_STORAGE_TYPE:-mem}"
+      # Elasticsearch storage (if STORAGE_TYPE=elasticsearch)
+      ES_HOSTS: "${SOFA_ES_HOSTS:-elasticsearch:9200}"
+      # Collector settings
+      COLLECTOR_SAMPLE_RATE: "${SOFA_SAMPLE_RATE:-1.0}"
+    expose:
+      - "9411"   # HTTP API & UI
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:9411/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.sofa-tracer.rule: Host(`sofa-tracer.localhost`)
+      traefik.http.routers.sofa-tracer.entrypoints: websecure
+      traefik.http.routers.sofa-tracer.tls: true
+      traefik.http.services.sofa-tracer.loadbalancer.server.port: 9411
+
+# =============================================================================
+# SOFA Tracer Integration Notes
+# =============================================================================
+#
+# Maven Dependency (in your Java project):
+#
+# <dependency>
+#     <groupId>com.alipay.sofa</groupId>
+#     <artifactId>tracer-sofa-boot-starter</artifactId>
+#     <version>3.1.3</version>
+# </dependency>
+#
+# application.properties:
+#
+# # Enable SOFA Tracer
+# com.alipay.sofa.tracer.enabled=true
+#
+# # Zipkin reporter
+# com.alipay.sofa.tracer.zipkin.enabled=true
+# com.alipay.sofa.tracer.zipkin.baseUrl=http://sofa-zipkin:9411
+#
+# # Sampling rate (0.0 to 1.0)
+# com.alipay.sofa.tracer.samplerPercentage=1.0
+#
+# # Log output (optional, for debugging)
+# com.alipay.sofa.tracer.disableDigestLog=false
+# com.alipay.sofa.tracer.disableConfiguration[tracerGlobalRollingPolicy]=false
+#
+# Spring Boot Integration:
+#
+# @SpringBootApplication
+# public class SofaTracerApplication {
+#     public static void main(String[] args) {
+#         SpringApplication.run(SofaTracerApplication.class, args);
+#     }
+# }
+#
+# Manual Span Creation:
+#
+# import com.alipay.common.tracer.core.SofaTracer;
+#
+# SofaTracer sofaTracer = new SofaTracer.Builder("MyService")
+#     .withTag("component", "custom")
+#     .build();
+#
+# SofaTracerSpan span = sofaTracer.buildSpan("operation")
+#     .withTag("key", "value")
+#     .start();
+# try {
+#     // Your code here
+# } finally {
+#     span.finish();
+# }
+#
+# =============================================================================
+

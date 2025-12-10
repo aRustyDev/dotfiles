@@ -1,0 +1,74 @@
+---
+# =============================================================================
+# Logstash - Data Processing Pipeline
+# =============================================================================
+#
+# Logstash is a server-side data processing pipeline that ingests data from
+# multiple sources, transforms it, and sends it to various outputs.
+# Part of the ELK stack.
+#
+# Features:
+#   - 200+ input/output plugins
+#   - Real-time data transformation
+#   - Grok pattern parsing
+#   - Multiple output destinations
+#   - Persistent queues
+#
+# Input Protocols:
+#   - Beats (5044)
+#   - Syslog (514)
+#   - HTTP (8080)
+#   - TCP/UDP (various)
+#
+# Usage:
+#   docker-compose -f logstash.yaml up
+#   docker-compose --profile elk up
+#
+# =============================================================================
+
+services:
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.13.0
+    hostname: logstash
+    container_name: logstash
+    profiles: ["observability", "elk", "logging"]
+    networks:
+      - backend       # For receiving logs
+      - data-tier     # For Elasticsearch
+    restart: unless-stopped
+    environment:
+      LS_JAVA_OPTS: "-Xms512m -Xmx512m"
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/logstash/config:/usr/share/logstash/config:ro
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/logstash:/usr/share/logstash/data
+    expose:
+      - "5044"   # Beats input
+      - "5000"   # TCP input
+      - "9600"   # Monitoring API
+      - "8080"   # HTTP input
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9600/_node/stats | grep -q '\"status\":\"green\"' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 512M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.routers.logstash.rule: Host(`logstash.localhost`)
+      traefik.http.routers.logstash.entrypoints: websecure
+      traefik.http.routers.logstash.tls: true
+      traefik.http.services.logstash.loadbalancer.server.port: 9600

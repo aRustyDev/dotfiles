@@ -1,0 +1,75 @@
+---
+# =============================================================================
+# Zipkin - Distributed Tracing System
+# =============================================================================
+#
+# Zipkin is a distributed tracing system that helps gather timing data needed
+# to troubleshoot latency problems in service architectures.
+#
+# Features:
+#   - Distributed tracing
+#   - Service dependency analysis
+#   - Latency analysis
+#   - Multiple storage backends
+#   - OpenTelemetry compatible
+#
+# Ingest Protocols:
+#   - HTTP (9411) - /api/v2/spans
+#   - Kafka
+#   - RabbitMQ
+#   - Scribe
+#
+# Storage Backends:
+#   - In-memory (default, non-persistent)
+#   - Elasticsearch
+#   - Cassandra
+#   - MySQL
+#
+# Usage:
+#   docker-compose -f zipkin.yaml up
+#   docker-compose --profile tracing up
+#
+# =============================================================================
+
+services:
+  zipkin:
+    image: openzipkin/zipkin:3.3
+    hostname: zipkin
+    container_name: zipkin
+    profiles: ["observability", "tracing", "zipkin"]
+    networks:
+      - frontend      # Web UI
+      - backend       # For receiving traces
+      - data-tier     # For storage backends
+    restart: unless-stopped
+    environment:
+      # Storage configuration
+      STORAGE_TYPE: mem  # mem, elasticsearch, cassandra, mysql
+      # For Elasticsearch storage:
+      # STORAGE_TYPE: elasticsearch
+      # ES_HOSTS: http://elasticsearch:9200
+      # Memory settings
+      JAVA_OPTS: "-Xms256m -Xmx512m"
+    expose:
+      - "9411"   # HTTP API & UI
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:9411/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    labels:
+      traefik.enable: true
+      traefik.docker.network: frontend
+      traefik.http.routers.zipkin.rule: Host(`zipkin.localhost`)
+      traefik.http.routers.zipkin.entrypoints: websecure
+      traefik.http.routers.zipkin.tls: true
+      traefik.http.services.zipkin.loadbalancer.server.port: 9411
