@@ -151,9 +151,14 @@ gen-project-compose profiles:
 
 # Usage: just deploy core,mcp,project-iac
 [group("docker")]
-deploy profiles="core": mktree (categorize-profiles profiles)
+deploy profiles="core": mktree
     #!/usr/bin/env bash
     set -euo pipefail
+
+    # Categorize profiles into INFRA and PROJECT groups
+    # NOTE: Must use eval here - justfile dependencies run in isolated subshells,
+    # so exported variables from dependencies don't propagate to the recipe body
+    eval $(just -f "{{ justfile() }}" categorize-profiles "{{ profiles }}")
 
     # Generate and deploy infrastructure profiles
     if [[ -n "$INFRA" ]]; then
@@ -182,9 +187,12 @@ deploy profiles="core": mktree (categorize-profiles profiles)
 
 # Build Docker images for profiles
 [group("docker")]
-build profiles="core": mktree (categorize-profiles profiles)
+build profiles="core": mktree
     #!/usr/bin/env bash
     set -euo pipefail
+
+    # Categorize profiles (see deploy recipe for explanation)
+    eval $(just -f "{{ justfile() }}" categorize-profiles "{{ profiles }}")
 
     # Build infrastructure profiles
     if [[ -n "$INFRA" ]]; then
@@ -209,9 +217,12 @@ build profiles="core": mktree (categorize-profiles profiles)
 
 # Usage: just destroy core,mcp,project-iac
 [group("docker")]
-destroy profiles="core": (categorize-profiles profiles)
+destroy profiles="core":
     #!/usr/bin/env bash
     set -euo pipefail
+
+    # Categorize profiles (see deploy recipe for explanation)
+    eval $(just -f "{{ justfile() }}" categorize-profiles "{{ profiles }}")
 
     # Destroy project-scoped services first
     if [[ -n "$PROJECT" ]]; then
