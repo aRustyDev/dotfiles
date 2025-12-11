@@ -29,7 +29,7 @@ docker-destroy profile="core":
 
 # List docker resources of kind (profiles, containers[labels...], projects)
 docker-ls kind="projects" *args:
-    just -f "{{ dot_docker }}/justfile" "list-docker-{{ kind }}" "{{ args }}"
+    just -f "{{ dot_docker }}/justfile" "list-docker-{{ kind }}" {{ args }}
 
 # Create certificates & DNS records
 init-docker:
