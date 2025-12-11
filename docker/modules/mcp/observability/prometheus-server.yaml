@@ -8,6 +8,15 @@ services:
       - backend        # MCP backend services network
     expose:
       - "8080"
+    # Resource Tier 3: Medium (metrics query processing)
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     environment:
       PORT: 8080
       MCP_PATH: /mcp

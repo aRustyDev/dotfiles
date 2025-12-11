@@ -30,6 +30,15 @@ services:
     restart: unless-stopped
     networks:
       - backend
+    # Resource Tier 1: Minimal (file operations)
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
     working_dir: /app
     command:
       - npx

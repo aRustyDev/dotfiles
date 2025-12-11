@@ -60,5 +60,14 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    # Resource Tier 5: Database Standard
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 4G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
     # NOTE: PostgreSQL uses TCP protocol - routing defined in svc.db.postgres.yaml
 

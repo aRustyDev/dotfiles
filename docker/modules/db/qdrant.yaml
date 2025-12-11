@@ -14,5 +14,20 @@ services:
       - "6333"
     volumes:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/mcp/qdrant:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:6333/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    # Resource Tier 5: Database Standard (vector index in memory)
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 4G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
     # NOTE: Qdrant routing defined in svc.db.qdrant.yaml (REST: 6333, gRPC: 6334)
 

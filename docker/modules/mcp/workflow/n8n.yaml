@@ -32,6 +32,15 @@ services:
     hostname: n8n-import
     container_name: n8n-import
     profiles: ["mcp-workflow", "mcp"]
+    # Resource Tier 2: Light (one-shot import task)
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
     entrypoint: /bin/sh
     command:
       - "-c"
@@ -62,6 +71,15 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     restart: unless-stopped
+    # Resource Tier 3: Medium (workflow processing)
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     expose:
       - "5678"
     volumes:

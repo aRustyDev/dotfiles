@@ -3,6 +3,15 @@ services:
     image: node:20-alpine
     container_name: thinking-http
     restart: unless-stopped
+    # Resource Tier 3: Medium (MCP protocol proxy)
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     command:
       - sh
       - -c

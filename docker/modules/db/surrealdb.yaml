@@ -41,4 +41,19 @@ services:
       # SURREAL_WEBSOCKET_RESPONSE_BUFFER_SIZE
       # SURREAL_WEBSOCKET_RESPONSE_CHANNEL_SIZE
       # SURREAL_WEBSOCKET_RESPONSE_FLUSH_PERIOD
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    # Resource Tier 5: Database Standard
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 4G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
 

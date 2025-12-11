@@ -46,7 +46,8 @@ services:
       cluster.name: docker-cluster
       discovery.type: single-node
       # Memory settings
-      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+      # JVM heap should be ~50% of memory limit
+      ES_JAVA_OPTS: "-Xms2g -Xmx2g"
       # Security (disabled for dev - enable for production)
       xpack.security.enabled: "false"
       xpack.security.enrollment.enabled: "false"
@@ -63,14 +64,15 @@ services:
       timeout: 10s
       retries: 5
       start_period: 60s
+    # Resource Tier 6: Database Heavy (JVM-based, heap = 50% of limit)
     deploy:
       resources:
         limits:
           cpus: "2.0"
-          memory: 2G
+          memory: 4G
         reservations:
           cpus: "0.5"
-          memory: 1G
+          memory: 2G
     ulimits:
       memlock:
         soft: -1

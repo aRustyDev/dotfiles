@@ -2,8 +2,18 @@ services:
   aws-docs:
     image: mcp/aws-documentation
     profiles: ["mcp-docs", "mcp"]
+    restart: unless-stopped
     networks:
       - backend        # MCP backend services network
+    # Resource Tier 2: Light (documentation proxy)
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
     labels:
       traefik.enable: true
       traefik.docker.network: backend

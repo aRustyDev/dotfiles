@@ -2,9 +2,19 @@ services:
   aws-api:
     image: mcp/aws-api-mcp-server
     profiles: ["project-iac", "mcp-project", "mcp"]
+    restart: unless-stopped
     domainname: aws-api.mcp.${DOMAIN:-localhost}
     networks:
       - backend        # MCP backend services network
+    # Resource Tier 2: Light (AWS API proxy)
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
     labels:
       traefik.enable: true
       traefik.docker.network: backend

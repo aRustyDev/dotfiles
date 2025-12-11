@@ -99,11 +99,12 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: authz
+    # Resource Tier 2: Light (Permission service)
     deploy:
       resources:
         limits:
           cpus: "0.5"
-          memory: 256M
+          memory: 512M
         reservations:
           cpus: "0.1"
           memory: 128M

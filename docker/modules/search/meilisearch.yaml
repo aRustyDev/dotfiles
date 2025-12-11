@@ -50,4 +50,19 @@ services:
       # MEILI_SSL_REQUIRE_AUTH: ""
       # MEILI_SSL_RESUMPTION: ""
       # MEILI_SSL_TICKETS: ""
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:7700/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    # Resource Tier 5: Database Standard (index size dependent)
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 4G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
 

@@ -20,6 +20,15 @@ services:
       dockerfile: agent-mcp.dockerfile
       target: python
     container_name: agent-mcp-python
+    # Resource Tier 3: Medium (agent processing)
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     expose:
       - "8080" # MCP Server API
       - "8000" # Agent MCP internal port
@@ -63,6 +72,15 @@ services:
       dockerfile: agent-mcp.dockerfile
       target: node
     container_name: agent-mcp-node
+    # Resource Tier 3: Medium (agent processing)
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     expose:
       - "8080" # MCP Server API
     volumes:
@@ -94,6 +112,15 @@ services:
       dockerfile: agent-mcp.dockerfile
       target: dashboard
     container_name: agent-mcp-dashboard
+    # Resource Tier 2: Light (Next.js dashboard)
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
     expose:
       - "3000" # Dashboard UI
     environment:
@@ -122,6 +149,15 @@ services:
       dockerfile: agent-mcp.dockerfile
       target: combined
     container_name: agent-mcp-combined
+    # Resource Tier 3: Medium (combined server + dashboard)
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     expose:
       - "8080" # Node MCP Server
       - "3000" # Dashboard UI

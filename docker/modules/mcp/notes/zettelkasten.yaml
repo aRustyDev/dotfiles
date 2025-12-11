@@ -39,6 +39,15 @@ services:
       timeout: 3s
       retries: 3
       start_period: 5s
+    # Resource Tier 1: Minimal (note management)
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
     environment:
       ZETTELKASTEN_LOG_LEVEL: INFO
       ZETTELKASTEN_HTTP_HOST: 0.0.0.0
