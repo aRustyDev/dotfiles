@@ -1,0 +1,121 @@
+---
+# =============================================================================
+# Observability Extensions - Logging, Metrics, Tracing Configuration
+# =============================================================================
+#
+# This file defines YAML extensions (anchors) for consistent observability
+# configuration across all services.
+#
+# Environment Variable Toggles:
+#   O11Y_METRICS_ENABLED  - Enable Prometheus metrics collection (default: true)
+#   O11Y_TRACING_ENABLED  - Enable distributed tracing (default: true)
+#   O11Y_LOGGING_ENABLED  - Enable structured logging (default: true)
+#   O11Y_LOGGING_DRIVER   - Docker logging driver (default: json-file)
+#
+# Usage in service files:
+#   services:
+#     my-service:
+#       logging: *default-logging
+#       # or for Loki direct push:
+#       logging: *loki-logging
+#
+# =============================================================================
+
+# =============================================================================
+# YAML Extension Anchors
+# =============================================================================
+
+x-logging-default: &default-logging
+  driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+  options:
+    max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+    max-file: "${O11Y_LOG_MAX_FILES:-3}"
+    tag: "{{.Name}}"
+    labels: "com.docker.compose.service,com.docker.compose.project"
+
+x-logging-loki: &loki-logging
+  driver: loki
+  options:
+    loki-url: "${LOKI_URL:-http://localhost:3100}/loki/api/v1/push"
+    loki-batch-size: "400"
+    loki-retries: "2"
+    loki-max-backoff: "800ms"
+    loki-timeout: "1s"
+    loki-tenant-id: "${LOKI_TENANT_ID:-docker}"
+    loki-external-labels: "cluster=docker-local,env=${ENVIRONMENT:-development}"
+    labels: "container_name,compose_project,compose_service"
+    max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+    max-file: "${O11Y_LOG_MAX_FILES:-3}"
+
+# OpenTelemetry environment variables for services with native OTEL support
+x-otel-env: &otel-env
+  OTEL_EXPORTER_OTLP_ENDPOINT: "${OTEL_EXPORTER_OTLP_ENDPOINT:-http://otel-collector:4317}"
+  OTEL_EXPORTER_OTLP_PROTOCOL: "${OTEL_EXPORTER_OTLP_PROTOCOL:-grpc}"
+  OTEL_TRACES_EXPORTER: "${O11Y_TRACING_ENABLED:-true}"
+  OTEL_METRICS_EXPORTER: "${O11Y_METRICS_ENABLED:-true}"
+  OTEL_LOGS_EXPORTER: "${O11Y_LOGGING_ENABLED:-true}"
+  OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=${ENVIRONMENT:-development},service.namespace=homelab"
+
+# ORY Stack tracing environment variables
+x-ory-tracing-env: &ory-tracing-env
+  TRACING_PROVIDER: "${O11Y_TRACING_PROVIDER:-otel}"
+  TRACING_PROVIDERS_OTLP_ENDPOINT: "${OTEL_EXPORTER_OTLP_ENDPOINT:-otel-collector:4317}"
+  TRACING_PROVIDERS_OTLP_INSECURE: "true"
+
+# Prometheus scrape labels for Docker service discovery
+x-prometheus-labels: &prometheus-labels
+  prometheus.scrape: "${O11Y_METRICS_ENABLED:-true}"
+  prometheus.port: "9090"
+  prometheus.path: "/metrics"
+
+# Resource limits for exporter sidecars (lightweight)
+x-exporter-resources: &exporter-resources
+  deploy:
+    resources:
+      limits:
+        cpus: "0.25"
+        memory: 128M
+      reservations:
+        cpus: "0.05"
+        memory: 32M
+
+# =============================================================================
+# Observability Services
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # Promtail - Log Collection Agent
+  # ---------------------------------------------------------------------------
+  # Collects logs from Docker containers and ships them to Loki
+  # Alternative to using the Loki Docker logging driver
+  # ---------------------------------------------------------------------------
+  promtail:
+    image: grafana/promtail:3.0.0
+    container_name: promtail
+    hostname: promtail
+    profiles: ["o11y-logging", "o11y"]
+    networks:
+      - backend
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/config.yaml
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/promtail:/etc/promtail:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    environment:
+      HOSTNAME: "${HOSTNAME:-docker-host}"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:9080/ready || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

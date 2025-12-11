@@ -104,7 +104,16 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
+      # Observability labels
+      o11y.service: "mcp-task-orchestrator"
+      o11y.component: "mcp"
 
       # MCP discovery label (for Claude Desktop compatibility)
       mcp.client: claude-desktop
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
 

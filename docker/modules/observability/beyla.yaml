@@ -41,40 +41,51 @@ services:
     image: grafana/beyla:1.6.0
     hostname: beyla
     container_name: beyla
-    profiles: ["o11y-profiling", "o11y"]
+    profiles: ["o11y-auto", "o11y"]
     privileged: true  # Required for eBPF
     pid: "host"       # Required to see other processes
     networks:
       - backend       # For exporting telemetry
+      - data-tier     # For accessing backends
     restart: unless-stopped
+    command:
+      - --config=/etc/beyla/config.yaml
     environment:
-      # Discovery - which processes to instrument
-      BEYLA_DISCOVERY_SERVICES: ".*"  # Instrument all services
-      # BEYLA_OPEN_PORT: "80,443,8080,3000,5000"  # Or by ports
-      # BEYLA_EXECUTABLE_NAME: "nginx|python|node"  # Or by process name
-
-      # OTLP Export configuration
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://tempo:4318"
-      OTEL_EXPORTER_OTLP_PROTOCOL: "http/protobuf"
-
-      # Prometheus metrics export
-      BEYLA_PROMETHEUS_PORT: "9090"
-
-      # Internal metrics
-      BEYLA_INTERNAL_METRICS_PROMETHEUS_PORT: "6060"
-
+      # =======================================================================
+      # Observability Toggles
+      # =======================================================================
+      # Tracing - export to Tempo
+      OTEL_EXPORTER_OTLP_ENDPOINT: "${OTEL_EXPORTER_OTLP_ENDPOINT:-http://tempo:4317}"
+      OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
+      OTEL_TRACES_EXPORTER: "${O11Y_TRACING_ENABLED:-otlp}"
+      # Metrics - export to OTEL Collector -> Mimir
+      OTEL_METRICS_EXPORTER: "${O11Y_METRICS_ENABLED:-otlp}"
+      # Service identification
+      OTEL_SERVICE_NAMESPACE: "${BEYLA_SERVICE_NAMESPACE:-homelab}"
+      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=${ENVIRONMENT:-development}"
       # Logging
-      BEYLA_LOG_LEVEL: "INFO"
-
-      # Service name (if not auto-detected)
-      OTEL_SERVICE_NAME: "beyla-instrumented"
+      BEYLA_LOG_LEVEL: "${BEYLA_LOG_LEVEL:-INFO}"
     volumes:
+      # Configuration file
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/beyla:/etc/beyla:ro
       # Required for eBPF
       - /sys/kernel/security:/sys/kernel/security:ro
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     expose:
-      - "9090"   # Prometheus metrics
-      - "6060"   # Internal metrics
+      - "9400"   # Prometheus metrics (application)
+      - "6060"   # Internal metrics (beyla self)
+    labels:
+      # Prometheus scraping for Beyla-generated metrics
+      prometheus.scrape: "${O11Y_METRICS_ENABLED:-true}"
+      prometheus.port: "9400"
+      prometheus.path: "/metrics"
+      o11y.service: "beyla"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
     healthcheck:
       test: ["CMD-SHELL", "wget --spider -q http://localhost:6060/metrics || exit 1"]
       interval: 30s

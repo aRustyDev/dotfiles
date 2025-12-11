@@ -62,9 +62,57 @@ entryPoints:
 #       httpChallenge:
 #         entryPoint: web
 
-# Logging (optional but helpful for debugging TLS)
+# =============================================================================
+# Observability Configuration
+# =============================================================================
+
+# Logging
 log:
   level: INFO
+  format: json
 
+# Access Logs (JSON format for Loki ingestion)
 accessLog:
   filePath: /var/log/traefik/access.log
+  format: json
+  filters:
+    statusCodes:
+      - "200-599"
+    retryAttempts: true
+    minDuration: "10ms"
+  fields:
+    defaultMode: keep
+    names:
+      ClientUsername: drop
+    headers:
+      defaultMode: drop
+      names:
+        User-Agent: keep
+        Authorization: drop
+        X-Request-Id: keep
+        X-Trace-Id: keep
+
+# Prometheus Metrics
+metrics:
+  prometheus:
+    entryPoint: metrics
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+    buckets:
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0
+
+# OpenTelemetry Tracing
+tracing:
+  otlp:
+    grpc:
+      endpoint: "otel-collector:4317"
+      insecure: true
+
+entryPoints:
+  # Metrics entrypoint (internal)
+  metrics:
+    address: :8080

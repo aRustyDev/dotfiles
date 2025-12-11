@@ -1,0 +1,141 @@
+# =============================================================================
+# Grafana Beyla Configuration - eBPF Auto-Instrumentation
+# =============================================================================
+# Beyla automatically instruments HTTP/gRPC services using eBPF, generating
+# traces and RED metrics without code changes.
+#
+# Environment Variable Toggles:
+#   O11Y_TRACING_ENABLED - Enable/disable trace export
+#   O11Y_METRICS_ENABLED - Enable/disable metrics export
+#   BEYLA_SERVICE_NAMESPACE - Namespace for all instrumented services
+#
+# Documentation: https://grafana.com/docs/beyla/latest/
+# =============================================================================
+
+# =============================================================================
+# Service Discovery
+# =============================================================================
+# Beyla can discover services by:
+#   - Port: Open ports to instrument
+#   - Executable: Process names to instrument
+#   - Kubernetes: Pod labels/annotations
+# =============================================================================
+discovery:
+  services:
+    # Instrument MCP servers (typically on high ports)
+    - name: mcp-servers
+      namespace: mcp
+      open_ports: 8000-9999
+
+    # Instrument auth services
+    - name: ory-stack
+      namespace: auth
+      open_ports: 4433-4469
+
+    # Instrument databases (client-side tracing)
+    - name: databases
+      namespace: db
+      open_ports: 5432,27017,6379,9200,6333,7700
+
+# =============================================================================
+# Attributes - Metadata for all telemetry
+# =============================================================================
+attributes:
+  kubernetes:
+    enable: false  # Not in Kubernetes
+
+  # Select which attributes to include
+  select:
+    # HTTP attributes
+    http.method: true
+    http.route: true
+    http.status_code: true
+    http.request.body.size: true
+    http.response.body.size: true
+    url.path: true
+
+    # Network attributes
+    server.address: true
+    server.port: true
+    client.address: true
+
+    # Service attributes
+    service.name: true
+    service.namespace: true
+
+# =============================================================================
+# Routes - URL Path Normalization
+# =============================================================================
+# Normalize URL paths to reduce cardinality
+# =============================================================================
+routes:
+  patterns:
+    # UUID patterns
+    - /api/*/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    # Numeric IDs
+    - /api/*/[0-9]+
+    # Common REST patterns
+    - /users/{id}
+    - /items/{id}
+    - /resources/{id}
+  unmatched: wildcard  # Use * for unmatched segments
+
+# =============================================================================
+# Metrics Export - Prometheus
+# =============================================================================
+prometheus_export:
+  port: 9400
+  path: /metrics
+
+  # Feature flags
+  features:
+    - application           # Application-level metrics
+    - application_process   # Process-level metrics
+    - application_span      # Span metrics
+
+  # Bucket configuration for histograms
+  buckets:
+    duration_histogram: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+    request_size_histogram: [0, 1024, 10240, 102400, 1048576, 10485760]
+    response_size_histogram: [0, 1024, 10240, 102400, 1048576, 10485760]
+
+# =============================================================================
+# OTEL Metrics Export - To Mimir via OTLP
+# =============================================================================
+otel_metrics_export:
+  endpoint: http://otel-collector:4317
+  protocol: grpc
+  # Only export if enabled
+  # Controlled by environment variable: OTEL_METRICS_EXPORTER
+
+# =============================================================================
+# OTEL Traces Export - To Tempo via OTLP
+# =============================================================================
+otel_traces_export:
+  endpoint: http://tempo:4317
+  protocol: grpc
+
+  # Sampling configuration
+  sampler:
+    name: parentbased_traceidratio
+    arg: "0.1"  # Sample 10% of traces
+
+# =============================================================================
+# Internal Metrics - Beyla Self-Monitoring
+# =============================================================================
+internal_metrics:
+  prometheus:
+    port: 6060
+    path: /metrics
+
+# =============================================================================
+# Logging
+# =============================================================================
+log_level: INFO
+
+# =============================================================================
+# Network Configuration
+# =============================================================================
+network:
+  # Enable network-level metrics (requires additional privileges)
+  enable: false

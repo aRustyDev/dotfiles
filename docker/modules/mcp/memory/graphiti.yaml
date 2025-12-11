@@ -50,6 +50,15 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
+      # Observability labels
+      o11y.service: "mcp-graphiti"
+      o11y.component: "mcp"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
     deploy:
       resources:
         limits:

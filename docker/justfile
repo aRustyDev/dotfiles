@@ -383,3 +383,56 @@ loopback-alias:
         sudo ifconfig lo0 alias {{ dns_ip }} up
         echo "✓ Added loopback alias {{ dns_ip }}"
     fi
+
+# =============================================================================
+# Resource Monitoring
+# =============================================================================
+
+# Show top CPU and memory consuming containers
+[group("docker")]
+docker-stats:
+    @echo "=== Top CPU Consumers ==="
+    @docker stats --no-stream --format "table {{{{.Name}}}}\t{{{{.CPUPerc}}}}\t{{{{.MemUsage}}}}\t{{{{.MemPerc}}}}" | head -15
+    @echo ""
+    @echo "=== Near Memory Limit (>70%) ==="
+    @docker stats --no-stream --format "{{{{.Name}}}}: {{{{.MemPerc}}}}" | awk -F: '{gsub(/%/,"",$2); if ($2 > 70) print $0 "%"}'
+
+# Generate resource usage report
+[group("docker")]
+docker-resource-report:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo "=== Docker Resource Report - $(date) ==="
+    echo ""
+    echo "## Container Count by State"
+    echo "Running: $(docker ps -q | wc -l | tr -d ' ')"
+    echo "Stopped: $(docker ps -aq --filter status=exited | wc -l | tr -d ' ')"
+    echo ""
+    echo "## Top 10 CPU Consumers"
+    docker stats --no-stream --format "{{.Name}}: {{.CPUPerc}}" | sort -t: -k2 -rn | head -10
+    echo ""
+    echo "## Top 10 Memory Consumers"
+    docker stats --no-stream --format "{{.Name}}: {{.MemUsage}}" | head -10
+    echo ""
+    echo "## Containers Near Memory Limit (>80%)"
+    docker stats --no-stream --format "{{.Name}}: {{.MemPerc}}" | awk -F: '{gsub(/%/,"",$2); if ($2 > 80) print $0 "% - WARNING"}'
+    echo ""
+    echo "## Resource Limits Summary"
+    docker inspect --format '{{.Name}}: CPU={{.HostConfig.NanoCpus}} Memory={{.HostConfig.Memory}}' $(docker ps -q) 2>/dev/null | \
+        awk -F: '{name=$1; cpu=$2; gsub(/.*CPU=/,"",cpu); gsub(/ .*/,"",cpu); mem=$2; gsub(/.*Memory=/,"",mem); \
+        if (cpu > 0 || mem > 0) printf "%s: CPU=%.1f cores, Memory=%d MB\n", name, cpu/1000000000, mem/1048576}'
+
+# Log resource stats to file (run periodically for baseline)
+[group("docker")]
+docker-stats-log file=(docker_state / "resource-stats.log"):
+    #!/usr/bin/env bash
+    echo "$(date -Iseconds) $(docker stats --no-stream --format '{{.Name}}={{.CPUPerc}},{{.MemPerc}}')" >> "{{ file }}"
+    echo "✓ Stats logged to {{ file }}"
+
+# Show containers without resource limits
+[group("docker")]
+docker-unlimited:
+    #!/usr/bin/env bash
+    echo "=== Containers Without Resource Limits ==="
+    docker inspect --format '{{.Name}} CPU={{.HostConfig.NanoCpus}} Memory={{.HostConfig.Memory}}' $(docker ps -q) 2>/dev/null | \
+        awk -F'[= ]' '{if ($3 == 0 && $5 == 0) print $1 " - NO LIMITS"}'

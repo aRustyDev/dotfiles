@@ -19,6 +19,7 @@ include:
   # Core Infrastructure (networks must be first)
   # ===========================================================================
   - path: modules/core/networks.yaml
+  - path: modules/core/observability.yaml
 
   # ===========================================================================
   # Ingress / Reverse Proxy
@@ -46,6 +47,7 @@ include:
   # ===========================================================================
   # Databases
   # ===========================================================================
+  - path: modules/db/exporters.yaml
   - path: modules/db/elasticsearch.yaml
   - path: modules/db/falkor.yaml
   - path: modules/db/graphite.yaml

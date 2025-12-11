@@ -77,9 +77,20 @@ services:
       SPICEDB_GRPC_PRESHARED_KEY: "${SPICEDB_GRPC_PRESHARED_KEY:-op://Developer/SpiceDB/preshared-key}"
       # HTTP API configuration
       SPICEDB_HTTP_ENABLED: "true"
-      # Metrics
+      # =======================================================================
+      # Observability
+      # =======================================================================
+      # Metrics (always enabled on port 9090)
       SPICEDB_TELEMETRY_ENDPOINT: ""
-      SPICEDB_OTEL_PROVIDER: "none"
+      # Tracing (OpenTelemetry)
+      SPICEDB_OTEL_PROVIDER: "${SPICEDB_TRACING_PROVIDER:-${O11Y_TRACING_ENABLED:+otlpgrpc}}"
+      SPICEDB_OTEL_ENDPOINT: "${OTEL_EXPORTER_OTLP_ENDPOINT:-otel-collector:4317}"
+      SPICEDB_OTEL_INSECURE: "true"
+      SPICEDB_OTEL_SERVICE_NAME: "spicedb"
+      SPICEDB_OTEL_SAMPLE_RATIO: "${SPICEDB_TRACING_SAMPLE_RATE:-0.1}"
+      # Logging
+      SPICEDB_LOG_LEVEL: "${SPICEDB_LOG_LEVEL:-info}"
+      SPICEDB_LOG_FORMAT: "json"
     expose:
       - "50051" # gRPC API
       - "8443" # HTTP/REST API
@@ -101,6 +112,17 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: authz
+      # Prometheus scraping (native metrics on port 9090)
+      prometheus.scrape: "${O11Y_METRICS_ENABLED:-true}"
+      prometheus.port: "9090"
+      prometheus.path: "/metrics"
+      o11y.service: "spicedb"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
     deploy:
       resources:
         limits:

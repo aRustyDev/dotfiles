@@ -12,6 +12,9 @@ services:
       mcp.search: web
       traefik.enable: true
       traefik.docker.network: backend
+      # Observability labels
+      o11y.service: "mcp-duckduckgo"
+      o11y.component: "mcp"
       # Host(`mcp.${DOMAIN:-localhost}`) && PathPrefix(`/search/ddg`)
       traefik.http.routers.duckduckgo.rule: PathPrefix(`/search/ddg`)
     deploy:
@@ -28,4 +31,10 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
 

@@ -1,0 +1,277 @@
+# =============================================================================
+# OpenTelemetry Collector Configuration - LGTM Pipeline
+# =============================================================================
+# This configuration sets up the OTel Collector as the central telemetry hub:
+#
+# Data Flow:
+#   Applications --> OTel Collector --> LGTM Stack
+#
+#   Traces:  OTLP/Jaeger/Zipkin --> Collector --> Tempo
+#   Metrics: OTLP/Prometheus    --> Collector --> Mimir (via Prometheus remote_write)
+#   Logs:    OTLP               --> Collector --> Loki
+#
+# Benefits:
+#   - Single endpoint for all telemetry (OTLP)
+#   - Protocol translation (Jaeger, Zipkin -> OTLP)
+#   - Batching and retry logic
+#   - Sampling and filtering
+#   - Resource enrichment
+# =============================================================================
+
+# =============================================================================
+# Receivers - Data Ingestion
+# =============================================================================
+receivers:
+  # ---------------------------------------------------------------------------
+  # OTLP - Primary receiver for all signals
+  # ---------------------------------------------------------------------------
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - "https://*.localhost"
+            - "http://localhost:*"
+          allowed_headers:
+            - "*"
+
+  # ---------------------------------------------------------------------------
+  # Jaeger - Legacy trace ingestion
+  # ---------------------------------------------------------------------------
+  jaeger:
+    protocols:
+      thrift_http:
+        endpoint: 0.0.0.0:14268
+      grpc:
+        endpoint: 0.0.0.0:14250
+
+  # ---------------------------------------------------------------------------
+  # Zipkin - Legacy trace ingestion
+  # ---------------------------------------------------------------------------
+  zipkin:
+    endpoint: 0.0.0.0:9411
+
+  # ---------------------------------------------------------------------------
+  # Prometheus - Scrape metrics from collector itself
+  # ---------------------------------------------------------------------------
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: 'otel-collector'
+          scrape_interval: 15s
+          static_configs:
+            - targets: ['localhost:8888']
+
+  # ---------------------------------------------------------------------------
+  # Host Metrics - System metrics from collector host
+  # ---------------------------------------------------------------------------
+  hostmetrics:
+    collection_interval: 30s
+    scrapers:
+      cpu:
+        metrics:
+          system.cpu.utilization:
+            enabled: true
+      memory:
+        metrics:
+          system.memory.utilization:
+            enabled: true
+      disk:
+      filesystem:
+      network:
+      load:
+
+  # ---------------------------------------------------------------------------
+  # Docker Stats - Container metrics
+  # ---------------------------------------------------------------------------
+  docker_stats:
+    endpoint: unix:///var/run/docker.sock
+    collection_interval: 30s
+    timeout: 20s
+    api_version: 1.24
+    container_labels_to_metric_labels:
+      com.docker.compose.project: compose_project
+      com.docker.compose.service: compose_service
+
+# =============================================================================
+# Processors - Data Transformation
+# =============================================================================
+processors:
+  # ---------------------------------------------------------------------------
+  # Batch - Improve efficiency by batching data
+  # ---------------------------------------------------------------------------
+  batch:
+    send_batch_size: 1000
+    send_batch_max_size: 2000
+    timeout: 10s
+
+  # ---------------------------------------------------------------------------
+  # Memory Limiter - Prevent OOM
+  # ---------------------------------------------------------------------------
+  memory_limiter:
+    check_interval: 5s
+    limit_mib: 400
+    spike_limit_mib: 100
+
+  # ---------------------------------------------------------------------------
+  # Resource Detection - Add host/container metadata
+  # ---------------------------------------------------------------------------
+  resourcedetection:
+    detectors:
+      - env
+      - system
+      - docker
+    timeout: 5s
+    override: false
+
+  # ---------------------------------------------------------------------------
+  # Resource - Add common attributes
+  # ---------------------------------------------------------------------------
+  resource:
+    attributes:
+      - key: deployment.environment
+        value: development
+        action: upsert
+      - key: service.namespace
+        value: docker-local
+        action: upsert
+
+  # ---------------------------------------------------------------------------
+  # Attributes - Manipulate span/metric attributes
+  # ---------------------------------------------------------------------------
+  attributes:
+    actions:
+      - key: http.user_agent
+        action: delete
+      - key: http.request.header.authorization
+        action: delete
+
+# =============================================================================
+# Exporters - Data Output
+# =============================================================================
+exporters:
+  # ---------------------------------------------------------------------------
+  # OTLP/gRPC - Send traces to Tempo
+  # ---------------------------------------------------------------------------
+  otlp/tempo:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
+
+  # ---------------------------------------------------------------------------
+  # Prometheus Remote Write - Send metrics to Mimir
+  # ---------------------------------------------------------------------------
+  prometheusremotewrite/mimir:
+    endpoint: http://mimir:9009/api/v1/push
+    tls:
+      insecure: true
+    resource_to_telemetry_conversion:
+      enabled: true
+
+  # ---------------------------------------------------------------------------
+  # Loki - Send logs to Loki
+  # ---------------------------------------------------------------------------
+  loki:
+    endpoint: http://loki:3100/loki/api/v1/push
+    tls:
+      insecure: true
+    default_labels_enabled:
+      exporter: true
+      job: true
+      instance: true
+      level: true
+
+  # ---------------------------------------------------------------------------
+  # Debug - For troubleshooting (disabled in production)
+  # ---------------------------------------------------------------------------
+  debug:
+    verbosity: basic
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+# =============================================================================
+# Extensions - Additional Capabilities
+# =============================================================================
+extensions:
+  # Health check endpoint
+  health_check:
+    endpoint: 0.0.0.0:13133
+    path: /health/status
+
+  # Performance profiling (pprof)
+  pprof:
+    endpoint: 0.0.0.0:1777
+
+  # zPages for debugging
+  zpages:
+    endpoint: 0.0.0.0:55679
+
+# =============================================================================
+# Service - Pipeline Configuration
+# =============================================================================
+service:
+  extensions:
+    - health_check
+    - pprof
+    - zpages
+
+  pipelines:
+    # -------------------------------------------------------------------------
+    # Traces Pipeline
+    # -------------------------------------------------------------------------
+    traces:
+      receivers:
+        - otlp
+        - jaeger
+        - zipkin
+      processors:
+        - memory_limiter
+        - resourcedetection
+        - resource
+        - attributes
+        - batch
+      exporters:
+        - otlp/tempo
+        # - debug  # Uncomment for troubleshooting
+
+    # -------------------------------------------------------------------------
+    # Metrics Pipeline
+    # -------------------------------------------------------------------------
+    metrics:
+      receivers:
+        - otlp
+        - prometheus
+        - hostmetrics
+        - docker_stats
+      processors:
+        - memory_limiter
+        - resourcedetection
+        - resource
+        - batch
+      exporters:
+        - prometheusremotewrite/mimir
+        # - debug  # Uncomment for troubleshooting
+
+    # -------------------------------------------------------------------------
+    # Logs Pipeline
+    # -------------------------------------------------------------------------
+    logs:
+      receivers:
+        - otlp
+      processors:
+        - memory_limiter
+        - resourcedetection
+        - resource
+        - batch
+      exporters:
+        - loki
+        # - debug  # Uncomment for troubleshooting
+
+  telemetry:
+    logs:
+      level: info
+    metrics:
+      address: 0.0.0.0:8888

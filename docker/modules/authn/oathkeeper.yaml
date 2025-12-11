@@ -53,6 +53,15 @@ services:
       # Logging
       LOG_LEVEL: "${OATHKEEPER_LOG_LEVEL:-info}"
       LOG_FORMAT: "json"
+      LOG_LEAK_SENSITIVE_VALUES: "false"
+      # =======================================================================
+      # Observability - Tracing (OpenTelemetry)
+      # =======================================================================
+      TRACING_PROVIDER: "${OATHKEEPER_TRACING_PROVIDER:-${O11Y_TRACING_ENABLED:+otel}}"
+      TRACING_PROVIDERS_OTLP_ENDPOINT: "${OTEL_EXPORTER_OTLP_ENDPOINT:-otel-collector:4317}"
+      TRACING_PROVIDERS_OTLP_INSECURE: "true"
+      TRACING_SERVICE_NAME: "oathkeeper"
+      TRACING_PROVIDERS_OTLP_SAMPLING_SAMPLING_RATIO: "${OATHKEEPER_TRACING_SAMPLE_RATE:-0.1}"
       # URLs for authenticators/authorizers
       AUTHENTICATORS_COOKIE_SESSION_CHECK_SESSION_URL: "http://kratos:4433/sessions/whoami"
       AUTHORIZERS_REMOTE_JSON_REMOTE: "http://keto:4466/relation-tuples/check"
@@ -74,6 +83,17 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: authn
+      # Prometheus scraping
+      prometheus.scrape: "${O11Y_METRICS_ENABLED:-true}"
+      prometheus.port: "4456"
+      prometheus.path: "/metrics"
+      o11y.service: "oathkeeper"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
     # Resource Tier 2: Light (Identity-Aware Proxy)
     deploy:
       resources:

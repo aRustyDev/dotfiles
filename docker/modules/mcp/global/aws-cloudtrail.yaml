@@ -17,5 +17,14 @@ services:
     labels:
       traefik.enable: true
       traefik.docker.network: backend
+      # Observability labels
+      o11y.service: "mcp-aws-cloudtrail"
+      o11y.component: "mcp"
       traefik.http.routers.aws-logs.rule: PathPrefix(`/aws/logs`)
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
 

@@ -196,6 +196,9 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: backend
+      # Observability labels
+      o11y.service: "mcp-agent-mcp"
+      o11y.component: "mcp"
 # Example .env file contents:
 # OPENAI_API_KEY=sk-your-openai-api-key-here
 # MCP_ADMIN_TOKEN=your-admin-token-here
@@ -206,3 +209,10 @@ services:
 # ENABLE_AGENTS=true
 # DEBUG=false
 # MCP_SERVER_URL=http://python-server:8080
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
+

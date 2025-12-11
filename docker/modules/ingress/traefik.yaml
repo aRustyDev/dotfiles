@@ -39,6 +39,8 @@ services:
       - ${XDG_DATA_HOME:-$HOME/.local/share}/traefik/logs:/var/log/traefik
     environment:
       - TZ=America/New_York
+    expose:
+      - "8080"  # Metrics endpoint (internal)
     labels:
       # Enable Traefik
       traefik.enable: true
@@ -49,6 +51,19 @@ services:
       traefik.http.routers.dashboard.tls: true
       # Apply middleware to dashboard
       # traefik.http.routers.dashboard.middlewares: auth-basic@file,secure-headers@file
+      # =======================================================================
+      # Prometheus Scraping
+      # =======================================================================
+      prometheus.scrape: "${O11Y_METRICS_ENABLED:-true}"
+      prometheus.port: "8080"
+      prometheus.path: "/metrics"
+      o11y.service: "traefik"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
     deploy:
       resources:
         limits:

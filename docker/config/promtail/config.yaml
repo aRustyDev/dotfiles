@@ -1,0 +1,227 @@
+# =============================================================================
+# Promtail Configuration - Docker Log Collection
+# =============================================================================
+# Promtail collects logs from Docker containers and ships them to Loki.
+# This is an alternative to using the Loki Docker logging driver.
+#
+# Features:
+#   - Automatic Docker container discovery
+#   - Label extraction from container metadata
+#   - JSON log parsing
+#   - Multi-line log support
+#   - Pipeline stages for log transformation
+#
+# Environment Variables:
+#   HOSTNAME - Host identifier for logs
+# =============================================================================
+
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+    tenant_id: docker
+    batchwait: 1s
+    batchsize: 1048576
+    timeout: 10s
+    backoff_config:
+      min_period: 500ms
+      max_period: 5m
+      max_retries: 10
+
+scrape_configs:
+  # ---------------------------------------------------------------------------
+  # Docker Container Logs
+  # ---------------------------------------------------------------------------
+  - job_name: docker
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+        filters:
+          # Only scrape containers with logging enabled
+          - name: label
+            values: ["com.docker.compose.project"]
+
+    relabel_configs:
+      # Keep only running containers
+      - source_labels: ['__meta_docker_container_id']
+        target_label: container_id
+
+      # Extract container name (remove leading slash)
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/(.+)'
+        target_label: container_name
+
+      # Extract compose project
+      - source_labels: ['__meta_docker_container_label_com_docker_compose_project']
+        target_label: compose_project
+
+      # Extract compose service
+      - source_labels: ['__meta_docker_container_label_com_docker_compose_service']
+        target_label: compose_service
+
+      # Extract image name
+      - source_labels: ['__meta_docker_container_image']
+        target_label: image
+
+      # Set job name to service name
+      - source_labels: ['__meta_docker_container_label_com_docker_compose_service']
+        target_label: job
+
+      # Add network labels
+      - source_labels: ['__meta_docker_network_name']
+        target_label: network
+
+      # Check if observability logging is enabled for this container
+      - source_labels: ['__meta_docker_container_label_o11y_logging_enabled']
+        regex: 'false'
+        action: drop
+
+    pipeline_stages:
+      # ---------------------------------------------------------------------------
+      # JSON Log Parsing
+      # ---------------------------------------------------------------------------
+      - match:
+          selector: '{job=~".+"}'
+          stages:
+            # Try to parse as JSON
+            - json:
+                expressions:
+                  level: level
+                  msg: msg
+                  message: message
+                  time: time
+                  timestamp: timestamp
+                  ts: ts
+                  error: error
+                  err: err
+                  trace_id: trace_id
+                  traceID: traceID
+                  span_id: span_id
+                  spanID: spanID
+
+            # Normalize log level
+            - labels:
+                level:
+
+            # Extract trace context for correlation
+            - labels:
+                trace_id:
+                traceID:
+
+            # Use parsed timestamp if available
+            - timestamp:
+                source: time
+                format: RFC3339Nano
+                fallback_formats:
+                  - RFC3339
+                  - "2006-01-02T15:04:05.000Z07:00"
+                  - "2006-01-02 15:04:05"
+                action_on_failure: fudge
+
+      # ---------------------------------------------------------------------------
+      # Log Level Detection (for non-JSON logs)
+      # ---------------------------------------------------------------------------
+      - match:
+          selector: '{level=""}'
+          stages:
+            - regex:
+                expression: '(?i)(?P<level>DEBUG|INFO|WARN|WARNING|ERROR|FATAL|CRITICAL|TRACE)'
+            - labels:
+                level:
+
+      # ---------------------------------------------------------------------------
+      # Multi-line Log Handling (stack traces)
+      # ---------------------------------------------------------------------------
+      - multiline:
+          firstline: '^\d{4}-\d{2}-\d{2}|^\[|^{'
+          max_wait_time: 3s
+          max_lines: 128
+
+      # ---------------------------------------------------------------------------
+      # Drop Health Check Logs (optional, reduce noise)
+      # ---------------------------------------------------------------------------
+      - match:
+          selector: '{compose_service=~".+"}'
+          stages:
+            - drop:
+                expression: '(health|healthcheck|readiness|liveness|\/health|\/ready|\/live)'
+                drop_counter_reason: health_check_log
+
+      # ---------------------------------------------------------------------------
+      # Output Stage - Set final labels
+      # ---------------------------------------------------------------------------
+      - static_labels:
+          cluster: docker-local
+          environment: development
+
+# =============================================================================
+# Target Groups for Specific Service Types
+# =============================================================================
+
+  # ---------------------------------------------------------------------------
+  # Database Logs (special handling for SQL logs)
+  # ---------------------------------------------------------------------------
+  - job_name: databases
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+        filters:
+          - name: label
+            values: ["com.docker.compose.service=postgres", "com.docker.compose.service=mongo", "com.docker.compose.service=redis"]
+
+    relabel_configs:
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/(.+)'
+        target_label: container_name
+      - source_labels: ['__meta_docker_container_label_com_docker_compose_service']
+        target_label: compose_service
+      - source_labels: ['__meta_docker_container_label_com_docker_compose_service']
+        target_label: job
+      - action: replace
+        target_label: log_type
+        replacement: database
+
+    pipeline_stages:
+      # PostgreSQL log parsing
+      - match:
+          selector: '{compose_service="postgres"}'
+          stages:
+            - regex:
+                expression: '(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+) (?P<timezone>\w+) \[(?P<pid>\d+)\] (?P<level>\w+):  (?P<message>.*)'
+            - labels:
+                level:
+                pid:
+            - timestamp:
+                source: timestamp
+                format: "2006-01-02 15:04:05.000"
+
+      # MongoDB log parsing (JSON format)
+      - match:
+          selector: '{compose_service="mongo"}'
+          stages:
+            - json:
+                expressions:
+                  level: s
+                  component: c
+                  context: ctx
+                  message: msg
+            - labels:
+                level:
+                component:
+
+      # Redis log parsing
+      - match:
+          selector: '{compose_service="redis"}'
+          stages:
+            - regex:
+                expression: '(?P<pid>\d+):(?P<role>\w) (?P<timestamp>\d+ \w+ \d{4} \d{2}:\d{2}:\d{2}\.\d+) (?P<level>[\*\#\-\.]) (?P<message>.*)'
+            - labels:
+                role:
+            - template:
+                source: level
+                template: '{{ if eq .Value "*" }}INFO{{ else if eq .Value "#" }}WARN{{ else if eq .Value "-" }}DEBUG{{ else }}ERROR{{ end }}'

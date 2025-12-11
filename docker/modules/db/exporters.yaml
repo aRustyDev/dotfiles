@@ -1,0 +1,278 @@
+---
+# =============================================================================
+# Database Exporters - Prometheus Metrics Collection
+# =============================================================================
+#
+# This file contains Prometheus exporter sidecars for database services.
+# Exporters translate database-specific metrics into Prometheus format.
+#
+# Environment Variable Toggles:
+#   O11Y_METRICS_ENABLED  - Enable/disable all exporters (default: true)
+#   <DB>_METRICS_ENABLED  - Per-database override (e.g., POSTGRES_METRICS_ENABLED)
+#
+# Exporter Endpoints:
+#   - postgres-exporter:  :9187/metrics
+#   - mongodb-exporter:   :9216/metrics
+#   - redis-exporter:     :9121/metrics
+#   - elasticsearch:      :9200/_prometheus/metrics (native)
+#
+# Usage:
+#   docker-compose --profile o11y-metrics up -d
+#   docker-compose --profile o11y up -d
+#
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL Exporter
+  # ---------------------------------------------------------------------------
+  # Collects PostgreSQL metrics including:
+  #   - Connection stats, transaction rates
+  #   - Table/index sizes and bloat
+  #   - Replication lag
+  #   - Lock statistics
+  #   - Query performance (pg_stat_statements)
+  # ---------------------------------------------------------------------------
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: postgres-exporter
+    hostname: postgres-exporter
+    profiles: ["o11y-metrics", "o11y"]
+    networks:
+      - data-tier
+      - backend
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/postgres?sslmode=disable"
+      PG_EXPORTER_DISABLE_DEFAULT_METRICS: "false"
+      PG_EXPORTER_DISABLE_SETTINGS_METRICS: "false"
+      PG_EXPORTER_AUTO_DISCOVER_DATABASES: "true"
+      PG_EXPORTER_EXTEND_QUERY_PATH: "/etc/postgres_exporter/queries.yaml"
+    volumes:
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/postgres-exporter:/etc/postgres_exporter:ro
+    expose:
+      - "9187"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    labels:
+      prometheus.scrape: "true"
+      prometheus.port: "9187"
+      prometheus.path: "/metrics"
+      o11y.service: "postgres-exporter"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          cpus: "0.05"
+          memory: 32M
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:9187/metrics || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ---------------------------------------------------------------------------
+  # MongoDB Exporter
+  # ---------------------------------------------------------------------------
+  # Collects MongoDB metrics including:
+  #   - Server status (connections, operations, memory)
+  #   - Replication status
+  #   - Collection statistics
+  #   - Index usage
+  #   - Top operations
+  # ---------------------------------------------------------------------------
+  mongodb-exporter:
+    image: percona/mongodb_exporter:0.40
+    container_name: mongodb-exporter
+    hostname: mongodb-exporter
+    profiles: ["o11y-metrics", "o11y"]
+    networks:
+      - data-tier
+      - backend
+    restart: unless-stopped
+    environment:
+      MONGODB_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME:-root}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/admin?authSource=admin"
+    command:
+      - --collect-all
+      - --compatible-mode
+      - --discovering-mode
+    expose:
+      - "9216"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    labels:
+      prometheus.scrape: "true"
+      prometheus.port: "9216"
+      prometheus.path: "/metrics"
+      o11y.service: "mongodb-exporter"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          cpus: "0.05"
+          memory: 32M
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:9216/metrics || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ---------------------------------------------------------------------------
+  # Redis Exporter
+  # ---------------------------------------------------------------------------
+  # Collects Redis metrics including:
+  #   - Memory usage and fragmentation
+  #   - Connected clients
+  #   - Commands processed
+  #   - Key statistics
+  #   - Replication info
+  #   - Slowlog entries
+  # ---------------------------------------------------------------------------
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.58.0
+    container_name: redis-exporter
+    hostname: redis-exporter
+    profiles: ["o11y-metrics", "o11y"]
+    networks:
+      - data-tier
+      - backend
+    restart: unless-stopped
+    environment:
+      REDIS_ADDR: "redis://redis:6379"
+      REDIS_PASSWORD: "${REDIS_PASSWORD:-}"
+      REDIS_EXPORTER_COUNT_KEYS: "db0=*"
+      REDIS_EXPORTER_CHECK_KEYS: "db0=*"
+      REDIS_EXPORTER_INCL_SYSTEM_METRICS: "true"
+    expose:
+      - "9121"
+    depends_on:
+      redis:
+        condition: service_healthy
+    labels:
+      prometheus.scrape: "true"
+      prometheus.port: "9121"
+      prometheus.path: "/metrics"
+      o11y.service: "redis-exporter"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 64M
+        reservations:
+          cpus: "0.05"
+          memory: 16M
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:9121/metrics || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ---------------------------------------------------------------------------
+  # Valkey Exporter (Redis-compatible)
+  # ---------------------------------------------------------------------------
+  # Uses the same Redis exporter for Valkey (Redis fork)
+  # ---------------------------------------------------------------------------
+  valkey-exporter:
+    image: oliver006/redis_exporter:v1.58.0
+    container_name: valkey-exporter
+    hostname: valkey-exporter
+    profiles: ["o11y-metrics", "o11y"]
+    networks:
+      - data-tier
+      - backend
+    restart: unless-stopped
+    environment:
+      REDIS_ADDR: "redis://valkey:6379"
+      REDIS_PASSWORD: "${VALKEY_PASSWORD:-}"
+      REDIS_EXPORTER_COUNT_KEYS: "db0=*"
+      REDIS_EXPORTER_INCL_SYSTEM_METRICS: "true"
+    expose:
+      - "9121"
+    depends_on:
+      valkey:
+        condition: service_healthy
+    labels:
+      prometheus.scrape: "true"
+      prometheus.port: "9121"
+      prometheus.path: "/metrics"
+      o11y.service: "valkey-exporter"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 64M
+        reservations:
+          cpus: "0.05"
+          memory: 16M
+
+  # ---------------------------------------------------------------------------
+  # Elasticsearch Exporter
+  # ---------------------------------------------------------------------------
+  # Note: Elasticsearch 8.x has native Prometheus metrics at /_prometheus/metrics
+  # This exporter provides additional metrics and works with older versions
+  # ---------------------------------------------------------------------------
+  elasticsearch-exporter:
+    image: quay.io/prometheuscommunity/elasticsearch-exporter:v1.7.0
+    container_name: elasticsearch-exporter
+    hostname: elasticsearch-exporter
+    profiles: ["o11y-metrics", "o11y"]
+    networks:
+      - data-tier
+      - backend
+    restart: unless-stopped
+    command:
+      - --es.uri=http://elasticsearch:9200
+      - --es.all
+      - --es.indices
+      - --es.indices_settings
+      - --es.indices_mappings
+      - --es.shards
+      - --es.snapshots
+    expose:
+      - "9114"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    labels:
+      prometheus.scrape: "true"
+      prometheus.port: "9114"
+      prometheus.path: "/metrics"
+      o11y.service: "elasticsearch-exporter"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          cpus: "0.05"
+          memory: 32M
+
+  # ---------------------------------------------------------------------------
+  # InfluxDB (Native Metrics)
+  # ---------------------------------------------------------------------------
+  # InfluxDB 2.x has native Prometheus metrics at /metrics
+  # No exporter needed - configure scrape directly
+  # ---------------------------------------------------------------------------
+
+  # ---------------------------------------------------------------------------
+  # Qdrant (Native Metrics)
+  # ---------------------------------------------------------------------------
+  # Qdrant has native Prometheus metrics at /metrics
+  # No exporter needed - configure scrape directly
+  # ---------------------------------------------------------------------------
+
+  # ---------------------------------------------------------------------------
+  # Meilisearch (Native Metrics)
+  # ---------------------------------------------------------------------------
+  # Meilisearch has native metrics at /metrics (experimental)
+  # No exporter needed - configure scrape directly
+  # ---------------------------------------------------------------------------

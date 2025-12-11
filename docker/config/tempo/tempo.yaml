@@ -1,0 +1,142 @@
+# =============================================================================
+# Grafana Tempo Configuration - Minimal Single Instance
+# =============================================================================
+# This configuration sets up Tempo as a distributed tracing backend:
+#
+# Features:
+#   - Multi-protocol ingestion (OTLP, Jaeger, Zipkin)
+#   - Local filesystem storage (no object storage required)
+#   - Span metrics generation for RED metrics
+#   - Service graph for topology visualization
+#   - TraceQL for advanced trace queries
+#
+# For production, consider:
+#   - Object storage backend (S3, GCS, Azure)
+#   - Distributed mode with separate components
+#   - Proper retention and compaction settings
+# =============================================================================
+
+# Stream logs over gRPC instead of buffering
+stream_over_http_enabled: true
+
+# Server configuration
+server:
+  http_listen_port: 3200
+  grpc_listen_port: 9095
+  log_level: info
+
+# Distributor configuration (receives traces)
+distributor:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4317
+        http:
+          endpoint: 0.0.0.0:4318
+    jaeger:
+      protocols:
+        thrift_http:
+          endpoint: 0.0.0.0:14268
+        grpc:
+          endpoint: 0.0.0.0:14250
+    zipkin:
+      endpoint: 0.0.0.0:9411
+
+# Ingester configuration
+ingester:
+  trace_idle_period: 10s
+  max_block_bytes: 1048576  # 1MB
+  max_block_duration: 5m
+  lifecycler:
+    ring:
+      kvstore:
+        store: inmemory
+      replication_factor: 1
+
+# Compactor configuration
+compactor:
+  compaction:
+    block_retention: 168h  # 7 days
+  ring:
+    kvstore:
+      store: inmemory
+
+# Query frontend configuration
+query_frontend:
+  search:
+    duration_slo: 5s
+    throughput_bytes_slo: 1.073741824e+09
+  trace_by_id:
+    duration_slo: 5s
+
+# Querier configuration
+querier:
+  frontend_worker:
+    frontend_address: localhost:9095
+
+# Storage configuration (local filesystem)
+storage:
+  trace:
+    backend: local
+    local:
+      path: /var/tempo/traces
+    wal:
+      path: /var/tempo/wal
+    block:
+      bloom_filter_false_positive: 0.05
+      v2_index_downsample_bytes: 1000
+      v2_encoding: zstd
+
+# Metrics generator for span metrics (RED metrics)
+metrics_generator:
+  registry:
+    external_labels:
+      source: tempo
+      cluster: docker-local
+  storage:
+    path: /var/tempo/generator/wal
+    remote_write:
+      - url: http://mimir:9009/api/v1/push
+        send_exemplars: true
+  processor:
+    service_graphs:
+      dimensions:
+        - service.name
+        - http.method
+        - http.status_code
+      histogram_buckets: [0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 10]
+      max_items: 10000
+      wait: 10s
+      workers: 10
+    span_metrics:
+      dimensions:
+        - service.name
+        - http.method
+        - http.status_code
+        - http.route
+      histogram_buckets: [0.002, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+      enable_target_info: true
+      intrinsic_dimensions:
+        service: true
+        span_name: true
+        span_kind: true
+        status_code: true
+        status_message: false
+
+# Overrides (per-tenant limits)
+overrides:
+  defaults:
+    metrics_generator:
+      processors: [service-graphs, span-metrics]
+    ingestion:
+      rate_limit_bytes: 15000000  # 15MB/s
+      burst_size_bytes: 20000000  # 20MB
+    global:
+      max_bytes_per_trace: 5000000  # 5MB per trace
+    search:
+      max_duration: 0  # 0 = unlimited
+
+# Usage reporting disabled
+usage_report:
+  reporting_enabled: false

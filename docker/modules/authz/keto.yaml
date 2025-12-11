@@ -81,6 +81,15 @@ services:
       # Logging
       LOG_LEVEL: "${KETO_LOG_LEVEL:-info}"
       LOG_FORMAT: "json"
+      LOG_LEAK_SENSITIVE_VALUES: "false"
+      # =======================================================================
+      # Observability - Tracing (OpenTelemetry)
+      # =======================================================================
+      TRACING_PROVIDER: "${KETO_TRACING_PROVIDER:-${O11Y_TRACING_ENABLED:+otel}}"
+      TRACING_PROVIDERS_OTLP_ENDPOINT: "${OTEL_EXPORTER_OTLP_ENDPOINT:-otel-collector:4317}"
+      TRACING_PROVIDERS_OTLP_INSECURE: "true"
+      TRACING_SERVICE_NAME: "keto"
+      TRACING_PROVIDERS_OTLP_SAMPLING_SAMPLING_RATIO: "${KETO_TRACING_SAMPLE_RATE:-0.1}"
     expose:
       - "4466"  # Read API (HTTP)
       - "4467"  # Write API (HTTP)
@@ -99,6 +108,17 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: authz
+      # Prometheus scraping
+      prometheus.scrape: "${O11Y_METRICS_ENABLED:-true}"
+      prometheus.port: "4467"
+      prometheus.path: "/metrics"
+      o11y.service: "keto"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
     # Resource Tier 2: Light (Permission service)
     deploy:
       resources:

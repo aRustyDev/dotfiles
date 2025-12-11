@@ -41,8 +41,9 @@ services:
     profiles: ["o11y-metrics", "o11y"]
     user: "65534:65534"
     networks:
-      - backend       # For scraping targets
+      - backend       # For scraping targets and writing to Mimir
       - admin         # For admin UI access
+      - data-tier     # For remote_write to Mimir
     restart: unless-stopped
     command:
       - --config.file=/etc/prometheus/prometheus.yml
@@ -58,6 +59,7 @@ services:
     volumes:
       - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/prometheus:/etc/prometheus:ro
       - ${XDG_DATA_HOME:-$HOME/.local/share}/prometheus:/prometheus
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     expose:
       - "9090"
     healthcheck:

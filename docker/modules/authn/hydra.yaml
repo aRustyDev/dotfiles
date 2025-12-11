@@ -82,6 +82,17 @@ services:
       # Logging
       LOG_LEVEL: "${HYDRA_LOG_LEVEL:-info}"
       LOG_FORMAT: "json"
+      LOG_LEAK_SENSITIVE_VALUES: "false"
+      # =======================================================================
+      # Observability - Tracing (OpenTelemetry)
+      # =======================================================================
+      # Enable/disable with O11Y_TRACING_ENABLED or HYDRA_TRACING_ENABLED
+      TRACING_PROVIDER: "${HYDRA_TRACING_PROVIDER:-${O11Y_TRACING_ENABLED:+otel}}"
+      TRACING_PROVIDERS_OTLP_ENDPOINT: "${OTEL_EXPORTER_OTLP_ENDPOINT:-otel-collector:4317}"
+      TRACING_PROVIDERS_OTLP_INSECURE: "true"
+      TRACING_SERVICE_NAME: "hydra"
+      # Sampling rate (1.0 = 100% of traces)
+      TRACING_PROVIDERS_OTLP_SAMPLING_SAMPLING_RATIO: "${HYDRA_TRACING_SAMPLE_RATE:-0.1}"
     expose:
       - "4444" # Public API
       - "4445" # Admin API
@@ -98,6 +109,17 @@ services:
       # =======================================================================
       traefik.enable: true
       traefik.docker.network: authn
+      # Prometheus scraping (metrics at /admin/metrics/prometheus)
+      prometheus.scrape: "${O11Y_METRICS_ENABLED:-true}"
+      prometheus.port: "4445"
+      prometheus.path: "/admin/metrics/prometheus"
+      o11y.service: "hydra"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: "{{.Name}}"
     # Resource Tier 2: Light (OAuth2/OIDC with crypto operations)
     deploy:
       resources:
