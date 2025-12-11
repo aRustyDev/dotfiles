@@ -72,13 +72,11 @@ include:
   - path: modules/observability/beyla.yaml
   - path: modules/observability/fluentd.yaml
   - path: modules/observability/gonzo.yaml
-  - path: modules/observability/grafana.yaml
   - path: modules/observability/jaeger.yaml
   - path: modules/observability/keep.yaml
   - path: modules/observability/kibana.yaml
   - path: modules/observability/logstash.yaml
-  - path: modules/observability/loki.yaml
-  - path: modules/observability/mimir.yaml
+  - path: modules/observability/lgtm.yaml
   - path: modules/observability/openllmetry.yaml
   - path: modules/observability/openobserve.yaml
   - path: modules/observability/opensearch.yaml
@@ -89,7 +87,6 @@ include:
   - path: modules/observability/pyroscope.yaml
   - path: modules/observability/signoz.yaml
   - path: modules/observability/sofa-tracer.yaml
-  - path: modules/observability/tempo.yaml
   - path: modules/observability/thanos.yaml
   - path: modules/observability/vector.yaml
   - path: modules/observability/zipkin.yaml
