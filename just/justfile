@@ -27,9 +27,9 @@ docker-build profile="core":
 docker-destroy profile="core":
     just -f "{{ dot_docker }}/justfile" destroy "{{ profile }}"
 
-# Destroy docker config for profile (DOCKER_WORKSPACE targets application)
-docker-ls kind="projects":
-    just -f "{{ dot_docker }}/justfile" "list-docker-{{ kind }}"
+# List docker resources of kind (profiles, containers[labels...], projects)
+docker-ls kind="projects" *args:
+    just -f "{{ dot_docker }}/justfile" "list-docker-{{ kind }}" "{{ args }}"
 
 # Create certificates & DNS records
 init-docker:

@@ -271,10 +271,15 @@ destroy-project:
 list-docker-projects:
     @jq -r '.projects | to_entries[] | "\(.key): \(.value.path // "unknown") [\(.value.profiles)]"' "{{ docker_manifests_file }}" || echo "No projects deployed"
 
-# List all deployed projects
+# List all available profiles
 [group("docker")]
 list-docker-profiles: docker-test
     @docker compose -f "{{ dot_docker }}/docker-compose.yaml" config --profiles 2>/dev/null
+
+# List all containers w/ label
+[group("docker")]
+list-docker-containers label="":
+    docker ps --filter "label={{label}}" --format "json"
 
 # Hydrate Docker-compose for profiles (for debugging)
 [group("docker")]
