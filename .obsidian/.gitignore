@@ -17,6 +17,16 @@ graph.json
 # Local plugin data with potential secrets
 plugins/*/data.json
 
+# Exceptions: plugin configs that are safe and useful to track
+!plugins/calendar/data.json
+!plugins/dataview/data.json
+!plugins/metadata-menu/data.json
+!plugins/obsidian-linter/data.json
+!plugins/templater-obsidian/data.json
+!plugins/obsidian-tasks-plugin/data.json
+!plugins/obsidian-git/data.json
+!plugins/table-editor-obsidian/data.json
+
 # Sync and backup artifacts
 .trash/
 .sync-conflict-*
