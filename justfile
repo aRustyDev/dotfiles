@@ -57,11 +57,11 @@ install *targets=_subdirs:
         # Build absolute path
         target_path="{{ justfile_directory() }}/${target}"
         [[ -d "$target_path" ]] || echo "⚠️  Directory does not exist: ${target}"
-        [[ -f "$target_path/justfile" ]] || echo "⚠️  No justfile found in: $target"
+        [[ -f "$target_path/justfile" ]] || echo "⚠️  No justfile found in: ${target}"
 
         # Check if justfile has an 'install' recipe
         if ! "{{ just_executable() }}" -f "$target_path/justfile" --list 2>/dev/null | grep -q '^\s*install\b'; then
-            echo "⚠️  No 'install' recipe in: $target/justfile"
+            echo "⚠️  No 'install' recipe in: $target_path/justfile"
         else
             # Run the install recipe
             echo "📦 Installing: $target"
