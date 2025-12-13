@@ -2,6 +2,7 @@
 id: {{uuid}}
 date: {{date:YYYY-MM-DD}}
 created: {{date:YYYY-MM-DDTHH:mm:ss}}
+project: dotfiles
 tags:
   - daily
   - journal
