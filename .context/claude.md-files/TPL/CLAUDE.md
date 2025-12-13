@@ -1,3 +1,22 @@
+---
+id: 446111ce-7fde-4ed3-a8fa-c3fcd4532c07
+title: TPL-GO Developer Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - TPL-GO Developer Guide
+  - TPL-GO Developer Guide Reference
+related: []
+---
+
 # TPL-GO Developer Guide
 
 ## Build Commands

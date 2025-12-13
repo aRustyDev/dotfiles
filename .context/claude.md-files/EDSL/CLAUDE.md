@@ -1,3 +1,22 @@
+---
+id: fe2ae629-9886-4e32-908c-6f40b8cdefc4
+title: EDSL Codebase Reference
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - EDSL Codebase Reference
+  - EDSL Codebase Reference Reference
+related: []
+---
+
 # EDSL Codebase Reference
 
 ## Build & Test Commands

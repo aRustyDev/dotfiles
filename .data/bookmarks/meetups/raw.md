@@ -1,3 +1,25 @@
+---
+id: aaeddd0e-9e26-4b11-a74b-e59c40a7cb7f
+title: MeetUps
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: general
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - bookmarks
+  - meetups
+  - events
+  - networking
+  - cybersecurity
+aliases:
+  - Meetup Bookmarks
+  - Event Groups
+related: []
+---
+
 # MeetUps
 
 ## Attendee

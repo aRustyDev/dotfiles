@@ -1,3 +1,22 @@
+---
+id: bc7930e1-688a-447b-afc4-d9de0da9caaf
+title: Comm Project Development Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - Comm Project Development Guide
+  - Comm Project Development Guide Reference
+related: []
+---
+
 # Comm Project Development Guide
 
 ## Build & Test Commands

@@ -1,3 +1,22 @@
+---
+id: 7666724c-26c5-4274-8cfe-f270d83ba013
+title: LangGraphJS Development Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - LangGraphJS Development Guide
+  - LangGraphJS Development Guide Reference
+related: []
+---
+
 # LangGraphJS Development Guide
 
 ## Build & Test Commands

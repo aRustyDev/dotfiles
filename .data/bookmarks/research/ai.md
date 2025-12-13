@@ -1,3 +1,25 @@
+---
+id: c68da7da-b001-4e25-bbfd-2a9a3ec86764
+title: AI
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: general
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - bookmarks
+  - ai
+  - machine-learning
+  - datasets
+  - research
+aliases:
+  - AI Bookmarks
+  - Machine Learning Resources
+related: []
+---
+
 # AI
 
 ## Datasets

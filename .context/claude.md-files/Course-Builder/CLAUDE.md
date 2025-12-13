@@ -1,3 +1,22 @@
+---
+id: a4080135-16f8-4e18-a7d2-cfe6d905dedc
+title: Course Builder Development Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - Course Builder Development Guide
+  - Course Builder Development Guide Reference
+related: []
+---
+
 # Course Builder Development Guide
 
 ## Project Overview

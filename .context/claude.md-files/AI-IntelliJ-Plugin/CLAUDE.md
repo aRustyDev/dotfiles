@@ -1,3 +1,22 @@
+---
+id: 54f37bbf-85e0-447c-9861-759b26b4be57
+title: AI Integration Plugin Development Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - AI Integration Plugin Development Guide
+  - AI Integration Plugin Development Guide Reference
+related: []
+---
+
 # AI Integration Plugin Development Guide
 
 ## Build Commands

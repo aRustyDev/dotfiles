@@ -1,3 +1,22 @@
+---
+id: 2d43ab48-e404-4d04-8580-dcacb86f0486
+title: CLAUDE.md
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - CLAUDE.md
+  - CLAUDE.md Reference
+related: []
+---
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.

@@ -1,3 +1,22 @@
+---
+id: 85ec6bd9-ea2a-4a85-8b92-690a593f2d20
+title: Development Philosophy
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - Development Philosophy
+  - Development Philosophy Reference
+related: []
+---
+
 # Development Philosophy
 
 ## Core Principle: **Less is more**

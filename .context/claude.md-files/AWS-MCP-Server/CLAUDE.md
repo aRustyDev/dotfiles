@@ -1,3 +1,22 @@
+---
+id: baa0d7dc-34e1-4805-b9b2-93f3adf80bbe
+title: AWS MCP Server Development Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - AWS MCP Server Development Guide
+  - AWS MCP Server Development Guide Reference
+related: []
+---
+
 # AWS MCP Server Development Guide
 
 ## Build & Test Commands

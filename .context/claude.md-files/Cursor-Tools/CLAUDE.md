@@ -1,3 +1,22 @@
+---
+id: 843343c8-9614-489d-b842-e9b0513da9ca
+title: Instructions
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - Instructions
+  - Instructions Reference
+related: []
+---
+
 This is the vibe-tools repo. Here we build a cli tool that AI agents can use to execute commands and work with other AI agents.
 
 This repo uses pnpm as the package manager and script runner.

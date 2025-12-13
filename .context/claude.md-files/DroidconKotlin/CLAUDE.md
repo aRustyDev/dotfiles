@@ -1,3 +1,22 @@
+---
+id: f6e30009-0e89-4337-9813-bd8bf71bc582
+title: DroidconKotlin Development Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - DroidconKotlin Development Guide
+  - DroidconKotlin Development Guide Reference
+related: []
+---
+
 # DroidconKotlin Development Guide
 
 ## Build Commands

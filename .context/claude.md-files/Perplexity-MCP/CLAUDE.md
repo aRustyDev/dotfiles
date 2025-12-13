@@ -1,3 +1,22 @@
+---
+id: 8b6e2c8e-b215-44ec-a781-4ecb1a6f4d14
+title: Perplexity MCP Server Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - Perplexity MCP Server Guide
+  - Perplexity MCP Server Guide Reference
+related: []
+---
+
 # Perplexity MCP Server Guide
 
 ## Quick Start

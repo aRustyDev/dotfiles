@@ -1,3 +1,22 @@
+---
+id: 26b61de8-3388-42a3-bb7e-99c4d4141afc
+title: GLOBAL CODING STANDARDS
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - GLOBAL CODING STANDARDS
+  - GLOBAL CODING STANDARDS Reference
+related: []
+---
+
 # GLOBAL CODING STANDARDS
 
 > Reference guide for all project development. For detailed task planning, see [TASK_PLAN_GUIDE.md](./docs/memory_bank/guides/TASK_PLAN_GUIDE.md)

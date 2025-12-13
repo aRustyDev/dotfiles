@@ -1,3 +1,25 @@
+---
+id: 7f8e3c9a-4b2d-4f1a-9c8e-1d6f2a3b4c5d
+title: SPy Language - Dev Reference
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+  - spy
+  - language
+  - development
+aliases:
+  - SPy Dev Guide
+  - SPy Reference
+related: []
+---
+
 # SPy Language - Dev Reference
 
 ## General behavior of claude code

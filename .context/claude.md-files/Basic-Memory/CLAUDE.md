@@ -1,3 +1,22 @@
+---
+id: 9551915a-deef-4a8b-b6c1-838ec16d4aaf
+title: CLAUDE.md - Basic Memory Project Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - CLAUDE.md - Basic Memory Project Guide
+  - CLAUDE.md - Basic Memory Project Guide Reference
+related: []
+---
+
 # CLAUDE.md - Basic Memory Project Guide
 
 ## Project Overview

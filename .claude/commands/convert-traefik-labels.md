@@ -1,3 +1,21 @@
+---
+id: 3379123a-4340-41eb-9ba1-dfc2b39f3320
+title: Convert Traefik Labels to File Provider
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+aliases:
+  - Convert Traefik Labels to File Provider
+  - Convert Traefik Labels to File Provider Reference
+related: []
+---
+
 # Convert Traefik Labels to File Provider
 
 Convert the docker-compose file at `$ARGUMENTS` from label-based Traefik configuration to file provider configuration.
