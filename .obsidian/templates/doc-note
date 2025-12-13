@@ -1,0 +1,38 @@
+---
+id: {{uuid}}
+title: <% tp.file.title %>
+created: {{date:YYYY-MM-DDTHH:mm:ss}}
+updated: {{date:YYYY-MM-DDTHH:mm:ss}}
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general"]) %>
+type: <% await tp.system.suggester(["guide", "reference", "tutorial", "adr", "runbook", "cheatsheet", "note"], ["guide", "reference", "tutorial", "adr", "runbook", "cheatsheet", "note"]) %>
+status: <% await tp.system.suggester(["📝 draft", "✅ active", "🔍 review", "📦 archived", "🚧 wip", "⚠️ deprecated"], ["📝 draft", "✅ active", "🔍 review", "📦 archived", "🚧 wip", "⚠️ deprecated"]) %>
+publish: false
+tags:
+  - docs
+aliases:
+  -
+related:
+  - ref:
+    description:
+---
+
+# <% tp.file.title %>
+
+## Overview
+
+<% tp.file.cursor() %>
+
+## Details
+
+## See Also
+
+- [[]]
+
+---
+
+> [!info] Metadata
+> **Scope**: `= this.scope`
+> **Type**: `= this.type`
+> **Status**: `= this.status`
