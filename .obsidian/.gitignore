@@ -1,0 +1,58 @@
+# Workspace and session state (user-specific)
+workspace.json
+workspace-mobile.json
+
+# Cache and generated files
+cache/
+*.cache
+.obsidian-cache
+
+# Style files
+*.css
+main.js
+
+# Graph view state
+graph.json
+
+# Local plugin data with potential secrets
+plugins/*/data.json
+
+# Sync and backup artifacts
+.trash/
+.sync-conflict-*
+*.sync-conflict-*
+
+# Secrets and credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*credentials*
+*secret*
+.env
+.env.*
+*.env
+
+# API keys and tokens (common naming patterns)
+*api_key*
+*apikey*
+*token*
+*oauth*
+
+# Local overrides
+hotkeys.json
+community-plugins.json
+core-plugins.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~

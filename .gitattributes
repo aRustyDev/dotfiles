@@ -1,0 +1,128 @@
+# Auto-detect text files and normalize line endings
+* text=auto
+
+# ===== Text Files =====
+
+# Documentation
+*.md text diff=markdown
+*.txt text
+
+# Config files - text with specific diffs
+*.json text diff
+*.yaml text diff
+*.yml text diff
+*.toml text diff
+*.conf text diff
+*.cfg text diff
+*.ini text diff
+*.kdl text diff
+
+# Shell scripts
+*.sh text eol=lf diff=bash
+*.zsh text eol=lf diff=bash
+*.bash text eol=lf diff=bash
+
+# Programming languages
+*.py text eol=lf diff=python
+*.ts text diff
+*.js text diff
+*.lua text diff
+*.nix text diff
+*.sql text diff
+
+# Docker
+*.dockerfile text eol=lf diff
+Dockerfile* text eol=lf diff
+
+# Templates and rules
+*.mustache text diff
+*.mdc text diff
+*.cursorrules text diff
+*.rules text diff
+
+# Makefiles and justfiles (require LF)
+Makefile text eol=lf
+makefile text eol=lf
+*.just text eol=lf
+justfile text eol=lf
+
+# Git config files
+.gitignore text eol=lf
+.gitattributes text eol=lf
+*.gitignore text eol=lf
+
+# Environment templates (not actual secrets)
+*.env.example text
+*.env.sample text
+*.example text
+*.sample text
+
+# RC files and dotfiles
+*rc text
+.*rc text
+
+# ===== Binary Files =====
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.svg text
+
+# Databases
+*.sqlite binary
+*.sqlite-wal binary
+*.sqlite-shm binary
+*.db binary
+*.mdb binary
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
+
+# Git pack files
+*.pack binary
+*.idx binary
+
+# PDF documents
+*.pdf binary
+
+# Certificates (binary for safety)
+*.pem binary
+*.key binary
+*.crt binary
+*.p12 binary
+
+# ===== Special Handling =====
+
+# Jupyter notebooks - text but complex diffs
+*.ipynb text diff
+
+# Lock files - don't diff (noise)
+package-lock.json -diff
+yarn.lock -diff
+Cargo.lock -diff
+poetry.lock -diff
+
+# Vendored/generated - ignore in linguist stats
+*.min.js linguist-vendored
+*.min.css linguist-vendored
+
+# Large files warning (use git-lfs if needed)
+*.sqlite filter=lfs diff=lfs merge=lfs -text
+*.sqlite-wal filter=lfs diff=lfs merge=lfs -text
+
+# AppleScript
+*.scpt binary
+
+# macOS metadata
+.DS_Store binary
+
+# Obsidian plugin files (generated)
+.obsidian/plugins/*/main.js linguist-generated
+.obsidian/plugins/*/styles.css linguist-generated
