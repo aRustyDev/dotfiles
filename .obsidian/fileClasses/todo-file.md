@@ -1,12 +1,14 @@
 ---
-filesPaths:
-  - docs/notes
-  - docs/dashboards
+filesPaths: []
 excludedFields:
   - id
   - created
   - updated
 fields:
+  - name: fileClass
+    type: Input
+    options:
+      default: todo-file
   - name: status
     type: Select
     options:
@@ -20,31 +22,41 @@ fields:
       - "7": "⏸️ backlog"
       - "8": "⚠️ deprecated"
       - "9": "📦 archived"
-  - name: type
+  - name: todo.priority
     type: Select
     options:
-      - "0": reference
-      - "1": tutorial
-      - "2": guide
-      - "3": dashboard
-      - "4": research
-      - "5": hypothesis
-      - "6": plan
-      - "7": roadmap
-      - "8": changelog
-      - "9": experiment
-      - "10": bug-report
-      - "11": issue
-      - "12": PRD
-      - "13": FRD
-      - "14": BRD
-      - "15": note
-      - "16": cornell-note
-      - "17": meeting-note
-      - "18": slide
-      - "19": adr
-      - "20": runbook
-      - "21": cheatsheet
+      - "0": critical
+      - "1": high
+      - "2": medium
+      - "3": low
+  - name: todo.category
+    type: Select
+    options:
+      - "0": feature
+      - "1": bugfix
+      - "2": refactor
+      - "3": documentation
+      - "4": testing
+      - "5": infrastructure
+      - "6": security
+      - "7": performance
+      - "8": chore
+  - name: todo.assignee
+    type: Input
+    options: {}
+  - name: todo.due
+    type: Date
+    options:
+      dateFormat: YYYY-MM-DD
+  - name: todo.blocked_by
+    type: MultiFile
+    options:
+      dvQueryString: ""
+  - name: todo.progress
+    type: Number
+    options:
+      min: 0
+      max: 100
   - name: scope
     type: Multi
     options:
@@ -61,15 +73,8 @@ fields:
       - "10": ai
       - "11": obsidian
       - "12": general
-      - "13": meta
-      - "14": data
-      - "15": kubernetes
-      - "16": security
-      - "17": shell
-      - "18": python
-      - "19": rust
-      - "20": go
-      - "21": typescript
+      - "13": kubernetes
+      - "14": security
   - name: project
     type: Input
     options:
@@ -77,10 +82,6 @@ fields:
   - name: publish
     type: Boolean
   - name: tags
-    type: MultiFile
-    options:
-      dvQueryString: ""
-  - name: aliases
     type: Multi
     options: []
 ---

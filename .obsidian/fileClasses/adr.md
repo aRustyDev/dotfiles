@@ -1,12 +1,15 @@
 ---
 filesPaths:
-  - docs/notes
-  - docs/dashboards
+  - .ai/docs/adr
 excludedFields:
   - id
   - created
   - updated
 fields:
+  - name: fileClass
+    type: Input
+    options:
+      default: adr
   - name: status
     type: Select
     options:
@@ -20,31 +23,28 @@ fields:
       - "7": "⏸️ backlog"
       - "8": "⚠️ deprecated"
       - "9": "📦 archived"
-  - name: type
+  - name: adr.number
+    type: Input
+    options:
+      placeholder: "e.g., 001"
+  - name: adr.status
     type: Select
     options:
-      - "0": reference
-      - "1": tutorial
-      - "2": guide
-      - "3": dashboard
-      - "4": research
-      - "5": hypothesis
-      - "6": plan
-      - "7": roadmap
-      - "8": changelog
-      - "9": experiment
-      - "10": bug-report
-      - "11": issue
-      - "12": PRD
-      - "13": FRD
-      - "14": BRD
-      - "15": note
-      - "16": cornell-note
-      - "17": meeting-note
-      - "18": slide
-      - "19": adr
-      - "20": runbook
-      - "21": cheatsheet
+      - "0": Proposed
+      - "1": Accepted
+      - "2": Deprecated
+      - "3": Superseded
+  - name: adr.supersedes
+    type: File
+    options:
+      dvQueryString: "fileClass = \"adr\""
+  - name: adr.superseded_by
+    type: File
+    options:
+      dvQueryString: "fileClass = \"adr\""
+  - name: adr.deciders
+    type: Multi
+    options: []
   - name: scope
     type: Multi
     options:
@@ -61,15 +61,8 @@ fields:
       - "10": ai
       - "11": obsidian
       - "12": general
-      - "13": meta
-      - "14": data
-      - "15": kubernetes
-      - "16": security
-      - "17": shell
-      - "18": python
-      - "19": rust
-      - "20": go
-      - "21": typescript
+      - "13": kubernetes
+      - "14": security
   - name: project
     type: Input
     options:
@@ -77,10 +70,6 @@ fields:
   - name: publish
     type: Boolean
   - name: tags
-    type: MultiFile
-    options:
-      dvQueryString: ""
-  - name: aliases
     type: Multi
     options: []
 ---

@@ -10,12 +10,15 @@ fields:
     type: Select
     options:
       - "0": "📝 draft"
-      - "1": "🚧 wip"
-      - "2": "🔍 review"
-      - "3": "✅ active"
-      - "4": "⏸️ paused"
-      - "5": "⚠️ deprecated"
-      - "6": "📦 archived"
+      - "1": "🚧 in-progress"
+      - "2": "👀 awaiting-review"
+      - "3": "🔍 in-review"
+      - "4": "❓ needs-info"
+      - "5": "✅ approved"
+      - "6": "☑️ completed"
+      - "7": "⏸️ backlog"
+      - "8": "⚠️ deprecated"
+      - "9": "📦 archived"
   - name: ai_rules.category
     type: Select
     options:

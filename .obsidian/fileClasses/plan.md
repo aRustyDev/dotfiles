@@ -1,12 +1,15 @@
 ---
 filesPaths:
-  - docs/notes
-  - docs/dashboards
+  - .ai/plans
 excludedFields:
   - id
   - created
   - updated
 fields:
+  - name: fileClass
+    type: Input
+    options:
+      default: plan
   - name: status
     type: Select
     options:
@@ -20,31 +23,44 @@ fields:
       - "7": "⏸️ backlog"
       - "8": "⚠️ deprecated"
       - "9": "📦 archived"
-  - name: type
+  - name: plan.phase
     type: Select
     options:
-      - "0": reference
-      - "1": tutorial
-      - "2": guide
-      - "3": dashboard
-      - "4": research
-      - "5": hypothesis
-      - "6": plan
-      - "7": roadmap
-      - "8": changelog
-      - "9": experiment
-      - "10": bug-report
-      - "11": issue
-      - "12": PRD
-      - "13": FRD
-      - "14": BRD
-      - "15": note
-      - "16": cornell-note
-      - "17": meeting-note
-      - "18": slide
-      - "19": adr
-      - "20": runbook
-      - "21": cheatsheet
+      - "0": discovery
+      - "1": design
+      - "2": implementation
+      - "3": testing
+      - "4": deployment
+      - "5": review
+  - name: plan.priority
+    type: Select
+    options:
+      - "0": critical
+      - "1": high
+      - "2": medium
+      - "3": low
+  - name: plan.effort
+    type: Select
+    options:
+      - "0": XS
+      - "1": S
+      - "2": M
+      - "3": L
+      - "4": XL
+  - name: plan.dependencies
+    type: MultiFile
+    options:
+      dvQueryString: "fileClass = \"plan\" OR type = \"plan\""
+  - name: plan.blocked_by
+    type: MultiFile
+    options:
+      dvQueryString: ""
+  - name: plan.owner
+    type: Input
+    options: {}
+  - name: plan.stakeholders
+    type: Multi
+    options: []
   - name: scope
     type: Multi
     options:
@@ -61,15 +77,8 @@ fields:
       - "10": ai
       - "11": obsidian
       - "12": general
-      - "13": meta
-      - "14": data
-      - "15": kubernetes
-      - "16": security
-      - "17": shell
-      - "18": python
-      - "19": rust
-      - "20": go
-      - "21": typescript
+      - "13": kubernetes
+      - "14": security
   - name: project
     type: Input
     options:
@@ -77,10 +86,6 @@ fields:
   - name: publish
     type: Boolean
   - name: tags
-    type: MultiFile
-    options:
-      dvQueryString: ""
-  - name: aliases
     type: Multi
     options: []
 ---
