@@ -1,3 +1,22 @@
+---
+id: bdccea8a-b9ad-467d-8c30-87ea1db63a11
+title: Claude Project Management Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: ai
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - claude
+  - context
+aliases:
+  - Claude Project Management Guide
+  - Claude Project Management Guide Reference
+related: []
+---
+
 # Claude Project Management Guide
 
 This guide explains how to use the `.claude/` directory structure for managing development projects.
