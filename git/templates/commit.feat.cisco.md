@@ -1,3 +1,22 @@
+---
+id: edfd6a1d-1e03-467b-85cc-b2bf92ff7d61
+title: Title: Summary, imperative, start upper case, don't end with a period
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: git
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - git
+  - template
+aliases:
+  - Title: Summary, imperative, start upper case, don't end with a period
+  - Commit.Feat.Cisco
+related: []
+---
+
 # Title: Summary, imperative, start upper case, don't end with a period
 
 # No more than 50 chars. #### 50 chars is here:

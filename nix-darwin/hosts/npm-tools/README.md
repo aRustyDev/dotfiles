@@ -1,3 +1,21 @@
+---
+id: 6be6a91a-d1b7-482b-91c8-1b0255b6b60c
+title: NPM Tools Configuration
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: nix
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - nix
+aliases:
+  - NPM Tools Configuration
+  - Readme
+related: []
+---
+
 # NPM Tools Configuration
 
 This directory contains configuration files for managing npm/node packages via Volta in the nix-darwin setup.

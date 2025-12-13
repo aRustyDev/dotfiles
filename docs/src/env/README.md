@@ -1,3 +1,27 @@
+---
+id: 4a2b9c8d-5e7f-4a1b-8c3d-9e6f2a4b7c1d
+title: Environment Management (Dryad)
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:31
+project: dotfiles
+scope: environment
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - environment
+  - env
+  - dryad
+  - xdg
+  - shell
+  - configuration
+aliases:
+  - Env Management
+  - Dryad
+  - Environment Variables
+related: []
+---
+
 # `Env` Management
 
 > Possible Project Names: `Dryad`

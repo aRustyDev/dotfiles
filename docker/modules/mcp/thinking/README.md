@@ -1,3 +1,22 @@
+---
+id: 3f916c58-0c17-4cd2-aadc-81cdf91f8d05
+title: Chain-of-Thought MCP Servers
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: docker
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - docker
+  - mcp
+aliases:
+  - Chain-of-Thought MCP Servers
+  - Readme
+related: []
+---
+
 # Chain-of-Thought MCP Servers
 
 A comprehensive survey and analysis of MCP servers for structured reasoning, sequential thinking, and chain-of-thought problem-solving.

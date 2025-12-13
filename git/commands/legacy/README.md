@@ -1,3 +1,21 @@
+---
+id: f324c9ff-4917-4792-b965-b2b56b01dd98
+title: Legacy Git Setup Implementation
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - git
+aliases:
+  - Legacy Git Setup Implementation
+  - Readme
+related: []
+---
+
 # Legacy Git Setup Implementation
 
 This directory contains the original `git setup` implementation that relied on 1Password's agent.toml file.

@@ -1,3 +1,23 @@
+---
+id: 2ea65793-0132-4a9c-bbae-09f267b20978
+title: kaggle: https://github.com/arrismo/kaggle-mcp
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: docker
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - docker
+  - mcp
+  - todo
+aliases:
+  - kaggle: https://github.com/arrismo/kaggle-mcp
+  - Todo
+related: []
+---
+
 # kaggle: https://github.com/arrismo/kaggle-mcp
 
 # data-quality: https://github.com/DataEval/dingo

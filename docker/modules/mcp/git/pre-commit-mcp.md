@@ -1,3 +1,22 @@
+---
+id: 7abf6a95-ddb5-4edf-bda7-c76fe15773a4
+title: Search code, repositories, users, issues, pull requests...
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - git
+  - mcp
+aliases:
+  - Search code, repositories, users, issues, pull requests...
+  - Pre Commit Mcp
+related: []
+---
+
 ## User
 
 How can I install https://github.com/sjswerdloff/pre-commit-mcp as an MCP server?

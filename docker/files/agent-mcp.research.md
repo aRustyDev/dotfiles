@@ -1,3 +1,21 @@
+---
+id: 9435536c-8444-4fd8-954d-3af04d720d03
+title: Search code, repositories, users, issues, pull requests...
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:09
+project: dotfiles
+scope: docker
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - docker
+aliases:
+  - Search code, repositories, users, issues, pull requests...
+  - Agent Mcp.Research
+related: []
+---
+
 Skip to content
 
 ## Navigation Menu
@@ -36,43 +54,32 @@ We read every piece of feedback, and take your input very seriously. Include my 
 
 # rinadelph/Agent-MCP
 
-                           mainBranchesTagsGo to fileCodeOpen more actions menu
+                          mainBranchesTagsGo to fileCodeOpen more actions menu
 
 ## Folders and files
 
-| Name | Name | Last commit message | Last commit date |
-| ---- | ---- | ------------------- | ---------------- |
-
-|
-
-## Latest commit
-
- 
-
-## History
-
-300 Commits |
-| agent-mcp-node | agent-mcp-node |   |   |
-| agent_mcp | agent_mcp |   |   |
-| assets/images | assets/images |   |   |
-| docs | docs |   |   |
-| testing-suite | testing-suite |   |   |
-| .env.example | .env.example |   |   |
-| .gitignore | .gitignore |   |   |
-| .nvmrc | .nvmrc |   |   |
-| AGENT_MCP_COMPARISON_ANALYSIS.md | AGENT_MCP_COMPARISON_ANALYSIS.md |   |   |
-| CONTRIBUTING.md | CONTRIBUTING.md |   |   |
-| LICENSE | LICENSE |   |   |
-| LOCAL_EMBEDDINGS_GUIDE.md | LOCAL_EMBEDDINGS_GUIDE.md |   |   |
-| README.md | README.md |   |   |
-| TASK_CREATION_REQUIREMENTS_ANALYSIS.md | TASK_CREATION_REQUIREMENTS_ANALYSIS.md |   |   |
-| TOOL_BY_TOOL_LOGIC_COMPARISON.md | TOOL_BY_TOOL_LOGIC_COMPARISON.md |   |   |
-| mcp.json | mcp.json |   |   |
-| package-lock.json | package-lock.json |   |   |
-| package.json | package.json |   |   |
-| pyproject.toml | pyproject.toml |   |   |
-| requirements.txt | requirements.txt |   |   |
-| View all files |
+| Name                                   | Name                                   | Last commit message | Last commit date |
+| -------------------------------------- | -------------------------------------- | ------------------- | ---------------- |
+| agent-mcp-node                         | agent-mcp-node                         |                     |                  |
+| agent_mcp                              | agent_mcp                              |                     |                  |
+| assets/images                          | assets/images                          |                     |                  |
+| docs                                   | docs                                   |                     |                  |
+| testing-suite                          | testing-suite                          |                     |                  |
+| .env.example                           | .env.example                           |                     |                  |
+| .gitignore                             | .gitignore                             |                     |                  |
+| .nvmrc                                 | .nvmrc                                 |                     |                  |
+| AGENT_MCP_COMPARISON_ANALYSIS.md       | AGENT_MCP_COMPARISON_ANALYSIS.md       |                     |                  |
+| CONTRIBUTING.md                        | CONTRIBUTING.md                        |                     |                  |
+| LICENSE                                | LICENSE                                |                     |                  |
+| LOCAL_EMBEDDINGS_GUIDE.md              | LOCAL_EMBEDDINGS_GUIDE.md              |                     |                  |
+| README.md                              | README.md                              |                     |                  |
+| TASK_CREATION_REQUIREMENTS_ANALYSIS.md | TASK_CREATION_REQUIREMENTS_ANALYSIS.md |                     |                  |
+| TOOL_BY_TOOL_LOGIC_COMPARISON.md       | TOOL_BY_TOOL_LOGIC_COMPARISON.md       |                     |                  |
+| mcp.json                               | mcp.json                               |                     |                  |
+| package-lock.json                      | package-lock.json                      |                     |                  |
+| package.json                           | package.json                           |                     |                  |
+| pyproject.toml                         | pyproject.toml                         |                     |                  |
+| requirements.txt                       | requirements.txt                       |                     |                  |
 
 ## Repository files navigation
 
@@ -236,9 +243,7 @@ Create an MCP configuration file ( `mcp_config.json`):
 
 #### Using Agent-MCP with Claude Desktop
 
--
-
-**Add to Claude Desktop Config**:
+- **Add to Claude Desktop Config**:
 
 Open `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or equivalent:
 
@@ -256,13 +261,9 @@ Open `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) o
 }
 ```
 
--
+- **Restart Claude Desktop** to load the MCP server
 
-**Restart Claude Desktop** to load the MCP server
-
--
-
-**Verify Connection**: Claude should show "🔌 agent-mcp" in the conversation
+- **Verify Connection**: Claude should show "🔌 agent-mcp" in the conversation
 
 #### MCP Tools Available
 
@@ -999,8 +1000,6 @@ There was an error while loading. Please reload this page.
     -
     -
 
-
-
 ## Languages
 
     -                                 TypeScript          54.2%
@@ -1008,11 +1007,9 @@ There was an error while loading. Please reload this page.
     -                                 JavaScript          5.6%
     -                           Other        1.3%
 
-
-
 ## Footer
 
-                                           © 2025 GitHub, Inc.                                                     You can’t perform that action at this time.
+                                           © 2025 GitHub,Inc.                                                     You can’t perform that action at this time.
 
 ## Assistant
 

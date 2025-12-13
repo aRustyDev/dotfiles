@@ -1,3 +1,23 @@
+---
+id: c4d5e6f7-a8b9-0123-cdef-456789012345
+title: App Ideas
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:29
+project: dotfiles
+scope:
+  - general
+type: note
+status: 📝 draft
+publish: false
+tags:
+  - ideas
+  - apps
+  - brainstorm
+aliases:
+  - App Ideas List
+related: []
+---
+
 # App Ideas
 
 - MoSH

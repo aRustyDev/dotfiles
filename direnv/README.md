@@ -1,3 +1,24 @@
+---
+id: 6b7c8d9e-0f1a-2b3c-4d5e-6f7a8b9c0d1e
+title: Direnv Utility Functions
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - tools
+  - environment
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - direnv
+  - environment
+  - utilities
+aliases:
+  - direnv-functions
+related: []
+---
+
 ### direnv Utility Functions
 
 direnv also provides you with a set of utility functions that are available in the context of .envrc file.

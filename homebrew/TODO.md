@@ -1,3 +1,24 @@
+---
+id: 1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b
+title: Homebrew TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - tools
+  - macos
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - homebrew
+  - package-management
+  - macos
+aliases:
+  - brew-tasks
+related: []
+---
+
 # TODO
 
 - `aerospace`: update tap w/ License, dependencies, conflicts

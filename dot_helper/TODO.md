@@ -1,3 +1,24 @@
+---
+id: 6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c
+title: Dot Helper TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - tools
+  - configuration
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - dotfiles
+  - automation
+  - configuration
+aliases:
+  - dot-helper-tasks
+related: []
+---
+
 # TODO
 
 ## dot_helper

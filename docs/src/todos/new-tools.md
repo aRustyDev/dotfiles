@@ -1,3 +1,25 @@
+---
+id: 8c3e9f7a-2b4d-4e1a-9f6b-5d8c2e3a7b4f
+title: New Tools Wishlist
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:34
+project: dotfiles
+scope: tools
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - tools
+  - wishlist
+  - tui
+  - git
+  - networking
+aliases:
+  - New Tools
+  - Tool Wishlist
+related: []
+---
+
 # New Tools
 
 - Need to find an alternative to [git-crecord](https://github.com/andrewshadura/git-crecord) for interactive line level change selection for commits

@@ -1,3 +1,21 @@
+---
+id: 76b1e6cf-c209-4337-8d91-2f0c67946435
+title: Git Setup Script Improvements
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: guide
+status: 📝 draft
+publish: false
+tags:
+  - git
+aliases:
+  - Git Setup Script Improvements
+  - Git_Setup_Improvements
+related: []
+---
+
 # Git Setup Script Improvements
 
 ## Overview

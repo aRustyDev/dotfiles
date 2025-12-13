@@ -1,3 +1,24 @@
+---
+id: 4f5a6b7c-8d9e-0f1a-2b3c-4d5e6f7a8b9c
+title: LiteLLM Configuration for Claude
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - tools
+  - scripts
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - litellm
+  - claude
+  - ai
+aliases:
+  - litellm-setup
+related: []
+---
+
 # LiteLLM Configuration for Claude
 
 This document explains how to configure Claude to work with a LiteLLM proxy server for API request routing and management.

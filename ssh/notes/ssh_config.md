@@ -1,3 +1,24 @@
+---
+id: 1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f
+title: SSH Configuration Notes
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - network
+  - ssh
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - ssh
+  - configuration
+  - environment
+aliases:
+  - ssh-notes
+related: []
+---
+
 # SSH Configuration Notes
 
 - [`SetEnv`][sshdoc-setenv]: Directly specify ENV=VAR to be sent to the server. Similarly to SendEnv, with the exception of the TERM variable, the server must be prepared to accept the environment variable.

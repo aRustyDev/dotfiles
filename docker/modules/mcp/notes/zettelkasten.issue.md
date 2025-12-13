@@ -1,3 +1,22 @@
+---
+id: ecd0d753-709f-4553-857b-f4541325d5d5
+title: Zettelkasten MCP Docker Environment Configuration
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: docker
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - docker
+  - mcp
+aliases:
+  - Zettelkasten MCP Docker Environment Configuration
+  - Zettelkasten.Issue
+related: []
+---
+
 When I run the command I get an error
 
 ```bash

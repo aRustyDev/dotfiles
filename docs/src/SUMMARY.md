@@ -1,3 +1,25 @@
+---
+id: 1a7e4f9b-2c8d-4e6a-9f3b-5d7c2e8a4b1f
+title: Documentation Summary
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:32
+project: dotfiles
+scope: documentation
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - documentation
+  - summary
+  - index
+  - mdbook
+aliases:
+  - Summary
+  - Table of Contents
+  - Documentation Index
+related: []
+---
+
 # Summary
 
 # Dotfiles

@@ -1,3 +1,21 @@
+---
+id: 44b0e93a-31fc-49b1-ba2f-79f8dd4f64ae
+title: Changelog
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: changelog
+status: ✅ active
+publish: false
+tags:
+  - git
+aliases:
+  - Changelog
+  - Changelog
+related: []
+---
+
 # Changelog
 
 All notable changes to the git-setup command will be documented in this file.

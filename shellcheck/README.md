@@ -1,3 +1,24 @@
+---
+id: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+title: Shellcheck
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - tools
+  - shell
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - shellcheck
+  - bash
+  - linting
+aliases:
+  - shellcheck-setup
+related: []
+---
+
 # Shellcheck
 
 Used for [Zed](https://zed.dev/docs/languages/bash) Bash Language Support

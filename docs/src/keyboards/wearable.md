@@ -1,3 +1,26 @@
+---
+id: 2d7e4f9a-3b6c-4e8d-9f1a-5c7b2e4d8a3f
+title: Wearable Keyboards
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:31
+project: dotfiles
+scope: keyboards
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - keyboards
+  - wearable
+  - ergonomic
+  - corne-ish-zen
+  - hardware
+aliases:
+  - Wearable Keyboards
+  - Ergonomic Keyboards
+  - Corne-ish Zen
+related: []
+---
+
 # Wearable Keyboards
 
 [Example](https://evantravers.com/articles/2023/04/06/magsafe-tenting-and-wearable-keyboards/)

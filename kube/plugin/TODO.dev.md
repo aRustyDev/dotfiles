@@ -1,3 +1,23 @@
+---
+id: 085bfcb1-7632-49c6-b5c4-a1954a9607ce
+title: Development TODOs
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: kubernetes
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - kubernetes
+  - kubectl-plugin
+  - todo
+aliases:
+  - Development TODOs
+  - Todo.Dev
+related: []
+---
+
 # Development TODOs
 
 - FR001: Must be cross-platform (darwin + linux)

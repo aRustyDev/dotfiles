@@ -1,3 +1,21 @@
+---
+id: dd98eccf-e30a-4aa9-8559-f8c815980837
+title: TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: kubernetes
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - kubernetes
+  - todo
+aliases:
+  - TODO
+related: []
+---
+
 # TODO
 
 ## kuberenetes

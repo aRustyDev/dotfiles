@@ -1,3 +1,21 @@
+---
+id: 90a358fd-5b82-4d3c-af79-ff563ef5ac04
+title: TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: nix
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - nix
+  - todo
+aliases:
+  - TODO
+related: []
+---
+
 # TODO
 
 ## Common

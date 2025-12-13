@@ -1,3 +1,22 @@
+---
+id: 89290073-7f81-47af-9c37-e24c35111f40
+title: Migration Guide: From Original to New Git Setup
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: git
+type: guide
+status: 📝 draft
+publish: false
+tags:
+  - git
+  - documentation
+aliases:
+  - Migration Guide: From Original to New Git Setup
+  - Migration
+related: []
+---
+
 # Migration Guide: From Original to New Git Setup
 
 This guide helps you migrate from the original `git_setup.sh` to the new profile-based system.

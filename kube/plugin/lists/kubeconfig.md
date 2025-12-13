@@ -1,3 +1,22 @@
+---
+id: ec0ee33a-20c4-45eb-905c-8fac4bc0d7ef
+title: Kubeconfig
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: kubernetes
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - kubernetes
+  - kubectl-plugin
+aliases:
+  - Kubeconfig
+  - Kubeconfig
+related: []
+---
+
 ## Kubeconfig Management
 
 https://github.com/B23admin/kubectl-config-cleanup

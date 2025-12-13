@@ -1,3 +1,23 @@
+---
+id: 272e72cd-1d7b-4013-85a0-770c318c0502
+title: Implement git-setup-v2 MVP
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: issue
+status: 📝 draft
+publish: false
+tags:
+  - git
+  - github-issue
+  - documentation
+aliases:
+  - Implement git-setup-v2 MVP
+  - Issue 2 Implement Mvp
+related: []
+---
+
 # Implement git-setup-v2 MVP
 
 ## Description

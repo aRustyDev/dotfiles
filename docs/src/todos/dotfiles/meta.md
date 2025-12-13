@@ -1,3 +1,27 @@
+---
+id: 5a9e3f7b-2c8d-4e1a-9f6b-3d5c8e2a7b4f
+title: Meta.json Planning and Architecture
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:34
+project: dotfiles
+scope: metadata
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - metadata
+  - json
+  - schema
+  - planning
+  - architecture
+  - cue
+  - semver
+aliases:
+  - Meta JSON
+  - Metadata Planning
+related: []
+---
+
 # Planning `meta.json` for dotfiles
 
 ## Functions

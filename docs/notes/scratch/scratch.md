@@ -1,3 +1,27 @@
+---
+id: d5e6f7a8-b9c0-1234-def0-567890123456
+title: Scratch Notes - TLS and Traefik Issues
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:29
+project: dotfiles
+scope:
+  - docker
+  - security
+type: note
+status: 📝 draft
+publish: false
+tags:
+  - tls
+  - traefik
+  - troubleshooting
+  - mcp
+aliases:
+  - TLS Scratch Notes
+related:
+  - ref: "[[mcp-traefik-deployment]]"
+    description: Traefik MCP deployment guide
+---
+
 ## Issues
 
 #### 1: TLS Certificate Verification (Node.js)

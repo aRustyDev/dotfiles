@@ -1,3 +1,24 @@
+---
+id: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+title: Dev Containers
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - development
+  - containers
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - devcontainers
+  - vscode
+  - zed
+aliases:
+  - dev-containers
+related: []
+---
+
 # Dev Containers
 
 - [Zed + Dev Containers][zed-devctr]

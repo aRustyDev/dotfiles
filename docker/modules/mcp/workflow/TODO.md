@@ -1,3 +1,23 @@
+---
+id: 1bfbd44f-b9a6-4c84-9027-9d0b75de36c5
+title: Better Tasks MCP
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: docker
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - docker
+  - mcp
+  - todo
+aliases:
+  - Better Tasks MCP
+  - Todo
+related: []
+---
+
 # Better Tasks MCP
 
 ## Task Management

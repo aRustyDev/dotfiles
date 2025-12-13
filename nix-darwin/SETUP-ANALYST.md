@@ -1,3 +1,21 @@
+---
+id: 23afc9d2-d5e5-42d7-adf8-fd845a6a8d48
+title: nix-darwin Setup for analyst Profile
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: nix
+type: guide
+status: 📝 draft
+publish: false
+tags:
+  - nix
+aliases:
+  - nix-darwin Setup for analyst Profile
+  - Setup Analyst
+related: []
+---
+
 # nix-darwin Setup for analyst Profile
 
 ## Created Files

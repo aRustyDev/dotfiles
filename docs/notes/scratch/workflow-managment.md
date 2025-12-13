@@ -1,4 +1,28 @@
-🏁 Final Verdict
+---
+id: f7a8b9c0-d1e2-3456-f012-789012345678
+title: Workflow Management Stack Recommendation
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:29
+project: dotfiles
+scope:
+  - mcp
+  - ai
+type: note
+status: 📝 draft
+publish: false
+tags:
+  - mcp
+  - workflows
+  - task-management
+  - recommendation
+aliases:
+  - Workflow Stack Recommendation
+related:
+  - ref: "[[mcp-tasks-vs-memory]]"
+    description: MCP comparison document
+---
+
+## Final Verdict
 
 ### **Most Complementary to SimpleCheckList:**
 
@@ -12,7 +36,7 @@
 
 ### **Best Stack Recommendation:**
 
-```/dev/null/recommended-stack.txt#L1-8
+```
 1. SimpleCheckList    - Visual task management + Web UI
 2. Workflows MCP      - Multi-step workflow orchestration
 3. Memory (Graphiti)  - Long-term context and knowledge

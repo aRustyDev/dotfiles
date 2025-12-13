@@ -1,3 +1,23 @@
+---
+id: 536625cb-8779-4f34-ada6-1d8db4a1a563
+title: Archive original git-setup implementation
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: issue
+status: 📝 draft
+publish: false
+tags:
+  - git
+  - github-issue
+  - documentation
+aliases:
+  - Archive original git-setup implementation
+  - Issue 1 Archive Original
+related: []
+---
+
 # Archive original git-setup implementation
 
 ## Description

@@ -1,3 +1,24 @@
+---
+id: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+title: Zsh Completions TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - shell
+  - zsh
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - zsh
+  - completions
+  - shell
+aliases:
+  - zsh-completions-tasks
+related: []
+---
+
 # TODO
 
 - Completion script for setup.py (https://docs.python.org/distutils/).

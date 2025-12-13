@@ -1,3 +1,24 @@
+---
+id: 4b5c6d7e-8f9a-0b1c-2d3e-4f5a6b7c8d9e
+title: Language Servers
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - development
+  - lsp
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - lsp
+  - language-servers
+  - development
+aliases:
+  - lsp-list
+related: []
+---
+
 # Language Servers
 
 | Lang                             | Status | Score | Note |

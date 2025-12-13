@@ -1,3 +1,22 @@
+---
+id: 14483f6f-4f46-4bc2-be82-ba91e0bf730c
+title: Debug
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: kubernetes
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - kubernetes
+  - kubectl-plugin
+aliases:
+  - Debug
+  - Debug
+related: []
+---
+
 ## Debug Tools
 
 https://github.com/bedirhangull/kubectl-crashwatch

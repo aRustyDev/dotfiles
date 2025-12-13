@@ -1,3 +1,23 @@
+---
+id: 54a27272-d670-442e-826a-45624193bd94
+title: Enhance git-setup with advanced features
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: issue
+status: 📝 draft
+publish: false
+tags:
+  - git
+  - github-issue
+  - documentation
+aliases:
+  - Enhance git-setup with advanced features
+  - Issue 4 Advanced Features
+related: []
+---
+
 # Enhance git-setup with advanced features
 
 ## Description

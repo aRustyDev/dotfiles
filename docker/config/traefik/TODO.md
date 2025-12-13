@@ -1,3 +1,22 @@
+---
+id: 34cf6809-dfdb-4704-a2a4-96b24320695d
+title: Traefik ToDos
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: docker
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - docker
+  - todo
+aliases:
+  - Traefik ToDos
+  - Todo
+related: []
+---
+
 # Traefik ToDos
 
 ## Middlewares

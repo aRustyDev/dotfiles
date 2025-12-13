@@ -1,3 +1,22 @@
+---
+id: 59f36d65-6bf5-4804-a016-929350149523
+title: Coreutils
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: kubernetes
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - kubernetes
+  - kubectl-plugin
+aliases:
+  - Coreutils
+  - Coreutils
+related: []
+---
+
 ## CoreUtils
 
 https://github.com/morningspace/kubeassert

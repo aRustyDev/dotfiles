@@ -1,3 +1,24 @@
+---
+id: 5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b
+title: NeoVim Lua TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - editor
+  - neovim
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - neovim
+  - lua
+  - plugins
+aliases:
+  - nvim-lua-tasks
+related: []
+---
+
 nvim-cmp blink.cmp
 nvim-surround
 fzf

@@ -1,3 +1,24 @@
+---
+id: 7e8f9a0b-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+title: Zen Browser TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - applications
+  - browser
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - zen
+  - browser
+  - extensions
+aliases:
+  - zen-tasks
+related: []
+---
+
 # Zen Browser Todos
 
 - How to add a custom "search engine", ie what is a "search engine" in the browser?

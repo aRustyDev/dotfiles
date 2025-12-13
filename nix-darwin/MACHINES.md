@@ -1,3 +1,21 @@
+---
+id: 2d50f545-f0f6-405b-bbca-746dd6a1533f
+title: Nix-Darwin Machine Configurations
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: nix
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - nix
+aliases:
+  - Nix-Darwin Machine Configurations
+  - Machines
+related: []
+---
+
 # Nix-Darwin Machine Configurations
 
 This repository contains nix-darwin configurations for multiple machines.

@@ -1,3 +1,22 @@
+---
+id: 02c42302-0450-4b0a-aafb-0e4637df48b5
+title: TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: kubernetes
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - kubernetes
+  - kubectl-plugin
+  - todo
+aliases:
+  - TODO
+related: []
+---
+
 # TODO
 
 Basic Commands (Beginner):

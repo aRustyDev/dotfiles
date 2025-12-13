@@ -1,3 +1,22 @@
+---
+id: 486d1661-6b12-4070-b43d-a9d2040fdeb2
+title: Unorganized
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: kubernetes
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - kubernetes
+  - kubectl-plugin
+aliases:
+  - Unorganized
+  - Unorganized
+related: []
+---
+
 ## UNORGANIZED
 
 - []: https://github.com/corneliusweig/rakkess

@@ -1,3 +1,21 @@
+---
+id: 74f82ad6-1605-4006-9890-96c1a8444d5c
+title: Git Setup - 1Password Integration Solutions
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - git
+aliases:
+  - Git Setup - 1Password Integration Solutions
+  - Readme
+related: []
+---
+
 # Git Setup - 1Password Integration Solutions
 
 This directory contains improved versions of the git setup script that work directly with 1Password without requiring modifications to `agent.toml`.

@@ -1,3 +1,24 @@
+---
+id: 8d9e0f1a-2b3c-4d5e-6f7a-8b9c0d1e2f3a
+title: Node.js Configuration
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - development
+  - nodejs
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - nodejs
+  - pnpm
+  - volta
+aliases:
+  - node-config
+related: []
+---
+
 # Node
 
 > Everything should use [PNPM][pnpm-io] (For Package Management) and [Volta][volta-sh] (For Node Version Management)

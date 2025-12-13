@@ -1,3 +1,24 @@
+---
+id: 3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f
+title: NeoVim Search Options
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - editor
+  - neovim
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - neovim
+  - search
+  - mkdocs
+aliases:
+  - nvim-search
+related: []
+---
+
 # NeoVim Todos
 
 ## Option 1: Use the existing static Lunr index directly (no extra infra)

@@ -1,3 +1,25 @@
+---
+id: fbfd7657-9b72-4681-9329-fb9fed98b5a3
+title: aRustyDev's Nix Configuration
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:44
+project: dotfiles
+scope: general
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - dotfiles
+  - nix
+  - darwin
+  - home-manager
+  - macos
+aliases:
+  - Dotfiles README
+  - Nix Configuration Guide
+related: []
+---
+
 # aRustyDev's Nix Configuration
 
 > To get started, run

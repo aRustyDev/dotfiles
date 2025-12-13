@@ -1,3 +1,22 @@
+---
+id: 58822022-81b0-482e-b49f-7f8f1e8bd178
+title: Example workflow definition
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: docker
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - docker
+  - mcp
+aliases:
+  - Example workflow definition
+  - Todo
+related: []
+---
+
 🏆 Top Tier - Production Ready
 
 ### 1. **Workflows MCP Server** ⭐ Most Mature

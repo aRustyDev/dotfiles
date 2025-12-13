@@ -1,3 +1,24 @@
+---
+id: 9a0b1c2d-3e4f-5a6b-7c8d-9e0f1a2b3c4d
+title: PAM Configuration
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - system
+  - security
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - pam
+  - security
+  - authentication
+aliases:
+  - pam-config
+related: []
+---
+
 # PAM configuration for sudo
 
 The PAM modules themselves are shared object (.so) files

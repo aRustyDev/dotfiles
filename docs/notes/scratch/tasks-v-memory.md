@@ -1,3 +1,29 @@
+---
+id: e6f7a8b9-c0d1-2345-ef01-678901234567
+title: Tasks vs Memory MCP Comparison
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:29
+project: dotfiles
+scope:
+  - mcp
+  - ai
+type: analysis
+status: 📝 draft
+publish: false
+tags:
+  - mcp
+  - graphiti
+  - task-management
+  - comparison
+aliases:
+  - Tasks vs Memory Analysis
+related:
+  - ref: "[[mcp-tasks-vs-memory]]"
+    description: Formal MCP comparison document
+  - ref: "[[mcp-memory-tools]]"
+    description: Memory tools reference
+---
+
 ## Assistant
 
 Perfect! Now let me analyze the Graphiti documentation and create a comprehensive comparison:
@@ -66,9 +92,9 @@ Based on my analysis of both systems, here's a comprehensive comparison:
 | ------------------ | ----------------------------------- | -------------------------------- |
 | **Database**       | FalkorDB (Redis-based graph DB)     | SQLite (relational DB)           |
 | **Data Model**     | Temporal knowledge graph            | Hierarchical tree structure      |
-| **AI Integration** | ✅ Uses Ollama for LLM + embeddings | ❌ Traditional CRUD only         |
+| **AI Integration** | Uses Ollama for LLM + embeddings    | Traditional CRUD only            |
 | **Transport**      | HTTP (port 8000) + stdio            | HTTP REST API (8355) + stdio MCP |
-| **Web UI**         | ❌ No UI                            | ✅ React frontend (port 80)      |
+| **Web UI**         | No UI                               | React frontend (port 80)         |
 
 ---
 
@@ -83,13 +109,11 @@ Based on my analysis of both systems, here's a comprehensive comparison:
   - Facts (relationships, attributes)
   - Temporal context (when things happened)
 
-```/dev/null/memory-example.txt#L1-5
 Example uses:
 - "Remember that Sarah prefers morning meetings"
 - "John mentioned he's working on the API project"
 - "Last week we discussed migrating to Kubernetes"
 - Search: "What did we discuss about databases?"
-```
 
 ### SimpleCheckList - **Structured Task Management**
 
@@ -101,14 +125,12 @@ Example uses:
   - Tasks (within task lists)
   - Subtasks (within tasks)
 
-```/dev/null/checklist-example.txt#L1-7
 Example uses:
 - "Create a project called 'Q1 Migration'"
 - "Add task: Review API documentation by Friday"
 - "Mark task as complete"
 - "Show all tasks in 'Backend' project"
 - Track completion statistics
-```
 
 ---
 
@@ -116,7 +138,7 @@ Example uses:
 
 ### Memory (Graphiti) - 6 Tools
 
-```/dev/null/memory-tools.txt#L1-6
+```
 add_memory         - Store episodes/interactions in knowledge graph
 search_facts       - Find relevant facts and relationships (semantic)
 search_nodes       - Search entity summaries (semantic)
@@ -127,7 +149,7 @@ clear_graph        - Reset entire knowledge graph
 
 ### SimpleCheckList - 20 Tools
 
-```/dev/null/checklist-tools.txt#L1-20
+```
 list_projects, create_project, get_project, update_project, delete_project
 list_groups, create_group
 list_task_lists, create_task_list
@@ -144,24 +166,24 @@ get_all_tasks
 | Feature                 | Memory (Graphiti)                         | SimpleCheckList              |
 | ----------------------- | ----------------------------------------- | ---------------------------- |
 | **Search Type**         | Semantic similarity (AI-powered)          | Exact match / filters        |
-| **Temporal Awareness**  | ✅ Timeline-based, "when did X happen?"   | ❌ Static snapshots          |
+| **Temporal Awareness**  | Timeline-based, "when did X happen?"      | Static snapshots             |
 | **Structure**           | Flexible graph (entities + relationships) | Rigid hierarchy (5 levels)   |
-| **Learning**            | ✅ Extracts entities/facts automatically  | ❌ Manual data entry         |
+| **Learning**            | Extracts entities/facts automatically     | Manual data entry            |
 | **Actionability**       | Low (stores context/memory)               | High (tracks concrete tasks) |
-| **Completion Tracking** | N/A                                       | ✅ Boolean completion status |
-| **Statistics**          | N/A                                       | ✅ Project completion stats  |
+| **Completion Tracking** | N/A                                       | Boolean completion status    |
+| **Statistics**          | N/A                                       | Project completion stats     |
 
 ---
 
 ## Are They Complementary or Redundant?
 
-### **HIGHLY COMPLEMENTARY** ✅
+### **HIGHLY COMPLEMENTARY**
 
 They serve fundamentally different purposes and work well together:
 
 ### Workflow Example
 
-```/dev/null/workflow-example.txt#L1-20
+```
 1. CONVERSATION (Memory stores context):
    User: "I need to migrate our API to use the new auth system"
    AI: *stores in Memory*
@@ -189,12 +211,12 @@ They serve fundamentally different purposes and work well together:
 
 | Use Case                      | Memory             | SimpleCheckList |
 | ----------------------------- | ------------------ | --------------- |
-| "What did we discuss?"        | ✅ Primary         | ❌              |
-| "What tasks do I have?"       | ❌                 | ✅ Primary      |
-| "Why did I create this task?" | ✅ Context         | ✅ Task details |
-| "Who mentioned X?"            | ✅ Entity search   | ❌              |
-| "What's 50% complete?"        | ❌                 | ✅ Stats        |
-| "When did we decide Y?"       | ✅ Temporal search | ❌              |
+| "What did we discuss?"        | Primary            | -               |
+| "What tasks do I have?"       | -                  | Primary         |
+| "Why did I create this task?" | Context            | Task details    |
+| "Who mentioned X?"            | Entity search      | -               |
+| "What's 50% complete?"        | -                  | Stats           |
+| "When did we decide Y?"       | Temporal search    | -               |
 
 ---
 
@@ -202,19 +224,19 @@ They serve fundamentally different purposes and work well together:
 
 ### Use Memory (Graphiti) for:
 
-- 💭 Conversational context across sessions
-- 🧠 Long-term memory ("remember that...")
-- 🔍 Semantic search ("what did we say about...")
-- 🕒 Temporal queries ("when did...")
-- 🤝 Relationship tracking (people, projects, concepts)
+- Conversational context across sessions
+- Long-term memory ("remember that...")
+- Semantic search ("what did we say about...")
+- Temporal queries ("when did...")
+- Relationship tracking (people, projects, concepts)
 
 ### Use SimpleCheckList for:
 
-- ✅ Concrete task tracking
-- 📊 Project organization
-- 📈 Completion statistics
-- 👁️ Visual task management (web UI)
-- 🎯 Actionable work items with due dates
+- Concrete task tracking
+- Project organization
+- Completion statistics
+- Visual task management (web UI)
+- Actionable work items with due dates
 
 ### Synergy Opportunities
 

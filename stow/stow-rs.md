@@ -1,3 +1,24 @@
+---
+id: 3a4b5c6d-7e8f-9a0b-1c2d-3e4f5a6b7c8d
+title: Stow Improved
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - tools
+  - configuration
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - stow
+  - rust
+  - dotfiles
+aliases:
+  - stow-rust
+related: []
+---
+
 # Stow Improved
 
 ## Ideas

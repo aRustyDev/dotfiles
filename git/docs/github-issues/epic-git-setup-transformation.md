@@ -1,3 +1,22 @@
+---
+id: b0757a3d-e2c0-42a3-92b7-25e9831d2d5e
+title: Epic: Transform git-setup to modern 1Password integration
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: git
+type: issue
+status: 📝 draft
+publish: false
+tags:
+  - git
+  - documentation
+aliases:
+  - Epic: Transform git-setup to modern 1Password integration
+  - Epic Git Setup Transformation
+related: []
+---
+
 # Epic: Transform git-setup to modern 1Password integration
 
 ## Overview

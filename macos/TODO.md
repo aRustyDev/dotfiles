@@ -1,3 +1,24 @@
+---
+id: 8a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d
+title: macOS Configuration TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - system
+  - macos
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - macos
+  - finder
+  - system-preferences
+aliases:
+  - macos-tasks
+related: []
+---
+
 # TODO
 
 ## MacOS

@@ -1,3 +1,24 @@
+---
+id: 7e9f3a2b-4c8d-4e1f-9b6a-3d5c8e7f2a1b
+title: Tree-sitter Parsers
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - tools
+  - tree-sitter
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - tree-sitter
+  - parsers
+  - languages
+aliases:
+  - tree-sitter-list
+related: []
+---
+
 # Tree-sitters
 
 | Lang                     | Status | Score | Note |

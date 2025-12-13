@@ -1,3 +1,24 @@
+---
+id: 0d1e2f3a-4b5c-6d7e-8f9a-0b1c2d3e4f5a
+title: macOS Network Troubleshooting Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - system
+  - macos
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - macos
+  - networking
+  - troubleshooting
+aliases:
+  - network-debug
+related: []
+---
+
 # macOS Network Troubleshooting Guide
 
 A comprehensive guide to diagnosing network issues on macOS, based on a real debugging session where the local machine had severe connectivity issues despite good ISP speeds and other devices working fine.

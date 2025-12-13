@@ -1,3 +1,21 @@
+---
+id: b09eb7f8-5489-42b2-af6b-eb47380fe5b6
+title: Git Setup Comprehensive Guide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: guide
+status: 📝 draft
+publish: false
+tags:
+  - git
+aliases:
+  - Git Setup Comprehensive Guide
+  - Git_Setup_Guide
+related: []
+---
+
 # Git Setup Comprehensive Guide
 
 ## Overview and Purpose

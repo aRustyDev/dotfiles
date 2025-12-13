@@ -1,3 +1,25 @@
+---
+id: a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
+title: Git Setup Architecture
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:37
+project: dotfiles
+scope: git
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - git
+  - architecture
+  - 1password
+  - ssh
+  - design
+aliases:
+  - Git Configuration Architecture
+  - Git Setup System Design
+related: []
+---
+
 # Git Setup Architecture
 
 ## Overview

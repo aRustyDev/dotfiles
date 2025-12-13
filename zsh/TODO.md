@@ -1,3 +1,24 @@
+---
+id: 9e0f1a2b-3c4d-5e6f-7a8b-9c0d1e2f3a4b
+title: Zsh Configuration TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - shell
+  - zsh
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - zsh
+  - shell
+  - configuration
+aliases:
+  - zsh-tasks
+related: []
+---
+
 # TODO
 
 ## Shells: Zsh

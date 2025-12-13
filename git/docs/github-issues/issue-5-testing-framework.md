@@ -1,3 +1,23 @@
+---
+id: c75f4300-f659-4cd3-a884-411a18ed51c6
+title: Add testing framework for git-setup
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: issue
+status: 📝 draft
+publish: false
+tags:
+  - git
+  - github-issue
+  - documentation
+aliases:
+  - Add testing framework for git-setup
+  - Issue 5 Testing Framework
+related: []
+---
+
 # Add testing framework for git-setup
 
 ## Description

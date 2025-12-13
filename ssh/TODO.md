@@ -1,3 +1,24 @@
+---
+id: 0b1c2d3e-4f5a-6b7c-8d9e-0f1a2b3c4d5e
+title: SSH Configuration TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - network
+  - ssh
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - ssh
+  - teleport
+  - configuration
+aliases:
+  - ssh-tasks
+related: []
+---
+
 # TODO
 
 ## SSH

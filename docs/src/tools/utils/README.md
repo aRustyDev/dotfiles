@@ -1,3 +1,24 @@
+---
+id: 1e7f3a9b-2c8d-4e6a-9f5b-3d6c8e2a7b4f
+title: Utility Tools Overview
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:35
+project: dotfiles
+scope: utilities
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - utilities
+  - tools
+  - management
+  - configuration
+aliases:
+  - Utils
+  - Utility Tools
+related: []
+---
+
 # utils
 
 - `path_master`: path management (`path_helper` Improved)

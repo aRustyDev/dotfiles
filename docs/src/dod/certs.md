@@ -1,3 +1,25 @@
+---
+id: 7e3f8a9b-2c4d-4e1a-9f6b-8d2e5c1a7b3f
+title: DOD Certificate Management
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:31
+project: dotfiles
+scope: security
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - dod
+  - certificates
+  - security
+  - cac
+  - macos
+aliases:
+  - DOD Certs
+  - CAC Certificates
+related: []
+---
+
 DOD DERILITY CA-1,
 
 DOD DERILITY CA-3 through DOD DERILITY CA-6,

@@ -1,3 +1,21 @@
+---
+id: f739aac7-dcdf-4708-bf6a-d61368334e84
+title: Git Setup Migration Example
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: guide
+status: 📝 draft
+publish: false
+tags:
+  - git
+aliases:
+  - Git Setup Migration Example
+  - Migration_Example
+related: []
+---
+
 # Git Setup Migration Example
 
 This example shows how to migrate from the 1Password-based system to the new local storage system.

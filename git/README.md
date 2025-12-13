@@ -1,3 +1,21 @@
+---
+id: b5c8d91f-bc11-4a1c-8587-a57e21a17ee3
+title: Git Configuration
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T16:38
+project: dotfiles
+scope: git
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - git
+aliases:
+  - Git Configuration
+  - Readme
+related: []
+---
+
 # Git Configuration
 
 This directory contains git-related configurations and custom commands for the dotfiles repository.

@@ -1,3 +1,24 @@
+---
+id: 8f9a0b1c-2d3e-4f5a-6b7c-8d9e0f1a2b3c
+title: Zen Browser Profile
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - applications
+  - browser
+type: reference
+status: ✅ active
+publish: false
+tags:
+  - zen
+  - browser
+  - firefox
+aliases:
+  - zen-profile
+related: []
+---
+
 # Profile Folder
 
 profile folder: `/Users/asmith/Library/Application Support/Firefox/Profiles/39jgrhc7.default-release`
