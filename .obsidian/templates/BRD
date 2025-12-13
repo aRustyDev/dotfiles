@@ -1,0 +1,204 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: "BRD: <% tp.file.title %>"
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: BRD
+status: 📝 draft
+publish: false
+tags:
+  - brd
+  - business
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- BRD Metadata ---
+brd:
+  version: "0.1"
+  status: <% await tp.system.suggester(["draft", "review", "approved", "in-progress", "completed"], ["draft", "review", "approved", "in-progress", "completed"]) %>
+  sponsor: ""
+  stakeholders: []
+  budget: null
+---
+
+# BRD: <% tp.file.title %>
+
+## Executive Summary
+
+<% tp.file.cursor() %>
+
+## Business Objectives
+
+### Primary Objectives
+
+1.
+2.
+
+### Secondary Objectives
+
+1.
+2.
+
+### Success Criteria
+
+| Objective | Metric | Target | Measurement Method |
+|-----------|--------|--------|-------------------|
+| | | | |
+
+## Current State Analysis
+
+### Problem Statement
+
+### Current Process
+
+```mermaid
+flowchart TD
+    A[Current Step 1] --> B[Current Step 2]
+    B --> C[Current Step 3]
+```
+
+### Pain Points
+
+1.
+2.
+3.
+
+### Impact
+
+| Impact Area | Description | Quantification |
+|-------------|-------------|----------------|
+| Cost | | |
+| Time | | |
+| Quality | | |
+| Risk | | |
+
+## Future State
+
+### Proposed Solution
+
+### Future Process
+
+```mermaid
+flowchart TD
+    A[New Step 1] --> B[New Step 2]
+    B --> C[New Step 3]
+```
+
+### Benefits
+
+| Benefit | Description | Value |
+|---------|-------------|-------|
+| | | |
+
+## Stakeholder Analysis
+
+| Stakeholder | Role | Interest | Influence | Needs |
+|-------------|------|----------|-----------|-------|
+| | | High/Med/Low | High/Med/Low | |
+
+## Requirements
+
+### Business Requirements
+
+| ID | Requirement | Priority | Rationale |
+|----|-------------|----------|-----------|
+| BR-1 | | Must | |
+| BR-2 | | Should | |
+| BR-3 | | Could | |
+
+### Constraints
+
+| Type | Constraint | Impact |
+|------|------------|--------|
+| Budget | | |
+| Timeline | | |
+| Resources | | |
+| Technical | | |
+| Regulatory | | |
+
+### Assumptions
+
+1.
+2.
+
+### Dependencies
+
+| Dependency | Owner | Status | Risk |
+|------------|-------|--------|------|
+| | | | |
+
+## Scope
+
+### In Scope
+
+-
+
+### Out of Scope
+
+-
+
+### Future Phases
+
+-
+
+## Cost-Benefit Analysis
+
+### Costs
+
+| Category | One-Time | Recurring | Notes |
+|----------|----------|-----------|-------|
+| Development | | | |
+| Infrastructure | | | |
+| Training | | | |
+| Maintenance | | | |
+| **Total** | | | |
+
+### Benefits
+
+| Benefit | Year 1 | Year 2 | Year 3 |
+|---------|--------|--------|--------|
+| | | | |
+| **Total** | | | |
+
+### ROI
+
+**Payback Period:**
+
+**NPV:**
+
+**ROI:**
+
+## Risk Assessment
+
+| Risk | Likelihood | Impact | Mitigation | Owner |
+|------|------------|--------|------------|-------|
+| | High/Med/Low | High/Med/Low | | |
+
+## Timeline
+
+| Phase | Start | End | Deliverables |
+|-------|-------|-----|--------------|
+| Analysis | | | |
+| Design | | | |
+| Implementation | | | |
+| Testing | | | |
+| Deployment | | | |
+
+## Approval
+
+| Role | Name | Signature | Date |
+|------|------|-----------|------|
+| Sponsor | | | |
+| Stakeholder | | | |
+
+---
+
+> [!info] Metadata
+> **Version**: `= this.brd.version`
+> **BRD Status**: `= this.brd.status`
+> **Sponsor**: `= this.brd.sponsor`

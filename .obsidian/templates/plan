@@ -1,0 +1,103 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: plan
+status: 📝 draft
+publish: false
+tags:
+  - plan
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Plan Metadata ---
+plan:
+  target_date: <% tp.date.now("YYYY-MM-DD", 14) %>
+  priority: <% await tp.system.suggester(["p0-critical", "p1-high", "p2-medium", "p3-low"], ["p0-critical", "p1-high", "p2-medium", "p3-low"]) %>
+  effort: <% await tp.system.suggester(["xs", "s", "m", "l", "xl"], ["xs", "s", "m", "l", "xl"]) %>
+  stakeholders: []
+---
+
+# <% tp.file.title %>
+
+## Summary
+
+<% tp.file.cursor() %>
+
+## Problem Statement
+
+### Current State
+
+-
+
+### Desired State
+
+-
+
+### Why Now?
+
+-
+
+## Goals
+
+- [ ] Goal 1
+- [ ] Goal 2
+
+## Non-Goals
+
+-
+
+## Approach
+
+### Option 1: (Recommended)
+
+**Pros:**
+-
+
+**Cons:**
+-
+
+### Option 2:
+
+**Pros:**
+-
+
+**Cons:**
+-
+
+## Implementation
+
+### Phase 1:
+
+- [ ]
+
+### Phase 2:
+
+- [ ]
+
+## Risks & Mitigations
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|------------|--------|------------|
+| | Low/Med/High | Low/Med/High | |
+
+## Success Metrics
+
+-
+
+## Open Questions
+
+- [ ]
+
+---
+
+> [!info] Metadata
+> **Priority**: `= this.plan.priority`
+> **Effort**: `= this.plan.effort`
+> **Target**: `= this.plan.target_date`

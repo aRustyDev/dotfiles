@@ -1,0 +1,111 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript", "shell"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript", "shell"]) %>
+type: guide
+status: 📝 draft
+publish: false
+tags:
+  - guide
+aliases:
+  -
+related:
+  - ref:
+    description:
+---
+
+# <% tp.file.title %>
+
+## Overview
+
+<% tp.file.cursor() %>
+
+## When to Use
+
+-
+-
+
+## Concepts
+
+### Key Concept 1
+
+### Key Concept 2
+
+## Architecture / Structure
+
+```
+┌─────────────┐     ┌─────────────┐
+│             │────▶│             │
+└─────────────┘     └─────────────┘
+```
+
+## Configuration
+
+### Basic Setup
+
+```yaml
+```
+
+### Advanced Options
+
+```yaml
+```
+
+## Best Practices
+
+### Do
+
+-
+-
+
+### Don't
+
+-
+-
+
+## Common Patterns
+
+### Pattern 1:
+
+**Use when:**
+
+```
+```
+
+### Pattern 2:
+
+**Use when:**
+
+```
+```
+
+## Troubleshooting
+
+| Symptom | Cause | Solution |
+|---------|-------|----------|
+| | | |
+
+## FAQ
+
+### Q:
+
+A:
+
+### Q:
+
+A:
+
+## See Also
+
+- [[]]
+
+---
+
+> [!info] Metadata
+> **Scope**: `= this.scope`
+> **Type**: `= this.type`
+> **Status**: `= this.status`

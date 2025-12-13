@@ -1,0 +1,74 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: issue
+status: 🚧 wip
+publish: false
+tags:
+  - issue
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Issue Metadata ---
+issue:
+  type: <% await tp.system.suggester(["bug", "feature", "improvement", "task", "question"], ["bug", "feature", "improvement", "task", "question"]) %>
+  priority: <% await tp.system.suggester(["p0-critical", "p1-high", "p2-medium", "p3-low"], ["p0-critical", "p1-high", "p2-medium", "p3-low"]) %>
+  status: <% await tp.system.suggester(["open", "in-progress", "blocked", "review", "done", "closed"], ["open", "in-progress", "blocked", "review", "done", "closed"]) %>
+  assignee: null
+  labels: []
+  github_issue: null
+---
+
+# <% tp.file.title %>
+
+## Description
+
+<% tp.file.cursor() %>
+
+## Acceptance Criteria
+
+- [ ]
+- [ ]
+- [ ]
+
+## Context
+
+### Background
+
+### Related Issues
+
+-
+
+## Technical Details
+
+### Affected Components
+
+-
+
+### Proposed Solution
+
+### Alternatives Considered
+
+## Tasks
+
+- [ ] Task 1
+- [ ] Task 2
+- [ ] Task 3
+
+## Notes
+
+-
+
+---
+
+> [!info] Metadata
+> **Issue Type**: `= this.issue.type`
+> **Priority**: `= this.issue.priority`
+> **Issue Status**: `= this.issue.status`

@@ -1,0 +1,153 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: slide
+status: 📝 draft
+publish: false
+tags:
+  - presentation
+  - slides
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Slide Metadata ---
+slide:
+  event: ""
+  date: <% tp.date.now("YYYY-MM-DD") %>
+  duration: "30m"
+  audience: ""
+  format: <% await tp.system.suggester(["marp", "reveal.js", "slides (obsidian)", "export-to-pptx"], ["marp", "reveal.js", "slides (obsidian)", "export-to-pptx"]) %>
+theme: default
+---
+
+# <% tp.file.title %>
+
+---
+
+## Slide 1: Title
+
+<% tp.file.cursor() %>
+
+**Presenter:**
+**Date:** `= this.slide.date`
+
+---
+
+## Slide 2: Agenda
+
+1.
+2.
+3.
+4. Q&A
+
+---
+
+## Slide 3: Problem / Context
+
+### The Challenge
+
+-
+
+---
+
+## Slide 4: Solution Overview
+
+### Our Approach
+
+-
+
+---
+
+## Slide 5: Key Point 1
+
+### Title
+
+- Bullet point
+- Bullet point
+- Bullet point
+
+> Speaker notes: ...
+
+---
+
+## Slide 6: Key Point 2
+
+### Title
+
+```
+Code example if needed
+```
+
+---
+
+## Slide 7: Demo
+
+### Live Demo
+
+1. Step 1
+2. Step 2
+3. Step 3
+
+---
+
+## Slide 8: Results / Impact
+
+| Metric | Before | After |
+|--------|--------|-------|
+| | | |
+
+---
+
+## Slide 9: Next Steps
+
+- [ ] Action 1
+- [ ] Action 2
+- [ ] Action 3
+
+---
+
+## Slide 10: Q&A
+
+### Questions?
+
+**Contact:**
+
+**Resources:**
+-
+
+---
+
+## Speaker Notes
+
+### Slide 1
+
+-
+
+### Slide 2
+
+-
+
+### Timing
+
+| Slide | Duration | Cumulative |
+|-------|----------|------------|
+| 1-2 | 2m | 2m |
+| 3-4 | 5m | 7m |
+| 5-6 | 8m | 15m |
+| 7 | 5m | 20m |
+| 8-9 | 5m | 25m |
+| 10 | 5m | 30m |
+
+---
+
+> [!info] Metadata
+> **Event**: `= this.slide.event`
+> **Duration**: `= this.slide.duration`
+> **Format**: `= this.slide.format`

@@ -1,0 +1,89 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "meta", "data"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "meta", "data"]) %>
+type: dashboard
+status: 📝 draft
+publish: false
+tags:
+  - dashboard
+aliases:
+  -
+related:
+  - ref:
+    description:
+---
+
+# <% tp.file.title %>
+
+<% tp.file.cursor() %>
+
+---
+
+## Overview
+
+```dataviewjs
+// Summary statistics
+dv.paragraph("Dashboard overview content here");
+```
+
+---
+
+## Section 1
+
+```dataview
+TABLE file.mtime as "Modified", status
+FROM "docs/notes"
+WHERE type = "note"
+SORT file.mtime DESC
+LIMIT 10
+```
+
+---
+
+## Section 2
+
+```tasks
+not done
+path does not include .obsidian
+sort by due
+limit 10
+```
+
+---
+
+## Charts
+
+```dataviewjs
+// Add chart visualization
+const chartData = {
+  type: 'bar',
+  data: {
+    labels: ['A', 'B', 'C'],
+    datasets: [{
+      label: 'Count',
+      data: [10, 20, 30],
+      backgroundColor: 'rgba(54, 162, 235, 0.7)'
+    }]
+  }
+};
+window.renderChart(chartData, this.container);
+```
+
+---
+
+## Quick Links
+
+- [[]]
+- [[]]
+
+---
+
+> [!info] Metadata
+> **Scope**: `= this.scope`
+> **Type**: `= this.type`
+> **Status**: `= this.status`

@@ -1,0 +1,77 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: changelog
+status: ✅ active
+publish: false
+tags:
+  - changelog
+aliases:
+  -
+related:
+  - ref:
+    description:
+---
+
+# <% tp.file.title %>
+
+All notable changes to this project/component will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [Unreleased]
+
+### Added
+
+-
+
+### Changed
+
+-
+
+### Deprecated
+
+-
+
+### Removed
+
+-
+
+### Fixed
+
+-
+
+### Security
+
+-
+
+---
+
+## [0.1.0] - <% tp.date.now("YYYY-MM-DD") %>
+
+### Added
+
+- <% tp.file.cursor() %>
+
+---
+
+## Version History
+
+| Version | Date | Summary |
+|---------|------|---------|
+| 0.1.0 | <% tp.date.now("YYYY-MM-DD") %> | Initial release |
+
+---
+
+> [!info] Metadata
+> **Scope**: `= this.scope`
+> **Type**: `= this.type`
+> **Status**: `= this.status`

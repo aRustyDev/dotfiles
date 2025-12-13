@@ -6,8 +6,8 @@ updated: {{date:YYYY-MM-DDTHH:mm:ss}}
 project: dotfiles
 scope:
   - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general"]) %>
-type: <% await tp.system.suggester(["guide", "reference", "tutorial", "adr", "runbook", "cheatsheet", "note"], ["guide", "reference", "tutorial", "adr", "runbook", "cheatsheet", "note"]) %>
-status: <% await tp.system.suggester(["📝 draft", "✅ active", "🔍 review", "📦 archived", "🚧 wip", "⚠️ deprecated"], ["📝 draft", "✅ active", "🔍 review", "📦 archived", "🚧 wip", "⚠️ deprecated"]) %>
+type: <% await tp.system.suggester(["reference", "tutorial", "guide", "dashboard", "research", "hypothesis", "plan", "roadmap", "changelog", "experiment", "bug-report", "issue", "PRD", "FRD", "BRD", "note", "cornell-note", "meeting-note", "slide", "adr", "runbook", "cheatsheet"], ["reference", "tutorial", "guide", "dashboard", "research", "hypothesis", "plan", "roadmap", "changelog", "experiment", "bug-report", "issue", "PRD", "FRD", "BRD", "note", "cornell-note", "meeting-note", "slide", "adr", "runbook", "cheatsheet"]) %>
+status: <% await tp.system.suggester(["📝 draft", "🚧 in-progress", "👀 awaiting-review", "🔍 in-review", "❓ needs-info", "✅ approved", "☑️ completed", "⏸️ backlog", "⚠️ deprecated", "📦 archived"], ["📝 draft", "🚧 in-progress", "👀 awaiting-review", "🔍 in-review", "❓ needs-info", "✅ approved", "☑️ completed", "⏸️ backlog", "⚠️ deprecated", "📦 archived"]) %>
 publish: false
 tags:
   - docs

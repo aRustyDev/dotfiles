@@ -1,0 +1,145 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: roadmap
+status: 📝 draft
+publish: false
+tags:
+  - roadmap
+  - planning
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Roadmap Metadata ---
+roadmap:
+  timeframe: <% await tp.system.suggester(["Q1", "Q2", "Q3", "Q4", "H1", "H2", "yearly"], ["Q1", "Q2", "Q3", "Q4", "H1", "H2", "yearly"]) %> <% tp.date.now("YYYY") %>
+  version: "1.0"
+  owner: ""
+---
+
+# <% tp.file.title %>
+
+## Vision
+
+<% tp.file.cursor() %>
+
+## Goals
+
+- [ ] Goal 1
+- [ ] Goal 2
+- [ ] Goal 3
+
+---
+
+## Timeline
+
+### Now (Current Sprint)
+
+| Initiative | Status | Owner | Notes |
+|------------|--------|-------|-------|
+| | 🚧 In Progress | | |
+
+### Next (1-2 Sprints)
+
+| Initiative | Priority | Dependencies | Est. Effort |
+|------------|----------|--------------|-------------|
+| | P1 | | |
+
+### Later (This Quarter)
+
+| Initiative | Priority | Dependencies | Est. Effort |
+|------------|----------|--------------|-------------|
+| | P2 | | |
+
+### Future (Next Quarter+)
+
+| Initiative | Priority | Notes |
+|------------|----------|-------|
+| | P3 | |
+
+---
+
+## Milestones
+
+```mermaid
+gantt
+    title Roadmap Timeline
+    dateFormat YYYY-MM-DD
+    section Phase 1
+    Milestone 1    :m1, 2025-01-01, 30d
+    section Phase 2
+    Milestone 2    :m2, after m1, 30d
+```
+
+### Milestone 1:
+
+**Target:**
+**Deliverables:**
+- [ ]
+
+### Milestone 2:
+
+**Target:**
+**Deliverables:**
+- [ ]
+
+---
+
+## Dependencies
+
+```mermaid
+graph LR
+    A[Initiative A] --> B[Initiative B]
+    B --> C[Initiative C]
+    A --> D[Initiative D]
+```
+
+---
+
+## Risks
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|------------|--------|------------|
+| | Medium | High | |
+
+---
+
+## Resources
+
+### Required
+
+-
+
+### Nice to Have
+
+-
+
+---
+
+## Success Metrics
+
+| Metric | Current | Target | Deadline |
+|--------|---------|--------|----------|
+| | | | |
+
+---
+
+## Changelog
+
+| Date | Change | Author |
+|------|--------|--------|
+| <% tp.date.now("YYYY-MM-DD") %> | Initial roadmap | |
+
+---
+
+> [!info] Metadata
+> **Timeframe**: `= this.roadmap.timeframe`
+> **Version**: `= this.roadmap.version`
+> **Status**: `= this.status`

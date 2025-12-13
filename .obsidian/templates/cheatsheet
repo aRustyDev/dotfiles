@@ -1,0 +1,148 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %> Cheatsheet
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript", "shell"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript", "shell"]) %>
+type: cheatsheet
+status: 📝 draft
+publish: false
+tags:
+  - cheatsheet
+  - quick-reference
+aliases:
+  - <% tp.file.title %> Quick Reference
+related:
+  - ref:
+    description:
+---
+
+# <% tp.file.title %> Cheatsheet
+
+Quick reference for <% tp.file.title %>.
+
+---
+
+## Quick Start
+
+```bash
+<% tp.file.cursor() %>
+```
+
+---
+
+## Common Commands
+
+| Command | Description |
+|---------|-------------|
+| `cmd1` | Description |
+| `cmd2` | Description |
+| `cmd3` | Description |
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+C` | |
+| `Ctrl+V` | |
+
+---
+
+## Configuration
+
+### Basic Config
+
+```yaml
+# ~/.config/tool/config.yaml
+```
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `VAR_1` | | |
+| `VAR_2` | | |
+
+---
+
+## Syntax
+
+### Basic Syntax
+
+```
+```
+
+### Advanced Syntax
+
+```
+```
+
+---
+
+## Examples
+
+### Example 1:
+
+```bash
+```
+
+### Example 2:
+
+```bash
+```
+
+### Example 3:
+
+```bash
+```
+
+---
+
+## Flags / Options
+
+| Flag | Long Form | Description |
+|------|-----------|-------------|
+| `-v` | `--verbose` | |
+| `-h` | `--help` | |
+| `-q` | `--quiet` | |
+
+---
+
+## Common Patterns
+
+### Pattern 1
+
+```bash
+```
+
+### Pattern 2
+
+```bash
+```
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| | |
+| | |
+
+---
+
+## Resources
+
+- [Official Docs]()
+- [GitHub]()
+
+---
+
+> [!info] Metadata
+> **Scope**: `= this.scope`
+> **Type**: `= this.type`
+> **Status**: `= this.status`

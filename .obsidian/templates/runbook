@@ -1,0 +1,125 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: runbook
+status: 📝 draft
+publish: false
+tags:
+  - runbook
+  - operations
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Runbook Metadata ---
+runbook:
+  severity: <% await tp.system.suggester(["sev1-critical", "sev2-high", "sev3-medium", "sev4-low"], ["sev1-critical", "sev2-high", "sev3-medium", "sev4-low"]) %>
+  on_call: false
+  automation: null
+  last_tested: null
+  estimated_time: "15m"
+---
+
+# <% tp.file.title %>
+
+## Overview
+
+<% tp.file.cursor() %>
+
+## When to Use
+
+- [ ] Symptom 1
+- [ ] Symptom 2
+
+## Prerequisites
+
+- [ ] Access to...
+- [ ] Tools installed:
+
+## Quick Actions
+
+> [!warning] Emergency Steps
+> If immediate action needed:
+
+```bash
+# Emergency command
+```
+
+## Procedure
+
+### Step 1: Assess
+
+```bash
+# Diagnostic command
+```
+
+**Expected output:**
+
+**If unexpected:**
+
+### Step 2: Mitigate
+
+```bash
+#
+```
+
+### Step 3: Resolve
+
+```bash
+#
+```
+
+### Step 4: Verify
+
+```bash
+# Verification command
+```
+
+**Success criteria:**
+- [ ]
+
+## Rollback
+
+If something goes wrong:
+
+```bash
+#
+```
+
+## Post-Incident
+
+- [ ] Update incident ticket
+- [ ] Schedule post-mortem if needed
+- [ ] Update this runbook if gaps found
+
+## Troubleshooting
+
+### Common Issue 1
+
+**Symptom:**
+**Solution:**
+
+### Common Issue 2
+
+**Symptom:**
+**Solution:**
+
+## Escalation
+
+| Level | Contact | When |
+|-------|---------|------|
+| L1 | | |
+| L2 | | |
+
+---
+
+> [!info] Metadata
+> **Severity**: `= this.runbook.severity`
+> **Est. Time**: `= this.runbook.estimated_time`
+> **Last Tested**: `= this.runbook.last_tested`

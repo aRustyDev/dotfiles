@@ -1,0 +1,146 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript"]) %>
+type: experiment
+status: 📝 draft
+publish: false
+tags:
+  - experiment
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Experiment Metadata ---
+experiment:
+  status: <% await tp.system.suggester(["planned", "running", "completed", "failed", "abandoned"], ["planned", "running", "completed", "failed", "abandoned"]) %>
+  start_date: <% tp.date.now("YYYY-MM-DD") %>
+  end_date: null
+  success: null
+---
+
+# Experiment: <% tp.file.title %>
+
+## Objective
+
+<% tp.file.cursor() %>
+
+## Hypothesis
+
+**If** we...
+
+**Then** we expect...
+
+**Because**...
+
+## Background
+
+### Why This Experiment?
+
+### Prior Art
+
+-
+
+## Design
+
+### Approach
+
+1.
+2.
+3.
+
+### Variables
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| | Independent | |
+| | Dependent | |
+| | Controlled | |
+
+### Success Criteria
+
+- [ ]
+- [ ]
+
+### Failure Criteria
+
+- [ ]
+
+### Rollback Plan
+
+If experiment fails:
+
+1.
+2.
+
+## Implementation
+
+### Setup
+
+```bash
+```
+
+### Execution Steps
+
+1.
+2.
+3.
+
+### Monitoring
+
+-
+
+## Results
+
+### Data
+
+| Metric | Baseline | Result | Delta |
+|--------|----------|--------|-------|
+| | | | |
+
+### Observations
+
+-
+
+### Screenshots/Evidence
+
+## Analysis
+
+### What Worked
+
+-
+
+### What Didn't Work
+
+-
+
+### Unexpected Findings
+
+-
+
+## Conclusion
+
+**Status:** `= this.experiment.status`
+
+**Outcome:** <% await tp.system.suggester(["Success - adopt", "Partial success - iterate", "Failed - revert", "Inconclusive - need more data"], ["Success - adopt", "Partial success - iterate", "Failed - revert", "Inconclusive - need more data"]) %>
+
+### Learnings
+
+1.
+2.
+
+### Next Steps
+
+- [ ]
+
+---
+
+> [!info] Metadata
+> **Experiment Status**: `= this.experiment.status`
+> **Start Date**: `= this.experiment.start_date`
+> **End Date**: `= this.experiment.end_date`

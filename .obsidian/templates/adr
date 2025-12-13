@@ -1,0 +1,76 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: "ADR-XXX: <% tp.file.title %>"
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: adr
+status: <% await tp.system.suggester(["📝 draft", "🚧 in-progress", "👀 awaiting-review", "🔍 in-review", "❓ needs-info", "✅ approved", "☑️ completed", "⏸️ backlog", "⚠️ deprecated", "📦 archived"], ["📝 draft", "🚧 in-progress", "👀 awaiting-review", "🔍 in-review", "❓ needs-info", "✅ approved", "☑️ completed", "⏸️ backlog", "⚠️ deprecated", "📦 archived"]) %>
+publish: false
+tags:
+  - adr
+  - architecture
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- ADR Metadata ---
+adr:
+  number: XXX
+  supersedes: null
+  superseded_by: null
+  deciders:
+    -
+---
+
+# ADR-XXX: <% tp.file.title %>
+
+## Status
+
+<% await tp.system.suggester(["Proposed", "Accepted", "Deprecated", "Superseded"], ["Proposed", "Accepted", "Deprecated", "Superseded"]) %>
+
+## Context
+
+<% tp.file.cursor() %>
+
+## Decision
+
+We will...
+
+## Consequences
+
+### Positive
+
+-
+
+### Negative
+
+-
+
+### Neutral
+
+-
+
+## Alternatives Considered
+
+### Alternative 1:
+
+**Rejected because:**
+
+### Alternative 2:
+
+**Rejected because:**
+
+## References
+
+-
+
+---
+
+> [!info] Metadata
+> **ADR**: `= this.adr.number`
+> **Status**: `= this.status`
+> **Deciders**: `= this.adr.deciders`

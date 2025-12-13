@@ -1,0 +1,84 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript", "shell"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript", "shell"]) %>
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - reference
+aliases:
+  -
+related:
+  - ref:
+    description:
+---
+
+# <% tp.file.title %>
+
+## Overview
+
+<% tp.file.cursor() %>
+
+## Quick Reference
+
+| Item | Value |
+|------|-------|
+| | |
+
+## Syntax / Usage
+
+```
+```
+
+## Options / Parameters
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| | | | |
+
+## Examples
+
+### Basic Usage
+
+```
+```
+
+### Advanced Usage
+
+```
+```
+
+## Common Patterns
+
+### Pattern 1
+
+```
+```
+
+### Pattern 2
+
+```
+```
+
+## Troubleshooting
+
+### Issue 1
+
+**Symptom:**
+**Solution:**
+
+## See Also
+
+- [[]]
+
+---
+
+> [!info] Metadata
+> **Scope**: `= this.scope`
+> **Type**: `= this.type`
+> **Status**: `= this.status`

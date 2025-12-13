@@ -1,0 +1,101 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript"]) %>
+type: cornell-note
+status: 📝 draft
+publish: false
+tags:
+  - cornell
+  - learning
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Cornell Note Metadata ---
+cornell:
+  source: ""
+  topic: ""
+  date: <% tp.date.now("YYYY-MM-DD") %>
+---
+
+# <% tp.file.title %>
+
+> **Source:** `= this.cornell.source`
+> **Topic:** `= this.cornell.topic`
+> **Date:** `= this.cornell.date`
+
+---
+
+## Cues / Questions
+
+> Left column: Write questions and keywords that relate to the notes
+
+<% tp.file.cursor() %>
+
+---
+
+## Notes
+
+> Right column: Main notes taken during reading/lecture
+
+### Section 1
+
+-
+
+### Section 2
+
+-
+
+### Section 3
+
+-
+
+---
+
+## Summary
+
+> Bottom: Write a summary in your own words (within 24 hours)
+
+### Key Takeaways
+
+1.
+2.
+3.
+
+### Main Idea
+
+### How This Connects
+
+-
+
+---
+
+## Review
+
+### Questions to Answer
+
+- [ ]
+- [ ]
+
+### Apply This Knowledge
+
+- [ ]
+
+### Review Schedule
+
+- [ ] Review in 24 hours
+- [ ] Review in 1 week
+- [ ] Review in 1 month
+
+---
+
+> [!info] Metadata
+> **Topic**: `= this.cornell.topic`
+> **Source**: `= this.cornell.source`
+> **Status**: `= this.status`

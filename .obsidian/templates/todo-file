@@ -1,0 +1,57 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: "TODO: <% tp.file.title %>"
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: note
+status: 🚧 wip
+publish: false
+tags:
+  - todo
+aliases:
+  -
+related:
+  - ref:
+    description:
+---
+
+# TODO: <% tp.file.title %>
+
+## Overview
+
+<% tp.file.cursor() %>
+
+## Tasks
+
+### High Priority
+
+- [ ] #task ⏫
+
+### Medium Priority
+
+- [ ] #task 🔼
+
+### Low Priority
+
+- [ ] #task 🔽
+
+### Backlog
+
+- [ ] #task
+
+## Blocked
+
+- [ ] #task ❌ Blocked by:
+
+## Completed
+
+- [x] #task ✅ <% tp.date.now("YYYY-MM-DD") %>
+
+---
+
+> [!info] Metadata
+> **Scope**: `= this.scope`
+> **Status**: `= this.status`

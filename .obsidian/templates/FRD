@@ -1,0 +1,193 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: "FRD: <% tp.file.title %>"
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: FRD
+status: 📝 draft
+publish: false
+tags:
+  - frd
+  - requirements
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- FRD Metadata ---
+frd:
+  version: "0.1"
+  status: <% await tp.system.suggester(["draft", "review", "approved", "implemented"], ["draft", "review", "approved", "implemented"]) %>
+  prd_ref: null
+  author: ""
+  reviewers: []
+---
+
+# FRD: <% tp.file.title %>
+
+## Document Control
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 0.1 | <% tp.date.now("YYYY-MM-DD") %> | | Initial draft |
+
+## Introduction
+
+### Purpose
+
+<% tp.file.cursor() %>
+
+### Scope
+
+### Definitions
+
+| Term | Definition |
+|------|------------|
+| | |
+
+### References
+
+| Document | Version | Link |
+|----------|---------|------|
+| PRD | | |
+
+## Functional Requirements
+
+### Feature 1:
+
+#### FR-1.1:
+
+**Description:**
+
+**Priority:** <% await tp.system.suggester(["Must Have", "Should Have", "Could Have", "Won't Have"], ["Must Have", "Should Have", "Could Have", "Won't Have"]) %>
+
+**User Story:** As a..., I want..., so that...
+
+**Acceptance Criteria:**
+- [ ]
+- [ ]
+
+**Business Rules:**
+-
+
+**UI/UX Requirements:**
+-
+
+**Data Requirements:**
+| Field | Type | Required | Validation |
+|-------|------|----------|------------|
+| | | | |
+
+#### FR-1.2:
+
+**Description:**
+
+**Priority:**
+
+**Acceptance Criteria:**
+- [ ]
+
+### Feature 2:
+
+#### FR-2.1:
+
+**Description:**
+
+**Priority:**
+
+**Acceptance Criteria:**
+- [ ]
+
+## System Interfaces
+
+### External Interfaces
+
+| System | Interface Type | Data Exchange |
+|--------|---------------|---------------|
+| | API/File/Event | |
+
+### Internal Interfaces
+
+| Component | Interface | Protocol |
+|-----------|-----------|----------|
+| | | |
+
+## Data Requirements
+
+### Data Model
+
+```mermaid
+erDiagram
+    ENTITY1 ||--o{ ENTITY2 : has
+    ENTITY1 {
+        string id
+        string name
+    }
+```
+
+### Data Flow
+
+```mermaid
+flowchart LR
+    A[Input] --> B[Process]
+    B --> C[Output]
+```
+
+## Security Requirements
+
+| Requirement | Description | Implementation |
+|-------------|-------------|----------------|
+| Authentication | | |
+| Authorization | | |
+| Data Protection | | |
+
+## Performance Requirements
+
+| Metric | Requirement | Measurement |
+|--------|-------------|-------------|
+| Response Time | | |
+| Throughput | | |
+| Availability | | |
+
+## Constraints
+
+### Technical Constraints
+
+-
+
+### Business Constraints
+
+-
+
+## Assumptions
+
+-
+
+## Dependencies
+
+| Dependency | Type | Owner | Status |
+|------------|------|-------|--------|
+| | | | |
+
+## Test Scenarios
+
+| ID | Scenario | Expected Result |
+|----|----------|-----------------|
+| TS-1 | | |
+| TS-2 | | |
+
+## Appendix
+
+### Wireframes
+
+### API Specifications
+
+---
+
+> [!info] Metadata
+> **Version**: `= this.frd.version`
+> **FRD Status**: `= this.frd.status`
+> **PRD Reference**: `= this.frd.prd_ref`

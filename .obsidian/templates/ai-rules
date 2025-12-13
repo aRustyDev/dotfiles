@@ -1,0 +1,119 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - ai
+type: reference
+status: 📝 draft
+publish: false
+tags:
+  - ai-rules
+  - prompts
+aliases:
+  - <% tp.file.title.replace(/-/g, ' ') %>
+related:
+  - ref:
+    description:
+# --- AI Rules Metadata ---
+# Cross-IDE compatibility fields
+ai_rules:
+  # Rule identification
+  name: "<% tp.file.title %>"
+  version: "1.0.0"
+  description: ""
+  # Target environments
+  targets:
+    cursor: true      # .cursorrules
+    windsurf: false   # .windsurfrules
+    copilot: false    # .github/copilot-instructions.md
+    vscode: false     # .vscode/settings.json (github.copilot.chat.codeGeneration.instructions)
+    zed: false        # .zed/prompts/*.md
+    claude_code: false # CLAUDE.md
+    claude_desktop: false # project instructions
+    aider: false      # .aider.conf.yml or CONVENTIONS.md
+    continue: false   # .continuerc.json
+  # Rule classification
+  category: <% await tp.system.suggester(
+    ["coding-style", "architecture", "testing", "documentation", "security", "performance", "framework", "language", "workflow", "persona"],
+    ["coding-style", "architecture", "testing", "documentation", "security", "performance", "framework", "language", "workflow", "persona"]
+  ) %>
+  languages:
+    - <% await tp.system.suggester(
+      ["any", "typescript", "javascript", "python", "rust", "go", "java", "kotlin", "swift", "c", "cpp", "csharp", "ruby", "php", "shell", "sql", "markdown"],
+      ["any", "typescript", "javascript", "python", "rust", "go", "java", "kotlin", "swift", "c", "cpp", "csharp", "ruby", "php", "shell", "sql", "markdown"]
+    ) %>
+  frameworks: []
+  # Composition
+  extends: []        # Parent rules to inherit from
+  conflicts: []      # Rules that conflict with this one
+  priority: 50       # 0-100, higher = applied later
+---
+
+# <% tp.file.title %>
+
+## Overview
+
+<% tp.file.cursor() %>
+
+## Persona
+
+> You are...
+
+## Guidelines
+
+### Do
+
+-
+
+### Don't
+
+-
+
+## Code Style
+
+```
+```
+
+## Examples
+
+### Good
+
+```
+```
+
+### Bad
+
+```
+```
+
+## Context
+
+### When to Apply
+
+-
+
+### When NOT to Apply
+
+-
+
+---
+
+## Raw Rule Content
+
+> [!note] Cursor/Windsurf Format
+> Copy content below to `.cursorrules` or `.windsurfrules`
+
+```
+# <% tp.file.title %>
+
+```
+
+---
+
+> [!info] Metadata
+> **Category**: `= this.ai_rules.category`
+> **Languages**: `= this.ai_rules.languages`
+> **Targets**: `= this.ai_rules.targets`

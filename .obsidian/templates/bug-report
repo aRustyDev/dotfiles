@@ -1,0 +1,92 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: "BUG: <% tp.file.title %>"
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: bug-report
+status: 🚧 wip
+publish: false
+tags:
+  - bug
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Bug Metadata ---
+bug:
+  severity: <% await tp.system.suggester(["critical", "high", "medium", "low"], ["critical", "high", "medium", "low"]) %>
+  status: <% await tp.system.suggester(["new", "confirmed", "investigating", "in-progress", "fixed", "wont-fix", "duplicate"], ["new", "confirmed", "investigating", "in-progress", "fixed", "wont-fix", "duplicate"]) %>
+  affected_version: ""
+  fixed_version: null
+  assignee: null
+---
+
+# BUG: <% tp.file.title %>
+
+## Summary
+
+<% tp.file.cursor() %>
+
+## Environment
+
+| Component | Version/Value |
+|-----------|---------------|
+| OS | macOS <% tp.date.now("YYYY") %> |
+| Shell | |
+| Tool Version | |
+
+## Steps to Reproduce
+
+1.
+2.
+3.
+
+## Expected Behavior
+
+## Actual Behavior
+
+## Error Output
+
+```
+```
+
+## Screenshots
+
+## Root Cause Analysis
+
+### Investigation Notes
+
+-
+
+### Likely Cause
+
+## Fix
+
+### Solution
+
+```
+```
+
+### Verification
+
+- [ ] Bug no longer reproduces
+- [ ] No regression in related functionality
+- [ ] Tests added/updated
+
+## Workaround
+
+If fix not available:
+
+```
+```
+
+---
+
+> [!info] Metadata
+> **Severity**: `= this.bug.severity`
+> **Bug Status**: `= this.bug.status`
+> **Affected Version**: `= this.bug.affected_version`

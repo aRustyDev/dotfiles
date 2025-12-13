@@ -1,0 +1,90 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript"]) %>
+type: research
+status: 📝 draft
+publish: false
+tags:
+  - research
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Research Metadata ---
+research:
+  question: ""
+  hypothesis: ""
+  conclusion: ""
+  confidence: <% await tp.system.suggester(["high", "medium", "low", "uncertain"], ["high", "medium", "low", "uncertain"]) %>
+  sources: []
+---
+
+# <% tp.file.title %>
+
+## Research Question
+
+<% tp.file.cursor() %>
+
+## Background
+
+### What I Know
+
+-
+
+### What I Need to Learn
+
+-
+
+## Findings
+
+### Source 1:
+
+**URL:**
+**Key Points:**
+-
+
+### Source 2:
+
+**URL:**
+**Key Points:**
+-
+
+## Analysis
+
+### Comparison
+
+| Aspect | Option A | Option B |
+|--------|----------|----------|
+| | | |
+
+### Pros/Cons
+
+**Pros:**
+-
+
+**Cons:**
+-
+
+## Conclusion
+
+### Recommendation
+
+### Confidence Level
+
+<% await tp.system.suggester(["High - Strong evidence", "Medium - Some gaps", "Low - Needs more research", "Uncertain - Conflicting info"], ["High - Strong evidence", "Medium - Some gaps", "Low - Needs more research", "Uncertain - Conflicting info"]) %>
+
+### Next Steps
+
+- [ ]
+
+---
+
+> [!info] Metadata
+> **Confidence**: `= this.research.confidence`
+> **Status**: `= this.status`

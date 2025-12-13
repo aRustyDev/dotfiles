@@ -1,0 +1,114 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript"]) %>
+type: hypothesis
+status: 📝 draft
+publish: false
+tags:
+  - hypothesis
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Hypothesis Metadata ---
+hypothesis:
+  status: <% await tp.system.suggester(["proposed", "testing", "validated", "invalidated", "inconclusive"], ["proposed", "testing", "validated", "invalidated", "inconclusive"]) %>
+  confidence: <% await tp.system.suggester(["high", "medium", "low"], ["high", "medium", "low"]) %>
+  test_date: null
+---
+
+# Hypothesis: <% tp.file.title %>
+
+## Statement
+
+**If** <% tp.file.cursor() %>
+
+**Then**
+
+**Because**
+
+## Background
+
+### Context
+
+### Observations
+
+-
+
+### Assumptions
+
+-
+
+## Test Plan
+
+### Method
+
+1.
+2.
+3.
+
+### Success Criteria
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+### Failure Criteria
+
+- [ ]
+
+### Variables
+
+| Variable | Type | How Measured |
+|----------|------|--------------|
+| Independent | | |
+| Dependent | | |
+| Controlled | | |
+
+## Results
+
+### Data Collected
+
+| Test | Input | Expected | Actual | Pass/Fail |
+|------|-------|----------|--------|-----------|
+| | | | | |
+
+### Observations
+
+-
+
+## Analysis
+
+### Supports Hypothesis
+
+-
+
+### Against Hypothesis
+
+-
+
+### Confounding Factors
+
+-
+
+## Conclusion
+
+**Status:** `= this.hypothesis.status`
+
+**Summary:**
+
+## Next Steps
+
+- [ ]
+
+---
+
+> [!info] Metadata
+> **Hypothesis Status**: `= this.hypothesis.status`
+> **Confidence**: `= this.hypothesis.confidence`
+> **Document Status**: `= this.status`

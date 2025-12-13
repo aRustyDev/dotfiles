@@ -1,0 +1,124 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: "Meeting: <% tp.file.title %>"
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: meeting-note
+status: ✅ active
+publish: false
+tags:
+  - meeting
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Meeting Metadata ---
+meeting:
+  date: <% tp.date.now("YYYY-MM-DD") %>
+  time: <% tp.date.now("HH:mm") %>
+  duration: "30m"
+  type: <% await tp.system.suggester(["standup", "planning", "review", "retro", "1-on-1", "sync", "workshop", "presentation", "other"], ["standup", "planning", "review", "retro", "1-on-1", "sync", "workshop", "presentation", "other"]) %>
+  location: ""
+  attendees: []
+  facilitator: ""
+  note_taker: ""
+---
+
+# Meeting: <% tp.file.title %>
+
+## Meeting Info
+
+| Field | Value |
+|-------|-------|
+| **Date** | `= this.meeting.date` |
+| **Time** | `= this.meeting.time` |
+| **Duration** | `= this.meeting.duration` |
+| **Type** | `= this.meeting.type` |
+| **Location** | `= this.meeting.location` |
+
+### Attendees
+
+-
+
+### Absent
+
+-
+
+---
+
+## Agenda
+
+1. <% tp.file.cursor() %>
+2.
+3.
+
+---
+
+## Discussion
+
+### Topic 1:
+
+**Notes:**
+
+**Decision:**
+
+### Topic 2:
+
+**Notes:**
+
+**Decision:**
+
+### Topic 3:
+
+**Notes:**
+
+**Decision:**
+
+---
+
+## Action Items
+
+| Task | Owner | Due Date | Status |
+|------|-------|----------|--------|
+| | | | [ ] |
+| | | | [ ] |
+| | | | [ ] |
+
+---
+
+## Decisions Made
+
+1.
+2.
+
+---
+
+## Parking Lot
+
+> Items to discuss later
+
+-
+
+---
+
+## Follow-up
+
+### Next Meeting
+
+**Date:**
+**Topics:**
+
+### Pre-work for Next Meeting
+
+-
+
+---
+
+> [!info] Metadata
+> **Meeting Type**: `= this.meeting.type`
+> **Date**: `= this.meeting.date`
+> **Duration**: `= this.meeting.duration`

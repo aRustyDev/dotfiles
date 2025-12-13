@@ -1,0 +1,160 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: "PRD: <% tp.file.title %>"
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security"]) %>
+type: PRD
+status: 📝 draft
+publish: false
+tags:
+  - prd
+  - product
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- PRD Metadata ---
+prd:
+  version: "0.1"
+  status: <% await tp.system.suggester(["draft", "review", "approved", "in-development", "shipped"], ["draft", "review", "approved", "in-development", "shipped"]) %>
+  owner: ""
+  stakeholders: []
+  target_release: null
+---
+
+# PRD: <% tp.file.title %>
+
+## Overview
+
+### Problem Statement
+
+<% tp.file.cursor() %>
+
+### Objectives
+
+1.
+2.
+3.
+
+### Success Metrics
+
+| Metric | Current | Target | Method |
+|--------|---------|--------|--------|
+| | | | |
+
+## Background
+
+### Context
+
+### User Research
+
+### Competitive Analysis
+
+| Competitor | Strengths | Weaknesses |
+|------------|-----------|------------|
+| | | |
+
+## Requirements
+
+### User Stories
+
+> As a [user type], I want [goal] so that [benefit].
+
+1. As a..., I want..., so that...
+2.
+3.
+
+### Functional Requirements
+
+| ID | Requirement | Priority | Notes |
+|----|-------------|----------|-------|
+| FR-1 | | Must | |
+| FR-2 | | Should | |
+| FR-3 | | Could | |
+
+### Non-Functional Requirements
+
+| ID | Requirement | Target |
+|----|-------------|--------|
+| NFR-1 | Performance | |
+| NFR-2 | Security | |
+| NFR-3 | Scalability | |
+
+## Design
+
+### User Flow
+
+```mermaid
+graph TD
+    A[Start] --> B[Step 1]
+    B --> C[Step 2]
+    C --> D[End]
+```
+
+### Wireframes/Mockups
+
+### Technical Architecture
+
+## Scope
+
+### In Scope
+
+-
+-
+
+### Out of Scope
+
+-
+-
+
+### Future Considerations
+
+-
+
+## Timeline
+
+| Phase | Description | Target Date | Status |
+|-------|-------------|-------------|--------|
+| Discovery | | | |
+| Design | | | |
+| Development | | | |
+| Testing | | | |
+| Launch | | | |
+
+## Risks & Mitigations
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|------------|--------|------------|
+| | | | |
+
+## Dependencies
+
+-
+
+## Open Questions
+
+- [ ]
+- [ ]
+
+## Appendix
+
+### Glossary
+
+| Term | Definition |
+|------|------------|
+| | |
+
+### References
+
+-
+
+---
+
+> [!info] Metadata
+> **Version**: `= this.prd.version`
+> **PRD Status**: `= this.prd.status`
+> **Owner**: `= this.prd.owner`

@@ -1,0 +1,119 @@
+---
+id: <% tp.file.include("[[uuid]]") || crypto.randomUUID() %>
+title: <% tp.file.title %>
+created: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+updated: <% tp.date.now("YYYY-MM-DDTHH:mm:ss") %>
+project: dotfiles
+scope:
+  - <% await tp.system.suggester(["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript", "shell"], ["docker", "git", "just", "k9s", "zsh", "tmux", "nvim", "nix", "terraform", "mcp", "ai", "obsidian", "general", "kubernetes", "security", "python", "rust", "go", "typescript", "shell"]) %>
+type: tutorial
+status: 📝 draft
+publish: false
+tags:
+  - tutorial
+aliases:
+  -
+related:
+  - ref:
+    description:
+# --- Tutorial Metadata ---
+tutorial:
+  difficulty: <% await tp.system.suggester(["beginner", "intermediate", "advanced"], ["beginner", "intermediate", "advanced"]) %>
+  estimated_time: "15m"
+  prerequisites: []
+---
+
+# <% tp.file.title %>
+
+## Introduction
+
+<% tp.file.cursor() %>
+
+**What you'll learn:**
+-
+-
+
+**Time required:** `= this.tutorial.estimated_time`
+
+## Prerequisites
+
+- [ ]
+- [ ]
+
+## Step 1: Setup
+
+### 1.1
+
+```bash
+```
+
+### 1.2
+
+```bash
+```
+
+**Checkpoint:** You should now see...
+
+## Step 2:
+
+### 2.1
+
+```bash
+```
+
+### 2.2
+
+```bash
+```
+
+**Checkpoint:** Verify by...
+
+## Step 3:
+
+### 3.1
+
+```bash
+```
+
+**Checkpoint:**
+
+## Step 4: Verify
+
+Run the following to verify everything works:
+
+```bash
+```
+
+**Expected output:**
+
+```
+```
+
+## Troubleshooting
+
+### Common Issue 1
+
+**Problem:**
+**Solution:**
+
+### Common Issue 2
+
+**Problem:**
+**Solution:**
+
+## Summary
+
+You learned how to:
+-
+-
+
+## Next Steps
+
+- [[]]
+
+---
+
+> [!info] Metadata
+> **Difficulty**: `= this.tutorial.difficulty`
+> **Time**: `= this.tutorial.estimated_time`
+> **Status**: `= this.status`
