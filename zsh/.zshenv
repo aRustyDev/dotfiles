@@ -146,6 +146,8 @@ export CARGO_STATE="${XDG_STATE_HOME:-$HOME/.local/state}/cargo"
 
 # Console debugging (1-second intervals)
 export CLAUDE_CODE_ENABLE_TELEMETRY=1
+export CLAUDE_FLOW_DIR="$HOME/.claude"
+export CLAUDE_CONFIG_DIR="$HOME/.claude"
 
 # Logs
 export OTEL_LOGS_EXPORTER=otlp
