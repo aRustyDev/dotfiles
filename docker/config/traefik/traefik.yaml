@@ -53,6 +53,10 @@ entryPoints:
   supabase-pooler:
     address: :6543
 
+  # Metrics entrypoint (internal) - used by Prometheus
+  metrics:
+    address: :8080
+
 # For production with Let's Encrypt (uncomment when ready)
 # certificatesResolvers:
 #   letsencrypt:
@@ -111,8 +115,3 @@ tracing:
     grpc:
       endpoint: "otel-collector:4317"
       insecure: true
-
-entryPoints:
-  # Metrics entrypoint (internal)
-  metrics:
-    address: :8080
