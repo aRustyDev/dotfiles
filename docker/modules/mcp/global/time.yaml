@@ -77,5 +77,5 @@ services:
       options:
         max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
         max-file: "${O11Y_LOG_MAX_FILES:-3}"
-        tag: "{{.Name}}"
+        tag: '{{ "{{.Name}}" }}'
 

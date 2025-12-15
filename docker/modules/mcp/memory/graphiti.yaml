@@ -19,6 +19,7 @@ services:
     networks:
       - backend        # MCP backend services network
       - data-tier      # Access to FalkorDB
+      - dmz            # Internet access for uv package downloads
     env_file:
       - path: ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/.env
         required: false
@@ -58,7 +59,7 @@ services:
       options:
         max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
         max-file: "${O11Y_LOG_MAX_FILES:-3}"
-        tag: "{{.Name}}"
+        tag: '{{ "{{.Name}}" }}'
     deploy:
       resources:
         limits:
