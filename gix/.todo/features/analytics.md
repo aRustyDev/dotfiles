@@ -1,3 +1,22 @@
+---
+id: 11133fcc-aefe-4a6d-a5d0-529d852c6a84
+title: Analytic Goals
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: git
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - git
+  - gix
+aliases:
+  - Analytic Goals
+  - Analytic Goals Reference
+related: []
+---
+
 # Analytic Goals
 
 **Code churn**: Files changed most frequently, hotspots needing refactoring

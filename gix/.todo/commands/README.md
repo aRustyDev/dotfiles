@@ -1,3 +1,22 @@
+---
+id: 7b8d4053-41a2-4d42-9cc2-a360595cafa5
+title: GitOxide
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: git
+type: reference
+status: 🚧 in-progress
+publish: false
+tags:
+  - git
+  - gix
+aliases:
+  - GitOxide
+  - GitOxide Reference
+related: []
+---
+
 # GitOxide
 
 ```

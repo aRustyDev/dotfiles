@@ -1,3 +1,22 @@
+---
+id: 55e62074-c0ec-4103-9ae7-32fedcfc1903
+title: Config
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: git
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - git
+  - gix
+aliases:
+  - Config
+  - Config Reference
+related: []
+---
+
 # Config
 
 - backward compatible with `gitconfig`

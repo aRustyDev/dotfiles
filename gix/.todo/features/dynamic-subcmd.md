@@ -1,3 +1,22 @@
+---
+id: fc36d242-985b-451c-80c9-988622a3de57
+title: Subcommands
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T00:00:00
+project: dotfiles
+scope: git
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - git
+  - gix
+aliases:
+  - Subcommands
+  - Subcommands Reference
+related: []
+---
+
 # Subcommands
 
 - Pickup additional subcommands by searching `PATH` for `gix-*`
