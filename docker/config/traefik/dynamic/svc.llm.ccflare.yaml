@@ -1,0 +1,74 @@
+# =============================================================================
+# ccflare - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for ccflare Claude API load balancer (Traefik v3.6+)
+#
+# NOTE: This routes to "better-ccflare" (krzemienski/better-ccflare),
+#       named "ccflare" for brevity. See docker/modules/llm/ccflare.yaml.
+#
+# Routing hierarchy:
+#   ccflare@file (root)  -> Host(`ccflare.localhost`)
+#     ├── ccflare-api    -> PathPrefix(`/api`) [API endpoints]
+#     ├── ccflare-health -> PathPrefix(`/health`) [Health check]
+#     └── ccflare-ui     -> PathPrefix(`/`) [Web UI, catch-all]
+#
+# Container: ccflare (ghcr.io/tombii/better-ccflare)
+#   - HTTP endpoint: port 8080
+#   - Health check: /health
+#   - API: /api
+#   - UI: /
+# =============================================================================
+
+http:
+  routers:
+    # =========================================================================
+    # API Router - JSON API endpoints
+    # =========================================================================
+    # Matches: Host(ccflare.localhost) && PathPrefix(/api)
+    ccflare-api:
+      rule: "PathPrefix(`/api`)"
+      service: ccflare
+      middlewares:
+        - ccflare-api-headers@file
+      parentRefs:
+        - ccflare@file
+
+    # =========================================================================
+    # Health Check Router
+    # =========================================================================
+    # Matches: Host(ccflare.localhost) && PathPrefix(/health)
+    ccflare-health:
+      rule: "PathPrefix(`/health`)"
+      service: ccflare
+      parentRefs:
+        - ccflare@file
+
+    # =========================================================================
+    # UI Router - Web interface (catch-all)
+    # =========================================================================
+    # Matches: Host(ccflare.localhost) && PathPrefix(/)
+    # Priority is lower than specific paths due to broader rule
+    ccflare-ui:
+      rule: "PathPrefix(`/`)"
+      service: ccflare
+      parentRefs:
+        - ccflare@file
+
+  services:
+    ccflare:
+      loadBalancer:
+        servers:
+          - url: "http://ccflare:8080"
+        healthCheck:
+          path: /health
+          interval: 30s
+          timeout: 10s
+
+  middlewares:
+    # API-specific headers
+    ccflare-api-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+        customResponseHeaders:
+          X-Service: "ccflare"

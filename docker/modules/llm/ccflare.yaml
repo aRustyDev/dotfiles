@@ -1,0 +1,112 @@
+# =============================================================================
+# ccflare - Claude API Load Balancer Proxy
+# =============================================================================
+#
+# NOTE: This service is powered by "better-ccflare" (aRustyDev/better-ccflare),
+#       a fork with planned ccusage feature integration for historical analysis.
+#       Named "ccflare" for brevity and consistency with common usage.
+#
+# Fork: https://github.com/aRustyDev/better-ccflare
+# Upstream: https://github.com/krzemienski/better-ccflare
+# Original: https://github.com/snipeship/ccflare
+#
+# Roadmap (ccusage Feature Parity):
+#   - Parse local Claude Code JSONL files
+#   - Daily/Monthly/Session usage reports
+#   - 5-hour billing blocks tracking
+#   - MCP server integration
+#   - See: https://github.com/aRustyDev/better-ccflare/milestone/1
+#
+# Image: ghcr.io/tombii/better-ccflare (until aRustyDev publishes custom image)
+#
+# Description:
+#   Load balancer proxy for Claude API with intelligent distribution across
+#   multiple OAuth accounts. Useful for distributing API usage across multiple
+#   Claude accounts to avoid rate limits.
+#
+# Features:
+#   - Intelligent request distribution across multiple OAuth tokens
+#   - SQLite database for state persistence
+#   - Health check endpoint at /health
+#   - Web UI for management
+#
+# Environment Variables:
+#   CCFLARE_PORT       - Server port (default: 8080)
+#
+# Data Persistence:
+#   - Database: ${XDG_DATA_HOME}/ccflare/better-ccflare.db
+#
+# Traefik Routing:
+#   - Host: ccflare.localhost (via svc.llm.ccflare.yaml)
+#   - API endpoint: /api
+#   - Health check: /health
+#
+# Usage:
+#   docker-compose -f ccflare.yaml up
+#   docker-compose -f ccflare.yaml --profile llm up
+#
+# =============================================================================
+
+services:
+  ccflare:
+    # NOTE: Using better-ccflare image - see header comments for details
+    # TODO: Replace with ghcr.io/arustydev/better-ccflare:latest once published
+    image: ghcr.io/tombii/better-ccflare:latest
+    container_name: ccflare
+    hostname: ccflare
+    profiles: ["llm", "ai"]
+    networks:
+      - backend        # Backend services network
+    restart: unless-stopped
+    expose:
+      - "8080"
+    volumes:
+      # Persist SQLite database
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/ccflare:/data
+    environment:
+      - NODE_ENV=production
+      - BETTER_CCFLARE_DB_PATH=/data/better-ccflare.db
+    labels:
+      # Traefik routing (Docker provider)
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.services.ccflare.loadbalancer.server.port: 8080
+      traefik.http.routers.ccflare.rule: Host(`ccflare.${DOMAIN:-localhost}`)
+      traefik.http.routers.ccflare.entrypoints: websecure
+      traefik.http.routers.ccflare.tls: true
+      # =========================================================================
+      # Observability Labels
+      # =========================================================================
+      # NOTE: better-ccflare does NOT expose a /metrics endpoint natively.
+      # Prometheus scraping is disabled. HTTP metrics (request latency, status
+      # codes, throughput) are available through Traefik's metrics instead.
+      #
+      # To view ccflare metrics in Grafana, query Traefik metrics with:
+      #   traefik_service_requests_total{service="ccflare@docker"}
+      #   traefik_service_request_duration_seconds_bucket{service="ccflare@docker"}
+      # =========================================================================
+      prometheus.scrape: "false"
+      o11y.service: "ccflare"
+      o11y.metrics.source: "traefik"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: '{{ "{{.Name}}" }}'
+    # Resource Tier 3: Lightweight Service
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+

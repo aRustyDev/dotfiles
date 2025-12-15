@@ -1,0 +1,95 @@
+# =============================================================================
+# LiteLLM - Traefik Routing Configuration
+# =============================================================================
+# HTTP routing for LiteLLM unified LLM gateway (Traefik v3.6+)
+#
+# Routing hierarchy:
+#   litellm@file (root)     -> Host(`litellm.localhost`)
+#     +-- litellm-health    -> PathPrefix(`/health`) [Health checks]
+#     +-- litellm-metrics   -> PathPrefix(`/metrics`) [Prometheus metrics]
+#     +-- litellm-ui        -> PathPrefix(`/ui`) [Management dashboard]
+#     +-- litellm-api       -> PathPrefix(`/`) [OpenAI-compatible API]
+#
+# Container: litellm (ghcr.io/berriai/litellm:main-stable)
+#   - HTTP endpoint: port 4000
+#   - Health check: /health/liveliness, /health/readiness
+#   - Metrics: /metrics (Prometheus format)
+#   - UI: /ui (management dashboard, requires DATABASE_URL)
+#
+# API Endpoints:
+#   - POST /chat/completions - Chat completions (OpenAI format)
+#   - POST /completions - Text completions
+#   - POST /embeddings - Embeddings
+#   - POST /images/generations - Image generation
+#   - GET /models - List available models
+#   - GET /model/info - Model information
+#   - POST /key/generate - Generate API key (admin)
+#   - GET /key/info - Key information
+# =============================================================================
+
+http:
+  routers:
+    # =========================================================================
+    # Health Check Router
+    # =========================================================================
+    litellm-health:
+      rule: "PathPrefix(`/health`)"
+      service: litellm
+      parentRefs:
+        - litellm@file
+
+    # =========================================================================
+    # Metrics Router (Prometheus)
+    # =========================================================================
+    litellm-metrics:
+      rule: "PathPrefix(`/metrics`)"
+      service: litellm
+      parentRefs:
+        - litellm@file
+
+    # =========================================================================
+    # UI Router - Management Dashboard
+    # =========================================================================
+    # Note: Full UI functionality requires DATABASE_URL to be configured
+    # =========================================================================
+    litellm-ui:
+      rule: "PathPrefix(`/ui`)"
+      service: litellm
+      parentRefs:
+        - litellm@file
+
+    # =========================================================================
+    # API Router - OpenAI-compatible endpoints (catch-all)
+    # =========================================================================
+    litellm-api:
+      rule: "PathPrefix(`/`)"
+      service: litellm
+      middlewares:
+        - litellm-api-headers@file
+      parentRefs:
+        - litellm@file
+
+  # ===========================================================================
+  # Services
+  # ===========================================================================
+  services:
+    litellm:
+      loadBalancer:
+        servers:
+          - url: "http://litellm:4000"
+        healthCheck:
+          path: /health/liveliness
+          interval: 30s
+          timeout: 10s
+
+  # ===========================================================================
+  # Middlewares
+  # ===========================================================================
+  middlewares:
+    # API headers for OpenAI-compatible requests
+    litellm-api-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+        customResponseHeaders:
+          X-Powered-By: "LiteLLM"

@@ -1,0 +1,212 @@
+---
+# id: 3e7f9a2b-8c4d-5e1f-6a0b-9c2d3e4f5a6b
+# =============================================================================
+# LiteLLM - Unified LLM Gateway / Proxy Server
+# =============================================================================
+#
+# LiteLLM provides a unified interface to call 100+ LLM providers using the
+# OpenAI format. Features include cost tracking, rate limiting, load balancing,
+# and virtual key management.
+#
+# Source: https://github.com/BerriAI/litellm
+# Docs: https://docs.litellm.ai/docs/simple_proxy
+# Image: ghcr.io/berriai/litellm:main-stable
+#
+# Features:
+#   - Unified OpenAI-compatible API for 100+ LLM providers
+#   - Cost tracking and budget management per project/key
+#   - Rate limiting and load balancing across deployments
+#   - Virtual API key management with spend tracking
+#   - Prometheus metrics endpoint
+#   - Web UI for management (/ui)
+#
+# Environment Variables:
+#   LITELLM_MASTER_KEY    - Master key for admin access (required)
+#   LITELLM_SALT_KEY      - Salt for encrypting API keys (required for DB mode)
+#   DATABASE_URL          - PostgreSQL connection string (optional, enables UI)
+#   STORE_MODEL_IN_DB     - Store models in DB for UI management (default: False)
+#   ANTHROPIC_API_BASE    - Override Anthropic API base URL (for ccflare proxy)
+#   OPENAI_API_KEY        - OpenAI API key
+#   ANTHROPIC_API_KEY     - Anthropic API key
+#   GOOGLE_API_KEY        - Google AI API key
+#
+# Data Persistence:
+#   - Config: ${XDG_CONFIG_HOME}/docker/config/litellm/config.yaml
+#   - Database: Optional external PostgreSQL
+#
+# Traefik Routing:
+#   - Host: litellm.localhost (via svc.llm.litellm.yaml)
+#   - UI: /ui (management dashboard)
+#   - API: /chat/completions, /embeddings, etc.
+#   - Health: /health/liveliness, /health/readiness
+#
+# Metrics:
+#   - Endpoint: /metrics (Prometheus format)
+#   - Includes: request counts, latencies, token usage, costs
+#
+# Integration with better-ccflare:
+#   - Set ANTHROPIC_API_BASE=http://ccflare:8080 to route Claude requests
+#     through ccflare for multi-account load balancing
+#   - See docker/config/litellm/config.yaml for example configuration
+#
+# Usage:
+#   # Start with profile
+#   docker compose --profile llm up litellm
+#
+#   # Start full stack (litellm + ccflare)
+#   docker compose --profile llm --profile ai up
+#
+#   # With PostgreSQL for persistent key management
+#   docker compose --profile llm --profile db-postgres up litellm litellm-db
+#
+# =============================================================================
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: litellm
+    hostname: litellm
+    profiles: ["core", "llm", "ai", "gateway"]
+    networks:
+      - backend          # API services network
+    restart: unless-stopped
+    expose:
+      - "4000"
+    ports:
+      # Expose locally for direct access during development
+      - "${LITELLM_PORT:-4000}:4000"
+    volumes:
+      # LiteLLM configuration file
+      - ${XDG_CONFIG_HOME:-$HOME/.config}/docker/config/litellm/config.yaml:/app/config.yaml:ro
+    environment:
+      # =========================================================================
+      # Required Configuration
+      # =========================================================================
+      # Master key for admin access - CHANGE IN PRODUCTION
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-litellm-master-key-change-me}
+      # Salt key for encrypting stored API keys - CHANGE IN PRODUCTION
+      - LITELLM_SALT_KEY=${LITELLM_SALT_KEY:-sk-litellm-salt-key-change-me}
+      # =========================================================================
+      # Database Configuration (optional - enables UI key management)
+      # =========================================================================
+      # Uncomment to enable PostgreSQL backend for key/user management
+      # - DATABASE_URL=postgresql://litellm:${LITELLM_DB_PASSWORD:-litellm}@litellm-db:5432/litellm
+      # - STORE_MODEL_IN_DB=True
+      # =========================================================================
+      # Provider API Keys (loaded from host environment or .env)
+      # =========================================================================
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - AZURE_API_KEY=${AZURE_API_KEY:-}
+      - AZURE_API_BASE=${AZURE_API_BASE:-}
+      - AZURE_API_VERSION=${AZURE_API_VERSION:-}
+      # =========================================================================
+      # Integration with better-ccflare (Claude load balancing)
+      # =========================================================================
+      # Route Anthropic requests through ccflare for multi-account load balancing
+      - ANTHROPIC_API_BASE=${ANTHROPIC_API_BASE:-http://ccflare:8080}
+    command:
+      - "--config=/app/config.yaml"
+      - "--port=4000"
+      - "--detailed_debug"
+    labels:
+      # =========================================================================
+      # Traefik Routing Configuration (Docker provider)
+      # =========================================================================
+      traefik.enable: true
+      traefik.docker.network: backend
+      traefik.http.services.litellm.loadbalancer.server.port: 4000
+      traefik.http.routers.litellm.rule: Host(`litellm.${DOMAIN:-localhost}`)
+      traefik.http.routers.litellm.entrypoints: websecure
+      traefik.http.routers.litellm.tls: true
+      # =========================================================================
+      # Observability Labels
+      # =========================================================================
+      # LiteLLM exposes Prometheus metrics at /metrics
+      # =========================================================================
+      prometheus.scrape: "true"
+      prometheus.port: "4000"
+      prometheus.path: "/metrics"
+      o11y.service: "litellm"
+      o11y.component: "llm-gateway"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: '{{ "{{.Name}}" }}'
+    # Resource Tier: 4 (Medium) - LLM gateway with caching and request processing
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:4000/health/liveliness')\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      ccflare:
+        condition: service_healthy
+        required: false
+
+  # ===========================================================================
+  # Optional: PostgreSQL Database for LiteLLM
+  # ===========================================================================
+  # Enables persistent storage for:
+  #   - Virtual API keys with spend tracking
+  #   - User/team management
+  #   - Model configuration via UI
+  #
+  # To enable: uncomment DATABASE_URL in litellm service above
+  # ===========================================================================
+  litellm-db:
+    image: postgres:16-alpine
+    container_name: litellm-db
+    hostname: litellm-db
+    profiles: ["llm-db"]
+    networks:
+      - data-tier
+      - backend        # Allow litellm to connect
+    restart: unless-stopped
+    expose:
+      - "5432"
+    volumes:
+      - ${XDG_DATA_HOME:-$HOME/.local/share}/litellm/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=litellm
+      - POSTGRES_USER=litellm
+      - POSTGRES_PASSWORD=${LITELLM_DB_PASSWORD:-litellm}
+    labels:
+      # No Traefik routing - internal only
+      traefik.enable: false
+      # Observability
+      o11y.service: "litellm-db"
+      o11y.component: "database"
+    logging:
+      driver: "${O11Y_LOGGING_DRIVER:-json-file}"
+      options:
+        max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
+        max-file: "${O11Y_LOG_MAX_FILES:-3}"
+        tag: '{{ "{{.Name}}" }}'
+    # Resource Tier: 3 (Standard) - Lightweight PostgreSQL for metadata
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d litellm -U litellm"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

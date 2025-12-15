@@ -1,0 +1,209 @@
+# =============================================================================
+# LiteLLM Proxy Configuration
+# =============================================================================
+# Unified LLM Gateway configuration for routing requests to multiple providers.
+#
+# Documentation: https://docs.litellm.ai/docs/proxy/configs
+#
+# This configuration routes Claude requests through better-ccflare for
+# multi-account load balancing, while other providers go direct.
+#
+# Environment variables are referenced with: os.environ/VAR_NAME
+# =============================================================================
+
+# =============================================================================
+# Model List - Define available models and their routing
+# =============================================================================
+model_list:
+  # ---------------------------------------------------------------------------
+  # Claude Models (via better-ccflare for load balancing)
+  # ---------------------------------------------------------------------------
+  # These models route through ccflare which handles:
+  #   - Multi-account OAuth token rotation
+  #   - Rate limit detection and automatic failover
+  #   - Session-based sticky routing (5hr sessions)
+  #   - Token usage tracking and analytics
+  #
+  # Note: api_key is required by LiteLLM but ignored by ccflare (uses OAuth)
+  # ---------------------------------------------------------------------------
+  - model_name: claude-sonnet
+    litellm_params:
+      model: anthropic/claude-sonnet-4-20250514
+      api_base: http://ccflare:8080
+      api_key: "os.environ/ANTHROPIC_API_KEY"
+    model_info:
+      description: "Claude Sonnet 4 via ccflare load balancer"
+      max_tokens: 8192
+      input_cost_per_token: 0.000003
+      output_cost_per_token: 0.000015
+
+  - model_name: claude-opus
+    litellm_params:
+      model: anthropic/claude-opus-4-20250514
+      api_base: http://ccflare:8080
+      api_key: "os.environ/ANTHROPIC_API_KEY"
+    model_info:
+      description: "Claude Opus 4 via ccflare load balancer"
+      max_tokens: 8192
+      input_cost_per_token: 0.000015
+      output_cost_per_token: 0.000075
+
+  - model_name: claude-haiku
+    litellm_params:
+      model: anthropic/claude-3-5-haiku-20241022
+      api_base: http://ccflare:8080
+      api_key: "os.environ/ANTHROPIC_API_KEY"
+    model_info:
+      description: "Claude 3.5 Haiku via ccflare load balancer"
+      max_tokens: 8192
+      input_cost_per_token: 0.000001
+      output_cost_per_token: 0.000005
+
+  # Alias: Default claude routes to sonnet
+  - model_name: claude
+    litellm_params:
+      model: anthropic/claude-sonnet-4-20250514
+      api_base: http://ccflare:8080
+      api_key: "os.environ/ANTHROPIC_API_KEY"
+
+  # ---------------------------------------------------------------------------
+  # OpenAI Models (direct)
+  # ---------------------------------------------------------------------------
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: "os.environ/OPENAI_API_KEY"
+    model_info:
+      description: "OpenAI GPT-4o"
+
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: "os.environ/OPENAI_API_KEY"
+    model_info:
+      description: "OpenAI GPT-4o Mini"
+
+  - model_name: gpt-4-turbo
+    litellm_params:
+      model: openai/gpt-4-turbo
+      api_key: "os.environ/OPENAI_API_KEY"
+    model_info:
+      description: "OpenAI GPT-4 Turbo"
+
+  # ---------------------------------------------------------------------------
+  # Google Gemini Models (direct)
+  # ---------------------------------------------------------------------------
+  - model_name: gemini-pro
+    litellm_params:
+      model: gemini/gemini-1.5-pro
+      api_key: "os.environ/GOOGLE_API_KEY"
+    model_info:
+      description: "Google Gemini 1.5 Pro"
+
+  - model_name: gemini-flash
+    litellm_params:
+      model: gemini/gemini-1.5-flash
+      api_key: "os.environ/GOOGLE_API_KEY"
+    model_info:
+      description: "Google Gemini 1.5 Flash"
+
+  # ---------------------------------------------------------------------------
+  # Local Models (via Ollama)
+  # ---------------------------------------------------------------------------
+  # Uncomment if running Ollama locally or in Docker
+  # ---------------------------------------------------------------------------
+  # - model_name: llama3
+  #   litellm_params:
+  #     model: ollama/llama3
+  #     api_base: http://ollama:11434
+  #   model_info:
+  #     description: "Llama 3 via local Ollama"
+
+  # - model_name: codellama
+  #   litellm_params:
+  #     model: ollama/codellama
+  #     api_base: http://ollama:11434
+  #   model_info:
+  #     description: "Code Llama via local Ollama"
+
+# =============================================================================
+# LiteLLM Settings
+# =============================================================================
+litellm_settings:
+  # Drop unsupported parameters instead of erroring
+  drop_params: true
+
+  # Enable detailed logging for debugging
+  set_verbose: false
+
+  # Cache settings (optional - improves performance)
+  # cache: true
+  # cache_params:
+  #   type: redis
+  #   host: redis
+  #   port: 6379
+
+  # Retry settings
+  num_retries: 3
+  request_timeout: 600  # 10 minutes for long-running requests
+
+  # Enable streaming by default
+  # stream: true
+
+# =============================================================================
+# General Settings
+# =============================================================================
+general_settings:
+  # Master key for admin API access (set via environment variable)
+  master_key: "os.environ/LITELLM_MASTER_KEY"
+
+  # Database URL for persistent storage (optional)
+  # database_url: "os.environ/DATABASE_URL"
+
+  # Enable the web UI at /ui
+  # Requires DATABASE_URL to be set for full functionality
+  # ui_enabled: true
+
+  # Alert settings (optional)
+  # alerting:
+  #   - slack
+  # alerting_threshold: 300  # Alert if request takes > 300s
+
+# =============================================================================
+# Router Settings (for load balancing across deployments)
+# =============================================================================
+router_settings:
+  # Routing strategy: simple-shuffle, least-busy, latency-based-routing
+  routing_strategy: simple-shuffle
+
+  # Number of retries before failing over to next model
+  num_retries: 3
+
+  # Timeout for each retry attempt
+  timeout: 600
+
+  # Enable Redis for distributed rate limiting (optional)
+  # redis_host: redis
+  # redis_port: 6379
+
+# =============================================================================
+# Environment Variables Reference
+# =============================================================================
+# The following environment variables should be set:
+#
+# Required:
+#   LITELLM_MASTER_KEY    - Admin API key for LiteLLM
+#
+# Provider API Keys (as needed):
+#   ANTHROPIC_API_KEY     - For Claude models (also used by ccflare)
+#   OPENAI_API_KEY        - For OpenAI models
+#   GOOGLE_API_KEY        - For Gemini models
+#   AZURE_API_KEY         - For Azure OpenAI
+#   AZURE_API_BASE        - Azure OpenAI endpoint
+#   AZURE_API_VERSION     - Azure API version
+#
+# Optional:
+#   LITELLM_SALT_KEY      - For encrypting stored API keys
+#   DATABASE_URL          - PostgreSQL URL for persistent storage
+#
+# =============================================================================
