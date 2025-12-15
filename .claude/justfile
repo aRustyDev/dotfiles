@@ -1,0 +1,19 @@
+# OpenRouter
+# - https://github.com/sirmalloc/ccstatusline
+# - https://github.com/Haleclipse/CCometixLine
+# https://github.com/charmbracelet/crush
+
+init:
+    volta install @anthropic-ai/claude-code
+    volta install claude-flow@alpha
+    volta install ruv-swarm
+    volta install ccstatusline@latest
+    # claude mcp add task-master-ai --scope user --env TASK_MASTER_TOOLS="core" -- npx -y task-master-ai@latest
+    claude-flow config set memory.backend agentdb
+    claude-flow config set memory.path $HOME/.claude/memory/claude-flow-data.json
+    # claude-flow config set memory.path .ai/memory/claude-flow-data.json
+    # npx claude-flow@alpha init --force
+    claude mcp add claude-flow claude-flow mcp start
+    claude mcp add ruv-swarm ruv-swarm mcp start
+    # current: ccstatusline -> future: ccometixline
+    # export CLAUDE_CONFIG_DIR=/custom/path/to/.claude
