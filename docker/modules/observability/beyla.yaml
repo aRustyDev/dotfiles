@@ -85,7 +85,7 @@ services:
       options:
         max-size: "${O11Y_LOG_MAX_SIZE:-10m}"
         max-file: "${O11Y_LOG_MAX_FILES:-3}"
-        tag: "{{.Name}}"
+        tag: '{{ "{{.Name}}" }}'
     healthcheck:
       test: ["CMD-SHELL", "wget --spider -q http://localhost:6060/metrics || exit 1"]
       interval: 30s
