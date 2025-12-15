@@ -36,7 +36,6 @@ init: mktree mkcerts dns-init loopback-alias
 # Install the Docker dotfiles
 install: mktree
     cp -r "{{ src_docker }}/.env" "{{ dot_docker }}/.env"
-    cp -r "{{ src_docker }}/docs" "{{ dot_docker }}"
     cp -r "{{ src_docker }}/data" "{{ dot_docker }}"
     cp -r "{{ src_docker }}/files" "{{ dot_docker }}"
     cp -r "{{ src_docker }}/config" "{{ dot_docker }}"
@@ -166,6 +165,7 @@ deploy profiles="core": mktree
         for p in $(echo "$INFRA" | tr ',' ' '); do
             [[ -z "$p" ]] && continue
             echo "Deploying infrastructure profile: $p"
+            echo op inject -i "{{ docker_state }}/${p}.yaml"
             op inject -i "{{ docker_state }}/${p}.yaml" | docker compose -f - up -d
         done
     fi
@@ -279,7 +279,7 @@ list-docker-profiles: docker-test
 # List all containers w/ label
 [group("docker")]
 list-docker-containers label="":
-    docker ps --filter "label={{label}}" --format "json"
+    docker ps --filter "label={{ label }}" --format "json"
 
 # Hydrate Docker-compose for profiles (for debugging)
 [group("docker")]
@@ -387,7 +387,6 @@ loopback-alias:
 # =============================================================================
 # Resource Monitoring
 # =============================================================================
-
 # # Show top CPU and memory consuming containers
 # [group("docker")]
 # docker-stats:
@@ -396,7 +395,6 @@ loopback-alias:
 #     @echo ""
 #     @echo "=== Near Memory Limit (>70%) ==="
 #     @docker stats --no-stream --format "{{{{.Name}}}}: {{{{.MemPerc}}}}" | awk -F: '{gsub(/%/,"",$2); if ($2 > 70) print $0 "%"}'
-
 # # Generate resource usage report
 # [group("docker")]
 # docker-resource-report:
@@ -421,14 +419,12 @@ loopback-alias:
 #     docker inspect --format '{{.Name}}: CPU={{.HostConfig.NanoCpus}} Memory={{.HostConfig.Memory}}' $(docker ps -q) 2>/dev/null | \
 #         awk -F: '{name=$1; cpu=$2; gsub(/.*CPU=/,"",cpu); gsub(/ .*/,"",cpu); mem=$2; gsub(/.*Memory=/,"",mem); \
 #         if (cpu > 0 || mem > 0) printf "%s: CPU=%.1f cores, Memory=%d MB\n", name, cpu/1000000000, mem/1048576}'
-
 # # Log resource stats to file (run periodically for baseline)
 # [group("docker")]
 # docker-stats-log file=(docker_state / "resource-stats.log"):
 #     #!/usr/bin/env bash
 #     echo "$(date -Iseconds) $(docker stats --no-stream --format '{{.Name}}={{.CPUPerc}},{{.MemPerc}}')" >> "{{ file }}"
 #     echo "✓ Stats logged to {{ file }}"
-
 # # Show containers without resource limits
 # [group("docker")]
 # docker-unlimited:

@@ -65,6 +65,22 @@ http:
         - websecure
       tls: {}
 
+    # LLM/AI services domain
+    # NOTE: ccflare routes to better-ccflare (see svc.llm.ccflare.yaml)
+    ccflare:
+      rule: "Host(`ccflare.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # LiteLLM - Unified LLM Gateway (see svc.llm.litellm.yaml)
+    # Routes to LiteLLM proxy which can forward to ccflare for Claude
+    litellm:
+      rule: "Host(`litellm.localhost`) || Host(`llm.localhost`)"
+      entryPoints:
+        - websecure
+      tls: {}
+
     # Observability domain - metrics, logs, traces, dashboards
     observability:
       rule: "Host(`o11y.localhost`) || Host(`observability.localhost`)"
