@@ -40,6 +40,15 @@ repos:
       - id: name-tests-test
       - id: check-docstring-first
       - id: debug-statements
+  - repo: local
+    hooks:
+      - id: validate-frontmatter
+        name: Validate docs/notes frontmatter
+        entry: python3 scripts/validate-frontmatter.py
+        language: system
+        files: ^docs/notes/.*\.md$
+        pass_filenames: true
+
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: v9.16.0
     hooks:
