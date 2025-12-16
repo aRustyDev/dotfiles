@@ -88,10 +88,16 @@ HOOK_ID="<hook-id>"  # Extract from $ARGUMENTS
 LOCAL_HOOKS=(
     ".claude/hooks/${HOOK_ID}.sh"
     ".claude/hooks/${HOOK_ID}.py"
+    ".claude/hooks/${HOOK_ID}.ts"
+    ".claude/hooks/index.ts"  # TypeScript (johnlindquist/claude-hooks style)
     "${HOME}/.claude/hooks/${HOOK_ID}.sh"
     "${HOME}/.claude/hooks/${HOOK_ID}.py"
+    "${HOME}/.claude/hooks/${HOOK_ID}.ts"
+    "${HOME}/.claude/hooks/index.ts"
     "${CLAUDE_PROJECT_DIR}/.claude/hooks/${HOOK_ID}.sh"
     "${CLAUDE_PROJECT_DIR}/.claude/hooks/${HOOK_ID}.py"
+    "${CLAUDE_PROJECT_DIR}/.claude/hooks/${HOOK_ID}.ts"
+    "${CLAUDE_PROJECT_DIR}/.claude/hooks/index.ts"
 )
 
 EXISTING_HOOK=""
@@ -128,6 +134,9 @@ EXISTING_HOOK="<path-to-existing-hook>"
 if [[ "$EXISTING_HOOK" == *.py ]]; then
     LANGUAGE="python"
     EXT="py"
+elif [[ "$EXISTING_HOOK" == *.ts ]]; then
+    LANGUAGE="typescript"
+    EXT="ts"
 else
     LANGUAGE="shell"
     EXT="sh"
@@ -307,7 +316,7 @@ From `$ARGUMENTS`, extract:
 - **Hook ID**: kebab-case identifier (e.g., `file-watcher`, `security-scan`)
 - **Hook Name**: Human-readable name (e.g., `File Watcher`, `Security Scanner`)
 - **Event Type**: Claude Code hook event (PreToolUse, PostToolUse, etc.)
-- **Language**: Implementation language (shell or python)
+- **Language**: Implementation language (shell, python, or typescript)
 - **Matcher**: Tool/event pattern to match (regex, e.g., `Bash|Write|Edit`)
 - **Description**: Brief description of what the hook does
 - **Blocking**: Whether hook can block execution (exit code 2)
@@ -336,7 +345,7 @@ Add a new Claude Code hook: **<hook-name>**
 |----------|-------|
 | **Event** | `<event-type>` |
 | **Matcher** | `<matcher-pattern>` |
-| **Language** | `<shell\|python>` |
+| **Language** | `<shell\|python\|typescript>` |
 | **Blocking** | `<yes\|no>` |
 
 ## Implementation Plan
@@ -681,7 +690,339 @@ if __name__ == '__main__':
     sys.exit(main())
 ```
 
-#### 3-B.5 Make Executable
+#### 3-B.5 TypeScript Hook Template (using johnlindquist/claude-hooks)
+
+For TypeScript-based hooks, use the [johnlindquist/claude-hooks](https://github.com/johnlindquist/claude-hooks) library which provides full type safety and a streamlined development experience.
+
+**Prerequisites:**
+- [Bun](https://bun.sh) runtime installed (`curl -fsSL https://bun.sh/install | bash`)
+
+**Initial Setup (one-time per project):**
+
+```bash
+# Initialize claude-hooks in your project
+npx claude-hooks
+
+# This creates:
+# .claude/
+# ├── settings.json      # Auto-configured hook settings
+# └── hooks/
+#     ├── index.ts       # Main hook handlers (edit this)
+#     ├── lib.ts         # Type definitions and utilities
+#     └── session.ts     # Session tracking utilities
+```
+
+**Create or edit** `.claude/hooks/index.ts`:
+
+```typescript
+#!/usr/bin/env bun
+// =============================================================================
+// <Hook Name> - Claude Code Hook (TypeScript)
+// =============================================================================
+// Description: <description>
+//
+// Event: <event-type>
+// Matcher: <matcher-pattern>
+//
+// Exit Codes:
+//   0 - Success (allow tool execution)
+//   2 - Block (prevent tool execution, stderr sent to Claude)
+//
+// Setup:
+//   1. Install Bun: curl -fsSL https://bun.sh/install | bash
+//   2. Run: npx claude-hooks (if not already initialized)
+//   3. Edit this file with your hook logic
+// =============================================================================
+
+import type {
+  PreToolUsePayload,
+  PostToolUsePayload,
+  UserPromptSubmitPayload,
+  NotificationPayload,
+  StopPayload,
+  HookResponse,
+} from "./lib";
+
+import { log, getSessionInfo } from "./session";
+
+// =============================================================================
+// Type Definitions for Tool Inputs
+// =============================================================================
+
+interface WriteToolInput {
+  file_path: string;
+  content: string;
+}
+
+interface BashToolInput {
+  command: string;
+  timeout?: number;
+}
+
+interface EditToolInput {
+  file_path: string;
+  old_string: string;
+  new_string: string;
+}
+
+interface ReadToolInput {
+  file_path: string;
+  offset?: number;
+  limit?: number;
+}
+
+// =============================================================================
+// Hook Configuration
+// =============================================================================
+
+const CONFIG = {
+  // Add your configuration here
+  blockedPatterns: [
+    // Example: /rm\s+-rf\s+\//i,
+  ],
+  allowedPaths: [
+    // Example: /^\/Users\/.*\/projects\//,
+  ],
+  logFile: ".claude/logs/<hook-id>.log",
+};
+
+// =============================================================================
+// Helper Functions
+// =============================================================================
+
+function checkDangerousPatterns(input: string): { safe: boolean; reason?: string } {
+  for (const pattern of CONFIG.blockedPatterns) {
+    if (pattern.test(input)) {
+      return { safe: false, reason: `Blocked pattern detected: ${pattern}` };
+    }
+  }
+  return { safe: true };
+}
+
+// =============================================================================
+// PreToolUse Hook Handler
+// =============================================================================
+
+async function preToolUse(payload: PreToolUsePayload): Promise<HookResponse> {
+  const { tool_name, tool_input, session_id } = payload;
+
+  log(`PreToolUse: ${tool_name}`, { session_id });
+
+  // Example: Handle Write tool
+  if (tool_name === "Write" && tool_input) {
+    const { file_path, content } = tool_input as WriteToolInput;
+
+    // Example: Block writes to sensitive paths
+    if (file_path.includes(".env") || file_path.includes("secrets")) {
+      return {
+        action: "block",
+        reason: "Cannot write to sensitive files (.env, secrets)",
+      };
+    }
+
+    // Example: Modify input before execution
+    // return {
+    //   action: "continue",
+    //   updatedInput: { file_path, content: content + "\n// Modified by hook" },
+    // };
+  }
+
+  // Example: Handle Bash tool
+  if (tool_name === "Bash" && tool_input) {
+    const { command } = tool_input as BashToolInput;
+
+    const check = checkDangerousPatterns(command);
+    if (!check.safe) {
+      return {
+        action: "block",
+        reason: check.reason!,
+      };
+    }
+  }
+
+  // Allow all other tools
+  return { action: "continue" };
+}
+
+// =============================================================================
+// PostToolUse Hook Handler
+// =============================================================================
+
+async function postToolUse(payload: PostToolUsePayload): Promise<HookResponse> {
+  const { tool_name, tool_input, tool_output, session_id } = payload;
+
+  log(`PostToolUse: ${tool_name}`, { session_id });
+
+  // Example: Log file changes for audit trail
+  if (tool_name === "Write" && tool_input) {
+    const { file_path } = tool_input as WriteToolInput;
+    log(`File written: ${file_path}`, { session_id, audit: true });
+  }
+
+  return { action: "continue" };
+}
+
+// =============================================================================
+// UserPromptSubmit Hook Handler
+// =============================================================================
+
+async function userPromptSubmit(
+  payload: UserPromptSubmitPayload
+): Promise<HookResponse> {
+  const { prompt, session_id } = payload;
+
+  log(`UserPromptSubmit: ${prompt.slice(0, 50)}...`, { session_id });
+
+  // Example: Block certain prompts
+  // if (prompt.toLowerCase().includes("delete everything")) {
+  //   return { action: "block", reason: "Potentially dangerous prompt detected" };
+  // }
+
+  return { action: "continue" };
+}
+
+// =============================================================================
+// Notification Hook Handler
+// =============================================================================
+
+async function notification(payload: NotificationPayload): Promise<HookResponse> {
+  const { notification_type, message, session_id } = payload;
+
+  log(`Notification: ${notification_type}`, { session_id });
+
+  // Example: Send to external service (Slack, Discord, etc.)
+  // await sendSlackNotification(message);
+
+  return { action: "continue" };
+}
+
+// =============================================================================
+// Stop Hook Handler
+// =============================================================================
+
+async function stop(payload: StopPayload): Promise<HookResponse> {
+  const { session_id, stop_reason } = payload;
+
+  log(`Stop: ${stop_reason}`, { session_id });
+
+  // Example: Generate session summary
+  // await generateSessionSummary(session_id);
+
+  return { action: "continue" };
+}
+
+// =============================================================================
+// Main Entry Point
+// =============================================================================
+
+async function main() {
+  try {
+    const input = await Bun.stdin.text();
+    const payload = JSON.parse(input);
+
+    const { hook_event_name } = payload;
+
+    let response: HookResponse;
+
+    switch (hook_event_name) {
+      case "PreToolUse":
+        response = await preToolUse(payload as PreToolUsePayload);
+        break;
+      case "PostToolUse":
+        response = await postToolUse(payload as PostToolUsePayload);
+        break;
+      case "UserPromptSubmit":
+        response = await userPromptSubmit(payload as UserPromptSubmitPayload);
+        break;
+      case "Notification":
+        response = await notification(payload as NotificationPayload);
+        break;
+      case "Stop":
+        response = await stop(payload as StopPayload);
+        break;
+      default:
+        response = { action: "continue" };
+    }
+
+    // Handle response
+    if (response.action === "block") {
+      console.error(`BLOCKED: ${response.reason || "Hook blocked execution"}`);
+      process.exit(2);
+    }
+
+    // Output JSON for input modifications
+    if (response.updatedInput) {
+      console.log(
+        JSON.stringify({
+          hookSpecificOutput: {
+            hookEventName: payload.hook_event_name,
+            updatedInput: response.updatedInput,
+          },
+        })
+      );
+    }
+
+    process.exit(0);
+  } catch (error) {
+    log(`Error: ${error}`, { error: true });
+    process.exit(0); // Don't block on errors
+  }
+}
+
+main();
+```
+
+**Type definitions** (`.claude/hooks/lib.ts` - auto-generated by npx claude-hooks):
+
+```typescript
+// Core payload types
+export interface BasePayload {
+  session_id: string;
+  transcript_path: string;
+  cwd: string;
+  permission_mode: "default" | "plan" | "acceptEdits" | "bypassPermissions";
+  hook_event_name: string;
+}
+
+export interface PreToolUsePayload extends BasePayload {
+  hook_event_name: "PreToolUse";
+  tool_name: string;
+  tool_input?: Record<string, unknown>;
+}
+
+export interface PostToolUsePayload extends BasePayload {
+  hook_event_name: "PostToolUse";
+  tool_name: string;
+  tool_input?: Record<string, unknown>;
+  tool_output?: string;
+}
+
+export interface UserPromptSubmitPayload extends BasePayload {
+  hook_event_name: "UserPromptSubmit";
+  prompt: string;
+}
+
+export interface NotificationPayload extends BasePayload {
+  hook_event_name: "Notification";
+  notification_type: string;
+  message: string;
+}
+
+export interface StopPayload extends BasePayload {
+  hook_event_name: "Stop";
+  stop_reason: string;
+}
+
+// Response types
+export interface HookResponse {
+  action: "continue" | "block";
+  reason?: string;
+  updatedInput?: Record<string, unknown>;
+  systemMessage?: string;
+}
+```
+
+#### 3-B.6 Make Executable
 
 ```bash
 chmod +x hooks/.scripts/<hook-id>.<ext>
@@ -765,6 +1106,152 @@ teardown() {
     echo "$input" | run "$HOOK_SCRIPT"
     [ "$status" -eq 0 ]
 }
+```
+
+#### 4-B.2 TypeScript Test Template (for TypeScript hooks)
+
+For TypeScript hooks using johnlindquist/claude-hooks, create `hooks/.tests/test_<hook-id>.test.ts`:
+
+```typescript
+import { describe, it, expect, beforeAll, afterAll } from "bun:test";
+import { spawn } from "bun";
+import { mkdtemp, rm } from "fs/promises";
+import { join } from "path";
+import { tmpdir } from "os";
+
+const HOOK_SCRIPT = join(__dirname, "../.scripts/<hook-id>.ts");
+
+describe("<Hook Name>", () => {
+  let testDir: string;
+
+  beforeAll(async () => {
+    testDir = await mkdtemp(join(tmpdir(), "hook-test-"));
+  });
+
+  afterAll(async () => {
+    await rm(testDir, { recursive: true, force: true });
+  });
+
+  // Helper to run hook with input
+  async function runHook(input: object): Promise<{ exitCode: number; stdout: string; stderr: string }> {
+    const proc = spawn(["bun", "run", HOOK_SCRIPT], {
+      stdin: "pipe",
+      stdout: "pipe",
+      stderr: "pipe",
+      cwd: testDir,
+    });
+
+    proc.stdin.write(JSON.stringify(input));
+    proc.stdin.end();
+
+    const [stdout, stderr] = await Promise.all([
+      new Response(proc.stdout).text(),
+      new Response(proc.stderr).text(),
+    ]);
+
+    const exitCode = await proc.exited;
+    return { exitCode, stdout, stderr };
+  }
+
+  // ==========================================================================
+  // Basic Tests
+  // ==========================================================================
+
+  it("handles empty input gracefully", async () => {
+    const result = await runHook({});
+    expect(result.exitCode).toBe(0);
+  });
+
+  it("handles malformed JSON gracefully", async () => {
+    const proc = spawn(["bun", "run", HOOK_SCRIPT], {
+      stdin: "pipe",
+      stdout: "pipe",
+      stderr: "pipe",
+    });
+
+    proc.stdin.write("not json");
+    proc.stdin.end();
+
+    const exitCode = await proc.exited;
+    expect(exitCode).toBe(0); // Should not block on parse errors
+  });
+
+  // ==========================================================================
+  // Success Cases
+  // ==========================================================================
+
+  it("allows safe commands", async () => {
+    const result = await runHook({
+      hook_event_name: "PreToolUse",
+      tool_name: "<tool>",
+      tool_input: { "<field>": "<safe-value>" },
+      session_id: "test-session",
+      cwd: testDir,
+    });
+
+    expect(result.exitCode).toBe(0);
+  });
+
+  it("passes through non-matching tools", async () => {
+    const result = await runHook({
+      hook_event_name: "PreToolUse",
+      tool_name: "Read",
+      tool_input: { file_path: "/some/file" },
+      session_id: "test-session",
+      cwd: testDir,
+    });
+
+    expect(result.exitCode).toBe(0);
+  });
+
+  // ==========================================================================
+  // Blocking Cases (if applicable)
+  // ==========================================================================
+
+  it("blocks dangerous patterns", async () => {
+    const result = await runHook({
+      hook_event_name: "PreToolUse",
+      tool_name: "<tool>",
+      tool_input: { "<field>": "<dangerous-value>" },
+      session_id: "test-session",
+      cwd: testDir,
+    });
+
+    expect(result.exitCode).toBe(2);
+    expect(result.stderr).toContain("BLOCKED");
+  });
+
+  // ==========================================================================
+  // Edge Cases
+  // ==========================================================================
+
+  it("handles missing tool_name", async () => {
+    const result = await runHook({
+      hook_event_name: "PreToolUse",
+      tool_input: {},
+      session_id: "test-session",
+      cwd: testDir,
+    });
+
+    expect(result.exitCode).toBe(0);
+  });
+
+  it("handles missing tool_input", async () => {
+    const result = await runHook({
+      hook_event_name: "PreToolUse",
+      tool_name: "<tool>",
+      session_id: "test-session",
+      cwd: testDir,
+    });
+
+    expect(result.exitCode).toBe(0);
+  });
+});
+```
+
+Run TypeScript tests with:
+```bash
+bun test hooks/.tests/test_<hook-id>.test.ts
 ```
 
 ### Phase 5-B: Add Configuration
@@ -863,13 +1350,14 @@ Adds a new Claude Code hook: **<hook-name>**
 |----------|-------|
 | **Event** | \`<event-type>\` |
 | **Matcher** | \`<matcher-pattern>\` |
-| **Language** | \`<shell\|python>\` |
+| **Language** | \`<shell\|python\|typescript>\` |
 | **Blocking** | \`<yes\|no>\` |
+| **Runtime** | \`<bash\|python\|bun>\` |
 
 ## Changes
 
 - \`hooks/.scripts/<hook-id>.<ext>\` - Hook implementation
-- \`hooks/.tests/test_<hook-id>.bats\` - Test suite
+- \`hooks/.tests/test_<hook-id>.<bats\|test.ts>\` - Test suite
 - \`hooks/.config/<hook-id>.json\` - Configuration (if applicable)
 - \`hooks/settings.json.template\` - Settings configuration
 - \`hooks/README.md\` - Documentation
@@ -877,8 +1365,11 @@ Adds a new Claude Code hook: **<hook-name>**
 ## Testing
 
 \`\`\`bash
-# Run tests
+# Run tests (shell/python hooks)
 bats hooks/.tests/test_<hook-id>.bats
+
+# Run tests (TypeScript hooks)
+bun test hooks/.tests/test_<hook-id>.test.ts
 
 # Test manually
 echo '{"tool_name": "<tool>", "tool_input": {...}}' | hooks/.scripts/<hook-id>.<ext>
@@ -985,6 +1476,7 @@ tail -f .claude/logs/<hook-id>.log
 
 - **Repository**: https://github.com/aRustyDev/ai
 - **Hooks Documentation**: https://docs.anthropic.com/en/docs/claude-code/hooks
+- **TypeScript Hooks Library**: https://github.com/johnlindquist/claude-hooks
 - **Example Shell Hook**: `hooks/.scripts/mcp-security-scan.sh`
 - **Example Python Hook**: `hooks/.scripts/pre_tool_use.py`
 - **Settings Template**: `hooks/settings.json.template`
@@ -992,22 +1484,50 @@ tail -f .claude/logs/<hook-id>.log
 
 ## Examples
 
-### Create a PreToolUse blocking hook
+### Create a PreToolUse blocking hook (Shell)
 ```
-/create-claude-hook "dangerous-command-blocker PreToolUse - Block dangerous shell commands like rm -rf /"
-```
-
-### Create a PostToolUse logging hook
-```
-/create-claude-hook "file-change-logger PostToolUse - Log all file changes to a JSON audit trail"
+/create-claude-hook "dangerous-command-blocker PreToolUse shell - Block dangerous shell commands like rm -rf /"
 ```
 
-### Create a Notification hook
+### Create a PostToolUse logging hook (Python)
 ```
-/create-claude-hook "slack-notifier Notification - Send Slack messages when Claude needs input"
+/create-claude-hook "file-change-logger PostToolUse python - Log all file changes to a JSON audit trail"
 ```
 
-### Create a SessionStart hook
+### Create a Notification hook (TypeScript)
 ```
-/create-claude-hook "env-loader SessionStart - Load project-specific environment variables"
+/create-claude-hook "slack-notifier Notification typescript - Send Slack messages when Claude needs input"
 ```
+
+### Create a SessionStart hook (TypeScript with Bun)
+```
+/create-claude-hook "env-loader SessionStart typescript - Load project-specific environment variables"
+```
+
+### Create a TypeScript PreToolUse hook for security scanning
+```
+/create-claude-hook "security-scanner PreToolUse typescript - Scan file writes for potential secrets and block if found"
+```
+
+## TypeScript Hook Quick Start
+
+For TypeScript hooks using johnlindquist/claude-hooks:
+
+```bash
+# 1. Install Bun (if not installed)
+curl -fsSL https://bun.sh/install | bash
+
+# 2. Initialize claude-hooks in your project
+npx claude-hooks
+
+# 3. Edit .claude/hooks/index.ts with your hook logic
+
+# 4. Test your hook
+echo '{"hook_event_name": "PreToolUse", "tool_name": "Write", "tool_input": {"file_path": "/test.txt"}}' | bun .claude/hooks/index.ts
+```
+
+TypeScript hooks provide:
+- Full type safety with typed payloads
+- Session tracking utilities
+- Logging helpers
+- Easy access to all hook events in one file
