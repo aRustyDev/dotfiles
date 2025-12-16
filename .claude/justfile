@@ -17,3 +17,10 @@ init:
     claude mcp add ruv-swarm ruv-swarm mcp start
     # current: ccstatusline -> future: ccometixline
     # export CLAUDE_CONFIG_DIR=/custom/path/to/.claude
+
+install:
+    cp -r "{{ justfile_directory() }}/commands" "{{ env("HOME") }}/.claude/commands"
+    cp -r "{{ justfile_directory() }}/skills" "{{ env("HOME") }}/.claude/skills"
+    cp -r "{{ justfile_directory() }}/hooks" "{{ env("HOME") }}/.claude/hooks"
+    cp -r "{{ justfile_directory() }}/rules" "{{ env("HOME") }}/.claude/rules"
+    cp "{{ justfile_directory() }}/settings.local.json" "{{ env("HOME") }}/.claude/settings.json"
