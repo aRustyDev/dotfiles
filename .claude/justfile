@@ -23,4 +23,4 @@ install:
     cp -r "{{ justfile_directory() }}/skills" "{{ env("HOME") }}/.claude/skills"
     cp -r "{{ justfile_directory() }}/hooks" "{{ env("HOME") }}/.claude/hooks"
     cp -r "{{ justfile_directory() }}/rules" "{{ env("HOME") }}/.claude/rules"
-    cp "{{ justfile_directory() }}/settings.local.json" "{{ env("HOME") }}/.claude/settings.json"
+    cp "{{ justfile_directory() }}/example.settings.json" "{{ env("HOME") }}/.claude/settings.json"

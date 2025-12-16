@@ -1,0 +1,96 @@
+{
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  },
+  "env": {
+    "OTEL_EXPORTER_OTLP_METRICS_PROTOCOL": "grpc",
+    "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+    "OTEL_METRICS_EXPORTER": "otlp"
+  },
+  "model": "opus",
+  "alwaysThinkingEnabled": true,
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.pulsemcp.com)",
+      "Bash(cat:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:platers.github.io)",
+      "Bash(chmod:*)",
+      "WebFetch(domain:mdelobelle.github.io)",
+      "Bash(grep:*)",
+      "mcp__fetch__imageFetch",
+      "WebSearch",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:docs.claude.com)",
+      "Bash(find:*)",
+      "Bash(while read:*)",
+      "Bash(do if head -1 \"$file\")",
+      "Bash(do if head -1 $file)",
+      "Bash(then echo \"HAS_FM: $file\" else echo \"NO_FM: $file\" fi done)",
+      "Bash(python3:*)",
+      "Bash(do if ! head -1 \"$f\")",
+      "Bash(then echo \"MISSING: $f\")",
+      "Bash(fi)",
+      "Bash(done)",
+      "mcp__github__get_file_contents",
+      "mcp__github__list_issues",
+      "mcp__github__search_repositories",
+      "mcp__github__get_me",
+      "mcp__github__fork_repository",
+      "Bash(gh api:*)",
+      "mcp__github__issue_write",
+      "mcp__github__issue_read",
+      "mcp__github__search_code",
+      "Bash(docker inspect:*)",
+      "Bash(docker logs:*)",
+      "Bash(docker network inspect:*)",
+      "Bash(docker compose:*)",
+      "Bash(docker ps:*)",
+      "Bash(curl:*)",
+      "Bash(host:*)",
+      "Bash(nslookup:*)",
+      "Bash(docker network ls:*)",
+      "Bash(docker start:*)",
+      "mcp__memory__add_memory"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|TodoWrite",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tdd-guard"
+          }
+        ]
+      }
+    ],
+    "userpromptsubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tdd-guard"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tdd-guard"
+          }
+        ]
+      }
+    ]
+  }
+}
