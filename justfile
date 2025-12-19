@@ -70,3 +70,70 @@ install *targets=_subdirs:
         fi
     done
     echo "🎉 Install complete!"
+
+# =============================================================================
+# AI Configuration Management
+# =============================================================================
+
+# Initialize or update the ai submodule
+[unix]
+[group('ai')]
+ai-init:
+    @echo "🔄 Initializing ai submodule..."
+    git submodule update --init --recursive ai/
+    @echo "✅ ai submodule initialized"
+
+# Update ai submodule to latest from remote
+[unix]
+[group('ai')]
+ai-update:
+    @echo "🔄 Updating ai submodule..."
+    git submodule update --remote ai/
+    @echo "✅ ai submodule updated"
+
+# Install AI configs to global locations (Claude Code)
+[unix]
+[group('ai')]
+install-ai:
+    #!/usr/bin/env bash
+    echo "📦 Installing AI configs..."
+
+    # Create target directories
+    mkdir -p ~/.claude/{commands,skills,hooks,rules}
+
+    # Install from ai/components/ (new structure)
+    if [[ -d "{{ justfile_directory() }}/ai/components" ]]; then
+        echo "  Installing from ai/components/..."
+        [[ -d "{{ justfile_directory() }}/ai/components/commands" ]] && \
+            cp -r "{{ justfile_directory() }}/ai/components/commands/"* ~/.claude/commands/ 2>/dev/null || true
+        [[ -d "{{ justfile_directory() }}/ai/components/skills" ]] && \
+            cp -r "{{ justfile_directory() }}/ai/components/skills/"* ~/.claude/skills/ 2>/dev/null || true
+        [[ -d "{{ justfile_directory() }}/ai/components/hooks" ]] && \
+            cp -r "{{ justfile_directory() }}/ai/components/hooks/"* ~/.claude/hooks/ 2>/dev/null || true
+        [[ -d "{{ justfile_directory() }}/ai/components/rules" ]] && \
+            cp -r "{{ justfile_directory() }}/ai/components/rules/"* ~/.claude/rules/ 2>/dev/null || true
+    fi
+
+    # Also install from legacy/ during migration period
+    if [[ -d "{{ justfile_directory() }}/ai/legacy" ]]; then
+        echo "  Installing from ai/legacy/..."
+        [[ -d "{{ justfile_directory() }}/ai/legacy/commands" ]] && \
+            cp -r "{{ justfile_directory() }}/ai/legacy/commands/"* ~/.claude/commands/ 2>/dev/null || true
+        [[ -d "{{ justfile_directory() }}/ai/legacy/skills" ]] && \
+            cp -r "{{ justfile_directory() }}/ai/legacy/skills/"* ~/.claude/skills/ 2>/dev/null || true
+        [[ -d "{{ justfile_directory() }}/ai/legacy/hooks" ]] && \
+            cp -r "{{ justfile_directory() }}/ai/legacy/hooks/"* ~/.claude/hooks/ 2>/dev/null || true
+        [[ -d "{{ justfile_directory() }}/ai/legacy/rules" ]] && \
+            cp -r "{{ justfile_directory() }}/ai/legacy/rules/"* ~/.claude/rules/ 2>/dev/null || true
+    fi
+
+    echo "✅ AI configs installed to ~/.claude/"
+
+# Sync AI configs (update submodule + install)
+[unix]
+[group('ai')]
+ai-sync:
+    @echo "🔄 Syncing AI configs..."
+    just ai-update
+    just install-ai
+    @echo "✅ AI configs synced"
