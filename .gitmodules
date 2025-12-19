@@ -1,4 +1,4 @@
 [submodule "ai"]
 	path = ai
 	url = git@github.com:aRustyDev/ai.git
-	branch = feat/composable-architecture
+	branch = main
