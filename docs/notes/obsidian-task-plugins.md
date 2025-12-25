@@ -2,7 +2,7 @@
 id: b2c3d4e5-f6a7-8901-bcde-f23456789012
 title: Obsidian Task Plugin Comparison
 created: 2025-12-13T00:00:00
-updated: 2025-12-13T00:00:00
+updated: 2025-12-25T13:00
 project: dotfiles
 scope:
   - obsidian
@@ -30,12 +30,12 @@ Comparison of task-related plugins to avoid feature overlap and define clear use
 
 ## Plugin Overview
 
-| Plugin | Primary Purpose | Query Language | Cross-File | Dates | Notifications |
-|--------|-----------------|----------------|------------|-------|---------------|
-| **Tasks** | Task queries & management | Custom DSL | ✅ Yes | ✅ Full | ❌ No |
-| **Reminder** | Time-based alerts | None | ⚠️ Limited | ✅ Due dates | ✅ Yes |
-| **Checklist** | Aggregated tag view | Tag-based | ✅ Yes | ❌ No | ❌ No |
-| **Dataview** | General queries | DQL/JS | ✅ Yes | ✅ Full | ❌ No |
+| Plugin        | Primary Purpose           | Query Language | Cross-File | Dates        | Notifications |
+| ------------- | ------------------------- | -------------- | ---------- | ------------ | ------------- |
+| **Tasks**     | Task queries & management | Custom DSL     | ✅ Yes     | ✅ Full      | ❌ No         |
+| **Reminder**  | Time-based alerts         | None           | ⚠️ Limited | ✅ Due dates | ✅ Yes        |
+| **Checklist** | Aggregated tag view       | Tag-based      | ✅ Yes     | ❌ No        | ❌ No         |
+| **Dataview**  | General queries           | DQL/JS         | ✅ Yes     | ✅ Full      | ❌ No         |
 
 ---
 
@@ -185,14 +185,14 @@ SORT file.mtime DESC
 
 ### Avoid Overlap
 
-| Use Case | Primary Plugin | Backup |
-|----------|----------------|--------|
-| Project tasks with dates | Tasks | Dataview |
-| Time-based reminders | Reminder | - |
-| Quick tag aggregation | Checklist | - |
-| Dashboard visualizations | Dataview | Tasks |
-| Recurring tasks | Tasks | - |
-| Priority management | Tasks | - |
+| Use Case                 | Primary Plugin | Backup   |
+| ------------------------ | -------------- | -------- |
+| Project tasks with dates | Tasks          | Dataview |
+| Time-based reminders     | Reminder       | -        |
+| Quick tag aggregation    | Checklist      | -        |
+| Dashboard visualizations | Dataview       | Tasks    |
+| Recurring tasks          | Tasks          | -        |
+| Priority management      | Tasks          | -        |
 
 ### Suggested Setup
 
@@ -221,34 +221,38 @@ Use consistent syntax across all files:
 
 ```markdown
 # Standard task (Tasks plugin)
+
 - [ ] Description 📅 2025-01-15 ⏫
 
 # With reminder time
+
 - [ ] Description 📅 2025-01-15 ⏰ 09:00 ⏫
 
 # Tag for Checklist aggregation
+
 - [ ] Description #todo
 
 # Combined
+
 - [ ] Description 📅 2025-01-15 ⏫ #todo
 ```
 
 ### Priority Indicators
 
-| Emoji | Meaning | Tasks Plugin |
-|-------|---------|--------------|
-| ⏫ | High | `priority: high` |
-| 🔼 | Medium | `priority: medium` |
-| 🔽 | Low | `priority: low` |
+| Emoji | Meaning | Tasks Plugin       |
+| ----- | ------- | ------------------ |
+| ⏫    | High    | `priority: high`   |
+| 🔼    | Medium  | `priority: medium` |
+| 🔽    | Low     | `priority: low`    |
 
 ### Status Indicators
 
-| Checkbox | Status | Symbol |
-|----------|--------|--------|
-| `[ ]` | Todo | space |
-| `[x]` | Done | x |
-| `[/]` | In Progress | / |
-| `[-]` | Cancelled | - |
+| Checkbox | Status      | Symbol |
+| -------- | ----------- | ------ |
+| `[ ]`    | Todo        | space  |
+| `[x]`    | Done        | x      |
+| `[/]`    | In Progress | /      |
+| `[-]`    | Cancelled   | -      |
 
 ---
 
