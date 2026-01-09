@@ -22,8 +22,13 @@ related: []
 
 # aRustyDev's Nix Configuration
 
+**Brand-new Machine**  
+> `/usr/bin/env bash -c "$(curl -fsSL gist.githubusercontent.com/arustydev/850079c5fc919f2ff4c1af6291b4089c/raw/init.sh)"`
+
+
+**Nix Darwin Approach**
 > To get started, run
-> `make install`
+> `make install`  
 > `darwin-rebuild switch --flake ~/.config/nix-darwin --impure`
 
 ## 📊 Project Management
