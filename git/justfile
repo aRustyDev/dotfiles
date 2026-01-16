@@ -4,7 +4,10 @@ dot := xdg_config + "/git"
 git := root + "/git"
 
 # Reads configs/*, hydrates them, and writes to {{ xdg }}/git/configs/
-install: mktree configs config bins templates allowed_signers
+install: mktree configs dependencies config bins templates allowed_signers
+
+dependencies:
+  brew bundle install --file "{{justfile_directory()}}/brewfile"
 
 configs: mktree
     @for config in `lsd --classic {{git}}/configs`; do \
