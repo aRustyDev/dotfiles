@@ -1,0 +1,11 @@
+brew "opensc"
+brew "pam-reattach"
+brew "pam-u2f"
+brew "yubico-piv-tool"
+
+# gnupg-pkcs11-scd
+# pkcs11-helper
+# pkcs11-tools
+
+cask "yubico-authenticator"
+# cask "mycard"

@@ -1,2 +1,10 @@
-install:
+install: _bak
+    @brew bundle -f "{{ justfile_directory() }}/brewfile"
+    @sudo cp sudo_brew /etc/pam.d/sudo_brew
     @sudo cp sudo_local /etc/pam.d/sudo_local
+    @sudo cp sudo /etc/pam.d/sudo
+
+_bak:
+    @sudo cp /etc/pam.d/sudo "sudo.{{ datetime_utc() }}.bak"
+    @sudo cp /etc/pam.d/sudo_brew "sudo_brew.{{ datetime_utc() }}.bak"
+    @sudo cp /etc/pam.d/sudo_local "sudo_local.{{ datetime_utc() }}.bak"
