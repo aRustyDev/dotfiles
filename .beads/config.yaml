@@ -1,0 +1,3 @@
+backend: dolt
+sync:
+  mode: dolt-native
