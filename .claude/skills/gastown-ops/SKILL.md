@@ -621,32 +621,53 @@ The Task tool can execute formula-like workflows without the formula path resolu
 
 ## Model Selection
 
-Gastown does **not** enforce model selection per formula phase. The agent runtime determines the model:
+Gastown does **not** enforce model selection per formula phase. The agent runtime determines the model.
+
+### Agent Configuration Commands
 
 ```bash
-# Check default agent
-gt config default-agent
-# Output: Default agent: claude
+# List all agents (built-in + custom)
+gt config agent list
 
-# Check agent command
+# Get agent details
 gt config agent get claude
-# Output: Command: claude --dangerously-skip-permissions
+# Output: Type: built-in, Command: claude, Args: --dangerously-skip-permissions
+
+# Check/set default agent
+gt config default-agent              # Show current
+gt config default-agent claude-haiku # Set default
+
+# Get/set config values
+gt config get default_agent
+gt config set default_agent claude-sonnet
 ```
 
-**Key insight**: Formula descriptions mentioning "haiku for Phase 1, sonnet for Phase 2" are **documentation guidance**, not enforcement. The actual model depends on:
-1. Your Claude subscription tier (Max → Opus 4.5, Pro → Sonnet, etc.)
-2. The `claude` command's default model
-3. Any `--model` flag passed to Claude Code
+### Creating Custom Model-Specific Agents
 
-To use a specific model, you can:
-1. Create a custom agent with model override:
-   ```bash
-   gt config agent set haiku-agent "claude --model haiku"
-   gt sling <bead> <rig> --agent haiku-agent --create
-   ```
-2. Or configure Claude Code's default model in settings
+```bash
+# Create agents for specific models
+gt config agent set claude-haiku "claude --dangerously-skip-permissions --model haiku"
+gt config agent set claude-sonnet "claude --dangerously-skip-permissions --model sonnet"
+gt config agent set claude-opus "claude --dangerously-skip-permissions --model opus"
 
-**Monitoring**: Use `gt session capture <rig>/<polecat>` to see which model is active in the polecat's Claude header.
+# Remove custom agent
+gt config agent remove claude-haiku
+```
+
+### Using Custom Agents When Slinging
+
+```bash
+# Use specific agent for a sling
+gt sling <bead> <rig> --agent claude-haiku --create
+
+# Or set default for all operations
+gt config default-agent claude-haiku
+gt sling <bead> <rig> --create  # Uses haiku
+```
+
+**Key insight**: Formula descriptions mentioning "haiku for Phase 1, sonnet for Phase 2" are **documentation guidance**, not enforcement.
+
+**Monitoring**: Use `gt session capture <rig>/<polecat>` to see which model is active in the polecat's Claude header (e.g., "Opus 4.5 · Claude Max").
 
 ## Common Workflows
 
