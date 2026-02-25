@@ -669,6 +669,28 @@ gt sling <bead> <rig> --create  # Uses haiku
 
 **Monitoring**: Use `gt session capture <rig>/<polecat>` to see which model is active in the polecat's Claude header (e.g., "Opus 4.5 · Claude Max").
 
+### Multi-Model Workflow Limitations (Tested)
+
+**Known issues when using smaller models (haiku) for autonomous workflows:**
+1. **Haiku may fail complex workflows** - exits early without completing multi-step tasks
+2. **Session restart resets agent** - `--agent` flag only applies to initial spawn; `gt session restart` reverts to default agent
+3. **No native multi-model support** - cannot specify different models per molecule phase
+
+**Workaround for multi-model workflows:**
+```bash
+# Manual phase handoff (not automated)
+# 1. Sling Phase 1 step to haiku polecat
+gt sling <phase1-step-id> <rig> --agent claude-haiku --create
+
+# 2. Monitor completion
+gt session capture <rig>/<polecat>
+
+# 3. Manually sling Phase 2 to sonnet polecat
+gt sling <phase2-step-id> <rig> --agent claude-sonnet --create
+```
+
+**Recommendation**: Use Opus or Sonnet for complex autonomous workflows. Haiku is better suited for simple, single-step tasks.
+
 ## Common Workflows
 
 ### Single Module Review (Tested Working)
