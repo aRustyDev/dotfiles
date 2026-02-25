@@ -362,6 +362,31 @@ gt ready
 
 # Polecat status
 gt polecat list <rig>
+
+# Session management
+gt session status <rig>/<polecat>    # Show session state
+gt session capture <rig>/<polecat>   # Capture recent output
+gt session capture <rig>/<polecat> -n 100  # Last 100 lines
+gt session at <rig>/<polecat>        # Attach to session (interactive)
+gt session restart <rig>/<polecat>   # Restart stopped session
+gt session stop <rig>/<polecat>      # Stop running session
+
+# Check mail
+gt mail inbox                        # Your inbox
+gt mail inbox <rig>/<agent>          # Agent's inbox
+```
+
+### Monitoring a Module Review
+
+```bash
+# Watch polecat work in real-time
+gt session capture adam/quartz -n 50
+
+# Check issues created under parent
+bd children <parent-id>
+
+# Check molecule progress
+bd mol show <mol-id>
 ```
 
 ## Troubleshooting
@@ -594,20 +619,70 @@ The Task tool can execute formula-like workflows without the formula path resolu
 7. **Use convoys** for batch operations to track progress
 8. **Keep tmux running** - witness/refinery require tmux sessions
 
-## Common Workflows
+## Model Selection
 
-### Single Module Review
+Gastown does **not** enforce model selection per formula phase. The agent runtime determines the model:
 
 ```bash
-# Start Dolt
+# Check default agent
+gt config default-agent
+# Output: Default agent: claude
+
+# Check agent command
+gt config agent get claude
+# Output: Command: claude --dangerously-skip-permissions
+```
+
+**Key insight**: Formula descriptions mentioning "haiku for Phase 1, sonnet for Phase 2" are **documentation guidance**, not enforcement. The actual model depends on:
+1. Your Claude subscription tier (Max → Opus 4.5, Pro → Sonnet, etc.)
+2. The `claude` command's default model
+3. Any `--model` flag passed to Claude Code
+
+To use a specific model, you can:
+1. Create a custom agent with model override:
+   ```bash
+   gt config agent set haiku-agent "claude --model haiku"
+   gt sling <bead> <rig> --agent haiku-agent --create
+   ```
+2. Or configure Claude Code's default model in settings
+
+**Monitoring**: Use `gt session capture <rig>/<polecat>` to see which model is active in the polecat's Claude header.
+
+## Common Workflows
+
+### Single Module Review (Tested Working)
+
+```bash
+# 1. Start Dolt
 gt dolt start
 
-# Sling formula to rig
-gt sling module-review \
-  --var module=bash \
-  --var parent=dotfiles-pmz.10 \
-  <rig> --create
+# 2. Create parent issue hierarchy
+bd create "Module Coverage Review" --type epic -l "review" --silent
+# Returns: dotfiles-adam-xyz
+
+bd create "Review: bash module" --parent dotfiles-adam-xyz -l "review" --silent
+# Returns: dotfiles-adam-xyz.1
+
+# 3. Cook formula into proto (one-time)
+bd cook module-review --persist
+
+# 4. Pour molecule with variables
+bd mol pour module-review --var module=bash --var parent=dotfiles-adam-xyz.1
+# Returns: dotfiles-adam-mol-abc
+
+# 5. Sling molecule to polecat (--hook-raw-bead skips default formula)
+gt sling dotfiles-adam-mol-abc adam --create --hook-raw-bead
+
+# 6. Monitor progress
+gt session capture adam/<polecat-name> -n 50
+bd children dotfiles-adam-xyz.1
 ```
+
+**Result:** Polecat executes the two-phase workflow autonomously:
+- Phase 1: Mechanical scan, HIGH confidence issues
+- Phase 2 Gate: Decides whether to escalate
+- Phase 2: Judgment calls on deferred findings
+- Complete: Verifies and runs `gt done`
 
 ### Batch Module Reviews
 
