@@ -4,16 +4,15 @@ import '../.build/just/lib.just'
 
 dotdir := shell("yq '.dotdir' data.yml | envsubst")
 
-install: config configs themes
+install: dependencies config
+    @echo "ghostty: Installation complete"
+    @echo "  Quick terminal: Ctrl+\` (global hotkey)"
 
-mktree:
-    mkdir -p "{{dotdir}}"
+dependencies:
+    brew bundle install --file "{{justfile_directory()}}/brewfile"
 
 config: mktree
     ln -sf "{{justfile_directory()}}/config" "{{dotdir}}/config"
 
-configs: mktree
-    ln -sf "{{justfile_directory()}}/configs" "{{dotdir}}/configs"
-
-themes: mktree
-    ln -sf "{{justfile_directory()}}/themes" "{{dotdir}}/themes"
+mktree:
+    mkdir -p "{{dotdir}}"

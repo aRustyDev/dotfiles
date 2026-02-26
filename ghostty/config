@@ -1,134 +1,112 @@
-# This is the configuration file for Ghostty.
-#
-# This template file has been automatically created at the following
-# path since Ghostty couldn't find any existing config files on your system:
-#
-#   /Users/adamsm/Library/Application Support/com.mitchellh.ghostty/config
-#
-# The template does not set any default options, since Ghostty ships
-# with sensible defaults for all options. Users should only need to set
-# options that they want to change from the default.
-#
-# Run `ghostty +show-config --default --docs` to view a list of
-# all available config options and their default values.
-#
-# Additionally, each config option is also explained in detail
-# on Ghostty's website, at https://ghostty.org/docs/config.
-
-# Config syntax crash course
-# ==========================
-# # The config file consists of simple key-value pairs,
-# # separated by equals signs.
-# font-family = Iosevka
-# window-padding-x = 2
-#
-# # Spacing around the equals sign does not matter.
-# # All of these are identical:
-# key=value
-# key= value
-# key =value
-# key = value
-#
-# # Any line beginning with a # is a comment. It's not possible to put
-# # a comment after a config option, since it would be interpreted as a
-# # part of the value. For example, this will have a value of "#123abc":
-# background = #123abc
-#
-# # Empty values are used to reset config keys to default.
-# key =
-#
-# # Some config options have unique syntaxes for their value,
-# # which is explained in the docs for that config option.
-# # Just for example:
-# resize-overlay-duration = 4s 200ms
+# =============================================================================
 # Ghostty Configuration
+# =============================================================================
+# Docs: https://ghostty.org/docs/config
+# Show defaults: ghostty +show-config --default --docs
 
-# Font configuration
-font-family = "JetBrains Mono"
+# =============================================================================
+# Font
+# =============================================================================
+font-family = JetBrains Mono
 font-size = 14
 font-thicken = true
 
+# Font features (ligatures)
+font-feature = calt
+font-feature = liga
+
+# =============================================================================
 # Theme
-theme = Catppuccin Macchiato
+# =============================================================================
+theme = catppuccin-mocha
 
-app-notifications = no-clipboard-copy
-desktop-notifications = true
-
-auto-update = download
-auto-update-channel = tip
-
-# title = " "
-# title-report
-
-# Window configuration
+# =============================================================================
+# Window
+# =============================================================================
 window-padding-x = 10
 window-padding-y = 10
 window-decoration = true
 window-theme = auto
-# window-subtitle
-# window-titlebar-background
-# window-titlebar-foreground
-
-# Cursor
-cursor-style = block
-cursor-blink = true
-
-# Scrollback
-scrollback-limit = 10000
-
-# Bell
-bell-features = attention, title, border
-
-# Copy on select
-copy-on-select = true
-# clipboard-read
-# clipboard-write
-# clipboard-trim-trailing-spaces
-# clipboard-paste-protection
-# clipboard-paste-bracketed-safe
 
 # macOS specific
 macos-option-as-alt = true
 macos-titlebar-style = tabs
-# macos-window-shadow
-# macos-icon
-# macos-icon-frame
-# macos-icon-ghost-color
-# macos-icon-screen-color
-# macos-secure-input-indication
-# macos-auto-secure-input
-# macos-titlebar-proxy-icon
-# macos-non-native-fullscreen
 
-shell-integration = zsh # zsh, fish, bash, elvish
-# shell-integration-features = cursor,sudo,title
+# =============================================================================
+# Cursor
+# =============================================================================
+cursor-style = block
+cursor-blink = true
 
-# Performance
-adjust-cell-height = 0
-adjust-cell-width = 0
+# =============================================================================
+# Terminal Behavior
+# =============================================================================
+scrollback-limit = 50000
+copy-on-select = true
+confirm-close-surface = false
 
+# Shell integration
+shell-integration = zsh
+shell-integration-features = cursor,sudo,title
+
+# Notifications
+app-notifications = no-clipboard-copy
+desktop-notifications = true
+
+# Bell
+bell-features = attention, title, border
+
+# URL handling
+link-url = true
+
+# =============================================================================
+# Quick Terminal (global hotkey)
+# =============================================================================
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+quick-terminal-position = top
+quick-terminal-screen = mouse
+quick-terminal-animation-duration = 0.1
+
+# =============================================================================
+# Updates
+# =============================================================================
+auto-update = download
+auto-update-channel = tip
+
+# =============================================================================
 # Keybindings
-# - close_tab
-# - new_tab
-# - new_split:left
-# - new_split:up
-# - new_split:down
-# - resize_slit
-# - equalize_splits
-# - open_config
-# - reload_config
-# - next_tab
-# - last_tab
-# - goto_tab
-# - move_tab
-# - toggle_tab_overview
-# - new_window
-# - write_scrollback_file
-# - clear_screen / clear
-# - esc
-# -
+# =============================================================================
+# Clear screen
 keybind = cmd+k=clear_screen
+
+# Tabs
+keybind = cmd+t=new_tab
+keybind = cmd+w=close_surface
+keybind = cmd+[=previous_tab
+keybind = cmd+]=next_tab
 keybind = cmd+opt+left=previous_tab
 keybind = cmd+opt+right=next_tab
+
+# Splits
 keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = cmd+shift+e=equalize_splits
+
+# Fullscreen
 keybind = cmd+shift+enter=toggle_fullscreen
+keybind = cmd+enter=toggle_fullscreen
+
+# Reload config
+keybind = cmd+shift+comma=reload_config
+
+# Navigate splits (vim-style with ctrl)
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+j=goto_split:bottom
+keybind = ctrl+k=goto_split:top
+keybind = ctrl+l=goto_split:right
+
+# Resize splits
+keybind = ctrl+shift+h=resize_split:left,20
+keybind = ctrl+shift+j=resize_split:down,20
+keybind = ctrl+shift+k=resize_split:up,20
+keybind = ctrl+shift+l=resize_split:right,20

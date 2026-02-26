@@ -5,93 +5,133 @@ GPU-accelerated terminal emulator with native platform feel.
 ## Current Configuration
 
 - `config` - Main configuration file
-- `configs/` - Additional config snippets
-- `themes/` - Color themes (Catppuccin Macchiato active)
+- `brewfile` - Ghostty cask
+- `configs/` - Seasonal theme overrides (halloween, christmas, etc.)
+- `themes/` - Custom themes directory
 
 ### Features Enabled
-- **Font**: JetBrains Mono, size 14, thickened
-- **Theme**: Catppuccin Macchiato
+
+- **Font**: JetBrains Mono, size 14, thickened, with ligatures
+- **Theme**: Catppuccin Mocha
 - **Window**: 10px padding, native decorations, tabbed titlebar
-- **Shell**: zsh with integration
-- **Keybindings**: Cmd+D split, Cmd+K clear, Cmd+Shift+Enter fullscreen
+- **Shell**: zsh with full integration (cursor, sudo, title)
+- **Quick Terminal**: Global hotkey `Ctrl+`` for dropdown terminal
+- **URL Handling**: Click to open URLs
+
+## Installation
+
+```bash
+just -f ghostty/justfile install
+```
+
+## Keybindings
+
+### General
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+`` | Toggle quick terminal (global) |
+| `Cmd+K` | Clear screen |
+| `Cmd+Shift+,` | Reload config |
+| `Cmd+Shift+Enter` | Toggle fullscreen |
+
+### Tabs
+
+| Key | Action |
+|-----|--------|
+| `Cmd+T` | New tab |
+| `Cmd+W` | Close tab/split |
+| `Cmd+[` | Previous tab |
+| `Cmd+]` | Next tab |
+| `Cmd+Opt+Left/Right` | Previous/next tab |
+
+### Splits
+
+| Key | Action |
+|-----|--------|
+| `Cmd+D` | Split right |
+| `Cmd+Shift+D` | Split down |
+| `Cmd+Shift+E` | Equalize splits |
+
+### Split Navigation (Vim-style)
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+H` | Go to left split |
+| `Ctrl+J` | Go to bottom split |
+| `Ctrl+K` | Go to top split |
+| `Ctrl+L` | Go to right split |
+
+### Split Resizing
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+Shift+H` | Resize left |
+| `Ctrl+Shift+J` | Resize down |
+| `Ctrl+Shift+K` | Resize up |
+| `Ctrl+Shift+L` | Resize right |
+
+## Quick Terminal
+
+The quick terminal is a dropdown terminal accessible from anywhere with `Ctrl+``:
+
+- Position: Top of screen
+- Screen: Follows mouse
+- Animation: 0.1s
 
 ## TODOs
 
-### Cleanup (High Priority)
-
-- [ ] **Review configs/ directory**: Check what config snippets exist
-  - Determine if they're being used or should be consolidated
-
-- [ ] **Review themes/ directory**: Check custom themes
-  - Verify Catppuccin Macchiato is properly set up
-  - Remove unused themes
-
-### Keybindings (From TODO.md)
-
-- [ ] **Equalize split sizes**: Add keybinding for `equalize_splits`
-  ```
-  keybind = cmd+shift+e=equalize_splits
-  ```
-
-- [ ] **Additional split keybindings to consider**:
-  ```
-  keybind = cmd+shift+d=new_split:down
-  keybind = cmd+[=previous_tab
-  keybind = cmd+]=next_tab
-  keybind = cmd+w=close_tab
-  keybind = cmd+t=new_tab
-  ```
-
 ### Enhancements (Medium Priority)
 
-- [ ] **Font ligatures**: If using a font that supports them
-  ```
-  font-feature = calt
-  font-feature = liga
-  ```
-
-- [ ] **Adjust opacity/blur**: For transparency effect
+- [ ] **Background blur/opacity**: For transparency effect
   ```
   background-opacity = 0.95
   background-blur-radius = 20
   ```
 
-- [ ] **Quick terminal shortcut**: Consider global hotkey
-  ```
-  keybind = global:cmd+`=toggle_quick_terminal
-  quick-terminal-position = top
-  quick-terminal-screen = mouse
-  ```
-
-- [ ] **URL handling**: Click to open URLs
-  ```
-  link-url = true
-  ```
-
-### Configuration (Low Priority)
-
-- [ ] **Explore shell integration features**:
-  ```
-  shell-integration-features = cursor,sudo,title
-  ```
-
-- [ ] **Confirm paths**: Check that config, configs, themes are being loaded correctly
-
-- [ ] **Image support**: Ghostty supports inline images
+- [ ] **Image support**: Inline image display
   ```
   image-storage-limit = 320000000
   ```
 
-### Consideration
+- [ ] **Seasonal configs**: Set up config includes for holidays
+  - `config-file = configs/halloween` during October
+  - Could automate with shell profile
 
-- [ ] **Terminal choice**: Multiple terminals configured
-  - ghostty (this module) - Primary choice, modern
-  - alacritty - Simple, fast
-  - kitty - Feature-rich
-  - wezterm - Lua config, multiplexer built-in
+### Cleanup (Low Priority)
+
+- [ ] **Review configs/ directory**: Seasonal theme overrides
+  - halloween → Cobalt Neon theme
+  - christmas, november → Empty, need content
+
+- [ ] **Custom themes**: Add themes to themes/ directory
+  - Currently using built-in catppuccin-mocha
+
+### Integration
+
+- [ ] **tmux/zellij navigation**: Coordinate Ctrl+hjkl with multiplexer
+  - May need to disable split navigation if using tmux
+
+## File Structure
+
+```
+ghostty/
+├── config           # Main config (symlinked to ~/.config/ghostty/)
+├── brewfile         # Ghostty cask
+├── justfile         # Installation recipes
+├── data.yml         # Module config
+├── README.md        # This file
+├── configs/         # Seasonal theme overrides
+│   ├── halloween    # Cobalt Neon theme
+│   ├── christmas    # (empty)
+│   └── november     # (empty)
+└── themes/          # Custom themes
+    └── README.md    # Theme locations reference
+```
 
 ## References
 
 - [Ghostty Website](https://ghostty.org/)
 - [Ghostty Configuration](https://ghostty.org/docs/config)
+- [Ghostty Keybindings](https://ghostty.org/docs/config/keybind)
 - [Catppuccin for Ghostty](https://github.com/catppuccin/ghostty)
