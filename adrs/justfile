@@ -1,0 +1,13 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../completions/mods.just'
+
+install:
+    @cd "{{ justfile_directory() }}" && brew bundle
+
+completions:
+    @adrs completion bash > "{{ bash_compd }}/adrs"
+    @adrs completion zsh > "{{ zsh_compd }}/_adrs"
+    @adrs completion fish > "{{ fish_compd }}/adrs.fish"
+    @adrs completion powershell > "{{ powershell_compd }}/adrs/adrs.psm1"
+    @adrs completion elvish > "{{ elvish_compd }}/adrs"

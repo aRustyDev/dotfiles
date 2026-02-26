@@ -1,0 +1,7 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+[parallel]
+install:
+    just -f meilisearch/justfile install
+    just -f qdrant/justfile install
+    just -f surrealdb/justfile install

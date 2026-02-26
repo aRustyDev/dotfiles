@@ -1,0 +1,22 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../completions/mods.just'
+
+install:
+    @cd "{{ justfile_directory() }}" && brew bundle
+    @gt install "{{ justfile_directory() }}/gt" --git
+
+completions:
+    @gt completion bash > "{{ bash_compld }}/gt"
+    @gt completion zsh > "{{ zsh_compld }}/_gt"
+    @gt completion fish > "{{ fish_compld }}/gt.fish"
+    @gt completion powershell > "{{ pwsh_compld }}/gt.psm1"
+
+env:
+    @echo "export GT_ROOT=foo-bar"
+
+aliases:
+    @echo "TODO"
+
+hotkeys:
+    @echo "TODO"

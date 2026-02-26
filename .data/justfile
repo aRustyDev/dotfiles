@@ -1,3 +1,5 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
 import '../.build/just/lib.just'
 
 tmp := `mktemp -d -t "dotfiles.data"`

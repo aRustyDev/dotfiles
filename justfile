@@ -1,3 +1,5 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
 import '.build/just/lib.just'
 
 # Get all immediate subdirectories (depth 1) that contain a justfile

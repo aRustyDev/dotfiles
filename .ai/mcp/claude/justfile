@@ -1,3 +1,5 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
 filesystem:
     claude mcp add sequential-thinking -s user --transport http https://tool.localhost/mcp -H "X-Service: thinking"
     claude mcp add filesystem -s user -e PROJECT_DIR=$PWD -- npx -y @modelcontextprotocol/server-filesystem $PROJECT_DIR

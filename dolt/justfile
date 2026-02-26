@@ -1,0 +1,4 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+install:
+  cd "{{ justfile_directory() }}" && brew bundle

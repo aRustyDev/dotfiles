@@ -1,3 +1,5 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
 # Source
 
 root := `git rev-parse --show-toplevel`

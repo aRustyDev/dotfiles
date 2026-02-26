@@ -1,3 +1,5 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
 # Top-level Claude Project Justfile
 # This coordinates project-specific justfiles using a modular architecture
 

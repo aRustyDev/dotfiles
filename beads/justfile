@@ -1,0 +1,22 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../completions/mods.just'
+
+install:
+    @cd "{{ justfile_directory() }}" && brew bundle
+    @cp "{{ justfile_directory() }}/config.yaml" ~/.config/bd/config.yaml
+
+completions:
+    @bd completion bash > "{{ bash_compld }}/gt"
+    @bd completion zsh > "{{ zsh_compld }}/_gt"
+    @bd completion fish > "{{ fish_compld }}/gt.fish"
+
+global:
+    #!/usr/bin/env bash
+    for i in "$(fd --hidden --type dir --full-path --exclude "" --fixed-strings ".git" /)"; do
+        bd repo add "$i"
+    done
+
+repo dir:
+    cd "{{ dir }}" && bd hooks install
+    cd "{{ dir }}" && bd config set mail.delegate "gt mail"

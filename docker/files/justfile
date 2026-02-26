@@ -1,3 +1,5 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
 ghcr := "ghcr.io/arustydev/mcp"
 dckr := "docker.io/arustydev/mcp"
 
