@@ -1,0 +1,11 @@
+# Kubernetes CLI tools
+brew "kubernetes-cli"     # kubectl
+brew "krew"               # kubectl plugin manager
+brew "kubectx"            # Context/namespace switching (kubectx, kubens)
+brew "helm"               # Package manager
+brew "stern"              # Multi-pod log tailing
+brew "kubecolor"          # Colorized kubectl output
+
+# Optional tools
+brew "kustomize"          # Kubernetes configuration customization
+brew "kubeseal"           # Sealed secrets
