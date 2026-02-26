@@ -3,7 +3,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 import '../.build/just/lib.just'
 
 # Zen Browser paths
-zen_support := home_dir / "Library/Application Support/zen"
+zen_support := env_var("HOME") / "Library/Application Support/zen"
 profiles_dir := zen_support / "Profiles"
 macos_domain := "app.zen-browser.zen"
 

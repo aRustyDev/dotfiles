@@ -3,8 +3,8 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 import '../.build/just/lib.just'
 
 # Dolt directories
-dolt_home := home_dir / ".dolt"
-databases_dir := home_dir / ".local/share/dolt/databases"
+dolt_home := env_var("HOME") / ".dolt"
+databases_dir := env_var("HOME") / ".local/share/dolt/databases"
 
 # Default server settings
 default_port := "3306"

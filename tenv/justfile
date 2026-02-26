@@ -3,7 +3,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 import '../.build/just/lib.just'
 
 # tenv root directory
-tenv_root := home_dir / ".tenv"
+tenv_root := env_var("HOME") / ".tenv"
 
 # Install tenv
 install: dependencies config

@@ -3,7 +3,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 import '../.build/just/lib.just'
 
 # Sketch directories
-app_support := home_dir / "Library/Application Support/com.bohemiancoding.sketch3"
+app_support := env_var("HOME") / "Library/Application Support/com.bohemiancoding.sketch3"
 plugins_dir := app_support / "Plugins"
 templates_dir := app_support / "Templates"
 
