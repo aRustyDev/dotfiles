@@ -1,0 +1,6 @@
+# tmux and dependencies
+brew "tmux"
+brew "reattach-to-user-namespace"  # macOS clipboard support
+
+# Optional: for fzf integration
+brew "fzf"

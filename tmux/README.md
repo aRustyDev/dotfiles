@@ -4,100 +4,128 @@ Terminal multiplexer for managing multiple terminal sessions.
 
 ## Current Configuration
 
-- **Status**: Stub module (no config installed yet)
+- `tmux.conf` - Main configuration with Catppuccin theme
+- `tmux.reset.conf` - Clean keybinding reset
+- `brewfile` - Dependencies (tmux, fzf, reattach-to-user-namespace)
 - `examples/` - Reference configurations
-- `scripts/cal.sh` - Calendar meeting integration script
+- `scripts/cal.sh` - Calendar meeting integration script (optional)
+
+### Features Enabled
+
+- **Prefix**: `Ctrl+a` (instead of default `Ctrl+b`)
+- **Theme**: Catppuccin Mocha
+- **Vi mode**: Vim keybindings in copy mode
+- **Mouse**: Full mouse support enabled
+- **Status bar**: Top position with session, directory, time
+- **Clipboard**: System clipboard integration (macOS)
+
+### Plugins (via TPM)
+
+- `tmux-sensible` - Sensible defaults
+- `tmux-yank` - Copy to system clipboard
+- `tmux-resurrect` - Save/restore sessions
+- `tmux-continuum` - Auto-save sessions (every 15 min)
+- `catppuccin/tmux` - Theme
+- `tmux-fzf` - Fuzzy finder integration
+- `fzf-url` - URL picker
+
+## Installation
+
+```bash
+just -f tmux/justfile install
+```
+
+Then in tmux, press `prefix + I` to install plugins.
+
+## Keybindings
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+a` | Prefix (instead of Ctrl+b) |
+| `prefix + r` | Reload config |
+| `prefix + \|` | Split pane vertically |
+| `prefix + -` | Split pane horizontally |
+| `prefix + h/j/k/l` | Navigate panes (vim-style) |
+| `prefix + Ctrl+h/j/k/l` | Resize panes |
+| `prefix + Tab` | Switch to last window |
+| `prefix + c` | New window (in current path) |
+| `prefix + I` | Install plugins (TPM) |
+| `prefix + U` | Update plugins (TPM) |
+
+### Copy Mode (vi)
+
+| Key | Action |
+|-----|--------|
+| `prefix + [` | Enter copy mode |
+| `v` | Begin selection |
+| `y` | Copy selection |
+| `Enter` | Copy and exit |
 
 ## TODOs
 
-### Setup (Critical)
+### Enhancements (Medium Priority)
 
-- [ ] **Create tmux.conf**: Build configuration from examples
-  - Base on `examples/omerxx.tmux.conf` (comprehensive setup)
-  - Review `examples/mathiasbynens.tmux.conf` for additional ideas
-
-- [ ] **Install TPM (Tmux Plugin Manager)**:
-  ```bash
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+- [ ] **Add vim-tmux-navigator**: Seamless navigation between vim and tmux
   ```
-  - Add TPM installation to brewfile or setup script
-
-- [ ] **Create reset.conf**: For clean keybinding state
-  - Referenced in example: `source-file ~/.config/tmux/tmux.reset.conf`
-
-### Configuration (High Priority)
-
-- [ ] **Core settings to include**:
-  ```tmux
-  set -g prefix ^A                 # Change prefix from Ctrl+b to Ctrl+a
-  set -g base-index 1              # Start window numbering at 1
-  set -g detach-on-destroy off     # Don't exit when closing session
-  set -g escape-time 0             # No escape delay
-  set -g history-limit 1000000     # Large scrollback
-  set -g renumber-windows on       # Auto-renumber windows
-  set -g set-clipboard on          # System clipboard
-  set -g status-position top       # macOS style
-  setw -g mode-keys vi             # Vim keybindings
+  set -g @plugin 'christoomey/vim-tmux-navigator'
   ```
 
-- [ ] **Terminal/color settings**:
-  ```tmux
-  set -g default-terminal 'screen-256color'
-  set -g terminal-overrides ',xterm-256color:RGB'
+- [ ] **Add sessionx**: Enhanced session management with fzf
+  ```
+  set -g @plugin 'omerxx/tmux-sessionx'
   ```
 
-### Plugins (Medium Priority)
+- [ ] **Add floax**: Floating panes
+  ```
+  set -g @plugin 'omerxx/tmux-floax'
+  ```
 
-- [ ] **Essential plugins to configure**:
-  - `tmux-plugins/tpm` - Plugin manager
-  - `tmux-plugins/tmux-sensible` - Sensible defaults
-  - `tmux-plugins/tmux-yank` - Copy to system clipboard
-  - `tmux-plugins/tmux-resurrect` - Save/restore sessions
-  - `tmux-plugins/tmux-continuum` - Auto-save sessions
-
-- [ ] **Enhanced navigation**:
-  - `christoomey/vim-tmux-navigator` - Seamless vim/tmux navigation
-  - `omerxx/tmux-sessionx` - Session management with fzf
-
-- [ ] **Productivity plugins**:
-  - `sainnhe/tmux-fzf` - Fuzzy finder integration
-  - `wfxr/tmux-fzf-url` - URL picker
-  - `fcsonline/tmux-thumbs` - Quick copy mode
-  - `omerxx/tmux-floax` - Floating panes
-
-### Theme (Medium Priority)
-
-- [ ] **Catppuccin theme**: Already using in other tools
-  - Use `catppuccin/tmux` or fork
-  - Configure status bar modules: session, directory, date/time
-  - Match pane border colors with theme
+- [ ] **Add thumbs**: Quick copy mode
+  ```
+  set -g @plugin 'fcsonline/tmux-thumbs'
+  ```
 
 ### Scripts (Low Priority)
 
-- [ ] **Review cal.sh script**: Uses icalBuddy for macOS
+- [ ] **Review cal.sh script**: Uses icalBuddy for macOS calendar integration
   - Add icalBuddy to brewfile if using
   - Update hardcoded calendar exclusions
-  - Consider generalizing or removing if not needed
+  - Integrate with catppuccin status bar
 
-- [ ] **Add session management scripts**:
-  - Project-specific session launchers
-  - Dev environment templates
+- [ ] **Add session templates**: Project-specific session launchers
+  - Development environment
+  - DevOps/k8s environment
 
-### Integration
+### Integration (Low Priority)
 
-- [ ] **Neovim integration**: Seamless navigation
-  - vim-tmux-navigator on both sides
-  - Unified keybindings
+- [ ] **Neovim integration**: Configure vim-tmux-navigator on nvim side
 
-- [ ] **Shell integration**: Auto-attach to sessions
+- [ ] **Shell auto-attach**: Add to shell config
   ```bash
   if [[ -z "$TMUX" ]]; then
     tmux attach -t default || tmux new -s default
   fi
   ```
 
-- [ ] **Zellij consideration**: Evaluate if tmux or zellij or both
+- [ ] **Zellij consideration**: Evaluate if both tmux and zellij are needed
   - zellij already configured in this dotfiles repo
+
+## File Structure
+
+```
+tmux/
+├── tmux.conf          # Main config (symlinked to ~/.config/tmux/)
+├── tmux.reset.conf    # Keybinding reset
+├── brewfile           # Dependencies
+├── justfile           # Installation recipes
+├── data.yml           # Module config
+├── README.md          # This file
+├── examples/          # Reference configs
+│   ├── omerxx.tmux.conf
+│   └── mathiasbynens.tmux.conf
+└── scripts/
+    └── cal.sh         # Calendar integration (optional)
+```
 
 ## References
 
@@ -105,4 +133,5 @@ Terminal multiplexer for managing multiple terminal sessions.
 - [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)
 - [Catppuccin for Tmux](https://github.com/catppuccin/tmux)
 - [Tmux Cheat Sheet](https://tmuxcheatsheet.com/)
-- [Omerxx Tmux Guide](https://github.com/omerxx/dotfiles)
+- [Dreams of Code - Tmux Setup](https://www.youtube.com/watch?v=DzNmUNvnB04)
+- [omerxx/dotfiles](https://github.com/omerxx/dotfiles)
