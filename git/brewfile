@@ -1,2 +1,4 @@
 brew "lsd"
 brew "gettext" # for envsubst
+brew "difftastic"
+brew "git-delta"

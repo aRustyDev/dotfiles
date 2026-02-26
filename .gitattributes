@@ -126,3 +126,6 @@ poetry.lock -diff
 # Obsidian plugin files (generated)
 .obsidian/plugins/*/main.js linguist-generated
 .obsidian/plugins/*/styles.css linguist-generated
+
+# Use bd merge for beads JSONL files
+.beads/issues.jsonl merge=beads
