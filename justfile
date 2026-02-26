@@ -20,6 +20,8 @@ mod zellij 'zellij/justfile'
 mod vpn 'vpn/justfile'
 # a hotkey daemon for macOS
 mod skhd 'skhd/justfile'
+# push notifications service
+mod ntfy 'ntfy/justfile'
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 

@@ -2,6 +2,64 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-[group(stubs)]
-install:
-    @echo "ntfy: No config files to install yet"
+# Get dotdir from data.yml
+dotdir := `yq -r '.dotdir | envsubst' data.yml`
+
+# Install ntfy configuration
+install: dependencies config
+    @echo "ntfy installed. Use 'ntfy publish' to send notifications."
+
+# Install dependencies via Homebrew
+dependencies:
+    brew bundle --file=brewfile --no-lock
+
+# Symlink config files
+config: mktree
+    ln -sf "{{justfile_directory()}}/client.yml" "{{dotdir}}/client.yml"
+
+# Create target directories
+mktree:
+    mkdir -p "{{dotdir}}"
+
+# =============================================================================
+# Publishing Notifications
+# =============================================================================
+
+# Send a test notification
+test topic="test":
+    ntfy publish {{topic}} "Test notification from dotfiles"
+
+# Send notification with title
+send topic title message:
+    ntfy publish --title "{{title}}" {{topic}} "{{message}}"
+
+# Send high priority notification
+alert topic message:
+    ntfy publish --priority high --tags warning {{topic}} "{{message}}"
+
+# Send notification with action button
+action topic message url:
+    ntfy publish --actions "view, Open, {{url}}" {{topic}} "{{message}}"
+
+# =============================================================================
+# Subscribing to Notifications
+# =============================================================================
+
+# Subscribe to a topic (foreground)
+subscribe topic:
+    ntfy subscribe {{topic}}
+
+# Subscribe and run command on notification
+subscribe-exec topic command:
+    ntfy subscribe --exec "{{command}}" {{topic}}
+
+# =============================================================================
+# Info
+# =============================================================================
+
+# Show ntfy info
+info:
+    @echo "Config directory: {{dotdir}}"
+    @echo "Client config: {{dotdir}}/client.yml"
+    @echo ""
+    @echo "Default server: $(grep 'default-host' {{dotdir}}/client.yml 2>/dev/null | cut -d: -f2- | tr -d ' ' || echo 'https://ntfy.sh')"

@@ -1,0 +1,2 @@
+# ntfy client config location
+dotdir: "{{xdg_config}}/ntfy"

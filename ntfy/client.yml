@@ -1,0 +1,22 @@
+# =============================================================================
+# ntfy Client Configuration
+# =============================================================================
+# Docs: https://docs.ntfy.sh/subscribe/cli/
+
+# Default server (can use self-hosted or ntfy.sh)
+default-host: https://ntfy.sh
+
+# Default credentials (optional - for authenticated topics)
+# default-user: myuser
+# default-password: op://developer/ntfy/password
+
+# Default command to run when notification received
+# default-command: 'notify-send "$t" "$m"'
+
+# Subscriptions (topics to auto-subscribe on `ntfy subscribe`)
+# subscribe:
+#   - topic: alerts
+#     command: 'say "$m"'
+#   - topic: logs
+#     if:
+#       priority: high,urgent
