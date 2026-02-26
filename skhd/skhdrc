@@ -1,0 +1,60 @@
+# =============================================================================
+# skhdrc - Simple Hotkey Daemon Configuration
+# =============================================================================
+# Docs: https://github.com/koekeishiya/skhd
+
+# =============================================================================
+# App Launchers
+# =============================================================================
+
+# Terminal
+alt - return : open -a "Ghostty"
+
+# Browser
+alt - b : open -a "Zen Browser"
+
+# Editor
+alt - e : open -a "Visual Studio Code"
+
+# Slack
+alt - s : open -a "Slack"
+
+# Obsidian
+alt - o : open -a "Obsidian"
+
+# Finder
+alt - f : open -a "Finder"
+
+# =============================================================================
+# System Actions
+# =============================================================================
+
+# Lock screen
+cmd + shift - l : pmset displaysleepnow
+
+# Screenshot region
+cmd + shift - 4 : screencapture -i ~/Desktop/screenshot-$(date +%Y%m%d-%H%M%S).png
+
+# =============================================================================
+# AppleScript Actions
+# =============================================================================
+
+# Close all notifications
+alt - n : osascript ~/.config/skhd/applescripts/notifications.scpt
+
+# =============================================================================
+# Media Controls (if not handled by system)
+# =============================================================================
+
+# Play/Pause
+# fn - f8 : osascript -e 'tell application "Music" to playpause'
+
+# =============================================================================
+# Reserved for Window Manager Integration
+# =============================================================================
+# If using yabai or aerospace, add window management keybindings here
+# Example yabai integration:
+# alt - h : yabai -m window --focus west
+# alt - j : yabai -m window --focus south
+# alt - k : yabai -m window --focus north
+# alt - l : yabai -m window --focus east

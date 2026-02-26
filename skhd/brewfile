@@ -1,0 +1,2 @@
+# skhd - Simple hotkey daemon for macOS
+brew "koekeishiya/formulae/skhd"
