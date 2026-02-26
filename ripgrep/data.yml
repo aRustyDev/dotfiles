@@ -1,0 +1,2 @@
+dotdir: "{{env.HOME}}"
+config_name: ".ripgreprc"

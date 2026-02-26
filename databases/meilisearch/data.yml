@@ -1,0 +1,27 @@
+# Meilisearch Configuration Variables
+# Used with mustache templating for config generation
+
+# Network
+host: "127.0.0.1"
+port: 7700
+domain: localhost
+
+# Environment: development | production
+env: development
+
+# Resource limits (optimized for M5 32GB)
+max_indexing_memory: "8 GiB"
+max_indexing_threads: 8
+http_payload_size_limit: "100 MB"
+
+# Logging
+log_level: INFO
+
+# Snapshots
+schedule_snapshot: false
+snapshot_interval: 86400  # Daily (in seconds)
+
+# 1Password
+op_vault: Developer
+op_item: meilisearch
+op_field: credential
