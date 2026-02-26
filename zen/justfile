@@ -112,3 +112,165 @@ about-profiles:
 # Open about:config in Zen
 about-config:
     open "zen://about:config"
+
+# =============================================================================
+# Bookmarks
+# =============================================================================
+
+# Export bookmarks to HTML (manual step - opens Library)
+export-bookmarks-gui:
+    @echo "In Zen: Bookmarks menu → Manage Bookmarks → Import and Backup → Export Bookmarks to HTML"
+    open "zen://about:preferences"
+
+# Backup bookmark JSON files
+backup-bookmarks profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    backup_dir="{{justfile_directory()}}/backups/bookmarks"
+    mkdir -p "$backup_dir"
+    src="{{profiles_dir}}/{{profile}}/bookmarkbackups"
+    if [[ -d "$src" ]]; then
+        cp -r "$src"/* "$backup_dir/" 2>/dev/null || echo "No bookmark backups found"
+        echo "Bookmarks backed up to: $backup_dir"
+    else
+        echo "No bookmarkbackups folder found for profile {{profile}}"
+    fi
+
+# =============================================================================
+# Settings & Preferences
+# =============================================================================
+
+# Export prefs.js (about:config settings)
+export-prefs profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    src="{{profiles_dir}}/{{profile}}/prefs.js"
+    dest="{{justfile_directory()}}/backups/prefs-$(date +%Y%m%d).js"
+    mkdir -p "{{justfile_directory()}}/backups"
+    if [[ -f "$src" ]]; then
+        cp "$src" "$dest"
+        echo "Exported to: $dest"
+    else
+        echo "prefs.js not found"
+    fi
+
+# Export search engines config
+export-search profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    src="{{profiles_dir}}/{{profile}}/search.json.mozlz4"
+    dest="{{justfile_directory()}}/backups/search.json.mozlz4"
+    mkdir -p "{{justfile_directory()}}/backups"
+    if [[ -f "$src" ]]; then
+        cp "$src" "$dest"
+        echo "Search config exported to: $dest"
+        echo "Note: This is LZ4 compressed. Use 'lz4 -d' to decompress."
+    else
+        echo "search.json.mozlz4 not found"
+    fi
+
+# =============================================================================
+# Theme / Chrome
+# =============================================================================
+
+# Export chrome folder (userChrome.css, userContent.css)
+export-theme profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    src="{{profiles_dir}}/{{profile}}/chrome"
+    dest="{{justfile_directory()}}/chrome"
+    if [[ -d "$src" ]]; then
+        rm -rf "$dest"
+        cp -r "$src" "$dest"
+        echo "Theme exported to: $dest"
+    else
+        echo "No chrome folder found. Create one with userChrome.css for custom themes."
+    fi
+
+# Import chrome folder to profile
+import-theme profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    src="{{justfile_directory()}}/chrome"
+    dest="{{profiles_dir}}/{{profile}}/chrome"
+    if [[ -d "$src" ]]; then
+        mkdir -p "$dest"
+        cp -r "$src"/* "$dest/"
+        echo "Theme imported to profile {{profile}}"
+        echo "Enable in about:config: toolkit.legacyUserProfileCustomizations.stylesheets = true"
+    else
+        echo "No chrome folder in dotfiles to import"
+    fi
+
+# =============================================================================
+# Workspaces / Spaces
+# =============================================================================
+
+# Export Zen workspaces (requires lz4)
+export-workspaces profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    src="{{profiles_dir}}/{{profile}}/zen-session.jsonlz4"
+    dest="{{justfile_directory()}}/backups"
+    mkdir -p "$dest"
+    if [[ -f "$src" ]]; then
+        cp "$src" "$dest/zen-session.jsonlz4"
+        echo "Workspaces exported to: $dest/zen-session.jsonlz4"
+        if command -v lz4 &>/dev/null; then
+            lz4 -d -f "$dest/zen-session.jsonlz4" "$dest/zen-session.json"
+            echo "Decompressed to: $dest/zen-session.json"
+        else
+            echo "Install lz4 to decompress: brew install lz4"
+        fi
+    else
+        echo "zen-session.jsonlz4 not found"
+    fi
+
+# =============================================================================
+# Full Profile Export
+# =============================================================================
+
+# Export all essential profile data
+export-all profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    backup_dir="{{justfile_directory()}}/backups/full-$(date +%Y%m%d)"
+    mkdir -p "$backup_dir"
+    profile_dir="{{profiles_dir}}/{{profile}}"
+
+    echo "Exporting profile {{profile}}..."
+
+    # Essential files
+    files=(
+        "places.sqlite"           # Bookmarks & history
+        "cookies.sqlite"          # Cookies
+        "extensions.json"         # Extensions list
+        "extension-settings.json" # Extension prefs
+        "prefs.js"                # about:config
+        "search.json.mozlz4"      # Search engines
+        "zen-session.jsonlz4"     # Workspaces
+        "handlers.json"           # Download prefs
+        "containers.json"         # Container tabs
+        "logins.json"             # Password metadata
+        "key4.db"                 # Password key
+        "cert9.db"                # Certificates
+    )
+
+    for f in "${files[@]}"; do
+        if [[ -f "$profile_dir/$f" ]]; then
+            cp "$profile_dir/$f" "$backup_dir/"
+            echo "  ✓ $f"
+        fi
+    done
+
+    # Folders
+    for d in chrome extensions bookmarkbackups; do
+        if [[ -d "$profile_dir/$d" ]]; then
+            cp -r "$profile_dir/$d" "$backup_dir/"
+            echo "  ✓ $d/"
+        fi
+    done
+
+    echo ""
+    echo "Export complete: $backup_dir"
+    ls -la "$backup_dir"
