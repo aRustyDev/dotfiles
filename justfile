@@ -28,6 +28,8 @@ mod kitty 'kitty/justfile'
 mod meilisearch 'databases/meilisearch/justfile'
 # a SQL database with Git-like version control
 mod dolt 'dolt/justfile'
+# version control with 1Password commit signing
+mod git 'git/justfile'
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
