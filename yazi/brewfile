@@ -1,0 +1,13 @@
+# Yazi file manager
+brew "yazi"
+
+# Optional dependencies for enhanced previews
+brew "ffmpegthumbnailer"  # Video thumbnails
+brew "unar"               # Archive preview/extraction
+brew "jq"                 # JSON preview
+brew "poppler"            # PDF preview
+brew "fd"                 # Fast file search
+brew "ripgrep"            # Fast content search
+brew "fzf"                # Fuzzy finder
+brew "zoxide"             # Smart directory jumping
+brew "imagemagick"        # Image processing

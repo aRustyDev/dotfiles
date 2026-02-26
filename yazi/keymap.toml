@@ -1,0 +1,96 @@
+# =============================================================================
+# keymap.toml - Yazi Keybindings
+# =============================================================================
+# Docs: https://yazi-rs.github.io/docs/configuration/keymap
+
+# Manager keybindings (file browser)
+[[manager.prepend_keymap]]
+on = ["<C-n>"]
+run = "create"
+desc = "Create file/directory"
+
+[[manager.prepend_keymap]]
+on = ["<C-r>"]
+run = "rename --cursor=before_ext"
+desc = "Rename with cursor before extension"
+
+[[manager.prepend_keymap]]
+on = ["<C-y>"]
+run = "copy path"
+desc = "Copy absolute path"
+
+[[manager.prepend_keymap]]
+on = ["Y"]
+run = "copy dirname"
+desc = "Copy parent directory path"
+
+[[manager.prepend_keymap]]
+on = ["<C-s>"]
+run = "shell"
+desc = "Open shell"
+
+# Quick marks/bookmarks
+[[manager.prepend_keymap]]
+on = ["g", "h"]
+run = "cd ~"
+desc = "Go home"
+
+[[manager.prepend_keymap]]
+on = ["g", "c"]
+run = "cd ~/.config"
+desc = "Go to config"
+
+[[manager.prepend_keymap]]
+on = ["g", "d"]
+run = "cd ~/Downloads"
+desc = "Go to downloads"
+
+[[manager.prepend_keymap]]
+on = ["g", "D"]
+run = "cd ~/Documents"
+desc = "Go to documents"
+
+[[manager.prepend_keymap]]
+on = ["g", "p"]
+run = "cd ~/Projects"
+desc = "Go to projects"
+
+[[manager.prepend_keymap]]
+on = ["g", "t"]
+run = "cd /tmp"
+desc = "Go to tmp"
+
+[[manager.prepend_keymap]]
+on = ["g", "."]
+run = "cd /etc/dotfiles/adam"
+desc = "Go to dotfiles"
+
+# Toggle hidden files
+[[manager.prepend_keymap]]
+on = ["."]
+run = "hidden toggle"
+desc = "Toggle hidden files"
+
+# Search with fzf
+[[manager.prepend_keymap]]
+on = ["<C-f>"]
+run = "plugin fzf"
+desc = "Find file with fzf"
+
+# Tasks keybindings
+[[tasks.prepend_keymap]]
+on = ["<C-c>"]
+run = "cancel"
+desc = "Cancel task"
+
+# Input keybindings
+[[input.prepend_keymap]]
+on = ["<C-c>"]
+run = "close"
+desc = "Cancel input"
+
+# Selection keybindings
+[[select.prepend_keymap]]
+on = ["<C-c>"]
+run = "close"
+desc = "Cancel selection"

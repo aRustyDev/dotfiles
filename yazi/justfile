@@ -2,6 +2,59 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-[group(stubs)]
-install:
-    @echo "yazi: No config files to install yet"
+# Get dotdir from data.yml
+dotdir := `yq -r '.dotdir | envsubst' data.yml`
+
+# Install yazi configuration
+install: dependencies config plugins
+
+# Install dependencies via Homebrew
+dependencies:
+    brew bundle --file=brewfile --no-lock
+
+# Symlink config files
+config: mktree
+    ln -sf "{{justfile_directory()}}/yazi.toml" "{{dotdir}}/yazi.toml"
+    ln -sf "{{justfile_directory()}}/keymap.toml" "{{dotdir}}/keymap.toml"
+
+# Install plugins and flavors
+plugins:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Install Catppuccin Mocha flavor
+    if [[ ! -d "{{dotdir}}/flavors/catppuccin-mocha.yazi" ]]; then
+        echo "Installing Catppuccin Mocha flavor..."
+        ya pack -a yazi-rs/flavors:catppuccin-mocha
+    fi
+
+    # Install useful plugins
+    if [[ ! -d "{{dotdir}}/plugins/fzf.yazi" ]]; then
+        echo "Installing fzf plugin..."
+        ya pack -a DreamMaoMao/fzf.yazi
+    fi
+
+    if [[ ! -d "{{dotdir}}/plugins/git.yazi" ]]; then
+        echo "Installing git plugin..."
+        ya pack -a yazi-rs/plugins:git
+    fi
+
+    echo "Plugins installed. Run 'ya pack -u' to update."
+
+# Create target directories
+mktree:
+    mkdir -p "{{dotdir}}"
+    mkdir -p "{{dotdir}}/plugins"
+    mkdir -p "{{dotdir}}/flavors"
+
+# Update all plugins and flavors
+update:
+    ya pack -u
+
+# Show current config location
+info:
+    @echo "Config directory: {{dotdir}}"
+    @echo "Installed plugins:"
+    @ls -1 "{{dotdir}}/plugins" 2>/dev/null || echo "  (none)"
+    @echo "Installed flavors:"
+    @ls -1 "{{dotdir}}/flavors" 2>/dev/null || echo "  (none)"
