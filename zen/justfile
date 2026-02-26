@@ -2,187 +2,113 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-# https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data
-dotdir := shell("yq '.dotdir' data.yml | envsubst")
-profiles := "w9lwxj10"
+# Zen Browser paths
+zen_support := home_dir / "Library/Application Support/zen"
+profiles_dir := zen_support / "Profiles"
 macos_domain := "app.zen-browser.zen"
 
-# NOTE: This module is for reference/backup - Zen browser manages its own profiles
-[group(stubs)]
-install:
-    @echo "zen: Browser profile reference module (see recipes for backup/restore)"
-    just storage
-    just site-preferences
-    just chrome
-    just bookmarks-history
-    just cookies
-    just saved-passwords
-    just add-ons
-    just search-engine-preferences
-    just open-tabs
-    just config-settings
-    just ls-instructions
+# Install Zen Browser
+install: dependencies onepassword-integration
+    @echo "Zen Browser installed. Configure extensions manually or restore from backup."
 
-backup:
-    require("sqlite3") zen/data/db/cert9.db .dump > cert9.txt
+# Install dependencies
+dependencies:
+    brew bundle --file=brewfile --no-lock
 
-# If you want to keep add-on customizations (this may not work 100% of the time).
-storage:
-    ls storage
-
-storage-bak:
-    ls storage
-
-site-preferences:
-    ls permissions.sqlite
-    ls content-prefs.sqlite
-
-site-preferences-bak:
-    ls permissions.sqlite
-    ls content-prefs.sqlite
-
-dictionary:
-    ls persdict.dat
-
-dictionary-bak:
-    ls persdict.dat
-
-autocomplete-history:
-    ls formhistory.sqlite
-
-autocomplete-history-bak:
-    ls formhistory.sqlite
-
-dom-storage:
-    ls webappsstore.sqlite
-    ls chromeappsstore.sqlite
-
-dom-storage-bak:
-    ls webappsstore.sqlite
-    ls chromeappsstore.sqlite
-
-# If you want to retain your interface customizations.
-chrome:
-    ls chrome
-
-chrome-bak:
-    ls chrome
-
-# Contains bookmarks and history.
-bookmarks-history:
-    ls places.sqlite
-
-bookmarks-history-bak:
-    ls places.sqlite
-
-# Stores login sessions.
-cookies:
-    ls cookies.sqlite
-
-cookies-bak:
-    require("sqlite3") zen/data/db/cookies.sqlite  .dump > cookies.txt
-
-security-devices:
-    ls pkcs11.txt
-
-security-devices-bak:
-    ls pkcs11.txt
-
-download-preferences:
-    ls handlers.json
-
-download-preferences-bak:
-    ls handlers.json
-
-# Holds your saved passwords.
-saved-passwords:
-    ls cert9.db # Security certificate settings
-    ls key4.db
-    ls logins.json
-
-saved-passwords-bak:
-    require("sqlite3") zen/data/db/cert9.db  .dump > cert9.txt
-    require("sqlite3") zen/data/db/key4.d  .dump > key4.txt
-    cp "{{zendir}}/logins.json" data/logins.json
-
-# These files keep track of your installed add-ons (but not their custom settings).
-add-ons:
-    ls extension-preferences.json
-    ls extensions.json
-    ls extension-settings.json
-    ls extensions
-
-add-ons-bak:
-    ls extension-preferences.json
-    ls extensions.json
-    ls extension-settings.json
-    ls extensions
-
-# Stores your search engine preferences.
-search-engine-preferences:
-    ls search.json.mozlz4
-
-search-engine-preferences-bak:
-    ls search.json.mozlz4
-
-window-dialog-settings:
-    ls xulstore.json
-
-window-dialog-settings-bak:
-    ls xulstore.json
-
-# Saves your currently open tabs.
-open-tabs:
-    ls sessionCheckpoints.json
-    ls sessionstore.jsonlz4
-
-open-tabs-bak:
-    ls sessionCheckpoints.json
-    ls sessionstore.jsonlz4
-
-containers:
-    ls containers.json
-
-containers-bak:
-    ls containers.json
-
-# Contains your about:config settings
-# User preferences
-config-settings:
-    ls prefs.js
-
-config-settings-bak:
-    ls prefs.js
-
-ls-instructions:
+# Enable 1Password browser integration
+onepassword-integration:
     #!/usr/bin/env bash
-    cat << EOF
-    Go to about:profiles in Firefox.
-    Click on "Create a New Profile."
-    Select a folder to store the new profile.
-    Launch Firefox with the new profile.
-    Go to about:support again and open the profile folder for the new profile.
-    Turn off Firefox.
-    Paste the files you copied earlier into the new profile folder.
-    After ensuring everything works correctly, go back to about:profiles and set the newly created profile as the default.
-    This will make it your main profile moving forward.
-    EOF
+    set -euo pipefail
+    op_config="/etc/1password/custom_allowed_browsers"
+    if [[ ! -f "$op_config" ]] || ! grep -q "zen" "$op_config" 2>/dev/null; then
+        echo "Adding Zen to 1Password allowed browsers..."
+        sudo mkdir -p /etc/1password
+        echo "zen" | sudo tee -a "$op_config" > /dev/null
+        echo "zen-bin" | sudo tee -a "$op_config" > /dev/null
+        echo "Done. Restart 1Password and Zen Browser."
+    else
+        echo "Zen already in 1Password allowed browsers"
+    fi
 
-onepassword:
-    sudo mkdir /etc/1password
-    sudo touch /etc/1password/custom_allowed_browsers
-    echo "zen-bin" | sudo tee -a /etc/1password/custom_allowed_browsers
+# List available profiles
+profiles:
+    @echo "Zen Browser profiles:"
+    @ls -1 "{{profiles_dir}}" 2>/dev/null || echo "  (no profiles found)"
 
-onepassword-bak:
-    sudo mkdir /etc/1password
-    sudo touch /etc/1password/custom_allowed_browsers
-    echo "zen-bin" | sudo tee -a /etc/1password/custom_allowed_browsers
+# Backup a profile
+backup profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    profile_path="{{profiles_dir}}/{{profile}}"
+    backup_path="{{justfile_directory()}}/backups/{{profile}}-$(date +%Y%m%d).tar.gz"
 
-# activity-stream.discovery_stream.json
-# safebrowsing
-# activity-stream.inferred_personalization_feed.json
-# settings
-# activity-stream.weather_feed.json
-# startupCache
-# cache2
-# thumbnails
+    if [[ ! -d "$profile_path" ]]; then
+        echo "Profile not found: {{profile}}"
+        echo "Available profiles:"
+        ls -1 "{{profiles_dir}}"
+        exit 1
+    fi
+
+    mkdir -p "{{justfile_directory()}}/backups"
+    echo "Backing up profile {{profile}}..."
+    tar -czf "$backup_path" -C "{{profiles_dir}}" "{{profile}}"
+    echo "Created: $backup_path"
+
+# Restore a profile from backup
+restore backup_file profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ ! -f "{{backup_file}}" ]]; then
+        echo "Backup not found: {{backup_file}}"
+        exit 1
+    fi
+
+    echo "Restoring to profile {{profile}}..."
+    mkdir -p "{{profiles_dir}}"
+    tar -xzf "{{backup_file}}" -C "{{profiles_dir}}"
+    echo "Restored. You may need to update profiles.ini"
+
+# Open profile folder
+open-profile profile:
+    open "{{profiles_dir}}/{{profile}}"
+
+# List installed extensions (reads extensions.json from profile)
+extensions profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    ext_file="{{profiles_dir}}/{{profile}}/extensions.json"
+    if [[ -f "$ext_file" ]]; then
+        echo "Installed extensions in {{profile}}:"
+        jq -r '.addons[] | select(.type == "extension") | "  - \(.defaultLocale.name // .id)"' "$ext_file" 2>/dev/null || cat "$ext_file"
+    else
+        echo "No extensions.json found for profile {{profile}}"
+    fi
+
+# Export extension list from profile
+export-extensions profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    ext_file="{{profiles_dir}}/{{profile}}/extensions.json"
+    if [[ -f "$ext_file" ]]; then
+        echo "Exporting extension list..."
+        jq -r '.addons[] | select(.type == "extension") | {id: .id, name: .defaultLocale.name}' "$ext_file" > "{{justfile_directory()}}/extensions-export.json"
+        echo "Exported to extensions-export.json"
+    else
+        echo "No extensions.json found"
+    fi
+
+# Show Zen Browser info
+info:
+    @echo "Zen Browser Application Support: {{zen_support}}"
+    @echo "Profiles directory: {{profiles_dir}}"
+    @echo ""
+    @echo "Available profiles:"
+    @ls -1 "{{profiles_dir}}" 2>/dev/null || echo "  (none)"
+
+# Open about:profiles in Zen
+about-profiles:
+    open "zen://about:profiles"
+
+# Open about:config in Zen
+about-config:
+    open "zen://about:config"

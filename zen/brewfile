@@ -1,0 +1,5 @@
+# Zen Browser - Firefox-based privacy browser
+cask "zen-browser"
+
+# Smart card support (optional - for CAC/PIV)
+brew "opensc"

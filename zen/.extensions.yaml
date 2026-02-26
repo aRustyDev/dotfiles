@@ -1,0 +1,179 @@
+---
+firefox:
+  - name: medium-parser
+    authors:
+      - name: Xatta Trone
+        id: 16801663
+  - name: alphaxiv
+    authors:
+      - name: alphaXiv
+        id: 18785493
+  - name: 1password-x-password-manager
+    authors:
+      - name: 1Password
+        id: 13862630
+  - name: passbolt
+    authors:
+      - name: passbolt
+        id: 12112545
+  - name: video-downloadhelper
+    authors:
+      - name: vdh
+        id: 10271793
+  - name: duckduckgo-for-firefox
+    authors:
+      - name: DuckDuckGo
+        id: 3946396
+  - name: view-page-archive
+    authors:
+      - name: Armin Sebastian
+        id: 12929064
+  - name: google-scholar-button
+    authors:
+      - name: Alex Verstak, Google
+        id: 11593414
+  - name: wappalyzer
+    authors:
+      - name: Wappalyzer
+        id: 3609035
+  - name: search_by_image
+    authors:
+      - name: Armin Sebastian
+        id: 12929064
+  - name: foxyproxy-standard
+    authors:
+      - name: Eric Jung
+        id: 323
+      - name: erosman
+        id: 690471
+  - name: ublock-origin
+    authors:
+      - name: Raymond Hill
+        id: 11423598
+  - name: privacy-badger17
+    authors:
+      - name: EFF Technologists
+        id: 5474073
+  - name: clearurls
+    authors:
+      - name: Kevin
+        id: 13196993
+  - name: darkreader
+    authors:
+      - name: Dark Reader Ltd
+        id: 13299734
+  - name: cookie-editor
+    authors:
+      - name: cgagnier
+        id: 13398102
+  - name: colorzilla
+    authors:
+      - name: Alex Sirota
+        id: 142
+  - name: styl-us
+    authors:
+      - name: Stylus Team
+        id: 13438734
+      - name: Jeremy Schomery
+        id: 11568224
+      - name: tophf
+        id: 15549494
+  - name: ground-news-bias-checker
+    authors:
+      - name: Ground News
+        id: 16241722
+  - name: link-gopher
+    authors:
+      - name: Andrew Ziem
+        id: 933279
+  - name: wayback-machine_new
+    authors:
+      - name: Internet Archive
+        id: 12373129
+  - name: web-scraper
+    authors:
+      - name: webscraper.io
+        id: 14008366
+  - name: url-to-qrcode
+    authors:
+      - name: Saeed
+        id: 11218076
+  - name: fonts-ninja
+    authors:
+      - name: Fonts Ninja
+        id: 12076919
+  - name: internet_archive_downloader
+    authors:
+      - name: Element Davv
+        id: 17930091
+  - name: markdown-viewer-chrome
+    authors:
+      - name: simov
+        id: 13372193
+  - name: library_access
+    authors:
+      - name: TfS Extensions
+        id: 17789496
+  - name: axe-devtools
+    authors:
+      - name: Deque Systems Inc.
+        id: 11910730
+  - name: sqlite-manager-webext
+    authors:
+      - name: Lunu
+        id: 14106122
+  - name: table-capture-firefox
+    authors:
+      - name: GeorgeMike.com
+        id: 13585784
+  - name: frm-filler
+    authors:
+      - name: Form Filler
+        id: 18515459
+  - name: lightning-autofill
+    authors:
+      - name: tohodo.com
+        id: 5550677
+  - name: github-lines-of-code
+    authors:
+      - name: pajecawav
+        id: 17357266
+
+external:
+  - name: Zotero Connector
+    url: https://www.zotero.org/download/connector/dl?browser=firefox&version=5.0.195
+todo:
+  - name: auto-fill-job-app
+    comments:
+      - Source, analyze, and compare the existing implementations robustly
+      - Identify what distinguishes a "Job App Autofiller" from a generalized "Form Autofiller"
+      - Identify how to handle tracking of different applications statuses
+      - Integrate w/ Notion APIs & SQLite/DuckDB/KuzuDB
+  - name: github-qol
+    inspo:
+      - https://addons.mozilla.org/en-US/firefox/addon/octotree/
+      - https://addons.mozilla.org/en-US/firefox/addon/widegithub/
+      - https://addons.mozilla.org/en-US/firefox/addon/gloc/
+      - https://addons.mozilla.org/en-US/firefox/addon/material-icons-for-github/
+      - https://addons.mozilla.org/en-US/firefox/addon/notifier-for-github/
+      - https://addons.mozilla.org/en-US/firefox/addon/le-git-graph-github-git-graph/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-repo-size/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-mermaid/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-wiki-search/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-download-button-addon/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-isometric-contributions/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-code-folding/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-toc/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-gists/
+      - https://addons.mozilla.org/en-US/firefox/addon/conventional-comments-pullpo/
+      - https://addons.mozilla.org/en-US/firefox/addon/github_forks/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-better-line-counts/
+      - https://addons.mozilla.org/en-US/firefox/addon/contributor-on-github/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-jira-issue-linkifier/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-aid/
+      - https://addons.mozilla.org/en-US/firefox/addon/better-github-co-authors/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-deepwiki-unofficial/
+      - https://addons.mozilla.org/en-US/firefox/addon/github-codeowners/
+      - https://addons.mozilla.org/en-US/firefox/addon/pin-for-github/
+      - https://addons.mozilla.org/en-US/firefox/addon/notebook-viewer-btn-for-github/
+      - https://addons.mozilla.org/en-US/firefox/addon/a11y-checker-github-md/

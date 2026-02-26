@@ -1,2 +1,4 @@
-# Zen browser profile location (macOS)
-dotdir: "{{home}}/Library/Caches/zen/Profiles"
+# Zen Browser profile location (macOS)
+# Profiles are in ~/Library/Application Support/zen/Profiles/<profile-id>/
+dotdir: "{{home}}/Library/Application Support/zen"
+profiles_dir: "{{home}}/Library/Application Support/zen/Profiles"
