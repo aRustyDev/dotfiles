@@ -1,0 +1,5 @@
+# Sketch stores config in ~/Library/Application Support/com.bohemiancoding.sketch3/
+# and preferences in ~/Library/Preferences/com.bohemiancoding.sketch3.plist
+app_support: "{{home}}/Library/Application Support/com.bohemiancoding.sketch3"
+plugins_dir: "{{home}}/Library/Application Support/com.bohemiancoding.sketch3/Plugins"
+templates_dir: "{{home}}/Library/Application Support/com.bohemiancoding.sketch3/Templates"

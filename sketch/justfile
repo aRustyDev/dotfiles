@@ -2,6 +2,41 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-[group(stubs)]
-install:
-    @echo "sketch: No config files to install yet"
+# Sketch directories
+app_support := home_dir / "Library/Application Support/com.bohemiancoding.sketch3"
+plugins_dir := app_support / "Plugins"
+templates_dir := app_support / "Templates"
+
+# Install Sketch
+install: dependencies
+
+# Install Sketch via Homebrew
+dependencies:
+    brew bundle --file=brewfile --no-lock
+
+# Create plugin/template directories
+mktree:
+    mkdir -p "{{plugins_dir}}"
+    mkdir -p "{{templates_dir}}"
+
+# List installed plugins
+plugins:
+    @echo "Installed Sketch plugins:"
+    @ls -1 "{{plugins_dir}}" 2>/dev/null || echo "  (none)"
+
+# Open Sketch plugins folder
+open-plugins:
+    open "{{plugins_dir}}"
+
+# Open Sketch templates folder
+open-templates:
+    open "{{templates_dir}}"
+
+# Show Sketch info
+info:
+    @echo "Sketch Application Support: {{app_support}}"
+    @echo "Plugins directory: {{plugins_dir}}"
+    @echo "Templates directory: {{templates_dir}}"
+    @echo ""
+    @echo "Installed plugins:"
+    @ls -1 "{{plugins_dir}}" 2>/dev/null || echo "  (none)"
