@@ -52,8 +52,8 @@ keybinds clear-defaults=true {
 		bind "r" { SwitchToMode "RenameTab"; TabNameInput 0; }
 		bind "h" "Left" "Up" "k" { GoToPreviousTab; SwitchToMode "Normal"; }
 		bind "l" "Right" "Down" "j" { GoToNextTab; SwitchToMode "Normal"; }
-		bind "n" { NewTab; SwitchToMode "Normal"; SwitchToMode "Normal"; }
-		bind "x" { CloseTab; SwitchToMode "Normal"; SwitchToMode "Normal"; }
+		bind "n" { NewTab; SwitchToMode "Normal"; }
+		bind "x" { CloseTab; SwitchToMode "Normal"; }
 		bind "s" { ToggleActiveSyncTab; SwitchToMode "Normal"; }
 		bind "b" { BreakPane; SwitchToMode "Normal"; }
 		bind "]" { BreakPaneRight; SwitchToMode "Normal"; }
@@ -111,7 +111,6 @@ keybinds clear-defaults=true {
 	}
 	session {
 		bind "Ctrl x" { SwitchToMode "Normal"; }
-		bind "Ctrl x" { SwitchToMode "Scroll"; }
 		bind "d" { Detach; }
 		bind "w" {
 		    LaunchOrFocusPlugin "zellij:session-manager" {
@@ -223,27 +222,8 @@ pane_frames false
 //
 // auto_layout true
 
-// Define color themes for Zellij
-// For more examples, see: https://github.com/zellij-org/zellij/tree/main/example/themes
-// Once these themes are defined, one of them should to be selected in the "theme" section of this file
-//
-// themes {
-// 	dracula {
-// 		fg 248 248 242
-// 			bg 40 42 54
-// 			red 255 85 85
-// 			green 80 250 123
-// 			yellow 241 250 140
-// 			blue 98 114 164
-// 			magenta 255 121 198
-// 			orange 255 184 108
-// 			cyan 139 233 253
-// 			black 0 0 0
-// 			white 255 255 255
-// 	}
-// }
-
 // Choose the theme that is specified in the themes section.
+// For more themes, see: https://github.com/zellij-org/zellij/tree/main/example/themes
 // Default: default
 //
 theme "catppuccin-mocha"
@@ -312,9 +292,9 @@ theme "catppuccin-mocha"
 // mirror_session true
 
 // The folder in which Zellij will look for layouts
-//
-// layout_dir "/Users/omerhamerman/dotfiles/zellij/layouts"
+// Uncomment and set to use custom layouts
+// layout_dir "$HOME/.config/zellij/layouts"
 
 // The folder in which Zellij will look for themes
-//
-theme_dir "/Users/omerxx/dotfiles/zellij/themes"
+// Uncomment and set to use custom themes
+// theme_dir "$HOME/.config/zellij/themes"
