@@ -24,6 +24,8 @@ mod skhd 'skhd/justfile'
 mod ntfy 'ntfy/justfile'
 # a GPU-accelerated terminal emulator
 mod kitty 'kitty/justfile'
+# a fast search engine
+mod meilisearch 'databases/meilisearch/justfile'
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
