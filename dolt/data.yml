@@ -1,0 +1,4 @@
+# Dolt global config location
+dotdir: "{{home}}/.dolt"
+# Default databases directory
+databases_dir: "{{home}}/.local/share/dolt/databases"

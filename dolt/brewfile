@@ -1,0 +1,2 @@
+brew "dolt"
+brew "doltgres"

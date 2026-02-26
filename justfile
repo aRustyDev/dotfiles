@@ -26,6 +26,8 @@ mod ntfy 'ntfy/justfile'
 mod kitty 'kitty/justfile'
 # a fast search engine
 mod meilisearch 'databases/meilisearch/justfile'
+# a SQL database with Git-like version control
+mod dolt 'dolt/justfile'
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
