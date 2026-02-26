@@ -4,85 +4,137 @@ Karabiner-Elements - powerful keyboard customizer for macOS.
 
 ## Current Configuration
 
-- **Status**: Stub module (no config installed yet)
+- `karabiner.json` - Main configuration with Hyper key and vim navigation
+- `brewfile` - Karabiner-Elements cask
 - `examples/` - Reference configurations
 
-## TODOs
+### Features Enabled
 
-### Setup (Critical)
+- **Hyper Key**: Caps Lock acts as Escape (tap) or Hyper (hold)
+  - Hyper = Ctrl + Option + Cmd + Shift
+- **Vim Navigation**: Hyper + hjkl for arrow keys
+- **Right Cmd Navigation**: Right Command + hjkl for arrows
+- **App Launchers**: Hyper + key for quick app access
+- **Function Keys**: Standard macOS function key behavior
 
-- [ ] **Create karabiner.json**: Main configuration file
-  - Config location: `~/.config/karabiner/karabiner.json`
-  - Karabiner manages this file directly
+## Installation
 
-- [ ] **Note**: Karabiner modifies its config file in-place
-  - May need to use copy instead of symlink
-  - Or configure Karabiner to use a different path
+```bash
+just -f karabiner/justfile install
+```
 
-### Configuration (High Priority)
+**Important**: Grant Input Monitoring permission in System Preferences → Privacy & Security → Input Monitoring
 
-- [ ] **Basic remappings**:
-  ```json
-  {
-    "simple_modifications": [
-      { "from": { "key_code": "caps_lock" }, "to": [{ "key_code": "escape" }] }
-    ]
-  }
-  ```
+## Keybindings
 
-- [ ] **Complex modifications**: Hyper key, layers
-  ```json
-  {
-    "description": "Caps Lock → Hyper (Ctrl+Option+Cmd+Shift)",
-    "manipulators": [{
-      "from": { "key_code": "caps_lock", "modifiers": { "optional": ["any"] } },
-      "to": [{ "key_code": "left_shift", "modifiers": ["left_control", "left_option", "left_command"] }],
-      "to_if_alone": [{ "key_code": "escape" }],
-      "type": "basic"
-    }]
-  }
-  ```
+### Hyper Key (Caps Lock)
 
-- [ ] **Device-specific rules**: Different keyboards
-  - Internal MacBook keyboard
-  - External mechanical keyboard
-  - Differentiate by vendor_id/product_id
+| Key | Action |
+|-----|--------|
+| `Caps Lock` (tap) | Escape |
+| `Caps Lock` (hold) | Hyper modifier |
 
-### Popular Modifications
+### Navigation (Vim-style)
 
-- [ ] **Caps Lock as Escape/Hyper**: Most common mod
-- [ ] **Vim navigation**: Caps + hjkl for arrows
-- [ ] **App switching**: Hyper + letter for specific apps
-- [ ] **Window management**: Integration with aerospace/yabai
+| Key | Action |
+|-----|--------|
+| `Hyper + h` | Left arrow |
+| `Hyper + j` | Down arrow |
+| `Hyper + k` | Up arrow |
+| `Hyper + l` | Right arrow |
+| `Right Cmd + h/j/k/l` | Arrow keys (alternative) |
 
-### Integration
+### App Launchers
 
-- [ ] **Aerospace integration**: Keybindings for window management
-- [ ] **Application shortcuts**: Quick app launching
-  ```json
-  { "from": { "key_code": "t", "modifiers": { "mandatory": ["hyper"] } },
-    "to": [{ "shell_command": "open -a 'Terminal'" }] }
-  ```
+| Key | Action |
+|-----|--------|
+| `Hyper + Return` | Open Ghostty (terminal) |
+| `Hyper + B` | Open Zen Browser |
+| `Hyper + E` | Open VS Code |
 
-### Resources
+### Reserved for Custom Use
 
-- [ ] **Goku**: Consider using Goku for easier configuration
-  - Write rules in EDN instead of JSON
-  - https://github.com/yqrashawn/GokuRakuJoudo
+| Key | Maps to |
+|-----|---------|
+| `Hyper + 1` | F11 |
+| `Hyper + 2` | F12 |
+| `Hyper + 3` | F13 |
+| `Hyper + 4` | F14 |
+| `Hyper + 5` | F15 |
 
-- [ ] **Import rules from community**:
-  - https://ke-complex-modifications.pqrs.org/
+Use these F-keys in other apps (like Aerospace) for custom shortcuts.
+
+## Recipes
+
+```bash
+# Install config (copies to ~/.config/karabiner/)
+just -f karabiner/justfile install
+
+# Pull changes made in Karabiner GUI back to dotfiles
+just -f karabiner/justfile pull
+
+# Show diff between dotfiles and installed config
+just -f karabiner/justfile diff
+```
 
 ## Notes
 
-Karabiner-Elements requires:
-- Input Monitoring permission (System Preferences → Privacy)
-- Sometimes requires restart after permission changes
-- Config file is actively managed by the app
+- Karabiner modifies its config file in-place, so we use **copy** instead of symlink
+- Use `just pull` to sync changes made in Karabiner GUI back to dotfiles
+- Config is backed up before overwriting (karabiner.json.bak.TIMESTAMP)
+
+## TODOs
+
+### Enhancements (Medium Priority)
+
+- [ ] **Add more app launchers**:
+  - `Hyper + S` → Slack
+  - `Hyper + N` → Notes
+  - `Hyper + F` → Finder
+  - `Hyper + M` → Mail
+
+- [ ] **Device-specific rules**: Different settings for:
+  - Internal MacBook keyboard
+  - External mechanical keyboard
+  - Configure by vendor_id/product_id
+
+- [ ] **Text navigation**:
+  - `Hyper + w` → Option + Right (word forward)
+  - `Hyper + b` → Option + Left (word backward)
+  - `Hyper + 0` → Cmd + Left (line start)
+  - `Hyper + $` → Cmd + Right (line end)
+
+### Integration (Low Priority)
+
+- [ ] **Aerospace integration**: Use Hyper + 1-9 for workspace switching
+  - Configure Aerospace to use F11-F19 as workspace keys
+
+- [ ] **Goku migration**: Consider migrating to Goku for easier config
+  - Write rules in EDN instead of JSON
+  - https://github.com/yqrashawn/GokuRakuJoudo
+
+### Community Rules
+
+- [ ] **Import useful rules** from https://ke-complex-modifications.pqrs.org/
+  - "Quit application by pressing Cmd+Q twice"
+  - "Mouse Keys Mode"
+
+## File Structure
+
+```
+karabiner/
+├── karabiner.json    # Main config (copied to ~/.config/karabiner/)
+├── brewfile          # Karabiner-Elements cask
+├── justfile          # Installation recipes
+├── data.yml          # Module config
+├── README.md         # This file
+└── examples/
+    └── omerxx.karabiner.json
+```
 
 ## References
 
 - [Karabiner-Elements Website](https://karabiner-elements.pqrs.org/)
-- [Complex Modifications](https://ke-complex-modifications.pqrs.org/)
-- [Goku](https://github.com/yqrashawn/GokuRakuJoudo)
+- [Complex Modifications Gallery](https://ke-complex-modifications.pqrs.org/)
+- [Goku - EDN Config](https://github.com/yqrashawn/GokuRakuJoudo)
 - [Karabiner God Mode](https://medium.com/@nikitavoloboev/karabiner-god-mode-7407a5ddc8f6)

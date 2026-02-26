@@ -2,6 +2,42 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-[group(stubs)]
-install:
-    @echo "karabiner: No config files to install yet (see examples/)"
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+
+# NOTE: Karabiner modifies its config in-place, so we use copy not symlink
+install: dependencies config
+    @echo "karabiner: Installation complete"
+    @echo "  Grant Input Monitoring permission in System Preferences → Privacy"
+
+dependencies:
+    brew bundle install --file "{{justfile_directory()}}/brewfile"
+
+config: mktree backup
+    cp "{{justfile_directory()}}/karabiner.json" "{{dotdir}}/karabiner.json"
+    @echo "Config copied to {{dotdir}}"
+
+mktree:
+    mkdir -p "{{dotdir}}"
+
+# Backup existing config before overwriting
+backup:
+    #!/usr/bin/env bash
+    if [[ -f "{{dotdir}}/karabiner.json" ]]; then
+        cp "{{dotdir}}/karabiner.json" "{{dotdir}}/karabiner.json.bak.$(date +%Y%m%d_%H%M%S)"
+        echo "Backed up existing config"
+    fi
+
+# Pull changes from Karabiner back to dotfiles
+pull:
+    #!/usr/bin/env bash
+    if [[ -f "{{dotdir}}/karabiner.json" ]]; then
+        cp "{{dotdir}}/karabiner.json" "{{justfile_directory()}}/karabiner.json"
+        echo "Pulled config from {{dotdir}} to dotfiles"
+    else
+        echo "No config found at {{dotdir}}/karabiner.json"
+        exit 1
+    fi
+
+# Show diff between dotfiles and installed config
+diff:
+    @diff -u "{{justfile_directory()}}/karabiner.json" "{{dotdir}}/karabiner.json" || true
