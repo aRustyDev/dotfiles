@@ -671,25 +671,34 @@ gt sling <bead> <rig> --create  # Uses haiku
 
 ### Multi-Model Workflow Limitations (Tested)
 
-**Known issues when using smaller models (haiku) for autonomous workflows:**
-1. **Haiku may fail complex workflows** - exits early without completing multi-step tasks
-2. **Session restart resets agent** - `--agent` flag only applies to initial spawn; `gt session restart` reverts to default agent
-3. **No native multi-model support** - cannot specify different models per molecule phase
+**Haiku does NOT work as a gastown polecat:**
+- Fails to follow explicit instructions
+- Gets distracted by tangential concerns
+- Uses wrong bead IDs
+- Exits without completing even simple bounded tasks
 
-**Workaround for multi-model workflows:**
+**Session restart resets agent** - `--agent` flag only applies to initial spawn; `gt session restart` reverts to default agent.
+
+**Working multi-model pattern:**
 ```bash
-# Manual phase handoff (not automated)
-# 1. Sling Phase 1 step to haiku polecat
-gt sling <phase1-step-id> <rig> --agent claude-haiku --create
+# Use Sonnet for Phase 1 (mechanical scans)
+gt sling <phase1-bead> <rig> --agent claude-sonnet --create
 
-# 2. Monitor completion
-gt session capture <rig>/<polecat>
+# Use Sonnet for Phase 2 (judgment calls)
+gt sling <phase2-bead> <rig> --agent claude-sonnet --create
 
-# 3. Manually sling Phase 2 to sonnet polecat
-gt sling <phase2-step-id> <rig> --agent claude-sonnet --create
+# Opus for orchestration and cross-cutting work (main thread)
 ```
 
-**Recommendation**: Use Opus or Sonnet for complex autonomous workflows. Haiku is better suited for simple, single-step tasks.
+**Model recommendations for gastown polecats:**
+
+| Role | Model | Notes |
+|------|-------|-------|
+| Phase 1 polecats | Sonnet | Haiku fails; Sonnet is reliable |
+| Phase 2 polecats | Sonnet | Judgment calls |
+| Orchestration | Opus | Complex reasoning, cross-cutting |
+
+**For haiku:** Use Claude Code's Task tool instead (`model="haiku"`) - haiku works via Task tool but not as autonomous polecat.
 
 ## Common Workflows
 
