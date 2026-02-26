@@ -30,6 +30,8 @@ mod meilisearch 'databases/meilisearch/justfile'
 mod dolt 'dolt/justfile'
 # version control with 1Password commit signing
 mod git 'git/justfile'
+# Kubernetes package manager
+mod helm 'helm/justfile'
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
