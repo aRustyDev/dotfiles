@@ -2,15 +2,15 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-OPWDOT := xdg_config + "/1Password/ssh"
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 
 # install 1Password related dotfiles to the system
-install: trees
-    @cp agent.toml {{ OPWDOT }}/agent.toml
+install: mktree
+    ln -sf "{{justfile_directory()}}/agent.toml" "{{dotdir}}/agent.toml"
 
 # Create 1Password related directory trees
-trees:
-    @mkdir -p {{ OPWDOT }}
+mktree:
+    mkdir -p "{{dotdir}}"
 
 build +targets:
     @just _merged $(just _uniq_targets {{ targets }}) | mustache mustaches/agent.mustache > agent.toml

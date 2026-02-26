@@ -1,15 +1,14 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../.build/just/lib.just'
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 domains := "nodejs.org yarnpkg.com registry.npmjs.org www.npmjs.com"
-root := `git rev-parse --show-toplevel`
 brew_root := `brew --prefix`
 unbound_conf := brew_root + "/etc/unbound/unbound.conf"
 log_dir := cache_directory() + "/unbound"
-voltad := root + "/volta"
 gobin := env("GOPATH") + "/bin"
 local_ip := "127.0.0.2"
-
-# Ensure we fail on errors inside recipe shell blocks
-
-set shell := ["bash", "-euo", "pipefail", "-c"]
 
 # Stop unbound, delete resolver files & restart mDNSResponder
 clean:
@@ -26,15 +25,15 @@ clean:
     brew uninstall unbound || true
     echo "==> Clean complete."
 
-install:
-    cp {{ voltad }}/justfile $VOLTA_HOME/justfile
-    cp {{ voltad }}/*.mustache $VOLTA_HOME/templates/
-    cp {{ voltad }}/*.jq $VOLTA_HOME/jq/
+install: mktree
+    ln -sf "{{justfile_directory()}}/justfile" "{{dotdir}}/justfile"
+    ln -sf "{{justfile_directory()}}/unbound.mustache" "{{dotdir}}/templates/unbound.mustache"
+    ln -sf "{{justfile_directory()}}/doggo.jq" "{{dotdir}}/jq/doggo.jq"
 
 mktree:
-    mkdir -p $VOLTA_HOME
-    mkdir -p $VOLTA_HOME/templates
-    mkdir -p $VOLTA_HOME/jq
+    mkdir -p "{{dotdir}}"
+    mkdir -p "{{dotdir}}/templates"
+    mkdir -p "{{dotdir}}/jq"
 
 # Startup unbound to support Volta
 init: install-prereqs

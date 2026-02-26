@@ -2,9 +2,9 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-dotdir := env("HOME")
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 
 install: config
 
 config:
-    cp .bashrc {{dotdir}}/.bashrc
+    ln -sf "{{justfile_directory()}}/.bashrc" "{{dotdir}}/.bashrc"

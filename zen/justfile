@@ -1,11 +1,16 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
+import '../.build/just/lib.just'
+
 # https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data
-zendir := env("HOME") + "/Library/Caches/zen/Profiles/"
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 profiles := "w9lwxj10"
 macos_domain := "app.zen-browser.zen"
 
+# NOTE: This module is for reference/backup - Zen browser manages its own profiles
+[group(stubs)]
 install:
+    @echo "zen: Browser profile reference module (see recipes for backup/restore)"
     just storage
     just site-preferences
     just chrome

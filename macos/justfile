@@ -21,3 +21,7 @@ settings:
     defaults write NSGlobalDomain com.apple.mouse.linear -bool "false"
     defaults write NSGlobalDomain com.apple.mouse.scaling -float "1"
     defaults write NSGlobalDomain AppleKeyboardUIMode -int "2"
+
+[group(stubs)]
+install:
+    @echo "macos: See specific recipes (settings, clean, etc.)"

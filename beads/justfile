@@ -1,10 +1,16 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
+import '../.build/just/lib.just'
 import '../completions/mods.just'
 
-install:
-    @cd "{{ justfile_directory() }}" && brew bundle
-    @cp "{{ justfile_directory() }}/config.yaml" ~/.config/bd/config.yaml
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+
+install: mktree
+    cd "{{justfile_directory()}}" && brew bundle
+    ln -sf "{{justfile_directory()}}/config.yaml" "{{dotdir}}/config.yaml"
+
+mktree:
+    mkdir -p "{{dotdir}}"
 
 completions:
     @bd completion bash > "{{ bash_compld }}/gt"

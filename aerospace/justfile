@@ -2,17 +2,13 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-dotdir := xdg_config + "/aerospace"
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 
 install: config
 
 config: mktree
-    cp config.toml {{dotdir}}/aerospace.toml
-    rm -f $HOME/.aerospace.toml
+    ln -sf "{{justfile_directory()}}/config.toml" "{{dotdir}}/aerospace.toml"
+    rm -f "$HOME/.aerospace.toml"
 
 mktree:
-    @mkdir -p {{dotdir}}
-
-build target:
-    #!/usr/bin/env bash
-    cat ""
+    mkdir -p "{{dotdir}}"

@@ -1,21 +1,18 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
+import '../.build/just/lib.just'
 import? "~/.config/just/lib/std.just"
 
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 user := `whoami`
-xdg_config_home := env("XDG_CONFIG_HOME", env("HOME") / ".config")
-xdg_data_home := env("XDG_CONFIG_HOME", env("HOME") / ".local/share")
-xdg_state_home := env("XDG_CONFIG_HOME", env("HOME") / ".local/state")
-xdg_cache_home := env("XDG_CONFIG_HOME", env("HOME") / ".local/cache")
-dot_docker := xdg_config_home / "docker"
+dot_docker := xdg_config + "/docker"
 
 fetch:
-    curl "https://just.arusty.dev/lib/std.just" > "{{ xdg_config_home }}/just/lib/std.just"
-    curl "https://just.arusty.dev/global/{{ user }}.just" > "{{ xdg_config_home }}/just/justfile"
+    curl "https://just.arusty.dev/lib/std.just" > "{{dotdir}}/lib/std.just"
+    curl "https://just.arusty.dev/global/{{ user }}.just" > "{{dotdir}}/justfile"
 
-install: mktree fetch
-    # cp *.just "{{ xdg_data_home }}/just/" 2> /dev/null
-    cp "{{ justfile() }}" "{{ xdg_config_home }}/just/justfile"
+install: mktree
+    ln -sf "{{justfile_directory()}}/justfile" "{{dotdir}}/justfile"
 
 # Deploy docker config for profile (DOCKER_WORKSPACE targets application)
 docker-deploy profile="core":

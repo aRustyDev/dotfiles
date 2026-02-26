@@ -1,5 +1,8 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
+import '../.build/just/lib.just'
+
+# System files in /etc/pam.d/ - must be copies (symlinks not secure)
 install: _bak
     @brew bundle -f "{{ justfile_directory() }}/brewfile"
     @sudo cp sudo_brew /etc/pam.d/sudo_brew

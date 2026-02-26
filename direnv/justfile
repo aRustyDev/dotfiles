@@ -1,3 +1,14 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+
+install: config
+
+config: mktree
+    ln -sf "{{justfile_directory()}}/direnvrc" "{{dotdir}}/direnvrc"
+    ln -sf "{{justfile_directory()}}/lib" "{{dotdir}}/lib"
+
+mktree:
+    mkdir -p "{{dotdir}}"

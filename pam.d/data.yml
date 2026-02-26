@@ -1,0 +1,2 @@
+# System files - copies required (symlinks not secure for PAM)
+dotdir: "/etc/pam.d"

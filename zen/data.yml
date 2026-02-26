@@ -1,0 +1,2 @@
+# Zen browser profile location (macOS)
+dotdir: "{{home}}/Library/Caches/zen/Profiles"

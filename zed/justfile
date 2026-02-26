@@ -2,7 +2,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-zed_dot_dir := xdg_config + "/zed"
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 settings := `mktemp -d -t "zed.settings"`
 debug := `mktemp -d -t "zed.debug"`
 setting_files := "settings debug"
@@ -17,9 +17,13 @@ build:
         rm -rf $TMPDIR/zed.*; \
     done
 
-# Installs Zed dotiles to XDG_CONFIG_HOME/zed
-install:
-    @cp "{{ root }}/.zed/{settings,debug}.json" "{{ zed_dot_dir }}/"
+# Installs Zed dotfiles to XDG_CONFIG_HOME/zed
+install: mktree
+    ln -sf "{{root}}/.zed/settings.json" "{{dotdir}}/settings.json"
+    ln -sf "{{root}}/.zed/debug.json" "{{dotdir}}/debug.json"
+
+mktree:
+    mkdir -p "{{dotdir}}"
 
 # Takes Merges file and pushes to repo local zed
 _update: _clean

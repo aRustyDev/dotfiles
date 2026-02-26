@@ -1,0 +1,2 @@
+# Volta uses $VOLTA_HOME (typically ~/.volta)
+dotdir: "{{home}}/.volta"

@@ -1,11 +1,14 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
+import '../.build/just/lib.just'
+
 # =============================================================================
 # Docker Compose Profile Management
 # =============================================================================
 # Directory configuration
 
-dot_docker := env("XDG_CONFIG_HOME", env("HOME") / ".config") / "docker"
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+dot_docker := dotdir
 docker_state := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "docker"
 src_docker := justfile_directory()
 unbound_conf := `brew --prefix` / "etc/unbound/unbound.conf"
@@ -37,15 +40,15 @@ init: mktree mkcerts dns-init loopback-alias
 
 # Install the Docker dotfiles
 install: mktree
-    cp -r "{{ src_docker }}/.env" "{{ dot_docker }}/.env"
-    cp -r "{{ src_docker }}/data" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/files" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/config" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/modules" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/brewfile" "{{ dot_docker }}/brewfile"
-    cp -r "{{ src_docker }}/justfile" "{{ dot_docker }}/justfile"
-    cp -r "{{ src_docker }}/workspaces" "{{ dot_docker }}"
-    cp -r "{{ src_docker }}/docker-compose.yaml" "{{ dot_docker }}/docker-compose.yaml"
+    ln -sf "{{justfile_directory()}}/.env" "{{dotdir}}/.env"
+    ln -sf "{{justfile_directory()}}/data" "{{dotdir}}/data"
+    ln -sf "{{justfile_directory()}}/files" "{{dotdir}}/files"
+    ln -sf "{{justfile_directory()}}/config" "{{dotdir}}/config"
+    ln -sf "{{justfile_directory()}}/modules" "{{dotdir}}/modules"
+    ln -sf "{{justfile_directory()}}/brewfile" "{{dotdir}}/brewfile"
+    ln -sf "{{justfile_directory()}}/justfile" "{{dotdir}}/justfile"
+    ln -sf "{{justfile_directory()}}/workspaces" "{{dotdir}}/workspaces"
+    ln -sf "{{justfile_directory()}}/docker-compose.yaml" "{{dotdir}}/docker-compose.yaml"
 
 # Subdomains to include in certificate (Node.js doesn't match wildcards)
 

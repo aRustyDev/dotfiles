@@ -1,3 +1,15 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+
+install: config
+
+config: mktree
+    ln -sf "{{justfile_directory()}}/init.lua" "{{dotdir}}/init.lua"
+    ln -sf "{{justfile_directory()}}/lua" "{{dotdir}}/lua"
+    ln -sf "{{justfile_directory()}}/spell" "{{dotdir}}/spell"
+
+mktree:
+    mkdir -p "{{dotdir}}"

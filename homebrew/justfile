@@ -18,3 +18,7 @@ commit target msg:
     git add {{homebrew}}/{{target}}
     git commit -S -m "{{msg}}" || echo "No changes to commit"
     git stash pop
+
+[group(stubs)]
+install:
+    @echo "homebrew: See specific recipes (settings, clean, etc.)"

@@ -1,0 +1,2 @@
+# System files - copies required (symlinks might not work for /etc/paths.d)
+dotdir: "/etc/paths.d"

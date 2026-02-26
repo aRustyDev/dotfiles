@@ -1,0 +1,2 @@
+# Bash uses $HOME for rc files (not XDG compliant)
+dotdir: "{{home}}"

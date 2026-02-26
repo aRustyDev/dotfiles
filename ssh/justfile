@@ -2,9 +2,10 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 ssh := root + "/ssh"
 output_file := ssh + "/config"
-dotssh := if env("XDG_CONFIG_HOME", "") != "" { "$XDG_CONFIG_HOME/ssh" } else { "$HOME/.ssh" }
+dotssh := dotdir
 
 list-targets target="*":
     @ls -1 {{ if target == "*" { ssh + "/configs/" } else { ssh + "/configs/" + target } }}

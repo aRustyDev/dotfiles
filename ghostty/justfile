@@ -2,19 +2,18 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-ghostty := root + "/ghostty"
-dotdir := xdg_config + "/ghostty"
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 
 install: config configs themes
 
 mktree:
-    @mkdir -p {{dotdir}}/{configs,themes}
+    mkdir -p "{{dotdir}}"
 
 config: mktree
-    @cp {{ghostty}}/config {{dotdir}}/config
+    ln -sf "{{justfile_directory()}}/config" "{{dotdir}}/config"
 
 configs: mktree
-    @cp -r {{ghostty}}/configs/* {{dotdir}}/configs/
+    ln -sf "{{justfile_directory()}}/configs" "{{dotdir}}/configs"
 
 themes: mktree
-    @cp -r {{ghostty}}/themes/* {{dotdir}}/themes/
+    ln -sf "{{justfile_directory()}}/themes" "{{dotdir}}/themes"

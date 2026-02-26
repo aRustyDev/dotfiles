@@ -1,0 +1,2 @@
+# SSH uses ~/.ssh by default (not XDG compliant)
+dotdir: "{{home}}/.ssh"

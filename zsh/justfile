@@ -2,51 +2,33 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-zsh := root + "/zsh"
-docker := root + "/.build/zsh.Dockerfile"
-dotdir := xdg_config + "/zsh"
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
 
 test:
     echo "Testing ZSH"
     docker run --rm -it --device /dev/kvm -v /tmp/.X11-unix:/tmp/.X11-unix zshrc:latest
     echo "Testing Complete"
 
-install: zshenv zshrc zprofile zlogin zplugins zinit zcomp zfuncs dot_helper
+install: config dot_helper
     @echo " ::: source {{dotdir}}/.zshenv"
     @echo " ::: source {{dotdir}}/.zshrc"
 
-zplugins: mktree
-    @cp -r "{{ justfile_directory() }}/plugins" "{{ dotdir }}"
+config: mktree
+    ln -sf "{{justfile_directory()}}/.zshenv" "{{dotdir}}/.zshenv"
+    ln -sf "{{justfile_directory()}}/.zshrc" "{{dotdir}}/.zshrc"
+    ln -sf "{{justfile_directory()}}/.zprofile" "{{dotdir}}/.zprofile"
+    ln -sf "{{justfile_directory()}}/.zlogin" "{{dotdir}}/.zlogin"
+    ln -sf "{{justfile_directory()}}/plugins" "{{dotdir}}/plugins"
+    ln -sf "{{justfile_directory()}}/init" "{{dotdir}}/init"
+    ln -sf "{{justfile_directory()}}/functions" "{{dotdir}}/functions"
+    ln -sf "{{justfile_directory()}}/completions" "{{dotdir}}/completions"
 
-zinit: mktree
-    @cp -r "{{ justfile_directory() }}/init" "{{ dotdir }}"
+# System file - copy required (symlinks not reliable for /etc)
+etc-zshenv:
+    sudo cp "{{justfile_directory()}}/etc/.zshenv" /etc/zshenv
 
-zfuncs: mktree
-    @cp -r "{{ justfile_directory() }}/functions" "{{ dotdir }}"
-
-zcomp: mktree
-    @cp -r "{{ justfile_directory() }}/completions" "{{ dotdir }}"
-
-dot_helper: mktree
-    @cp -r "{{root}}/dot_helper/" "{{xdg_config}}"
-
-zlogin: mktree
-    @cp "{{ justfile_directory() }}/.zlogin" "{{dotdir}}/.zlogin"
-    @echo "Copied .zlogin -> {{dotdir}}/.zlogin"
-
-zprofile: mktree
-    @cp "{{ justfile_directory() }}/.zprofile" "{{dotdir}}/.zprofile"
-    @echo "Copied .zprofile -> {{dotdir}}/.zprofile"
-
-zshrc: mktree
-    @cp "{{ justfile_directory() }}/.zshrc" "{{dotdir}}/.zshrc"
-    @echo "Copied .zshrc -> {{dotdir}}/.zshrc"
-
-zshenv: mktree
-    @cp "{{ justfile_directory() }}/.zshenv" "{{dotdir}}/.zshenv"
-    @echo "Copied .zshenv -> {{dotdir}}/.zshenv"
-    @sudo cp "{{ justfile_directory() }}/etc/.zshenv" /etc/zshenv
-    @echo "Copied ./etc/.zshenv -> /etc/zshenv"
+dot_helper:
+    ln -sf "{{justfile_directory()}}/../dot_helper" "{{xdg_config}}/dot_helper"
 
 mktree:
-    @mkdir -p {{ dotdir }}/{completions,init,plugins,functions}
+    mkdir -p "{{dotdir}}"
