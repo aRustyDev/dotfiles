@@ -1,0 +1,2 @@
+# WireGuard config location (requires sudo)
+dotdir: "/etc/wireguard"

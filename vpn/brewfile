@@ -1,0 +1,5 @@
+# WireGuard VPN tools
+brew "wireguard-tools"
+
+# Optional: WireGuard GUI app
+# cask "wireguard-go"

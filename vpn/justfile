@@ -2,6 +2,119 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-[group(stubs)]
-install:
-    @echo "vpn: No config files to install yet"
+# WireGuard config directory (system-level, requires sudo)
+wg_dir := "/etc/wireguard"
+
+# Install WireGuard tools
+install: dependencies
+    @echo "WireGuard tools installed."
+    @echo "Use 'just -f vpn/justfile setup <config>' to install a config."
+
+# Install dependencies via Homebrew
+dependencies:
+    brew bundle --file=brewfile --no-lock
+
+# Create WireGuard directory (requires sudo)
+mktree:
+    sudo mkdir -p "{{wg_dir}}"
+    sudo chmod 700 "{{wg_dir}}"
+
+# =============================================================================
+# Configuration Management
+# =============================================================================
+
+# Install a WireGuard config (requires sudo)
+setup config:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    src="{{justfile_directory()}}/{{config}}.conf"
+    dest="{{wg_dir}}/{{config}}.conf"
+
+    if [[ ! -f "$src" ]]; then
+        echo "Config not found: $src"
+        echo "Available configs:"
+        ls -1 "{{justfile_directory()}}"/*.conf 2>/dev/null || echo "  (none)"
+        exit 1
+    fi
+
+    echo "Installing {{config}} config..."
+    sudo mkdir -p "{{wg_dir}}"
+    sudo cp "$src" "$dest"
+    sudo chmod 600 "$dest"
+    echo "Installed: $dest"
+    echo ""
+    echo "NOTE: Edit $dest to add your actual keys and endpoints"
+
+# List available config templates
+list:
+    @echo "Available WireGuard configs:"
+    @ls -1 "{{justfile_directory()}}"/*.conf 2>/dev/null | xargs -I{} basename {} .conf || echo "  (none)"
+
+# List installed configs
+installed:
+    @echo "Installed WireGuard configs:"
+    @sudo ls -1 "{{wg_dir}}"/*.conf 2>/dev/null | xargs -I{} basename {} .conf || echo "  (none)"
+
+# =============================================================================
+# Connection Management
+# =============================================================================
+
+# Bring up a WireGuard interface
+up interface="wg0":
+    sudo wg-quick up {{interface}}
+
+# Bring down a WireGuard interface
+down interface="wg0":
+    sudo wg-quick down {{interface}}
+
+# Show WireGuard status
+status:
+    sudo wg show
+
+# Show detailed status for an interface
+show interface="wg0":
+    sudo wg show {{interface}}
+
+# =============================================================================
+# Key Management
+# =============================================================================
+
+# Generate a new WireGuard keypair
+keygen name="client":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    privkey="{{name}}_privatekey"
+    pubkey="{{name}}_publickey"
+
+    wg genkey | tee "$privkey" | wg pubkey > "$pubkey"
+    chmod 600 "$privkey"
+
+    echo "Generated keypair:"
+    echo "  Private key: $privkey"
+    echo "  Public key:  $pubkey"
+    echo ""
+    echo "Public key value:"
+    cat "$pubkey"
+    echo ""
+    echo "IMPORTANT: Store the private key securely (e.g., 1Password)"
+
+# Generate a preshared key
+psk:
+    wg genpsk
+
+# =============================================================================
+# Info
+# =============================================================================
+
+# Show VPN info
+info:
+    @echo "WireGuard config directory: {{wg_dir}}"
+    @echo ""
+    @echo "Available templates:"
+    @ls -1 "{{justfile_directory()}}"/*.conf 2>/dev/null | xargs -I{} basename {} .conf || echo "  (none)"
+    @echo ""
+    @echo "Installed configs:"
+    @sudo ls -1 "{{wg_dir}}"/*.conf 2>/dev/null | xargs -I{} basename {} .conf || echo "  (none)"
+    @echo ""
+    @echo "Active interfaces:"
+    @sudo wg show interfaces 2>/dev/null || echo "  (none)"
