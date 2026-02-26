@@ -22,6 +22,8 @@ mod vpn 'vpn/justfile'
 mod skhd 'skhd/justfile'
 # push notifications service
 mod ntfy 'ntfy/justfile'
+# a GPU-accelerated terminal emulator
+mod kitty 'kitty/justfile'
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
