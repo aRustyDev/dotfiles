@@ -736,6 +736,35 @@ bd children dotfiles-adam-xyz.1
 - Phase 2: Judgment calls on deferred findings
 - Complete: Verifies and runs `gt done`
 
+### Bounded Task Review (Simpler Alternative)
+
+For decomposed multi-model workflows without molecules:
+
+```bash
+# 1. Create bounded Phase 1 bead
+bd create "phase1: Scan docker module" --parent dotfiles-adam-c4k \
+  -d "Mechanical ADR scan. Check: shell settings, lib.just import, XDG patterns." \
+  -l "phase1,mechanical" --silent
+# Returns: dotfiles-adam-c4k.6
+
+# 2. Sling to sonnet polecat
+gt sling dotfiles-adam-c4k.6 adam --agent claude-sonnet --create --hook-raw-bead
+
+# 3. Inject startup message
+gt session inject adam/<polecat> -m "Run gt prime --hook and execute your bounded task."
+
+# 4. Monitor and wait for JSON output
+gt session capture adam/<polecat> -n 50
+
+# 5. Polecat outputs findings JSON and runs gt done
+# 6. Orchestrator creates issues from JSON (beads redirect issue pending)
+```
+
+**Known Issue:** Polecats cannot access beads database (dotfiles-adam-8t6).
+Workaround: Polecat outputs JSON, orchestrator creates issues.
+
+See `.claude/agents/multi-model-review.md` for full workflow design.
+
 ### Batch Module Reviews
 
 ```bash

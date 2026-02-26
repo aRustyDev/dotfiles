@@ -5,6 +5,44 @@ Decomposed workflow for multi-model orchestration in gastown polecats.
 > **Note:** This is for **gastown polecat orchestration**. For Claude Code Task tool
 > orchestration, see `module-review.md` which uses haiku successfully via Task tool.
 
+## Tested Working Workflow (2026-02-26)
+
+### Quick Start
+
+```bash
+# 1. Create bounded Phase 1 bead
+bd create "phase1: Scan <module> module" --parent <epic> \
+  -d "Mechanical ADR scan for <module>. Check: shell settings, lib.just import, XDG patterns." \
+  -l "phase1,mechanical" --silent
+# Returns: dotfiles-adam-xxx
+
+# 2. Sling to sonnet polecat
+gt sling dotfiles-adam-xxx adam --agent claude-sonnet --create --hook-raw-bead
+
+# 3. Inject startup (if session idle)
+gt session inject adam/<polecat> -m "Run gt prime --hook and execute your bounded task."
+
+# 4. Monitor progress
+gt session capture adam/<polecat> -n 50
+
+# 5. Polecat outputs JSON findings and runs gt done
+```
+
+### Test Results
+
+| Module | Model | Duration | Issues Found | Status |
+|--------|-------|----------|--------------|--------|
+| docker | Sonnet 4.5 | ~3 min | 4 (1 HIGH, 1 MED, 2 LOW) | ✓ Complete |
+| bash | Opus 4.5 | ~4 min | 5 issues | ✓ Complete |
+| git | Opus 4.5 | ~6 min | 5 issues | ✓ Complete |
+
+### Known Issue
+
+**Beads database not accessible from polecat worktree** (dotfiles-adam-8t6):
+- Polecats cannot run `bd create` or `bd show`
+- Workaround: Polecat outputs JSON, orchestrator creates issues
+- Fix pending for beads redirect configuration
+
 ## Model Selection for Gastown Polecats
 
 **Haiku does NOT work reliably as a gastown polecat** - it fails to follow instructions,
