@@ -1,0 +1,5 @@
+# tenv - Version manager for Terraform, OpenTofu, Terragrunt, etc.
+brew "tenv"
+
+# Optional: cosign for signature verification
+brew "cosign"

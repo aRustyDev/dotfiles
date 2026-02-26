@@ -1,0 +1,2 @@
+# tenv stores versions in ~/.tenv by default
+dotdir: "{{home}}/.tenv"
