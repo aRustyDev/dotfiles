@@ -1,3 +1,26 @@
+# a terminal multiplexer
+mod tmux 'tmux/justfile'
+# a keyboard remapping tool
+mod karabiner 'karabiner/justfile'
+# a GPU-accelerated terminal emulator
+mod ghostty 'ghostty/justfile'
+# a terminal file manager
+mod yazi 'yazi/justfile'
+# kubernetes CLI tools
+mod kube 'kube/justfile'
+# a design application
+mod sketch 'sketch/justfile'
+# a Firefox-based browser
+mod zen 'zen/justfile'
+# terraform version manager
+mod tenv 'tenv/justfile'
+# a terminal workspace/multiplexer
+mod zellij 'zellij/justfile'
+# WireGuard VPN management
+mod vpn 'vpn/justfile'
+# a hotkey daemon for macOS
+mod skhd 'skhd/justfile'
+
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '.build/just/lib.just'
