@@ -1,19 +1,35 @@
-brew "grep"
+# =============================================================================
+# Core CLI Tools (Group Brewfile)
+# =============================================================================
+# Config-less tools that don't need their own module.
+# See ADR-0009 and ADR-0010 for classification criteria.
+# =============================================================================
+
+# Shell & Core
 brew "bash"
 brew "zsh"
 brew "coreutils"
+brew "grep"
 
+# Text Processing
+brew "gawk"                 # GNU awk
+brew "gnu-sed"              # GNU sed
+brew "yq"                   # YAML processor
+
+# File Listing & Search (defaults are fine)
+brew "bat"                  # Cat with syntax highlighting
+brew "eza"                  # Modern ls replacement
+brew "lsd"                  # LSDeluxe - ls with icons
+
+# Utilities
+brew "tldr"                 # Simplified man pages
+brew "info"                 # GNU info reader
+brew "pre-commit"           # Git pre-commit hooks (project-level config)
+
+# Archive & Media
 brew "sevenzip"
-brew "font-symbols-only-nerd-font"
-brew "info"
-brew "archive"
-brew "gawk"
-brew "gnu-sed"
+brew "libarchive"
 brew "ffmpeg"
 brew "imagemagick"
-
-brew "turbot/tap/steampipe"
-
-brew "mise"
 brew "poppler"
 brew "resvg"
