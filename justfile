@@ -1,90 +1,99 @@
-# =============================================================================
-# Browsers
-# =============================================================================
+# Browsers =====================================================================
+# Firefox-based browser with vertical tabs
 mod zen 'browsers/zen/justfile'
 
-# =============================================================================
-# Core (foundational tools)
-# =============================================================================
+# Core =========================================================================
+# Git version control with 1Password signing
 mod git 'core/git/justfile'
+# SSH client configuration
 mod ssh 'core/ssh/justfile'
+# 1Password CLI
 mod op 'core/op/justfile'
 
-# =============================================================================
-# Editors
-# =============================================================================
+# Editors ======================================================================
+# Neovim text editor
 mod nvim 'editors/nvim/justfile'
+# Visual Studio Code
 mod vscode 'editors/vscode/justfile'
+# Zed editor
 mod zed 'editors/zed/justfile'
 
-# =============================================================================
-# Fonts
-# =============================================================================
+# Fonts ========================================================================
+# Nerd Fonts and development fonts
 mod fonts 'fonts/justfile'
 
-# =============================================================================
-# OS
-# =============================================================================
+# OS ===========================================================================
+# macOS system preferences
 mod macos 'os/macos/justfile'
 
-# =============================================================================
-# Services
-# =============================================================================
+# Services =====================================================================
+# Dolt SQL database with Git versioning
 mod dolt 'services/databases/dolt/justfile'
+# Meilisearch search engine
 mod meilisearch 'services/databases/meilisearch/justfile'
+# ntfy push notification service
 mod ntfy 'services/ntfy/justfile'
+# n8n workflow automation
 mod n8n 'services/n8n/justfile'
 
-# =============================================================================
-# Shells
-# =============================================================================
+# Shells =======================================================================
+# Bash shell
 mod bash 'shells/bash/justfile'
+# Starship cross-shell prompt
 mod starship 'shells/starship/justfile'
+# Zsh shell
 mod zsh 'shells/zsh/justfile'
 
-# =============================================================================
-# Terminals
-# =============================================================================
+# Terminals ====================================================================
+# Alacritty GPU-accelerated terminal
 mod alacritty 'terminals/alacritty/justfile'
+# Ghostty GPU-accelerated terminal
 mod ghostty 'terminals/ghostty/justfile'
+# Kitty GPU-accelerated terminal
 mod kitty 'terminals/kitty/justfile'
+# WezTerm terminal emulator
 mod wezterm 'terminals/wezterm/justfile'
 
-# =============================================================================
-# Tools
-# =============================================================================
-# Group brewfile (config-less tools)
+# Tools ========================================================================
+# Config-less tools (group brewfile)
 mod tools 'tools/justfile'
-# Infra
+# Docker container runtime
 mod docker 'tools/infra/docker/justfile'
+# Helm Kubernetes package manager
 mod helm 'tools/infra/helm/justfile'
+# K9s Kubernetes TUI
 mod k9s 'tools/infra/k9s/justfile'
+# Kubernetes CLI tools
 mod kube 'tools/infra/kube/justfile'
+# Terraform infrastructure as code
 mod terraform 'tools/infra/terraform/justfile'
-# Keyboard
+# Karabiner keyboard remapper
 mod karabiner 'tools/keebs/karabiner/justfile'
+# skhd hotkey daemon
 mod skhd 'tools/keebs/skhd/justfile'
-# Multiplexers
+# tmux terminal multiplexer
 mod tmux 'tools/multiplexers/tmux/justfile'
+# Zellij terminal workspace
 mod zellij 'tools/multiplexers/zellij/justfile'
-# Version managers
+# mise polyglot runtime manager
 mod mise 'tools/mise/justfile'
+# Steampipe SQL for cloud APIs
 mod steampipe 'tools/steampipe/justfile'
+# tenv Terraform version manager
 mod tenv 'tools/ver-mgr/tenv/justfile'
-# Design
+# Sketch design application
 mod sketch 'tools/design/sketch/justfile'
-# File manager
+# Yazi terminal file manager
 mod yazi 'tools/file-mgr/yazi/justfile'
 
-# =============================================================================
-# VPN
-# =============================================================================
+# VPN ==========================================================================
+# WireGuard VPN
 mod wireguard 'vpn/wireguard/justfile'
 
-# =============================================================================
-# Window Managers
-# =============================================================================
+# Window Managers ==============================================================
+# AeroSpace tiling window manager
 mod aerospace 'window-mgr/aerospace/justfile'
+# Amethyst tiling window manager
 mod amethyst 'window-mgr/amethyst/justfile'
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
