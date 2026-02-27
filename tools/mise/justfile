@@ -1,0 +1,76 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../.build/just/lib.just'
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+
+# Install mise with configuration
+install: dependencies config
+    @echo "mise installed."
+    @echo "Add to your shell config:"
+    @echo '  eval "$(mise activate zsh)"'
+
+# Install dependencies via Homebrew
+dependencies:
+    brew bundle --file=brewfile --no-lock
+
+# Symlink configuration
+config: mktree
+    ln -sf "{{justfile_directory()}}/config.toml" "{{dotdir}}/config.toml"
+
+# Create config directory
+mktree:
+    mkdir -p "{{dotdir}}"
+
+# =============================================================================
+# Runtime Management
+# =============================================================================
+
+# Install a tool globally
+use tool version="latest":
+    mise use --global {{tool}}@{{version}}
+
+# List installed tools
+list:
+    mise list
+
+# List available tools
+list-all:
+    mise plugins list-all
+
+# Install missing tools for current directory
+install-tools:
+    mise install
+
+# Update all tools to latest versions
+upgrade:
+    mise upgrade
+
+# =============================================================================
+# Shell Integration
+# =============================================================================
+
+# Show shell activation command
+activate shell="zsh":
+    @echo 'eval "$(mise activate {{shell}})"'
+
+# Show current tool versions
+current:
+    mise current
+
+# Trust current directory's .mise.toml
+trust:
+    mise trust
+
+# =============================================================================
+# Info
+# =============================================================================
+
+# Show mise info
+info:
+    @echo "Config directory: {{dotdir}}"
+    @echo ""
+    @mise version
+    @echo ""
+    @echo "Installed tools:"
+    @mise list 2>/dev/null || echo "  (none)"

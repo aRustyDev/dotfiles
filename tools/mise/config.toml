@@ -1,0 +1,22 @@
+# mise configuration
+# https://mise.jdx.dev/configuration.html
+
+[settings]
+# Automatically install missing tools when entering a directory
+auto_install = true
+
+# Use verbose output
+verbose = false
+
+# Experimental features
+experimental = false
+
+# Trust all .mise.toml files in these directories
+trusted_config_paths = ["~/repos"]
+
+# Default tools (global versions)
+[tools]
+# node = "lts"
+# python = "3.12"
+# go = "latest"
+# rust = "stable"
