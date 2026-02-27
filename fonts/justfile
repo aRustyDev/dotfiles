@@ -1,0 +1,19 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../.build/just/lib.just'
+
+# Install fonts
+install:
+    brew bundle --file=brewfile --no-lock
+
+# List installed Nerd Fonts
+list:
+    @echo "Installed Nerd Fonts:"
+    @brew list --cask | grep -i "font-.*nerd" || echo "  (none)"
+
+# Show font info
+info:
+    @echo "Font brewfile: {{justfile_directory()}}/brewfile"
+    @echo ""
+    @echo "Installed font casks:"
+    @brew list --cask | grep -i font || echo "  (none)"

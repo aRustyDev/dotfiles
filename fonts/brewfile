@@ -1,0 +1,9 @@
+# =============================================================================
+# Fonts
+# =============================================================================
+# Fonts installed via Homebrew casks.
+# =============================================================================
+
+# Nerd Fonts (patched with icons)
+cask "font-symbols-only-nerd-font"      # Symbols only (for fallback)
+cask "font-jetbrains-mono-nerd-font"    # JetBrains Mono + Nerd icons
