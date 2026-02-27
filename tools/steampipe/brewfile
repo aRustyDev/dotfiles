@@ -1,0 +1,3 @@
+# steampipe - SQL interface for cloud APIs
+tap "turbot/tap"
+brew "turbot/tap/steampipe"

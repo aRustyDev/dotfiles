@@ -1,0 +1,88 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../.build/just/lib.just'
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+
+# Install steampipe
+install: dependencies
+    @echo "Steampipe installed."
+    @echo "Install plugins with: just steampipe plugin-install aws"
+
+# Install dependencies via Homebrew
+dependencies:
+    brew bundle --file=brewfile --no-lock
+
+# Create config directory
+mktree:
+    mkdir -p "{{dotdir}}/config"
+
+# =============================================================================
+# Plugin Management
+# =============================================================================
+
+# Install a plugin
+plugin-install name:
+    steampipe plugin install {{name}}
+
+# Update all plugins
+plugin-update:
+    steampipe plugin update --all
+
+# List installed plugins
+plugin-list:
+    steampipe plugin list
+
+# Common plugin bundles
+plugins-cloud:
+    steampipe plugin install aws azure gcp
+
+plugins-dev:
+    steampipe plugin install github gitlab kubernetes docker
+
+plugins-security:
+    steampipe plugin install trivy
+
+# =============================================================================
+# Service Management
+# =============================================================================
+
+# Start steampipe service (background database)
+start:
+    steampipe service start
+
+# Stop steampipe service
+stop:
+    steampipe service stop
+
+# Show service status
+status:
+    steampipe service status
+
+# =============================================================================
+# Query Interface
+# =============================================================================
+
+# Open interactive SQL shell
+query:
+    steampipe query
+
+# Run a query file
+run file:
+    steampipe query < {{file}}
+
+# =============================================================================
+# Info
+# =============================================================================
+
+# Show steampipe info
+info:
+    @echo "Steampipe home: {{dotdir}}"
+    @echo ""
+    @steampipe --version
+    @echo ""
+    @echo "Installed plugins:"
+    @steampipe plugin list 2>/dev/null || echo "  (none)"
+    @echo ""
+    @echo "Service status:"
+    @steampipe service status 2>/dev/null || echo "  (not running)"
