@@ -1,37 +1,91 @@
-# a terminal multiplexer
-mod tmux 'tmux/justfile'
-# a keyboard remapping tool
-mod karabiner 'karabiner/justfile'
-# a GPU-accelerated terminal emulator
-mod ghostty 'ghostty/justfile'
-# a terminal file manager
-mod yazi 'yazi/justfile'
-# kubernetes CLI tools
-mod kube 'kube/justfile'
-# a design application
-mod sketch 'sketch/justfile'
-# a Firefox-based browser
-mod zen 'zen/justfile'
-# terraform version manager
-mod tenv 'tenv/justfile'
-# a terminal workspace/multiplexer
-mod zellij 'zellij/justfile'
-# WireGuard VPN management
-mod vpn 'vpn/justfile'
-# a hotkey daemon for macOS
-mod skhd 'skhd/justfile'
-# push notifications service
-mod ntfy 'ntfy/justfile'
-# a GPU-accelerated terminal emulator
-mod kitty 'kitty/justfile'
-# a fast search engine
-mod meilisearch 'databases/meilisearch/justfile'
-# a SQL database with Git-like version control
-mod dolt 'dolt/justfile'
-# version control with 1Password commit signing
-mod git 'git/justfile'
-# Kubernetes package manager
-mod helm 'helm/justfile'
+# =============================================================================
+# Browsers
+# =============================================================================
+mod zen 'browsers/zen/justfile'
+
+# =============================================================================
+# Core (foundational tools)
+# =============================================================================
+mod git 'core/git/justfile'
+mod ssh 'core/ssh/justfile'
+mod op 'core/op/justfile'
+
+# =============================================================================
+# Editors
+# =============================================================================
+mod nvim 'editors/nvim/justfile'
+mod vscode 'editors/vscode/justfile'
+mod zed 'editors/zed/justfile'
+
+# =============================================================================
+# Fonts
+# =============================================================================
+mod fonts 'fonts/justfile'
+
+# =============================================================================
+# OS
+# =============================================================================
+mod macos 'os/macos/justfile'
+
+# =============================================================================
+# Services
+# =============================================================================
+mod dolt 'services/databases/dolt/justfile'
+mod meilisearch 'services/databases/meilisearch/justfile'
+mod ntfy 'services/ntfy/justfile'
+mod n8n 'services/n8n/justfile'
+
+# =============================================================================
+# Shells
+# =============================================================================
+mod bash 'shells/bash/justfile'
+mod starship 'shells/starship/justfile'
+mod zsh 'shells/zsh/justfile'
+
+# =============================================================================
+# Terminals
+# =============================================================================
+mod alacritty 'terminals/alacritty/justfile'
+mod ghostty 'terminals/ghostty/justfile'
+mod kitty 'terminals/kitty/justfile'
+mod wezterm 'terminals/wezterm/justfile'
+
+# =============================================================================
+# Tools
+# =============================================================================
+# Group brewfile (config-less tools)
+mod tools 'tools/justfile'
+# Infra
+mod docker 'tools/infra/docker/justfile'
+mod helm 'tools/infra/helm/justfile'
+mod k9s 'tools/infra/k9s/justfile'
+mod kube 'tools/infra/kube/justfile'
+mod terraform 'tools/infra/terraform/justfile'
+# Keyboard
+mod karabiner 'tools/keebs/karabiner/justfile'
+mod skhd 'tools/keebs/skhd/justfile'
+# Multiplexers
+mod tmux 'tools/multiplexers/tmux/justfile'
+mod zellij 'tools/multiplexers/zellij/justfile'
+# Version managers
+mod mise 'tools/mise/justfile'
+mod steampipe 'tools/steampipe/justfile'
+mod tenv 'tools/ver-mgr/tenv/justfile'
+# Design
+mod sketch 'tools/design/sketch/justfile'
+# File manager
+mod yazi 'tools/file-mgr/yazi/justfile'
+
+# =============================================================================
+# VPN
+# =============================================================================
+mod wireguard 'vpn/wireguard/justfile'
+
+# =============================================================================
+# Window Managers
+# =============================================================================
+mod aerospace 'window-mgr/aerospace/justfile'
+mod amethyst 'window-mgr/amethyst/justfile'
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
