@@ -1,5 +1,3 @@
-set shell := ["zsh", "-cu"]
-
 root := `git rev-parse --show-toplevel`
 host := `hostname`
 
@@ -85,3 +83,10 @@ op_id vault item="":
     args="{{ if item == "" { "--format=json" } else { "--format=json --vault $v" } }}"
     subj="{{ if item == "" { "vault" } else { "item" } }}"
     op $subj list $args | jq -r --arg n "{{ if item == "" { vault } else { item } }}" '.[] | select( .{{ if item == "" { "name" } else { "title" } }} == $n ) | .id'
+
+powershell_compd := '~/.config/powershell/Modules/'
+nushell_compd := ''
+elvish_compd := ''
+bash_compd := '/etc/bash_completion.d/'
+fish_compd := '~/.config/fish/completions/'
+zsh_compd := '~/.zfunc/'

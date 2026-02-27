@@ -1,0 +1,4 @@
+---
+brew:
+  critical: true
+  suffix: "shellenv"

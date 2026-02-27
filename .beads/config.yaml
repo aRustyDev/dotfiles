@@ -1,3 +1,9 @@
 backend: dolt
 sync:
   mode: dolt-native
+  branch: beads-sync
+
+# Enable hooks for git integration
+hooks:
+  chain_strategy: before
+  chain_timeout_ms: 5000

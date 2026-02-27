@@ -1,0 +1,4 @@
+---
+docker:
+  shells: "[zsh]" # TODO: check for supported shells"
+  cmplt: "completions "

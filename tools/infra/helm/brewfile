@@ -1,0 +1,4 @@
+# Helm - Kubernetes package manager
+brew "helm"
+brew "helmfile"    # Declarative helm chart deployment
+brew "helm-ls"

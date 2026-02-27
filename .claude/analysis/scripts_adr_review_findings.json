@@ -1,0 +1,187 @@
+{
+  "module": "scripts",
+  "parent_issue": "dotfiles-adam-c4k.84",
+  "phase": 1,
+  "review_date": "2026-02-25",
+  "adr_checks": {
+    "adr_002_justfile_conventions": {
+      "status": "violations_found",
+      "findings": [
+        {
+          "violation": "Missing shell settings",
+          "severity": "high",
+          "description": "ADR-002 Section 2 requires all justfiles to use safe shell settings: set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]",
+          "current_state": "scripts/justfile has no shell settings; inherits from lib.just which uses zsh",
+          "expected_state": "Should explicitly define: set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]",
+          "location": "/private/etc/dotfiles/adam/scripts/justfile",
+          "issue_type": "missing_configuration"
+        },
+        {
+          "violation": "No standard recipes implemented",
+          "severity": "high",
+          "description": "ADR-002 Section 5 defines standard recipes. scripts/justfile has NO recipes at all.",
+          "current_state": "scripts/justfile is empty (only imports lib.just)",
+          "expected_state": "Should implement null recipes for: install, clean, mktree, health, ls, ls-net, completions, build, template, test",
+          "location": "/private/etc/dotfiles/adam/scripts/justfile",
+          "issue_type": "missing_recipes",
+          "required_recipes": ["install", "clean", "mktree", "health", "ls", "ls-net", "completions", "build", "template", "test"]
+        },
+        {
+          "violation": "No recipe groups defined",
+          "severity": "high",
+          "description": "ADR-002 Section 7 requires recipes to be organized into standardized groups (lifecycle, info, build, service)",
+          "current_state": "No recipes exist to group",
+          "expected_state": "All recipes must use @[group()] attribute",
+          "location": "/private/etc/dotfiles/adam/scripts/justfile",
+          "issue_type": "missing_organization"
+        }
+      ]
+    },
+    "adr_003_justfile_module_definition": {
+      "status": "violations_found",
+      "findings": [
+        {
+          "violation": ".meta.json exists (deprecated pattern)",
+          "severity": "medium",
+          "description": "ADR-003 Section 3 states .meta.json pattern is DEPRECATED for new modules. Section 4.2 explicitly lists it as anti-pattern.",
+          "current_state": "Found .meta.json files at: /private/etc/dotfiles/adam/scripts/.meta.json and in subdirectories",
+          "expected_state": "Remove .meta.json files; rely on justfile and README.md for module definition",
+          "location": "/private/etc/dotfiles/adam/scripts/.meta.json",
+          "issue_type": "deprecated_pattern",
+          "affected_files": [
+            "/private/etc/dotfiles/adam/scripts/.meta.json",
+            "/private/etc/dotfiles/adam/scripts/active/.meta.json",
+            "/private/etc/dotfiles/adam/scripts/active/nix-darwin/.meta.json",
+            "/private/etc/dotfiles/adam/scripts/archive/.meta.json",
+            "/private/etc/dotfiles/adam/scripts/archive/dotfiles-evolution-project/.meta.json",
+            "/private/etc/dotfiles/adam/scripts/archive/npm-to-volta-migration/.meta.json"
+          ]
+        },
+        {
+          "violation": "No README.md documentation",
+          "severity": "medium",
+          "description": "ADR-003 Section 4 lists README.md as 'Recommended' module documentation",
+          "current_state": "No README.md found in scripts/ or subdirectories",
+          "expected_state": "Create README.md documenting module purpose and usage",
+          "location": "/private/etc/dotfiles/adam/scripts/",
+          "issue_type": "missing_documentation"
+        },
+        {
+          "violation": "Module identification unclear",
+          "severity": "medium",
+          "description": "ADR-003 Section 5 provides identification criteria. scripts/ appears to be a collection container, not a module.",
+          "current_state": "Has subdirectories (active/, archive/, examples/) suggesting proxy/orchestration role",
+          "expected_state": "Clarify if this is a proxy justfile or a true module; if proxy, only orchestrate children",
+          "location": "/private/etc/dotfiles/adam/scripts/",
+          "issue_type": "unclear_purpose"
+        }
+      ]
+    },
+    "adr_004_configuration_templating_pipeline": {
+      "status": "not_applicable",
+      "findings": [
+        {
+          "note": "No configuration files detected in scripts module",
+          "description": "ADR-004 applies to modules that generate configuration via templating",
+          "current_state": "scripts/ contains shell scripts and utilities, not configuration",
+          "expected_state": "If module generates configs, ensure config.toml, data.yml exist and follow pipeline",
+          "severity": "info"
+        }
+      ]
+    },
+    "adr_005_data_yaml_schema_specification": {
+      "status": "not_applicable",
+      "findings": [
+        {
+          "note": "No data.yml file detected",
+          "description": "ADR-005 applies to modules with data.yml configuration files",
+          "current_state": "scripts/ has no data.yml",
+          "expected_state": "If module has dependencies, ports, services: create data.yml following schema",
+          "severity": "info"
+        }
+      ]
+    },
+    "adr_006_secret_management_with_1password": {
+      "status": "violations_found",
+      "findings": [
+        {
+          "violation": "Shell scripts lack secret injection patterns",
+          "severity": "medium",
+          "description": "ADR-006 defines secret management via 1Password injection. Scripts in active/nix-darwin/ may need secrets.",
+          "current_state": "Shell scripts (backup-configs.sh, initial-setup.sh) have no 1Password reference patterns",
+          "expected_state": "If scripts require secrets, use op inject pattern and document in README",
+          "location": "/private/etc/dotfiles/adam/scripts/active/nix-darwin/",
+          "issue_type": "missing_pattern",
+          "affected_files": [
+            "/private/etc/dotfiles/adam/scripts/active/nix-darwin/backup-configs.sh",
+            "/private/etc/dotfiles/adam/scripts/active/nix-darwin/initial-setup.sh",
+            "/private/etc/dotfiles/adam/scripts/active/nix-darwin/undo-initial-setup.sh"
+          ]
+        }
+      ]
+    },
+    "adr_007_service_module_conventions": {
+      "status": "not_applicable",
+      "findings": [
+        {
+          "note": "scripts module does not manage background services",
+          "description": "ADR-007 applies to modules that manage daemons/long-running processes",
+          "current_state": "scripts/ contains utility scripts and issue creation tools, no service management",
+          "expected_state": "Not applicable unless module is modified to manage services",
+          "severity": "info"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "total_violations": 8,
+    "high_severity": 3,
+    "medium_severity": 5,
+    "low_severity": 0,
+    "critical_findings": [
+      "scripts/justfile is non-functional (only contains import)",
+      "No standard recipes implemented (install, clean, health, etc.)",
+      "Missing required shell settings (bash, safe flags)",
+      "Deprecated .meta.json pattern still in use",
+      "No README documentation"
+    ]
+  },
+  "recommended_actions": [
+    {
+      "priority": 1,
+      "action": "Implement standard recipes in scripts/justfile",
+      "adr": "ADR-002",
+      "details": "Add null implementations for all 10 standard recipes with proper [group()] attributes"
+    },
+    {
+      "priority": 2,
+      "action": "Add shell settings to scripts/justfile",
+      "adr": "ADR-002",
+      "details": "Add: set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]"
+    },
+    {
+      "priority": 3,
+      "action": "Remove deprecated .meta.json files",
+      "adr": "ADR-003",
+      "details": "Delete all .meta.json files from scripts/ and subdirectories"
+    },
+    {
+      "priority": 4,
+      "action": "Create README.md documentation",
+      "adr": "ADR-003",
+      "details": "Document module purpose, structure, and contained scripts"
+    },
+    {
+      "priority": 5,
+      "action": "Clarify module purpose",
+      "adr": "ADR-003",
+      "details": "Determine if scripts/ is a proxy/orchestration module or needs restructuring"
+    },
+    {
+      "priority": 6,
+      "action": "Document secret handling in active scripts",
+      "adr": "ADR-006",
+      "details": "If nix-darwin scripts need secrets, add 1Password injection documentation"
+    }
+  ]
+}

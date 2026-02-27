@@ -1,0 +1,19 @@
+brew "grep"
+brew "bash"
+brew "zsh"
+brew "coreutils"
+
+brew "sevenzip"
+brew "font-symbols-only-nerd-font"
+brew "info"
+brew "archive"
+brew "gawk"
+brew "gnu-sed"
+brew "ffmpeg"
+brew "imagemagick"
+
+brew "turbot/tap/steampipe"
+
+brew "mise"
+brew "poppler"
+brew "resvg"

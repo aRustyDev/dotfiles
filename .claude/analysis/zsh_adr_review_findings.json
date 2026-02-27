@@ -1,0 +1,116 @@
+{
+  "module": "zsh",
+  "parent_issue": "dotfiles-adam-c4k.18",
+  "phase": 1,
+  "review_date": "2026-02-25",
+  "adr_scope": [2, 3, 4, 5, 6, 7],
+  "findings": {
+    "total_violations": 6,
+    "by_adr": {
+      "adr_002_justfile_conventions": {
+        "status": "VIOLATIONS_FOUND",
+        "violations": [
+          {
+            "type": "missing_shell_settings",
+            "severity": "high",
+            "description": "Justfile missing 'set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]'",
+            "file": "/private/etc/dotfiles/adam/zsh/justfile",
+            "line": null,
+            "beads_issue": "dotfiles-adam-7my"
+          },
+          {
+            "type": "missing_recipe_groups",
+            "severity": "high",
+            "description": "Recipes not decorated with [group()] - missing lifecycle, info, build groups",
+            "file": "/private/etc/dotfiles/adam/zsh/justfile",
+            "line": null,
+            "beads_issue": "dotfiles-adam-jjw"
+          },
+          {
+            "type": "missing_standard_recipes",
+            "severity": "medium",
+            "description": "Missing standard recipes: clean, health, ls, completions, build, template, test",
+            "file": "/private/etc/dotfiles/adam/zsh/justfile",
+            "line": null,
+            "beads_issue": "dotfiles-adam-wgd"
+          },
+          {
+            "type": "missing_brewfile",
+            "severity": "medium",
+            "description": "Dependencies listed in install.json but should use 'brew bundle' pattern",
+            "file": "/private/etc/dotfiles/adam/zsh/init/data/install.json",
+            "line": null,
+            "beads_issue": "dotfiles-adam-16g"
+          }
+        ]
+      },
+      "adr_003_justfile_module_definition": {
+        "status": "VIOLATIONS_FOUND",
+        "violations": [
+          {
+            "type": "deprecated_meta_json",
+            "severity": "medium",
+            "description": "Multiple deprecated .meta.json files found (5 instances)",
+            "file": "/private/etc/dotfiles/adam/zsh/",
+            "details": [
+              "/private/etc/dotfiles/adam/zsh/.meta.json",
+              "/private/etc/dotfiles/adam/zsh/init/.meta.json",
+              "/private/etc/dotfiles/adam/zsh/plugins/.meta.json",
+              "/private/etc/dotfiles/adam/zsh/completions/.meta.json",
+              "/private/etc/dotfiles/adam/zsh/etc/.meta.json"
+            ],
+            "beads_issue": "dotfiles-adam-y0k"
+          }
+        ]
+      },
+      "adr_004_configuration_templating_pipeline": {
+        "status": "NOT_APPLICABLE",
+        "reason": "Module does not use configuration templating (no .toml/.yaml templates, no mustache/envsubst patterns)"
+      },
+      "adr_005_data_yaml_schema_specification": {
+        "status": "VIOLATIONS_FOUND",
+        "violations": [
+          {
+            "type": "missing_data_yml",
+            "severity": "high",
+            "description": "No data.yml file found. Shell integration (completions, functions, envs, aliases) should be defined per ADR-005 schema",
+            "file": "/private/etc/dotfiles/adam/zsh/",
+            "current_state": "Using install.json and jq.yaml instead of data.yml",
+            "beads_issue": "dotfiles-adam-qli"
+          }
+        ]
+      },
+      "adr_006_secret_management_with_1password": {
+        "status": "NOT_APPLICABLE",
+        "reason": "Module contains no secrets or sensitive configuration requiring 1Password integration"
+      },
+      "adr_007_service_module_conventions": {
+        "status": "NOT_APPLICABLE",
+        "reason": "Module is not a service module (no background processes, ports, or lifecycle management)"
+      }
+    }
+  },
+  "beads_issues_created": [
+    "dotfiles-adam-7my",
+    "dotfiles-adam-jjw",
+    "dotfiles-adam-y0k",
+    "dotfiles-adam-qli",
+    "dotfiles-adam-16g",
+    "dotfiles-adam-wgd"
+  ],
+  "summary": {
+    "compliant_adrs": ["ADR-004", "ADR-006", "ADR-007"],
+    "partially_compliant_adrs": [],
+    "non_compliant_adrs": ["ADR-002", "ADR-003", "ADR-005"],
+    "critical_findings": 2,
+    "major_findings": 4,
+    "recommendations": [
+      "Add safe shell settings to justfile",
+      "Organize recipes with [group()] decorators",
+      "Implement standard recipe set with null patterns",
+      "Create brewfile for dependency management",
+      "Remove all deprecated .meta.json files",
+      "Create data.yml with ADR-005 schema for shell integration"
+    ]
+  }
+}

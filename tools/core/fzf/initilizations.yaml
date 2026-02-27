@@ -1,0 +1,4 @@
+---
+fzf:
+  critical: false
+  suffix: "--[zsh|bash|fish]"

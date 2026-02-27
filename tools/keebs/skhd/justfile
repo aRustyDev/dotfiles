@@ -1,0 +1,68 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../../.build/just/lib.just'
+
+# Get dotdir from data.yml
+dotdir := `yq -r '.dotdir | envsubst' data.yml`
+
+# Install skhd configuration
+install: dependencies config scripts
+    @echo "skhd installed. Start service with: just -f skhd/justfile start"
+
+# Install dependencies via Homebrew
+dependencies:
+    brew bundle --file=brewfile --no-lock
+
+# Symlink config files
+config: mktree
+    ln -sf "{{justfile_directory()}}/skhdrc" "{{dotdir}}/skhdrc"
+
+# Copy AppleScripts
+scripts: mktree
+    cp -r "{{justfile_directory()}}/applescripts" "{{dotdir}}/"
+
+# Create target directories
+mktree:
+    mkdir -p "{{dotdir}}"
+    mkdir -p "{{dotdir}}/applescripts"
+
+# =============================================================================
+# Service Management
+# =============================================================================
+
+# Start skhd service
+start:
+    skhd --start-service
+
+# Stop skhd service
+stop:
+    skhd --stop-service
+
+# Restart skhd service
+restart:
+    skhd --restart-service
+
+# Reload configuration
+reload:
+    skhd --reload
+
+# =============================================================================
+# Info
+# =============================================================================
+
+# Show skhd info
+info:
+    @echo "Config directory: {{dotdir}}"
+    @echo "Config file: {{dotdir}}/skhdrc"
+    @echo ""
+    @echo "Service status:"
+    @brew services info skhd 2>/dev/null || echo "  Run 'just start' to start the service"
+
+# Check config syntax
+check:
+    skhd --check "{{dotdir}}/skhdrc"
+
+# Show current keybindings
+bindings:
+    @echo "Current keybindings:"
+    @grep -v '^#' "{{dotdir}}/skhdrc" 2>/dev/null | grep -v '^$' | head -30 || echo "  No config found"

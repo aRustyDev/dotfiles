@@ -1,0 +1,43 @@
+# Default to JSON output for scripting
+json: true
+
+# Dolt auto-commit (creates Dolt history commit after each write)
+dolt:
+  mode: server
+  host: 127.0.0.1
+  port: 3307
+  user: root
+
+# Require descriptions on all issues (enforces context for future work)
+create:
+  require-description: true
+
+# Template validation settings (bd-t7jq)
+# Validates that issues include required sections based on issue type
+# Values: none (default), warn (print warning), error (block operation)
+validation:
+  on-create: warn # Warn when creating issues missing sections
+  on-sync: none # No validation on sync (backwards compatible)
+
+# Git commit signing options (GH#600)
+# Useful when you have Touch ID commit signing that prompts for each commit
+git:
+  author: "beads-bot <beads@example.com>" # Override commit author
+  no-gpg-sign: true # Disable GPG signing
+
+
+# # Directory-aware label scoping for monorepos (GH#541)
+# # When running bd ready/list from a matching directory, issues with
+# # that label are automatically shown (as if --label-any was passed)
+# directory:
+#   labels:
+#     packages/maverick: maverick
+#     packages/agency: agency
+#     packages/io: io
+
+# # Cross-project dependency resolution (bd-h807)
+# # Maps project names to paths for resolving external: blocked_by references
+# # Paths can be relative (from cwd) or absolute
+# external_projects:
+#   beads: ../beads
+#   gastown: /path/to/gastown

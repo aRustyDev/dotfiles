@@ -1,0 +1,105 @@
+---
+id: 6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c
+title: Dot Helper TODO
+created: 2025-12-13T00:00:00
+updated: 2025-12-13T17:04
+project: dotfiles
+scope:
+  - tools
+  - configuration
+type: plan
+status: 🚧 in-progress
+publish: false
+tags:
+  - dotfiles
+  - automation
+  - configuration
+aliases:
+  - dot-helper-tasks
+related: []
+---
+
+# TODO
+
+## dot_helper
+
+| status | Task                                          | notes |
+| ------ | --------------------------------------------- | ----- |
+| `todo` | [teleport][teleport]: Implement Agentless SSH |       |
+
+- [path_helper](path_master): Manage PATH vars based on files in /etc/\*paths.d/
+- `/etc/shells` config
+- zsh config
+  - zshenv
+  - zshrc
+  - zprofile
+  - plugins
+  - init
+- cache config
+- .config
+- software config
+- lib config
+- ai config
+  - claude
+  - cortex
+  - gemini
+
+## Commands
+
+```bash
+dot_helper completion zsh # zsh, bash, fish, elvish, powershell
+dot_helper completions    # run completions for shell based on config
+dot_helper paths          # build *PATH's from /etc/*PATHS.d/*
+dot_helper fpaths         # build function paths from /etc/shells/*fpath.d/*
+dot_helper git            #
+dot_helper libs           #
+dot_helper shell          # update /etc/shells based on config
+dot_helper functions      # manage functions in fpath, deconflict precedence
+dot_helper terms          #
+dot_helper envs           # manage ENV Vars for shells
+dot_helper editor         #
+dot_helper alias          # manage aliases from config & depending on whats installed
+```
+
+- `atuin dotfiles var set NAME 'value'`
+
+  antidote ffmpeg sevenzip poppler \
+   resvg imagemagick  helm-ls  \
+   font-symbols-only-nerd-font  info \
+   mise  archive pyenv k9s turbot/tap/steampipe \
+   gawk gnu-sed
+
+for profile in ${(z)NIX_PROFILES}; do
+  fpath+=($profile/share/zsh/site-functions $profile/share/zsh/$ZSH_VERSION/functions $profile/share/zsh/vendor-completions)
+done
+fpath=($ZDOTDIR/completions $fpath)
+fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
+
+<!-- # # Configure PATH after nix-daemon.sh to ensure our paths take precedence
+# # Initialize path array from current PATH
+# path=(${(s/:/)PATH})
+
+# # Ensure darwin-rebuild is accessible by adding nix-darwin path first
+# if [[ -d /run/current-system/sw/bin ]]; then
+#     path=('/run/current-system/sw/bin' $path)
+# fi
+
+# # Add other important paths
+# path=("$HOME/.volta/bin" $path)
+# path=("$HOME/.cargo/bin" $path)
+
+# # Append additional paths
+# path+=('/Applications/VMware Fusion.app/Contents/Public')
+# path+=('/usr/local/share/dotnet')
+# path+=('~/.dotnet/tools')
+# path+=('/usr/local/go/bin')
+# path+=("$HOME/.pyenv/shims")
+# path+=("$HOME/.local/bin")
+
+# # Ensure unique paths
+# typeset -U path cdpath fpath manpath -->
+
+- [teleport]: https://goteleport.com/docs/enroll-resources/server-access/openssh/openssh-agentless/
+- [cue-file]: ../.build/cue/ssh
+- [tree-sitter-highlighter]: ../tree-sitter/highlights/ssh-config
+- [tree-sitter-parser]: ../tree-sitter/parsers/ssh-config

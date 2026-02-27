@@ -1,0 +1,26 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../.build/just/lib.just'
+
+# System files in /etc/pam.d/ - must be copies (symlinks not secure)
+install: _bak
+    @brew bundle -f "{{ justfile_directory() }}/brewfile"
+    @sudo cp sudo_brew /etc/pam.d/sudo_brew
+    @sudo cp sudo_local /etc/pam.d/sudo_local
+    @sudo cp sudo /etc/pam.d/sudo
+
+_bak:
+    @sudo cp /etc/pam.d/sudo "sudo.{{ datetime_utc() }}.bak"
+    @sudo cp /etc/pam.d/sudo_brew "sudo_brew.{{ datetime_utc() }}.bak"
+    @sudo cp /etc/pam.d/sudo_local "sudo_local.{{ datetime_utc() }}.bak"
+
+# TODO:
+# Certificate Pinning: Configure `/private/etc/SmartcardLogin.plist` to restrict which Certificate Authorities are trusted
+#  - https://support.apple.com/guide/deployment/advanced-smart-card-options-dep7b2ede1e3/web
+#  - https://github.com/frankmorgner/OpenSCToken
+# OpenSCToken: A tool to enable OpenSC to work with macOS CryptoTokenKit.
+
+
+# Local Account Pairing: Insert the card, follow the prompt to pair, which links it to your macOS user profile for login.
+# Certificate Requirements: The card should have certificates in slots 9a (PIV Authentication) and 9d (Key Management) for maximum compatibility.
+# Troubleshooting: If the card works in terminal but not in browsers, ensure OpenSC is correctly installed, and check if pkcs11 modules are properly recognized.

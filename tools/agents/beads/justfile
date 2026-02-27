@@ -1,0 +1,28 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../../.build/just/lib.just'
+import '../completions/mods.just'
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+
+install: mktree
+    cd "{{justfile_directory()}}" && brew bundle
+    ln -sf "{{justfile_directory()}}/config.yaml" "{{dotdir}}/config.yaml"
+
+mktree:
+    mkdir -p "{{dotdir}}"
+
+completions:
+    @bd completion bash > "{{ bash_compld }}/gt"
+    @bd completion zsh > "{{ zsh_compld }}/_gt"
+    @bd completion fish > "{{ fish_compld }}/gt.fish"
+
+global:
+    #!/usr/bin/env bash
+    for i in "$(fd --hidden --type dir --full-path --exclude "" --fixed-strings ".git" /)"; do
+        bd repo add "$i"
+    done
+
+repo dir:
+    cd "{{ dir }}" && bd hooks install
+    cd "{{ dir }}" && bd config set mail.delegate "gt mail"

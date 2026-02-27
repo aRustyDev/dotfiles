@@ -1,0 +1,39 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../.build/just/lib.just'
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+git := justfile_directory()
+
+# Reads configs/*, hydrates them, and writes to {{ dotdir }}/configs/
+install: mktree configs dependencies config bins templates allowed_signers
+
+dependencies:
+    brew bundle install --file "{{justfile_directory()}}/brewfile"
+
+configs: mktree
+    @for config in `lsd --classic {{git}}/configs`; do \
+        cat configs/$config | envsubst | op inject -f -o "{{dotdir}}/configs/$config"; \
+    done
+    @echo "Configs complete"
+
+config: mktree
+    @cat config | envsubst | op inject -f -o "{{dotdir}}/config"
+    @echo "Config complete"
+
+allowed_signers: mktree
+    @for signer in `lsd --classic {{git}}/allowed_signers`; do \
+        cat allowed_signers/$signer | envsubst | op inject -f -o "{{dotdir}}/allowed_signers/$signer"; \
+    done
+    @echo "Authorized signers complete"
+
+mktree:
+    mkdir -p "{{dotdir}}"/{templates,configs,bin,allowed_signers}
+
+bins: mktree
+    ln -sf "{{justfile_directory()}}/bin" "{{dotdir}}/bin"
+    @echo "Bins complete"
+
+templates: mktree
+    ln -sf "{{justfile_directory()}}/templates" "{{dotdir}}/templates"
+    @echo "Templates complete"

@@ -1,0 +1,17 @@
+---
+zed:
+  - evenly distribute current panes (50/50 vs 33/33/33)
+  - quickly change settings for screen-sharing mode
+    - Set zoom to preset amount
+    - toggle hidden values
+    - toggle what panes are shown
+neovim:
+  - toggle bold/italic/underline/strikethrough
+  - toggle casing (upper/lower/title/camel/kebab/snake)
+general:
+  - change windows/workspace (ie on macos)
+  - set 'context'
+  - open search
+    - 1password
+    - local
+    - remote (ie meilisearch)

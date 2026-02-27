@@ -1,0 +1,185 @@
+{
+  "module": "keebs",
+  "parent_issue": "dotfiles-adam-c4k.76",
+  "review_date": "2026-02-25",
+  "location": "/private/etc/dotfiles/adam/keebs/",
+  "files_present": [
+    "hotkeys.yaml"
+  ],
+  "files_missing": [
+    "justfile",
+    "data.yml",
+    "brewfile",
+    "README.md"
+  ],
+  "summary": {
+    "total_violations": 5,
+    "critical_violations": 3,
+    "moderate_violations": 2,
+    "informational_violations": 0
+  },
+  "adr_violations": [
+    {
+      "adr": "ADR-002",
+      "title": "Justfile Conventions",
+      "severity": "CRITICAL",
+      "status": "VIOLATION",
+      "issue_id": "dotfiles-adam-c4k.76.1",
+      "findings": [
+        "Module has NO justfile",
+        "No shell settings present (set shell := ...)",
+        "No standard recipes implemented",
+        "No import statement for shared library"
+      ],
+      "required_action": "Create justfile with proper structure and standard recipes"
+    },
+    {
+      "adr": "ADR-003",
+      "title": "Justfile Module Definition",
+      "severity": "CRITICAL",
+      "status": "VIOLATION",
+      "issue_id": "dotfiles-adam-c4k.76.1",
+      "findings": [
+        "No justfile present - module definition incomplete",
+        "Module cannot be independently installed without justfile",
+        "Module lacks required orchestration file"
+      ],
+      "required_action": "Add justfile to establish module definition"
+    },
+    {
+      "adr": "ADR-004",
+      "title": "Configuration Templating Pipeline",
+      "severity": "MODERATE",
+      "status": "VIOLATION",
+      "issue_id": "dotfiles-adam-c4k.76.5",
+      "findings": [
+        "No template files found (config.toml, config.yaml, etc.)",
+        "No data.yml file for template variables",
+        "No template recipe in justfile",
+        "Configuration generation pipeline not implemented"
+      ],
+      "required_action": "Evaluate if templating is needed; if yes, implement ADR-004 pipeline"
+    },
+    {
+      "adr": "ADR-005",
+      "title": "Data YAML Schema Specification",
+      "severity": "MODERATE",
+      "status": "VIOLATION",
+      "issue_ids": ["dotfiles-adam-c4k.76.2", "dotfiles-adam-c4k.76.3"],
+      "findings": [
+        "No data.yml file following schema",
+        "hotkeys.yaml exists but does not conform to ADR-005 schema",
+        "hotkeys.yaml structure is list-based, not schema-compliant",
+        "Missing structured metadata for queryability"
+      ],
+      "required_action": "Create data.yml with proper ADR-005 schema; migrate hotkeys data"
+    },
+    {
+      "adr": "ADR-002",
+      "title": "Standard Recipes Implementation",
+      "severity": "CRITICAL",
+      "status": "VIOLATION",
+      "issue_id": "dotfiles-adam-c4k.76.4",
+      "findings": [
+        "No standard recipes implemented (install, clean, mktree, health, ls, completions, build, template, test)",
+        "No recipe groups defined (lifecycle, info, build)",
+        "No null implementations for non-applicable recipes"
+      ],
+      "required_action": "Implement all standard recipes with proper groups and null implementations"
+    },
+    {
+      "adr": "ADR-006",
+      "title": "Secret Management with 1Password",
+      "severity": "N/A",
+      "status": "NOT_APPLICABLE",
+      "findings": [
+        "No secrets management required",
+        "No op:// references needed"
+      ]
+    },
+    {
+      "adr": "ADR-007",
+      "title": "Service Module Conventions",
+      "severity": "N/A",
+      "status": "NOT_APPLICABLE",
+      "findings": [
+        "Not a service module",
+        "No background processes managed",
+        "No start/stop/restart recipes needed"
+      ]
+    }
+  ],
+  "issues_created": [
+    {
+      "id": "dotfiles-adam-c4k.76.1",
+      "title": "keebs: Missing justfile (ADR-002, ADR-003)",
+      "priority": "P2",
+      "status": "open"
+    },
+    {
+      "id": "dotfiles-adam-c4k.76.2",
+      "title": "keebs: Missing data.yml schema (ADR-005)",
+      "priority": "P2",
+      "status": "open"
+    },
+    {
+      "id": "dotfiles-adam-c4k.76.3",
+      "title": "keebs: hotkeys.yaml structure non-compliant (ADR-005)",
+      "priority": "P2",
+      "status": "open"
+    },
+    {
+      "id": "dotfiles-adam-c4k.76.4",
+      "title": "keebs: No standard recipes implemented (ADR-002)",
+      "priority": "P2",
+      "status": "open"
+    },
+    {
+      "id": "dotfiles-adam-c4k.76.5",
+      "title": "keebs: Missing templating pipeline (ADR-004)",
+      "priority": "P2",
+      "status": "open"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "action": "Create justfile with library import and shell settings",
+      "adr": "ADR-002, ADR-003",
+      "details": "Add import '../.build/just/lib.just' and set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]"
+    },
+    {
+      "priority": 2,
+      "action": "Implement standard recipes with proper grouping",
+      "adr": "ADR-002",
+      "details": "Add install, clean, mktree, health, ls, completions, build, template, test recipes with [group()] attributes"
+    },
+    {
+      "priority": 3,
+      "action": "Create data.yml following ADR-005 schema",
+      "adr": "ADR-005",
+      "details": "Restructure hotkeys.yaml data into data.yml with proper schema fields (hotkeys array, target-dir, etc.)"
+    },
+    {
+      "priority": 4,
+      "action": "Evaluate and implement templating pipeline if applicable",
+      "adr": "ADR-004",
+      "details": "If configuration generation needed, implement mustache -> envsubst -> op inject pipeline"
+    },
+    {
+      "priority": 5,
+      "action": "Document module purpose and configuration",
+      "adr": "All",
+      "details": "Create README.md explaining module purpose, configuration, and any custom fields in data.yml"
+    }
+  ],
+  "conformance_status": {
+    "adr_002": "NON_COMPLIANT",
+    "adr_003": "NON_COMPLIANT",
+    "adr_004": "NON_COMPLIANT",
+    "adr_005": "NON_COMPLIANT",
+    "adr_006": "N/A",
+    "adr_007": "N/A"
+  },
+  "overall_status": "CRITICAL_VIOLATIONS_FOUND"
+}

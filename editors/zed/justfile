@@ -1,0 +1,64 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../.build/just/lib.just'
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+settings := `mktemp -d -t "zed.settings"`
+debug := `mktemp -d -t "zed.debug"`
+setting_files := "settings debug"
+
+# Updates the repo local configs (./zed/ -> .zed/)
+build:
+    @for target in {{ setting_files }}; do \
+        export CFG="$target"; \
+        export CLEANED=`mktemp -d -t "zed.$target"`; \
+        export MERGING="{{ profile }}"; \
+        just _update; \
+        rm -rf $TMPDIR/zed.*; \
+    done
+
+# Installs Zed dotfiles to XDG_CONFIG_HOME/zed
+install: mktree
+    ln -sf "{{root}}/.zed/settings.json" "{{dotdir}}/settings.json"
+    ln -sf "{{root}}/.zed/debug.json" "{{dotdir}}/debug.json"
+
+mktree:
+    mkdir -p "{{dotdir}}"
+
+# Takes Merges file and pushes to repo local zed
+_update: _clean
+    @just _merge > "{{ root }}/.zed/$CFG.json"
+    @sed -i '' $'1i\\\n// === === === === === === === === === === === === === === === === === === === === ===\n' "{{ root }}/.zed/$CFG.json"
+    @if [[ "$CFG" == "settings" ]]; then \
+        sed -i '' $'2i\\\n// ||| FILE MANAGED BY AUTOMATION     (Source: [ <dotfiles>/zed/settings/*.json ]) |||\n' "{{ root }}/.zed/settings.json"; \
+    elif [[ "$CFG" == "debug" ]]; then \
+        sed -i '' $'2i\\\n// ||| FILE MANAGED BY AUTOMATION        (Source: [ <dotfiles>/zed/debug/*.json ]) |||\n' "{{ root }}/.zed/debug.json"; \
+    fi
+    @sed -i '' $'3i\\\n// === === === === === === === === === === === === === === === === === === === === ===\n' "{{ root }}/.zed/$CFG.json"
+
+# Returns the Absolute path of the current TMPDIR
+_get_clean_dir:
+    @echo "{{ if "$CFG" == "debug" { debug } else { settings } }}"
+
+# Merges CLEAN default.json and <profile>.json
+_merge:
+    @jq -s 'add' $(ls $CLEANED/{default,$MERGING}.json)
+
+
+# Cleans the json files of comments, stores in $TMPDIR/
+_clean:
+    @for this in `ls $CFG`; do \
+        sed 's/^ *\/\/.*//; s|// .*||g' $CFG/$this \
+        > $CLEANED/$this; \
+    done
+
+extensions:
+    gh release download --repo aclap-dev/vdhcoapp --pattern '*-mac-arm64*'
+
+# test:
+#     for target in {{ setting_files }}; do \
+#         echo $target; \
+#     done
+
+# _depFoo:
+#     @export EXAMPLE=Baz

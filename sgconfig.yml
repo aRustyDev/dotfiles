@@ -1,0 +1,6 @@
+---
+ruleDirs:
+  - tools/just/.ast/grep
+  - .claude/.ast/grep
+utilDirs:
+  - utils

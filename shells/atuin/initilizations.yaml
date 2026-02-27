@@ -1,0 +1,7 @@
+---
+atuin:
+  critical: false
+  suffix: "init [zsh|bash|fish|nu|xonsh]"
+  shells: "[bash|zsh|fish|powershell|nushell|elvish]"
+  cmplt: "gen-completions --shell "
+  init: "init [zsh|bash|fish|nu|xonsh]"

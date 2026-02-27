@@ -1,0 +1,31 @@
+{
+  "document_patterns": [
+    "./docs/src/**/*.md",
+    "./.claude/rules/*.md",
+    "./.claude/skills/**/*.md",
+    "./.build/templates/*.mustache",
+    "./.meta/schema.json",
+    "./.meta/schema.cue",
+    "./beads/*.md",
+    "./beads/*.yaml",
+    "./**/README.md",
+    "./**/justfile",
+    "./**/.meta.json"
+  ],
+  "exclude_patterns": [
+    "./ai/**",
+    "./node_modules/**",
+    "./.beads/**"
+  ],
+  "db_path": "./.data/devrag.db",
+  "chunk_size": 500,
+  "search_top_k": 5,
+  "compute": {
+    "device": "auto",
+    "fallback_to_cpu": true
+  },
+  "model": {
+    "name": "multilingual-e5-small",
+    "dimensions": 384
+  }
+}

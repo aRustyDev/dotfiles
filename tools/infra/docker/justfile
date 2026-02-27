@@ -1,0 +1,439 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../../.build/just/lib.just'
+
+# =============================================================================
+# Docker Compose Profile Management
+# =============================================================================
+# Directory configuration
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+dot_docker := dotdir
+docker_state := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "docker"
+src_docker := justfile_directory()
+unbound_conf := `brew --prefix` / "etc/unbound/unbound.conf"
+resolver_dir := "/etc/resolver"
+dns_ip := "127.0.0.2"
+domain := env("DOMAIN", "localhost")
+
+# Manifest tracking file for project deployments
+
+docker_manifests_file := docker_state / "manifests.json"
+
+# Project-scoped profiles (generate <project_id>.yaml)
+
+project_id := `git config project.id 2>/dev/null || echo ""`
+project_file := project_id + ".yaml"
+project_state := docker_state / "projects" / project_file
+project_path := invocation_directory()
+
+# Timestamp for manifest entries
+
+timestamp := datetime_utc("%Y-%m-%dT%H:%M:%SZ")
+
+# Required tools
+
+sponge := require("sponge")
+
+# Setup DNS, certificates, & necessary dirs
+init: mktree mkcerts dns-init loopback-alias
+
+# Install the Docker dotfiles
+install: mktree
+    ln -sf "{{justfile_directory()}}/.env" "{{dotdir}}/.env"
+    ln -sf "{{justfile_directory()}}/data" "{{dotdir}}/data"
+    ln -sf "{{justfile_directory()}}/files" "{{dotdir}}/files"
+    ln -sf "{{justfile_directory()}}/config" "{{dotdir}}/config"
+    ln -sf "{{justfile_directory()}}/modules" "{{dotdir}}/modules"
+    ln -sf "{{justfile_directory()}}/brewfile" "{{dotdir}}/brewfile"
+    ln -sf "{{justfile_directory()}}/justfile" "{{dotdir}}/justfile"
+    ln -sf "{{justfile_directory()}}/workspaces" "{{dotdir}}/workspaces"
+    ln -sf "{{justfile_directory()}}/docker-compose.yaml" "{{dotdir}}/docker-compose.yaml"
+
+# Subdomains to include in certificate (Node.js doesn't match wildcards)
+
+cert_subdomains := "docs doc traefik id authz notes db memory tool search api"
+
+# Create certificate files for localhost
+[group("dns")]
+mkcerts:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd "{{ dot_docker }}/data/certs"
+
+    # Install local CA first
+    mkcert -install
+    echo "{{ domain }}" >> "{{ docker_state }}/domains"
+    cat "{{ docker_state }}/domains" | sort -u > "{{ docker_state }}/domains"
+
+    # Build subdomain list for explicit SANs (Node.js doesn't match *.localhost)
+    subdomains="{{ cert_subdomains }}"
+    san_args=""
+    for sub in $subdomains; do
+        san_args="$san_args ${sub}.{{ domain }}"
+    done
+
+    # Generate cert with wildcard AND explicit subdomains for Node.js compatibility
+    mkcert -cert-file cert.pem -key-file key.pem \
+        "*.{{ domain }}" "{{ domain }}" \
+        $san_args \
+        127.0.0.1 ::1
+
+    echo "✓ TLS certificates created in {{ dot_docker }}/data/certs/"
+
+# Create necessary directories
+mktree:
+    mkdir -p "{{ docker_state }}" "{{ dot_docker }}"
+    mkdir -p "{{ docker_state }}/projects"
+    mkdir -p "{{ dot_docker }}/config"
+    mkdir -p "{{ dot_docker }}/modules"
+    mkdir -p "{{ dot_docker }}/files"
+    mkdir -p "{{ dot_docker }}/docs"
+    mkdir -p "{{ dot_docker }}/data/certs"
+    [ -f "{{ docker_manifests_file }}" ] || echo '{"projects":{}}' > "{{ docker_manifests_file }}"
+
+# Clean up the Docker dotfiles
+clean:
+    rm -rf "{{ dot_docker }}"
+
+# =============================================================================
+# Docker Compose Deployment Commands
+# =============================================================================
+
+# Categorize profiles into infra and project groups
+[private]
+categorize-profiles profiles:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    infra=""
+    project=""
+    for p in $(echo "{{ profiles }}" | tr ',' ' '); do
+        case "$p" in
+            core|mcp|o11y|research|work|db-*)
+                infra="$infra,$p"
+                ;;
+            project-*|mcp-project)
+                project="$project,$p"
+                ;;
+            *)
+                # Default to infra for unknown profiles
+                infra="$infra,$p"
+                ;;
+        esac
+    done
+    echo "INFRA=${infra#,}"
+    echo "PROJECT=${project#,}"
+
+# Generate compose file for infrastructure profiles
+
+# Templates are stored with op:// URLs intact, env vars expanded via envsubst
+[private]
+gen-infra-compose profiles:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    for p in $(echo "{{ profiles }}" | tr ',' ' '); do
+        [[ -z "$p" ]] && continue
+        outfile="{{ docker_state }}/${p}.yaml"
+        echo "Generating $outfile..."
+        COMPOSE_PROFILES="$p" docker compose -f "{{ dot_docker }}/docker-compose.yaml" config | envsubst > "$outfile"
+    done
+
+# Generate compose file for project-scoped profiles
+
+# Templates are stored with op:// URLs intact, env vars expanded via envsubst
+[private]
+gen-project-compose profiles:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo "Generating {{ project_file }}..."
+    COMPOSE_PROFILES="{{ profiles }}" docker compose -f "{{ dot_docker }}/docker-compose.yaml" config | envsubst > "{{ project_state }}"
+
+# =============================================================================
+# Main Deploy/Destroy Commands
+# =============================================================================
+# Deploy Docker services by profile
+
+# Usage: just deploy core,mcp,project-iac
+[group("docker")]
+deploy profiles="core": mktree
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Categorize profiles into INFRA and PROJECT groups
+    # NOTE: Must use eval here - justfile dependencies run in isolated subshells,
+    # so exported variables from dependencies don't propagate to the recipe body
+    eval $(just -f "{{ justfile() }}" categorize-profiles "{{ profiles }}")
+
+    # Generate and deploy infrastructure profiles
+    if [[ -n "$INFRA" ]]; then
+        just -f "{{ justfile() }}" gen-infra-compose "$INFRA"
+        for p in $(echo "$INFRA" | tr ',' ' '); do
+            [[ -z "$p" ]] && continue
+            echo "Deploying infrastructure profile: $p"
+            echo op inject -i "{{ docker_state }}/${p}.yaml"
+            op inject -i "{{ docker_state }}/${p}.yaml" | docker compose -f - up -d
+        done
+    fi
+
+    # Generate and deploy project-scoped profiles
+    if [[ -n "$PROJECT" ]]; then
+        just -f "{{ justfile() }}" gen-project-compose "$PROJECT"
+        echo "Deploying project profile: {{ project_id }}"
+        op inject -i "{{ project_state }}" | docker compose -f - up -d
+        jq '.projects["{{ project_id }}"] = {
+               "profiles": "{{ profiles }}",
+               "path": "{{ project_path }}",
+               "deployed_at": "{{ timestamp }}",
+               "compose_file": "{{ project_state }}"
+           }' "{{ docker_manifests_file }}" | {{ sponge }} "{{ docker_manifests_file }}"
+    fi
+
+    echo "✓ Deployment complete"
+
+# Build Docker images for profiles
+[group("docker")]
+build profiles="core": mktree
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Categorize profiles (see deploy recipe for explanation)
+    eval $(just -f "{{ justfile() }}" categorize-profiles "{{ profiles }}")
+
+    # Build infrastructure profiles
+    if [[ -n "$INFRA" ]]; then
+        just -f "{{ justfile() }}" gen-infra-compose "$INFRA"
+        for p in $(echo "$INFRA" | tr ',' ' '); do
+            [[ -z "$p" ]] && continue
+            echo "Building infrastructure profile: $p"
+            docker compose -f "{{ docker_state }}/${p}.yaml" build
+        done
+    fi
+
+    # Build project-scoped profiles
+    if [[ -n "$PROJECT" ]]; then
+        just -f "{{ justfile() }}" gen-project-compose "$PROJECT"
+        echo "Building project profile: {{ project_id }}"
+        docker compose -f "{{ project_state }}" build
+    fi
+
+    echo "✓ Build complete"
+
+# Destroy Docker services by profile
+
+# Usage: just destroy core,mcp,project-iac
+[group("docker")]
+destroy profiles="core":
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Categorize profiles (see deploy recipe for explanation)
+    eval $(just -f "{{ justfile() }}" categorize-profiles "{{ profiles }}")
+
+    # Destroy project-scoped services first
+    if [[ -n "$PROJECT" ]]; then
+        if [[ -n "{{ project_id }}" ]] && [[ -f "{{ project_state }}" ]]; then
+            echo "Destroying project services: {{ project_id }}"
+            op inject -i "{{ project_state }}" | docker compose -f - down
+            jq 'del(.projects["{{ project_id }}"])' "{{ docker_manifests_file }}" | {{ sponge }} "{{ docker_manifests_file }}"
+        else
+            echo "WARN: No project compose file found for current directory"
+        fi
+    fi
+
+    # Destroy infrastructure services
+    if [[ -n "$INFRA" ]]; then
+        for p in $(echo "$INFRA" | tr ',' ' '); do
+            [[ -z "$p" ]] && continue
+            if [[ -f "{{ docker_state }}/${p}.yaml" ]]; then
+                echo "Destroying infrastructure profile: $p"
+                op inject -i "{{ docker_state }}/${p}.yaml" | docker compose -f - down
+            else
+                echo "WARN: No compose file found for profile: $p"
+            fi
+        done
+    fi
+
+    echo "✓ Destroy complete"
+
+# Destroy all services for current project
+[group("docker")]
+destroy-project:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    if [[ -f "{{ project_state }}" ]]; then
+        echo "Destroying all services for project: {{ project_id }}"
+        op inject -i "{{ project_state }}" | docker compose -f - down
+        jq 'del(.projects["{{ project_id }}"])' "{{ docker_manifests_file }}" | {{ sponge }} "{{ docker_manifests_file }}"
+        rm -f "{{ project_state }}"
+        echo "✓ Project services destroyed"
+    else
+        echo "No services deployed for this project"
+    fi
+
+# List all deployed projects
+[group("docker")]
+list-docker-projects:
+    @jq -r '.projects | to_entries[] | "\(.key): \(.value.path // "unknown") [\(.value.profiles)]"' "{{ docker_manifests_file }}" || echo "No projects deployed"
+
+# List all available profiles
+[group("docker")]
+list-docker-profiles: docker-test
+    @docker compose -f "{{ dot_docker }}/docker-compose.yaml" config --profiles 2>/dev/null
+
+# List all containers w/ label
+[group("docker")]
+list-docker-containers label="":
+    docker ps --filter "label={{ label }}" --format "json"
+
+# Hydrate Docker-compose for profiles (for debugging)
+[group("docker")]
+docker-template profiles="core":
+    COMPOSE_PROFILES="{{ profiles }}" docker compose -f "{{ dot_docker }}/docker-compose.yaml" config | envsubst
+
+# Test Docker-compose config is valid for profiles (uses installed config)
+[group("docker")]
+docker-test profiles="":
+    {{ if profiles != "" { 'COMPOSE_PROFILES=' + profiles } else { "" } }} docker compose -f "{{ dot_docker }}/docker-compose.yaml" config --quiet 2>/dev/null && echo "✓ Config valid {{ if profiles != "" { "for: " + profiles } else { "" } }}"
+
+# Test Docker-compose config from source directory (for development)
+[group("docker")]
+docker-test-src profiles="":
+    {{ if profiles != "" { 'COMPOSE_PROFILES=' + profiles } else { "" } }} docker compose -f "{{ src_docker }}/docker-compose.yaml" config --quiet 2>/dev/null && echo "✓ Config valid {{ if profiles != "" { "for: " + profiles } else { "" } }}"
+
+# =============================================================================
+# DNS Management (extends volta unbound - doesn't stomp)
+# =============================================================================
+# Docker zones to add: space-separated TLDs
+
+docker_zones := "docker test local host localhost"
+
+# Add docker zones to existing unbound config (idempotent, extends volta)
+[group("dns")]
+dns-add tld ip="127.0.0.1":
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Check if zone exists in unbound config
+    if grep -q "^local-zone: \"{{ tld }}\"" "{{ unbound_conf }}" 2>/dev/null; then
+        echo "✓ {{ tld }} already in unbound config"
+    else
+        # Append local-zone entries at the end of the server: section
+        # Find the line number of the next section after server: (python:, dynlib:, remote-control:, etc.)
+        # or append at end if no other sections exist
+        sudo awk -v z="{{ tld }}" -v ip="{{ ip }}" '
+        BEGIN { added = 0; in_server = 0 }
+        /^server:/ { in_server = 1 }
+        /^(python|dynlib|remote-control|stub-zone|forward-zone|auth-zone):/ {
+            if (in_server && !added) {
+                print "local-zone: \"" z "\" redirect"
+                print "local-data: \"" z " A " ip "\""
+                print ""
+                added = 1
+            }
+            in_server = 0
+        }
+        { print }
+        END {
+            if (!added) {
+                print "local-zone: \"" z "\" redirect"
+                print "local-data: \"" z " A " ip "\""
+            }
+        }
+        ' "{{ unbound_conf }}" > /tmp/unbound.tmp
+        sudo mv /tmp/unbound.tmp "{{ unbound_conf }}"
+        sudo brew services restart unbound
+        echo "✓ Added {{ tld }} → {{ ip }}"
+    fi
+
+    # Add macOS resolver (create directory if needed)
+    sudo mkdir -p "{{ resolver_dir }}"
+    echo "nameserver {{ dns_ip }}" | sudo tee "{{ resolver_dir }}/{{ tld }}" >/dev/null
+    echo "✓ Created /etc/resolver/{{ tld }}"
+
+# Remove docker zone (leaves volta zones intact)
+[group("dns")]
+dns-remove tld=domain:
+    #!/usr/bin/env bash
+    set +e
+    sudo sed -i.bak "/^local-zone: \"{{ tld }}\"/d; /^local-data: \"{{ tld }} A /d" "{{ unbound_conf }}" 2>/dev/null
+    sudo rm -f "{{ resolver_dir }}/{{ tld }}" 2>/dev/null
+    sudo brew services restart unbound 2>/dev/null || true
+    echo "✓ Removed {{ tld }}"
+
+# Initialize all docker zones
+[group("dns")]
+dns-init:
+    #!/usr/bin/env bash
+    for zone in {{ docker_zones }}; do just dns-add "$zone"; done
+    echo "✓ Docker DNS zones initialized"
+
+# Clean up all docker zones (leaves volta intact)
+[group("dns")]
+dns-clean:
+    #!/usr/bin/env bash
+    for zone in {{ docker_zones }}; do just dns-remove "$zone"; done
+    sudo dscacheutil -flushcache 2>/dev/null || true
+    sudo killall -HUP mDNSResponder 2>/dev/null || true
+    echo "✓ Docker DNS zones cleaned"
+
+# Add loopback alias for unbound DNS (required for 127.0.0.2)
+[group("dns")]
+loopback-alias:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if ifconfig lo0 | grep -q "{{ dns_ip }}"; then
+        echo "✓ Loopback alias {{ dns_ip }} already configured"
+    else
+        sudo ifconfig lo0 alias {{ dns_ip }} up
+        echo "✓ Added loopback alias {{ dns_ip }}"
+    fi
+
+# =============================================================================
+# Resource Monitoring
+# =============================================================================
+# # Show top CPU and memory consuming containers
+# [group("docker")]
+# docker-stats:
+#     @echo "=== Top CPU Consumers ==="
+#     @docker stats --no-stream --format "table {{{{.Name}}}}\t{{{{.CPUPerc}}}}\t{{{{.MemUsage}}}}\t{{{{.MemPerc}}}}" | head -15
+#     @echo ""
+#     @echo "=== Near Memory Limit (>70%) ==="
+#     @docker stats --no-stream --format "{{{{.Name}}}}: {{{{.MemPerc}}}}" | awk -F: '{gsub(/%/,"",$2); if ($2 > 70) print $0 "%"}'
+# # Generate resource usage report
+# [group("docker")]
+# docker-resource-report:
+#     #!/usr/bin/env bash
+#     set -euo pipefail
+#     echo "=== Docker Resource Report - $(date) ==="
+#     echo ""
+#     echo "## Container Count by State"
+#     echo "Running: $(docker ps -q | wc -l | tr -d ' ')"
+#     echo "Stopped: $(docker ps -aq --filter status=exited | wc -l | tr -d ' ')"
+#     echo ""
+#     echo "## Top 10 CPU Consumers"
+#     docker stats --no-stream --format "{{.Name}}: {{.CPUPerc}}" | sort -t: -k2 -rn | head -10
+#     echo ""
+#     echo "## Top 10 Memory Consumers"
+#     docker stats --no-stream --format "{{.Name}}: {{.MemUsage}}" | head -10
+#     echo ""
+#     echo "## Containers Near Memory Limit (>80%)"
+#     docker stats --no-stream --format "{{.Name}}: {{.MemPerc}}" | awk -F: '{gsub(/%/,"",$2); if ($2 > 80) print $0 "% - WARNING"}'
+#     echo ""
+#     echo "## Resource Limits Summary"
+#     docker inspect --format '{{.Name}}: CPU={{.HostConfig.NanoCpus}} Memory={{.HostConfig.Memory}}' $(docker ps -q) 2>/dev/null | \
+#         awk -F: '{name=$1; cpu=$2; gsub(/.*CPU=/,"",cpu); gsub(/ .*/,"",cpu); mem=$2; gsub(/.*Memory=/,"",mem); \
+#         if (cpu > 0 || mem > 0) printf "%s: CPU=%.1f cores, Memory=%d MB\n", name, cpu/1000000000, mem/1048576}'
+# # Log resource stats to file (run periodically for baseline)
+# [group("docker")]
+# docker-stats-log file=(docker_state / "resource-stats.log"):
+#     #!/usr/bin/env bash
+#     echo "$(date -Iseconds) $(docker stats --no-stream --format '{{.Name}}={{.CPUPerc}},{{.MemPerc}}')" >> "{{ file }}"
+#     echo "✓ Stats logged to {{ file }}"
+# # Show containers without resource limits
+# [group("docker")]
+# docker-unlimited:
+#     #!/usr/bin/env bash
+#     echo "=== Containers Without Resource Limits ==="
+#     docker inspect --format '{{.Name}} CPU={{.HostConfig.NanoCpus}} Memory={{.HostConfig.Memory}}' $(docker ps -q) 2>/dev/null | \
+#         awk -F'[= ]' '{if ($3 == 0 && $5 == 0) print $1 " - NO LIMITS"}'

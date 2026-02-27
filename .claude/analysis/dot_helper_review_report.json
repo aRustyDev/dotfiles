@@ -1,0 +1,163 @@
+{
+  "module": "dot_helper",
+  "parent_issue": "dotfiles-adam-c4k.70",
+  "phase": 1,
+  "review_date": "2026-02-25",
+  "adr_checklist": {
+    "adr_002_justfile_conventions": {
+      "status": "VIOLATIONS_FOUND",
+      "checks": {
+        "shell_settings": {
+          "required": "set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]",
+          "status": "FAIL",
+          "issue": "dotfiles-adam-c4k.70.3"
+        },
+        "standard_recipes_implemented": {
+          "required": "install, clean, mktree, health, ls, completions, build, template, test",
+          "status": "FAIL",
+          "issue": "dotfiles-adam-c4k.70.2",
+          "details": "justfile only contains import, missing all standard recipes"
+        },
+        "recipe_groups": {
+          "required": "lifecycle, info, build groups",
+          "status": "FAIL",
+          "issue": "dotfiles-adam-c4k.70.2"
+        },
+        "relative_import_paths": {
+          "required": "import '../.build/just/lib.just'",
+          "actual": "import '../.build/just/lib.just'",
+          "status": "PASS"
+        }
+      }
+    },
+    "adr_003_module_definition": {
+      "status": "VIOLATIONS_FOUND",
+      "checks": {
+        "no_meta_json_required": {
+          "required": ".meta.json is DEPRECATED and should not exist",
+          "status": "FAIL",
+          "issue": "dotfiles-adam-c4k.70.1",
+          "details": "Found /private/etc/dotfiles/adam/dot_helper/.meta.json with placeholder values"
+        }
+      }
+    },
+    "adr_004_templating_pipeline": {
+      "status": "VIOLATIONS_FOUND",
+      "checks": {
+        "template_file_exists": {
+          "required": "config.toml, config.yaml, or similar template",
+          "status": "FAIL",
+          "issue": "dotfiles-adam-c4k.70.5"
+        },
+        "template_recipe_implemented": {
+          "required": "template recipe in justfile",
+          "status": "FAIL",
+          "issue": "dotfiles-adam-c4k.70.5"
+        },
+        "pipeline_pattern": {
+          "required": "mustache data.yml config.toml | envsubst | op inject > generated.*",
+          "status": "FAIL",
+          "issue": "dotfiles-adam-c4k.70.5"
+        }
+      }
+    },
+    "adr_005_data_yaml_schema": {
+      "status": "VIOLATIONS_FOUND",
+      "checks": {
+        "data_yml_exists": {
+          "required": "data.yml file with standardized schema",
+          "status": "FAIL",
+          "issue": "dotfiles-adam-c4k.70.4"
+        },
+        "schema_compliance": {
+          "required": "ports, domains, shell.{bash,zsh,fish}, deps, services, target-dir, etc.",
+          "status": "FAIL",
+          "issue": "dotfiles-adam-c4k.70.4"
+        }
+      }
+    },
+    "adr_006_secret_management": {
+      "status": "N/A",
+      "notes": "No secrets appear to be managed in this module. If templates are added, ensure op:// references are used only in tracked templates, never in gitignored generated files."
+    },
+    "adr_007_service_module": {
+      "status": "N/A",
+      "notes": "dot_helper does not appear to be a service module managing background processes."
+    }
+  },
+  "violations_summary": {
+    "total_violations": 5,
+    "critical": 0,
+    "major": 5,
+    "violations": [
+      {
+        "adr": "ADR-003",
+        "section": "Module Definition - Section 3",
+        "violation": "Deprecated .meta.json file exists",
+        "severity": "MAJOR",
+        "file": "/private/etc/dotfiles/adam/dot_helper/.meta.json",
+        "issue": "dotfiles-adam-c4k.70.1",
+        "recommendation": "Remove .meta.json file. The pattern is deprecated."
+      },
+      {
+        "adr": "ADR-002",
+        "section": "Justfile Conventions - Section 2",
+        "violation": "Missing required shell settings",
+        "severity": "MAJOR",
+        "file": "/private/etc/dotfiles/adam/dot_helper/justfile",
+        "issue": "dotfiles-adam-c4k.70.3",
+        "recommendation": "Add 'set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]' to justfile"
+      },
+      {
+        "adr": "ADR-002",
+        "section": "Justfile Conventions - Section 5",
+        "violation": "Missing standard recipes (lifecycle, info, build groups)",
+        "severity": "MAJOR",
+        "file": "/private/etc/dotfiles/adam/dot_helper/justfile",
+        "issue": "dotfiles-adam-c4k.70.2",
+        "recommendation": "Implement standard recipes: install, clean, mktree, health, ls, completions, build, template, test. Use null implementations where not applicable."
+      },
+      {
+        "adr": "ADR-005",
+        "section": "Data YAML Schema - Section 1-2",
+        "violation": "Missing data.yml with standardized schema",
+        "severity": "MAJOR",
+        "file": "N/A (missing)",
+        "issue": "dotfiles-adam-c4k.70.4",
+        "recommendation": "Create /private/etc/dotfiles/adam/dot_helper/data.yml following ADR-005 schema. Document shell integrations, dependencies, target directories."
+      },
+      {
+        "adr": "ADR-004",
+        "section": "Configuration Templating Pipeline - Section 3-4",
+        "violation": "Missing templating pipeline implementation",
+        "severity": "MAJOR",
+        "file": "/private/etc/dotfiles/adam/dot_helper/justfile",
+        "issue": "dotfiles-adam-c4k.70.5",
+        "recommendation": "Add config.toml template (if needed), implement template recipe in justfile following mustache/envsubst/op inject pattern, ensure generated.* files are gitignored."
+      }
+    ]
+  },
+  "beads_issues_created": [
+    "dotfiles-adam-c4k.70.1",
+    "dotfiles-adam-c4k.70.2",
+    "dotfiles-adam-c4k.70.3",
+    "dotfiles-adam-c4k.70.4",
+    "dotfiles-adam-c4k.70.5"
+  ],
+  "files_reviewed": {
+    "justfile": "/private/etc/dotfiles/adam/dot_helper/justfile",
+    "meta_json": "/private/etc/dotfiles/adam/dot_helper/.meta.json",
+    "todo_md": "/private/etc/dotfiles/adam/dot_helper/TODO.md",
+    "archived_files": [
+      "/private/etc/dotfiles/adam/dot_helper/.archive/fpaths.yaml",
+      "/private/etc/dotfiles/adam/dot_helper/.archive/tools.yaml",
+      "/private/etc/dotfiles/adam/dot_helper/.archive/.paths.yaml",
+      "/private/etc/dotfiles/adam/dot_helper/.archive/paths.yaml",
+      "/private/etc/dotfiles/adam/dot_helper/.archive/man.yaml",
+      "/private/etc/dotfiles/adam/dot_helper/.archive/initilizations.yaml",
+      "/private/etc/dotfiles/adam/dot_helper/.archive/completions.yaml"
+    ]
+  },
+  "pass_status": "FAIL - 5 major violations found",
+  "review_complete": true
+}

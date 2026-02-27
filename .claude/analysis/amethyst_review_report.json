@@ -1,0 +1,117 @@
+{
+  "module": "amethyst",
+  "parent_issue": "dotfiles-adam-c4k.9",
+  "phase": 1,
+  "review_date": "2026-02-25",
+  "module_status": "STUB_MODULE",
+  "module_description": "Amethyst is a placeholder/stub module with minimal structure containing only a justfile that imports the shared library with no recipe implementations.",
+  "module_files": {
+    "total": 1,
+    "tracked": [
+      "/private/etc/dotfiles/adam/amethyst/justfile"
+    ],
+    "deprecated": [
+      "/private/etc/dotfiles/adam/amethyst/.meta.json"
+    ]
+  },
+  "adr_compliance_summary": {
+    "ADR-002_Justfile_Conventions": {
+      "status": "VIOLATIONS_FOUND",
+      "compliance_percentage": 25,
+      "violations": 3,
+      "passing_checks": 1
+    },
+    "ADR-003_Justfile_Module_Definition": {
+      "status": "VIOLATIONS_FOUND",
+      "compliance_percentage": 67,
+      "violations": 1,
+      "passing_checks": 2
+    },
+    "ADR-004_Configuration_Templating_Pipeline": {
+      "status": "NOT_APPLICABLE",
+      "note": "No configuration files present"
+    },
+    "ADR-005_Data_YAML_Schema_Specification": {
+      "status": "NOT_APPLICABLE",
+      "note": "No data.yml file present"
+    },
+    "ADR-006_Secret_Management": {
+      "status": "NOT_APPLICABLE",
+      "note": "No secrets detected"
+    },
+    "ADR-007_Service_Module_Conventions": {
+      "status": "NOT_APPLICABLE",
+      "note": "Not a service module"
+    }
+  },
+  "violations": [
+    {
+      "issue_id": "dotfiles-adam-c4k.9.1",
+      "adr": "ADR-002",
+      "section": 2,
+      "severity": "HIGH",
+      "title": "Missing shell settings in justfile",
+      "description": "Justfile does not define required shell settings. Must add: set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]",
+      "location": "/private/etc/dotfiles/adam/amethyst/justfile",
+      "expected": "Shell settings defined at top of justfile",
+      "actual": "No shell settings present",
+      "remediation": "Add shell configuration after import statement per ADR-002 section 2"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.9.2",
+      "adr": "ADR-002",
+      "section": 5,
+      "severity": "CRITICAL",
+      "title": "No standard recipes implemented",
+      "description": "Module must implement standard recipes or null implementations per ADR-002 section 6",
+      "location": "/private/etc/dotfiles/adam/amethyst/justfile",
+      "expected": "Recipes: install, clean, mktree, health, ls, completions, build, template, test",
+      "actual": "No recipes implemented",
+      "remediation": "Implement all standard recipes, using null implementations where not applicable (per ADR-002 section 6)"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.9.3",
+      "adr": "ADR-002",
+      "section": 7,
+      "severity": "HIGH",
+      "title": "Recipes not organized into standardized groups",
+      "description": "All recipes must be organized into standardized groups using [group()] attribute",
+      "location": "/private/etc/dotfiles/adam/amethyst/justfile",
+      "expected": "Recipes organized into: lifecycle, info, build, service (if applicable)",
+      "actual": "No recipes or groups present",
+      "remediation": "Organize recipes with [group(\"lifecycle\")], [group(\"info\")], [group(\"build\")] attributes per ADR-002 section 7"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.9.5",
+      "adr": "ADR-003",
+      "section": 3,
+      "severity": "MEDIUM",
+      "title": "Deprecated .meta.json file present",
+      "description": "The .meta.json pattern is deprecated for new modules per ADR-003",
+      "location": "/private/etc/dotfiles/adam/amethyst/.meta.json",
+      "expected": "No .meta.json file",
+      "actual": "Deprecated .meta.json file present with TODO status",
+      "remediation": "Remove /private/etc/dotfiles/adam/amethyst/.meta.json and .todo directory per ADR-003 section 3"
+    }
+  ],
+  "recommendations": [
+    "Implement justfile shell settings and all standard recipes as top priority (ADR-002)",
+    "Remove deprecated .meta.json file (ADR-003)",
+    "When configuration is added to the module, ensure compliance with ADR-004, ADR-005, and ADR-006",
+    "If module becomes a service module, ensure compliance with ADR-007"
+  ],
+  "beads_issues_created": [
+    "dotfiles-adam-c4k.9.1",
+    "dotfiles-adam-c4k.9.2",
+    "dotfiles-adam-c4k.9.3",
+    "dotfiles-adam-c4k.9.5"
+  ],
+  "summary": {
+    "total_violations": 4,
+    "critical_severity": 1,
+    "high_severity": 2,
+    "medium_severity": 1,
+    "adr_coverage": "2 of 7 ADRs applicable",
+    "overall_status": "COMPLIANCE_REQUIRED"
+  }
+}

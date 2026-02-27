@@ -1,0 +1,194 @@
+{
+  "module": "ntfy",
+  "parent_issue": "dotfiles-adam-c4k.79",
+  "phase": 1,
+  "review_date": "2026-02-25",
+  "module_path": "/private/etc/dotfiles/adam/ntfy",
+  "module_files": [
+    "server.yaml"
+  ],
+  "summary": {
+    "total_violations": 6,
+    "critical": 2,
+    "major": 4,
+    "minor": 1
+  },
+  "findings": [
+    {
+      "id": "ADR-006-CRITICAL-001",
+      "adr": "ADR-006: Secret Management with 1Password",
+      "severity": "CRITICAL",
+      "title": "Hardcoded credentials in tracked configuration file",
+      "description": "server.yaml contains hardcoded SMTP credentials (lines 11-12) and Firebase key file reference (line 6). These should never be committed to git.",
+      "violations": [
+        "Line 6: firebase-key-file references /etc/ntfy/firebase.json",
+        "Line 11: smtp-sender-user contains AWS SES credentials",
+        "Line 12: smtp-sender-pass contains password in tracked file"
+      ],
+      "expected": "Credentials should be referenced via 1Password format: op://vault/item/field",
+      "beads_issue": "dotfiles-adam-c4k.79.1"
+    },
+    {
+      "id": "ADR-004-CRITICAL-001",
+      "adr": "ADR-004: Configuration Templating Pipeline",
+      "severity": "CRITICAL",
+      "title": "Configuration file violates templating pipeline",
+      "description": "server.yaml should be a template file with 1Password references, not tracked with actual credentials.",
+      "violations": [
+        "No data.yml for template variables",
+        "No generated.* pattern for gitignored output",
+        "Secrets committed to git",
+        "No pipeline implementation"
+      ],
+      "expected": "Follow pipeline: mustache data.yml | envsubst | op inject > generated.yaml",
+      "related_issue": "dotfiles-adam-c4k.79.1",
+      "linked_issues": ["dotfiles-adam-c4k.79.3"]
+    },
+    {
+      "id": "ADR-002-MAJOR-001",
+      "adr": "ADR-002: Justfile Conventions",
+      "severity": "MAJOR",
+      "title": "Module missing justfile",
+      "description": "ntfy module has no justfile for orchestration and standard recipes.",
+      "violations": [
+        "No justfile present in module directory",
+        "Cannot be installed via standard just recipes",
+        "No standard recipe set (install, clean, health, etc.)"
+      ],
+      "expected": "justfile with shell settings, standard recipes, and relative imports per ADR-002",
+      "beads_issue": "dotfiles-adam-c4k.79.2"
+    },
+    {
+      "id": "ADR-003-MAJOR-001",
+      "adr": "ADR-003: Justfile Module Definition",
+      "severity": "MAJOR",
+      "title": "Incomplete module structure",
+      "description": "Module missing required and recommended files per standard module definition.",
+      "violations": [
+        "Missing: justfile (REQUIRED)",
+        "Missing: data.yml (if applicable)",
+        "Missing: README.md (recommended)",
+        "Unclear: brewfile requirements"
+      ],
+      "expected": "Module structure: justfile, brewfile (if needed), config template, data.yml, README.md",
+      "beads_issue": "dotfiles-adam-c4k.79.2"
+    },
+    {
+      "id": "ADR-005-MAJOR-001",
+      "adr": "ADR-005: Data YAML Schema Specification",
+      "severity": "MAJOR",
+      "title": "Missing data.yml schema definition",
+      "description": "No data.yml file to define module configuration following standard schema.",
+      "violations": [
+        "No data.yml file exists",
+        "Cannot query module configuration",
+        "Port/domain information not discoverable",
+        "Service definitions not specified"
+      ],
+      "expected": "data.yml following ADR-005 schema with port, domain, services, and custom fields",
+      "beads_issue": "dotfiles-adam-c4k.79.4"
+    },
+    {
+      "id": "ADR-007-MAJOR-001",
+      "adr": "ADR-007: Service Module Conventions",
+      "severity": "MAJOR",
+      "title": "Service module missing lifecycle recipes",
+      "description": "ntfy is a service module (runs background processes on ports 2586 and 25) but lacks required service recipes.",
+      "violations": [
+        "Missing: start recipe (service group)",
+        "Missing: stop recipe (service group)",
+        "Missing: restart recipe (service group)",
+        "Missing: status recipe (info group)",
+        "Missing: logs recipe (info group)",
+        "No health check implementation",
+        "No state/log directory management"
+      ],
+      "expected": "Service recipes with proper lifecycle management, PID files, and idempotency per ADR-007",
+      "beads_issue": "dotfiles-adam-c4k.79.5"
+    },
+    {
+      "id": "ADR-003-MINOR-001",
+      "adr": "ADR-003: Justfile Module Definition",
+      "severity": "MINOR",
+      "title": "Missing documentation",
+      "description": "Module lacks README.md for documentation and clarity.",
+      "violations": [
+        "No README.md explaining module purpose",
+        "No configuration documentation",
+        "No dependency documentation"
+      ],
+      "expected": "README.md documenting module purpose, configuration, and any deviations from ADR patterns",
+      "beads_issue": "dotfiles-adam-c4k.79.6"
+    }
+  ],
+  "adr_compliance": {
+    "adr-002": {
+      "status": "VIOLATION",
+      "details": "Missing justfile violates core convention"
+    },
+    "adr-003": {
+      "status": "VIOLATION",
+      "details": "Incomplete module structure missing justfile and documentation"
+    },
+    "adr-004": {
+      "status": "CRITICAL_VIOLATION",
+      "details": "Configuration contains secrets that should be templated and gitignored"
+    },
+    "adr-005": {
+      "status": "MISSING",
+      "details": "No data.yml file for schema-based configuration"
+    },
+    "adr-006": {
+      "status": "CRITICAL_VIOLATION",
+      "details": "Hardcoded credentials instead of 1Password references"
+    },
+    "adr-007": {
+      "status": "VIOLATION",
+      "details": "Service module missing all required lifecycle recipes"
+    }
+  },
+  "beads_issues_created": [
+    {
+      "id": "dotfiles-adam-c4k.79.1",
+      "title": "ntfy: Migrate hardcoded credentials to 1Password (SECURITY)",
+      "labels": ["security", "critical"],
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.79.2",
+      "title": "ntfy: Create justfile with standard recipes",
+      "labels": ["arch", "major"],
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.79.3",
+      "title": "ntfy: Implement configuration templating pipeline",
+      "labels": ["arch", "major"],
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.79.4",
+      "title": "ntfy: Create data.yml with schema specification",
+      "labels": ["arch", "major"],
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.79.5",
+      "title": "ntfy: Implement service module conventions",
+      "labels": ["arch", "major"],
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.79.6",
+      "title": "ntfy: Create module documentation README.md",
+      "labels": ["docs", "minor"],
+      "priority": "P2"
+    }
+  ],
+  "recommendations": [
+    "Address CRITICAL security issues first (dotfiles-adam-c4k.79.1) before any other work",
+    "Implement justfile and service recipes as foundation (dotfiles-adam-c4k.79.2, dotfiles-adam-c4k.79.5)",
+    "Follow with templating pipeline implementation (dotfiles-adam-c4k.79.3, dotfiles-adam-c4k.79.4)",
+    "Complete with documentation (dotfiles-adam-c4k.79.6)"
+  ]
+}

@@ -1,0 +1,4 @@
+---
+helm:
+  shells: "[bash|zsh|fish|powershell]"
+  cmplt: "completions "

@@ -1,0 +1,185 @@
+# Formula: mol-refinery-patrol
+# Type: patrol (ephemeral wisp)
+# Refinery merge queue patrol cycle
+#
+# Usage:
+#   gt patrol new   # Creates wisp and hooks it
+
+description = """Refinery patrol cycle.
+
+Merge queue processor that sequentially rebases and merges polecat branches to main.
+Each cycle: check inbox, scan queue, process branches, run tests, merge, repeat."""
+
+formula = "mol-refinery-patrol"
+version = 1
+type = "workflow"
+
+# Variables
+[vars]
+[vars.rig]
+description = "Rig name"
+default = "adam"
+
+# Step 1: Inbox Check
+[[steps]]
+id = "inbox-check"
+title = "Inbox Check"
+description = """
+Check for messages and escalations.
+
+**Actions:**
+1. Run `gt mail inbox`
+2. Process MERGE_READY signals - proceed to queue-scan
+3. Handle lifecycle requests, escalations
+"""
+
+# Step 2: Queue Scan
+[[steps]]
+id = "queue-scan"
+title = "Queue Scan"
+needs = ["inbox-check"]
+description = """
+Scan for polecat branches waiting in merge queue.
+
+**Actions:**
+1. `git fetch --prune origin`
+2. `gt mq list {{rig}}`
+3. If queue empty, skip to context-check
+"""
+
+# Step 3: Process Branch
+[[steps]]
+id = "process-branch"
+title = "Process Branch"
+needs = ["queue-scan"]
+description = """
+Pick next branch and rebase on current main.
+
+**Actions:**
+1. `git checkout -b temp polecat/<worker>`
+2. `git rebase origin/main`
+3. If conflicts unresolvable: notify polecat, skip to loop-check
+"""
+
+# Step 4: Run Tests
+[[steps]]
+id = "run-tests"
+title = "Run Tests"
+needs = ["process-branch"]
+description = """
+Run quality checks and test suite.
+
+**Actions:**
+Run configured commands: setup -> typecheck -> lint -> build -> test
+Skip any that are empty/not configured.
+"""
+
+# Step 5: Handle Failures
+[[steps]]
+id = "handle-failures"
+title = "Handle Failures"
+needs = ["run-tests"]
+description = """
+VERIFICATION GATE - tests must pass or issue filed.
+
+**Decision Tree:**
+- Tests PASSED -> Proceed to merge-push
+- Tests FAILED:
+  - Branch caused it? -> Abort, reopen source issue, notify witness (MERGE_FAILED), close MR, delete branch, skip to loop-check
+  - Pre-existing? -> File bead: `bd create --type=bug --priority=1 --title="..."`
+
+GATE: Cannot proceed to merge without fix OR bead filed.
+"""
+
+# Step 6: Merge Push
+[[steps]]
+id = "merge-push"
+title = "Merge Push"
+needs = ["handle-failures"]
+description = """
+Merge to main and push immediately.
+
+**Actions:**
+1. `git checkout main`
+2. `git merge --ff-only temp`
+3. `git push origin main`
+4. `git branch -d temp`
+5. `git branch -d polecat/<worker>`
+"""
+
+# Step 7: Loop Check
+[[steps]]
+id = "loop-check"
+title = "Loop Check"
+needs = ["merge-push"]
+description = """
+Check for more branches. If yes, return to process-branch.
+"""
+
+# Step 8: Generate Summary
+[[steps]]
+id = "generate-summary"
+title = "Generate Summary"
+needs = ["loop-check"]
+description = """
+Summarize this patrol cycle.
+
+Print banner with:
+- Branches merged
+- Tests run
+- Conflicts/failures
+"""
+
+# Step 9: Check Integration Branches
+[[steps]]
+id = "check-integration-branches"
+title = "Check Integration Branches"
+needs = ["generate-summary"]
+description = """
+Check if integration branches are ready to land.
+
+If auto_land is false, say "Auto-land disabled" and move on.
+FORBIDDEN: Landing via raw git commands. Only `gt mq integration land` is authorized.
+"""
+
+# Step 10: Context Check
+[[steps]]
+id = "context-check"
+title = "Context Check"
+needs = ["check-integration-branches"]
+description = """
+Assess session health.
+
+**Actions:**
+1. Check RSS: `ps -o rss= -p $$`
+2. Assess session age, context usage
+3. Fresh sessions are cheap; memory bloat is not
+"""
+
+# Step 11: Patrol Cleanup
+[[steps]]
+id = "patrol-cleanup"
+title = "Patrol Cleanup"
+needs = ["context-check"]
+description = """
+End-of-cycle inbox hygiene.
+
+**Actions:**
+1. Archive stale messages
+2. Check for orphaned MR beads
+"""
+
+# Step 12: Burn or Loop
+[[steps]]
+id = "burn-or-loop"
+title = "Burn or Loop"
+needs = ["patrol-cleanup"]
+description = """
+Decision point: continue or handoff.
+
+**Options:**
+- Option A: Continue (session healthy) -> `gt patrol new`
+- Option B: Hand off (session heavy) -> `gt handoff -s "Patrol complete" -m "..."`
+
+Squash wisp: `bd mol squash <wisp-id> --summary="..."`
+"""

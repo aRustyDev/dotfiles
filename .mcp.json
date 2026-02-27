@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "devrag": {
+      "command": "uvx",
+      "args": ["devrag", "--config", "./docs/devrag/config.json"],
+      "cwd": "/private/etc/dotfiles/adam"
+    }
+  }
+}

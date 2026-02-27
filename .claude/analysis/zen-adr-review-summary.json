@@ -1,0 +1,112 @@
+{
+  "module": "zen",
+  "parent_issue": "dotfiles-adam-c4k.57",
+  "review_date": "2026-02-25",
+  "phase": 1,
+  "summary": "zen module review against ADR-002 through ADR-007. Seven violations found across ADR-002 (Justfile Conventions), ADR-004 (Configuration Templating), and ADR-005 (Data Schema).",
+  "violations": [
+    {
+      "issue_id": "dotfiles-adam-c4k.57.1",
+      "adr": "ADR-002",
+      "severity": "HIGH",
+      "category": "Justfile Conventions",
+      "violation": "Missing shell settings",
+      "description": "ADR-002 requires all justfiles to use safe shell settings: set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]",
+      "file": "/private/etc/dotfiles/adam/zen/justfile",
+      "impact": "Inconsistent shell behavior across recipes; potential for undetected errors",
+      "required_action": "Add shell setting at top of justfile"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.57.2",
+      "adr": "ADR-002",
+      "severity": "HIGH",
+      "category": "Justfile Conventions",
+      "violation": "Missing standard recipes",
+      "description": "ADR-002 section 5 defines standard recipes. zen/justfile is missing: clean, mktree, health, ls, build, template, test",
+      "file": "/private/etc/dotfiles/adam/zen/justfile",
+      "impact": "Inconsistent module interface; operators cannot discover standard recipes; missing lifecycle management",
+      "required_action": "Implement missing recipes or define as null recipes per ADR-002 section 6"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.57.3",
+      "adr": "ADR-002",
+      "severity": "MEDIUM",
+      "category": "Justfile Conventions",
+      "violation": "Missing recipe groups",
+      "description": "ADR-002 section 7 requires recipes to be organized into standardized groups (lifecycle, info, build, service). zen/justfile has no recipe groups.",
+      "file": "/private/etc/dotfiles/adam/zen/justfile",
+      "impact": "Recipe discovery via 'just --list --groups' will not work predictably",
+      "required_action": "Add [group(\"lifecycle\")], [group(\"info\")], or [group(\"build\")] attributes to recipes"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.57.4",
+      "adr": "ADR-002",
+      "severity": "MEDIUM",
+      "category": "Justfile Conventions",
+      "violation": "Missing import of shared library",
+      "description": "ADR-002 section 4 requires all justfiles to import the shared library. zen/justfile uses local variables instead of importing from .build/just/lib.just",
+      "file": "/private/etc/dotfiles/adam/zen/justfile",
+      "impact": "Shared library updates do not propagate; global values are duplicated",
+      "required_action": "Add 'import \"../../../.build/just/lib.just\"' or appropriate relative path"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.57.5",
+      "adr": "ADR-005",
+      "severity": "MEDIUM",
+      "category": "Data Schema Specification",
+      "violation": "Missing data.yml file",
+      "description": "ADR-005 requires all modules with configuration to have a data.yml file following the standardized schema",
+      "file": "/private/etc/dotfiles/adam/zen/",
+      "impact": "Cannot query configuration across modules; configuration is not discoverable; missing metadata for dependencies, ports, etc.",
+      "required_action": "Create data.yml following ADR-005 schema; include any applicable ports, domains, aliases, shell integrations, etc."
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.57.6",
+      "adr": "ADR-004",
+      "severity": "MEDIUM",
+      "category": "Configuration Templating Pipeline",
+      "violation": "Missing generated.* pattern in .gitignore",
+      "description": "ADR-004 section 6 requires all generated.* files to be gitignored. Root .gitignore is missing this pattern.",
+      "file": "/private/etc/dotfiles/adam/.gitignore",
+      "impact": "Generated files containing secrets or templated content could be accidentally committed",
+      "required_action": "Add 'generated.*' pattern to .gitignore at root level"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.57.7",
+      "adr": "Documentation",
+      "severity": "LOW",
+      "category": "README Documentation",
+      "violation": "README frontmatter format review needed",
+      "description": "zen/README.md contains YAML frontmatter. Verify it conforms to any ADR documentation standards",
+      "file": "/private/etc/dotfiles/adam/zen/README.md",
+      "impact": "Potential inconsistency with documentation standards",
+      "required_action": "Cross-reference with ADR documentation standards (likely ADR-000 or ADR-001)"
+    }
+  ],
+  "statistics": {
+    "total_violations": 7,
+    "adr_002_violations": 4,
+    "adr_004_violations": 1,
+    "adr_005_violations": 1,
+    "documentation_violations": 1,
+    "high_severity": 2,
+    "medium_severity": 4,
+    "low_severity": 1
+  },
+  "adrs_checked": ["ADR-002", "ADR-003", "ADR-004", "ADR-005", "ADR-006", "ADR-007"],
+  "adrs_not_applicable": ["ADR-003", "ADR-006", "ADR-007"],
+  "notes": {
+    "adr_003_note": "Module definition: zen is a leaf module managing Zen browser configuration. Has justfile, no child justfiles. Compliance: PASS",
+    "adr_006_note": "Secret management: zen/justfile contains 1Password configuration for 1Password browser extension setup. Justfile does not reference secrets in templates. Compliance: N/A (no template secrets found)",
+    "adr_007_note": "Service module conventions: zen is not a service module (does not manage background processes). Compliance: N/A"
+  },
+  "beads_issues_created": [
+    "dotfiles-adam-c4k.57.1",
+    "dotfiles-adam-c4k.57.2",
+    "dotfiles-adam-c4k.57.3",
+    "dotfiles-adam-c4k.57.4",
+    "dotfiles-adam-c4k.57.5",
+    "dotfiles-adam-c4k.57.6",
+    "dotfiles-adam-c4k.57.7"
+  ]
+}

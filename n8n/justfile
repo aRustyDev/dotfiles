@@ -1,7 +1,0 @@
-set shell := ["bash", "-euo", "pipefail", "-c"]
-
-import '../.build/just/lib.just'
-
-[group(stubs)]
-install:
-    @echo "n8n: No config files to install yet"

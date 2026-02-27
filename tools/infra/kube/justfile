@@ -1,0 +1,118 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../../.build/just/lib.just'
+
+# Get dotdir from data.yml
+dotdir := `yq -r '.dotdir | envsubst' data.yml`
+
+# Install kubernetes configuration
+install: dependencies config krew-plugins
+
+# Install dependencies via Homebrew
+dependencies:
+    brew bundle --file=brewfile --no-lock
+
+# Setup kubeconfig directory and aliases
+config: mktree
+    @echo "Kubeconfig templates available in configs/"
+    @echo "Use 'just inject <config>' to expand 1Password secrets"
+
+# Create target directories
+mktree:
+    mkdir -p "{{dotdir}}"
+
+# Expand 1Password secrets in a kubeconfig template
+inject config:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    template="{{justfile_directory()}}/configs/{{config}}.yaml"
+    output="{{dotdir}}/{{config}}.yaml"
+
+    if [[ ! -f "$template" ]]; then
+        echo "Template not found: $template"
+        exit 1
+    fi
+
+    echo "Injecting secrets into {{config}}..."
+    op inject -i "$template" -o "$output"
+    chmod 600 "$output"
+    echo "Created: $output"
+
+# Inject all kubeconfig templates
+inject-all:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    for template in "{{justfile_directory()}}"/configs/*.yaml; do
+        name=$(basename "$template" .yaml)
+        just -f "{{justfile_directory()}}/justfile" inject "$name"
+    done
+
+# Install recommended krew plugins
+krew-plugins:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Ensure krew is in PATH
+    export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+    # Core plugins
+    plugins=(
+        ctx           # Context switching
+        ns            # Namespace switching
+        neat          # Clean output (remove managed fields)
+        tree          # Resource hierarchy view
+        whoami        # Show current user
+        who-can       # RBAC analysis
+        get-all       # Get all resources
+        status        # Resource status overview
+        stern         # Multi-pod logging (if not using brew stern)
+    )
+
+    echo "Installing recommended krew plugins..."
+    for plugin in "${plugins[@]}"; do
+        if ! kubectl krew list | grep -q "^${plugin}$"; then
+            echo "Installing $plugin..."
+            kubectl krew install "$plugin" || echo "Failed to install $plugin"
+        else
+            echo "$plugin already installed"
+        fi
+    done
+
+# Update krew plugins
+krew-update:
+    kubectl krew update
+    kubectl krew upgrade
+
+# List installed krew plugins
+krew-list:
+    kubectl krew list
+
+# List available kubeconfig templates
+list-configs:
+    @echo "Available kubeconfig templates:"
+    @ls -1 "{{justfile_directory()}}/configs/"
+
+# Merge kubeconfigs into single file
+merge:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    configs=$(find "{{dotdir}}" -name "*.yaml" -type f | tr '\n' ':' | sed 's/:$//')
+    if [[ -n "$configs" ]]; then
+        KUBECONFIG="$configs" kubectl config view --flatten > "{{dotdir}}/config"
+        chmod 600 "{{dotdir}}/config"
+        echo "Merged configs into {{dotdir}}/config"
+    else
+        echo "No kubeconfigs found to merge"
+    fi
+
+# Show current context
+current:
+    @kubectl config current-context 2>/dev/null || echo "No context set"
+
+# Show config info
+info:
+    @echo "Kubeconfig directory: {{dotdir}}"
+    @echo "Current context: $(kubectl config current-context 2>/dev/null || echo 'none')"
+    @echo ""
+    @echo "Available contexts:"
+    @kubectl config get-contexts --no-headers 2>/dev/null | awk '{print "  " $2}' || echo "  (none)"

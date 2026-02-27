@@ -1,0 +1,177 @@
+{
+  "review_metadata": {
+    "module": "paths.d",
+    "location": "/private/etc/dotfiles/adam/paths.d/",
+    "review_date": "2026-02-25",
+    "phase": "1",
+    "parent_issue": "dotfiles-adam-c4k.82"
+  },
+  "adr_coverage": {
+    "adr_002_justfile_conventions": {
+      "status": "non_compliant",
+      "violations": [
+        {
+          "id": "ADR-002.001",
+          "type": "critical",
+          "description": "Missing recipe grouping with [group()] attributes",
+          "location": "/private/etc/dotfiles/adam/paths.d/justfile lines 6-19",
+          "severity": "high",
+          "beads_issue": "dotfiles-adam-c4k.82.2"
+        },
+        {
+          "id": "ADR-002.002",
+          "type": "major",
+          "description": "Shell settings not explicitly set in module justfile",
+          "location": "/private/etc/dotfiles/adam/paths.d/justfile",
+          "reference": "ADR-002 Section 2",
+          "current_state": "Inherits from lib.just: set shell := [\"zsh\", \"-cu\"]",
+          "required_state": "Should use: set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]",
+          "severity": "medium",
+          "beads_issue": "dotfiles-adam-c4k.82.6"
+        },
+        {
+          "id": "ADR-002.003",
+          "type": "critical",
+          "description": "Missing standard recipes: clean, mktree, health, ls, completions, build, template",
+          "reference": "ADR-002 Section 5-6",
+          "severity": "high",
+          "beads_issue": "dotfiles-adam-c4k.82.4"
+        }
+      ]
+    },
+    "adr_003_justfile_module_definition": {
+      "status": "partially_compliant",
+      "violations": [
+        {
+          "id": "ADR-003.001",
+          "type": "critical",
+          "description": "Deprecated .meta.json file present",
+          "location": "/private/etc/dotfiles/adam/paths.d/.meta.json",
+          "reference": "ADR-003 Section 3: '.meta.json pattern is deprecated for new modules'",
+          "severity": "high",
+          "beads_issue": "dotfiles-adam-c4k.82.3"
+        }
+      ],
+      "compliant_aspects": [
+        {
+          "criterion": "Has justfile",
+          "status": "pass",
+          "finding": "Valid module justfile present"
+        },
+        {
+          "criterion": "No child justfiles (leaf node)",
+          "status": "pass",
+          "finding": "Module is leaf node, can be independently installed"
+        }
+      ]
+    },
+    "adr_004_configuration_templating_pipeline": {
+      "status": "non_compliant",
+      "violations": [
+        {
+          "id": "ADR-004.001",
+          "type": "major",
+          "description": "No data.yml configuration file",
+          "reference": "ADR-004 Section 2-3",
+          "expected": "Should contain template variables per ADR-005 schema",
+          "severity": "medium",
+          "beads_issue": "dotfiles-adam-c4k.82.5"
+        },
+        {
+          "id": "ADR-004.002",
+          "type": "major",
+          "description": "Incomplete .gitignore for generated files",
+          "location": "/private/etc/dotfiles/adam/paths.d/.gitignore",
+          "current": "Only contains 'bak'",
+          "required": "Should include 'generated.*' per ADR-004 Section 6",
+          "severity": "medium",
+          "beads_issue": "dotfiles-adam-c4k.82.8"
+        }
+      ]
+    },
+    "adr_005_data_yaml_schema_specification": {
+      "status": "not_applicable",
+      "reason": "No data.yml file present - cannot assess compliance"
+    },
+    "adr_006_secret_management_with_1password": {
+      "status": "compliant",
+      "finding": "Module does not use secrets, only environment variable substitution"
+    },
+    "adr_007_service_module_conventions": {
+      "status": "not_applicable",
+      "reason": "Module is not a service module (manages system PATH, not background services)"
+    }
+  },
+  "documentation_gaps": [
+    {
+      "type": "missing_readme",
+      "location": "/private/etc/dotfiles/adam/paths.d/",
+      "required_by": "ADR-003 Section 4 (typical module structure)",
+      "severity": "medium",
+      "beads_issue": "dotfiles-adam-c4k.82.7"
+    }
+  ],
+  "created_issues": [
+    {
+      "id": "dotfiles-adam-c4k.82.2",
+      "title": "paths.d: Add [group()] attributes to recipes",
+      "adr": "ADR-002",
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.82.3",
+      "title": "paths.d: Remove deprecated .meta.json file",
+      "adr": "ADR-003",
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.82.4",
+      "title": "paths.d: Add missing standard recipes from ADR-002",
+      "adr": "ADR-002",
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.82.5",
+      "title": "paths.d: Create data.yml configuration file",
+      "adr": "ADR-004/ADR-005",
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.82.6",
+      "title": "paths.d: Add explicit shell settings to justfile",
+      "adr": "ADR-002",
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.82.7",
+      "title": "paths.d: Add README.md documentation",
+      "adr": "ADR-003",
+      "priority": "P2"
+    },
+    {
+      "id": "dotfiles-adam-c4k.82.8",
+      "title": "paths.d: Update .gitignore for generated.* files",
+      "adr": "ADR-004",
+      "priority": "P2"
+    }
+  ],
+  "summary": {
+    "total_violations": 8,
+    "critical_violations": 3,
+    "major_violations": 3,
+    "compliance_score": "37.5%",
+    "adr_002_compliance": "non_compliant",
+    "adr_003_compliance": "partially_compliant",
+    "adr_004_compliance": "non_compliant",
+    "adr_005_compliance": "not_applicable",
+    "adr_006_compliance": "compliant",
+    "adr_007_compliance": "not_applicable",
+    "recommendations": [
+      "Prioritize adding recipe grouping and standard recipes (ADR-002)",
+      "Remove deprecated .meta.json file (ADR-003)",
+      "Create documentation (README.md) explaining module purpose and configuration",
+      "Consider whether data.yml configuration is needed for this module",
+      "Align shell settings with ADR-002 conventions"
+    ]
+  }
+}

@@ -3,3 +3,14 @@ node_modules
 *.zwc
 .zsh_history
 .zcompdump
+
+# Runtime/temp files
+*.pid
+*.lock
+*.log
+.runtime/
+.dolt-data/
+daemon/*.pid
+daemon/*.lock
+daemon/*.log
+daemon/dolt-state.json

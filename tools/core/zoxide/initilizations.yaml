@@ -1,0 +1,4 @@
+---
+zoxide:
+  critical: true
+  suffix: "init [zsh|bash|elvish|xonsh|fish|tcsh|powershell|nushell|posix]"

@@ -1,0 +1,178 @@
+{
+  "module": "ssh",
+  "parent_issue": "dotfiles-adam-c4k.36",
+  "phase": 1,
+  "review_date": "2026-02-25",
+  "summary": {
+    "total_violations": 9,
+    "adr_violations": {
+      "adr_002": 4,
+      "adr_003": 2,
+      "adr_004": 1,
+      "adr_005": 1,
+      "adr_006": 1
+    },
+    "severity": "moderate"
+  },
+  "violations": [
+    {
+      "issue_id": "dotfiles-adam-c4k.36.1",
+      "adr": "ADR-002",
+      "section": "5",
+      "violation": "Missing standard recipes",
+      "severity": "high",
+      "details": "SSH module missing: mktree, health, ls, completions, test. Current recipes lack [group()] attributes",
+      "file": "/private/etc/dotfiles/adam/ssh/justfile",
+      "recommendation": "Implement standard recipe set with proper group annotations"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.36.2",
+      "adr": "ADR-002",
+      "section": "7",
+      "violation": "Missing recipe group annotations",
+      "severity": "high",
+      "details": "Recipes build, install, clean, template, test, list-targets lack [group()] attributes",
+      "file": "/private/etc/dotfiles/adam/ssh/justfile",
+      "recommendation": "Add [group()] attributes to all recipes"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.36.3",
+      "adr": "ADR-003",
+      "section": "3",
+      "violation": "Deprecated .meta.json manifest file",
+      "severity": "low",
+      "details": "ADR-003 states .meta.json is deprecated for new modules. File exists but marked 'TODO'",
+      "file": "/private/etc/dotfiles/adam/ssh/.meta.json",
+      "recommendation": "Delete deprecated manifest file"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.36.4",
+      "adr": "ADR-002",
+      "section": "1 & 8 (anti-pattern)",
+      "violation": "XDG environment variables usage",
+      "severity": "medium",
+      "details": "Line 5: dotssh uses env('XDG_CONFIG_HOME') instead of config_directory()",
+      "file": "/private/etc/dotfiles/adam/ssh/justfile",
+      "code": "dotssh := if env(\"XDG_CONFIG_HOME\", \"\") != \"\" { \"$XDG_CONFIG_HOME/ssh\" } else { \"$HOME/.ssh\" }",
+      "recommendation": "Use config_directory() per ADR-002 Section 1"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.36.5",
+      "adr": "ADR-002",
+      "section": "2",
+      "violation": "Missing safe shell settings",
+      "severity": "medium",
+      "details": "ADR-002 requires: set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]. lib.just uses zsh instead",
+      "file": "/private/etc/dotfiles/adam/ssh/justfile",
+      "recommendation": "Add explicit shell settings or document override reason"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.36.6",
+      "adr": "ADR-005",
+      "section": "1-3",
+      "violation": "Missing data.yml schema file",
+      "severity": "high",
+      "details": "No data.yml file. Should document config, dependencies, target-dir following ADR-005 schema",
+      "file": "/private/etc/dotfiles/adam/ssh/",
+      "recommendation": "Create data.yml with deps, target-dir, and other schema fields"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.36.7",
+      "adr": "ADR-004",
+      "section": "3",
+      "violation": "Non-standard templating pipeline",
+      "severity": "high",
+      "details": "Custom op item list | jq | mustache pattern deviates from: mustache data.yml | envsubst | op inject",
+      "file": "/private/etc/dotfiles/adam/ssh/justfile",
+      "lines": [17, 27, 43],
+      "recommendation": "Implement ADR-004 pipeline or document deviations in README"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.36.8",
+      "adr": "ADR-006",
+      "section": "2 & anti-patterns",
+      "violation": "op:// references mixed with Mustache templating",
+      "severity": "medium",
+      "details": "engagement-config.mustache contains op:// refs with Mustache variables: op://{{vault}}/{{uuid}}/...",
+      "file": "/private/etc/dotfiles/adam/ssh/templates/cfs/engagement-config.mustache",
+      "lines": [2, 4, 9, 10, 11],
+      "recommendation": "Separate Mustache templating from op inject per ADR-004 & ADR-006"
+    },
+    {
+      "issue_id": "dotfiles-adam-c4k.36.9",
+      "adr": "ADR-002, ADR-003",
+      "section": "3-4 & ADR-005",
+      "violation": "Incomplete module structure",
+      "severity": "medium",
+      "details": "Missing: README.md, data.yml, brewfile. Dependencies undocumented (1Password, mustache, lsd, jq)",
+      "file": "/private/etc/dotfiles/adam/ssh/",
+      "recommendation": "Create README.md, data.yml, and brewfile"
+    }
+  ],
+  "adr_compliance_matrix": {
+    "adr_002_justfile_conventions": {
+      "status": "non_compliant",
+      "violations": [1, 2, 4, 5],
+      "notes": "Missing standard recipes, no group annotations, XDG anti-pattern, shell settings"
+    },
+    "adr_003_justfile_module_definition": {
+      "status": "partially_compliant",
+      "violations": [3, 9],
+      "notes": "Leaf module (no child justfiles) but has deprecated .meta.json and incomplete structure"
+    },
+    "adr_004_configuration_templating_pipeline": {
+      "status": "non_compliant",
+      "violations": [7],
+      "notes": "Custom op querying pattern instead of standard mustache|envsubst|op inject pipeline"
+    },
+    "adr_005_data_yaml_schema_specification": {
+      "status": "non_compliant",
+      "violations": [6],
+      "notes": "No data.yml file; module configuration not documented in queryable schema"
+    },
+    "adr_006_secret_management_with_1password": {
+      "status": "partially_compliant",
+      "violations": [8],
+      "notes": "Uses 1Password but mixes op:// URIs with Mustache templating, unclear pipeline"
+    },
+    "adr_007_service_module_conventions": {
+      "status": "compliant",
+      "violations": [],
+      "notes": "SSH is not a service module (no background process/daemon), so ADR-007 does not apply"
+    }
+  },
+  "created_issues": [
+    "dotfiles-adam-c4k.36.1",
+    "dotfiles-adam-c4k.36.2",
+    "dotfiles-adam-c4k.36.3",
+    "dotfiles-adam-c4k.36.4",
+    "dotfiles-adam-c4k.36.5",
+    "dotfiles-adam-c4k.36.6",
+    "dotfiles-adam-c4k.36.7",
+    "dotfiles-adam-c4k.36.8",
+    "dotfiles-adam-c4k.36.9"
+  ],
+  "recommendations": {
+    "priority_1_critical": [
+      "Add standard recipes with [group()] attributes (ADR-002)",
+      "Implement ADR-004 templating pipeline or document deviations (ADR-004)",
+      "Create data.yml with ADR-005 schema (ADR-005)"
+    ],
+    "priority_2_high": [
+      "Replace XDG env vars with config_directory() (ADR-002)",
+      "Review and fix shell settings (ADR-002)",
+      "Remove deprecated .meta.json (ADR-003)"
+    ],
+    "priority_3_medium": [
+      "Create README.md documenting module (ADR-003)",
+      "Create brewfile for dependencies (ADR-003)",
+      "Fix op:// Mustache mixing in templates (ADR-006)"
+    ]
+  },
+  "files_requiring_attention": [
+    "/private/etc/dotfiles/adam/ssh/justfile",
+    "/private/etc/dotfiles/adam/ssh/.meta.json",
+    "/private/etc/dotfiles/adam/ssh/templates/cfs/engagement-config.mustache",
+    "/private/etc/dotfiles/adam/ssh/ (missing: data.yml, brewfile, README.md)"
+  ]
+}

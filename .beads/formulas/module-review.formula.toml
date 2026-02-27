@@ -1,0 +1,131 @@
+# Formula: module-review
+# Type: workflow
+# Two-phase ADR compliance review
+#
+# Usage:
+#   gt formula run module-review --var module=git --var parent=dotfiles-pmz.61
+#   gt sling module-review --var module=databases/meilisearch --var parent=dotfiles-pmz.51
+
+description = """Module Review workflow.
+
+Two-phase ADR compliance review:
+- Phase 1 (haiku): Fast mechanical scan, creates high-confidence issues
+- Phase 2 (sonnet): Judgment calls, reclassifications, repo-wide issues"""
+
+formula = "module-review"
+version = 1
+
+# Variables
+[vars]
+[vars.module]
+description = "Module path (e.g., 'git', 'databases/meilisearch')"
+required = true
+
+[vars.parent]
+description = "Parent beads issue ID (e.g., 'dotfiles-pmz.61')"
+required = true
+
+[vars.skip_phase2]
+description = "Skip Phase 2 even if escalation needed"
+default = "false"
+
+# Step 1: Phase 1 - Mechanical Scan (haiku)
+[[steps]]
+id = "phase1"
+title = "Phase 1: Mechanical Scan"
+description = """
+Fast haiku scan for clear-cut ADR violations.
+
+**Actions:**
+1. Read module files (justfile, data.yml, brewfile, configs)
+2. Read agent spec at `.claude/agents/module-review.md`
+3. Run mechanical checks against ADR-002 through ADR-007
+4. Create beads issues for HIGH confidence findings:
+   ```
+   bd create "{{module}}: <issue>" --parent {{parent}} -d "<details>" -l "<labels>,<severity>" --silent
+   ```
+5. Defer MEDIUM/LOW confidence findings to Phase 2
+6. Update parent task:
+   ```
+   bd update {{parent}} --notes "Phase 1 complete. N issues created, M deferred"
+   ```
+
+**Output JSON:**
+```json
+{
+  "phase": 1,
+  "issues_created": [],
+  "deferred_findings": [],
+  "escalate_to_phase2": true|false,
+  "phase2_reasons": []
+}
+```
+"""
+
+# Step 2: Phase 2 Gate
+[[steps]]
+id = "gate"
+title = "Phase 2 Gate"
+needs = ["phase1"]
+description = """
+Check if Phase 2 is needed.
+
+Proceed to Phase 2 if:
+- Phase 1 returned `escalate_to_phase2: true`
+- AND `skip_phase2` variable is not "true"
+
+Otherwise, skip Phase 2 and complete workflow.
+"""
+
+# Step 3: Phase 2 - Judgment Calls (sonnet)
+[[steps]]
+id = "phase2"
+title = "Phase 2: Judgment Calls"
+needs = ["gate"]
+description = """
+Sonnet review of ambiguous findings from Phase 1.
+
+**Actions:**
+1. Read module files for deeper context
+2. Read relevant ADRs at `docs/src/adr/`
+3. For each deferred finding:
+   - Confirm as violation → create issue via `bd create`
+   - Reclassify as acceptable → document reason
+   - Identify as repo-wide → create under appropriate epic
+4. Review Phase 1 issues for potential reclassification
+5. Update parent task with final summary:
+   ```
+   bd update {{parent}} --notes "Review complete. Total: N issues"
+   ```
+
+**Epic IDs for Repo-Wide Issues:**
+- Justfile Review: dotfiles-4th (lib.just issues)
+- Template Review: dotfiles-02p
+- Secrets Review: dotfiles-c0q
+
+**Output JSON:**
+```json
+{
+  "phase": 2,
+  "issues_created": [],
+  "reclassified": [],
+  "repo_wide_issues": [],
+  "escalate_to_human": [],
+  "final_summary": {}
+}
+```
+"""
+
+# Step 4: Complete
+[[steps]]
+id = "complete"
+title = "Complete Review"
+needs = ["phase2"]
+description = """
+Finalize the module review.
+
+**Actions:**
+1. Verify all issues created correctly
+2. Send completion mail to mayor
+3. Update convoy status if part of batch
+"""

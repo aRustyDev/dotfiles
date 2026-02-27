@@ -1,0 +1,108 @@
+{
+  "module": "settings",
+  "parent_issue": "dotfiles-adam-c4k.85",
+  "review_date": "2026-02-25",
+  "module_path": "/private/etc/dotfiles/adam/settings",
+  "module_files": {
+    "justfile": false,
+    "brewfile": false,
+    "config_files": ["config.json"],
+    "data_yml": false,
+    "readme": false,
+    "total_files": 1
+  },
+  "adr_compliance": {
+    "ADR-002_justfile_conventions": {
+      "status": "VIOLATION",
+      "severity": "CRITICAL",
+      "issues": [
+        "Missing justfile - fundamental requirement for modules",
+        "No shell settings defined",
+        "No import of shared library (.build/just/lib.just)",
+        "No standard recipes (install, clean, health, ls, etc.)",
+        "No recipe grouping (lifecycle, info, build, service)",
+        "No brewfile for dependency management"
+      ],
+      "beads_issue": "dotfiles-adam-c4k.85.1"
+    },
+    "ADR-003_justfile_module_definition": {
+      "status": "CANNOT_VERIFY",
+      "severity": "HIGH",
+      "issues": [
+        "No justfile prevents module identification",
+        "Cannot determine if leaf module or proxy",
+        "Cannot be independently installed",
+        "Cannot use direct command syntax"
+      ],
+      "beads_issue": "dotfiles-adam-c4k.85.2"
+    },
+    "ADR-004_configuration_templating": {
+      "status": "NOT_APPLICABLE",
+      "severity": "MEDIUM",
+      "notes": "config.json appears static. If templating is needed, must implement pipeline",
+      "requirements_if_templating": [
+        "Create data.yml with template variables",
+        "Implement template recipe in justfile",
+        "Use pipeline: mustache data.yml config.json | envsubst | op inject > generated.json",
+        "Add generated.* to .gitignore"
+      ],
+      "beads_issue": "dotfiles-adam-c4k.85.3"
+    },
+    "ADR-005_data_yaml_schema": {
+      "status": "NOT_APPLICABLE",
+      "severity": "LOW",
+      "notes": "No data.yml file present. Only required if module has configurable parameters",
+      "beads_issue": "dotfiles-adam-c4k.85.4"
+    },
+    "ADR-006_secret_management": {
+      "status": "PASS",
+      "severity": "NONE",
+      "notes": "No secrets detected in config.json. No op:// references found. Status OK."
+    },
+    "ADR-007_service_module_conventions": {
+      "status": "N/A",
+      "severity": "NONE",
+      "notes": "Settings module is not a service module. No background processes or lifecycle management needed."
+    }
+  },
+  "summary": {
+    "total_adr_violations": 2,
+    "critical_violations": 1,
+    "high_violations": 1,
+    "medium_violations": 1,
+    "beads_issues_created": 5,
+    "recommendation": "Create justfile with standard recipes and document module purpose in README.md"
+  },
+  "beads_issues": [
+    {
+      "id": "dotfiles-adam-c4k.85.1",
+      "title": "ADR-002: Settings module missing required justfile",
+      "priority": "P2",
+      "status": "open"
+    },
+    {
+      "id": "dotfiles-adam-c4k.85.2",
+      "title": "ADR-003: Settings module lacks proper module definition",
+      "priority": "P2",
+      "status": "open"
+    },
+    {
+      "id": "dotfiles-adam-c4k.85.3",
+      "title": "ADR-004: Settings module has no templating pipeline",
+      "priority": "P2",
+      "status": "open"
+    },
+    {
+      "id": "dotfiles-adam-c4k.85.4",
+      "title": "ADR-005: Settings module has no data.yml schema file",
+      "priority": "P2",
+      "status": "open"
+    },
+    {
+      "id": "dotfiles-adam-c4k.85.5",
+      "title": "Settings module missing README.md documentation",
+      "priority": "P2",
+      "status": "open"
+    }
+  ]
+}

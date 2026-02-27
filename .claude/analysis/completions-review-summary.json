@@ -1,0 +1,126 @@
+{
+  "module": "completions",
+  "review_date": "2026-02-25",
+  "parent_issue": "dotfiles-adam-c4k.65",
+  "phase": 1,
+  "summary": {
+    "total_files_reviewed": 1,
+    "violations_found": 5,
+    "adr_coverage": {
+      "adr_002_justfile_conventions": "PARTIAL",
+      "adr_003_justfile_module_definition": "INCOMPLETE",
+      "adr_004_configuration_templating": "N/A",
+      "adr_005_data_yaml_schema": "INCOMPLETE",
+      "adr_006_secret_management": "PASS",
+      "adr_007_service_conventions": "N/A"
+    }
+  },
+  "files_reviewed": [
+    {
+      "path": "/private/etc/dotfiles/adam/completions/mods.just",
+      "type": "justfile configuration",
+      "lines": 14,
+      "purpose": "Defines shell completion directory paths"
+    }
+  ],
+  "violations": [
+    {
+      "id": "dotfiles-adam-c4k.65.1",
+      "title": "completions: Missing shell settings in mods.just",
+      "adr": "ADR-002",
+      "section": "2 (Shell Settings)",
+      "severity": "medium",
+      "type": "bug",
+      "issue": "File lacks required shell safety settings",
+      "required": "set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]",
+      "location": "/private/etc/dotfiles/adam/completions/mods.just (lines 1-6)"
+    },
+    {
+      "id": "dotfiles-adam-c4k.65.2",
+      "title": "completions: Unclear module type (non-standard filename)",
+      "adr": "ADR-003",
+      "section": "5 (Module Identification)",
+      "severity": "low",
+      "type": "style",
+      "issue": "File named 'mods.just' instead of standard 'justfile'",
+      "required": "Use 'justfile' for modules, '.build/just/*.just' for helpers",
+      "location": "/private/etc/dotfiles/adam/completions/mods.just"
+    },
+    {
+      "id": "dotfiles-adam-c4k.65.3",
+      "title": "completions: No standard recipes defined",
+      "adr": "ADR-002",
+      "section": "5-6 (Standard Recipes)",
+      "severity": "medium",
+      "type": "chore",
+      "issue": "Module lacks standard recipes or null implementations",
+      "required": "Implement install, clean, health, ls, completions, build, template, test recipes or null implementations",
+      "location": "/private/etc/dotfiles/adam/completions/mods.just"
+    },
+    {
+      "id": "dotfiles-adam-c4k.65.4",
+      "title": "completions: Missing README documentation",
+      "adr": "ADR-003",
+      "section": "4 (Typical Module Structure)",
+      "severity": "low",
+      "type": "docs",
+      "issue": "Module lacks documentation",
+      "required": "Include README.md explaining purpose, structure, and usage",
+      "location": "/private/etc/dotfiles/adam/completions/"
+    },
+    {
+      "id": "dotfiles-adam-c4k.65.5",
+      "title": "completions: Consider data.yml schema definition (ADR-005)",
+      "adr": "ADR-005",
+      "section": "1-2 (Schema Structure)",
+      "severity": "low",
+      "type": "chore",
+      "issue": "Shell completions not following ADR-005 schema",
+      "recommended": "Define bash/zsh/fish completion paths in data.yml format",
+      "location": "/private/etc/dotfiles/adam/completions/mods.just"
+    }
+  ],
+  "statistics": {
+    "critical_violations": 0,
+    "high_violations": 0,
+    "medium_violations": 2,
+    "low_violations": 3,
+    "adr_002_violations": 2,
+    "adr_003_violations": 2,
+    "adr_005_violations": 1
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "action": "Add shell safety setting",
+      "description": "Add 'set shell := [\"bash\", \"-euo\", \"pipefail\", \"-c\"]' to beginning of file if it's a justfile"
+    },
+    {
+      "priority": "medium",
+      "action": "Clarify module type",
+      "description": "Rename to 'justfile' if this is a module, or move to .build/just/ if this is a helper file"
+    },
+    {
+      "priority": "medium",
+      "action": "Implement standard recipes",
+      "description": "Add standard recipes from ADR-002 or null implementations with @true"
+    },
+    {
+      "priority": "low",
+      "action": "Add documentation",
+      "description": "Create README.md documenting the module's purpose and usage"
+    },
+    {
+      "priority": "low",
+      "action": "Consider schema migration",
+      "description": "Evaluate whether to migrate completion paths to data.yml per ADR-005"
+    }
+  ],
+  "issues_created": [
+    "dotfiles-adam-c4k.65.1",
+    "dotfiles-adam-c4k.65.2",
+    "dotfiles-adam-c4k.65.3",
+    "dotfiles-adam-c4k.65.4",
+    "dotfiles-adam-c4k.65.5"
+  ]
+}

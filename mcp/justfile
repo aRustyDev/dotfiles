@@ -2,6 +2,6 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-[group(stubs)]
+[group('stubs')]
 install:
     @echo "mcp: No config files to install yet"

@@ -1,0 +1,4 @@
+---
+starship:
+  critical: true
+  suffix: "init [zsh|bash|elvish|ion|fish|tcsh|powershell|xonsh]"
