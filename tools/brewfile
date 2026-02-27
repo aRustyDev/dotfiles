@@ -1,0 +1,32 @@
+# =============================================================================
+# Tools - Group Brewfile
+# =============================================================================
+# Config-less tools that don't need their own module.
+# See ADR-0009 and ADR-0010 for classification criteria.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# GNU Coreutils & Text Processing
+# -----------------------------------------------------------------------------
+brew "gawk"                 # GNU awk
+brew "gnu-sed"              # GNU sed (gsed)
+brew "coreutils"            # GNU core utilities
+
+# -----------------------------------------------------------------------------
+# Archive & Compression
+# -----------------------------------------------------------------------------
+brew "sevenzip"             # 7-Zip file archiver
+brew "libarchive"           # Multi-format archive library
+
+# -----------------------------------------------------------------------------
+# Media Processing
+# -----------------------------------------------------------------------------
+brew "ffmpeg"               # Audio/video processing
+brew "imagemagick"          # Image manipulation
+brew "poppler"              # PDF rendering library
+brew "resvg"                # SVG rendering library
+
+# -----------------------------------------------------------------------------
+# Documentation
+# -----------------------------------------------------------------------------
+brew "info"                 # GNU info documentation reader
