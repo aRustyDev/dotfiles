@@ -1,0 +1,6 @@
+# Terraform and related tools
+tap "hashicorp/tap"
+brew "hashicorp/tap/terraform"
+brew "tflint"               # Terraform linter
+brew "terraform-docs"       # Documentation generator
+brew "infracost"            # Cost estimation

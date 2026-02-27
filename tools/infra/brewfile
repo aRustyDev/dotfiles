@@ -1,0 +1,20 @@
+# =============================================================================
+# Infrastructure Tools (Group Brewfile)
+# =============================================================================
+# Config-less infra tools that don't need their own module.
+# =============================================================================
+
+# HashiCorp
+brew "vault"                # Secrets management (config via env vars)
+brew "packer"               # Image builder
+brew "consul"               # Service mesh
+
+# Ansible
+brew "ansible"              # Configuration management
+brew "ansible-lint"         # Linter for playbooks
+
+# Cloud CLIs
+brew "awscli"               # AWS CLI
+brew "azure-cli"            # Azure CLI
+tap "hashicorp/tap"
+brew "hashicorp/tap/terraform"  # Terraform (user config in terraform/)

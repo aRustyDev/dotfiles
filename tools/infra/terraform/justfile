@@ -2,6 +2,25 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../../../.build/just/lib.just'
 
-[group('stubs')]
-install:
-    @echo "terraform: No config files to install yet (see unbound-dns/)"
+plugin_cache := env("HOME") / ".terraform.d/plugin-cache"
+
+# Install terraform configuration
+install: config mktree
+    @echo "Terraform configured."
+    @echo "Plugin cache: {{plugin_cache}}"
+
+# Symlink configuration
+config:
+    ln -sf "{{justfile_directory()}}/terraformrc" "$HOME/.terraformrc"
+
+# Create directories
+mktree:
+    mkdir -p "{{plugin_cache}}"
+    mkdir -p "$HOME/.terraform.d/plugins"
+
+# Show terraform info
+info:
+    @echo "Config: $HOME/.terraformrc"
+    @echo "Plugin cache: {{plugin_cache}}"
+    @echo ""
+    @terraform version

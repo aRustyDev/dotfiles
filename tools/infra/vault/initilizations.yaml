@@ -1,4 +1,0 @@
----
-vault:
-  critical: false
-  suffix: "-autocomplete-install"

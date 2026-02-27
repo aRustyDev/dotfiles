@@ -1,0 +1,7 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../.build/just/lib.just'
+
+# Install config-less infra tools from group brewfile
+install-group:
+    brew bundle --file=brewfile --no-lock
