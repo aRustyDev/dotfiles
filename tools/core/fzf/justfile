@@ -1,0 +1,30 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+import '../../../.build/just/lib.just'
+
+dotdir := shell("yq '.dotdir' data.yml | envsubst")
+
+# Install fzf with configuration
+install: dependencies config
+    @echo "fzf installed. Source fzf.zsh in your shell config."
+
+# Install dependencies
+dependencies:
+    brew bundle --file=brewfile --no-lock
+
+# Symlink configuration
+config: mktree
+    ln -sf "{{justfile_directory()}}/fzf.zsh" "{{dotdir}}/fzf.zsh"
+
+# Create config directory
+mktree:
+    mkdir -p "{{dotdir}}"
+
+# Show fzf info
+info:
+    @echo "Config directory: {{dotdir}}"
+    @echo ""
+    @fzf --version
+    @echo ""
+    @echo "Shell integration:"
+    @echo "  Add to .zshrc: source {{dotdir}}/fzf.zsh"
