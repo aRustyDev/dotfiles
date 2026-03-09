@@ -103,7 +103,7 @@ class CoverageReport:
         if coverage.claimed_total is not None:
             self.total_expected += coverage.claimed_total
 
-        if coverage.discrepancy_alert:
+        if coverage.discrepancy_alert and coverage.coverage_pct is not None:
             self.alerts.append(
                 f"{coverage.registry}: collected {coverage.collected_total} "
                 f"vs claimed {coverage.claimed_total} ({coverage.coverage_pct:.1f}%)"
