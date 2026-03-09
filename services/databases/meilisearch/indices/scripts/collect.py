@@ -43,10 +43,10 @@ from typing import TYPE_CHECKING
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from collectors.base import COMPONENT_KINDS, BaseCollector, CollectResult
+from collectors.base import COMPONENT_KINDS, BaseCollector, ClaimData, CollectResult
 from collectors.coverage import (
     generate_coverage_report,
-    format_coverage_report,
+    print_coverage_report,
     save_coverage_report,
     DEFAULT_CLAIMS_FILE,
     DEFAULT_BASELINE_FILE,
@@ -296,6 +296,128 @@ def validate_kinds(kinds_str: str) -> set[str]:
     return kinds
 
 
+async def extract_all_claims(
+    collectors: list[type[BaseCollector]],
+    update_file: bool = False,
+) -> dict[str, ClaimData | None]:
+    """Extract claims from all registries.
+
+    Args:
+        collectors: List of collector classes
+        update_file: If True, update registry_claims.json
+
+    Returns:
+        Dict mapping registry name to ClaimData
+    """
+    claims: dict[str, ClaimData | None] = {}
+
+    for collector_class in collectors:
+        collector = collector_class()
+        logger.info(f"Extracting claim from {collector.registry_name}...")
+
+        try:
+            async with collector:
+                claim = await collector.extract_claim()
+                claims[collector.registry_name] = claim
+
+                if claim:
+                    logger.info(
+                        f"  {collector.registry_name}: {claim.total:,} "
+                        f"(source: {claim.source})"
+                    )
+                else:
+                    logger.info(f"  {collector.registry_name}: no claim available")
+
+        except Exception as e:
+            logger.error(f"  {collector.registry_name}: error - {e}")
+            claims[collector.registry_name] = None
+
+    # Update claims file if requested
+    if update_file:
+        update_claims_file(claims)
+
+    return claims
+
+
+def update_claims_file(claims: dict[str, ClaimData | None]) -> None:
+    """Update registry_claims.json with extracted claims."""
+    claims_file = DEFAULT_CLAIMS_FILE
+
+    # Load existing claims
+    if claims_file.exists():
+        with open(claims_file) as f:
+            data = json.load(f)
+    else:
+        data = {
+            "$schema": "./schemas/registry_claims.schema.json",
+            "version": "1.0",
+            "description": "Registry-stated component totals. Updated during collection or manually.",
+            "registries": {},
+        }
+
+    # Update with new claims
+    data["last_updated"] = datetime.now(UTC).isoformat()
+
+    for registry_name, claim in claims.items():
+        if claim is None:
+            continue
+
+        if registry_name not in data["registries"]:
+            data["registries"][registry_name] = {}
+
+        reg_data = data["registries"][registry_name]
+        reg_data["claimed_total"] = claim.total
+        reg_data["claimed_by_kind"] = claim.by_kind
+        reg_data["source"] = claim.source
+        reg_data["last_verified"] = claim.extracted_at
+        reg_data["notes"] = claim.notes
+
+    # Write back
+    with open(claims_file, "w") as f:
+        json.dump(data, f, indent=2)
+        f.write("\n")
+
+    logger.info(f"Updated {claims_file}")
+
+
+def print_claims(claims: dict[str, ClaimData | None]) -> None:
+    """Print extracted claims in a formatted table."""
+    print("\n" + "=" * 60)
+    print("EXTRACTED CLAIMS")
+    print(f"Generated: {datetime.now(UTC).isoformat()}")
+    print("=" * 60 + "\n")
+
+    # Sort by total (descending)
+    sorted_claims = sorted(
+        claims.items(),
+        key=lambda x: (x[1].total if x[1] else 0),
+        reverse=True,
+    )
+
+    total_claimed = 0
+    registries_with_claims = 0
+
+    for registry_name, claim in sorted_claims:
+        if claim:
+            total_claimed += claim.total
+            registries_with_claims += 1
+            by_kind_str = ""
+            if claim.by_kind:
+                by_kind_str = " | " + ", ".join(
+                    f"{k}: {v:,}" for k, v in sorted(claim.by_kind.items())
+                )
+            print(f"[+] {registry_name}: {claim.total:,} ({claim.source}){by_kind_str}")
+            if claim.notes:
+                print(f"    Note: {claim.notes}")
+        else:
+            print(f"[-] {registry_name}: no claim available")
+
+    print("\n" + "-" * 40)
+    print(f"Total claimed: {total_claimed:,}")
+    print(f"Registries with claims: {registries_with_claims}/{len(claims)}")
+    print("=" * 60)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Collect Claude Code components from registries",
@@ -381,6 +503,12 @@ Examples:
         help="Save coverage report as JSON to file",
     )
     parser.add_argument(
+        "--coverage-kinds",
+        type=str,
+        default="all",
+        help="Filter per-kind coverage tables (comma-separated or 'all')",
+    )
+    parser.add_argument(
         "--detect-new",
         action="store_true",
         help="Detect new components since last collection",
@@ -394,6 +522,16 @@ Examples:
         "--previous-dir",
         type=Path,
         help="Directory containing previous collection for comparison",
+    )
+    parser.add_argument(
+        "--extract-claims",
+        action="store_true",
+        help="Extract advertised component counts from all registries",
+    )
+    parser.add_argument(
+        "--update-claims",
+        action="store_true",
+        help="Update registry_claims.json with extracted claims (use with --extract-claims)",
     )
 
     args = parser.parse_args()
@@ -436,11 +574,22 @@ Examples:
                 with open(bronze_file) as f:
                     out.write(f.read())
 
-        # Generate report
-        report = generate_coverage_report(combined_file)
+        # Parse coverage-kinds filter
+        coverage_kinds_filter = None
+        if args.coverage_kinds.lower() != "all":
+            coverage_kinds_filter = {k.strip() for k in args.coverage_kinds.split(",")}
 
-        # Output text report
-        print(format_coverage_report(report, verbose=args.verbose))
+        # Generate report (returns tuple: report, claims, stats)
+        report, claims, stats = generate_coverage_report(combined_file)
+
+        # Output text report with per-kind tables
+        print_coverage_report(
+            report,
+            verbose=args.verbose,
+            kinds_filter=coverage_kinds_filter,
+            claims=claims,
+            stats=stats,
+        )
 
         # Save JSON if requested
         if args.coverage_report_json:
@@ -470,6 +619,24 @@ Examples:
     if args.backup_collection:
         backup_dir = backup_current_collection(args.output)
         logger.info(f"Collection backed up to {backup_dir}")
+        return
+
+    # Extract claims from registries
+    if args.extract_claims:
+        collectors = get_all_collectors()
+
+        # Filter by registry if specified
+        if args.registry:
+            collectors = filter_collectors_by_registry(collectors, args.registry)
+            if not collectors:
+                logger.error(f"Unknown registry: {args.registry}")
+                sys.exit(1)
+
+        claims = asyncio.run(extract_all_claims(
+            collectors,
+            update_file=args.update_claims,
+        ))
+        print_claims(claims)
         return
 
     # Parse kinds
