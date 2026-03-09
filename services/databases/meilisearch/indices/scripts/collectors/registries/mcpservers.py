@@ -1,7 +1,7 @@
 """
 MCPServers.org collector for MCP server directory.
 
-Uses scraping for static HTML pages.
+Uses browser-based collection for Next.js rendered content.
 """
 
 from __future__ import annotations
@@ -11,124 +11,118 @@ import re
 from typing import Any
 
 from collectors.base import RawComponent
-from collectors.methods.scrape import ScrapeCollector
+from collectors.methods.browser import BrowserCollector
 from collectors.rate_limit import RateLimitConfig
 
 
-class MCPServersCollector(ScrapeCollector):
-    """Scrape-based collector for mcpservers.org.
+class MCPServersCollector(BrowserCollector):
+    """Browser-based collector for mcpservers.org.
 
-    mcpservers.org is a static HTML directory of MCP servers
-    with pagination and card-based layout.
+    mcpservers.org is a Next.js site requiring JavaScript rendering.
+    Uses crawl4ai to render pages and extract server data.
     """
 
     registry_name = "mcpservers.org"
     supported_kinds = {"mcp_server"}
 
     base_url = "https://mcpservers.org"
-    pagination_pattern = "?page={page}"
+    pagination_pattern = "/all?page={page}"
 
-    rate_limit = RateLimitConfig(delay=1.0)
+    rate_limit = RateLimitConfig(delay=2.0)
 
-    # CSS-like patterns for extraction
-    selectors = {
-        "container": ".server-card",
-        "name": "h3, .title",
-        "url": "a[href*='/server/']",
-        "description": ".description, p",
-    }
+    # Wait for server cards to load
+    wait_for_selector = "[class*='server'], [class*='card'], main"
 
-    def extract_components(self, html: str) -> list[RawComponent]:
-        """Extract server data from HTML."""
-        components = []
-
-        # Try JSON-LD first (preferred structured data)
-        json_ld_components = self._extract_json_ld(html)
-        if json_ld_components:
-            return json_ld_components
-
-        # Try Next.js data
-        next_components = self._extract_next_data(html)
-        if next_components:
-            return next_components
-
-        # Fall back to regex-based extraction
-        components.extend(self._extract_server_links(html))
-
-        return components
-
-    def _extract_server_links(self, html: str) -> list[RawComponent]:
-        """Extract server links from HTML using patterns."""
+    def extract_components(self, markdown: str) -> list[RawComponent]:
+        """Extract server data from rendered markdown."""
         components = []
         seen = set()
 
-        # Pattern for server links
-        # Matches: /server/owner/name or /servers/owner/name
-        link_pattern = re.compile(
-            r'href="(/servers?/([^"]+))"[^>]*>([^<]*)</a>',
+        # Pattern 1: mcpservers.org server links with description in text
+        # Format: [ Server Name Description text ](https://mcpservers.org/servers/owner/repo)
+        server_pattern = re.compile(
+            r'\[\s*([^\]]+?)\s*\]\((https://mcpservers\.org/servers/([^)]+))\)',
             re.IGNORECASE,
         )
 
-        for match in link_pattern.finditer(html):
-            path = match.group(1)
-            slug = match.group(2)
-            text = match.group(3).strip()
+        for match in server_pattern.finditer(markdown):
+            text = match.group(1).strip()
+            url = match.group(2)
+            path = match.group(3)
 
-            if slug in seen:
+            # Parse owner/repo from path
+            parts = path.split("/")
+            if len(parts) >= 2:
+                owner = parts[0]
+                repo = parts[1]
+            else:
+                owner = None
+                repo = parts[0] if parts else path
+
+            # Create unique key
+            key = path
+            if key in seen:
                 continue
-            seen.add(slug)
+            seen.add(key)
 
-            # Parse owner/name from slug
-            parts = slug.split("/")
-            author = parts[0] if len(parts) > 1 else None
-            name = text or (parts[-1] if parts else slug)
-            name = name.replace("-", " ").replace("_", " ")
+            # Extract name and description from text
+            # Often the format is "Name Description text"
+            # Try to separate name from description
+            words = text.split()
+            if len(words) > 3:
+                # Assume first 1-3 words are name, rest is description
+                # Look for common patterns
+                name = repo.replace("-", " ").replace("_", " ").title()
+                description = text
+            else:
+                name = text
+                description = None
+
+            # Skip sponsor/ad entries
+            if "sponsor" in text.lower():
+                continue
 
             components.append({
                 "name": name,
-                "url": f"https://mcpservers.org{path}",
-                "author": author,
-                "path": slug,
+                "description": description,
+                "url": url,
+                "author": owner,
+                "path": path,
             })
 
-        # Also try to find descriptions near links
-        components = self._enrich_with_descriptions(html, components)
-
-        return components
-
-    def _enrich_with_descriptions(
-        self,
-        html: str,
-        components: list[RawComponent],
-    ) -> list[RawComponent]:
-        """Try to find descriptions for extracted components."""
-        # Pattern to find card-like structures with descriptions
-        card_pattern = re.compile(
-            r'<(?:div|article)[^>]*class="[^"]*(?:card|item|server)[^"]*"[^>]*>'
-            r'([\s\S]*?)'
-            r'</(?:div|article)>',
+        # Pattern 2: Direct GitHub links (sponsors/external)
+        github_pattern = re.compile(
+            r'\[\s*([^\]]+?)\s*\]\((https://github\.com/([^/]+)/([^/)\s]+))\)',
             re.IGNORECASE,
         )
 
-        desc_pattern = re.compile(
-            r'<p[^>]*>([^<]{20,500})</p>',
-            re.IGNORECASE,
-        )
+        for match in github_pattern.finditer(markdown):
+            text = match.group(1).strip()
+            url = match.group(2)
+            owner = match.group(3)
+            repo = match.group(4)
 
-        # Build lookup by path
-        by_path = {c.get("path"): c for c in components if c.get("path")}
+            # Create unique key
+            key = f"github/{owner}/{repo}"
+            if key in seen:
+                continue
 
-        for card_match in card_pattern.finditer(html):
-            card_html = card_match.group(1)
+            # Skip sponsor links (already have description inline)
+            if "sponsor" in text.lower():
+                continue
 
-            # Find which component this card is for
-            for path, comp in by_path.items():
-                if path in card_html:
-                    # Find description
-                    desc_match = desc_pattern.search(card_html)
-                    if desc_match and not comp.get("description"):
-                        comp["description"] = desc_match.group(1).strip()
-                    break
+            seen.add(key)
+
+            # Extract name and description
+            name = repo.replace("-", " ").replace("_", " ").title()
+
+            components.append({
+                "name": name,
+                "description": text if len(text) > len(name) + 5 else None,
+                "url": url,
+                "author": owner,
+                "github_url": url,
+            })
 
         return components
 

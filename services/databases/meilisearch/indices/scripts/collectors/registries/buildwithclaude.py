@@ -1,133 +1,196 @@
 """
-BuildWithClaude.com collector for showcase projects.
+BuildWithClaude.com collector for Claude Code extensions.
 
-Uses scraping for static HTML pages with embedded project data.
+Uses browser-based collection for Next.js rendered content.
+Crawls multiple section pages: plugins, skills, subagents, commands, hooks, mcp-servers.
 """
 
 from __future__ import annotations
 
-import json
 import re
 from typing import Any
 
 from collectors.base import RawComponent
-from collectors.methods.scrape import ScrapeCollector
+from collectors.methods.browser import BrowserCollector
 from collectors.rate_limit import RateLimitConfig
 
 
-class BuildWithClaudeCollector(ScrapeCollector):
-    """Scrape-based collector for buildwithclaude.com.
+# Section pages to crawl with their component type mapping
+SECTIONS = [
+    ("plugins", "plugin"),
+    ("skills", "skill"),
+    ("subagents", "agent"),
+    ("commands", "command"),
+    ("hooks", "hook"),
+    ("mcp-servers", "mcp_server"),
+]
 
-    buildwithclaude.com showcases projects built with Claude.
-    Contains mixed component types that need to be inferred.
+
+class BuildWithClaudeCollector(BrowserCollector):
+    """Browser-based collector for buildwithclaude.com.
+
+    buildwithclaude.com is a Next.js site with multiple sections.
+    Each page number maps to a different section.
     """
 
     registry_name = "buildwithclaude.com"
-    supported_kinds = {"skill", "agent", "plugin", "mcp_server"}
+    supported_kinds = {"skill", "agent", "plugin", "mcp_server", "command", "hook"}
 
-    base_url = "https://buildwithclaude.com/showcase"
-    pagination_pattern = "?page={page}"
+    base_url = "https://buildwithclaude.com"
 
-    rate_limit = RateLimitConfig(delay=1.0)
+    rate_limit = RateLimitConfig(delay=1.5)
 
-    def extract_components(self, html: str) -> list[RawComponent]:
-        """Extract project data from showcase HTML."""
+    def build_url(self, page: int) -> str:
+        """Build URL for a section page.
+
+        Maps page numbers to sections:
+        page 1 = /plugins
+        page 2 = /skills
+        page 3 = /subagents
+        page 4 = /commands
+        page 5 = /hooks
+        page 6 = /mcp-servers
+        """
+        if page > len(SECTIONS):
+            return ""  # Signal end of pagination
+
+        section, _ = SECTIONS[page - 1]
+        return f"{self.base_url}/{section}"
+
+    def extract_components(self, markdown: str) -> list[RawComponent]:
+        """Extract component data from rendered markdown."""
         components = []
+        seen = set()
 
-        # Try embedded JSON first
-        json_components = self._extract_embedded_json(html)
-        if json_components:
-            return json_components
+        # Determine section from URL context in the markdown
+        section_type = self._detect_section_type(markdown)
 
-        # Fall back to card pattern extraction
-        components.extend(self._extract_project_cards(html))
-
-        return components
-
-    def _extract_embedded_json(self, html: str) -> list[RawComponent]:
-        """Extract from application/json script tags."""
-        components = []
-
-        # Pattern for JSON data in script tags
-        json_pattern = r'<script[^>]*type="application/json"[^>]*>([^<]+)</script>'
-
-        for match in re.finditer(json_pattern, html, re.IGNORECASE):
-            try:
-                data = json.loads(match.group(1))
-                if isinstance(data, dict) and "projects" in data:
-                    for proj in data["projects"]:
-                        components.append({
-                            "name": proj.get("name") or proj.get("title"),
-                            "description": proj.get("description"),
-                            "url": proj.get("url") or proj.get("link"),
-                            "author": proj.get("author") or proj.get("creator"),
-                            "githubUrl": proj.get("github") or proj.get("githubUrl"),
-                            "tags": proj.get("tags", []),
-                        })
-            except json.JSONDecodeError:
-                continue
-
-        return components
-
-    def _extract_project_cards(self, html: str) -> list[RawComponent]:
-        """Extract project data from HTML card structures."""
-        components = []
-
-        # Look for card-like structures
-        card_pattern = re.compile(
-            r'<(?:div|article)[^>]*class="[^"]*(?:card|project|showcase)[^"]*"[^>]*>'
-            r'([\s\S]*?)'
-            r'</(?:div|article)>',
+        # Pattern for component links
+        # Format: ### [component-name Description](https://buildwithclaude.com/type/slug)
+        # or: [ component-name Description ](https://buildwithclaude.com/type/slug)
+        component_pattern = re.compile(
+            r'\[([^\]]+)\]\((https://buildwithclaude\.com/(plugin|skill|subagent|command|hook|mcp-server)/([^)]+))\)',
             re.IGNORECASE,
         )
 
-        title_pattern = re.compile(r"<h[23][^>]*>([^<]+)</h[23]>", re.IGNORECASE)
-        desc_pattern = re.compile(r"<p[^>]*>([^<]{10,300})</p>", re.IGNORECASE)
-        link_pattern = re.compile(r'<a[^>]*href="([^"]+)"[^>]*>', re.IGNORECASE)
-        author_pattern = re.compile(
-            r'(?:by|author|creator)[:\s]*([^<,\n]{2,50})',
-            re.IGNORECASE,
-        )
+        for match in component_pattern.finditer(markdown):
+            text = match.group(1).strip()
+            url = match.group(2)
+            type_path = match.group(3)
+            slug = match.group(4)
 
-        for card_match in card_pattern.finditer(html):
-            card_html = card_match.group(1)
-
-            title_match = title_pattern.search(card_html)
-            if not title_match:
+            # Skip if seen
+            if slug in seen:
                 continue
+            seen.add(slug)
 
-            name = title_match.group(1).strip()
-            desc_match = desc_pattern.search(card_html)
-            link_match = link_pattern.search(card_html)
-            author_match = author_pattern.search(card_html)
+            # Parse name and description from text
+            # Format: "name Description text"
+            # Name is usually the slug converted to title case
+            name = slug.replace("-", " ").replace("_", " ").title()
+
+            # The text often has both name and description
+            # Try to extract description as the latter part
+            description = text if len(text) > len(name) + 5 else None
+
+            # Map type_path to component kind
+            kind = self._type_path_to_kind(type_path)
 
             components.append({
                 "name": name,
-                "description": desc_match.group(1).strip() if desc_match else None,
-                "url": link_match.group(1) if link_match else None,
-                "author": author_match.group(1).strip() if author_match else None,
+                "description": description,
+                "url": url,
+                "slug": slug,
+                "kind": kind,
+            })
+
+        # Also extract from homepage cards if on homepage
+        if "Browse by type" in markdown or "Extend Claude" in markdown:
+            components.extend(self._extract_homepage_cards(markdown, seen))
+
+        return components
+
+    def _detect_section_type(self, markdown: str) -> str | None:
+        """Detect which section we're on from markdown content."""
+        if "/plugins" in markdown[:500]:
+            return "plugin"
+        if "/skills" in markdown[:500]:
+            return "skill"
+        if "/subagents" in markdown[:500]:
+            return "agent"
+        if "/commands" in markdown[:500]:
+            return "command"
+        if "/hooks" in markdown[:500]:
+            return "hook"
+        if "/mcp-servers" in markdown[:500]:
+            return "mcp_server"
+        return None
+
+    def _type_path_to_kind(self, type_path: str) -> str:
+        """Convert URL type path to component kind."""
+        mapping = {
+            "plugin": "plugin",
+            "skill": "skill",
+            "subagent": "agent",
+            "command": "command",
+            "hook": "hook",
+            "mcp-server": "mcp_server",
+        }
+        return mapping.get(type_path, "plugin")
+
+    def _extract_homepage_cards(self, markdown: str, seen: set) -> list[RawComponent]:
+        """Extract component cards from homepage."""
+        components = []
+
+        # Pattern for homepage cards:
+        # ### [name Description](url)
+        card_pattern = re.compile(
+            r'###\s*\[([^\]]+)\]\((https://buildwithclaude\.com/([^/]+)/([^)]+))\)',
+            re.IGNORECASE,
+        )
+
+        for match in card_pattern.finditer(markdown):
+            text = match.group(1).strip()
+            url = match.group(2)
+            type_path = match.group(3)
+            slug = match.group(4)
+
+            if slug in seen:
+                continue
+            seen.add(slug)
+
+            # Parse name and description
+            name = slug.replace("-", " ").replace("_", " ").title()
+            description = text if len(text) > len(name) + 5 else None
+
+            kind = self._type_path_to_kind(type_path)
+
+            components.append({
+                "name": name,
+                "description": description,
+                "url": url,
+                "slug": slug,
+                "kind": kind,
             })
 
         return components
 
     def infer_kind(self, raw: RawComponent) -> str:
-        """Infer component kind from project data."""
-        name = (raw.get("name") or "").lower()
-        desc = (raw.get("description") or "").lower()
+        """Use the kind from extraction if available."""
+        if "kind" in raw and raw["kind"] in self.supported_kinds:
+            return raw["kind"]
+
+        # Fall back to URL-based inference
         url = (raw.get("url") or "").lower()
-        text = f"{name} {desc} {url}"
-
-        # MCP server patterns
-        if "mcp" in text or "server" in text or "protocol" in text:
+        if "/mcp-server" in url:
             return "mcp_server"
-
-        # Agent patterns
-        if "agent" in text or "assistant" in text or "bot" in text:
+        if "/subagent" in url:
             return "agent"
-
-        # Skill patterns
-        if "skill" in text or "ability" in text:
+        if "/skill" in url:
             return "skill"
+        if "/command" in url:
+            return "command"
+        if "/hook" in url:
+            return "hook"
 
-        # Default to plugin for showcased projects
         return "plugin"
