@@ -1,0 +1,155 @@
+# Registry Configuration
+# This file documents the collection methods and configurations for each registry.
+# The Python collectors use this as reference but implement their own logic.
+
+registries:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # API-BASED REGISTRIES (httpx + auth)
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  skillsmp:
+    method: api
+    base_url: "https://skillsmp.com/api/v1"
+    auth:
+      type: bearer
+      source: 1password
+      path: "op://Developer/skillsmp/credential"
+    endpoints:
+      search:
+        path: "/skills/search"
+        params: { q: "*", limit: 100, page: "{page}" }
+    rate_limit: { delay: 2, daily_limit: 500 }
+    supported_kinds: [skill]
+
+  claudemarketplaces:
+    method: api
+    base_url: "https://claudemarketplaces.com/api"
+    auth: null
+    endpoints:
+      list: { path: "/marketplaces" }
+    rate_limit: { delay: 0.5 }
+    supported_kinds: [plugin]
+
+  github:
+    method: api
+    auth:
+      type: token
+      source: env
+      var: GITHUB_TOKEN
+    topics:
+      - { topic: "claude-skills", kind: skill }
+      - { topic: "claude-code-agents", kind: agent }
+      - { topic: "claude-code-hooks", kind: hook }
+      - { topic: "mcp-server", kind: mcp_server }
+      - { topic: "claude-code-plugin", kind: plugin }
+    rate_limit: { delay: 2, daily_limit: 5000 }
+    supported_kinds: [skill, agent, hook, mcp_server, plugin]
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # SCRAPE-BASED REGISTRIES (httpx + parsing)
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  mcpservers:
+    method: scrape
+    base_url: "https://mcpservers.org"
+    selectors:
+      container: ".server-card"
+      name: "h3.title"
+      url: "a.server-link@href"
+      description: "p.description"
+    pagination: { pattern: "?page={page}", max_empty: 2 }
+    rate_limit: { delay: 1 }
+    supported_kinds: [mcp_server]
+
+  buildwithclaude:
+    method: scrape
+    base_url: "https://buildwithclaude.com/showcase"
+    selectors:
+      container: ".card"
+      name: "h2, h3"
+      url: "a@href"
+      description: "p"
+    pagination: { pattern: "?page={page}", max_empty: 2 }
+    rate_limit: { delay: 1 }
+    supported_kinds: [skill, agent, plugin, mcp_server]
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # BROWSER-BASED REGISTRIES (crawl4ai / Playwright)
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  smithery:
+    method: browser
+    library: crawl4ai
+    base_url: "https://smithery.ai"
+    endpoints:
+      servers: { path: "/servers", pattern: "?page={page}" }
+      skills: { path: "/skills", pattern: "?page={page}" }
+    extract_pattern: 'https://smithery\.ai/(servers|skills)/([^)]+)'
+    rate_limit: { delay: 1, batch_delay: 2 }
+    supported_kinds: [mcp_server, skill]
+    stats:
+      total_pages: 182
+      items_per_page: 21
+
+  mcp_so:
+    method: browser
+    library: crawl4ai
+    fallback: playwright
+    base_url: "https://mcp.so"
+    endpoints:
+      servers: { path: "/servers", pattern: "?page={page}" }
+    extract_source: "__NEXT_DATA__"
+    rate_limit: { delay: 3 }
+    supported_kinds: [mcp_server]
+    stats:
+      total_pages: 294
+      items_per_page: 50
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # AWESOME LIST REGISTRIES (README parsing)
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  awesome_punkpeye:
+    method: readme
+    repo: "punkpeye/awesome-mcp-servers"
+    default_kind: mcp_server
+    link_pattern: '[-*]\s*\[([^\]]+)\]\(([^)]+)\)\s*[-–:]?\s*(.*)'
+    supported_kinds: [mcp_server]
+
+  awesome_wong2:
+    method: readme
+    repo: "wong2/awesome-mcp-servers"
+    default_kind: mcp_server
+    supported_kinds: [mcp_server]
+
+  awesome_anthropic:
+    method: readme
+    repo: "anthropics/anthropic-cookbook"
+    default_kind: skill
+    supported_kinds: [skill]
+
+  awesome_mcp_official:
+    method: readme
+    repo: "modelcontextprotocol/servers"
+    default_kind: mcp_server
+    supported_kinds: [mcp_server]
+
+# Component kinds (from schema)
+kinds:
+  - skill
+  - agent
+  - command
+  - rule
+  - prompt
+  - hook
+  - mcp_server
+  - plugin
+
+# Quality tiers
+tiers:
+  bronze: "Raw discovery data, minimal validation"
+  silver: "Enriched with GitHub metadata, deduped"
+  gold: "Human-verified, high-quality components"
+
+# Backoff configuration
+backoff:
+  initial_delay: 2
+  multiplier: 2
+  max_delay: 300  # 5 minutes
+  max_retries: 5

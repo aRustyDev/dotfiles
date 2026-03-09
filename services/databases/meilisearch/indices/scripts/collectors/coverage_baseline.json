@@ -1,0 +1,144 @@
+{
+  "$schema": "./schemas/coverage_baseline.schema.json",
+  "version": "1.0",
+  "last_updated": "2026-03-09T00:00:00Z",
+  "description": "Expected component counts per registry+kind for coverage tracking.",
+
+  "baselines": {
+    "smithery.ai": {
+      "mcp_server": {
+        "expected": 3500,
+        "tolerance": 0.10,
+        "min_acceptable": 3150,
+        "notes": "Primary MCP server registry"
+      },
+      "skill": {
+        "expected": 300,
+        "tolerance": 0.15,
+        "min_acceptable": 255,
+        "notes": "Skills section is smaller"
+      }
+    },
+
+    "mcpservers.org": {
+      "mcp_server": {
+        "expected": 1000,
+        "tolerance": 0.20,
+        "min_acceptable": 800,
+        "notes": "Estimate - need actual crawl to verify"
+      }
+    },
+
+    "skillsmp.com": {
+      "skill": {
+        "expected": 50,
+        "tolerance": 0.20,
+        "min_acceptable": 40,
+        "notes": "Small catalog - API paginated"
+      }
+    },
+
+    "github": {
+      "mcp_server": {
+        "expected": 500,
+        "tolerance": 0.20,
+        "min_acceptable": 400,
+        "notes": "mcp-server topic search"
+      },
+      "skill": {
+        "expected": 100,
+        "tolerance": 0.25,
+        "min_acceptable": 75,
+        "notes": "claude-skills topic"
+      },
+      "agent": {
+        "expected": 15,
+        "tolerance": 0.30,
+        "min_acceptable": 10,
+        "notes": "claude-code-agents topic - small"
+      },
+      "hook": {
+        "expected": 10,
+        "tolerance": 0.30,
+        "min_acceptable": 7,
+        "notes": "claude-code-hooks topic - small"
+      },
+      "plugin": {
+        "expected": 20,
+        "tolerance": 0.30,
+        "min_acceptable": 14,
+        "notes": "claude-code-plugin topic - small"
+      }
+    },
+
+    "buildwithclaude.com": {
+      "plugin": {
+        "expected": 200,
+        "tolerance": 0.25,
+        "min_acceptable": 150,
+        "notes": "Showcase projects - mixed types"
+      }
+    },
+
+    "claudemarketplaces.com": {
+      "plugin": {
+        "expected": 5,
+        "tolerance": 0.50,
+        "min_acceptable": 2,
+        "notes": "Very small directory"
+      }
+    },
+
+    "mcp.so": {
+      "mcp_server": {
+        "expected": 14000,
+        "tolerance": 0.10,
+        "min_acceptable": 12600,
+        "notes": "Large MCP directory, requires JS rendering"
+      }
+    },
+
+    "awesome:punkpeye/awesome-mcp-servers": {
+      "mcp_server": {
+        "expected": 1400,
+        "tolerance": 0.15,
+        "min_acceptable": 1190,
+        "notes": "Large curated list"
+      }
+    },
+
+    "awesome:wong2/awesome-mcp-servers": {
+      "mcp_server": {
+        "expected": 500,
+        "tolerance": 0.20,
+        "min_acceptable": 400,
+        "notes": "Smaller curated list"
+      }
+    },
+
+    "awesome:anthropics/anthropic-cookbook": {
+      "skill": {
+        "expected": 30,
+        "tolerance": 0.30,
+        "min_acceptable": 20,
+        "notes": "Official examples"
+      }
+    },
+
+    "awesome:modelcontextprotocol/servers": {
+      "mcp_server": {
+        "expected": 100,
+        "tolerance": 0.20,
+        "min_acceptable": 80,
+        "notes": "Official MCP server reference"
+      }
+    }
+  },
+
+  "global_settings": {
+    "default_tolerance": 0.20,
+    "alert_on_decrease": true,
+    "alert_threshold_pct": 10,
+    "track_history": true
+  }
+}

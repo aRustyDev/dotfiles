@@ -1,0 +1,152 @@
+{
+  "$schema": "./schemas/registry_claims.schema.json",
+  "version": "1.0",
+  "last_updated": "2026-03-09T00:00:00Z",
+  "description": "Registry-stated component totals. Updated during collection or manually.",
+
+  "registries": {
+    "smithery.ai": {
+      "claimed_total": 3822,
+      "claimed_by_kind": {
+        "mcp_server": 3500,
+        "skill": 322
+      },
+      "pagination": {
+        "total_pages": 182,
+        "items_per_page": 21
+      },
+      "source": "homepage_stats",
+      "source_url": "https://smithery.ai/servers",
+      "last_verified": "2026-03-09T00:00:00Z",
+      "notes": "Estimated from pagination: 182 pages × 21 items"
+    },
+
+    "mcpservers.org": {
+      "claimed_total": null,
+      "claimed_by_kind": {
+        "mcp_server": null
+      },
+      "source": "unknown",
+      "source_url": "https://mcpservers.org",
+      "last_verified": null,
+      "notes": "No visible count on site. Need to crawl to determine."
+    },
+
+    "skillsmp.com": {
+      "claimed_total": null,
+      "claimed_by_kind": {
+        "skill": null
+      },
+      "source": "api_response",
+      "source_url": "https://skillsmp.com/api/v1/skills/search",
+      "last_verified": null,
+      "notes": "API may return total count in response metadata."
+    },
+
+    "github": {
+      "claimed_total": null,
+      "claimed_by_kind": {
+        "skill": null,
+        "agent": null,
+        "hook": null,
+        "mcp_server": null,
+        "plugin": null
+      },
+      "topics": {
+        "claude-skills": {"estimated": 100},
+        "claude-code-agents": {"estimated": 20},
+        "claude-code-hooks": {"estimated": 10},
+        "mcp-server": {"estimated": 500},
+        "claude-code-plugin": {"estimated": 20}
+      },
+      "source": "topic_search",
+      "source_url": "https://github.com/topics",
+      "last_verified": null,
+      "notes": "GitHub limits search to 1000 results per query."
+    },
+
+    "buildwithclaude.com": {
+      "claimed_total": null,
+      "claimed_by_kind": {
+        "plugin": null,
+        "skill": null,
+        "agent": null,
+        "mcp_server": null
+      },
+      "source": "unknown",
+      "source_url": "https://buildwithclaude.com/showcase",
+      "last_verified": null,
+      "notes": "Showcase site with mixed component types."
+    },
+
+    "claudemarketplaces.com": {
+      "claimed_total": null,
+      "claimed_by_kind": {
+        "plugin": null
+      },
+      "source": "api_response",
+      "source_url": "https://claudemarketplaces.com/api/marketplaces",
+      "last_verified": null,
+      "notes": "Single API endpoint, no pagination."
+    },
+
+    "mcp.so": {
+      "claimed_total": 14700,
+      "claimed_by_kind": {
+        "mcp_server": 14700
+      },
+      "pagination": {
+        "total_pages": 294,
+        "items_per_page": 50
+      },
+      "source": "homepage_stats",
+      "source_url": "https://mcp.so/servers",
+      "last_verified": "2026-03-09T00:00:00Z",
+      "notes": "Estimated from pagination: 294 pages × 50 items"
+    },
+
+    "awesome:punkpeye/awesome-mcp-servers": {
+      "claimed_total": null,
+      "claimed_by_kind": {
+        "mcp_server": null
+      },
+      "source": "readme_links",
+      "source_url": "https://github.com/punkpeye/awesome-mcp-servers",
+      "last_verified": null,
+      "notes": "Count varies with README updates."
+    },
+
+    "awesome:wong2/awesome-mcp-servers": {
+      "claimed_total": null,
+      "claimed_by_kind": {
+        "mcp_server": null
+      },
+      "source": "readme_links",
+      "source_url": "https://github.com/wong2/awesome-mcp-servers",
+      "last_verified": null,
+      "notes": "Count varies with README updates."
+    },
+
+    "awesome:anthropics/anthropic-cookbook": {
+      "claimed_total": null,
+      "claimed_by_kind": {
+        "skill": null
+      },
+      "source": "readme_links",
+      "source_url": "https://github.com/anthropics/anthropic-cookbook",
+      "last_verified": null,
+      "notes": "Examples and recipes, not all are skills."
+    },
+
+    "awesome:modelcontextprotocol/servers": {
+      "claimed_total": null,
+      "claimed_by_kind": {
+        "mcp_server": null
+      },
+      "source": "readme_links",
+      "source_url": "https://github.com/modelcontextprotocol/servers",
+      "last_verified": null,
+      "notes": "Official MCP server list."
+    }
+  }
+}
