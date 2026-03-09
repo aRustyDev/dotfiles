@@ -55,13 +55,19 @@ class ClaudeMarketplacesCollector(APICollector):
 
         components = []
         for item in marketplaces:
+            # API returns repos with fields: repo, slug, description, categories, stars
+            repo = item.get("repo", "")
+            author = repo.split("/")[0] if "/" in repo else None
+            name = repo.split("/")[-1] if "/" in repo else item.get("slug")
+
             components.append({
-                "name": item.get("name"),
+                "name": name,
                 "description": item.get("description"),
-                "url": item.get("url") or item.get("website"),
-                "author": item.get("author") or item.get("creator"),
-                "githubUrl": item.get("github") or item.get("repository"),
-                "tags": item.get("tags", []) or item.get("categories", []),
+                "url": f"https://github.com/{repo}" if repo else None,
+                "author": author,
+                "github_url": f"https://github.com/{repo}" if repo else None,
+                "stars": item.get("stars", 0),
+                "tags": item.get("categories", []) or item.get("pluginKeywords", [])[:10],
             })
 
         return components
