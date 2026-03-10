@@ -677,8 +677,9 @@ status:
 # Component Collection
 # =============================================================================
 
-# Collector script location
-collector_script := meilisearch_dir / "indices/scripts/collect.py"
+# Collector paths
+scripts_dir := meilisearch_dir / "indices/scripts"
+collector_script := scripts_dir / "collect.py"
 collector_output := meilisearch_dir / "indices/raw"
 
 # Collect components from registries
@@ -690,6 +691,7 @@ collector_output := meilisearch_dir / "indices/raw"
 [group("collect")]
 collect kinds="all" registry="all" dry_run="false":
     #!/usr/bin/env bash
+    cd "{{ scripts_dir }}"
     args=("--kinds" "{{ kinds }}" "--output" "{{ collector_output }}")
 
     if [ "{{ registry }}" != "all" ]; then
@@ -700,28 +702,28 @@ collect kinds="all" registry="all" dry_run="false":
         args+=("--dry-run")
     fi
 
-    python3 "{{ collector_script }}" "${args[@]}"
+    uv run python "{{ collector_script }}" "${args[@]}"
 
 # Search for components via SearXNG
 # Usage: just search "mcp server filesystem"
 [group("collect")]
 search query:
-    python3 "{{ collector_script }}" --search "{{ query }}" --output "{{ collector_output }}"
+    cd "{{ scripts_dir }}" && uv run python "{{ collector_script }}" --search "{{ query }}" --output "{{ collector_output }}"
 
 # Show collection progress and statistics
 [group("collect")]
 show-progress:
-    python3 "{{ collector_script }}" --stats --output "{{ collector_output }}"
+    cd "{{ scripts_dir }}" && uv run python "{{ collector_script }}" --stats --output "{{ collector_output }}"
 
 # List available registries
 [group("collect")]
 ls:
-    python3 "{{ collector_script }}" --list-registries
+    cd "{{ scripts_dir }}" && uv run python "{{ collector_script }}" --list-registries
 
 # Run collector tests
 [group("collect")]
-test:
-    cd "{{ meilisearch_dir }}/indices/scripts" && python3 -m pytest collectors/ -v
+test *args:
+    cd "{{ scripts_dir }}" && uv run pytest collectors/ {{ args }}
 
 # Generate coverage comparison report (compare collected vs expected)
 # Usage: just coverage-report
@@ -729,18 +731,19 @@ test:
 [group("collect")]
 coverage-report verbose="false":
     #!/usr/bin/env bash
+    cd "{{ scripts_dir }}"
     args=("--coverage-report" "--output" "{{ collector_output }}")
 
     if [ "{{ verbose }}" = "true" ]; then
         args+=("--verbose")
     fi
 
-    python3 "{{ collector_script }}" "${args[@]}"
+    uv run python "{{ collector_script }}" "${args[@]}"
 
 # Save coverage report as JSON
 [group("collect")]
 coverage-report-json output_file="coverage-report.json":
-    python3 "{{ collector_script }}" --coverage-report-json "{{ collector_output }}/{{ output_file }}" --output "{{ collector_output }}"
+    cd "{{ scripts_dir }}" && uv run python "{{ collector_script }}" --coverage-report-json "{{ collector_output }}/{{ output_file }}" --output "{{ collector_output }}"
 
 # Detect new components since last collection
 # Usage: just detect-new
@@ -748,16 +751,17 @@ coverage-report-json output_file="coverage-report.json":
 [group("collect")]
 detect-new verbose="false":
     #!/usr/bin/env bash
+    cd "{{ scripts_dir }}"
     args=("--detect-new" "--output" "{{ collector_output }}")
 
     if [ "{{ verbose }}" = "true" ]; then
         args+=("--verbose")
     fi
 
-    python3 "{{ collector_script }}" "${args[@]}"
+    uv run python "{{ collector_script }}" "${args[@]}"
 
 # Backup current collection for future comparison
 # Run this before a new collection to enable detect-new
 [group("collect")]
 backup-collection:
-    python3 "{{ collector_script }}" --backup-collection --output "{{ collector_output }}"
+    cd "{{ scripts_dir }}" && uv run python "{{ collector_script }}" --backup-collection --output "{{ collector_output }}"
