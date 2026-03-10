@@ -23,6 +23,12 @@ import httpx
 
 from collectors.rate_limit import BackoffConfig, DEFAULT_BACKOFF, RateLimitConfig, get_rate_limit
 from collectors.state import CrawlState, RegistryState
+from collectors.models import (
+    ComponentModel,
+    RawComponentModel,
+    validate_raw_component,
+    VALID_KINDS,
+)
 
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator, Iterator
@@ -43,6 +49,31 @@ class CollectionMethod(str, Enum):
     BROWSER = "browser"  # JS rendering (crawl4ai, Playwright)
     README = "readme"  # Awesome list parsing (BeautifulSoup)
     SEARCH = "search"  # SearXNG discovery
+
+
+@dataclass
+class ClaimData:
+    """Data about a registry's advertised component count.
+
+    Represents what the registry *claims* to have, extracted from
+    homepage stats, pagination metadata, or API responses.
+    """
+
+    total: int
+    by_kind: dict[str, int] | None = None
+    source: str = "homepage"  # "homepage", "pagination", "api_meta", "search_count"
+    extracted_at: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
+    notes: str | None = None
+
+    def to_dict(self) -> dict:
+        """Convert to dictionary for JSON serialization."""
+        return {
+            "total": self.total,
+            "by_kind": self.by_kind,
+            "source": self.source,
+            "extracted_at": self.extracted_at,
+            "notes": self.notes,
+        }
 
 
 @dataclass
@@ -99,6 +130,25 @@ class BaseCollector(ABC):
         """Async context manager exit."""
         await self.close()
 
+    async def extract_claim(self) -> ClaimData | None:
+        """Extract the registry's advertised component count.
+
+        Fetches and parses the site's claimed total from homepage stats,
+        pagination metadata, or API responses. This represents what the
+        registry *says* it has, not what we actually collect.
+
+        Returns:
+            ClaimData with the advertised total, or None if:
+            - The site doesn't display a count
+            - Count extraction is not implemented for this registry
+            - Extraction failed
+
+        Note:
+            Subclasses should override this to implement registry-specific
+            claim extraction logic. The default returns None.
+        """
+        return None
+
     @abstractmethod
     async def fetch_page(self, page: int) -> Any | None:
         """Fetch a single page of data from the registry.
@@ -123,11 +173,58 @@ class BaseCollector(ABC):
         """
         ...
 
+    def validate_extracted(self, components: list[RawComponent]) -> list[RawComponent]:
+        """Validate extracted components using Pydantic models.
+
+        Filters out invalid components and logs warnings.
+        Subclasses can override for custom validation logic.
+
+        Args:
+            components: List of raw component dictionaries
+
+        Returns:
+            List of validated component dictionaries
+        """
+        validated = []
+        for i, comp in enumerate(components):
+            model = validate_raw_component(comp)
+            if model is None:
+                name = comp.get("name", f"<index {i}>")
+                logger.warning(f"{self.registry_name}: Invalid component data for '{name}'")
+                continue
+            validated.append(comp)
+        return validated
+
     def infer_kind(self, raw: RawComponent) -> str:
         """Infer component kind from raw data.
 
         Override for registry-specific logic. Default uses URL patterns
         and field presence heuristics.
+
+        Args:
+            raw: Raw component data dictionary
+
+        Returns:
+            Inferred kind from COMPONENT_KINDS (defaults to 'plugin')
+
+        Examples:
+            >>> from collectors.base import BaseCollector
+            >>> class TestCollector(BaseCollector):
+            ...     registry_name = "test"
+            ...     async def fetch_page(self, page): pass
+            ...     def extract_components(self, raw): return []
+            >>> c = TestCollector()
+            >>> c.infer_kind({"type": "skill", "name": "Test"})
+            'skill'
+
+            >>> c.infer_kind({"kind": "mcp_server", "name": "Test"})
+            'mcp_server'
+
+            >>> c.infer_kind({"url": "/servers/test", "name": "Test"})
+            'mcp_server'
+
+            >>> c.infer_kind({"name": "unknown"})
+            'plugin'
         """
         # Check explicit type field first
         if "type" in raw and raw["type"] in COMPONENT_KINDS:
@@ -171,6 +268,9 @@ class BaseCollector(ABC):
 
         Returns:
             Schema-compliant component dictionary
+
+        Raises:
+            ValueError: If the transformed component fails validation
         """
         inferred_kind = kind or self.infer_kind(raw)
 
@@ -201,7 +301,7 @@ class BaseCollector(ABC):
             or raw.get("canonical_url")
         )
 
-        return {
+        component_data = {
             "id": component_id,
             "name": name,
             "type": inferred_kind,
@@ -218,9 +318,52 @@ class BaseCollector(ABC):
             "quality_tier": "bronze",
         }
 
+        # Validate output against schema
+        try:
+            validated = ComponentModel(**component_data)
+            return validated.model_dump()
+        except Exception as e:
+            logger.warning(f"{self.registry_name}: Transform validation failed for '{name}': {e}")
+            # Return unvalidated data for backward compatibility (logged warning above)
+            return component_data
+
     @staticmethod
     def _sanitize_id(raw_id: str) -> str:
-        """Sanitize ID to match schema pattern ^[a-z0-9_-]+$."""
+        """Sanitize ID to match schema pattern ^[a-z0-9_-]+$.
+
+        Transforms input strings into valid component IDs by:
+        - Converting to lowercase
+        - Replacing slashes and colons with underscores
+        - Replacing spaces and dots with dashes
+        - Removing invalid characters
+        - Collapsing multiple separators
+        - Stripping leading/trailing separators
+
+        Args:
+            raw_id: Raw identifier string to sanitize
+
+        Returns:
+            Sanitized ID matching ^[a-z0-9_-]+$
+
+        Examples:
+            >>> BaseCollector._sanitize_id("My Component Name")
+            'my-component-name'
+
+            >>> BaseCollector._sanitize_id("foo/bar/baz")
+            'foo_bar_baz'
+
+            >>> BaseCollector._sanitize_id("test@v1.2.3")
+            'testv1-2-3'
+
+            >>> BaseCollector._sanitize_id("anthropics/mcp-servers")
+            'anthropics_mcp-servers'
+
+            >>> BaseCollector._sanitize_id("")
+            ''
+
+            >>> BaseCollector._sanitize_id("---")
+            ''
+        """
         # Lowercase and replace common separators
         clean = raw_id.lower()
         clean = clean.replace("/", "_").replace(" ", "-").replace(".", "-").replace(":", "_")
@@ -339,7 +482,35 @@ class BaseCollector(ABC):
         return None
 
     def _extract_github_owner(self, github_url: str | None) -> str | None:
-        """Extract owner from normalized GitHub URL."""
+        """Extract owner from normalized GitHub URL.
+
+        Parses a GitHub URL to extract the repository owner/organization name.
+
+        Args:
+            github_url: GitHub URL (https://github.com/owner/repo format)
+
+        Returns:
+            Owner/organization name, or None if URL is invalid
+
+        Examples:
+            >>> from collectors.base import BaseCollector
+            >>> class TestCollector(BaseCollector):
+            ...     registry_name = "test"
+            ...     async def fetch_page(self, page): pass
+            ...     def extract_components(self, raw): return []
+            >>> c = TestCollector()
+            >>> c._extract_github_owner("https://github.com/anthropics/mcp")
+            'anthropics'
+
+            >>> c._extract_github_owner("https://github.com/owner/repo/tree/main")
+            'owner'
+
+            >>> c._extract_github_owner(None) is None
+            True
+
+            >>> c._extract_github_owner("https://gitlab.com/owner/repo") is None
+            True
+        """
         if not github_url:
             return None
 
@@ -412,7 +583,8 @@ class BaseCollector(ABC):
                 page += 1
                 continue
 
-            components = self.extract_components(raw_page)
+            raw_components = self.extract_components(raw_page)
+            components = self.validate_extracted(raw_components)
             if not components:
                 consecutive_empty += 1
                 page += 1

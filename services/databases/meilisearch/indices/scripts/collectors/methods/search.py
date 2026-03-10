@@ -13,7 +13,7 @@ from typing import Any
 
 import httpx
 
-from collectors.base import BaseCollector, CollectionMethod, RawComponent
+from collectors.base import BaseCollector, CollectionMethod, RawComponent, BackoffConfig
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +74,11 @@ class SearchCollector(BaseCollector):
 
         Returns:
             List of discovered components
+
+        Uses exponential backoff on transient failures.
         """
+        import asyncio
+
         client = await self._get_client()
         results = []
         page = 1
@@ -87,12 +91,11 @@ class SearchCollector(BaseCollector):
                 "pageno": page,
             }
 
-            try:
-                response = await client.get(self.searxng_url, params=params)
-                if response.status_code != 200:
-                    logger.warning(f"SearXNG returned {response.status_code}")
-                    break
+            response = await self._fetch_with_backoff(client, params)
+            if response is None:
+                break
 
+            try:
                 data = response.json()
                 search_results = data.get("results", [])
 
@@ -106,9 +109,6 @@ class SearchCollector(BaseCollector):
 
                 page += 1
 
-            except httpx.HTTPError as e:
-                logger.error(f"SearXNG request failed: {e}")
-                break
             except Exception as e:
                 logger.error(f"Error processing search results: {e}")
                 break
@@ -123,6 +123,61 @@ class SearchCollector(BaseCollector):
                 unique_results.append(comp)
 
         return unique_results
+
+    async def _fetch_with_backoff(
+        self, client: httpx.AsyncClient, params: dict
+    ) -> httpx.Response | None:
+        """Fetch search results with exponential backoff.
+
+        Args:
+            client: HTTP client
+            params: Request parameters
+
+        Returns:
+            Response or None on failure after retries
+        """
+        import asyncio
+
+        for attempt in range(self.backoff.max_retries + 1):
+            try:
+                response = await client.get(self.searxng_url, params=params)
+                if response.status_code == 200:
+                    return response
+                elif response.status_code >= 500:
+                    # Server error - retry with backoff
+                    if attempt < self.backoff.max_retries:
+                        delay = self.backoff.base_delay * (2 ** attempt)
+                        logger.warning(
+                            f"SearXNG returned {response.status_code}. "
+                            f"Retrying in {delay}s..."
+                        )
+                        await asyncio.sleep(delay)
+                    else:
+                        logger.error(
+                            f"SearXNG returned {response.status_code} "
+                            f"after {self.backoff.max_retries + 1} attempts"
+                        )
+                        return None
+                else:
+                    # Client error - don't retry
+                    logger.warning(f"SearXNG returned {response.status_code}")
+                    return None
+
+            except httpx.HTTPError as e:
+                if attempt < self.backoff.max_retries:
+                    delay = self.backoff.base_delay * (2 ** attempt)
+                    logger.warning(
+                        f"SearXNG request failed: {e}. Retrying in {delay}s..."
+                    )
+                    await asyncio.sleep(delay)
+                else:
+                    logger.error(
+                        f"SearXNG request failed after "
+                        f"{self.backoff.max_retries + 1} attempts: {e}"
+                    )
+                    return None
+
+        return None
 
     def _parse_search_result(self, result: dict) -> RawComponent | None:
         """Parse a SearXNG search result into component data."""

@@ -11,7 +11,7 @@ import logging
 import re
 from typing import Any
 
-from collectors.base import BaseCollector, CollectionMethod, RawComponent
+from collectors.base import BaseCollector, ClaimData, CollectionMethod, RawComponent, BackoffConfig
 
 logger = logging.getLogger(__name__)
 
@@ -44,26 +44,33 @@ class BrowserCollector(BaseCollector):
 
     def __init__(self):
         super().__init__()
-        self._crawler = None
+        self._client = None
 
-    async def _get_crawler(self):
-        """Get or create crawl4ai crawler."""
-        if self._crawler is None:
+    async def _get_client(self):
+        """Get or create crawl4ai crawler client.
+
+        Returns:
+            AsyncWebCrawler instance for browser-based crawling.
+
+        Raises:
+            ImportError: If crawl4ai is not installed.
+        """
+        if self._client is None:
             try:
                 from crawl4ai import AsyncWebCrawler
-                self._crawler = AsyncWebCrawler(verbose=self.verbose)
-                await self._crawler.__aenter__()
+                self._client = AsyncWebCrawler(verbose=self.verbose)
+                await self._client.__aenter__()
             except ImportError:
                 logger.error("crawl4ai not installed. Run: pip install crawl4ai && crawl4ai-setup")
                 raise
 
-        return self._crawler
+        return self._client
 
     async def close(self) -> None:
-        """Close crawler."""
-        if self._crawler:
-            await self._crawler.__aexit__(None, None, None)
-            self._crawler = None
+        """Close crawler client."""
+        if self._client:
+            await self._client.__aexit__(None, None, None)
+            self._client = None
 
     async def fetch_page(self, page: int) -> str | None:
         """Fetch page using crawl4ai and return markdown.
@@ -73,20 +80,33 @@ class BrowserCollector(BaseCollector):
 
         Returns:
             Markdown content or None on failure
+
+        Uses exponential backoff on transient failures.
         """
-        crawler = await self._get_crawler()
+        import asyncio
+
+        client = await self._get_client()
         url = self.build_url(page)
 
-        try:
-            result = await crawler.arun(url=url)
-            if result.success:
-                return result.markdown
-            else:
-                logger.warning(f"crawl4ai failed for {url}")
-                return None
-        except Exception as e:
-            logger.error(f"Error crawling {url}: {e}")
-            return None
+        for attempt in range(self.backoff.max_retries + 1):
+            try:
+                result = await client.arun(url=url)
+                if result.success:
+                    return result.markdown
+                else:
+                    logger.warning(f"crawl4ai failed for {url}: {getattr(result, 'error', 'unknown error')}")
+                    # Don't retry on content failures (4xx-like)
+                    return None
+            except Exception as e:
+                if attempt < self.backoff.max_retries:
+                    delay = self.backoff.base_delay * (2 ** attempt)
+                    logger.warning(f"Crawl attempt {attempt + 1} failed for {url}: {e}. Retrying in {delay}s...")
+                    await asyncio.sleep(delay)
+                else:
+                    logger.error(f"Error crawling {url} after {self.backoff.max_retries + 1} attempts: {e}")
+                    return None
+
+        return None
 
     def build_url(self, page: int) -> str:
         """Build URL for a specific page."""
@@ -193,7 +213,7 @@ class BrowserCollector(BaseCollector):
         return None
 
     async def __aenter__(self):
-        await self._get_crawler()
+        await self._get_client()
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
