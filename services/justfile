@@ -1,0 +1,13 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# ntfy push notification service
+mod ntfy 'ntfy/justfile'
+# n8n workflow automation
+mod n8n 'n8n/justfile'
+
+install:
+    #!/usr/bin/env bash
+    for mod in ntfy n8n; do
+        echo "📦 svc:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done

@@ -10,9 +10,9 @@ install: _bak
     @sudo cp sudo /etc/pam.d/sudo
 
 _bak:
-    @sudo cp /etc/pam.d/sudo "sudo.{{ datetime_utc() }}.bak"
-    @sudo cp /etc/pam.d/sudo_brew "sudo_brew.{{ datetime_utc() }}.bak"
-    @sudo cp /etc/pam.d/sudo_local "sudo_local.{{ datetime_utc() }}.bak"
+    @sudo cp /etc/pam.d/sudo "sudo.{{ datetime_utc("%Y%m%d-%H%M%S") }}.bak"
+    @sudo cp /etc/pam.d/sudo_brew "sudo_brew.{{ datetime_utc("%Y%m%d-%H%M%S") }}.bak"
+    @sudo cp /etc/pam.d/sudo_local "sudo_local.{{ datetime_utc("%Y%m%d-%H%M%S") }}.bak"
 
 # TODO:
 # Certificate Pinning: Configure `/private/etc/SmartcardLogin.plist` to restrict which Certificate Authorities are trusted

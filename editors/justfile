@@ -1,0 +1,15 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# Neovim text editor
+mod nvim 'nvim/justfile'
+# Visual Studio Code
+mod vscode 'vscode/justfile'
+# Zed editor
+mod zed 'zed/justfile'
+
+install:
+    #!/usr/bin/env bash
+    for mod in nvim vscode zed; do
+        echo "📦 editor:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done

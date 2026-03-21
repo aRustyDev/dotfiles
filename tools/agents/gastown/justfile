@@ -1,20 +1,21 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../../../.build/just/lib.just'
-import '../completions/mods.just'
+import? '../completions/mods.just'
 
+dotdir := xdg_data + "/gastown"
 town_name := env_var("USER")
 
 install:
     @cd "{{ justfile_directory() }}" && brew bundle
     # Create User-Wide workspace with git initialization
-    @gt install "{{ dot_dir }}/gt" --name "{{ town_name }}" --git --supervisor
+    @gt install "{{ dotdir }}/gt" --name "{{ town_name }}" --git --supervisor
 
 completions:
-    @gt completion bash > "{{ bash_compld }}/gt"
-    @gt completion zsh > "{{ zsh_compld }}/_gt"
-    @gt completion fish > "{{ fish_compld }}/gt.fish"
-    @gt completion powershell > "{{ pwsh_compld }}/gt.psm1"
+    @gt completion bash > "{{ bash_compd }}/gt"
+    @gt completion zsh > "{{ zsh_compd }}/_gt"
+    @gt completion fish > "{{ fish_compd }}/gt.fish"
+    @gt completion powershell > "{{ powershell_compd }}/gt.psm1"
 
 env:
     @echo "export GT_ROOT=foo-bar"

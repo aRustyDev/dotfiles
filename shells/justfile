@@ -1,0 +1,15 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# Zsh shell
+mod zsh 'zsh/justfile'
+# Bash shell
+mod bash 'bash/justfile'
+# Starship cross-shell prompt
+mod starship 'starship/justfile'
+
+install:
+    #!/usr/bin/env bash
+    for mod in zsh bash starship; do
+        echo "📦 shell:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done

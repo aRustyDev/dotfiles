@@ -1,0 +1,13 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# Codebook linter
+mod codebook 'codebook/justfile'
+# ShellCheck shell linter
+mod shellcheck 'shellcheck/justfile'
+
+install:
+    #!/usr/bin/env bash
+    for mod in codebook shellcheck; do
+        echo "📦 lint:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done

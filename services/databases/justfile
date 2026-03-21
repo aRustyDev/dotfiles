@@ -1,9 +1,13 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-import '../.build/just/lib.just'
+# Meilisearch search engine
+mod meilisearch 'meilisearch/justfile'
+# Dolt SQL database with Git versioning
+mod dolt 'dolt/justfile'
 
-[parallel]
 install:
-    just -f meilisearch/justfile install
-    just -f qdrant/justfile install
-    just -f surrealdb/justfile install
+    #!/usr/bin/env bash
+    for mod in meilisearch dolt; do
+        echo "📦 db:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done

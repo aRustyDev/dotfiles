@@ -1,0 +1,21 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# Alacritty GPU-accelerated terminal
+mod alacritty 'alacritty/justfile'
+# Ghostty GPU-accelerated terminal
+mod ghostty 'ghostty/justfile'
+# Kitty GPU-accelerated terminal
+mod kitty 'kitty/justfile'
+# WezTerm terminal emulator
+mod wezterm 'wezterm/justfile'
+# Terminal multiplexers (tmux, zellij)
+mod mux '../tools/multiplexers/justfile'
+
+install:
+    #!/usr/bin/env bash
+    for mod in alacritty ghostty kitty wezterm; do
+        echo "📦 term:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done
+    echo "📦 term:mux"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/../tools/multiplexers/justfile" install

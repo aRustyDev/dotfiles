@@ -1,0 +1,13 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# Karabiner keyboard remapper
+mod karabiner 'karabiner/justfile'
+# skhd hotkey daemon
+mod skhd 'skhd/justfile'
+
+install:
+    #!/usr/bin/env bash
+    for mod in karabiner skhd; do
+        echo "📦 keeb:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done

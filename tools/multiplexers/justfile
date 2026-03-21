@@ -1,0 +1,13 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# tmux terminal multiplexer
+mod tmux 'tmux/justfile'
+# Zellij terminal workspace
+mod zellij 'zellij/justfile'
+
+install:
+    #!/usr/bin/env bash
+    for mod in tmux zellij; do
+        echo "📦 mux:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done

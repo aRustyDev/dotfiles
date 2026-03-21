@@ -1,7 +1,23 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-import '../../.build/just/lib.just'
+# Docker container runtime
+mod docker 'docker/justfile'
+# Helm Kubernetes package manager
+mod helm 'helm/justfile'
+# K9s Kubernetes TUI
+mod k9s 'k9s/justfile'
+# Kubernetes CLI tools
+mod kube 'kube/justfile'
+# Terraform infrastructure as code
+mod terraform 'terraform/justfile'
 
 # Install config-less infra tools from group brewfile
 install-group:
-    brew bundle --file=brewfile --no-lock
+    brew bundle --file="{{ justfile_directory() }}/brewfile" --no-lock
+
+install: install-group
+    #!/usr/bin/env bash
+    for mod in docker helm k9s kube terraform; do
+        echo "📦 infra:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done

@@ -1,0 +1,9 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# Zen browser (Firefox-based, vertical tabs)
+mod zen 'zen/justfile'
+
+install:
+    #!/usr/bin/env bash
+    echo "📦 browser:zen"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/zen/justfile" install

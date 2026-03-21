@@ -1,0 +1,21 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# macOS system preferences
+mod macos 'macos/justfile'
+# Cron job management
+mod cron 'cron/justfile'
+# PAM authentication modules
+mod pam 'pam.d/justfile'
+# /etc/paths.d management
+mod paths 'paths.d/justfile'
+
+install:
+    #!/usr/bin/env bash
+    for mod in macos cron; do
+        echo "📦 os:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done
+    echo "📦 os:pam"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/pam.d/justfile" install
+    echo "📦 os:paths"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/paths.d/justfile" install

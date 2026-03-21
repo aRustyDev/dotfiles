@@ -1,8 +1,7 @@
-# Browsers =====================================================================
-# Firefox-based browser with vertical tabs
-mod zen 'browsers/zen/justfile'
+# =============================================================================
+# Core (direct modules)
+# =============================================================================
 
-# Core =========================================================================
 # Git version control with 1Password signing
 mod git 'core/git/justfile'
 # SSH client configuration
@@ -10,98 +9,76 @@ mod ssh 'core/ssh/justfile'
 # 1Password CLI
 mod op 'core/op/justfile'
 
-# Editors ======================================================================
-# Neovim text editor
-mod nvim 'editors/nvim/justfile'
-# Visual Studio Code
-mod vscode 'editors/vscode/justfile'
-# Zed editor
-mod zed 'editors/zed/justfile'
+# =============================================================================
+# Groups
+# =============================================================================
 
-# Fonts ========================================================================
-# Nerd Fonts and development fonts
-mod fonts 'fonts/justfile'
-
-# OS ===========================================================================
-# macOS system preferences
-mod macos 'os/macos/justfile'
-
-# Services =====================================================================
-# Dolt SQL database with Git versioning
-mod dolt 'services/databases/dolt/justfile'
-# Meilisearch search engine
-mod meilisearch 'services/databases/meilisearch/justfile'
-# ntfy push notification service
-mod ntfy 'services/ntfy/justfile'
-# n8n workflow automation
-mod n8n 'services/n8n/justfile'
-
-# Shells =======================================================================
-# Bash shell
-mod bash 'shells/bash/justfile'
-# Starship cross-shell prompt
-mod starship 'shells/starship/justfile'
-# Zsh shell
-mod zsh 'shells/zsh/justfile'
-
-# Terminals ====================================================================
-# Alacritty GPU-accelerated terminal
-mod alacritty 'terminals/alacritty/justfile'
-# Ghostty GPU-accelerated terminal
-mod ghostty 'terminals/ghostty/justfile'
-# Kitty GPU-accelerated terminal
-mod kitty 'terminals/kitty/justfile'
-# WezTerm terminal emulator
-mod wezterm 'terminals/wezterm/justfile'
-
-# Tools ========================================================================
-# Config-less tools (group brewfile)
-mod tools 'tools/justfile'
-# Docker container runtime
-mod docker 'tools/infra/docker/justfile'
-# Helm Kubernetes package manager
-mod helm 'tools/infra/helm/justfile'
-# K9s Kubernetes TUI
-mod k9s 'tools/infra/k9s/justfile'
-# Kubernetes CLI tools
-mod kube 'tools/infra/kube/justfile'
-# Terraform infrastructure as code
-mod terraform 'tools/infra/terraform/justfile'
-# Karabiner keyboard remapper
-mod karabiner 'tools/keebs/karabiner/justfile'
-# skhd hotkey daemon
-mod skhd 'tools/keebs/skhd/justfile'
-# tmux terminal multiplexer
-mod tmux 'tools/multiplexers/tmux/justfile'
-# Zellij terminal workspace
-mod zellij 'tools/multiplexers/zellij/justfile'
-# mise polyglot runtime manager
-mod mise 'tools/mise/justfile'
-# Steampipe SQL for cloud APIs
-mod steampipe 'tools/steampipe/justfile'
-# tenv Terraform version manager
-mod tenv 'tools/ver-mgr/tenv/justfile'
-# Sketch design application
-mod sketch 'tools/design/sketch/justfile'
-# Yazi terminal file manager
-mod yazi 'tools/file-mgr/yazi/justfile'
-
-# VPN ==========================================================================
-# WireGuard VPN
-mod wireguard 'vpn/wireguard/justfile'
-
-# Window Managers ==============================================================
-# AeroSpace tiling window manager
-mod aerospace 'window-mgr/aerospace/justfile'
-# Amethyst tiling window manager
-mod amethyst 'window-mgr/amethyst/justfile'
+# Shell environments (zsh, bash, starship)
+mod shell 'shells/justfile'
+# Terminal emulators & multiplexers
+mod term 'terminals/justfile'
+# Code editors (nvim, vscode, zed)
+mod editor 'editors/justfile'
+# Databases (meilisearch, dolt)
+mod db 'services/databases/justfile'
+# Services (ntfy, n8n)
+mod svc 'services/justfile'
+# Infrastructure (docker, helm, k9s, kube, terraform)
+mod infra 'tools/infra/justfile'
+# Operating system (macos, cron, pam, paths)
+mod os 'os/justfile'
+# VPN (wireguard)
+mod vpn 'vpn/justfile'
+# Window managers (aerospace, amethyst)
+mod wm 'window-mgr/justfile'
+# Browsers (zen)
+mod browser 'browsers/justfile'
+# Version managers (mise, tenv, volta)
+mod ver 'tools/ver-mgr/justfile'
+# Developer tools, fonts, keyboards, linters, agents
+mod tool 'tools/justfile'
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '.build/just/lib.just'
 
-# Get all immediate subdirectories (depth 1) that contain a justfile
-_subdirs := shell("find " + justfile_directory() + " -mindepth 2 -maxdepth 2 -name 'justfile' -type f -exec dirname {} \\; | xargs -I{} basename {} | sort | tr '\\n' ' '")
+# Install all registered modules
+install:
+    #!/usr/bin/env bash
+    echo "📦 Installing all modules..."
+    names=(git ssh op shell term editor db svc infra os vpn wm browser ver tool)
+    paths=(core/git core/ssh core/op shells terminals editors services/databases services tools/infra os vpn window-mgr browsers tools/ver-mgr tools)
+    for i in "${!names[@]}"; do
+        name="${names[$i]}"
+        jf="{{ justfile_directory() }}/${paths[$i]}/justfile"
+        if [[ -f "$jf" ]] && "{{ just_executable() }}" -f "$jf" --list 2>/dev/null | grep -q '^\s*install\b'; then
+            echo "📦 $name"
+            "{{ just_executable() }}" -f "$jf" install
+        else
+            echo "⏭️  $name (no install recipe)"
+        fi
+    done
+    echo "🎉 Install complete!"
+
+# List available module groups
+list:
+    @echo "Module groups:"
+    @echo "  Core:    git, ssh, op"
+    @echo "  shell:   zsh, bash, starship"
+    @echo "  term:    alacritty, ghostty, kitty, wezterm, mux:{tmux,zellij}"
+    @echo "  editor:  nvim, vscode, zed"
+    @echo "  db:      meilisearch, dolt"
+    @echo "  svc:     ntfy, n8n"
+    @echo "  infra:   docker, helm, k9s, kube, terraform"
+    @echo "  os:      macos, cron, pam, paths"
+    @echo "  vpn:     wireguard"
+    @echo "  wm:      aerospace, amethyst"
+    @echo "  browser: zen"
+    @echo "  ver:     mise, tenv, volta"
+    @echo "  tool:    fzf, zoxide, fd, ripgrep, direnv, jq, yazi"
+    @echo "           design:{sketch,gimp} lint:{codebook,shellcheck}"
+    @echo "           agent:{adrs,beads,gastown} font keeb:{karabiner,skhd}"
+    @echo "           other:{glab,sourcebot,stow,...}"
 
 restart target:
     @if [ {{ target }} = "zshrc" ]; then \
@@ -130,46 +107,6 @@ dependencies:
 dependencies:
     @require("brew") update && brew upgrade
     @brew install most git-delta jq jqp yq 1password@nightly 1password-cli@beta
-
-# List available install targets (subdirectories with justfiles)
-[unix]
-[group('unix')]
-list-targets:
-    @echo "Available install targets:"
-    @echo "{{ _subdirs }}" | tr ' ' '\n' | grep -v '^$' | sed 's/^/  - /'
-
-# Install dotfiles
-# - No args: install all subdirectories with justfiles
-# - Single target: just install zsh
-# - Multiple targets (comma-separated): just install zsh,git,tmux
-# - Nested paths supported: just install docker/modules/cicd
-[unix]
-[group('unix')]
-install *targets=_subdirs:
-    #!/usr/bin/env bash
-
-    # Convert to array
-    read -a targets_arr <<< "{{replace(targets, ",", " ")}}"
-
-    for target in "${targets_arr[@]}"; do
-        [[ -z "$target" ]] && continue
-
-        # Build absolute path
-        target_path="{{ justfile_directory() }}/${target}"
-        [[ -d "$target_path" ]] || echo "⚠️  Directory does not exist: ${target}"
-        [[ -f "$target_path/justfile" ]] || echo "⚠️  No justfile found in: ${target}"
-
-        # Check if justfile has an 'install' recipe
-        if ! "{{ just_executable() }}" -f "$target_path/justfile" --list 2>/dev/null | grep -q '^\s*install\b'; then
-            echo "⚠️  No 'install' recipe in: $target_path/justfile"
-        else
-            # Run the install recipe
-            echo "📦 Installing: $target"
-            "{{ just_executable() }}" -f "$target_path/justfile" install
-            echo "✅ Completed: $target"
-        fi
-    done
-    echo "🎉 Install complete!"
 
 # =============================================================================
 # AI Configuration Management

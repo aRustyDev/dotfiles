@@ -1,6 +1,6 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-import '../.build/just/lib.just'
+import '../../../.build/just/lib.just'
 
 [group('stubs')]
 install:

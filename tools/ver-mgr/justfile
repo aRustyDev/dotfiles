@@ -1,0 +1,17 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# mise polyglot runtime manager
+mod mise '../other/mise/justfile'
+# tenv Terraform version manager
+mod tenv 'tenv/justfile'
+# Volta JavaScript tool manager
+mod volta 'volta/justfile'
+
+install:
+    #!/usr/bin/env bash
+    echo "📦 ver:tenv"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/tenv/justfile" install
+    echo "📦 ver:volta"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/volta/justfile" install
+    echo "📦 ver:mise"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/../other/mise/justfile" install

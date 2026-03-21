@@ -1,0 +1,23 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# GitLab CLI
+mod glab 'glab/justfile'
+# Sourcebot code search
+mod sourcebot 'sourcebot/justfile'
+# GNU Stow symlink manager
+mod stow 'stow/justfile'
+# go-blocksite website blocker
+mod blocksite 'go-blocksite/justfile'
+# GopherTube
+mod gophertube 'gophertube/justfile'
+# Jira CLI
+mod jira 'jira/justfile'
+# Steampipe SQL for cloud APIs
+mod steampipe 'steampipe/justfile'
+
+install:
+    #!/usr/bin/env bash
+    for mod in glab sourcebot stow go-blocksite gophertube jira steampipe; do
+        echo "📦 other:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/$mod/justfile" install
+    done

@@ -1,0 +1,9 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# WireGuard VPN
+mod wireguard 'wireguard/justfile'
+
+install:
+    #!/usr/bin/env bash
+    echo "📦 vpn:wireguard"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/wireguard/justfile" install

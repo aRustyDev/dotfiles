@@ -1,9 +1,55 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-import '../.build/just/lib.just'
+# Core tools ===================================================================
+# fzf fuzzy finder
+mod fzf 'core/fzf/justfile'
+# zoxide directory jumper
+mod zoxide 'core/zoxide/justfile'
+# fd file finder
+mod fd 'core/fd/justfile'
+# ripgrep content searcher
+mod ripgrep 'core/ripgrep/justfile'
+# direnv environment loader
+mod direnv 'core/direnv/justfile'
+# jq JSON processor
+mod jq 'core/jq/justfile'
+# Yazi terminal file manager
+mod yazi 'file-mgr/yazi/justfile'
+
+# Sub-groups ===================================================================
+# Design tools (Sketch, GIMP)
+mod design 'design/justfile'
+# Linters (codebook, shellcheck)
+mod lint 'lint/justfile'
+# Agent tools (ADRs, Beads, Gastown)
+mod agent 'agents/justfile'
+# Nerd Fonts and development fonts
+mod font '../fonts/justfile'
+# Keyboard tools (Karabiner, skhd)
+mod keeb 'keebs/justfile'
+# Miscellaneous tools
+mod other 'other/justfile'
 
 # Install config-less tools from group brewfile
 install-group:
-    brew bundle --file=brewfile --no-lock
+    brew bundle --file="{{ justfile_directory() }}/brewfile" --no-lock
 
-# Note: Individual tool modules (git, helm, etc.) are imported via root justfile
+install: install-group
+    #!/usr/bin/env bash
+    # Core tools
+    for mod in fzf zoxide fd ripgrep direnv jq; do
+        echo "📦 tool:$mod"
+        "{{ just_executable() }}" -f "{{ justfile_directory() }}/core/$mod/justfile" install
+    done
+    echo "📦 tool:yazi"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/file-mgr/yazi/justfile" install
+    # Sub-groups
+    for group in design lint agents keebs other; do
+        gjf="{{ justfile_directory() }}/$group/justfile"
+        if [[ -f "$gjf" ]]; then
+            "{{ just_executable() }}" -f "$gjf" install
+        fi
+    done
+    # Cross-tree: fonts
+    echo "📦 tool:font"
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/../fonts/justfile" install

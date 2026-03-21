@@ -1,7 +1,7 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../../../.build/just/lib.just'
-import '../completions/mods.just'
+import? '../completions/mods.just'
 
 install:
     @cd "{{ justfile_directory() }}" && brew bundle

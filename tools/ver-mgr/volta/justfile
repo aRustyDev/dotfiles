@@ -1,6 +1,6 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-import '../.build/just/lib.just'
+import '../../../.build/just/lib.just'
 
 dotdir := shell("yq '.dotdir' data.yml | envsubst")
 domains := "nodejs.org yarnpkg.com registry.npmjs.org www.npmjs.com"
@@ -40,7 +40,7 @@ init: install-prereqs
     #!/usr/bin/env bash
     mkdir -p "{{ log_dir }}"
     # ensure config exists (abort if missing)
-    doggo --short --json {{ domains }} | jq --arg u "$(whoami)" --arg dns "{{ local_ip }}" -f doggo.jq | mustache {{ voltad }}/unbound.mustache > {{ unbound_conf }}
+    doggo --short --json {{ domains }} | jq --arg u "$(whoami)" --arg dns "{{ local_ip }}" -f doggo.jq | mustache {{ dotdir }}/unbound.mustache > {{ unbound_conf }}
 
     # Create /etc/resolver entries (idempotent)
     sudo mkdir -p /etc/resolver
