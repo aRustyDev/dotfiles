@@ -12,29 +12,25 @@ bd close <id>         # Complete work
 bd sync               # Sync with git
 ```
 
-## Landing the Plane (Session Completion)
+## Repo Controller
 
-**When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
+This repo is operated via `just` modules. Prefer `just <recipe>` over raw shell commands when a recipe exists. Run `just list` to see all available module groups, or `just --list <group>` to drill into a group.
 
-**MANDATORY WORKFLOW:**
+## Session Completion
 
-1. **File issues for remaining work** - Create issues for anything that needs follow-up
-2. **Run quality gates** (if code changed) - Tests, linters, builds
-3. **Update issue status** - Close finished work, update in-progress items
-4. **PUSH TO REMOTE** - This is MANDATORY:
+**When ending a work session**, all steps below are mandatory. Work is NOT complete until `git push` succeeds.
+
+1. File issues for remaining work
+2. Run quality gates if code changed — tests, linters, builds
+3. Update issue status — close finished work, update in-progress items
+4. Push to remote:
    ```bash
    git pull --rebase
    bd sync
    git push
-   git status  # MUST show "up to date with origin"
+   git status  # Must show "up to date with origin"
    ```
-5. **Clean up** - Clear stashes, prune remote branches
-6. **Verify** - All changes committed AND pushed
-7. **Hand off** - Provide context for next session
+5. Clean up — clear stashes, prune stale branches
+6. Hand off — provide context for the next session
 
-**CRITICAL RULES:**
-- Work is NOT complete until `git push` succeeds
-- NEVER stop before pushing - that leaves work stranded locally
-- NEVER say "ready to push when you are" - YOU must push
-- If push fails, resolve and retry until it succeeds
-
+Never stop before pushing. If push fails, resolve and retry until it succeeds.
