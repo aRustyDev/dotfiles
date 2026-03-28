@@ -1,4 +1,4 @@
 [submodule "ai"]
 	path = ai
-	url = git@github.com:aRustyDev/ai.git
+	url = git@github.com:aRustyDev/agents.git
 	branch = main
