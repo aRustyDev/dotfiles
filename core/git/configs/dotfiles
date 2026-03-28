@@ -1,0 +1,7 @@
+; === === === Dotfiles Repo === === ===
+; Auto-fetch the agents submodule (may be registered as "ai" or "agents")
+[submodule "ai"]
+    fetchRecurseSubmodules = on-demand
+
+[submodule "agents"]
+    fetchRecurseSubmodules = on-demand

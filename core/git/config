@@ -127,3 +127,10 @@ path = "${XDG_CONFIG_HOME}/git/configs/darkhuntlabs"
 
 [includeIf "hasconfig:remote.*.url:git@github.com:aRustyDev/**"]
     path = "${XDG_CONFIG_HOME}/git/configs/github"
+
+; === === === Dotfiles Repo === === ===
+[includeIf "hasconfig:remote.*.url:https://github.com/aRustyDev/dotfiles**"]
+    path = "${XDG_CONFIG_HOME}/git/configs/dotfiles"
+
+[includeIf "hasconfig:remote.*.url:git@github.com:aRustyDev/dotfiles**"]
+    path = "${XDG_CONFIG_HOME}/git/configs/dotfiles"
