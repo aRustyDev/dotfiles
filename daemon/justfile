@@ -20,3 +20,41 @@ list:
         name=$(basename "$plist" .plist | sed "s/^{{ plist_prefix }}//")
         echo "  $name"
     done
+
+# Load a service via launchctl
+load name:
+    #!/usr/bin/env bash
+    plist="{{ launch_agents }}/{{ plist_prefix }}{{ name }}.plist"
+    if [[ ! -f "$plist" ]]; then
+        echo "✗ No plist found: $plist"
+        exit 1
+    fi
+    launchctl load "$plist"
+    echo "✓ Loaded {{ name }}"
+
+# Unload a service via launchctl
+unload name:
+    #!/usr/bin/env bash
+    plist="{{ launch_agents }}/{{ plist_prefix }}{{ name }}.plist"
+    if [[ ! -f "$plist" ]]; then
+        echo "✗ No plist found: $plist"
+        exit 1
+    fi
+    launchctl unload "$plist" 2>/dev/null || true
+    echo "✓ Unloaded {{ name }}"
+
+# Restart a service (unload + load)
+restart name:
+    #!/usr/bin/env bash
+    "{{ just_executable() }}" -f "{{ justfile() }}" unload "{{ name }}"
+    sleep 1
+    "{{ just_executable() }}" -f "{{ justfile() }}" load "{{ name }}"
+
+# Remove a service (unload + delete plist + clean state)
+remove name:
+    #!/usr/bin/env bash
+    "{{ just_executable() }}" -f "{{ justfile() }}" unload "{{ name }}"
+    plist="{{ launch_agents }}/{{ plist_prefix }}{{ name }}.plist"
+    rm -f "$plist"
+    rm -rf "{{ state_dir }}/{{ name }}"
+    echo "✓ Removed {{ name }}"
