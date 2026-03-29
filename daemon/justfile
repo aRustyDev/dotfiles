@@ -58,3 +58,41 @@ remove name:
     rm -f "$plist"
     rm -rf "{{ state_dir }}/{{ name }}"
     echo "✓ Removed {{ name }}"
+
+# Show status of one or all services
+status name="":
+    #!/usr/bin/env bash
+    check_service() {
+        local svc="$1"
+        local label="{{ plist_prefix }}$svc"
+
+        if launchctl list "$label" &>/dev/null; then
+            pid=$(launchctl list "$label" 2>/dev/null | awk 'NR==2{print $1}')
+            echo "✓ $svc: running (PID: $pid)"
+        else
+            echo "✗ $svc: not running"
+        fi
+    }
+
+    if [[ -n "{{ name }}" ]]; then
+        check_service "{{ name }}"
+    else
+        for plist in "{{ launch_agents }}/{{ plist_prefix }}"*.plist; do
+            [[ -f "$plist" ]] || { echo "No services registered."; exit 0; }
+            svc=$(basename "$plist" .plist | sed "s/^{{ plist_prefix }}//")
+            check_service "$svc"
+        done
+    fi
+
+# Tail logs for a service
+logs name:
+    #!/usr/bin/env bash
+    log_dir="{{ state_dir }}/{{ name }}"
+    if [[ -f "$log_dir/{{ name }}.log" ]]; then
+        tail -f "$log_dir/{{ name }}.log"
+    elif [[ -f "$log_dir/{{ name }}-error.log" ]]; then
+        tail -f "$log_dir/{{ name }}-error.log"
+    else
+        echo "No logs found in $log_dir"
+        exit 1
+    fi
