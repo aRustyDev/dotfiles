@@ -11,19 +11,27 @@ mktree:
     mkdir -p "{{ state_dir }}"
     mkdir -p "{{ launch_agents }}"
 
+# Install daemon module (required for cascading just install)
+install: mktree
+    @echo "daemon: ready"
+
 # List registered services (discovered by plist glob)
 list:
     #!/usr/bin/env bash
+    set -euo pipefail
     echo "Registered services:"
     for plist in "{{ launch_agents }}/{{ plist_prefix }}"*.plist; do
         [[ -f "$plist" ]] || { echo "  (none)"; exit 0; }
-        name=$(basename "$plist" .plist | sed "s/^{{ plist_prefix }}//")
+        name="${plist##*/}"
+        name="${name%.plist}"
+        name="${name#{{ plist_prefix }}}"
         echo "  $name"
     done
 
 # Load a service via launchctl
 load name:
     #!/usr/bin/env bash
+    set -euo pipefail
     plist="{{ launch_agents }}/{{ plist_prefix }}{{ name }}.plist"
     if [[ ! -f "$plist" ]]; then
         echo "✗ No plist found: $plist"
@@ -35,6 +43,7 @@ load name:
 # Unload a service via launchctl
 unload name:
     #!/usr/bin/env bash
+    set -euo pipefail
     plist="{{ launch_agents }}/{{ plist_prefix }}{{ name }}.plist"
     if [[ ! -f "$plist" ]]; then
         echo "✗ No plist found: $plist"
@@ -46,6 +55,7 @@ unload name:
 # Restart a service (unload + load)
 restart name:
     #!/usr/bin/env bash
+    set -euo pipefail
     "{{ just_executable() }}" -f "{{ justfile() }}" unload "{{ name }}"
     sleep 1
     "{{ just_executable() }}" -f "{{ justfile() }}" load "{{ name }}"
@@ -53,6 +63,7 @@ restart name:
 # Remove a service (unload + delete plist + clean state)
 remove name:
     #!/usr/bin/env bash
+    set -euo pipefail
     "{{ just_executable() }}" -f "{{ justfile() }}" unload "{{ name }}"
     plist="{{ launch_agents }}/{{ plist_prefix }}{{ name }}.plist"
     rm -f "$plist"
@@ -62,13 +73,18 @@ remove name:
 # Show status of one or all services
 status name="":
     #!/usr/bin/env bash
+    set -euo pipefail
     check_service() {
         local svc="$1"
         local label="{{ plist_prefix }}$svc"
 
         if launchctl list "$label" &>/dev/null; then
-            pid=$(launchctl list "$label" 2>/dev/null | awk 'NR==2{print $1}')
-            echo "✓ $svc: running (PID: $pid)"
+            pid=$(launchctl list "$label" 2>/dev/null | grep '"PID"' | sed 's/[^0-9]//g')
+            if [[ -n "$pid" ]]; then
+                echo "✓ $svc: running (PID: $pid)"
+            else
+                echo "✓ $svc: loaded (PID unknown)"
+            fi
         else
             echo "✗ $svc: not running"
         fi
@@ -79,14 +95,17 @@ status name="":
     else
         for plist in "{{ launch_agents }}/{{ plist_prefix }}"*.plist; do
             [[ -f "$plist" ]] || { echo "No services registered."; exit 0; }
-            svc=$(basename "$plist" .plist | sed "s/^{{ plist_prefix }}//")
-            check_service "$svc"
+            name="${plist##*/}"
+            name="${name%.plist}"
+            name="${name#{{ plist_prefix }}}"
+            check_service "$name"
         done
     fi
 
 # Tail logs for a service
 logs name:
     #!/usr/bin/env bash
+    set -euo pipefail
     log_dir="{{ state_dir }}/{{ name }}"
     if [[ -f "$log_dir/{{ name }}.log" ]]; then
         tail -f "$log_dir/{{ name }}.log"
@@ -100,6 +119,7 @@ logs name:
 # Health check all services; pass "fix" to kill orphans and clean stale state
 doctor action="check":
     #!/usr/bin/env bash
+    set -euo pipefail
     issues=0
 
     echo "=== Daemon Health Check ==="
@@ -108,16 +128,18 @@ doctor action="check":
     # Check each registered service
     for plist in "{{ launch_agents }}/{{ plist_prefix }}"*.plist; do
         [[ -f "$plist" ]] || { echo "No services registered."; exit 0; }
-        svc=$(basename "$plist" .plist | sed "s/^{{ plist_prefix }}//")
-        label="{{ plist_prefix }}$svc"
+        name="${plist##*/}"
+        name="${name%.plist}"
+        name="${name#{{ plist_prefix }}}"
+        label="{{ plist_prefix }}$name"
 
         if launchctl list "$label" &>/dev/null; then
-            echo "✓ $svc: loaded"
+            echo "✓ $name: loaded"
         else
-            echo "✗ $svc: plist exists but not loaded"
+            echo "✗ $name: plist exists but not loaded"
             issues=$((issues + 1))
             if [[ "{{ action }}" == "fix" ]]; then
-                echo "  → Loading $svc..."
+                echo "  → Loading $name..."
                 launchctl load "$plist"
             fi
         fi
@@ -131,12 +153,12 @@ doctor action="check":
     if [[ -n "$orphans" ]]; then
         managed_pid=""
         if launchctl list "{{ plist_prefix }}dolt" &>/dev/null; then
-            managed_pid=$(launchctl list "{{ plist_prefix }}dolt" 2>/dev/null | awk 'NR==2{print $1}')
+            managed_pid=$(launchctl list "{{ plist_prefix }}dolt" 2>/dev/null | grep '"PID"' | sed 's/[^0-9]//g')
         fi
 
         while IFS= read -r pid; do
             if [[ "$pid" != "$managed_pid" ]]; then
-                port=$(lsof -nP -iTCP -sTCP:LISTEN -p "$pid" 2>/dev/null | awk 'NR==2{split($9,a,":"); print a[2]}')
+                port=$(lsof -nP -iTCP -sTCP:LISTEN -p "$pid" 2>/dev/null | awk 'NR==2{split($9,a,":"); print a[2]}' || true)
                 echo "✗ Orphaned dolt process: PID $pid (port: ${port:-unknown})"
                 issues=$((issues + 1))
                 if [[ "{{ action }}" == "fix" ]]; then
@@ -154,5 +176,6 @@ doctor action="check":
         echo "$issues issue(s) found."
         if [[ "{{ action }}" != "fix" ]]; then
             echo "Run 'just daemon doctor fix' to auto-repair."
+            exit 1
         fi
     fi
