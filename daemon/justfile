@@ -2,6 +2,21 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
 
-[group('stubs')]
-install:
-    @echo "daemon: No config files to install yet"
+launch_agents := env("HOME") + "/Library/LaunchAgents"
+state_dir := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "daemon"
+plist_prefix := "dev.arusty."
+
+# Create state directories and ensure LaunchAgents dir exists
+mktree:
+    mkdir -p "{{ state_dir }}"
+    mkdir -p "{{ launch_agents }}"
+
+# List registered services (discovered by plist glob)
+list:
+    #!/usr/bin/env bash
+    echo "Registered services:"
+    for plist in "{{ launch_agents }}/{{ plist_prefix }}"*.plist; do
+        [[ -f "$plist" ]] || { echo "  (none)"; exit 0; }
+        name=$(basename "$plist" .plist | sed "s/^{{ plist_prefix }}//")
+        echo "  $name"
+    done

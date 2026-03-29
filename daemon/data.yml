@@ -1,0 +1,2 @@
+# daemon/data.yml
+dotdir: "{{xdg_state}}/daemon"
