@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>dev.arusty.dolt</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>${HOMEBREW_PREFIX}/bin/dolt</string>
+        <string>sql-server</string>
+        <string>--host</string>
+        <string>${DOLT_HOST}</string>
+        <string>--port</string>
+        <string>${DOLT_PORT}</string>
+        <string>--data-dir</string>
+        <string>${DOLT_DATA_DIR}</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+    </dict>
+
+    <key>WorkingDirectory</key>
+    <string>${DOLT_DATA_DIR}</string>
+
+    <key>StandardOutPath</key>
+    <string>${DOLT_LOG_DIR}/dolt.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>${DOLT_LOG_DIR}/dolt-error.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>${HOMEBREW_PREFIX}/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
