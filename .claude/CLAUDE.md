@@ -15,6 +15,7 @@ The repo is organized as a tiered module tree. Modules are accessed via `just <g
 git          # Git version control with 1Password signing
 ssh          # SSH client configuration
 op           # 1Password CLI
+daemon       # launchd service manager
 ```
 
 ### Groups

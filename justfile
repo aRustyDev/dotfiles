@@ -8,6 +8,8 @@ mod git 'core/git/justfile'
 mod ssh 'core/ssh/justfile'
 # 1Password CLI
 mod op 'core/op/justfile'
+# Daemon service manager (launchd)
+mod daemon 'daemon/justfile'
 
 # =============================================================================
 # Groups
@@ -46,8 +48,8 @@ import '.build/just/lib.just'
 install:
     #!/usr/bin/env bash
     echo "📦 Installing all modules..."
-    names=(git ssh op shell term editor db svc infra os vpn wm browser ver tool)
-    paths=(core/git core/ssh core/op shells terminals editors services/databases services tools/infra os vpn window-mgr browsers tools/ver-mgr tools)
+    names=(git ssh op daemon shell term editor db svc infra os vpn wm browser ver tool)
+    paths=(core/git core/ssh core/op daemon shells terminals editors services/databases services tools/infra os vpn window-mgr browsers tools/ver-mgr tools)
     for i in "${!names[@]}"; do
         name="${names[$i]}"
         jf="{{ justfile_directory() }}/${paths[$i]}/justfile"
@@ -63,7 +65,7 @@ install:
 # List available module groups
 list:
     @echo "Module groups:"
-    @echo "  Core:    git, ssh, op"
+    @echo "  Core:    git, ssh, op, daemon"
     @echo "  shell:   zsh, bash, starship"
     @echo "  term:    alacritty, ghostty, kitty, wezterm, mux:{tmux,zellij}"
     @echo "  editor:  nvim, vscode, zed"
