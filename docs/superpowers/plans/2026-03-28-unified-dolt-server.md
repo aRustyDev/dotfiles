@@ -19,7 +19,7 @@
 |------|---------------|
 | `daemon/justfile` | Generic launchd service lifecycle recipes (load, unload, status, doctor, etc.) |
 | `daemon/data.yml` | Module config for daemon |
-| `daemon/services/.gitkeep` | Placeholder for service plist templates |
+| `daemon/services/.gitkeep` | Placeholder for service plist templates (tracked; runtime artifacts go elsewhere) |
 | `services/databases/dolt/dolt.plist.template` | Launchd plist template for dolt server |
 
 ### Modified files
@@ -27,71 +27,60 @@
 |------|--------|
 | `justfile` (root) | Register `mod daemon` |
 | `.claude/CLAUDE.md` | Add daemon to module tree |
-| `services/databases/dolt/justfile` | Update port, add launchd recipe, remove serve-bg/stop |
+| `services/databases/dolt/justfile` | Update port, add launchd recipe, remove serve-bg |
 | `services/databases/dolt/data.yml` | Update databases_dir |
-| `tools/agents/beads/config.yaml` | Update dolt port to 13306 |
+| `tools/agents/beads/config.yaml` | Update dolt port from 3307 to 13306 |
 
-### Deleted files
+### Cleanup (untracked local files, not in git)
 | File | Reason |
 |------|--------|
-| `daemon/dolt-state.json` | Stale runtime artifact |
-| `daemon/dolt.pid` | Stale runtime artifact |
-| `daemon/dolt.lock` | Stale runtime artifact |
-| `daemon/dolt.log` | Stale runtime artifact |
+| `daemon/dolt-state.json` | Stale runtime artifact (untracked) |
+| `daemon/dolt.pid` | Stale runtime artifact (untracked) |
+| `daemon/dolt.lock` | Stale runtime artifact (untracked) |
+| `daemon/dolt.log` | Stale runtime artifact (untracked) |
 
 ---
 
-## Task 1: Clean up stale daemon state
+## Task 1: Clean up stale daemon state and create scaffolding
+
+These files are untracked (gitignored), so cleanup is a local-only operation combined with the first real commit.
 
 **Files:**
-- Delete: `daemon/dolt-state.json`
-- Delete: `daemon/dolt.pid`
-- Delete: `daemon/dolt.lock`
-- Delete: `daemon/dolt.log`
-
-- [ ] **Step 1: Remove stale runtime files from repo**
-
-```bash
-cd /private/etc/dotfiles/adam
-rm daemon/dolt-state.json daemon/dolt.pid daemon/dolt.lock daemon/dolt.log
-```
-
-- [ ] **Step 2: Commit**
-
-```bash
-git add daemon/dolt-state.json daemon/dolt.pid daemon/dolt.lock daemon/dolt.log
-git commit -m "chore(daemon): Remove stale dolt runtime artifacts"
-```
-
----
-
-## Task 2: Create daemon module scaffolding
-
-**Files:**
+- Delete (local only): `daemon/dolt-state.json`, `daemon/dolt.pid`, `daemon/dolt.lock`, `daemon/dolt.log`
 - Create: `daemon/data.yml`
 - Create: `daemon/services/.gitkeep`
 - Modify: `daemon/justfile` (replace stub)
 
-- [ ] **Step 1: Create data.yml**
+- [ ] **Step 1: Remove stale runtime files from disk**
+
+```bash
+cd /private/etc/dotfiles/adam
+rm -f daemon/dolt-state.json daemon/dolt.pid daemon/dolt.lock daemon/dolt.log
+```
+
+No commit needed — these files are not tracked by git.
+
+- [ ] **Step 2: Create data.yml**
 
 ```yaml
 # daemon/data.yml
-dotdir: "${XDG_STATE_HOME}/daemon"
+dotdir: "{{xdg_state}}/daemon"
 ```
 
-- [ ] **Step 2: Create services directory**
+Note: uses `{{xdg_state}}` template syntax to match existing `data.yml` conventions in the repo.
+
+- [ ] **Step 3: Create services directory**
 
 ```bash
 mkdir -p /private/etc/dotfiles/adam/daemon/services
 touch /private/etc/dotfiles/adam/daemon/services/.gitkeep
 ```
 
-- [ ] **Step 3: Write daemon/justfile with mktree and list recipes**
+- [ ] **Step 4: Write daemon/justfile with mktree and list recipes**
 
-Start with the foundation — directory setup and service discovery. Other recipes build on this.
+Replace the entire stub justfile with:
 
 ```just
-# daemon/justfile
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 import '../.build/just/lib.just'
@@ -100,9 +89,10 @@ launch_agents := env("HOME") + "/Library/LaunchAgents"
 state_dir := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "daemon"
 plist_prefix := "dev.arusty."
 
-# Create state directories
+# Create state directories and ensure LaunchAgents dir exists
 mktree:
     mkdir -p "{{ state_dir }}"
+    mkdir -p "{{ launch_agents }}"
 
 # List registered services (discovered by plist glob)
 list:
@@ -115,15 +105,15 @@ list:
     done
 ```
 
-- [ ] **Step 4: Verify justfile parses**
+- [ ] **Step 5: Verify justfile parses**
 
 ```bash
 cd /private/etc/dotfiles/adam && just -f daemon/justfile --list
 ```
 
-Expected: shows `mktree` and `list` recipes.
+Expected: shows `mktree` and `list` recipes (plus lib.just inherited recipes).
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add daemon/data.yml daemon/services/.gitkeep daemon/justfile
@@ -132,7 +122,7 @@ git commit -m "feat(daemon): Add module scaffolding with mktree and list"
 
 ---
 
-## Task 3: Add daemon load/unload/restart recipes
+## Task 2: Add daemon load/unload/restart recipes
 
 **Files:**
 - Modify: `daemon/justfile`
@@ -195,7 +185,7 @@ remove name:
 just -f daemon/justfile --list
 ```
 
-Expected: shows `mktree`, `list`, `load`, `unload`, `restart`, `remove`.
+Expected: shows recipes including `mktree`, `list`, `load`, `unload`, `restart`, `remove`.
 
 - [ ] **Step 5: Commit**
 
@@ -206,12 +196,14 @@ git commit -m "feat(daemon): Add load, unload, restart, remove recipes"
 
 ---
 
-## Task 4: Add daemon status and logs recipes
+## Task 3: Add daemon status and logs recipes
 
 **Files:**
 - Modify: `daemon/justfile`
 
 - [ ] **Step 1: Add status recipe**
+
+Append to `daemon/justfile`:
 
 ```just
 # Show status of one or all services
@@ -220,7 +212,6 @@ status name="":
     check_service() {
         local svc="$1"
         local label="{{ plist_prefix }}$svc"
-        local svc_state="{{ state_dir }}/$svc"
 
         if launchctl list "$label" &>/dev/null; then
             pid=$(launchctl list "$label" 2>/dev/null | awk 'NR==2{print $1}')
@@ -267,12 +258,14 @@ git commit -m "feat(daemon): Add status and logs recipes"
 
 ---
 
-## Task 5: Add daemon doctor recipe
+## Task 4: Add daemon doctor recipe
 
 **Files:**
 - Modify: `daemon/justfile`
 
 - [ ] **Step 1: Add doctor recipe**
+
+Append to `daemon/justfile`:
 
 ```just
 # Health check all services; pass "fix" to kill orphans and clean stale state
@@ -304,6 +297,7 @@ doctor action="check":
     echo ""
 
     # Check for orphaned dolt processes (not managed by any plist)
+    # TODO: Make orphan detection generic (driven by config per service) when more services are added
     orphans=$(pgrep -f 'dolt sql-server' 2>/dev/null || true)
     if [[ -n "$orphans" ]]; then
         managed_pid=""
@@ -352,7 +346,7 @@ git commit -m "feat(daemon): Add doctor recipe with orphan detection"
 
 ---
 
-## Task 6: Register daemon module in root justfile
+## Task 5: Register daemon module in root justfile
 
 **Files:**
 - Modify: `justfile` (root)
@@ -360,7 +354,7 @@ git commit -m "feat(daemon): Add doctor recipe with orphan detection"
 
 - [ ] **Step 1: Add mod declaration to root justfile**
 
-Add after the `mod op` line (in the Core section):
+Add after the `mod op 'core/op/justfile'` line (in the Core section):
 
 ```just
 # Daemon service manager (launchd)
@@ -369,18 +363,28 @@ mod daemon 'daemon/justfile'
 
 - [ ] **Step 2: Update the install recipe's names and paths arrays**
 
-Add `daemon` to the `names` array and `daemon` to the `paths` array at the corresponding position (after `op`).
+Change the arrays from:
+```bash
+names=(git ssh op shell term editor db svc infra os vpn wm browser ver tool)
+paths=(core/git core/ssh core/op shells terminals editors services/databases services tools/infra os vpn window-mgr browsers tools/ver-mgr tools)
+```
+
+to:
+```bash
+names=(git ssh op daemon shell term editor db svc infra os vpn wm browser ver tool)
+paths=(core/git core/ssh core/op daemon shells terminals editors services/databases services tools/infra os vpn window-mgr browsers tools/ver-mgr tools)
+```
 
 - [ ] **Step 3: Update the list recipe**
 
-Add `daemon` to the Core line:
-```
-@echo "  Core:    git, ssh, op, daemon"
+Change the Core line to:
+```just
+    @echo "  Core:    git, ssh, op, daemon"
 ```
 
 - [ ] **Step 4: Update .claude/CLAUDE.md module tree**
 
-Add `daemon` to the Core section:
+In the Core section, add `daemon`:
 ```
 git          # Git version control with 1Password signing
 ssh          # SSH client configuration
@@ -394,7 +398,7 @@ daemon       # launchd service manager
 just --list
 ```
 
-Expected: `daemon ...` appears in the module list.
+Expected: `daemon ...` appears in the module list among other groups.
 
 - [ ] **Step 6: Commit**
 
@@ -405,12 +409,14 @@ git commit -m "feat(justfile): Register daemon module in root"
 
 ---
 
-## Task 7: Create dolt plist template
+## Task 6: Create dolt plist template
 
 **Files:**
 - Create: `services/databases/dolt/dolt.plist.template`
 
 - [ ] **Step 1: Write plist template**
+
+The template uses `${VAR}` envsubst variables that resolve to absolute paths at hydration time. Tildes and `$HOME` must not appear in the generated plist — launchd does not expand them.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -471,7 +477,7 @@ git commit -m "feat(dolt): Add launchd plist template"
 
 ---
 
-## Task 8: Update dolt justfile for daemon integration
+## Task 7: Update dolt justfile for daemon integration
 
 **Files:**
 - Modify: `services/databases/dolt/justfile`
@@ -488,37 +494,52 @@ databases_dir: "${HOME}/.local/share/dolt/databases"
 
 - [ ] **Step 2: Update dolt justfile variables and port**
 
-At the top of `services/databases/dolt/justfile`, change:
+Replace the existing variable block at the top of `services/databases/dolt/justfile`. The existing block is:
 
 ```just
 # Dolt directories
 dolt_home := env_var("HOME") / ".dolt"
 databases_dir := env_var("HOME") / ".local/share/dolt/databases"
 
-# Server settings
+# Default server settings
+default_port := "3306"
+default_host := "127.0.0.1"
+```
+
+Replace with:
+
+```just
+# Dolt directories
+dolt_home := env_var("HOME") / ".dolt"
+databases_dir := env_var("HOME") / ".local/share/dolt/databases"
+
+# Server settings (port 13306 avoids MySQL 3306 and legacy dolt 3307 conflicts)
 default_port := "13306"
 default_host := "127.0.0.1"
 
 # Daemon integration
 launch_agents := env_var("HOME") / "Library/LaunchAgents"
-state_dir := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "daemon/dolt"
+dolt_state := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "daemon/dolt"
 brew_prefix := `brew --prefix`
 ```
 
+Note: `dolt_home`, `databases_dir`, and `default_host` are unchanged. `default_port` changes from `"3306"` to `"13306"`. Three new variables are added for daemon integration.
+
 - [ ] **Step 3: Add launchd recipe**
 
-Add to the dolt justfile:
+Add after the `mktree` recipe:
 
 ```just
 # Generate and install launchd plist
 launchd: mktree
     #!/usr/bin/env bash
-    mkdir -p "{{ state_dir }}"
+    mkdir -p "{{ dolt_state }}"
+    mkdir -p "{{ launch_agents }}"
     export HOMEBREW_PREFIX="{{ brew_prefix }}"
     export DOLT_HOST="{{ default_host }}"
     export DOLT_PORT="{{ default_port }}"
     export DOLT_DATA_DIR="{{ databases_dir }}"
-    export DOLT_LOG_DIR="{{ state_dir }}"
+    export DOLT_LOG_DIR="{{ dolt_state }}"
     envsubst < "{{ justfile_directory() }}/dolt.plist.template" \
         > "{{ launch_agents }}/dev.arusty.dolt.plist"
     echo "✓ Plist installed to {{ launch_agents }}/dev.arusty.dolt.plist"
@@ -526,8 +547,15 @@ launchd: mktree
 
 - [ ] **Step 4: Update install recipe**
 
-Change the install recipe to:
+Replace the existing `install` recipe. The `dependencies`, `config`, and `mktree` recipes remain unchanged — only the `install` recipe's dependency line and body change.
 
+Old:
+```just
+install: dependencies config
+    @echo "Dolt installed. Use 'dolt init' in a directory to create a database."
+```
+
+New:
 ```just
 # Install dolt with launchd service
 install: dependencies config mktree launchd
@@ -546,7 +574,7 @@ install: dependencies config mktree launchd
 
 - [ ] **Step 5: Replace serve-bg and stop with daemon wrappers**
 
-Replace the existing `serve-bg` and `stop` recipes:
+Delete the entire `serve-bg` recipe (definition and body). Replace the `stop` recipe. Add a new `start` recipe. Keep `serve` (foreground, single-database debug tool) and `serve-pg` unchanged.
 
 ```just
 # Start dolt server (via daemon)
@@ -558,15 +586,13 @@ stop:
     "{{ just_executable() }}" -f "{{ justfile_directory() }}/../../../daemon/justfile" unload dolt
 ```
 
-Remove the old `serve-bg` recipe body entirely. Keep `serve` (foreground) and `serve-pg` for manual use.
-
 - [ ] **Step 6: Verify justfile parses**
 
 ```bash
 just --list db::dolt
 ```
 
-Expected: shows updated recipes including `launchd`, `start`, `stop`.
+Expected: shows recipes including `launchd`, `start`, `stop` among others.
 
 - [ ] **Step 7: Commit**
 
@@ -577,14 +603,14 @@ git commit -m "feat(dolt): Integrate with daemon module, pin port 13306"
 
 ---
 
-## Task 9: Update beads config
+## Task 8: Update beads config
 
 **Files:**
 - Modify: `tools/agents/beads/config.yaml`
 
 - [ ] **Step 1: Update dolt port in beads config**
 
-Change the `dolt:` block from:
+This is the source-of-truth config that gets symlinked during `just tool agent beads install`. Change the `dolt:` block from:
 
 ```yaml
 dolt:
@@ -613,7 +639,7 @@ git commit -m "fix(beads): Pin dolt port to 13306 (daemon-managed server)"
 
 ---
 
-## Task 10: Smoke test end-to-end
+## Task 9: Smoke test end-to-end
 
 This task verifies the full setup works. No files are modified.
 
