@@ -6,13 +6,29 @@ import '../../../.build/just/lib.just'
 dolt_home := env_var("HOME") / ".dolt"
 databases_dir := env_var("HOME") / ".local/share/dolt/databases"
 
-# Default server settings
-default_port := "3306"
+# Server settings (port 13306 avoids MySQL 3306 and legacy dolt 3307 conflicts)
+default_port := "13306"
 default_host := "127.0.0.1"
 
-# Install dolt
-install: dependencies config
-    @echo "Dolt installed. Use 'dolt init' in a directory to create a database."
+# Daemon integration
+launch_agents := env_var("HOME") / "Library/LaunchAgents"
+dolt_state := env("XDG_STATE_HOME", env("HOME") / ".local/state") / "daemon/dolt"
+brew_prefix := `brew --prefix`
+
+# Install dolt with launchd service
+install: dependencies config mktree launchd
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo "Loading dolt service..."
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/../../../daemon/justfile" load dolt
+    sleep 2
+    # Verify health
+    if mysql -h "{{ default_host }}" -P "{{ default_port }}" -u root -e "SELECT 1" &>/dev/null; then
+        echo "✓ Dolt server running on {{ default_host }}:{{ default_port }}"
+    else
+        echo "⚠ Dolt server loaded but not yet responding (check logs with: just daemon logs dolt)"
+    fi
+    echo "✓ Dolt installed."
 
 # Install dependencies via Homebrew
 dependencies:
@@ -34,6 +50,21 @@ config: mktree
 mktree:
     mkdir -p "{{dolt_home}}"
     mkdir -p "{{databases_dir}}"
+
+# Generate and install launchd plist
+launchd: mktree
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p "{{ dolt_state }}"
+    mkdir -p "{{ launch_agents }}"
+    export HOMEBREW_PREFIX="{{ brew_prefix }}"
+    export DOLT_HOST="{{ default_host }}"
+    export DOLT_PORT="{{ default_port }}"
+    export DOLT_DATA_DIR="{{ databases_dir }}"
+    export DOLT_LOG_DIR="{{ dolt_state }}"
+    envsubst < "{{ justfile_directory() }}/dolt.plist.template" \
+        > "{{ launch_agents }}/dev.arusty.dolt.plist"
+    echo "✓ Plist installed to {{ launch_agents }}/dev.arusty.dolt.plist"
 
 # =============================================================================
 # Database Management
@@ -81,50 +112,13 @@ serve name port=default_port:
     @echo "Starting Dolt SQL server for {{name}} on port {{port}}..."
     cd "{{databases_dir}}/{{name}}" && dolt sql-server -P {{port}}
 
-# Start dolt SQL server in background
-serve-bg name port=default_port:
-    #!/usr/bin/env bash
-    db_path="{{databases_dir}}/{{name}}"
-    pid_file="{{dolt_home}}/{{name}}.pid"
-    log_file="{{dolt_home}}/{{name}}.log"
+# Start dolt server (via daemon)
+start:
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/../../../daemon/justfile" load dolt
 
-    if [[ -f "$pid_file" ]] && kill -0 "$(cat $pid_file)" 2>/dev/null; then
-        echo "Server already running for {{name}} (PID: $(cat $pid_file))"
-        exit 0
-    fi
-
-    cd "$db_path" && nohup dolt sql-server -P {{port}} > "$log_file" 2>&1 &
-    echo $! > "$pid_file"
-    sleep 2
-
-    if kill -0 "$(cat $pid_file)" 2>/dev/null; then
-        echo "✓ Server started for {{name}} (PID: $(cat $pid_file))"
-        echo "  Port: {{port}}"
-        echo "  Logs: $log_file"
-    else
-        echo "✗ Failed to start server"
-        cat "$log_file"
-        exit 1
-    fi
-
-# Stop dolt SQL server
-stop name:
-    #!/usr/bin/env bash
-    pid_file="{{dolt_home}}/{{name}}.pid"
-
-    if [[ -f "$pid_file" ]]; then
-        pid=$(cat "$pid_file")
-        if kill -0 "$pid" 2>/dev/null; then
-            kill "$pid"
-            rm "$pid_file"
-            echo "✓ Server stopped for {{name}}"
-        else
-            rm "$pid_file"
-            echo "PID file stale, removed"
-        fi
-    else
-        echo "No server running for {{name}}"
-    fi
+# Stop dolt server (via daemon)
+stop:
+    "{{ just_executable() }}" -f "{{ justfile_directory() }}/../../../daemon/justfile" unload dolt
 
 # =============================================================================
 # DoltgreSQL (PostgreSQL-compatible)
