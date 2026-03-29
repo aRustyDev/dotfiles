@@ -5,7 +5,7 @@ json: true
 dolt:
   mode: server
   host: 127.0.0.1
-  port: 3307
+  port: 13306
   user: root
 
 # Require descriptions on all issues (enforces context for future work)
