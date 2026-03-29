@@ -19,7 +19,9 @@ Root cause: no single, stable dolt server with a known port. Two independent man
 
 ### 1. Daemon Module (`daemon/`)
 
-A generic launchd service manager registered as a root-level justfile module (`just daemon <recipe>`).
+A generic launchd service manager registered as a root-level justfile module (`just daemon <recipe>`). Imports `../.build/just/lib.just` (one level up from repo root).
+
+The daemon module uses `load`/`unload` rather than ADR-0007's `start`/`stop` because these are launchctl operations that manage the service lifecycle declaratively, not direct process management. Individual services can alias `start`/`stop` to `load`/`unload` for ADR-0007 compliance.
 
 **Responsibilities:**
 - Load/unload launchd plists from `~/Library/LaunchAgents/`
@@ -40,12 +42,14 @@ daemon/
 just daemon status [name]       # show status of all or one service
 just daemon load <name>         # launchctl load the service plist
 just daemon unload <name>       # launchctl unload
+just daemon remove <name>       # unload + delete plist + clean state
 just daemon restart <name>      # unload + load
 just daemon logs <name>         # tail the service log
-just daemon doctor              # check all services: orphaned PIDs, stale ports, unreachable endpoints
-just daemon doctor --fix        # kill orphans, clean stale state
+just daemon doctor [fix]        # check all services; pass "fix" to kill orphans and clean stale state
 just daemon list                # list registered services
 ```
+
+Note: `just daemon doctor fix` uses a positional argument, not a `--fix` flag (just does not support GNU-style flags on recipes).
 
 **Plist convention:** Services install their plists to `~/Library/LaunchAgents/dev.arusty.<name>.plist`. The daemon module discovers them by glob pattern.
 
@@ -60,8 +64,8 @@ The dolt module generates its launchd plist and registers with the daemon manage
 **Changes to existing module:**
 - `install` recipe gains a `launchd` dependency that generates the plist and calls `just daemon load dolt`
 - `serve-bg` / `stop` recipes replaced by `just daemon load dolt` / `just daemon unload dolt`
-- `default_port` changes from `3306` to `13306`
-- `databases_dir` changes from `~/.local/share/dolt/databases` to `~/.local/share/dolt/`
+- `default_port` changes from `3306` to `13306` (avoids conflicts with standard MySQL on 3306 and any existing dolt instances on 3307)
+- `databases_dir` stays at `~/.local/share/dolt/databases/` (matches the current layout; `--data-dir` points here so dolt finds databases as direct children)
 - `dolt_home` stays at `~/.dolt` (dolt's own global config, not ours to move)
 
 **New files:**
@@ -71,21 +75,27 @@ services/databases/dolt/
   dolt.plist.template    # launchd plist template, hydrated by install recipe
 ```
 
-**Plist template key settings:**
+**Plist template:** The template uses justfile variables that resolve to absolute paths at hydration time (e.g., `{{ databases_dir }}`, `{{ state_dir }}`). Tildes and `$HOME` must not appear in the generated plist --- launchd does not expand them. `ProgramArguments` must be an XML array with each argument as a separate `<string>` element.
+
+Key settings:
 ```xml
-Label:            dev.arusty.dolt
-ProgramArguments: dolt sql-server --host 127.0.0.1 --port 13306 --data-dir ~/.local/share/dolt/
-RunAtLoad:        true
-KeepAlive:        SuccessfulExit = false  (restart on crash, not on clean exit)
-WorkingDirectory: ~/.local/share/dolt/
-StandardOutPath:  ~/.local/state/daemon/dolt/dolt.log
-StandardErrorPath: ~/.local/state/daemon/dolt/dolt-error.log
+Label:             dev.arusty.dolt
+ProgramArguments:  ["dolt", "sql-server", "--host", "127.0.0.1", "--port", "13306", "--data-dir", "/Users/adam/.local/share/dolt/databases"]
+RunAtLoad:         true
+KeepAlive:         SuccessfulExit = false  (restart on crash, not on clean exit)
+WorkingDirectory:  /Users/adam/.local/share/dolt/databases
+StandardOutPath:   /Users/adam/.local/state/daemon/dolt/dolt.log
+StandardErrorPath: /Users/adam/.local/state/daemon/dolt/dolt-error.log
+EnvironmentVariables:
+  PATH: /opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
 ```
+
+The `EnvironmentVariables.PATH` is required because launchd agents run with a minimal environment and the Homebrew-installed `dolt` binary lives at `/opt/homebrew/bin`.
 
 **Install flow:**
 1. `brew install dolt` (existing)
-2. `mkdir -p ~/.local/share/dolt/` + `~/.local/state/daemon/dolt/`
-3. Hydrate plist template -> `~/Library/LaunchAgents/dev.arusty.dolt.plist`
+2. `mkdir -p ~/.local/share/dolt/databases/` + `~/.local/state/daemon/dolt/`
+3. Hydrate plist template (envsubst) -> `~/Library/LaunchAgents/dev.arusty.dolt.plist`
 4. `just daemon load dolt`
 5. Verify health: connect to `127.0.0.1:13306`
 
@@ -95,15 +105,18 @@ StandardErrorPath: ~/.local/state/daemon/dolt/dolt-error.log
 
 With a persistent launchd-managed server, bd connects to the existing server rather than starting its own.
 
-**bd config:** Pin the dolt connection in the beads config (`tools/agents/beads/config.yaml`):
+**bd config:** The beads config template at `tools/agents/beads/config.yaml` is the source of truth. It gets symlinked during `just tool agent beads install`. Per-project `.beads/config.yaml` files inherit from or override this.
+
+Update the dolt block to pin to the daemon-managed server:
 ```yaml
 dolt:
+  mode: server
   host: 127.0.0.1
   port: 13306
-  auto_start: false
+  user: root
 ```
 
-`auto_start: false` tells bd to connect to the existing server and fail loudly if unreachable, rather than silently spawning a new one on a random port. If the server is down, the fix is `just daemon load dolt`.
+bd's auto-start behavior is controlled by whether a server is reachable at the configured host:port. With a persistent launchd-managed server on 13306, bd will always find a running server and never trigger auto-start. If the server is down, bd fails with a connection error --- the fix is `just daemon load dolt`, not a hidden auto-start.
 
 **Interaction model:**
 ```
@@ -118,14 +131,14 @@ This eliminates all six failure scenarios from the bug report: no random ports, 
 **Stale state to remove:**
 - `daemon/dolt-state.json`, `dolt.pid`, `dolt.lock`, `dolt.log` --- runtime artifacts from the old bd-managed server. Delete from repo.
 - `daemon/justfile` stub --- replaced by the real daemon module.
-- `/etc/dotfiles/adam/.dolt-data` --- stale data dir. Migrate or re-initialize in `~/.local/share/dolt/`.
+- `/etc/dotfiles/adam/.dolt-data` --- stale data dir. Migrate or re-initialize in `~/.local/share/dolt/databases/`.
 
 **Orphaned processes:** Before first use of the new setup:
 1. Kill any existing `dolt sql-server` processes (`pkill -f 'dolt sql-server'`)
 2. Clean up stale `.beads/dolt-server.pid` and `.beads/dolt-server.port` files in project dirs
 3. Load the new launchd service
 
-**Data migration:** If `beads_dotfiles-adam` database in `.dolt-data` has data worth keeping, copy it to `~/.local/share/dolt/beads_dotfiles-adam/` before removing the old directory. The install recipe should check for this and prompt.
+**Data migration:** If `beads_dotfiles-adam` database in `.dolt-data` has data worth keeping, copy it to `~/.local/share/dolt/databases/beads_dotfiles-adam/` before removing the old directory. The install recipe should check for this and prompt.
 
 **Module registration:**
 - `daemon/` registered in root justfile as a direct module: `mod daemon 'daemon/justfile'`
