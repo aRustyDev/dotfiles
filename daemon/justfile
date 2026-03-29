@@ -96,3 +96,63 @@ logs name:
         echo "No logs found in $log_dir"
         exit 1
     fi
+
+# Health check all services; pass "fix" to kill orphans and clean stale state
+doctor action="check":
+    #!/usr/bin/env bash
+    issues=0
+
+    echo "=== Daemon Health Check ==="
+    echo ""
+
+    # Check each registered service
+    for plist in "{{ launch_agents }}/{{ plist_prefix }}"*.plist; do
+        [[ -f "$plist" ]] || { echo "No services registered."; exit 0; }
+        svc=$(basename "$plist" .plist | sed "s/^{{ plist_prefix }}//")
+        label="{{ plist_prefix }}$svc"
+
+        if launchctl list "$label" &>/dev/null; then
+            echo "✓ $svc: loaded"
+        else
+            echo "✗ $svc: plist exists but not loaded"
+            issues=$((issues + 1))
+            if [[ "{{ action }}" == "fix" ]]; then
+                echo "  → Loading $svc..."
+                launchctl load "$plist"
+            fi
+        fi
+    done
+
+    echo ""
+
+    # Check for orphaned dolt processes (not managed by any plist)
+    # TODO: Make orphan detection generic (driven by config per service) when more services are added
+    orphans=$(pgrep -f 'dolt sql-server' 2>/dev/null || true)
+    if [[ -n "$orphans" ]]; then
+        managed_pid=""
+        if launchctl list "{{ plist_prefix }}dolt" &>/dev/null; then
+            managed_pid=$(launchctl list "{{ plist_prefix }}dolt" 2>/dev/null | awk 'NR==2{print $1}')
+        fi
+
+        while IFS= read -r pid; do
+            if [[ "$pid" != "$managed_pid" ]]; then
+                port=$(lsof -nP -iTCP -sTCP:LISTEN -p "$pid" 2>/dev/null | awk 'NR==2{split($9,a,":"); print a[2]}')
+                echo "✗ Orphaned dolt process: PID $pid (port: ${port:-unknown})"
+                issues=$((issues + 1))
+                if [[ "{{ action }}" == "fix" ]]; then
+                    echo "  → Killing PID $pid..."
+                    kill "$pid" 2>/dev/null || true
+                fi
+            fi
+        done <<< "$orphans"
+    fi
+
+    if [[ $issues -eq 0 ]]; then
+        echo "✓ All services healthy"
+    else
+        echo ""
+        echo "$issues issue(s) found."
+        if [[ "{{ action }}" != "fix" ]]; then
+            echo "Run 'just daemon doctor fix' to auto-repair."
+        fi
+    fi
